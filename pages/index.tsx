@@ -1,5 +1,7 @@
 import Head from 'next/head'
 
-export default function Home() {
+const Home: React.FC = function() {
   return <div>Initial commit</div>
 }
+
+export default Home;
