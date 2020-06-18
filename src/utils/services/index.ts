@@ -1,0 +1,1 @@
+export * as schoolServices from './school.services';
