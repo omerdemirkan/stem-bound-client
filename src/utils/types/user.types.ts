@@ -1,0 +1,39 @@
+export enum EUserRoles {
+    SCHOOL_OFFICIAL = "SCHOOL_OFFICIAL",
+    STUDENT = "STUDENT",
+    INSTRUCTOR = "INSTRUCTOR",
+    ADMIN = "ADMIN",
+}
+
+interface baseUser {
+    firstName: string;
+    lastName: string;
+    email: string;
+    hash?: string;
+    shortDescription: string;
+    longDescription: string;
+}
+
+export interface IStudent extends baseUser {
+    interests: string[];
+    meta: {
+        school: string;
+        courses: string;
+    };
+}
+
+export interface IInstructor extends baseUser {
+    specialties: string[];
+    meta: {
+        courses: string[];
+    };
+}
+
+export interface ISchoolOfficial extends baseUser {
+    position: string;
+    meta: {
+        school: string;
+    };
+}
+
+export type IUser = ISchoolOfficial | IInstructor | IStudent;
