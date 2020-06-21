@@ -1,20 +1,33 @@
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { getLocation } from '../utils/helpers/geolocation.helpers';
+import Head from "next/head";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { getLocation } from "../utils/helpers";
+import { fetchSchoolsByLocation } from "../utils/services";
 
-const Home: React.FC = function() {
+const Home: React.FC = function () {
+  const auth = useSelector((state: any) => state.auth.auth);
+
+  const [schools, setSchools] = useState<any[]>([]);
 
   async function fetchSchools() {
     const { latitude, longitude } = await getLocation();
-    const schools = await fetch(`http://localhost:8080/api/school?long=${longitude}&lat=${latitude}`).then(res => res.json());
-    console.log(schools);
+    const schools = await fetchSchoolsByLocation({ latitude, longitude });
+    setSchools(schools);
   }
 
-  useEffect(() => {
-    fetchSchools()
-  }, [])
-
-  return <div>Initial commit</div>
-}
+  return (
+    <div>
+      <h1>auth: {auth ? "authenticated" : "not authenticated"}</h1>
+      <button onClick={() => fetchSchools()}>Get schools</button>
+      {schools.map((school) => {
+        return (
+          <div>
+            <pre>{JSON.stringify(school, null, 2)}</pre>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default Home;

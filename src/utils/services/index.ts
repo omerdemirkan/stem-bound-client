@@ -1,1 +1,1 @@
-export * as schoolServices from './school.services';
+export * from "./school.services";
