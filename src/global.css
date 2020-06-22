@@ -1,0 +1,66 @@
+/* GLOBAL STYLES (Imported in _app.tsx) */
+@import url("https://fonts.googleapis.com/css2?family=Muli:wght@400;500&family=Quicksand:wght@400;500&display=swap");
+
+:root {
+  --background-light: #ffffff;
+  --background-dark: #f8f8f8;
+  --contrast-light: #4e4e4e;
+  --contrast-dark: #333333;
+  --accent-light: #00d689;
+  --accent-dark: #00c17c;
+}
+
+.dark-mode {
+  --background-light: #4e4e4e;
+  --background-dark: #333333;
+  --contrast-light: #ffffff;
+  --contrast-dark: #f8f8f8;
+  --accent-light: #00d689;
+  --accent-dark: #00c17c;
+}
+
+html,
+body {
+  margin: 0;
+  background-color: var(--background-light);
+  font-family: "Muli", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Quicksand", sans-serif;
+}
+
+button {
+  font-family: "Muli", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+h1 {
+  font-size: 2.4rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.4rem;
+}
