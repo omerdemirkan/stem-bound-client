@@ -1,8 +1,7 @@
 import { BASE_URL } from "../constants";
-import { IUser } from "../types/user.types";
 
 export async function logIn(options: { email: string; password: string }) {
-    return await fetch(`${BASE_URL}/auth/log-in`, {
+    const res = await fetch(`${BASE_URL}/auth/log-in`, {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -13,24 +12,26 @@ export async function logIn(options: { email: string; password: string }) {
             password: options.password,
         }),
     }).then((res) => res.json());
+    return res.data;
 }
 
-export async function signUp(userData: IUser) {
-    return await fetch(`${BASE_URL}/auth/sign-up`, {
+export async function signUp(userData: any) {
+    const res = await fetch(`${BASE_URL}/auth/sign-up`, {
         method: "POST",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
         },
+        body: userData,
     }).then((res) => res.json());
+    return res.data;
 }
 
 export async function me(accessToken: string) {
-    return await fetch(`${BASE_URL}/auth/me`, {
+    const res = await fetch(`${BASE_URL}/auth/me`, {
         headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
             authorization: `Bearer ${accessToken}`,
         },
-    });
+    }).then((res) => res.json());
+    return res.data;
 }
