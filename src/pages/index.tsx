@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { getLocation } from "../utils/helpers";
+import { getLocation, mapSchoolData } from "../utils/helpers";
 import { fetchSchoolsByLocation } from "../utils/services";
 
 const Home: React.FC = function () {
@@ -11,8 +11,11 @@ const Home: React.FC = function () {
 
   async function fetchSchools() {
     const { latitude, longitude } = await getLocation();
-    const schools = await fetchSchoolsByLocation({ latitude, longitude });
-    setSchools(schools);
+    const schools = await fetchSchoolsByLocation({
+      latitude,
+      longitude,
+    });
+    setSchools(mapSchoolData(schools));
   }
 
   return (

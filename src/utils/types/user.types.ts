@@ -10,6 +10,7 @@ interface baseUser {
     lastName: string;
     email: string;
     hash?: string;
+    password?: string;
     shortDescription: string;
     longDescription: string;
 }
