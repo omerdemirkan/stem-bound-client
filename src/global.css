@@ -1,6 +1,5 @@
 /* GLOBAL STYLES (Imported in _app.tsx) */
-@import url("https://fonts.googleapis.com/css2?family=Muli:wght@400;500&family=Quicksand:wght@400;500&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Quicksand:wght@300;400&display=swap");
 :root {
   --background-light: #ffffff;
   --background-dark: #f8f8f8;
@@ -23,7 +22,8 @@ html,
 body {
   margin: 0;
   background-color: var(--background-light);
-  font-family: "Muli", sans-serif;
+  color: var(--contrast-dark);
+  font-family: "Lato", sans-serif;
 }
 
 h1,
@@ -33,10 +33,6 @@ h4,
 h5,
 h6 {
   font-family: "Quicksand", sans-serif;
-}
-
-button {
-  font-family: "Muli", sans-serif;
 }
 
 * {
@@ -54,13 +50,43 @@ img {
 }
 
 h1 {
-  font-size: 2.4rem;
+  font-size: 4rem;
+  font-weight: 300;
 }
 
 h2 {
-  font-size: 1.8rem;
+  font-size: 3rem;
+  font-weight: 300;
 }
 
 h3 {
+  font-size: 2.2rem;
+  font-weight: 300;
+}
+
+h4 {
+  font-size: 1.8rem;
+}
+
+h5 {
+  font-size: 1.6rem;
+}
+
+h6 {
   font-size: 1.4rem;
+}
+
+/* BUTTONS */
+
+button {
+  font-family: "Lato", sans-serif;
+  color: var(--contrast-dark);
+  padding: 14px 30px;
+  border-radius: 14px;
+  border: 0px;
+  outline: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1rem;
 }
