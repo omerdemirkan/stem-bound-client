@@ -1,4 +1,5 @@
 import AppLayout from "../../components/AppLayout";
+import withAuth from "../../hoc/withAuth";
 
 const Messaging: React.FC = () => {
     return (
@@ -8,4 +9,4 @@ const Messaging: React.FC = () => {
     );
 };
 
-export default Messaging;
+export default withAuth(Messaging);

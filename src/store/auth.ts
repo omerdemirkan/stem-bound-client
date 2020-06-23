@@ -12,6 +12,7 @@ const initialState = {
     loading: false,
     accessToken: null,
     user: null,
+    authAttempted: false,
 };
 
 export default function (state = initialState, action) {
@@ -27,11 +28,13 @@ export default function (state = initialState, action) {
                 loading: false,
                 accessToken: action.accessToken,
                 user: action.user,
+                authAttempted: true,
             };
         case actionTypes.AUTH_FAILURE:
             return {
                 ...state,
                 loading: false,
+                authAttempted: true,
             };
         default:
             return { ...state };

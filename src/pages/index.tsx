@@ -5,6 +5,7 @@ const Home: React.FC = function () {
     return (
         <Layout>
             <Head>
+                <link rel="icon" href="/public/favicon.ico" />
                 <title>Stem-bound - Home</title>
             </Head>
             <h1>Welcome to stem-bound!</h1>
@@ -13,7 +14,7 @@ const Home: React.FC = function () {
             <h4>Welcome to stem-bound!</h4>
             <h5>Welcome to stem-bound!</h5>
             <h6>Welcome to stem-bound!</h6>
-            <button>Boojie Button</button>
+            <button>volunteer</button>
         </Layout>
     );
 };

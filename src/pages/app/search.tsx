@@ -1,4 +1,5 @@
 import AppLayout from "../../components/AppLayout";
+import withAuth from "../../hoc/withAuth";
 
 const Search: React.FC = () => {
     return (
@@ -8,4 +9,4 @@ const Search: React.FC = () => {
     );
 };
 
-export default Search;
+export default withAuth(Search);

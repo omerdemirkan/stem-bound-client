@@ -1,4 +1,5 @@
 import AppLayout from "../../components/AppLayout";
+import withAuth from "../../hoc/withAuth";
 
 const Courses: React.FC = () => {
     return (
@@ -8,4 +9,4 @@ const Courses: React.FC = () => {
     );
 };
 
-export default Courses;
+export default withAuth(Courses);

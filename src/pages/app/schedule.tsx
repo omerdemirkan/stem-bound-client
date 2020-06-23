@@ -1,4 +1,5 @@
 import AppLayout from "../../components/AppLayout";
+import withAuth from "../../hoc/withAuth";
 
 const Schedule: React.FC = () => {
     return (
@@ -8,4 +9,4 @@ const Schedule: React.FC = () => {
     );
 };
 
-export default Schedule;
+export default withAuth(Schedule);

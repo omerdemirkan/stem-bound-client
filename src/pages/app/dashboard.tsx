@@ -1,4 +1,5 @@
 import AppLayout from "../../components/AppLayout";
+import withAuth from "../../hoc/withAuth";
 
 const Dashboard: React.FC = () => {
     return (
@@ -8,4 +9,4 @@ const Dashboard: React.FC = () => {
     );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);

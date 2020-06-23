@@ -1,7 +1,8 @@
 import { Provider } from "react-redux";
+import "../global.css";
+
 import store from "../store";
 import { createWrapper } from "next-redux-wrapper";
-import "../global.css";
 
 const App: React.FC = function ({ Component, pageProps }: any) {
     return (

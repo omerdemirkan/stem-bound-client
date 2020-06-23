@@ -1,4 +1,5 @@
 import AppLayout from "../../components/AppLayout";
+import withAuth from "../../hoc/withAuth";
 
 const Notifications: React.FC = () => {
     return (
@@ -8,4 +9,4 @@ const Notifications: React.FC = () => {
     );
 };
 
-export default Notifications;
+export default withAuth(Notifications);
