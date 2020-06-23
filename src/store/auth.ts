@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
-import { logIn, signUp } from "../utils/services/auth.services";
+import { logIn, signUp, me } from "../utils/services/auth.services";
+import { access } from "fs";
 
 enum actionTypes {
     AUTH_START = "stem-bound/auth/AUTH_START",
@@ -72,7 +73,11 @@ export function logInAsync({
         dispatch(authStart());
         const { user, accessToken } = await logIn({ email, password });
 
-        dispatch(authSuccess({ user, accessToken }));
+        if (user && accessToken) {
+            dispatch(authSuccess({ user, accessToken }));
+        } else {
+            dispatch(authFailure());
+        }
     };
 }
 
@@ -81,6 +86,24 @@ export function signUpAsync(userData: any) {
         dispatch(authStart());
         const { user, accessToken } = await signUp(userData);
 
-        dispatch(authSuccess({ user, accessToken }));
+        if (user && accessToken) {
+            dispatch(authSuccess({ user, accessToken }));
+        } else {
+            dispatch(authFailure());
+        }
+    };
+}
+
+export function meAsync(currentAccessToken: string) {
+    return async function (dispatch: Dispatch) {
+        dispatch(authStart());
+
+        const { user, accessToken } = await me(currentAccessToken);
+
+        if (user && accessToken) {
+            dispatch(authSuccess({ user, accessToken }));
+        } else {
+            dispatch(authFailure());
+        }
     };
 }

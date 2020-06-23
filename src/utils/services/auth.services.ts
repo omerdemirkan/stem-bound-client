@@ -1,6 +1,9 @@
 import { BASE_URL } from "../constants";
 
-export async function logIn(options: { email: string; password: string }) {
+export async function logIn(options: {
+    email: string;
+    password: string;
+}): Promise<{ user: any; accessToken: string }> {
     const res = await fetch(`${BASE_URL}/auth/log-in`, {
         method: "POST",
         headers: {
@@ -15,7 +18,9 @@ export async function logIn(options: { email: string; password: string }) {
     return res.data;
 }
 
-export async function signUp(userData: any) {
+export async function signUp(
+    userData: any
+): Promise<{ user: any; accessToken: string }> {
     const res = await fetch(`${BASE_URL}/auth/sign-up`, {
         method: "POST",
         headers: {
@@ -27,7 +32,9 @@ export async function signUp(userData: any) {
     return res.data;
 }
 
-export async function me(accessToken: string) {
+export async function me(
+    accessToken: string
+): Promise<{ user: any; accessToken: string }> {
     const res = await fetch(`${BASE_URL}/auth/me`, {
         headers: {
             authorization: `Bearer ${accessToken}`,
