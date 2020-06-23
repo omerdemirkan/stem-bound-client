@@ -18,9 +18,9 @@ export default function withAuth(
                 // embedded if statements are to limit the number of checks for logged in users.
                 if (!accessToken) {
                     const storedToken = localStorage.getItem("accessToken");
-                    if (!storedToken) {
+                    if (authAttempted || !storedToken) {
                         router.push(storedToken ? "/log-in" : "/sign-up");
-                    } else if (!authAttempted) {
+                    } else {
                         dispatch(meAsync(storedToken));
                     }
                 }

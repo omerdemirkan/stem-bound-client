@@ -1,6 +1,5 @@
 import { Dispatch } from "redux";
 import { logIn, signUp, me } from "../utils/services/auth.services";
-import { access } from "fs";
 
 enum actionTypes {
     AUTH_START = "stem-bound/auth/AUTH_START",

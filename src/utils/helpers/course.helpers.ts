@@ -1,9 +1,4 @@
-import {
-    ICourseOriginal,
-    ICourse,
-    IClass,
-    IClassOriginal,
-} from "../types/course.types";
+import { ICourseOriginal, ICourse } from "../types/course.types";
 import { classTypes, courseTypes } from "../constants/course.constants";
 
 export function mapCourseData(courseData: ICourseOriginal[]): ICourse[] {
