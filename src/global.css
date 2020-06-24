@@ -1,6 +1,4 @@
 /* GLOBAL STYLES (Imported in _app.tsx) */
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Quicksand:wght@400&display=swap");
-
 :root {
   --background-light: #ffffff;
   --background-dark: #f8f8f8;
@@ -31,7 +29,7 @@ textarea {
   margin: 0;
   background-color: var(--background-light);
   color: var(--contrast-dark);
-  font-family: "Lato", sans-serif;
+  font-family: serif;
 }
 
 h1,
@@ -40,7 +38,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Quicksand", sans-serif;
+  font-family: sans-serif;
 }
 
 * {

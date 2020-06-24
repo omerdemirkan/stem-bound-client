@@ -5,7 +5,6 @@ const Home: React.FC = function () {
     return (
         <Layout>
             <Head>
-                <link rel="icon" href="/public/favicon.ico" />
                 <title>Stem-bound - Home</title>
             </Head>
             <h1>Home</h1>
