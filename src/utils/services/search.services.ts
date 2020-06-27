@@ -13,6 +13,9 @@ export async function fetchSchools(
     if (options.limit) {
         url += `&limit=${options.limit}`;
     }
+    if (options.withSchoolOfficials) {
+        url += `&with_school_officials=1`;
+    }
     const res = await fetch(url).then((res) => res.json());
     return (res as any).data;
 }

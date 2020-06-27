@@ -1,15 +1,15 @@
-import { ISchoolOriginal, ISchoolMapped } from "../types";
+import { ISchoolOriginal, ISchool } from "../types";
 import { schoolStatusCodes, schoolTypes } from "../constants";
 import { capitalizeWords } from ".";
 
-export function mapSchoolData(schoolData: ISchoolOriginal[]): ISchoolMapped[] {
+export function mapSchoolData(schoolData: ISchoolOriginal[]): ISchool[] {
     return schoolData.map((school: ISchoolOriginal) => ({
         _id: school._id,
         name: capitalizeWords(school.name),
         distance: {
             // conversion from meters
-            miles: school.distance?.calculated * 0.000621371,
-            kilometers: school.distance?.calculated * 0.001,
+            miles: +(school.distance?.calculated * 0.000621371).toFixed(2),
+            kilometers: +(school.distance?.calculated * 0.001).toFixed(2),
         },
         meta: school.meta,
         contact: {

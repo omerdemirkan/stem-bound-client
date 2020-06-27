@@ -1,5 +1,6 @@
 import { fetchSchools } from "../utils/services";
 import { fetchSchoolsOptions } from "../utils/types";
+import { mapSchoolData } from "../utils/helpers";
 
 enum actionTypes {
     FETCH_SCHOOLS_START = "stem-bound/search/FETCH_SCHOOLS_START",
@@ -30,6 +31,8 @@ export default function (state = initialState, action) {
                 ...state,
                 loading: false,
             };
+        default:
+            return state;
     }
 }
 
@@ -47,8 +50,9 @@ function fetchSchoolsFailure() {
 
 export function fetchSchoolsAsync(options: fetchSchoolsOptions) {
     return async function (dispatch) {
-        dispatch(fetchSchoolsStart);
-        const schools = await fetchSchools(options);
+        dispatch(fetchSchoolsStart());
+        const schools = mapSchoolData(await fetchSchools(options));
+
         if (schools) {
             dispatch(fetchSchoolsSuccess(schools));
         } else {

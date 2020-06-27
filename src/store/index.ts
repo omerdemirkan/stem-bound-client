@@ -8,9 +8,11 @@ import {
 import thunk from "redux-thunk";
 
 import authReducer from "./auth";
+import searchReducer from "./search";
 
 const rootReducer = combineReducers({
     auth: authReducer,
+    search: searchReducer,
 });
 
 const composeEnhancers =

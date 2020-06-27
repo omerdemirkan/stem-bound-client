@@ -69,9 +69,10 @@ export function logInAsync({
 }) {
     return async function (dispatch: Dispatch) {
         dispatch(authStart());
-        const { user, accessToken } = await logIn({ email, password });
+        const results = await logIn({ email, password });
 
-        if (user && accessToken) {
+        if (results) {
+            const { user, accessToken } = results;
             dispatch(authSuccess({ user, accessToken }));
         } else {
             dispatch(authFailure());

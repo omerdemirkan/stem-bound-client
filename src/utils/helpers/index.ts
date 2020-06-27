@@ -9,8 +9,11 @@ export function capitalizeWords(s: string) {
         .replace(/(?:^|\s|["'([{])+\S/g, (match) => match.toUpperCase());
 }
 
-// export function removeDuplicates({ key }: {
-//     key: string
-// }) {
-
-// }
+export function removeDuplicates(
+    array: any[],
+    {
+        key,
+    }: {
+        key: string;
+    }
+) {}

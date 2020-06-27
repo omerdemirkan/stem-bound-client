@@ -21,6 +21,9 @@ const Layout: React.FC = ({ children }) => {
                     <Link href="/sign-up">
                         <a>Sign Up</a>
                     </Link>
+                    <Link href="/search">
+                        <a>Search</a>
+                    </Link>
                 </nav>
                 {children}
             </div>

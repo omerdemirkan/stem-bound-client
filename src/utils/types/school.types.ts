@@ -39,7 +39,7 @@ export interface ISchoolOriginal {
     ncesid: string;
 }
 
-export interface ISchoolMapped {
+export interface ISchool {
     // this is to decouple the client from
     // the db so that if the shape of the data
     // changes we can update one place.

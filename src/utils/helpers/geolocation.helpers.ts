@@ -12,7 +12,6 @@ export const getLocation = () => {
                 coords: { latitude: number; longitude: number };
             }): void {
                 const { latitude, longitude } = coords;
-                console.log(latitude, longitude);
                 resolve({
                     latitude,
                     longitude,
