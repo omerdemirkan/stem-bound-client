@@ -83,3 +83,11 @@ export interface ISchoolMapped {
         courses: string[];
     };
 }
+
+export interface fetchSchoolsOptions {
+    latitude: number;
+    longitude: number;
+    limit?: number;
+    skip?: number;
+    withSchoolOfficials?: boolean;
+}

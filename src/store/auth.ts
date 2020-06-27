@@ -8,7 +8,6 @@ enum actionTypes {
 }
 
 const initialState = {
-    auth: false,
     loading: false,
     accessToken: null,
     user: null,

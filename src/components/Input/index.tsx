@@ -6,7 +6,7 @@ interface Props {
     label?: string;
     id?: string;
     value?: string | number;
-    textOnly?: boolean;
+    eventTargetValue?: boolean;
 }
 
 const Input: React.FC<Props> = ({
@@ -15,13 +15,17 @@ const Input: React.FC<Props> = ({
     label,
     id,
     value,
-    textOnly,
+    eventTargetValue,
 }) => {
     return (
         <div>
             {label ? <label>{label}</label> : null}
             <input
-                onChange={textOnly ? (e) => onChange(e.target.value) : onChange}
+                onChange={
+                    eventTargetValue
+                        ? (e) => onChange(e.target.value)
+                        : onChange
+                }
                 type={type || "text"}
                 id={id || undefined}
                 value={value || undefined}

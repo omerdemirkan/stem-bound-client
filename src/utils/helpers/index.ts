@@ -8,3 +8,9 @@ export function capitalizeWords(s: string) {
         .toLowerCase()
         .replace(/(?:^|\s|["'([{])+\S/g, (match) => match.toUpperCase());
 }
+
+// export function removeDuplicates({ key }: {
+//     key: string
+// }) {
+
+// }

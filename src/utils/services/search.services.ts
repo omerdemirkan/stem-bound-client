@@ -1,18 +1,10 @@
-import { ISchoolOriginal, ICourseOriginal } from "../types";
+import { ISchoolOriginal, fetchSchoolsOptions } from "../types";
 import { BASE_URL } from "../constants";
-import {
-    EUserRoles,
-    ISchoolOfficial,
-    IStudent,
-    IUser,
-} from "../types/user.types";
+import { EUserRoles, IUser } from "../types/user.types";
 
-export async function fetchSchoolsByLocation(options: {
-    latitude: number;
-    longitude: number;
-    limit?: number;
-    skip?: number;
-}): Promise<ISchoolOriginal[]> {
+export async function fetchSchools(
+    options: fetchSchoolsOptions
+): Promise<ISchoolOriginal[]> {
     let url = `${BASE_URL}/school?long=${options.longitude}&lat=${options.latitude}`;
 
     if (options.skip) {
