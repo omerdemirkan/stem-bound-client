@@ -1,3 +1,5 @@
+import { urlRegex } from "../constants/regex.constants";
+
 export * from "./geolocation.helpers";
 export * from "./course.helpers";
 export * from "./school.helpers";
@@ -17,3 +19,7 @@ export function removeDuplicates(
         key: string;
     }
 ) {}
+
+export function isValidUrl(s: string): boolean {
+    return urlRegex.test(s);
+}

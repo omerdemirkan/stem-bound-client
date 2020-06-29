@@ -1,10 +1,7 @@
-export const BASE_URL = "http://localhost:8080/api";
+import { isValidUrl } from "../helpers";
 
-export let headers = {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-};
+export const API_BASE_URL = "http://localhost:8080/api";
 
-export function updateHeaderField(options: { field: string; value: string }) {
-    headers[options.field] = options.value;
-}
+// For build version:
+
+// export const BASE_URL = "https://stem-bound.uc.r.appspot.com/api";

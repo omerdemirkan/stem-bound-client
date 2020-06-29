@@ -35,10 +35,12 @@ const Search: React.FC = () => {
                     type="checkbox"
                 />
             </h6>
+            {loading ? <h1>Loading...</h1> : null}
             {schools.map((school: ISchool) => (
                 <div>
                     <p>{school.name}</p>
                     <p>{school.distance.miles} miles away</p>
+                    <p>_id: {school._id}</p>
                 </div>
             ))}
         </Layout>

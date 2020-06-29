@@ -1,44 +1,26 @@
-import { BASE_URL } from "../constants";
+import { apiClient } from "./client.services";
 
 export async function logIn(options: {
     email: string;
     password: string;
 }): Promise<{ user: any; accessToken: string }> {
-    const res = await fetch(`${BASE_URL}/auth/log-in`, {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            email: options.email,
-            password: options.password,
-        }),
-    }).then((res) => res.json());
+    const res = await apiClient.post("/auth/log-in", {
+        email: options.email,
+        password: options.password,
+    });
     return res.data;
 }
 
 export async function signUp(
     userData: any
 ): Promise<{ user: any; accessToken: string }> {
-    const res = await fetch(`${BASE_URL}/auth/sign-up`, {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: userData,
-    }).then((res) => res.json());
+    const res = await apiClient.post("/auth/sign-up", userData);
     return res.data;
 }
 
 export async function me(
     accessToken: string
 ): Promise<{ user: any; accessToken: string }> {
-    const res = await fetch(`${BASE_URL}/auth/me`, {
-        headers: {
-            authorization: `Bearer ${accessToken}`,
-        },
-    }).then((res) => res.json());
+    const res = await apiClient.get("/auth/me");
     return res.data;
 }

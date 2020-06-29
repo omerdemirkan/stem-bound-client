@@ -1,22 +1,22 @@
 import { ISchoolOriginal, fetchSchoolsOptions } from "../types";
-import { BASE_URL } from "../constants";
 import { EUserRoles, IUser } from "../types/user.types";
+import { apiClient } from "./client.services";
 
 export async function fetchSchools(
     options: fetchSchoolsOptions
 ): Promise<ISchoolOriginal[]> {
-    let url = `${BASE_URL}/school?long=${options.longitude}&lat=${options.latitude}`;
+    let path = `/school?long=${options.longitude}&lat=${options.latitude}`;
 
     if (options.skip) {
-        url += `&skip=${options.skip}`;
+        path += `&skip=${options.skip}`;
     }
     if (options.limit) {
-        url += `&limit=${options.limit}`;
+        path += `&limit=${options.limit}`;
     }
     if (options.withSchoolOfficials) {
-        url += `&with_school_officials=1`;
+        path += `&with_school_officials=1`;
     }
-    const res = await fetch(url).then((res) => res.json());
+    const res = await apiClient.get(path);
     return (res as any).data;
 }
 
@@ -27,21 +27,21 @@ export async function fetchUsers(options: {
     sortField?: string;
     sortDirection?: number;
 }): Promise<IUser[]> {
-    let url = `${BASE_URL}/user?role=${options.role}`;
+    let path = `/user?role=${options.role}`;
     if (options.skip) {
-        url += `&skip=${options.skip}`;
+        path += `&skip=${options.skip}`;
     }
     if (options.limit) {
-        url += `&limit=${options.limit}`;
+        path += `&limit=${options.limit}`;
     }
     if (options.sortDirection && options.sortField) {
-        url += `&sort_field=${options.sortField}&sort_direction=${options.sortDirection}`;
+        path += `&sort_field=${options.sortField}&sort_direction=${options.sortDirection}`;
     }
-    const res = await fetch(url).then((res) => res.json());
+    const res = await apiClient.get(path);
 
     return (res as any).data;
 }
 
 export async function fetchCourses(options: {}) {
-    const res = await fetch(`${BASE_URL}/course`);
+    const res = await apiClient.get(`/course`);
 }

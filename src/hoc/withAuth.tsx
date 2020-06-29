@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { meAsync } from "../store/auth";
+import { apiClient } from "../utils/services/client.services";
 
 export default function withAuth(
     Component: React.ComponentType | React.FC
@@ -15,9 +16,14 @@ export default function withAuth(
 
         useEffect(
             function () {
+                const storedToken = localStorage.getItem("accessToken");
+
+                if (!apiClient.getAuthHeader()) {
+                    apiClient.setAuthHeader(storedToken);
+                }
+
                 // embedded if statements are to limit the number of checks for logged in users.
                 if (!accessToken) {
-                    const storedToken = localStorage.getItem("accessToken");
                     if (authAttempted || !storedToken) {
                         router.push(storedToken ? "/log-in" : "/sign-up");
                     } else {
