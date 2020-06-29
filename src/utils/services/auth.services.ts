@@ -1,26 +1,30 @@
-import { apiClient } from "./client.services";
+import { apiClient } from "../http.utils";
 
-export async function logIn(options: {
+export function logIn(options: {
     email: string;
     password: string;
-}): Promise<{ user: any; accessToken: string }> {
-    const res = await apiClient.post("/auth/log-in", {
+}): Promise<{ message: string; data: { user: any; accessToken: string } }> {
+    return apiClient.post("/auth/log-in", {
         email: options.email,
         password: options.password,
     });
-    return res.data;
 }
 
-export async function signUp(
+export function signUp(
     userData: any
-): Promise<{ user: any; accessToken: string }> {
-    const res = await apiClient.post("/auth/sign-up", userData);
-    return res.data;
+): Promise<{ message: string; data: { user: any; accessToken: string } }> {
+    return apiClient.post("/auth/sign-up", userData);
 }
 
-export async function me(
+export function me(
     accessToken: string
-): Promise<{ user: any; accessToken: string }> {
-    const res = await apiClient.get("/auth/me");
-    return res.data;
+): Promise<{ message: string; data: { user: any; accessToken: string } }> {
+    // Note: I'm not setting the global apiClient auth header before it has been verified.
+    // If this looks cumbersome, thats why.
+    return apiClient.get("/auth/me", {
+        headers: {
+            ...apiClient.getDefaultConfig().headers,
+            authorization: `Bearer ${accessToken}`,
+        },
+    });
 }

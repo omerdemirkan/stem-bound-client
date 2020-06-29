@@ -1,10 +1,10 @@
 import { ISchoolOriginal, fetchSchoolsOptions } from "../types";
 import { EUserRoles, IUser } from "../types/user.types";
-import { apiClient } from "./client.services";
+import { apiClient } from "../http.utils";
 
 export async function fetchSchools(
     options: fetchSchoolsOptions
-): Promise<ISchoolOriginal[]> {
+): Promise<{ message: string; data: ISchoolOriginal[] }> {
     let path = `/school?long=${options.longitude}&lat=${options.latitude}`;
 
     if (options.skip) {
@@ -16,8 +16,7 @@ export async function fetchSchools(
     if (options.withSchoolOfficials) {
         path += `&with_school_officials=1`;
     }
-    const res = await apiClient.get(path);
-    return (res as any).data;
+    return apiClient.get(path);
 }
 
 export async function fetchUsers(options: {
@@ -26,7 +25,7 @@ export async function fetchUsers(options: {
     skip?: number;
     sortField?: string;
     sortDirection?: number;
-}): Promise<IUser[]> {
+}): Promise<{ message: string; data: IUser[] }> {
     let path = `/user?role=${options.role}`;
     if (options.skip) {
         path += `&skip=${options.skip}`;
@@ -37,9 +36,8 @@ export async function fetchUsers(options: {
     if (options.sortDirection && options.sortField) {
         path += `&sort_field=${options.sortField}&sort_direction=${options.sortDirection}`;
     }
-    const res = await apiClient.get(path);
 
-    return (res as any).data;
+    return apiClient.get(path);
 }
 
 export async function fetchCourses(options: {}) {

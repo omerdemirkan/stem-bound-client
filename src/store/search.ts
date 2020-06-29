@@ -49,14 +49,17 @@ function fetchSchoolsFailure() {
 }
 
 export function fetchSchoolsAsync(options: fetchSchoolsOptions) {
-    return async function (dispatch) {
+    return function (dispatch) {
         dispatch(fetchSchoolsStart());
-        const schools = mapSchoolData(await fetchSchools(options));
 
-        if (schools) {
-            dispatch(fetchSchoolsSuccess(schools));
-        } else {
-            dispatch(fetchSchoolsFailure());
-        }
+        fetchSchools(options)
+            .then(function (res) {
+                const schools = mapSchoolData(res.data);
+                dispatch(fetchSchoolsSuccess(schools));
+            })
+            .catch(function (error) {
+                dispatch(fetchSchoolsFailure());
+                console.error(error.message);
+            });
     };
 }

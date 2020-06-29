@@ -1,28 +1,24 @@
-import { API_BASE_URL } from "../constants";
+import { API_BASE_URL } from "./constants";
 
-export class Client {
+export class HttpClient {
     private baseUrl: string;
     private defaultConfig: any;
     private handleResponse: (...args: any) => any;
 
-    constructor({
-        baseUrl,
-        defaultConfig,
-        handleResponse,
-    }: {
+    constructor(options?: {
         baseUrl?: string;
         defaultConfig?: any;
         handleResponse?: (...args: any) => any;
-    } = {}) {
-        this.baseUrl = baseUrl || "";
-        this.defaultConfig = defaultConfig || {
+    }) {
+        this.baseUrl = options.baseUrl || "";
+        this.defaultConfig = options.defaultConfig || {
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
         };
         this.handleResponse =
-            handleResponse ||
+            options.handleResponse ||
             async function (response) {
                 const data = await response.json();
                 if (response.ok) {
@@ -100,8 +96,13 @@ export class Client {
             return null;
         }
     }
+
+    getDefaultConfig() {
+        // returning frozen copy
+        return Object.freeze({ ...this.defaultConfig });
+    }
 }
 
 // The idea behind exporting one instance rather than having the file using it to instantiate it is to
-// maintain headers headers.
-export const apiClient = new Client({ baseUrl: API_BASE_URL });
+// maintain global headers.
+export const apiClient = new HttpClient({ baseUrl: API_BASE_URL });

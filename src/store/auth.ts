@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import { logIn, signUp, me } from "../utils/services/auth.services";
+import { apiClient } from "../utils/http.utils";
 
 enum actionTypes {
     AUTH_START = "stem-bound/auth/AUTH_START",
@@ -67,42 +68,52 @@ export function logInAsync({
     email: string;
     password: string;
 }) {
-    return async function (dispatch: Dispatch) {
+    return function (dispatch: Dispatch) {
         dispatch(authStart());
-        const results = await logIn({ email, password });
 
-        if (results) {
-            const { user, accessToken } = results;
-            dispatch(authSuccess({ user, accessToken }));
-        } else {
-            dispatch(authFailure());
-        }
+        logIn({ email, password })
+            .then(function (res) {
+                const { user, accessToken } = res.data;
+                apiClient.setAuthHeader(accessToken);
+                dispatch(authSuccess({ user, accessToken }));
+            })
+            .catch(function (error) {
+                dispatch(authFailure());
+                console.error(error.message);
+            });
     };
 }
 
 export function signUpAsync(userData: any) {
-    return async function (dispatch: Dispatch) {
+    return function (dispatch: Dispatch) {
         dispatch(authStart());
-        const { user, accessToken } = await signUp(userData);
 
-        if (user && accessToken) {
-            dispatch(authSuccess({ user, accessToken }));
-        } else {
-            dispatch(authFailure());
-        }
+        signUp(userData)
+            .then(function (res) {
+                const { user, accessToken } = res.data;
+                apiClient.setAuthHeader(accessToken);
+                dispatch(authSuccess({ user, accessToken }));
+            })
+            .catch(function (error) {
+                dispatch(authFailure());
+                console.error(error.message);
+            });
     };
 }
 
 export function meAsync(currentAccessToken: string) {
-    return async function (dispatch: Dispatch) {
+    return function (dispatch: Dispatch) {
         dispatch(authStart());
 
-        const { user, accessToken } = await me(currentAccessToken);
-
-        if (user && accessToken) {
-            dispatch(authSuccess({ user, accessToken }));
-        } else {
-            dispatch(authFailure());
-        }
+        me(currentAccessToken)
+            .then(function (res) {
+                const { user, accessToken } = res.data;
+                apiClient.setAuthHeader(accessToken);
+                dispatch(authSuccess({ user, accessToken }));
+            })
+            .catch(function (error) {
+                dispatch(authFailure());
+                console.error(error.message);
+            });
     };
 }
