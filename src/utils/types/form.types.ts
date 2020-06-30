@@ -1,3 +1,8 @@
+export interface IFormData {
+    inputs: IInputData[];
+    initialValues: any;
+}
+
 export enum EInputTypes {
     "select",
     "text",

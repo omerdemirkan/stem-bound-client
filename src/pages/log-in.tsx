@@ -1,12 +1,22 @@
 import Layout from "../components/ui/Layout";
 import Head from "next/head";
-import Input from "../components/ui/Input";
-import { Formik } from "formik";
-import { useDispatch } from "react-redux";
+import Form from "../components/ui/Form";
+import { useDispatch, useSelector } from "react-redux";
 import { logInAsync } from "../store/auth";
+import { logInFormData } from "../utils/constants";
 
 const LogIn: React.FC = () => {
     const dispatch = useDispatch();
+    const loading = useSelector((state: any) => state.auth.loading);
+
+    async function logInHandler(values: { email: string; password: string }) {
+        dispatch(
+            logInAsync({
+                email: values.email,
+                password: values.password,
+            })
+        );
+    }
 
     return (
         <Layout>
@@ -15,40 +25,12 @@ const LogIn: React.FC = () => {
             </Head>
             <h1>Log In</h1>
 
-            <Formik
-                initialValues={{
-                    email: "",
-                    password: "",
-                }}
-                onSubmit={(values: { email: string; password: string }) => {
-                    dispatch(
-                        logInAsync({
-                            email: values.email,
-                            password: values.password,
-                        })
-                    );
-                }}
-            >
-                {({ handleSubmit, handleChange, handleBlur, values }) => (
-                    <form onSubmit={handleSubmit}>
-                        <Input
-                            label="Email"
-                            id="email"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.email}
-                        />
-                        <Input
-                            label="Password"
-                            id="password"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.password}
-                        />
-                        <button type="submit">Submit</button>
-                    </form>
-                )}
-            </Formik>
+            <Form
+                inputs={logInFormData.inputs}
+                isSubmitting={loading}
+                initialValues={logInFormData.initialValues}
+                onSubmit={logInHandler}
+            />
         </Layout>
     );
 };

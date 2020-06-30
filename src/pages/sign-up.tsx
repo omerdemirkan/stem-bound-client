@@ -6,12 +6,14 @@ import { getSignUpFormDataByRole } from "../utils/constants";
 import Form from "../components/ui/Form";
 import { EUserRoles } from "../utils/types";
 import Select, { Option } from "../components/ui/Select";
+import { useSelector } from "react-redux";
 
 const SignUp: React.FC = () => {
     const [userRole, setUserRole] = useState<EUserRoles | null>(null);
     const formData = getSignUpFormDataByRole(userRole);
-
+    const loading = useSelector((state: any) => state.auth.loading);
     async function submitSignUpHandler(values: any) {}
+
     return (
         <Layout>
             <Head>
@@ -28,19 +30,12 @@ const SignUp: React.FC = () => {
             </Select>
 
             {formData ? (
-                <Formik
-                    initialValues={formData.initialValues}
+                <Form
+                    inputs={formData.inputs}
+                    isSubmitting={loading}
                     onSubmit={submitSignUpHandler}
-                >
-                    {({ handleSubmit, handleChange, values }) => (
-                        <Form
-                            inputs={formData.inputs}
-                            handleChange={handleChange}
-                            handleSubmit={handleSubmit}
-                            values={values}
-                        />
-                    )}
-                </Formik>
+                    initialValues={formData.initialValues}
+                />
             ) : null}
         </Layout>
     );

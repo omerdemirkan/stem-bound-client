@@ -8,6 +8,7 @@ interface Props {
     rows?: number;
     cols?: number;
     label?: string;
+    disabled?: boolean;
 }
 
 const TextArea: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const TextArea: React.FC<Props> = ({
     value,
     onBlur,
     label,
+    disabled,
 }) => {
     return (
         <div>
@@ -29,6 +31,7 @@ const TextArea: React.FC<Props> = ({
                 rows={rows || 10}
                 id={id || undefined}
                 onBlur={onBlur}
+                disabled={disabled}
             ></textarea>
         </div>
     );

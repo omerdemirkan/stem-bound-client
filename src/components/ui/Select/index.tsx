@@ -4,17 +4,29 @@ interface SelectProps {
     onChange: (...args: any) => any;
     id?: string;
     label?: string;
+    disabled?: boolean;
 }
 
 interface OptionProps {
     value: any;
 }
 
-const Select: React.FC<SelectProps> = ({ children, onChange, id, label }) => {
+const Select: React.FC<SelectProps> = ({
+    children,
+    onChange,
+    id,
+    label,
+    disabled,
+}) => {
     return (
         <div>
             {label ? <label>{label}</label> : null}
-            <select className={classes.root} onChange={onChange} id={id}>
+            <select
+                className={classes.root}
+                onChange={onChange}
+                id={id}
+                disabled={disabled}
+            >
                 {children}
             </select>
         </div>

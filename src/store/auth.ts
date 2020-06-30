@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import { logIn, signUp, me } from "../utils/services/auth.services";
 import { apiClient } from "../utils/http.utils";
+import { access } from "fs";
 
 enum actionTypes {
     AUTH_START = "stem-bound/auth/AUTH_START",
@@ -75,6 +76,7 @@ export function logInAsync({
             .then(function (res) {
                 const { user, accessToken } = res.data;
                 apiClient.setAuthHeader(accessToken);
+                localStorage.setItem("accessToken", accessToken);
                 dispatch(authSuccess({ user, accessToken }));
             })
             .catch(function (error) {
@@ -92,6 +94,7 @@ export function signUpAsync(userData: any) {
             .then(function (res) {
                 const { user, accessToken } = res.data;
                 apiClient.setAuthHeader(accessToken);
+                localStorage.setItem("accessToken", accessToken);
                 dispatch(authSuccess({ user, accessToken }));
             })
             .catch(function (error) {
@@ -109,6 +112,7 @@ export function meAsync(currentAccessToken: string) {
             .then(function (res) {
                 const { user, accessToken } = res.data;
                 apiClient.setAuthHeader(accessToken);
+                localStorage.setItem("accessToken", accessToken);
                 dispatch(authSuccess({ user, accessToken }));
             })
             .catch(function (error) {

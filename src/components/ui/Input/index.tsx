@@ -9,6 +9,7 @@ interface Props {
     value?: string | number;
     eventTargetValue?: boolean;
     hidden?: boolean;
+    disabled?: boolean;
 }
 
 const Input: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const Input: React.FC<Props> = ({
     eventTargetValue,
     onBlur,
     hidden,
+    disabled,
 }) => {
     return (
         <div>
@@ -34,6 +36,7 @@ const Input: React.FC<Props> = ({
                 type={hidden ? "password" : type}
                 id={id || undefined}
                 value={value || undefined}
+                disabled={disabled}
             />
         </div>
     );

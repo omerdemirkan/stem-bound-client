@@ -1,7 +1,6 @@
-import { isValidEmail } from "./regex.constants";
-import { EUserRoles, IInputData, ITextInput, EInputTypes } from "../types";
+import { EUserRoles, IInputData, EInputTypes, IFormData } from "../types";
 
-const instructorSignUpFormData = {
+const instructorSignUpFormData: IFormData = {
     initialValues: {
         firstName: "",
         lastName: "",
@@ -39,10 +38,10 @@ const instructorSignUpFormData = {
             id: "longDescription",
             label: "Long Description (Optional)",
         },
-    ] as IInputData[],
+    ],
 };
 
-const schoolOfficialSignUpFormData = {
+const schoolOfficialSignUpFormData: IFormData = {
     initialValues: {
         firstName: "",
         lastName: "",
@@ -82,10 +81,10 @@ const schoolOfficialSignUpFormData = {
             id: "longDescription",
             label: "Long Description (Optional)",
         },
-    ] as IInputData[],
+    ],
 };
 
-const studentSignUpFormData = {
+const studentSignUpFormData: IFormData = {
     initialValues: {
         firstName: "",
         lastName: "",
@@ -124,17 +123,32 @@ const studentSignUpFormData = {
             id: "longDescription",
             label: "Long Description (Optional)",
         },
-    ] as IInputData[],
-};
-
-export const signUpFormData = {
-    [EUserRoles.INSTRUCTOR]: instructorSignUpFormData,
-    [EUserRoles.SCHOOL_OFFICIAL]: schoolOfficialSignUpFormData,
-    [EUserRoles.STUDENT]: studentSignUpFormData,
+    ],
 };
 
 export function getSignUpFormDataByRole(
     role: EUserRoles
 ): { initialValues: any; inputs: IInputData[] } {
-    return signUpFormData[role];
+    return {
+        [EUserRoles.INSTRUCTOR]: instructorSignUpFormData,
+        [EUserRoles.SCHOOL_OFFICIAL]: schoolOfficialSignUpFormData,
+        [EUserRoles.STUDENT]: studentSignUpFormData,
+    }[role];
 }
+
+export const logInFormData: IFormData = {
+    initialValues: {
+        email: "",
+        password: "",
+    },
+    inputs: [
+        { id: "email", type: EInputTypes.text, label: "Email" },
+        {
+            id: "password",
+            type: EInputTypes.text,
+            label: "Password",
+            hidden: true,
+            toggleHidden: true,
+        },
+    ],
+};
