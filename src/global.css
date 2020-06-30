@@ -4,8 +4,8 @@
   --background-dark: #f8f8f8;
   --contrast-light: #424242;
   --contrast-dark: #333333;
-  --accent-light: #00d689;
-  --accent-dark: #00c17c;
+  --accent-light: #826efd;
+  --accent-dark: #6c57eb;
   --shadow-opacity: 0.05;
   --shadow-opacity-dark: 0.1;
 }
@@ -15,8 +15,8 @@
   --background-dark: #333333;
   --contrast-light: #ffffff;
   --contrast-dark: #f8f8f8;
-  --accent-light: #00d689;
-  --accent-dark: #00c17c;
+  --accent-light: #826efd;
+  --accent-dark: #6c57eb;
   --shadow-opacity: 0.2;
   --shadow-opacity-dark: 0.3;
 }

@@ -1,12 +1,12 @@
 import classes from "./form.module.css";
+import Input from "../Input";
+import TextArea from "../TextArea";
+import Select, { Option } from "../Select";
 import {
     IInputData,
     EInputTypes,
     ISelectInputOption,
 } from "../../../utils/types";
-import Input from "../Input";
-import Select, { Option } from "../Select";
-import TextArea from "../TextArea";
 import { Formik } from "formik";
 
 interface Props {
@@ -28,12 +28,12 @@ const Form: React.FC<Props> = ({
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {({ handleSubmit, handleChange, handleBlur, values }) => (
                 <form onSubmit={handleSubmit}>
-                    {inputs.map((inputData: IInputData) =>
+                    {inputs.map((input: IInputData) =>
                         paginateInput({
-                            inputData,
+                            input,
                             handleChange,
                             handleBlur,
-                            value: values[inputData.id],
+                            value: values[input.id],
                             disabled: isSubmitting,
                         })
                     )}
@@ -46,24 +46,18 @@ const Form: React.FC<Props> = ({
     );
 };
 
-function paginateInput({
-    inputData,
-    handleChange,
-    value,
-    handleBlur,
-    disabled,
-}) {
-    switch (inputData.type) {
+function paginateInput({ input, handleChange, value, handleBlur, disabled }) {
+    switch (input.type) {
         case EInputTypes.select:
             return (
                 <Select
                     onChange={handleChange}
-                    id={inputData.id}
-                    label={inputData.label}
-                    key={inputData.id}
+                    id={input.id}
+                    label={input.label}
+                    key={input.id}
                     disabled={disabled}
                 >
-                    {inputData.options.map((option: ISelectInputOption) => (
+                    {input.options.map((option: ISelectInputOption) => (
                         <Option value={option.value}>{option.display}</Option>
                     ))}
                 </Select>
@@ -72,25 +66,25 @@ function paginateInput({
             return (
                 <TextArea
                     onChange={handleChange}
-                    id={inputData.id}
-                    key={inputData.id}
+                    id={input.id}
+                    key={input.id}
                     value={value}
                     onBlur={handleBlur}
-                    label={inputData.label}
+                    label={input.label}
                     disabled={disabled}
                 />
             );
         default:
             return (
                 <Input
-                    type={inputData.type}
-                    id={inputData.id}
-                    key={inputData.id}
+                    type={input.type}
+                    id={input.id}
+                    key={input.id}
                     value={value}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    hidden={inputData.hidden}
-                    label={inputData.label}
+                    hidden={input.hidden}
+                    label={input.label}
                     disabled={disabled}
                 />
             );

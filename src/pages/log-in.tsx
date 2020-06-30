@@ -4,10 +4,13 @@ import Form from "../components/ui/Form";
 import { useDispatch, useSelector } from "react-redux";
 import { logInAsync } from "../store/auth";
 import { logInFormData } from "../utils/constants";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const LogIn: React.FC = () => {
+    const router = useRouter();
     const dispatch = useDispatch();
-    const loading = useSelector((state: any) => state.auth.loading);
+    const { loading, accessToken } = useSelector((state: any) => state.auth);
 
     async function logInHandler(values: { email: string; password: string }) {
         dispatch(
@@ -17,6 +20,15 @@ const LogIn: React.FC = () => {
             })
         );
     }
+
+    useEffect(
+        function () {
+            if (accessToken) {
+                router.push("/app/dashboard");
+            }
+        },
+        [accessToken]
+    );
 
     return (
         <Layout>

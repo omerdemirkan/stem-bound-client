@@ -1,11 +1,10 @@
 import Layout from "../components/ui/Layout";
 import Head from "next/head";
-import { useState } from "react";
-import { Formik } from "formik";
-import { getSignUpFormDataByRole } from "../utils/constants";
 import Form from "../components/ui/Form";
-import { EUserRoles } from "../utils/types";
 import Select, { Option } from "../components/ui/Select";
+import { useState } from "react";
+import { getSignUpFormDataByRole } from "../utils/constants";
+import { EUserRoles } from "../utils/types";
 import { useSelector } from "react-redux";
 
 const SignUp: React.FC = () => {
@@ -33,8 +32,8 @@ const SignUp: React.FC = () => {
                 <Form
                     inputs={formData.inputs}
                     isSubmitting={loading}
-                    onSubmit={submitSignUpHandler}
                     initialValues={formData.initialValues}
+                    onSubmit={submitSignUpHandler}
                 />
             ) : null}
         </Layout>
