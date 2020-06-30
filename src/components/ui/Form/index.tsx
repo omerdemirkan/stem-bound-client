@@ -12,8 +12,9 @@ interface Props {
     inputs: IInputData[];
     handleChange: any;
     values: any;
-    handleSubmit?: any;
+    handleSubmit: any;
     handleBlur?: any;
+    submitButtonText?: string;
 }
 
 const Form: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const Form: React.FC<Props> = ({
     handleBlur,
     handleChange,
     values,
+    submitButtonText,
 }) => {
     return (
         <form onSubmit={handleSubmit}>
@@ -33,6 +35,7 @@ const Form: React.FC<Props> = ({
                     value: values[inputData.id],
                 })
             )}
+            <button type="submit">{submitButtonText || "Submit"}</button>
         </form>
     );
 };
@@ -41,7 +44,11 @@ function paginateInput({ inputData, handleChange, value, handleBlur }) {
     switch (inputData.type) {
         case EInputTypes.select:
             return (
-                <Select onChange={handleChange} id={inputData.id}>
+                <Select
+                    onChange={handleChange}
+                    id={inputData.id}
+                    label={inputData.label}
+                >
                     {inputData.options.map((option: ISelectInputOption) => (
                         <Option value={option.value}>{option.display}</Option>
                     ))}
@@ -54,6 +61,7 @@ function paginateInput({ inputData, handleChange, value, handleBlur }) {
                     id={inputData.id}
                     value={value}
                     onBlur={handleBlur}
+                    label={inputData.label}
                 />
             );
         default:
@@ -65,6 +73,7 @@ function paginateInput({ inputData, handleChange, value, handleBlur }) {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     hidden={inputData.hidden}
+                    label={inputData.label}
                 />
             );
     }

@@ -3,17 +3,21 @@ import classes from "./select.module.css";
 interface SelectProps {
     onChange: (...args: any) => any;
     id?: string;
+    label?: string;
 }
 
 interface OptionProps {
     value: any;
 }
 
-const Select: React.FC<SelectProps> = ({ children, onChange, id }) => {
+const Select: React.FC<SelectProps> = ({ children, onChange, id, label }) => {
     return (
-        <select className={classes.root} onChange={onChange} id={id}>
-            {children}
-        </select>
+        <div>
+            {label ? <label>{label}</label> : null}
+            <select className={classes.root} onChange={onChange} id={id}>
+                {children}
+            </select>
+        </div>
     );
 };
 

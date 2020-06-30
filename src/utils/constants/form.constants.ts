@@ -70,6 +70,7 @@ const schoolOfficialSignUpFormData = {
             id: "password",
             label: "Password",
             hidden: true,
+            toggleHidden: true,
         },
         {
             type: EInputTypes.text,
@@ -134,6 +135,6 @@ export const signUpFormData = {
 
 export function getSignUpFormDataByRole(
     role: EUserRoles
-): { initialValues: any } {
+): { initialValues: any; inputs: IInputData[] } {
     return signUpFormData[role];
 }

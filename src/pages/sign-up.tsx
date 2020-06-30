@@ -1,10 +1,11 @@
 import Layout from "../components/ui/Layout";
 import Head from "next/head";
-import { EUserRoles } from "../utils/types";
 import { useState } from "react";
-import Select, { Option } from "../components/ui/Select";
 import { Formik } from "formik";
 import { getSignUpFormDataByRole } from "../utils/constants";
+import Form from "../components/ui/Form";
+import { EUserRoles } from "../utils/types";
+import Select, { Option } from "../components/ui/Select";
 
 const SignUp: React.FC = () => {
     const [userRole, setUserRole] = useState<EUserRoles | null>(null);
@@ -18,24 +19,29 @@ const SignUp: React.FC = () => {
             </Head>
             <h1>Sign Up</h1>
 
-            <Formik
-                initialValues={formData.initialValues || {}}
-                onSubmit={submitSignUpHandler}
-            >
-                {({ handleSubmit, handleChange }) => (
-                    <form onSubmit={handleSubmit}>
-                        <Select onChange={handleChange} id="role">
-                            <Option value={EUserRoles.INSTRUCTOR}>
-                                Instructor
-                            </Option>
-                            <Option value={EUserRoles.SCHOOL_OFFICIAL}>
-                                School Official
-                            </Option>
-                            <Option value={EUserRoles.STUDENT}>Student</Option>
-                        </Select>
-                    </form>
-                )}
-            </Formik>
+            <Select onChange={(e) => setUserRole(e.target.value)}>
+                <Option value={EUserRoles.INSTRUCTOR}>Instructor</Option>
+                <Option value={EUserRoles.STUDENT}>Student</Option>
+                <Option value={EUserRoles.SCHOOL_OFFICIAL}>
+                    School Official
+                </Option>
+            </Select>
+
+            {formData ? (
+                <Formik
+                    initialValues={formData.initialValues}
+                    onSubmit={submitSignUpHandler}
+                >
+                    {({ handleSubmit, handleChange, values }) => (
+                        <Form
+                            inputs={formData.inputs}
+                            handleChange={handleChange}
+                            handleSubmit={handleSubmit}
+                            values={values}
+                        />
+                    )}
+                </Formik>
+            ) : null}
         </Layout>
     );
 };

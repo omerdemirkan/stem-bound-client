@@ -7,6 +7,7 @@ interface Props {
     id?: string;
     rows?: number;
     cols?: number;
+    label?: string;
 }
 
 const TextArea: React.FC<Props> = ({
@@ -16,9 +17,11 @@ const TextArea: React.FC<Props> = ({
     cols,
     value,
     onBlur,
+    label,
 }) => {
     return (
         <div>
+            {label ? <label>{label}</label> : null}
             <textarea
                 onChange={onChange}
                 value={value}

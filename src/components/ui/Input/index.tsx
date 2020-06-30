@@ -1,9 +1,9 @@
 import classes from "./input.module.css";
 
 interface Props {
+    type: "text" | "number";
     onChange: (...args: any) => any;
     onBlur?: (...args: any) => any;
-    type?: "text" | "number";
     label?: string;
     id?: string;
     value?: string | number;
@@ -31,10 +31,9 @@ const Input: React.FC<Props> = ({
                         : onChange
                 }
                 onBlur={onBlur}
-                type={type || "text"}
+                type={hidden ? "password" : type}
                 id={id || undefined}
                 value={value || undefined}
-                hidden={hidden}
             />
         </div>
     );
