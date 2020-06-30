@@ -1,7 +1,7 @@
 import { isValidEmail } from "./regex.constants";
-import { EUserRoles } from "../types";
+import { EUserRoles, IInputData, ITextInput, EInputTypes } from "../types";
 
-const userSignUpFormData = {
+const instructorSignUpFormData = {
     initialValues: {
         firstName: "",
         lastName: "",
@@ -9,31 +9,122 @@ const userSignUpFormData = {
         password: "",
         shortDescription: "",
         longDescription: "",
-    },
-};
-
-const instructorSignUpFormData = Object.freeze({
-    initialValues: {
-        ...userSignUpFormData.initialValues,
         specialties: [""],
     },
-});
 
-const schoolOfficialSignUpFormData = Object.freeze({
+    inputs: [
+        {
+            type: EInputTypes.text,
+            id: "firstName",
+            label: "First Name",
+        },
+        {
+            type: EInputTypes.text,
+            id: "lastName",
+            label: "Last Name",
+        },
+        {
+            type: EInputTypes.text,
+            id: "password",
+            label: "Password",
+            hidden: true,
+        },
+        {
+            type: EInputTypes.text,
+            id: "shortDescription",
+            label: "Short Description",
+        },
+        {
+            type: EInputTypes.textarea,
+            id: "longDescription",
+            label: "Long Description (Optional)",
+        },
+    ] as IInputData[],
+};
+
+const schoolOfficialSignUpFormData = {
     initialValues: {
-        ...userSignUpFormData.initialValues,
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        shortDescription: "",
+        longDescription: "",
         schoolId: null,
         position: "",
     },
-});
 
-const studentSignUpFormData = Object.freeze({
+    inputs: [
+        {
+            type: EInputTypes.text,
+            id: "firstName",
+            label: "First Name",
+        },
+        {
+            type: EInputTypes.text,
+            id: "lastName",
+            label: "Last Name",
+        },
+        {
+            type: EInputTypes.text,
+            id: "password",
+            label: "Password",
+            hidden: true,
+        },
+        {
+            type: EInputTypes.text,
+            id: "shortDescription",
+            label: "Short Description",
+        },
+        {
+            type: EInputTypes.textarea,
+            id: "longDescription",
+            label: "Long Description (Optional)",
+        },
+    ] as IInputData[],
+};
+
+const studentSignUpFormData = {
     initialValues: {
-        ...userSignUpFormData.initialValues,
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        shortDescription: "",
+        longDescription: "",
         schoolId: null,
         interests: [""],
     },
-});
+
+    inputs: [
+        {
+            type: EInputTypes.text,
+            id: "firstName",
+            label: "First Name",
+        },
+        {
+            type: EInputTypes.text,
+            id: "lastName",
+            label: "Last Name",
+        },
+        {
+            type: EInputTypes.text,
+            id: "password",
+            label: "Password",
+            hidden: true,
+        },
+        {
+            type: EInputTypes.text,
+            id: "shortDescription",
+            label: "Short Description",
+        },
+        {
+            type: EInputTypes.textarea,
+            id: "longDescription",
+            label: "Long Description (Optional)",
+        },
+    ] as IInputData[],
+};
 
 export const signUpFormData = {
     [EUserRoles.INSTRUCTOR]: instructorSignUpFormData,

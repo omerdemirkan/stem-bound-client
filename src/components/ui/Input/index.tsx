@@ -2,12 +2,13 @@ import classes from "./input.module.css";
 
 interface Props {
     onChange: (...args: any) => any;
-    type?: "text" | "email" | "hidden" | "number" | "password";
+    onBlur?: (...args: any) => any;
+    type?: "text" | "number";
     label?: string;
     id?: string;
     value?: string | number;
     eventTargetValue?: boolean;
-    onBlur?: (...args: any) => any;
+    hidden?: boolean;
 }
 
 const Input: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const Input: React.FC<Props> = ({
     value,
     eventTargetValue,
     onBlur,
+    hidden,
 }) => {
     return (
         <div>
@@ -32,6 +34,7 @@ const Input: React.FC<Props> = ({
                 type={type || "text"}
                 id={id || undefined}
                 value={value || undefined}
+                hidden={hidden}
             />
         </div>
     );

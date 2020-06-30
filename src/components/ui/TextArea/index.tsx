@@ -1,17 +1,34 @@
 import classes from "./textarea.module.css";
 
 interface Props {
-    onChange: (text: string) => void;
+    onChange: (...args: any) => any;
+    onBlur?: (...args: any) => any;
+    value: string;
+    id?: string;
+    rows?: number;
+    cols?: number;
 }
 
-const TextArea: React.FC<Props> = ({ onChange }) => {
+const TextArea: React.FC<Props> = ({
+    onChange,
+    id,
+    rows,
+    cols,
+    value,
+    onBlur,
+}) => {
     return (
         <div>
             <textarea
-                cols={30}
-                rows={10}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={onChange}
+                value={value}
+                cols={cols || 30}
+                rows={rows || 10}
+                id={id || undefined}
+                onBlur={onBlur}
             ></textarea>
         </div>
     );
 };
+
+export default TextArea;
