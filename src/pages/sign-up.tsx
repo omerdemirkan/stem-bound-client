@@ -1,8 +1,8 @@
-import Layout from "../components/Layout";
+import Layout from "../components/ui/Layout";
 import Head from "next/head";
 import { EUserRoles } from "../utils/types";
 import { useState } from "react";
-import Select, { Option } from "../components/Select";
+import Select, { Option } from "../components/ui/Select";
 import { Formik } from "formik";
 import { getSignUpFormDataByRole } from "../utils/constants";
 
@@ -22,9 +22,9 @@ const SignUp: React.FC = () => {
                 initialValues={formData.initialValues || {}}
                 onSubmit={submitSignUpHandler}
             >
-                {() => (
-                    <form>
-                        <Select onChange={console.log}>
+                {({ handleSubmit, handleChange }) => (
+                    <form onSubmit={handleSubmit}>
+                        <Select onChange={handleChange} id="role">
                             <Option value={EUserRoles.INSTRUCTOR}>
                                 Instructor
                             </Option>

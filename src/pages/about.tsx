@@ -1,4 +1,4 @@
-import Layout from "../components/Layout";
+import Layout from "../components/ui/Layout";
 import Head from "next/head";
 
 const About: React.FC = () => {

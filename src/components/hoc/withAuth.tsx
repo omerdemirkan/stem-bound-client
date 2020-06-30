@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { meAsync } from "../store/auth";
-import { apiClient } from "../utils/http.utils";
+import { meAsync } from "../../store/auth";
+import { apiClient } from "../../utils/http.utils";
 
 export default function withAuth(
     Component: React.ComponentType | React.FC

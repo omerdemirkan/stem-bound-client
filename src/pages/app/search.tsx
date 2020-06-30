@@ -1,5 +1,5 @@
-import AppLayout from "../../components/AppLayout";
-import withAuth from "../../hoc/withAuth";
+import AppLayout from "../../components/ui/AppLayout";
+import withAuth from "../../components/hoc/withAuth";
 
 const Search: React.FC = () => {
     return (
