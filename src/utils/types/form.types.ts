@@ -8,6 +8,7 @@ export enum EInputTypes {
     "text",
     "number",
     "textarea",
+    "textArray",
 }
 
 export interface ITextInput {
@@ -45,4 +46,14 @@ export interface ITextAreaInput {
     cols?: number;
 }
 
-export type IInputData = ITextInput | ISelectInput | ITextAreaInput;
+export interface ITextArrayInput {
+    id: string;
+    type: EInputTypes.textArray;
+    label: string;
+}
+
+export type IInputData =
+    | ITextInput
+    | ISelectInput
+    | ITextAreaInput
+    | ITextArrayInput;

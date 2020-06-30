@@ -1,6 +1,6 @@
 import { EUserRoles, IInputData, EInputTypes, IFormData } from "../types";
 
-const instructorSignUpFormData: IFormData = {
+const instructorSignUpFormData: IFormData = Object.freeze({
     initialValues: {
         firstName: "",
         lastName: "",
@@ -24,6 +24,11 @@ const instructorSignUpFormData: IFormData = {
         },
         {
             type: EInputTypes.text,
+            id: "email",
+            label: "Email",
+        },
+        {
+            type: EInputTypes.text,
             id: "password",
             label: "Password",
             hidden: true,
@@ -38,10 +43,15 @@ const instructorSignUpFormData: IFormData = {
             id: "longDescription",
             label: "Long Description (Optional)",
         },
+        {
+            type: EInputTypes.textArray,
+            id: "specialties",
+            label: "Specialties",
+        },
     ],
-};
+});
 
-const schoolOfficialSignUpFormData: IFormData = {
+const schoolOfficialSignUpFormData: IFormData = Object.freeze({
     initialValues: {
         firstName: "",
         lastName: "",
@@ -66,6 +76,11 @@ const schoolOfficialSignUpFormData: IFormData = {
         },
         {
             type: EInputTypes.text,
+            id: "email",
+            label: "Email",
+        },
+        {
+            type: EInputTypes.text,
             id: "password",
             label: "Password",
             hidden: true,
@@ -82,9 +97,9 @@ const schoolOfficialSignUpFormData: IFormData = {
             label: "Long Description (Optional)",
         },
     ],
-};
+});
 
-const studentSignUpFormData: IFormData = {
+const studentSignUpFormData: IFormData = Object.freeze({
     initialValues: {
         firstName: "",
         lastName: "",
@@ -109,6 +124,11 @@ const studentSignUpFormData: IFormData = {
         },
         {
             type: EInputTypes.text,
+            id: "email",
+            label: "Email",
+        },
+        {
+            type: EInputTypes.text,
             id: "password",
             label: "Password",
             hidden: true,
@@ -123,8 +143,13 @@ const studentSignUpFormData: IFormData = {
             id: "longDescription",
             label: "Long Description (Optional)",
         },
+        {
+            type: EInputTypes.textArray,
+            id: "interests",
+            label: "Interests",
+        },
     ],
-};
+});
 
 export function getSignUpFormDataByRole(
     role: EUserRoles

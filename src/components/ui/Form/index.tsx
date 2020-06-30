@@ -7,7 +7,7 @@ import {
     EInputTypes,
     ISelectInputOption,
 } from "../../../utils/types";
-import { Formik } from "formik";
+import { Formik, FieldArray } from "formik";
 
 interface Props {
     inputs: IInputData[];
@@ -40,6 +40,7 @@ const Form: React.FC<Props> = ({
                     <button type="submit">
                         {submitButtonText || "Submit"}
                     </button>
+                    <pre>{JSON.stringify(values, null, 2)}</pre>
                 </form>
             )}
         </Formik>
@@ -73,6 +74,35 @@ function paginateInput({ input, handleChange, value, handleBlur, disabled }) {
                     label={input.label}
                     disabled={disabled}
                 />
+            );
+        case EInputTypes.textArray:
+            return (
+                <FieldArray name={input.id}>
+                    {(helpers) => (
+                        <>
+                            {input.label ? <label>{input.label}</label> : null}
+                            {value &&
+                                value.map((s: string, index: number) => (
+                                    <div>
+                                        <Input
+                                            type="text"
+                                            onChange={handleChange}
+                                            id={`${input.id}.${index}`}
+                                            value={s}
+                                        />
+                                        <button
+                                            onClick={() =>
+                                                helpers.remove(index)
+                                            }
+                                        >
+                                            -
+                                        </button>
+                                    </div>
+                                ))}
+                            <button onClick={() => helpers.push("")}>+</button>
+                        </>
+                    )}
+                </FieldArray>
             );
         default:
             return (
