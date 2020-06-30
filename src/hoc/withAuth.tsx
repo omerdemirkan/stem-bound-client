@@ -16,15 +16,17 @@ export default function withAuth(
 
         useEffect(
             function () {
-                const storedToken = localStorage.getItem("accessToken");
-
                 // embedded if statements are to limit the number of checks for logged in users.
                 if (!accessToken) {
+                    const storedToken = localStorage.getItem("accessToken");
                     if (authAttempted || !storedToken) {
                         router.push(storedToken ? "/log-in" : "/sign-up");
                     } else {
                         dispatch(meAsync(storedToken));
                     }
+                } else if (!apiClient.getAuthHeader()) {
+                    // For when users navigate between pages and re-instantiate the apiClient.
+                    apiClient.setAuthHeader(accessToken);
                 }
             },
             [authAttempted]
