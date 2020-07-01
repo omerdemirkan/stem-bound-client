@@ -30,7 +30,8 @@ export class HttpClient {
     }
 
     get(path: string, configOptions: any = {}) {
-        return fetch(`${this.baseUrl}${path}`, {
+        console.log(`${this.baseUrl}${path}`);
+        return fetch(this.baseUrl + path, {
             ...this.defaultConfig,
             method: "GET",
             ...configOptions,
@@ -38,7 +39,7 @@ export class HttpClient {
     }
 
     post(path: string, body: object, configOptions: any = {}) {
-        return fetch(`${this.baseUrl}${path}`, {
+        return fetch(this.baseUrl + path, {
             ...this.defaultConfig,
             method: "POST",
             body: JSON.stringify(body),
@@ -47,7 +48,7 @@ export class HttpClient {
     }
 
     put(path: string, body: object, configOptions: any = {}) {
-        return fetch(`${this.baseUrl}${path}`, {
+        return fetch(this.baseUrl + path, {
             ...this.defaultConfig,
             method: "PUT",
             body: JSON.stringify(body),
@@ -56,7 +57,7 @@ export class HttpClient {
     }
 
     patch(path: string, body: object, configOptions: any = {}) {
-        return fetch(`${this.baseUrl}${path}`, {
+        return fetch(this.baseUrl + path, {
             ...this.defaultConfig,
             method: "PATCH",
             body: JSON.stringify(body),
@@ -65,7 +66,7 @@ export class HttpClient {
     }
 
     delete(path: string, configOptions: any = {}) {
-        return fetch(`${this.baseUrl}${path}`, {
+        return fetch(this.baseUrl + path, {
             ...this.defaultConfig,
             method: "DELETE",
             ...configOptions,

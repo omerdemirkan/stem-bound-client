@@ -9,6 +9,7 @@ export enum EInputTypes {
     "number",
     "textarea",
     "textArray",
+    "searchSelect",
 }
 
 export interface ITextInput {
@@ -52,8 +53,18 @@ export interface ITextArrayInput {
     label: string;
 }
 
+export interface ISearchSelectInput {
+    type: EInputTypes.searchSelect;
+    delay: number;
+    id: string;
+    fetchOptions: (s: string) => Promise<ISelectInputOption[]>;
+    label?: string;
+    initialOptions?: ISelectInputOption[];
+}
+
 export type IInputData =
     | ITextInput
     | ISelectInput
     | ITextAreaInput
-    | ITextArrayInput;
+    | ITextArrayInput
+    | ISearchSelectInput;

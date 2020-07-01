@@ -1,4 +1,6 @@
 import { EUserRoles, IInputData, EInputTypes, IFormData } from "../types";
+import { fetchSchools } from "../services";
+import { fetchSchoolInputOptions } from "../helpers";
 
 const instructorSignUpFormData: IFormData = Object.freeze({
     initialValues: {
@@ -96,6 +98,13 @@ const schoolOfficialSignUpFormData: IFormData = Object.freeze({
             id: "longDescription",
             label: "Long Description (Optional)",
         },
+        {
+            type: EInputTypes.searchSelect,
+            id: "schoolId",
+            label: "School",
+            delay: 1000,
+            fetchOptions: fetchSchoolInputOptions,
+        },
     ],
 });
 
@@ -147,6 +156,13 @@ const studentSignUpFormData: IFormData = Object.freeze({
             type: EInputTypes.textArray,
             id: "interests",
             label: "Interests",
+        },
+        {
+            type: EInputTypes.searchSelect,
+            id: "schoolId",
+            label: "School",
+            delay: 1000,
+            fetchOptions: fetchSchoolInputOptions,
         },
     ],
 });

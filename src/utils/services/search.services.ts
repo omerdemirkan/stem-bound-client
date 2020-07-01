@@ -1,22 +1,33 @@
 import { ISchoolOriginal, fetchSchoolsOptions } from "../types";
 import { EUserRoles, IUser } from "../types/user.types";
 import { apiClient } from "../http.utils";
+import { appendQueriesToUrl } from "../helpers/http.helpers";
 
 export async function fetchSchools(
     options: fetchSchoolsOptions
 ): Promise<{ message: string; data: ISchoolOriginal[] }> {
-    let path = `/school?long=${options.longitude}&lat=${options.latitude}`;
+    let path = "/school";
+    let queries: any = {};
+
+    if (options.longitude && options.latitude) {
+        queries.long = options.longitude;
+        queries.lat = options.latitude;
+    }
 
     if (options.skip) {
-        path += `&skip=${options.skip}`;
+        queries.skip = options.skip;
     }
     if (options.limit) {
+        queries.limit = options.limit;
         path += `&limit=${options.limit}`;
     }
     if (options.withSchoolOfficials) {
-        path += `&with_school_officials=1`;
+        queries.with_school_officials = 1;
     }
-    return apiClient.get(path);
+    if (options.text) {
+        queries.text = options.text;
+    }
+    return apiClient.get(appendQueriesToUrl(path, queries));
 }
 
 export async function fetchUsers(options: {

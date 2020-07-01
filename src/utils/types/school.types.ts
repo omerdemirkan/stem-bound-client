@@ -85,8 +85,9 @@ export interface ISchool {
 }
 
 export interface fetchSchoolsOptions {
-    latitude: number;
-    longitude: number;
+    latitude?: number;
+    longitude?: number;
+    text?: string;
     limit?: number;
     skip?: number;
     withSchoolOfficials?: boolean;

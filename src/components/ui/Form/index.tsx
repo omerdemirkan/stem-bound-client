@@ -8,6 +8,7 @@ import {
     ISelectInputOption,
 } from "../../../utils/types";
 import { Formik, FieldArray } from "formik";
+import SearchSelect from "../SearchSelect";
 
 interface Props {
     onSubmit: (...args: any) => any;
@@ -100,6 +101,17 @@ function paginateInput({ input, handleChange, value, handleBlur }) {
                         </>
                     )}
                 </FieldArray>
+            );
+        case EInputTypes.searchSelect:
+            return (
+                <SearchSelect
+                    delay={input.delay}
+                    onChange={handleChange}
+                    fetchOptions={input.fetchOptions}
+                    id={input.id}
+                    initialOptions={input.initialOptions || undefined}
+                    label={input.label}
+                />
             );
         default:
             return (

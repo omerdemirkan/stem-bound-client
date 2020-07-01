@@ -11,6 +11,7 @@ interface Props {
     onChange: (...args: any) => any;
     fetchOptions: (s: string) => Promise<ISelectInputOption[]>;
     initialOptions?: ISelectInputOption[];
+    label?: string;
 }
 
 const SearchSelect: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const SearchSelect: React.FC<Props> = ({
     fetchOptions,
     onChange,
     id,
+    label,
 }) => {
     const [search, setSearch] = useState<string>("");
     const [options, setOptions] = useState<ISelectInputOption[]>(
@@ -41,6 +43,7 @@ const SearchSelect: React.FC<Props> = ({
     );
     return (
         <div>
+            {label ? <label>{label}</label> : null}
             <Input type="text" onChange={(e) => setSearch(e.target.value)} />
             <Select onChange={onChange} id={id}>
                 {options.map((option: ISelectInputOption) => (
