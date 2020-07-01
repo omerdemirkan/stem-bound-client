@@ -10,8 +10,8 @@ import {
 import { Formik, FieldArray } from "formik";
 
 interface Props {
-    inputs: IInputData[];
     onSubmit: (...args: any) => any;
+    inputs: IInputData[];
     initialValues: object;
     submitButtonText?: string;
     isSubmitting?: boolean;
@@ -34,10 +34,9 @@ const Form: React.FC<Props> = ({
                             handleChange,
                             handleBlur,
                             value: values[input.id],
-                            disabled: isSubmitting,
                         })
                     )}
-                    <button type="submit">
+                    <button disabled={isSubmitting} type="submit">
                         {submitButtonText || "Submit"}
                     </button>
                     <pre>{JSON.stringify(values, null, 2)}</pre>
@@ -47,7 +46,7 @@ const Form: React.FC<Props> = ({
     );
 };
 
-function paginateInput({ input, handleChange, value, handleBlur, disabled }) {
+function paginateInput({ input, handleChange, value, handleBlur }) {
     switch (input.type) {
         case EInputTypes.select:
             return (
@@ -56,7 +55,6 @@ function paginateInput({ input, handleChange, value, handleBlur, disabled }) {
                     id={input.id}
                     label={input.label}
                     key={input.id}
-                    disabled={disabled}
                 >
                     {input.options.map((option: ISelectInputOption) => (
                         <Option value={option.value}>{option.display}</Option>
@@ -72,7 +70,6 @@ function paginateInput({ input, handleChange, value, handleBlur, disabled }) {
                     value={value}
                     onBlur={handleBlur}
                     label={input.label}
-                    disabled={disabled}
                 />
             );
         case EInputTypes.textArray:
@@ -115,7 +112,6 @@ function paginateInput({ input, handleChange, value, handleBlur, disabled }) {
                     onBlur={handleBlur}
                     hidden={input.hidden}
                     label={input.label}
-                    disabled={disabled}
                 />
             );
     }
