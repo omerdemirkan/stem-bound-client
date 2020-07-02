@@ -1,4 +1,3 @@
-export * from "./school.constants";
 export * from "./course.constants";
 export * from "./form.constants";
 export * from "./regex.constants";

@@ -1,3 +1,7 @@
+// Note: This project follows the redux ducks pattern.
+// This involves reducers, action types, action creators and async action creators in each file categorized by reducer
+// For more details: https://github.com/erikras/ducks-modular-redux
+
 import {
     createStore,
     combineReducers,

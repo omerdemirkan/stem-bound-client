@@ -1,7 +1,6 @@
 import { Dispatch } from "redux";
-import { logIn, signUp, me } from "../utils/services/auth.services";
-import { apiClient } from "../utils/http.utils";
-import { access } from "fs";
+import { logIn, signUp, me } from "../utils/services";
+import { apiClient } from "../utils/helpers/http.helpers";
 
 enum actionTypes {
     AUTH_START = "stem-bound/auth/AUTH_START",
@@ -42,7 +41,7 @@ export default function (state = initialState, action) {
     }
 }
 
-// AUTH
+// ACTION CREATORS
 
 export function authStart() {
     return { type: actionTypes.AUTH_START };
@@ -61,6 +60,8 @@ export function authSuccess({
 export function authFailure() {
     return { type: actionTypes.AUTH_FAILURE };
 }
+
+// ASYNC ACTION CREATORS
 
 export function logInAsync({
     email,

@@ -1,5 +1,4 @@
 import { EUserRoles, IInputData, EInputTypes, IFormData } from "../types";
-import { fetchSchools } from "../services";
 import { fetchSchoolInputOptions } from "../helpers";
 
 const instructorSignUpFormData: IFormData = Object.freeze({
