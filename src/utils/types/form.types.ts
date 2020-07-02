@@ -1,6 +1,7 @@
 export interface IFormData {
     inputs: IInputData[];
     initialValues: any;
+    mapFormToRequestBody: (values: any) => any;
 }
 
 export enum EInputTypes {
@@ -68,3 +69,10 @@ export type IInputData =
     | ITextAreaInput
     | ITextArrayInput
     | ISearchSelectInput;
+
+export enum EForms {
+    "INSTRUCTOR_SIGN_UP",
+    "SCHOOL_OFFICIAL_SIGN_UP",
+    "STUDENT_SIGN_UP",
+    "USER_LOG_IN",
+}

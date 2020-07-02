@@ -1,15 +1,15 @@
 import Layout from "../components/ui/Layout";
 import Head from "next/head";
 import Form from "../components/ui/Form";
+import useFormData from "../components/hooks/useFormData";
 import Select, { Option } from "../components/ui/Select";
 import { useState } from "react";
-import { getSignUpFormDataByRole } from "../utils/constants";
-import { EUserRoles } from "../utils/types";
+import { EForms } from "../utils/types";
 import { useSelector } from "react-redux";
 
 const SignUp: React.FC = () => {
-    const [userRole, setUserRole] = useState<EUserRoles | null>(null);
-    const formData = getSignUpFormDataByRole(userRole);
+    const [formKey, setFormKey] = useState<EForms>(null);
+    const formData = useFormData(formKey);
     const loading = useSelector((state: any) => state.auth.loading);
     async function submitSignUpHandler(values: any) {}
 
@@ -20,10 +20,10 @@ const SignUp: React.FC = () => {
             </Head>
             <h1>Sign Up</h1>
 
-            <Select onChange={(e) => setUserRole(e.target.value)}>
-                <Option value={EUserRoles.INSTRUCTOR}>Instructor</Option>
-                <Option value={EUserRoles.STUDENT}>Student</Option>
-                <Option value={EUserRoles.SCHOOL_OFFICIAL}>
+            <Select onChange={(e) => setFormKey(e.target.value)}>
+                <Option value={EForms.INSTRUCTOR_SIGN_UP}>Instructor</Option>
+                <Option value={EForms.STUDENT_SIGN_UP}>Student</Option>
+                <Option value={EForms.SCHOOL_OFFICIAL_SIGN_UP}>
                     School Official
                 </Option>
             </Select>

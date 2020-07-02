@@ -1,7 +1,6 @@
 import { ISchoolOriginal, fetchSchoolsOptions } from "../types";
 import { EUserRoles, IUser } from "../types/user.types";
-import { apiClient } from "../http.utils";
-import { appendQueriesToUrl } from "../helpers/http.helpers";
+import { appendQueriesToUrl, apiClient } from "../helpers/http.helpers";
 
 export async function fetchSchools(
     options: fetchSchoolsOptions

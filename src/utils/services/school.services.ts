@@ -1,6 +1,6 @@
 import { ISchoolOriginal, ICourseOriginal } from "../types";
 import { ISchoolOfficial, IStudent } from "../types/user.types";
-import { apiClient } from "../http.utils";
+import { apiClient } from "../helpers";
 
 export function fetchSchoolById(id: string): Promise<ISchoolOriginal> {
     return apiClient.get(`/school/${id}`);

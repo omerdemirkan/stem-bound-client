@@ -1,8 +1,9 @@
 import { urlRegex } from "../constants/regex.constants";
 
-export * from "./geolocation.helpers";
+export * from "./location.helpers";
 export * from "./course.helpers";
 export * from "./school.helpers";
+export * from "./http.helpers";
 
 // Put common helpers here
 export function capitalizeWords(s: string) {

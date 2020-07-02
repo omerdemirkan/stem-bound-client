@@ -1,4 +1,4 @@
-import { apiClient } from "../http.utils";
+import { apiClient } from "../helpers";
 
 export function logIn(options: {
     email: string;

@@ -1,7 +1,7 @@
-import { EUserRoles, IInputData, EInputTypes, IFormData } from "../types";
+import { EInputTypes, IFormData, EForms } from "../types";
 import { fetchSchoolInputOptions } from "../helpers";
 
-const instructorSignUpFormData: IFormData = Object.freeze({
+export const instructorSignUpFormData: IFormData = Object.freeze({
     initialValues: {
         firstName: "",
         lastName: "",
@@ -10,6 +10,12 @@ const instructorSignUpFormData: IFormData = Object.freeze({
         shortDescription: "",
         longDescription: "",
         specialties: [""],
+    },
+
+    mapFormToRequestBody: function (values: any) {
+        return {
+            ...values,
+        };
     },
 
     inputs: [
@@ -52,7 +58,7 @@ const instructorSignUpFormData: IFormData = Object.freeze({
     ],
 });
 
-const schoolOfficialSignUpFormData: IFormData = Object.freeze({
+export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
     initialValues: {
         firstName: "",
         lastName: "",
@@ -62,6 +68,16 @@ const schoolOfficialSignUpFormData: IFormData = Object.freeze({
         longDescription: "",
         schoolId: null,
         position: "",
+    },
+
+    mapFormToRequestBody: function (values: any) {
+        // Note: fields that aren't in the db schema are weeted out automatically.
+        return {
+            ...values,
+            meta: {
+                school: values.school,
+            },
+        };
     },
 
     inputs: [
@@ -104,10 +120,15 @@ const schoolOfficialSignUpFormData: IFormData = Object.freeze({
             delay: 1000,
             fetchOptions: fetchSchoolInputOptions,
         },
+        {
+            type: EInputTypes.text,
+            id: "position",
+            label: "Position",
+        },
     ],
-});
+} as IFormData);
 
-const studentSignUpFormData: IFormData = Object.freeze({
+export const studentSignUpFormData: IFormData = Object.freeze({
     initialValues: {
         firstName: "",
         lastName: "",
@@ -117,6 +138,15 @@ const studentSignUpFormData: IFormData = Object.freeze({
         longDescription: "",
         schoolId: null,
         interests: [""],
+    },
+
+    mapFormToRequestBody: function (values: any) {
+        return {
+            ...values,
+            meta: {
+                school: values.school,
+            },
+        };
     },
 
     inputs: [
@@ -166,21 +196,16 @@ const studentSignUpFormData: IFormData = Object.freeze({
     ],
 });
 
-export function getSignUpFormDataByRole(
-    role: EUserRoles
-): { initialValues: any; inputs: IInputData[] } {
-    return {
-        [EUserRoles.INSTRUCTOR]: instructorSignUpFormData,
-        [EUserRoles.SCHOOL_OFFICIAL]: schoolOfficialSignUpFormData,
-        [EUserRoles.STUDENT]: studentSignUpFormData,
-    }[role];
-}
-
 export const logInFormData: IFormData = {
     initialValues: {
         email: "",
         password: "",
     },
+
+    mapFormToRequestBody: function (values: any) {
+        return {};
+    },
+
     inputs: [
         { id: "email", type: EInputTypes.text, label: "Email" },
         {
@@ -192,3 +217,13 @@ export const logInFormData: IFormData = {
         },
     ],
 };
+
+const forms = Object.freeze({
+    [EForms.INSTRUCTOR_SIGN_UP]: instructorSignUpFormData,
+    [EForms.SCHOOL_OFFICIAL_SIGN_UP]: schoolOfficialSignUpFormData,
+    [EForms.STUDENT_SIGN_UP]: studentSignUpFormData,
+    [EForms.USER_LOG_IN]: logInFormData,
+});
+
+// Naming before exporting as default to allow for autoimports.
+export default forms;
