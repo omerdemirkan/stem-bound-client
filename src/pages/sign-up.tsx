@@ -4,14 +4,19 @@ import Form from "../components/ui/Form";
 import useFormData from "../components/hooks/useFormData";
 import Select, { Option } from "../components/ui/Select";
 import { useState } from "react";
-import { EForms } from "../utils/types";
-import { useSelector } from "react-redux";
+import { EForms, IFormData } from "../utils/types";
+import { useSelector, useDispatch } from "react-redux";
+import { signUpAsync } from "../store/auth";
 
 const SignUp: React.FC = () => {
     const [formKey, setFormKey] = useState<EForms>(null);
-    const formData = useFormData(formKey);
-    const loading = useSelector((state: any) => state.auth.loading);
-    async function submitSignUpHandler(values: any) {}
+    const formData: IFormData = useFormData(formKey);
+    const dispatch = useDispatch();
+    const loading: boolean = useSelector((state: any) => state.auth.loading);
+    async function submitSignUpHandler(values: any): Promise<void> {
+        dispatch(signUpAsync(formData.mapFormToRequestBody(values)));
+        console.log(values);
+    }
 
     return (
         <Layout>

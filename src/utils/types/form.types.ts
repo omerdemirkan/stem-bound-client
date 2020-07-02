@@ -2,6 +2,7 @@ export interface IFormData {
     inputs: IInputData[];
     initialValues: any;
     mapFormToRequestBody: (values: any) => any;
+    validationSchema: object;
 }
 
 export enum EInputTypes {

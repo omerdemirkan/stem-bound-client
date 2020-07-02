@@ -1,5 +1,7 @@
+import yup from "yup";
 import { EInputTypes, IFormData, EForms } from "../types";
 import { fetchSchoolInputOptions } from "../helpers";
+import { passwordRegex, objectIdRegex } from "./regex.constants";
 
 export const instructorSignUpFormData: IFormData = Object.freeze({
     initialValues: {
@@ -10,6 +12,23 @@ export const instructorSignUpFormData: IFormData = Object.freeze({
         shortDescription: "",
         longDescription: "",
         specialties: [""],
+    },
+
+    validationSchema: {
+        firstName: yup.string().trim().min(2).max(30).required(),
+        lastName: yup.string().trim().min(2).max(30).required(),
+        email: yup.string().email().required(),
+        password: yup.string().matches(passwordRegex).required(),
+        shortDescription: yup.string().trim().min(4).max(60).required(),
+        longDescription: yup.string().trim().min(4).max(2000),
+
+        schoolId: yup.string().matches(objectIdRegex),
+        specialties: yup
+            .array()
+            .min(1)
+            .max(10)
+            .of(yup.string().trim().min(2).max(40))
+            .required(),
     },
 
     mapFormToRequestBody: function (values: any) {
@@ -80,6 +99,17 @@ export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
         };
     },
 
+    validationSchema: {
+        firstName: yup.string().trim().min(2).max(30).required(),
+        lastName: yup.string().trim().min(2).max(30).required(),
+        email: yup.string().email().required(),
+        password: yup.string().matches(passwordRegex).required(),
+        shortDescription: yup.string().trim().min(4).max(60).required(),
+        longDescription: yup.string().trim().min(4).max(2000),
+
+        position: yup.string().trim().min(2).max(200).required(),
+    },
+
     inputs: [
         {
             type: EInputTypes.text,
@@ -126,7 +156,7 @@ export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
             label: "Position",
         },
     ],
-} as IFormData);
+});
 
 export const studentSignUpFormData: IFormData = Object.freeze({
     initialValues: {
@@ -147,6 +177,23 @@ export const studentSignUpFormData: IFormData = Object.freeze({
                 school: values.school,
             },
         };
+    },
+
+    validationSchema: {
+        firstName: yup.string().trim().min(2).max(30).required(),
+        lastName: yup.string().trim().min(2).max(30).required(),
+        email: yup.string().email().required(),
+        password: yup.string().matches(passwordRegex).required(),
+        shortDescription: yup.string().trim().min(4).max(60).required(),
+        longDescription: yup.string().trim().min(4).max(2000),
+
+        schoolId: yup.string().matches(objectIdRegex).required(),
+        interests: yup
+            .array()
+            .min(1)
+            .max(10)
+            .of(yup.string().trim().min(2).max(40))
+            .required(),
     },
 
     inputs: [
@@ -204,6 +251,11 @@ export const logInFormData: IFormData = {
 
     mapFormToRequestBody: function (values: any) {
         return {};
+    },
+
+    validationSchema: {
+        email: yup.string().email().required(),
+        password: yup.string().matches(passwordRegex).required(),
     },
 
     inputs: [
