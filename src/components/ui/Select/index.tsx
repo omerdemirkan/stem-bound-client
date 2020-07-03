@@ -5,6 +5,7 @@ interface SelectProps {
     id?: string;
     label?: string;
     disabled?: boolean;
+    touched?: boolean;
 }
 
 interface OptionProps {
@@ -17,6 +18,7 @@ const Select: React.FC<SelectProps> = ({
     id,
     label,
     disabled,
+    touched,
 }) => {
     return (
         <div>

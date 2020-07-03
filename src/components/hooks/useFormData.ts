@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { getFormDataByKey } from "../../utils/helpers/form.helpers";
 
 export default function useFormData(formKey: EForms): IFormData | null {
-    const [formData, setFormData] = useState<IFormData | null>(null);
+    const [formData, setFormData] = useState<IFormData | null>(
+        getFormDataByKey(formKey)
+    );
     useEffect(
         function () {
             if (formKey) {

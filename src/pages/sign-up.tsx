@@ -35,10 +35,9 @@ const SignUp: React.FC = () => {
 
             {formData ? (
                 <Form
-                    inputs={formData.inputs}
                     isSubmitting={loading}
-                    initialValues={formData.initialValues}
                     onSubmit={submitSignUpHandler}
+                    {...formData}
                 />
             ) : null}
         </Layout>

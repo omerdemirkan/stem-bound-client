@@ -1,15 +1,17 @@
 import Layout from "../components/ui/Layout";
 import Head from "next/head";
 import Form from "../components/ui/Form";
+import useFormData from "../components/hooks/useFormData";
 import { useDispatch, useSelector } from "react-redux";
 import { logInAsync } from "../store/auth";
-import { logInFormData } from "../utils/constants";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { EForms, IFormData } from "../utils/types";
 
 const LogIn: React.FC = () => {
     const router = useRouter();
     const dispatch = useDispatch();
+    const formData: IFormData = useFormData(EForms.USER_LOG_IN);
     const { loading, accessToken } = useSelector((state: any) => state.auth);
 
     async function logInHandler(values: { email: string; password: string }) {
@@ -38,10 +40,9 @@ const LogIn: React.FC = () => {
             <h1>Log In</h1>
 
             <Form
-                inputs={logInFormData.inputs}
-                isSubmitting={loading}
-                initialValues={logInFormData.initialValues}
                 onSubmit={logInHandler}
+                isSubmitting={loading}
+                {...formData}
             />
         </Layout>
     );

@@ -1,7 +1,10 @@
-import yup from "yup";
+import * as yup from "yup";
 import { EInputTypes, IFormData, EForms } from "../types";
 import { fetchSchoolInputOptions } from "../helpers";
 import { passwordRegex, objectIdRegex } from "./regex.constants";
+
+// This is quite the file. I understand there is a lot of duplication, especially between sign up forms.
+// I decided to keep everything explicit as mapping default/common values proved to be more disorienting than useful.
 
 export const instructorSignUpFormData: IFormData = Object.freeze({
     initialValues: {
@@ -14,22 +17,37 @@ export const instructorSignUpFormData: IFormData = Object.freeze({
         specialties: [""],
     },
 
-    validationSchema: {
-        firstName: yup.string().trim().min(2).max(30).required(),
-        lastName: yup.string().trim().min(2).max(30).required(),
-        email: yup.string().email().required(),
-        password: yup.string().matches(passwordRegex).required(),
-        shortDescription: yup.string().trim().min(4).max(60).required(),
-        longDescription: yup.string().trim().min(4).max(2000),
+    validationSchema: yup.object().shape({
+        firstName: yup
+            .string()
+            .min(2, "Too short!")
+            .max(30, "Too long!")
+            .required("Required."),
+        lastName: yup
+            .string()
+            .min(2, "Too short!")
+            .max(30, "Too long!")
+            .required("Required."),
+        email: yup.string().email("Invalid Email.").required("Required."),
+        password: yup.string().matches(passwordRegex).required("Required."),
+        shortDescription: yup
+            .string()
+            .min(4, "Too short!")
+            .max(60, "Too long!")
+            .required("Required."),
+        longDescription: yup
+            .string()
+            .min(4, "Too short!")
+            .max(2000, "Too long!"),
 
-        schoolId: yup.string().matches(objectIdRegex),
+        schoolId: yup.string().matches(objectIdRegex).required("Required."),
         specialties: yup
             .array()
             .min(1)
             .max(10)
-            .of(yup.string().trim().min(2).max(40))
-            .required(),
-    },
+            .of(yup.string().min(2, "Too short!").max(40, "Too long!"))
+            .required("Required."),
+    }),
 
     mapFormToRequestBody: function (values: any) {
         return {
@@ -85,7 +103,7 @@ export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
         password: "",
         shortDescription: "",
         longDescription: "",
-        schoolId: null,
+        schoolId: "",
         position: "",
     },
 
@@ -99,16 +117,35 @@ export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
         };
     },
 
-    validationSchema: {
-        firstName: yup.string().trim().min(2).max(30).required(),
-        lastName: yup.string().trim().min(2).max(30).required(),
-        email: yup.string().email().required(),
-        password: yup.string().matches(passwordRegex).required(),
-        shortDescription: yup.string().trim().min(4).max(60).required(),
-        longDescription: yup.string().trim().min(4).max(2000),
+    validationSchema: yup.object().shape({
+        firstName: yup
+            .string()
+            .min(2, "Too short!")
+            .max(30, "Too long!")
+            .required("Required."),
+        lastName: yup
+            .string()
+            .min(2, "Too short!")
+            .max(30, "Too long!")
+            .required("Required."),
+        email: yup.string().email("Invalid Email.").required("Required."),
+        password: yup.string().matches(passwordRegex).required("Required."),
+        shortDescription: yup
+            .string()
+            .min(4, "Too short!")
+            .max(60, "Too long!")
+            .required("Required."),
+        longDescription: yup
+            .string()
+            .min(4, "Too short!")
+            .max(2000, "Too long!"),
 
-        position: yup.string().trim().min(2).max(200).required(),
-    },
+        position: yup
+            .string()
+            .min(2, "Too short!")
+            .max(200, "Too long!")
+            .required("Required."),
+    }),
 
     inputs: [
         {
@@ -166,7 +203,7 @@ export const studentSignUpFormData: IFormData = Object.freeze({
         password: "",
         shortDescription: "",
         longDescription: "",
-        schoolId: null,
+        schoolId: "",
         interests: [""],
     },
 
@@ -179,22 +216,37 @@ export const studentSignUpFormData: IFormData = Object.freeze({
         };
     },
 
-    validationSchema: {
-        firstName: yup.string().trim().min(2).max(30).required(),
-        lastName: yup.string().trim().min(2).max(30).required(),
-        email: yup.string().email().required(),
-        password: yup.string().matches(passwordRegex).required(),
-        shortDescription: yup.string().trim().min(4).max(60).required(),
-        longDescription: yup.string().trim().min(4).max(2000),
+    validationSchema: yup.object().shape({
+        firstName: yup
+            .string()
+            .min(2, "Too short!")
+            .max(30, "Too long!")
+            .required("Required."),
+        lastName: yup
+            .string()
+            .min(2, "Too short!")
+            .max(30, "Too long!")
+            .required("Required."),
+        email: yup.string().email("Invalid Email.").required("Required."),
+        password: yup.string().matches(passwordRegex).required("Required."),
+        shortDescription: yup
+            .string()
+            .min(4, "Too short!")
+            .max(60, "Too long!")
+            .required("Required."),
+        longDescription: yup
+            .string()
+            .min(4, "Too short!")
+            .max(2000, "Too long!"),
 
-        schoolId: yup.string().matches(objectIdRegex).required(),
+        schoolId: yup.string().matches(objectIdRegex).required("Required."),
         interests: yup
             .array()
             .min(1)
             .max(10)
-            .of(yup.string().trim().min(2).max(40))
-            .required(),
-    },
+            .of(yup.string().min(2, "Too short!").max(40, "Too long!"))
+            .required("Required."),
+    }),
 
     inputs: [
         {
@@ -253,10 +305,10 @@ export const logInFormData: IFormData = {
         return {};
     },
 
-    validationSchema: {
-        email: yup.string().email().required(),
-        password: yup.string().matches(passwordRegex).required(),
-    },
+    validationSchema: yup.object().shape({
+        email: yup.string().email("Invalid Email.").required("Required."),
+        password: yup.string().matches(passwordRegex).required("Required."),
+    }),
 
     inputs: [
         { id: "email", type: EInputTypes.text, label: "Email" },

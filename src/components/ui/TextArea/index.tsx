@@ -5,21 +5,19 @@ interface Props {
     onBlur?: (...args: any) => any;
     value: string;
     id?: string;
-    rows?: number;
-    cols?: number;
     label?: string;
     disabled?: boolean;
+    touched?: boolean;
 }
 
 const TextArea: React.FC<Props> = ({
     onChange,
     id,
-    rows,
-    cols,
     value,
     onBlur,
     label,
     disabled,
+    touched,
 }) => {
     return (
         <div>
@@ -27,8 +25,6 @@ const TextArea: React.FC<Props> = ({
             <textarea
                 onChange={onChange}
                 value={value}
-                cols={cols || 30}
-                rows={rows || 10}
                 id={id || undefined}
                 onBlur={onBlur}
                 disabled={disabled}

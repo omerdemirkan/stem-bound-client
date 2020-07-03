@@ -10,6 +10,7 @@ interface Props {
     eventTargetValue?: boolean;
     hidden?: boolean;
     disabled?: boolean;
+    touched?: boolean;
 }
 
 const Input: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const Input: React.FC<Props> = ({
     onBlur,
     hidden,
     disabled,
+    touched,
 }) => {
     return (
         <div>

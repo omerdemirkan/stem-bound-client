@@ -16,6 +16,7 @@ interface Props {
     initialValues: object;
     submitButtonText?: string;
     isSubmitting?: boolean;
+    validationSchema?: object;
 }
 
 const Form: React.FC<Props> = ({
@@ -24,10 +25,22 @@ const Form: React.FC<Props> = ({
     initialValues,
     submitButtonText,
     isSubmitting,
+    validationSchema,
 }) => {
     return (
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
-            {({ handleSubmit, handleChange, handleBlur, values }) => (
+        <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema || undefined}
+        >
+            {({
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                values,
+                isValid,
+                errors,
+            }) => (
                 <form onSubmit={handleSubmit}>
                     {inputs.map((input: IInputData) =>
                         paginateInput({
@@ -41,6 +54,7 @@ const Form: React.FC<Props> = ({
                         {submitButtonText || "Submit"}
                     </button>
                     <pre>{JSON.stringify(values, null, 2)}</pre>
+                    <pre>{JSON.stringify(errors, null, 2)}</pre>
                 </form>
             )}
         </Formik>
