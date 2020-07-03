@@ -8,6 +8,7 @@ interface Props {
     label?: string;
     disabled?: boolean;
     touched?: boolean;
+    error?: string;
 }
 
 const TextArea: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const TextArea: React.FC<Props> = ({
     label,
     disabled,
     touched,
+    error,
 }) => {
     return (
         <div>
@@ -29,6 +31,7 @@ const TextArea: React.FC<Props> = ({
                 onBlur={onBlur}
                 disabled={disabled}
             ></textarea>
+            {touched && error ? <span>{error}</span> : null}
         </div>
     );
 };

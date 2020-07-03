@@ -6,6 +6,7 @@ interface Props {
     onBlur?: (...args: any) => any;
     label?: string;
     id?: string;
+    error?: string;
     value?: string | number;
     eventTargetValue?: boolean;
     hidden?: boolean;
@@ -24,6 +25,7 @@ const Input: React.FC<Props> = ({
     hidden,
     disabled,
     touched,
+    error,
 }) => {
     return (
         <div>
@@ -40,6 +42,7 @@ const Input: React.FC<Props> = ({
                 value={value || undefined}
                 disabled={disabled}
             />
+            {touched && error ? <span>{error}</span> : null}
         </div>
     );
 };

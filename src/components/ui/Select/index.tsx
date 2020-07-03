@@ -6,6 +6,7 @@ interface SelectProps {
     label?: string;
     disabled?: boolean;
     touched?: boolean;
+    error?: string;
 }
 
 interface OptionProps {
@@ -19,6 +20,7 @@ const Select: React.FC<SelectProps> = ({
     label,
     disabled,
     touched,
+    error,
 }) => {
     return (
         <div>
@@ -31,6 +33,7 @@ const Select: React.FC<SelectProps> = ({
             >
                 {children}
             </select>
+            {touched && error ? <span>{error}</span> : null}
         </div>
     );
 };

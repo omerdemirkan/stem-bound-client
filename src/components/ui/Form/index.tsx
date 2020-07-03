@@ -40,6 +40,7 @@ const Form: React.FC<Props> = ({
                 values,
                 isValid,
                 errors,
+                touched,
             }) => (
                 <form onSubmit={handleSubmit}>
                     {inputs.map((input: IInputData) =>
@@ -48,9 +49,11 @@ const Form: React.FC<Props> = ({
                             handleChange,
                             handleBlur,
                             value: values[input.id],
+                            error: errors[input.id],
+                            touched: touched[input.id],
                         })
                     )}
-                    <button disabled={isSubmitting} type="submit">
+                    <button disabled={!isValid || isSubmitting} type="submit">
                         {submitButtonText || "Submit"}
                     </button>
                     <pre>{JSON.stringify(values, null, 2)}</pre>
@@ -61,7 +64,14 @@ const Form: React.FC<Props> = ({
     );
 };
 
-function paginateInput({ input, handleChange, value, handleBlur }) {
+function paginateInput({
+    input,
+    handleChange,
+    value,
+    handleBlur,
+    error,
+    touched,
+}) {
     switch (input.type) {
         case EInputTypes.select:
             return (
@@ -70,6 +80,8 @@ function paginateInput({ input, handleChange, value, handleBlur }) {
                     id={input.id}
                     label={input.label}
                     key={input.id}
+                    error={error}
+                    touched={touched}
                 >
                     {input.options.map((option: ISelectInputOption) => (
                         <Option value={option.value}>{option.display}</Option>
@@ -85,6 +97,8 @@ function paginateInput({ input, handleChange, value, handleBlur }) {
                     value={value}
                     onBlur={handleBlur}
                     label={input.label}
+                    error={error}
+                    touched={touched}
                 />
             );
         case EInputTypes.textArray:
@@ -125,6 +139,8 @@ function paginateInput({ input, handleChange, value, handleBlur }) {
                     id={input.id}
                     initialOptions={input.initialOptions || undefined}
                     label={input.label}
+                    error={error}
+                    touched={touched}
                 />
             );
         default:
@@ -138,6 +154,8 @@ function paginateInput({ input, handleChange, value, handleBlur }) {
                     onBlur={handleBlur}
                     hidden={input.hidden}
                     label={input.label}
+                    error={error}
+                    touched={touched}
                 />
             );
     }

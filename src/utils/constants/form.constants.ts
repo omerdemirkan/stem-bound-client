@@ -29,7 +29,13 @@ export const instructorSignUpFormData: IFormData = Object.freeze({
             .max(30, "Too long!")
             .required("Required."),
         email: yup.string().email("Invalid Email.").required("Required."),
-        password: yup.string().matches(passwordRegex).required("Required."),
+        password: yup
+            .string()
+            .matches(
+                passwordRegex,
+                "Capital letter, lowercase letter, special character, and a minimum of 8 characters required."
+            )
+            .required("Required."),
         shortDescription: yup
             .string()
             .min(4, "Too short!")
@@ -129,7 +135,13 @@ export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
             .max(30, "Too long!")
             .required("Required."),
         email: yup.string().email("Invalid Email.").required("Required."),
-        password: yup.string().matches(passwordRegex).required("Required."),
+        password: yup
+            .string()
+            .matches(
+                passwordRegex,
+                "Capital letter, lowercase letter, special character, and a minimum of 8 characters required."
+            )
+            .required("Required."),
         shortDescription: yup
             .string()
             .min(4, "Too short!")
@@ -228,7 +240,13 @@ export const studentSignUpFormData: IFormData = Object.freeze({
             .max(30, "Too long!")
             .required("Required."),
         email: yup.string().email("Invalid Email.").required("Required."),
-        password: yup.string().matches(passwordRegex).required("Required."),
+        password: yup
+            .string()
+            .matches(
+                passwordRegex,
+                "Capital letter, lowercase letter, special character, and a minimum of 8 characters required."
+            )
+            .required("Required."),
         shortDescription: yup
             .string()
             .min(4, "Too short!")
@@ -307,7 +325,13 @@ export const logInFormData: IFormData = {
 
     validationSchema: yup.object().shape({
         email: yup.string().email("Invalid Email.").required("Required."),
-        password: yup.string().matches(passwordRegex).required("Required."),
+        password: yup
+            .string()
+            .matches(
+                passwordRegex,
+                "Capital letter, lowercase letter, special character, and a minimum of 8 characters required."
+            )
+            .required("Required."),
     }),
 
     inputs: [
