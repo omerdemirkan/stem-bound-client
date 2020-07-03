@@ -6,6 +6,7 @@ enum actionTypes {
     AUTH_START = "stem-bound/auth/AUTH_START",
     AUTH_SUCCESS = "stem-bound/auth/AUTH_SUCCESS",
     AUTH_FAILURE = "stem-bound/auth/AUTH_FAILURE",
+    LOG_OUT = "stem-bound/auth/LOG_OUT",
 }
 
 const initialState = {
@@ -36,6 +37,8 @@ export default function (state = initialState, action) {
                 loading: false,
                 authAttempted: true,
             };
+        case actionTypes.LOG_OUT:
+            return initialState;
         default:
             return { ...state };
     }
@@ -59,6 +62,10 @@ export function authSuccess({
 
 export function authFailure() {
     return { type: actionTypes.AUTH_FAILURE };
+}
+
+export function logout() {
+    return { type: actionTypes.LOG_OUT };
 }
 
 // ASYNC ACTION CREATORS

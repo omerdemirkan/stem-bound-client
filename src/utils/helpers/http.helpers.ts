@@ -108,6 +108,14 @@ export class HttpClient {
         }
     }
 
+    deleteAuthHeader() {
+        try {
+            delete this.defaultConfig.headers.authorization;
+        } catch (e) {
+            console.error(e.message);
+        }
+    }
+
     getDefaultConfig() {
         // returning frozen copy
         return Object.freeze({ ...this.defaultConfig });
