@@ -115,6 +115,10 @@ function paginateInput({
                                             onChange={handleChange}
                                             id={`${input.id}.${index}`}
                                             value={s}
+                                            error={error ? error[index] : null}
+                                            touched={
+                                                touched ? touched[index] : null
+                                            }
                                         />
                                         <button
                                             onClick={() =>

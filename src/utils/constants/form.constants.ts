@@ -118,7 +118,7 @@ export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
         return {
             ...values,
             meta: {
-                school: values.school,
+                school: values.schoolId,
             },
         };
     },
@@ -223,7 +223,7 @@ export const studentSignUpFormData: IFormData = Object.freeze({
         return {
             ...values,
             meta: {
-                school: values.school,
+                school: values.schoolId,
             },
         };
     },

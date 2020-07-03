@@ -1,0 +1,21 @@
+:root {
+  --background-light: #ffffff;
+  --background-dark: #f8f8f8;
+  --contrast-light: #424242;
+  --contrast-dark: #333333;
+  --accent-light: #826efd;
+  --accent-dark: #6c57eb;
+  --shadow-opacity: 0.05;
+  --shadow-opacity-dark: 0.1;
+}
+
+.dark-mode {
+  --background-light: #424242;
+  --background-dark: #333333;
+  --contrast-light: #ffffff;
+  --contrast-dark: #f8f8f8;
+  --accent-light: #826efd;
+  --accent-dark: #6c57eb;
+  --shadow-opacity: 0.2;
+  --shadow-opacity-dark: 0.3;
+}

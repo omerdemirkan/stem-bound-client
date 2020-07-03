@@ -1,5 +1,6 @@
 import Layout from "../components/ui/Layout";
 import Head from "next/head";
+import classes from "../styles/modules/about.module.css";
 
 const About: React.FC = () => {
     return (

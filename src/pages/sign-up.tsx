@@ -2,21 +2,42 @@ import Layout from "../components/ui/Layout";
 import Head from "next/head";
 import Form from "../components/ui/Form";
 import useFormData from "../components/hooks/useFormData";
+import classes from "../styles/modules/sign-up.module.css";
 import Select, { Option } from "../components/ui/Select";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { EForms, IFormData } from "../utils/types";
 import { useSelector, useDispatch } from "react-redux";
 import { signUpAsync } from "../store/auth";
+import { useRouter } from "next/router";
+import { getUserRoleBySignUpFormKey } from "../utils/helpers/form.helpers";
 
 const SignUp: React.FC = () => {
     const [formKey, setFormKey] = useState<EForms>(null);
     const formData: IFormData = useFormData(formKey);
     const dispatch = useDispatch();
-    const loading: boolean = useSelector((state: any) => state.auth.loading);
+    const router = useRouter();
+    const {
+        loading,
+        accessToken,
+    }: { loading: boolean; accessToken: string | null } = useSelector(
+        (state: any) => state.auth
+    );
     async function submitSignUpHandler(values: any): Promise<void> {
-        dispatch(signUpAsync(formData.mapFormToRequestBody(values)));
-        console.log(values);
+        const userData = {
+            ...formData.mapFormToRequestBody(values),
+            role: getUserRoleBySignUpFormKey(formKey),
+        };
+        dispatch(signUpAsync(userData));
     }
+
+    useEffect(
+        function () {
+            if (accessToken) {
+                router.push("/app/dashboard");
+            }
+        },
+        [accessToken]
+    );
 
     return (
         <Layout>

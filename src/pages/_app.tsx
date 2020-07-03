@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import "../global.css";
+import "../styles/index.css";
 
 import store from "../store";
 import { createWrapper } from "next-redux-wrapper";

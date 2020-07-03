@@ -1,5 +1,6 @@
 import Layout from "../components/ui/Layout";
 import Head from "next/head";
+import classes from "../styles/modules/search.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSchoolsAsync } from "../store/search";
 import { getLocation } from "../utils/helpers";
