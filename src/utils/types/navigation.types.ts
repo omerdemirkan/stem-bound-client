@@ -7,7 +7,7 @@ export interface INavigationData {
 
 export interface INavigationDataButton {
     text: string;
-    Icon?: React.FC;
+    Icon?: React.FC<React.SVGProps<SVGSVGElement>>;
     iconPath?: string;
     path: string;
 }
