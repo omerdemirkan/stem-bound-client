@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../constants";
+import { API_BASE_URL } from "../../config";
 
 export function appendQueriesToUrl(url: string, queries: object[]): string {
     const keys = Object.keys(queries);
