@@ -13,6 +13,7 @@ interface baseUser {
     password?: string;
     shortDescription: string;
     longDescription: string;
+    role: EUserRoles;
 }
 
 export interface IStudent extends baseUser {

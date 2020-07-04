@@ -104,3 +104,11 @@ export const schoolOfficialNavigationData: INavigationData = {
         },
     ],
 };
+
+const navigationData = Object.freeze({
+    [EUserRoles.INSTRUCTOR]: instructorNavigationData,
+    [EUserRoles.SCHOOL_OFFICIAL]: schoolOfficialNavigationData,
+    [EUserRoles.STUDENT]: studentNavigationData,
+});
+
+export default navigationData;
