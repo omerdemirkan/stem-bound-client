@@ -1,18 +1,26 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getNavigationDataByUserRole } from "../../utils/helpers/navigation.helpers";
-import { INavigationData, IUser } from "../../utils/types";
+import { INavigationData, IUser, EUserRoles } from "../../utils/types";
 
-export default function useNavigationData() {
+export default function useNavigationData(): INavigationData {
     const user: IUser = useSelector((state: any) => state.auth.user);
-    const [navigationData, setNavigationData] = useState<INavigationData>(
-        getNavigationDataByUserRole(user.role)
-    );
+    const [
+        navigationData,
+        setNavigationData,
+    ] = useState<INavigationData | null>(null);
     useEffect(
         function () {
-            setNavigationData(getNavigationDataByUserRole(user.role));
+            if (user && user.role) {
+                setNavigationData(getNavigationDataByUserRole(user.role));
+            }
         },
-        [user.role]
+        [user]
     );
-    return navigationData;
+    return (
+        navigationData || {
+            buttons: [],
+            userRole: EUserRoles.GUEST,
+        }
+    );
 }

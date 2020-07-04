@@ -1,56 +1,41 @@
 import Link from "next/link";
 import classes from "./app-layout.module.css";
+import useNavigationData from "../../hooks/useNavigationData";
 import { useRouter } from "next/router";
 import { apiClient } from "../../../utils/helpers";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../store/auth";
+import { INavigationDataButton } from "../../../utils/types";
+import NavigationButton from "../NavigationButton";
 
 const AppLayout: React.FC = ({ children }) => {
     const router = useRouter();
     const dispatch = useDispatch();
+    const navigationData = useNavigationData();
+
     function logoutHandler() {
         apiClient.deleteAuthHeader();
         localStorage.removeItem("accessToken");
         dispatch(logout());
         router.push("/");
     }
+
+    console.log(navigationData.buttons);
     return (
         <div>
             <nav>
                 <ul>
-                    <li>
-                        <Link href="/app/dashboard">
-                            <a>dashboard</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/app/courses">
-                            <a>my courses</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/app/search">
-                            <a>search</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/app/messaging">
-                            <a>messaging</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/app/notifications">
-                            <a>notifications</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/app/schedule">
-                            <a>schedule</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <a onClick={logoutHandler}>logout</a>
-                    </li>
+                    {navigationData.buttons.map(
+                        (button: INavigationDataButton) => (
+                            <li key={button.text}>
+                                <NavigationButton
+                                    path={button.path}
+                                    text={button.text}
+                                    Icon={button.Icon}
+                                />
+                            </li>
+                        )
+                    )}
                 </ul>
             </nav>
             <div>{children}</div>

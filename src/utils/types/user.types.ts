@@ -3,6 +3,7 @@ export enum EUserRoles {
     STUDENT = "STUDENT",
     INSTRUCTOR = "INSTRUCTOR",
     ADMIN = "ADMIN",
+    GUEST = "GUEST",
 }
 
 interface baseUser {
