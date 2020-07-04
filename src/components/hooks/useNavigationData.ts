@@ -8,10 +8,12 @@ export default function useNavigationData(): INavigationData {
     const [
         navigationData,
         setNavigationData,
-    ] = useState<INavigationData | null>(null);
+    ] = useState<INavigationData | null>(
+        user && user.role ? getNavigationDataByUserRole(user.role) : null
+    );
     useEffect(
         function () {
-            if (user && user.role) {
+            if (user && !navigationData) {
                 setNavigationData(getNavigationDataByUserRole(user.role));
             }
         },
