@@ -19,10 +19,5 @@ export default function useNavigationData(): INavigationData {
         },
         [user]
     );
-    return (
-        navigationData || {
-            buttons: [],
-            userRole: EUserRoles.GUEST,
-        }
-    );
+    return navigationData;
 }
