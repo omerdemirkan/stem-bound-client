@@ -5,7 +5,7 @@ import { appendQueriesToUrl, apiClient } from "../helpers/http.helpers";
 export async function fetchSchools(
     options: fetchSchoolsOptions
 ): Promise<{ message: string; data: ISchoolOriginal[] }> {
-    let path = "/school";
+    let path = "/schools";
     let queries: any = {};
 
     if (options.longitude && options.latitude) {
@@ -36,7 +36,7 @@ export async function fetchUsers(options: {
     sortField?: string;
     sortDirection?: number;
 }): Promise<{ message: string; data: IUser[] }> {
-    let path = `/user?role=${options.role}`;
+    let path = `/users?role=${options.role}`;
     if (options.skip) {
         path += `&skip=${options.skip}`;
     }
@@ -51,5 +51,5 @@ export async function fetchUsers(options: {
 }
 
 export async function fetchCourses(options: {}) {
-    const res = await apiClient.get(`/course`);
+    const res = await apiClient.get(`/courses`);
 }
