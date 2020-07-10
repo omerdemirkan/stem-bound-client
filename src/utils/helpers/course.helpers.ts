@@ -4,7 +4,7 @@ import { classTypes, courseTypes } from "../constants/course.constants";
 export function mapCourseData(courseData: ICourseOriginal[]): ICourse[] {
     return courseData.map(
         (course: ICourseOriginal): ICourse => ({
-            topic: course.topic,
+            title: course.title,
             type: {
                 original: course.type,
                 display: getCourseTypeDisplay(course.type),
@@ -16,16 +16,8 @@ export function mapCourseData(courseData: ICourseOriginal[]): ICourse[] {
                 school: course.meta.school,
                 students: course.meta.students,
             },
-            schedule: {
-                classes: course.schedule.classes,
-                // classes: course.schedule.classes.map((class: IClassOriginal) => ({
-                //     type: class.type,
-                //     roomNum: class.roomNum,
-                //     start: class.start,
-                //     end: class.end,
-                //     message: class.message
-                // }))
-            },
+            meetings: [...course.meetings],
+            announcements: [...course.announcements],
         })
     );
 }

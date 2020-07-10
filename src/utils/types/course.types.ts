@@ -1,27 +1,48 @@
-export interface IClassOriginal {
+export interface IMeetingOriginal {
     type: string;
-    roomNum: string;
+    roomNum?: string;
     start: Date;
     end: Date;
     message: string;
+    _id?: string;
 }
 
-export interface IClass {
+export interface IMeeting {
     type: string;
-    roomNum: string;
+    roomNum?: string;
     start: Date;
     end: Date;
     message: string;
+    _id?: string;
+}
+
+export interface IAnnouncementOriginal {
+    text: string;
+    meta: {
+        from: string;
+        readBy: string;
+    };
+    _id?: string;
+    createdAt?: Date;
+}
+
+export interface IAnnouncement {
+    text: string;
+    meta: {
+        from: string;
+        readBy: string;
+    };
+    _id?: string;
+    createdAt?: Date;
 }
 
 export interface ICourseOriginal {
-    topic: string;
+    title: string;
     shortDescription: string;
     longDescription: string;
     type: string;
-    schedule: {
-        classes: any[];
-    };
+    meetings: IMeetingOriginal[];
+    announcements: IAnnouncementOriginal[];
     meta: {
         instructors: string[];
         students: string[];
@@ -30,16 +51,15 @@ export interface ICourseOriginal {
 }
 
 export interface ICourse {
-    topic: string;
+    title: string;
     shortDescription: string;
     longDescription: string;
     type: {
-        original: string;
         display: string;
+        original: string;
     };
-    schedule: {
-        classes: any[];
-    };
+    meetings: IMeetingOriginal[];
+    announcements: IAnnouncementOriginal[];
     meta: {
         instructors: string[];
         students: string[];
