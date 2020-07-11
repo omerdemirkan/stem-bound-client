@@ -1,7 +1,6 @@
-import { Dispatch } from "redux";
+import { apiClient, updateState } from "../utils/helpers";
 import { logIn, signUp, me } from "../utils/services";
-import { apiClient } from "../utils/helpers/http.helpers";
-import { updateState } from "../utils/helpers/store.helpers";
+import { Dispatch } from "redux";
 
 enum actionTypes {
     AUTH_START = "stem-bound/auth/AUTH_START",

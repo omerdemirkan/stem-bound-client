@@ -1,7 +1,6 @@
 import { fetchSchools } from "../utils/services";
-import { fetchSchoolsOptions } from "../utils/types";
-import { mapSchoolData } from "../utils/helpers";
-import { updateState } from "../utils/helpers/store.helpers";
+import { fetchSchoolsOptions, IReducerArrayOptions } from "../utils/types";
+import { mapSchoolData, updateState } from "../utils/helpers";
 
 enum actionTypes {
     FETCH_SCHOOLS_START = "stem-bound/search/FETCH_SCHOOLS_START",
@@ -40,11 +39,11 @@ function fetchSchoolsStart() {
     return { type: actionTypes.FETCH_SCHOOLS_START };
 }
 
-function fetchSchoolsSuccess(schools: any[], options?: { concat?: boolean }) {
+function fetchSchoolsSuccess(schools: any[], options?: IReducerArrayOptions) {
     return {
         type: actionTypes.FETCH_SCHOOLS_SUCCESS,
         schools,
-        concat: options?.concat,
+        ...options,
     };
 }
 

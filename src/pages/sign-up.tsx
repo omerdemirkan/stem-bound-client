@@ -4,12 +4,12 @@ import Form from "../components/ui/Form";
 import useFormData from "../components/hooks/useFormData";
 import classes from "../styles/modules/sign-up.module.css";
 import Select, { Option } from "../components/ui/Select";
-import { useState, useEffect } from "react";
-import { EForms, IFormData } from "../utils/types";
+import { getUserRoleBySignUpFormKey } from "../utils/helpers";
 import { useSelector, useDispatch } from "react-redux";
+import { EForms, IFormData } from "../utils/types";
+import { useState, useEffect } from "react";
 import { signUpAsync } from "../store/auth";
 import { useRouter } from "next/router";
-import { getUserRoleBySignUpFormKey } from "../utils/helpers/form.helpers";
 
 const SignUp: React.FC = () => {
     const [formKey, setFormKey] = useState<EForms>(null);

@@ -1,7 +1,6 @@
 import { ICourse } from "../utils/types";
 import { fetchUserCoursesById } from "../utils/services";
-import { mapCourseData } from "../utils/helpers";
-import { updateState } from "../utils/helpers/store.helpers";
+import { mapCourseData, updateState } from "../utils/helpers";
 
 enum actionTypes {
     FETCH_USER_COURSES_START = "stem-bound/course/FETCH_COURSES_START",

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getNavigationDataByUserRole } from "../../utils/helpers/navigation.helpers";
+import { getNavigationDataByUserRole } from "../../utils/helpers";
 import { INavigationData, IUser, EUserRoles } from "../../utils/types";
 
 export default function useNavigationData(): INavigationData {
