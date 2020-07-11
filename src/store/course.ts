@@ -1,6 +1,7 @@
 import { ICourse } from "../utils/types";
 import { fetchUserCoursesById } from "../utils/services";
 import { mapCourseData } from "../utils/helpers";
+import { updateState } from "../utils/helpers/store.helpers";
 
 enum actionTypes {
     FETCH_USER_COURSES_START = "stem-bound/course/FETCH_COURSES_START",
@@ -17,23 +18,20 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case actionTypes.FETCH_USER_COURSES_START:
-            return {
-                ...state,
+            return updateState(state, {
                 loading: true,
-            };
+            });
         case actionTypes.FETCH_USER_COURSES_FAILURE:
-            return {
-                ...state,
+            return updateState(state, {
                 loading: false,
                 fetchAttempted: true,
-            };
+            });
         case actionTypes.FETCH_USER_COURSES_SUCCESS:
-            return {
-                ...state,
+            return updateState(state, {
                 courses: action.concat
                     ? state.courses.concat(action.courses)
                     : action.courses,
-            };
+            });
         default:
             return state;
     }

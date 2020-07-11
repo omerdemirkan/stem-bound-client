@@ -1,6 +1,7 @@
 import { fetchSchools } from "../utils/services";
 import { fetchSchoolsOptions } from "../utils/types";
 import { mapSchoolData } from "../utils/helpers";
+import { updateState } from "../utils/helpers/store.helpers";
 
 enum actionTypes {
     FETCH_SCHOOLS_START = "stem-bound/search/FETCH_SCHOOLS_START",
@@ -16,23 +17,20 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case actionTypes.FETCH_SCHOOLS_START:
-            return {
-                ...state,
+            return updateState(state, {
                 loading: true,
-            };
+            });
         case actionTypes.FETCH_SCHOOLS_SUCCESS:
-            return {
-                ...state,
+            return updateState(state, {
                 loading: false,
                 schools: action.concat
                     ? state.schools.concat(action.schools)
                     : action.schools,
-            };
+            });
         case actionTypes.FETCH_SCHOOLS_FAILURE:
-            return {
-                ...state,
+            return updateState(state, {
                 loading: false,
-            };
+            });
         default:
             return state;
     }

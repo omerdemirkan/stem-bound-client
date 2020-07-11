@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import { logIn, signUp, me } from "../utils/services";
 import { apiClient } from "../utils/helpers/http.helpers";
+import { updateState } from "../utils/helpers/store.helpers";
 
 enum actionTypes {
     AUTH_START = "stem-bound/auth/AUTH_START",
@@ -19,28 +20,23 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case actionTypes.AUTH_START:
-            return {
-                ...state,
-                loading: true,
-            };
+            return updateState(state, { loading: true });
         case actionTypes.AUTH_SUCCESS:
-            return {
-                ...state,
+            return updateState(state, {
                 loading: false,
                 accessToken: action.accessToken,
                 user: action.user,
                 authAttempted: true,
-            };
+            });
         case actionTypes.AUTH_FAILURE:
-            return {
-                ...state,
+            return updateState(state, {
                 loading: false,
                 authAttempted: true,
-            };
+            });
         case actionTypes.LOG_OUT:
             return initialState;
         default:
-            return { ...state };
+            return state;
     }
 }
 
