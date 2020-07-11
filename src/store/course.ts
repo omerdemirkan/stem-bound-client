@@ -10,7 +10,7 @@ enum actionTypes {
 }
 
 const initialState = {
-    loading: false,
+    userCoursesLoading: false,
     fetchAttempted: false,
     courses: [],
 };
@@ -19,11 +19,11 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case actionTypes.FETCH_USER_COURSES_START:
             return updateState(state, {
-                loading: true,
+                userCoursesLoading: true,
             });
         case actionTypes.FETCH_USER_COURSES_FAILURE:
             return updateState(state, {
-                loading: false,
+                userCoursesLoading: false,
                 fetchAttempted: true,
             });
         case actionTypes.FETCH_USER_COURSES_SUCCESS:

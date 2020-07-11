@@ -14,6 +14,7 @@ import thunk from "redux-thunk";
 import authReducer from "./auth";
 import searchReducer from "./search";
 import courseReducer from "./course";
+import { updateStateMiddleware } from "../utils/helpers/store.helpers";
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -29,7 +30,7 @@ const composeEnhancers =
 
 const store: Store = createStore(
     rootReducer,
-    composeEnhancers(applyMiddleware(thunk))
+    composeEnhancers(applyMiddleware(thunk, updateStateMiddleware))
 );
 
 export default store;

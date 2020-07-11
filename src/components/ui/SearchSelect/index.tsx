@@ -13,7 +13,7 @@ interface Props {
     initialOptions?: ISelectInputOption[];
     label?: string;
     error?: string;
-    touched?: string;
+    touched?: boolean;
 }
 
 const SearchSelect: React.FC<Props> = ({

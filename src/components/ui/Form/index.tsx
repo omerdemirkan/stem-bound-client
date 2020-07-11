@@ -43,16 +43,17 @@ const Form: React.FC<Props> = ({
                 touched,
             }) => (
                 <form onSubmit={handleSubmit}>
-                    {inputs.map((input: IInputData) =>
-                        paginateInput({
-                            input,
-                            handleChange,
-                            handleBlur,
-                            value: values[input.id],
-                            error: errors[input.id],
-                            touched: touched[input.id],
-                        })
-                    )}
+                    {inputs.map((input: IInputData) => (
+                        <PaginatedInput
+                            input={input}
+                            handleChange={handleChange}
+                            handleBlur={handleBlur}
+                            value={values[input.id]}
+                            error={errors[input.id]}
+                            touched={touched[input.id]}
+                            key={input.id}
+                        />
+                    ))}
                     <button disabled={!isValid || isSubmitting} type="submit">
                         {submitButtonText || "Submit"}
                     </button>
@@ -64,7 +65,7 @@ const Form: React.FC<Props> = ({
     );
 };
 
-function paginateInput({
+function PaginatedInput({
     input,
     handleChange,
     value,
