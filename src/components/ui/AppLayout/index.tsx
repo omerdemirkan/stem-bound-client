@@ -27,17 +27,18 @@ const AppLayout: React.FC = ({ children }) => {
         <div>
             <nav>
                 <ul>
-                    {navigationData.buttons.map(
-                        (button: INavigationDataButton) => (
-                            <li key={button.text}>
-                                <NavigationButton
-                                    path={button.path}
-                                    text={button.text}
-                                    Icon={button.Icon}
-                                />
-                            </li>
-                        )
-                    )}
+                    {navigationData &&
+                        navigationData.buttons.map(
+                            (button: INavigationDataButton) => (
+                                <li key={button.text}>
+                                    <NavigationButton
+                                        path={button.path}
+                                        text={button.text}
+                                        Icon={button.Icon}
+                                    />
+                                </li>
+                            )
+                        )}
                 </ul>
 
                 <button onClick={() => setLogoutModalOpen(true)}>LOGOUT</button>

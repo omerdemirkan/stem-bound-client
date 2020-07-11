@@ -1,21 +1,21 @@
 import { IUser } from "../types/user.types";
 import { ICourseOriginal, ISchoolOriginal } from "../types";
+import { apiClient } from "../helpers";
 
-export async function fetchUserById(id: string): Promise<IUser> {
-    const res = await fetch(`/users/${id}`).then((res) => res.json());
-    return (res as any).data;
+export function fetchUserById(
+    id: string
+): Promise<{ message: string; data: IUser }> {
+    return apiClient.get(`/users/${id}`);
 }
 
-export async function fetchUserCoursesById(
+export function fetchUserCoursesById(
     id: string
-): Promise<ICourseOriginal[]> {
-    const res = await fetch(`/users/${id}/courses`).then((res) => res.json());
-    return (res as any).data;
+): Promise<{ message: string; data: ICourseOriginal[] }> {
+    return apiClient.get(`/users/${id}/courses`);
 }
 
-export async function fetchUserSchoolById(
+export function fetchUserSchoolById(
     id: string
-): Promise<ISchoolOriginal> {
-    const res = await fetch(`/users/${id}/school`).then((res) => res.json());
-    return (res as any).data;
+): Promise<{ message: string; data: ISchoolOriginal }> {
+    return apiClient.get(`/users/${id}/school`);
 }

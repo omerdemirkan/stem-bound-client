@@ -1,4 +1,4 @@
-import { ISchoolOriginal, fetchSchoolsOptions } from "../types";
+import { ISchoolOriginal, fetchSchoolsOptions, ICourse } from "../types";
 import { EUserRoles, IUser } from "../types/user.types";
 import { appendQueriesToUrl, apiClient } from "../helpers/http.helpers";
 
@@ -50,6 +50,9 @@ export async function fetchUsers(options: {
     return apiClient.get(path);
 }
 
-export async function fetchCourses(options: {}) {
-    const res = await apiClient.get(`/courses`);
+export async function fetchCourses(options: {}): Promise<{
+    message: string;
+    data: ICourse[];
+}> {
+    return await apiClient.get(`/courses`);
 }

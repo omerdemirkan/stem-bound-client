@@ -24,7 +24,9 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                schools: action.schools,
+                schools: action.concat
+                    ? state.schools.concat(action.schools)
+                    : action.schools,
             };
         case actionTypes.FETCH_SCHOOLS_FAILURE:
             return {
@@ -40,8 +42,12 @@ function fetchSchoolsStart() {
     return { type: actionTypes.FETCH_SCHOOLS_START };
 }
 
-function fetchSchoolsSuccess(schools: any[]) {
-    return { type: actionTypes.FETCH_SCHOOLS_SUCCESS, schools };
+function fetchSchoolsSuccess(schools: any[], options?: { concat?: boolean }) {
+    return {
+        type: actionTypes.FETCH_SCHOOLS_SUCCESS,
+        schools,
+        concat: options?.concat,
+    };
 }
 
 function fetchSchoolsFailure() {
