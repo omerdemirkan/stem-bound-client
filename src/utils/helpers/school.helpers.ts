@@ -1,7 +1,17 @@
-import { ISchoolOriginal, ISchool } from "../types";
+import { ISchoolOriginal, ISchool, ISelectInputOption } from "../types";
 import { schoolStatusCodes, schoolTypes } from "../constants";
 import { capitalizeWords } from ".";
 import { fetchSchools } from "../services";
+
+export async function fetchSchoolInputOptions(
+    s: string
+): Promise<ISelectInputOption[]> {
+    const { data: schools } = await fetchSchools({ text: s });
+    return schools.map((school) => ({
+        display: capitalizeWords(school.name),
+        value: school._id,
+    }));
+}
 
 export function mapSchoolData(schoolData: ISchoolOriginal[]): ISchool[] {
     return schoolData.map((school: ISchoolOriginal) => ({
@@ -56,12 +66,4 @@ function toSchoolStatusCodeDescription(statusCode: number): string {
 
 function toSchoolTypeDescription(type: number): string {
     return schoolTypes[type.toString()];
-}
-
-export async function fetchSchoolInputOptions(s: string) {
-    const { data: schools } = await fetchSchools({ text: s });
-    return schools.map((school) => ({
-        display: capitalizeWords(school.name),
-        value: school._id,
-    }));
 }

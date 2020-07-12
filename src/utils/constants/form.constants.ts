@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import { EInputTypes, IFormData, EForms } from "../types";
-import { fetchSchoolInputOptions } from "../helpers";
+import { fetchLocationInputOptions } from "../helpers/location.helpers";
+import { fetchSchoolInputOptions } from "../helpers/school.helpers";
 import { passwordRegex, objectIdRegex } from "./regex.constants";
 
 // This is quite the file. I understand there is a lot of duplication, especially between sign up forms.
@@ -15,6 +16,7 @@ export const instructorSignUpFormData: IFormData = Object.freeze({
         shortDescription: "",
         longDescription: "",
         specialties: [""],
+        zip: "",
     },
 
     validationSchema: yup.object().shape({
@@ -45,14 +47,13 @@ export const instructorSignUpFormData: IFormData = Object.freeze({
             .string()
             .min(4, "Too short!")
             .max(2000, "Too long!"),
-
-        schoolId: yup.string().matches(objectIdRegex).required("Required."),
         specialties: yup
             .array()
             .min(1)
             .max(10)
             .of(yup.string().min(2, "Too short!").max(40, "Too long!"))
             .required("Required."),
+        zip: yup.string().required(),
     }),
 
     mapFormToRequestBody: function (values: any) {
@@ -98,6 +99,13 @@ export const instructorSignUpFormData: IFormData = Object.freeze({
             id: "specialties",
             label: "Specialties",
         },
+        {
+            type: EInputTypes.searchSelect,
+            id: "zip",
+            label: "Zip Code",
+            delay: 1000,
+            fetchOptions: fetchLocationInputOptions,
+        },
     ],
 });
 
@@ -111,6 +119,7 @@ export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
         longDescription: "",
         schoolId: "",
         position: "",
+        zip: "",
     },
 
     mapFormToRequestBody: function (values: any) {
@@ -152,11 +161,14 @@ export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
             .min(4, "Too short!")
             .max(2000, "Too long!"),
 
+        schoolId: yup.string().matches(objectIdRegex).required("Required."),
+
         position: yup
             .string()
             .min(2, "Too short!")
             .max(200, "Too long!")
             .required("Required."),
+        zip: yup.string().required(),
     }),
 
     inputs: [
@@ -204,6 +216,13 @@ export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
             id: "position",
             label: "Position",
         },
+        {
+            type: EInputTypes.searchSelect,
+            id: "zip",
+            label: "Zip Code",
+            delay: 1000,
+            fetchOptions: fetchLocationInputOptions,
+        },
     ],
 });
 
@@ -217,6 +236,7 @@ export const studentSignUpFormData: IFormData = Object.freeze({
         longDescription: "",
         schoolId: "",
         interests: [""],
+        zip: "",
     },
 
     mapFormToRequestBody: function (values: any) {
@@ -264,6 +284,7 @@ export const studentSignUpFormData: IFormData = Object.freeze({
             .max(10)
             .of(yup.string().min(2, "Too short!").max(40, "Too long!"))
             .required("Required."),
+        zip: yup.string().required(),
     }),
 
     inputs: [
@@ -309,6 +330,13 @@ export const studentSignUpFormData: IFormData = Object.freeze({
             label: "School",
             delay: 1000,
             fetchOptions: fetchSchoolInputOptions,
+        },
+        {
+            type: EInputTypes.searchSelect,
+            id: "zip",
+            label: "Zip Code",
+            delay: 1000,
+            fetchOptions: fetchLocationInputOptions,
         },
     ],
 });

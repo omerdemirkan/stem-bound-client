@@ -33,7 +33,8 @@ const SearchSelect: React.FC<Props> = ({
     const debouncedText = useDebounce(search, delay || 1000);
 
     async function updateSearch() {
-        setOptions(await fetchOptions(search));
+        const options = await fetchOptions(search);
+        setOptions(options);
     }
 
     useEffect(
@@ -50,8 +51,11 @@ const SearchSelect: React.FC<Props> = ({
             {label ? <label>{label}</label> : null}
             <Input type="text" onChange={(e) => setSearch(e.target.value)} />
             <Select onChange={onChange} id={id}>
+                <Option value="">Select</Option>
                 {options.map((option: ISelectInputOption) => (
-                    <Option value={option.value}>{option.display}</Option>
+                    <Option key={option.value} value={option.value}>
+                        {option.display}
+                    </Option>
                 ))}
             </Select>
             {touched && error ? <span>{error}</span> : null}
