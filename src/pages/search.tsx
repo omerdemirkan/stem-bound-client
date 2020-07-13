@@ -3,7 +3,7 @@ import Head from "next/head";
 import classes from "../styles/modules/search.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSchoolsAsync } from "../store/search";
-import { getLocation } from "../utils/helpers";
+import { getCurrentLocation } from "../utils/helpers";
 import { ISchool } from "../utils/types";
 import { useState } from "react";
 
@@ -15,7 +15,7 @@ const Search: React.FC = () => {
     );
 
     async function fetchSchools() {
-        const { latitude, longitude } = await getLocation();
+        const { latitude, longitude } = await getCurrentLocation();
         dispatch(
             fetchSchoolsAsync({ latitude, longitude, withSchoolOfficials })
         );
@@ -44,6 +44,7 @@ const Search: React.FC = () => {
                     <p>_id: {school._id}</p>
                 </div>
             ))}
+            <style jsx>{``}</style>
         </Layout>
     );
 };

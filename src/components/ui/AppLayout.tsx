@@ -1,13 +1,12 @@
 import Link from "next/link";
-import classes from "./app-layout.module.css";
-import useNavigationData from "../../hooks/useNavigationData";
-import NavigationButton from "../NavigationButton";
-import Modal, { ModalFooter } from "../Modal";
+import useNavigationData from "../hooks/useNavigationData";
+import NavigationButton from "./NavigationButton";
+import Modal, { ModalFooter } from "./Modal";
 import { useRouter } from "next/router";
-import { apiClient } from "../../../utils/helpers";
+import { apiClient } from "../../utils/helpers";
 import { useDispatch } from "react-redux";
-import { logout } from "../../../store/auth";
-import { INavigationDataButton } from "../../../utils/types";
+import { logout } from "../../store/auth";
+import { INavigationDataButton } from "../../utils/types";
 import { useState } from "react";
 
 const AppLayout: React.FC = ({ children }) => {
@@ -58,6 +57,7 @@ const AppLayout: React.FC = ({ children }) => {
                     <button onClick={logoutHandler}>YES</button>
                 </ModalFooter>
             </Modal>
+            <style jsx>{``}</style>
         </div>
     );
 };

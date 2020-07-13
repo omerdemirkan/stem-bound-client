@@ -1,14 +1,9 @@
-import classes from "./form.module.css";
-import Input from "../Input";
-import TextArea from "../TextArea";
-import Select, { Option } from "../Select";
-import {
-    IInputData,
-    EInputTypes,
-    ISelectInputOption,
-} from "../../../utils/types";
+import Input from "./Input";
+import TextArea from "./TextArea";
+import Select, { Option } from "./Select";
+import { IInputData, EInputTypes, ISelectInputOption } from "../../utils/types";
 import { Formik, FieldArray } from "formik";
-import SearchSelect from "../SearchSelect";
+import SearchSelect from "./SearchSelect";
 
 interface Props {
     onSubmit: (...args: any) => any;
@@ -61,6 +56,7 @@ const Form: React.FC<Props> = ({
                     <pre>{JSON.stringify(errors, null, 2)}</pre>
                 </form>
             )}
+            <style jsx>{``}</style>
         </Formik>
     );
 };

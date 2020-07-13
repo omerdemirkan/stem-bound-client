@@ -1,10 +1,9 @@
 import Link from "next/link";
-import classes from "./layout.module.css";
 
 const Layout: React.FC = ({ children }) => {
     return (
         <>
-            <div className={classes.main}>
+            <div className="main">
                 <nav>
                     <Link href="/">
                         <a>Home</a>
@@ -27,6 +26,12 @@ const Layout: React.FC = ({ children }) => {
             <footer>
                 <h3>STEM_BOUND™ EDUCATION</h3>
             </footer>
+
+            <style jsx>{`
+                .main {
+                    min-height: 100vh;
+                }
+            `}</style>
         </>
     );
 };

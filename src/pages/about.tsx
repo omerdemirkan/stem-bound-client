@@ -9,6 +9,7 @@ const About: React.FC = () => {
                 <title>Stem-bound - About Us</title>
             </Head>
             <h1>About Us</h1>
+            <style jsx>{``}</style>
         </Layout>
     );
 };

@@ -1,4 +1,3 @@
-import classes from "./navigation-button.module.css";
 import Link from "next/link";
 
 interface Props {
@@ -17,6 +16,7 @@ const NavigationButton: React.FC<Props> = ({ path, text, iconPath, Icon }) => {
                     {text}
                 </button>
             </a>
+            <style jsx>{``}</style>
         </Link>
     );
 };

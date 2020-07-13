@@ -9,6 +9,7 @@ const Home: React.FC = function () {
                 <title>Stem-bound - Home</title>
             </Head>
             <h1>Home</h1>
+            <style jsx>{``}</style>
         </Layout>
     );
 };

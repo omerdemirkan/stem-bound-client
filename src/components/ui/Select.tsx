@@ -1,5 +1,3 @@
-import classes from "./select.module.css";
-
 interface SelectProps {
     onChange: (...args: any) => any;
     id?: string;
@@ -26,7 +24,7 @@ const Select: React.FC<SelectProps> = ({
         <div>
             {label ? <label>{label}</label> : null}
             <select
-                className={classes.root}
+                className="root"
                 onChange={onChange}
                 id={id}
                 disabled={disabled}
@@ -34,6 +32,7 @@ const Select: React.FC<SelectProps> = ({
                 {children}
             </select>
             {touched && error ? <span>{error}</span> : null}
+            <style jsx>{``}</style>
         </div>
     );
 };

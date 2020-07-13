@@ -45,6 +45,7 @@ const LogIn: React.FC = () => {
                 isSubmitting={loading}
                 {...formData}
             />
+            <style jsx>{``}</style>
         </Layout>
     );
 };

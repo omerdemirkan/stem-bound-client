@@ -1,5 +1,3 @@
-import classes from "./textarea.module.css";
-
 interface Props {
     onChange: (...args: any) => any;
     onBlur?: (...args: any) => any;
@@ -32,6 +30,7 @@ const TextArea: React.FC<Props> = ({
                 disabled={disabled}
             ></textarea>
             {touched && error ? <span>{error}</span> : null}
+            <style jsx>{``}</style>
         </div>
     );
 };

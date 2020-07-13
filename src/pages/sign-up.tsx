@@ -61,6 +61,7 @@ const SignUp: React.FC = () => {
                     {...formData}
                 />
             ) : null}
+            <style jsx>{``}</style>
         </Layout>
     );
 };

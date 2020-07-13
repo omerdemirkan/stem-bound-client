@@ -8,6 +8,7 @@ const App: React.FC = function ({ Component, pageProps }: any) {
     return (
         <Provider store={store}>
             <Component {...pageProps}></Component>
+            <style jsx>{``}</style>
         </Provider>
     );
 };

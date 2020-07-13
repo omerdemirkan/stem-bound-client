@@ -1,5 +1,3 @@
-import classes from "./input.module.css";
-
 interface Props {
     type: "text" | "number";
     onChange: (...args: any) => any;
@@ -43,6 +41,7 @@ const Input: React.FC<Props> = ({
                 disabled={disabled}
             />
             {touched && error ? <span>{error}</span> : null}
+            <style jsx>{``}</style>
         </div>
     );
 };
