@@ -1,10 +1,11 @@
 import { ISchoolOriginal, fetchSchoolsOptions, ICourse } from "../types";
 import { EUserRoles, IUser } from "../types/user.types";
 import { appendQueriesToUrl, apiClient } from "../helpers/http.helpers";
+import { IApiResponse } from "../types/api.types";
 
 export async function fetchSchools(
     options: fetchSchoolsOptions
-): Promise<{ message: string; data: ISchoolOriginal[] }> {
+): Promise<IApiResponse<ISchoolOriginal[]>> {
     let path = "/schools";
     let queries: any = {};
 
@@ -35,7 +36,7 @@ export async function fetchUsers(options: {
     skip?: number;
     sortField?: string;
     sortDirection?: number;
-}): Promise<{ message: string; data: IUser[] }> {
+}): Promise<IApiResponse<IUser[]>> {
     let path = `/users?role=${options.role}`;
     if (options.skip) {
         path += `&skip=${options.skip}`;
@@ -50,9 +51,8 @@ export async function fetchUsers(options: {
     return apiClient.get(path);
 }
 
-export async function fetchCourses(options: {}): Promise<{
-    message: string;
-    data: ICourse[];
-}> {
+export async function fetchCourses(options: {}): Promise<
+    IApiResponse<ICourse[]>
+> {
     return await apiClient.get(`/courses`);
 }

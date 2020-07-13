@@ -1,21 +1,20 @@
 import { IUser } from "../types/user.types";
 import { ICourseOriginal, ISchoolOriginal } from "../types";
 import { apiClient } from "../helpers";
+import { IApiResponse } from "../types/api.types";
 
-export function fetchUserById(
-    id: string
-): Promise<{ message: string; data: IUser }> {
+export function fetchUserById(id: string): Promise<IApiResponse<IUser>> {
     return apiClient.get(`/users/${id}`);
 }
 
 export function fetchUserCoursesById(
     id: string
-): Promise<{ message: string; data: ICourseOriginal[] }> {
+): Promise<IApiResponse<ICourseOriginal[]>> {
     return apiClient.get(`/users/${id}/courses`);
 }
 
 export function fetchUserSchoolById(
     id: string
-): Promise<{ message: string; data: ISchoolOriginal }> {
+): Promise<IApiResponse<ISchoolOriginal>> {
     return apiClient.get(`/users/${id}/school`);
 }
