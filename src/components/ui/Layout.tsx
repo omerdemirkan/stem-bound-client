@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EUserRoles } from "../../utils/types";
 
 const Layout: React.FC = ({ children }) => {
     return (
@@ -11,7 +12,7 @@ const Layout: React.FC = ({ children }) => {
                     <Link href="/about">
                         <a>About</a>
                     </Link>
-                    <Link href="/search">
+                    <Link href={`/search?q=${EUserRoles.INSTRUCTOR}`}>
                         <a>Search</a>
                     </Link>
                     <Link href="/log-in">

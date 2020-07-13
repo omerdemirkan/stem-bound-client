@@ -2,14 +2,13 @@ import Layout from "../components/ui/Layout";
 import Head from "next/head";
 import Form from "../components/ui/Form";
 import useFormData from "../components/hooks/useFormData";
-import classes from "../styles/modules/log-in.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logInAsync } from "../store/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { EForms, IFormData } from "../utils/types";
 
-const LogIn: React.FC = () => {
+const LogInPage: React.FC = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const formData: IFormData = useFormData(EForms.USER_LOG_IN);
@@ -50,4 +49,4 @@ const LogIn: React.FC = () => {
     );
 };
 
-export default LogIn;
+export default LogInPage;

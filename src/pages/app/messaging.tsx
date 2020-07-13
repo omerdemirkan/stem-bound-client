@@ -1,7 +1,7 @@
 import AppLayout from "../../components/ui/AppLayout";
 import withAuth from "../../components/hoc/withAuth";
 
-const Messaging: React.FC = () => {
+const MessagingAppPage: React.FC = () => {
     return (
         <AppLayout>
             <h4>messaging</h4>
@@ -10,4 +10,4 @@ const Messaging: React.FC = () => {
     );
 };
 
-export default withAuth(Messaging);
+export default withAuth(MessagingAppPage);

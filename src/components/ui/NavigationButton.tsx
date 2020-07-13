@@ -9,15 +9,17 @@ interface Props {
 
 const NavigationButton: React.FC<Props> = ({ path, text, iconPath, Icon }) => {
     return (
-        <Link href={path}>
-            <a>
-                <button>
-                    {Icon ? <Icon height={20} width={20} /> : null}
-                    {text}
-                </button>
-            </a>
+        <>
+            <Link href={path}>
+                <a>
+                    <button>
+                        {Icon ? <Icon height={20} width={20} /> : null}
+                        {text}
+                    </button>
+                </a>
+            </Link>
             <style jsx>{``}</style>
-        </Link>
+        </>
     );
 };
 

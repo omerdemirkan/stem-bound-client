@@ -1,52 +1,49 @@
 import Layout from "../components/ui/Layout";
 import Head from "next/head";
-import classes from "../styles/modules/search.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchSchoolsAsync } from "../store/search";
-import { getCurrentLocation } from "../utils/helpers";
-import { ISchool } from "../utils/types";
-import { useState } from "react";
+import Search from "../components/containers/Search";
+import { EUserRoles } from "../utils/types";
+import { NextPageContext } from "next";
+import { fetchUsers } from "../utils/services";
+import { ESearchQueries, ISearchData } from "../utils/types/search.types";
+import { useRouter } from "next/router";
 
-const Search: React.FC = () => {
-    const dispatch = useDispatch();
-    const { schools, loading } = useSelector((state: any) => state.search);
-    const [withSchoolOfficials, setWithSchoolOfficials] = useState<boolean>(
-        false
-    );
+interface Props {
+    query: ESearchQueries;
+    searchData: ISearchData[];
+}
 
-    async function fetchSchools() {
-        const { latitude, longitude } = await getCurrentLocation();
-        dispatch(
-            fetchSchoolsAsync({ latitude, longitude, withSchoolOfficials })
-        );
+const SearchPage: React.FC<Props> = ({ query, searchData }) => {
+    const router = useRouter();
+
+    function handleQueryUpdate(e) {
+        const query = e.target.value;
+        router.push(`/search?q=${query}`);
     }
-
     return (
         <Layout>
             <Head>
                 <title>Stem-bound - Search</title>
             </Head>
             <h1>Search</h1>
-            <button onClick={fetchSchools}>Find Schools</button>
-            <h6>
-                With SchoolOfficials
-                <input
-                    onClick={() => setWithSchoolOfficials((a) => !a)}
-                    value={withSchoolOfficials ? 1 : 0}
-                    type="checkbox"
-                />
-            </h6>
-            {loading ? <h1>Loading...</h1> : null}
-            {schools.map((school: ISchool) => (
-                <div>
-                    <p>{school.name}</p>
-                    <p>{school.distance.miles} miles away</p>
-                    <p>_id: {school._id}</p>
-                </div>
-            ))}
+            <Search
+                query={query}
+                searchData={searchData}
+                handleQueryUpdate={handleQueryUpdate}
+            />
             <style jsx>{``}</style>
         </Layout>
     );
 };
 
-export default Search;
+export async function getServerSideProps(ctx: NextPageContext) {
+    const query = ctx.query.q;
+    let searchData;
+    if (Object.values(EUserRoles).includes(query as any)) {
+        searchData = await fetchUsers({
+            role: query as EUserRoles,
+        });
+    }
+    return { props: { query, searchData } };
+}
+
+export default SearchPage;

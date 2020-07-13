@@ -2,7 +2,6 @@ import Layout from "../components/ui/Layout";
 import Head from "next/head";
 import Form from "../components/ui/Form";
 import useFormData from "../components/hooks/useFormData";
-import classes from "../styles/modules/sign-up.module.css";
 import Select, { Option } from "../components/ui/Select";
 import { getUserRoleBySignUpFormKey } from "../utils/helpers";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,7 +10,7 @@ import { useState, useEffect } from "react";
 import { signUpAsync } from "../store/auth";
 import { useRouter } from "next/router";
 
-const SignUp: React.FC = () => {
+const SignUpPage: React.FC = () => {
     const [formKey, setFormKey] = useState<EForms>(null);
     const formData: IFormData = useFormData(formKey);
     const dispatch = useDispatch();
@@ -66,4 +65,4 @@ const SignUp: React.FC = () => {
     );
 };
 
-export default SignUp;
+export default SignUpPage;

@@ -1,8 +1,7 @@
 import Layout from "../components/ui/Layout";
 import Head from "next/head";
-import classes from "../styles/modules/about.module.css";
 
-const About: React.FC = () => {
+const AboutPage: React.FC = () => {
     return (
         <Layout>
             <Head>
@@ -14,4 +13,4 @@ const About: React.FC = () => {
     );
 };
 
-export default About;
+export default AboutPage;

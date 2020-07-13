@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Layout from "../components/ui/Layout";
-import classes from "../styles/modules/index.module.css";
 
-const Home: React.FC = function () {
+const HomePage: React.FC = function () {
     return (
         <Layout>
             <Head>
@@ -14,4 +13,4 @@ const Home: React.FC = function () {
     );
 };
 
-export default Home;
+export default HomePage;

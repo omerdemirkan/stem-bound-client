@@ -37,26 +37,31 @@ const Form: React.FC<Props> = ({
                 errors,
                 touched,
             }) => (
-                <form onSubmit={handleSubmit}>
-                    {inputs.map((input: IInputData) => (
-                        <PaginatedInput
-                            input={input}
-                            handleChange={handleChange}
-                            handleBlur={handleBlur}
-                            value={values[input.id]}
-                            error={errors[input.id]}
-                            touched={touched[input.id]}
-                            key={input.id}
-                        />
-                    ))}
-                    <button disabled={!isValid || isSubmitting} type="submit">
-                        {submitButtonText || "Submit"}
-                    </button>
-                    <pre>{JSON.stringify(values, null, 2)}</pre>
-                    <pre>{JSON.stringify(errors, null, 2)}</pre>
-                </form>
+                <>
+                    <form onSubmit={handleSubmit}>
+                        {inputs.map((input: IInputData) => (
+                            <PaginatedInput
+                                input={input}
+                                handleChange={handleChange}
+                                handleBlur={handleBlur}
+                                value={values[input.id]}
+                                error={errors[input.id]}
+                                touched={touched[input.id]}
+                                key={input.id}
+                            />
+                        ))}
+                        <button
+                            disabled={!isValid || isSubmitting}
+                            type="submit"
+                        >
+                            {submitButtonText || "Submit"}
+                        </button>
+                        <pre>{JSON.stringify(values, null, 2)}</pre>
+                        <pre>{JSON.stringify(errors, null, 2)}</pre>
+                    </form>
+                    <style jsx>{``}</style>
+                </>
             )}
-            <style jsx>{``}</style>
         </Formik>
     );
 };
