@@ -1,11 +1,11 @@
 import { INavigationData, EUserRoles } from "../types";
 
 // SVG components
-import HomeSVG from "../../components/svg/home";
-import MagnifierSVG from "../../components/svg/magnifier";
-import CalendarSVG from "../../components/svg/calendar";
-import MailSVG from "../../components/svg/mail";
-import InfoSVG from "../../components/svg/info";
+import HomeSVG from "../../components/svg/icons/home";
+import MagnifierSVG from "../../components/svg/icons/magnifier";
+import CalendarSVG from "../../components/svg/icons/calendar";
+import MailSVG from "../../components/svg/icons/mail";
+import InfoSVG from "../../components/svg/icons/info";
 
 export const instructorNavigationData: INavigationData = {
     userRole: EUserRoles.INSTRUCTOR,

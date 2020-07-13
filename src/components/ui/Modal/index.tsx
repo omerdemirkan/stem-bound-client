@@ -1,5 +1,5 @@
 import classes from "./modal.module.css";
-import CrossSVG from "../../svg/cross";
+import CrossSVG from "../../svg/icons/cross";
 
 interface Props {
     open: boolean;
