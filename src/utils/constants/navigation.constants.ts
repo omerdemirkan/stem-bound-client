@@ -6,6 +6,7 @@ import MagnifierSVG from "../../components/svg/icons/magnifier";
 import CalendarSVG from "../../components/svg/icons/calendar";
 import MailSVG from "../../components/svg/icons/mail";
 import InfoSVG from "../../components/svg/icons/info";
+import { ESearchQueries } from "../types/search.types";
 
 export const instructorNavigationData: INavigationData = {
     userRole: EUserRoles.INSTRUCTOR,
@@ -18,7 +19,7 @@ export const instructorNavigationData: INavigationData = {
         {
             text: "SEARCH",
             Icon: MagnifierSVG,
-            path: "/app/search",
+            path: `/app/search?q=${ESearchQueries.SCHOOL_OFFICIAL}`,
         },
         {
             text: "SCHEDULE",
@@ -54,7 +55,7 @@ export const studentNavigationData: INavigationData = {
         {
             text: "SEARCH",
             Icon: MagnifierSVG,
-            path: "/app/search",
+            path: `/app/search?q=${ESearchQueries.INSTRUCTOR}`,
         },
         {
             text: "SCHEDULE",
@@ -90,7 +91,7 @@ export const schoolOfficialNavigationData: INavigationData = {
         {
             text: "SEARCH",
             Icon: MagnifierSVG,
-            path: "/app/search",
+            path: `/app/search?q=${ESearchQueries.INSTRUCTOR}`,
         },
         {
             text: "MESSAGING",

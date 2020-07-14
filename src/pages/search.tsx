@@ -14,10 +14,13 @@ interface Props {
 
 const SearchPage: React.FC<Props> = ({ query, searchData }) => {
     const router = useRouter();
+    const defaultQuery = ESearchQueries.INSTRUCTOR;
 
     function handleQueryUpdate(e) {
         const query = e.target.value;
-        router.push(`/search?q=${query}`);
+        router.push(router.pathname, {
+            query: { ...router.query, q: defaultQuery },
+        });
     }
     return (
         <Layout>

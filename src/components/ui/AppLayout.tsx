@@ -23,27 +23,31 @@ const AppLayout: React.FC = ({ children }) => {
     }
 
     return (
-        <div>
-            <nav>
-                <ul>
-                    {navigationData &&
-                        navigationData.buttons.map(
-                            (button: INavigationDataButton) => (
-                                <li key={button.text}>
-                                    <NavigationButton
-                                        path={button.path}
-                                        text={button.text}
-                                        Icon={button.Icon}
-                                    />
-                                </li>
-                            )
-                        )}
-                </ul>
+        <>
+            <div>
+                <nav>
+                    <ul>
+                        {navigationData
+                            ? navigationData.buttons.map(
+                                  (button: INavigationDataButton) => (
+                                      <li key={button.text}>
+                                          <NavigationButton
+                                              path={button.path}
+                                              text={button.text}
+                                              Icon={button.Icon}
+                                          />
+                                      </li>
+                                  )
+                              )
+                            : null}
+                    </ul>
 
-                <button onClick={() => setLogoutModalOpen(true)}>LOGOUT</button>
-            </nav>
-            <div>{children}</div>
-
+                    <button onClick={() => setLogoutModalOpen(true)}>
+                        LOGOUT
+                    </button>
+                </nav>
+                <div>{children}</div>
+            </div>
             <Modal
                 open={logoutModalOpen}
                 headerText="Are you sure you want to log out?"
@@ -58,7 +62,7 @@ const AppLayout: React.FC = ({ children }) => {
                 </ModalFooter>
             </Modal>
             <style jsx>{``}</style>
-        </div>
+        </>
     );
 };
 
