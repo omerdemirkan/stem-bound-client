@@ -1,7 +1,9 @@
 import { ISchoolOriginal, fetchSchoolsOptions, ICourse } from "../types";
-import { EUserRoles, IUser } from "../types/user.types";
+import { EUserRoles, IUser, IFetchUsersOptions } from "../types/user.types";
 import { appendQueriesToUrl, apiClient } from "../helpers/http.helpers";
 import { IApiResponse } from "../types/api.types";
+import { ESearchQueries } from "../types/search.types";
+import { isSearchQuery } from "../helpers/search.helpers";
 
 export async function fetchSchools(
     options: fetchSchoolsOptions
@@ -30,13 +32,9 @@ export async function fetchSchools(
     return apiClient.get(appendQueriesToUrl(path, queries));
 }
 
-export async function fetchUsers(options: {
-    role: EUserRoles;
-    limit?: number;
-    skip?: number;
-    sortField?: string;
-    sortDirection?: number;
-}): Promise<IApiResponse<IUser[]>> {
+export async function fetchUsers(
+    options: IFetchUsersOptions
+): Promise<IApiResponse<IUser[]>> {
     let path = `/users?role=${options.role}`;
     if (options.skip) {
         path += `&skip=${options.skip}`;
@@ -55,4 +53,11 @@ export async function fetchCourses(options: {}): Promise<
     IApiResponse<ICourse[]>
 > {
     return await apiClient.get(`/courses`);
+}
+
+export async function fetchSearchData(query: ESearchQueries) {
+    if (!isSearchQuery(query)) throw new Error();
+    if (Object.values(EUserRoles).includes(query as any)) {
+        return (await fetchUsers({ role: query as any })).data;
+    }
 }

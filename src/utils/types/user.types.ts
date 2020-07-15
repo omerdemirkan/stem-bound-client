@@ -40,3 +40,11 @@ export interface ISchoolOfficial extends baseUser {
 }
 
 export type IUser = ISchoolOfficial | IInstructor | IStudent;
+
+export interface IFetchUsersOptions {
+    role: EUserRoles;
+    limit?: number;
+    skip?: number;
+    sortField?: string;
+    sortDirection?: number;
+}
