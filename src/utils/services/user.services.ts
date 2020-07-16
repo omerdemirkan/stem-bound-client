@@ -1,9 +1,11 @@
-import { IUser } from "../types/user.types";
+import { IUserOriginal } from "../types/user.types";
 import { ICourseOriginal, ISchoolOriginal } from "../types";
 import { apiClient } from "../helpers";
 import { IApiResponse } from "../types/api.types";
 
-export function fetchUserById(id: string): Promise<IApiResponse<IUser>> {
+export function fetchUserById(
+    id: string
+): Promise<IApiResponse<IUserOriginal>> {
     return apiClient.get(`/users/${id}`);
 }
 

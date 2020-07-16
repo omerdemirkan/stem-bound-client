@@ -84,7 +84,7 @@ export interface ISchool {
     };
 }
 
-export interface fetchSchoolsOptions {
+export interface IFetchSchoolsOptions {
     latitude?: number;
     longitude?: number;
     text?: string;

@@ -1,12 +1,22 @@
-import { ISchoolOriginal, fetchSchoolsOptions, ICourse } from "../types";
-import { EUserRoles, IUser, IFetchUsersOptions } from "../types/user.types";
+import { ISchoolOriginal, IFetchSchoolsOptions, ICourse } from "../types";
+import {
+    EUserRoles,
+    IUser,
+    IFetchUsersOptions,
+    IUserOriginal,
+} from "../types/user.types";
 import { appendQueriesToUrl, apiClient } from "../helpers/http.helpers";
 import { IApiResponse } from "../types/api.types";
-import { ESearchQueries } from "../types/search.types";
+import {
+    ESearchQueries,
+    IFetchSearchDataOptions,
+    ISearchData,
+} from "../types/search.types";
 import { isSearchQuery } from "../helpers/search.helpers";
+import { mapUserData } from "../helpers/user.helpers";
 
 export async function fetchSchools(
-    options: fetchSchoolsOptions
+    options: IFetchSchoolsOptions
 ): Promise<IApiResponse<ISchoolOriginal[]>> {
     let path = "/schools";
     let queries: any = {};
@@ -34,7 +44,7 @@ export async function fetchSchools(
 
 export async function fetchUsers(
     options: IFetchUsersOptions
-): Promise<IApiResponse<IUser[]>> {
+): Promise<IApiResponse<IUserOriginal[]>> {
     let path = `/users?role=${options.role}`;
     if (options.skip) {
         path += `&skip=${options.skip}`;
@@ -55,9 +65,19 @@ export async function fetchCourses(options: {}): Promise<
     return await apiClient.get(`/courses`);
 }
 
-export async function fetchSearchData(query: ESearchQueries) {
-    if (!isSearchQuery(query)) throw new Error();
-    if (Object.values(EUserRoles).includes(query as any)) {
-        return (await fetchUsers({ role: query as any })).data;
-    }
+export async function fetchSearchData(
+    query: ESearchQueries,
+    options: IFetchSearchDataOptions
+): Promise<ISearchData[]> {
+    return new Promise(async function (resolve, reject) {
+        if (!isSearchQuery(query))
+            return reject("Invalid search query passed to fetchSearchData");
+        fetchUsers({ role: query as any, ...options })
+            .then(function (res) {
+                resolve(res.data);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
 }

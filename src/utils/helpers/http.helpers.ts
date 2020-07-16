@@ -3,7 +3,7 @@ import { API_BASE_URL } from "../../config";
 // To maintain the same underlying fetch functionality accross both client and server
 import fetch from "isomorphic-unfetch";
 
-export function appendQueriesToUrl(url: string, queries: object[]): string {
+export function appendQueriesToUrl(url: string, queries: object): string {
     const keys = Object.keys(queries);
     if (!keys.length) {
         return url;

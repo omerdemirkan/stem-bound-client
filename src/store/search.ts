@@ -1,32 +1,47 @@
-import { fetchSchools } from "../utils/services";
-import { fetchSchoolsOptions, IReducerArrayOptions } from "../utils/types";
-import { mapSchoolData, updateState } from "../utils/helpers";
+import { fetchSearchData } from "../utils/services";
+import {
+    IStoreArrayOptions,
+    ESearchQueries,
+    IFetchSearchDataOptions,
+    ISearchData,
+} from "../utils/types";
+import { updateState, configureArrayState } from "../utils/helpers";
+import { array } from "yup";
 
 enum actionTypes {
-    FETCH_SCHOOLS_START = "stem-bound/search/FETCH_SCHOOLS_START",
-    FETCH_SCHOOLS_SUCCESS = "stem-bound/search/FETCH_SCHOOLS_SUCCESS",
-    FETCH_SCHOOLS_FAILURE = "stem-bound/search/FETCH_SCHOOLS_FAILURE",
+    FETCH_SEARCH_DATA_START = "stem-bound/search/FETCH_SEARCH_DATA_START",
+    FETCH_SEARCH_DATA_SUCCESS = "stem-bound/search/FETCH_SEARCH_DATA_SUCCESS",
+    FETCH_SEARCH_DATA_FAILURE = "stem-bound/search/FETCH_SEARCH_DATA_FAILURE",
+}
+
+function initializeFields() {
+    let fields = {};
+    Object.values(ESearchQueries).forEach(function (query) {
+        fields[query] = [];
+    });
+    return fields;
 }
 
 const initialState = {
     loading: false,
-    schools: [],
+    fields: initializeFields(),
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case actionTypes.FETCH_SCHOOLS_START:
+        case actionTypes.FETCH_SEARCH_DATA_START:
             return updateState(state, {
                 loading: true,
             });
-        case actionTypes.FETCH_SCHOOLS_SUCCESS:
+        case actionTypes.FETCH_SEARCH_DATA_SUCCESS:
             return updateState(state, {
                 loading: false,
-                schools: action.concat
-                    ? state.schools.concat(action.schools)
-                    : action.schools,
+                fields: {
+                    ...state.fields,
+                    [action.field]: action.data,
+                },
             });
-        case actionTypes.FETCH_SCHOOLS_FAILURE:
+        case actionTypes.FETCH_SEARCH_DATA_FAILURE:
             return updateState(state, {
                 loading: false,
             });
@@ -35,33 +50,47 @@ export default function (state = initialState, action) {
     }
 }
 
-function fetchSchoolsStart() {
-    return { type: actionTypes.FETCH_SCHOOLS_START };
+function fetchSearchDataStart(query: ESearchQueries) {
+    return { type: actionTypes.FETCH_SEARCH_DATA_START, query };
 }
 
-function fetchSchoolsSuccess(schools: any[], options?: IReducerArrayOptions) {
+function fetchSearchDataSuccess({ data, query }) {
     return {
-        type: actionTypes.FETCH_SCHOOLS_SUCCESS,
-        schools,
-        ...options,
+        type: actionTypes.FETCH_SEARCH_DATA_SUCCESS,
+        data,
+        query,
     };
 }
 
-function fetchSchoolsFailure() {
-    return { type: actionTypes.FETCH_SCHOOLS_FAILURE };
+function fetchSearchDataFailure(query: ESearchQueries, message: string) {
+    return { type: actionTypes.FETCH_SEARCH_DATA_FAILURE, query, message };
 }
 
-export function fetchSchoolsAsync(options: fetchSchoolsOptions) {
-    return function (dispatch) {
-        dispatch(fetchSchoolsStart());
+export function fetchSearchDataAsync(
+    query: ESearchQueries,
+    searchOptions: IFetchSearchDataOptions,
+    arrayOptions: IStoreArrayOptions = {}
+) {
+    return function (dispatch, getState) {
+        dispatch(fetchSearchDataStart(query));
 
-        fetchSchools(options)
-            .then(function (res) {
-                const schools = mapSchoolData(res.data);
-                dispatch(fetchSchoolsSuccess(schools));
+        const prevData: ISearchData[] = getState().search.fields[query];
+
+        fetchSearchData(query, searchOptions)
+            .then(function (newData) {
+                dispatch(
+                    fetchSearchDataSuccess({
+                        data: configureArrayState(
+                            prevData,
+                            newData,
+                            arrayOptions
+                        ),
+                        query,
+                    })
+                );
             })
             .catch(function (error) {
-                dispatch(fetchSchoolsFailure());
+                dispatch(fetchSearchDataFailure(query, error.message));
                 console.error(error.message);
             });
     };

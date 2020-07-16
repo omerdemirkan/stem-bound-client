@@ -1,18 +1,18 @@
-import { ISelectInputOption, EUserRoles } from "../types";
-import { ESearchQueries } from "../types/search.types";
+import { EUserRoles } from "../types";
+import { ESearchQueries, ISearchOption } from "../types";
 
-export const searchQueryInputOptions: ISelectInputOption[] = [
+export const searchQueryInputOptions: ISearchOption[] = [
     {
         display: "Instructors",
-        value: ESearchQueries.INSTRUCTOR,
+        query: ESearchQueries.INSTRUCTOR,
     },
     {
         display: "School Officials",
-        value: ESearchQueries.SCHOOL_OFFICIAL,
+        query: ESearchQueries.SCHOOL_OFFICIAL,
     },
     {
         display: "Students",
-        value: ESearchQueries.STUDENT,
+        query: ESearchQueries.STUDENT,
     },
 ];
 

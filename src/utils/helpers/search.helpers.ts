@@ -14,7 +14,7 @@ export function SearchQuery(
     if (isSearchQuery(s)) {
         return s as ESearchQueries;
     } else {
-        return getDefaultSearchQuery(options.userRole);
+        return getDefaultSearchQuery(options?.userRole);
     }
 }
 

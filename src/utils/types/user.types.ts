@@ -1,3 +1,41 @@
+interface baseUserOriginal {
+    firstName: string;
+    lastName: string;
+    email: string;
+    hash?: string;
+    password?: string;
+    shortDescription: string;
+    longDescription: string;
+    role: EUserRoles;
+}
+
+export interface IStudentOriginal extends baseUserOriginal {
+    interests: string[];
+    meta: {
+        school: string;
+        courses: string;
+    };
+}
+
+export interface IInstructorOriginal extends baseUserOriginal {
+    specialties: string[];
+    meta: {
+        courses: string[];
+    };
+}
+
+export interface ISchoolOfficialOriginal extends baseUserOriginal {
+    position: string;
+    meta: {
+        school: string;
+    };
+}
+
+export type IUserOriginal =
+    | ISchoolOfficialOriginal
+    | IInstructorOriginal
+    | IStudentOriginal;
+
 export enum EUserRoles {
     SCHOOL_OFFICIAL = "SCHOOL_OFFICIAL",
     STUDENT = "STUDENT",

@@ -3,6 +3,7 @@ import Select, { Option } from "../ui/Select";
 import { searchQueryInputOptions } from "../../utils/constants";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { appendQueriesToUrl } from "../../utils/helpers";
 
 interface Props {
     query: ESearchQueries;
@@ -17,7 +18,10 @@ const Search: React.FC<Props> = ({ query, searchData, shallow }) => {
             <h3>{query}</h3>
             {searchQueryInputOptions.map((option) => (
                 <Link
-                    href={`${router.pathname}?q=${option.value}`}
+                    href={appendQueriesToUrl(router.pathname, {
+                        ...router.query,
+                        q: option.query,
+                    })}
                     shallow={shallow}
                 >
                     {option.display}
