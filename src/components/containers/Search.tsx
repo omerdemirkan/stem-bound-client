@@ -23,8 +23,9 @@ const Search: React.FC<Props> = ({ query, searchData, shallow }) => {
                         q: option.query,
                     })}
                     shallow={shallow}
+                    key={option.query}
                 >
-                    {option.display}
+                    <a>{option.display}</a>
                 </Link>
             ))}
             <pre>{JSON.stringify(searchData, null, 2)}</pre>

@@ -11,26 +11,33 @@ import {
 } from "../../utils/helpers/search.helpers";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSearchDataAsync } from "../../store/search";
+import { getQueryStringParams } from "../../utils/helpers";
 
 const SearchAppPage: React.FC = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const {
         auth: { user },
-        search: { loading },
+        search: { loading, fields },
     } = useSelector((state: any) => state);
     const [query, setQuery] = useState<ESearchQueries>();
+
+    useEffect(function () {
+        if (!isSearchQuery(getQueryStringParams(window.location.search).q)) {
+            router.push("/app/dashboard");
+        }
+    }, []);
 
     useEffect(
         function () {
             const routerQuery = router.query.q;
             if (
-                typeof routerQuery !== "undefined" &&
+                routerQuery &&
                 isSearchQuery(routerQuery) &&
                 routerQuery !== (query as any)
             ) {
-                console.log(SearchQuery(routerQuery));
                 dispatch(fetchSearchDataAsync(SearchQuery(routerQuery), {}));
+                setQuery(routerQuery as any);
             }
         },
         [router.query.q]
@@ -40,6 +47,7 @@ const SearchAppPage: React.FC = () => {
         <AppLayout>
             <h4>search</h4>
             <h5>{query}</h5>
+            <Search query={query} searchData={fields[query]} shallow />
             <style jsx>{``}</style>
         </AppLayout>
     );

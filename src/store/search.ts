@@ -38,7 +38,7 @@ export default function (state = initialState, action) {
                 loading: false,
                 fields: {
                     ...state.fields,
-                    [action.field]: action.data,
+                    [action.query]: action.data,
                 },
             });
         case actionTypes.FETCH_SEARCH_DATA_FAILURE:
@@ -54,7 +54,13 @@ function fetchSearchDataStart(query: ESearchQueries) {
     return { type: actionTypes.FETCH_SEARCH_DATA_START, query };
 }
 
-function fetchSearchDataSuccess({ data, query }) {
+function fetchSearchDataSuccess({
+    data,
+    query,
+}: {
+    data: ISearchData[];
+    query: ESearchQueries;
+}) {
     return {
         type: actionTypes.FETCH_SEARCH_DATA_SUCCESS,
         data,

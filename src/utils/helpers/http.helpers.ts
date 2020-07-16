@@ -128,3 +128,17 @@ export class HttpClient {
 // The idea behind exporting one instance rather than having the file using it to instantiate it is to
 // maintain global headers.
 export const apiClient = new HttpClient({ baseUrl: API_BASE_URL });
+
+export function getQueryStringParams(query: string): any {
+    return query
+        ? (/^[?#]/.test(query) ? query.slice(1) : query)
+              .split("&")
+              .reduce((params, param) => {
+                  let [key, value] = param.split("=");
+                  params[key] = value
+                      ? decodeURIComponent(value.replace(/\+/g, " "))
+                      : "";
+                  return params;
+              }, {})
+        : {};
+}
