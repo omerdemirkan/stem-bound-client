@@ -1,6 +1,7 @@
 import { IUserLocation } from "./location.types";
 
 interface baseUserOriginal {
+    _id?: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -48,6 +49,7 @@ export enum EUserRoles {
 }
 
 interface baseUser {
+    _id?: string;
     firstName: string;
     lastName: string;
     email: string;

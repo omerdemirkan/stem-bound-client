@@ -52,8 +52,8 @@ const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
     if (Object.values(EUserRoles).includes(searchField as any)) {
         return (
             <>
-                {searchDataArray.map((searchData: ISearchData) => (
-                    <UserCard user={searchData as IUser} />
+                {searchDataArray.map((searchData: IUser) => (
+                    <UserCard user={searchData} key={searchData._id} />
                 ))}
             </>
         );

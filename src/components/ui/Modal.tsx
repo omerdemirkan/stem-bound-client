@@ -5,6 +5,7 @@ interface Props {
     onClose: (...args: any) => any;
     headerText?: string;
     bodyText?: string;
+    hideCloseIcon?: boolean;
 }
 
 const Modal: React.FC<Props> = ({
@@ -13,11 +14,12 @@ const Modal: React.FC<Props> = ({
     bodyText,
     onClose,
     children,
+    hideCloseIcon,
 }) => {
     return (
         <>
             <div className="modal" style={{ display: open ? "block" : "none" }}>
-                <CrossSVG onClick={onClose} />
+                {!hideCloseIcon ? <CrossSVG onClick={onClose} /> : null}
                 <h3>{headerText}</h3>
                 <p>{bodyText}</p>
                 {children}

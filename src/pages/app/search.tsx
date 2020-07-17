@@ -8,8 +8,14 @@ import { isSearchField, SearchField } from "../../utils/helpers/search.helpers";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSearchDataAsync } from "../../store/search";
 import { getClientQueryParams } from "../../utils/helpers";
+import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 
-const SearchAppPage: React.FC = () => {
+interface Props {
+    coordinates;
+}
+
+const SearchAppPage: React.FC<Props> = ({ coordinates }) => {
+    console.log(coordinates);
     const router = useRouter();
     const dispatch = useDispatch();
     const {
@@ -57,4 +63,4 @@ const SearchAppPage: React.FC = () => {
     );
 };
 
-export default withAuth(SearchAppPage);
+export default withAuth(withUserCoordinates(SearchAppPage));

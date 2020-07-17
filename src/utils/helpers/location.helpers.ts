@@ -1,21 +1,14 @@
 // promise is wrapped in function to avoid immediate execution and to allow for multiple calls.
 
 import { fetchLocations } from "../services/location.services";
-import { ILocationData } from "../types/location.types";
+import { ILocationData, ICoordinates } from "../types/location.types";
 import { ISelectInputOption } from "../types";
 
 // promise exists because to avoid callback hell where ever this function is used.
 export const getCurrentLocation = () => {
-    return new Promise<{ latitude: number; longitude: number }>(function (
-        resolve,
-        reject
-    ) {
+    return new Promise<ICoordinates>(function (resolve, reject) {
         navigator.geolocation.getCurrentPosition(
-            function ({
-                coords,
-            }: {
-                coords: { latitude: number; longitude: number };
-            }): void {
+            function ({ coords }: { coords: ICoordinates }): void {
                 const { latitude, longitude } = coords;
                 resolve({
                     latitude,

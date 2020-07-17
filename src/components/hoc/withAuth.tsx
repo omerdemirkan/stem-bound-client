@@ -7,7 +7,7 @@ import { apiClient } from "../../utils/helpers";
 export default function withAuth(
     Component: React.ComponentType | React.FC
 ): React.FC {
-    return () => {
+    return (props) => {
         const router = useRouter();
         const { accessToken, authAttempted } = useSelector(
             (state) => (state as any).auth
@@ -32,6 +32,6 @@ export default function withAuth(
             [authAttempted]
         );
 
-        return <Component />;
+        return <Component {...props} />;
     };
 }

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getNavigationDataByUserRole } from "../../utils/helpers";
-import { INavigationData, IUser, EUserRoles } from "../../utils/types";
+import { INavigationData, IUser } from "../../utils/types";
 
 export default function useNavigationData(): INavigationData {
     const user: IUser = useSelector((state: any) => state.auth.user);
