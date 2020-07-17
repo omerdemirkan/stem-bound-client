@@ -1,3 +1,5 @@
+import { IUserLocation } from "./location.types";
+
 interface baseUserOriginal {
     firstName: string;
     lastName: string;
@@ -7,6 +9,7 @@ interface baseUserOriginal {
     shortDescription: string;
     longDescription: string;
     role: EUserRoles;
+    location: IUserLocation;
 }
 
 export interface IStudentOriginal extends baseUserOriginal {
@@ -53,6 +56,7 @@ interface baseUser {
     shortDescription: string;
     longDescription: string;
     role: EUserRoles;
+    location: IUserLocation;
 }
 
 export interface IStudent extends baseUser {
