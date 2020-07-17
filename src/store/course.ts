@@ -1,5 +1,5 @@
 import { ICourse } from "../utils/types";
-import { fetchUserCoursesById } from "../utils/services";
+import { fetchCoursesByUserId } from "../utils/services";
 import { mapCourseData, updateState } from "../utils/helpers";
 
 enum actionTypes {
@@ -52,7 +52,7 @@ export function fetchUserCoursesAsync(userId: string) {
     return function (dispatch) {
         dispatch(fetchUserCoursesStart());
 
-        fetchUserCoursesById(userId)
+        fetchCoursesByUserId(userId)
             .then(function (res) {
                 const courses = mapCourseData(res.data);
                 dispatch(fetchUserCoursesSuccess(courses));
