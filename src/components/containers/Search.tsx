@@ -3,14 +3,20 @@ import { ESearchFields, ISearchData } from "../../utils/types/search.types";
 import { searchFieldInputOptions } from "../../utils/constants";
 import { appendQueriesToUrl } from "../../utils/helpers";
 import { useRouter } from "next/router";
+import { EUserRoles, IUser } from "../../utils/types";
+import UserCard from "../ui/UserCard";
 
-interface Props {
+interface SearchProps {
     searchField: ESearchFields;
     searchData: ISearchData[];
     shallow?: boolean;
 }
 
-const Search: React.FC<Props> = ({ searchField, searchData, shallow }) => {
+const Search: React.FC<SearchProps> = ({
+    searchField,
+    searchData,
+    shallow,
+}) => {
     const router = useRouter();
     return (
         <div>
@@ -26,9 +32,33 @@ const Search: React.FC<Props> = ({ searchField, searchData, shallow }) => {
                     <a>{option.display}</a>
                 </Link>
             ))}
-            <pre>{JSON.stringify(searchData, null, 2)}</pre>
+            <PaginatedSearchData
+                searchDataArray={searchData || []}
+                searchField={searchField}
+            />
         </div>
     );
+};
+
+interface PaginatedSearchDataProps {
+    searchDataArray: ISearchData[];
+    searchField: ESearchFields;
+}
+
+const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
+    searchDataArray,
+    searchField,
+}) => {
+    if (Object.values(EUserRoles).includes(searchField as any)) {
+        return (
+            <>
+                {searchDataArray.map((searchData: ISearchData) => (
+                    <UserCard user={searchData as IUser} />
+                ))}
+            </>
+        );
+    }
+    return null;
 };
 
 export default Search;
