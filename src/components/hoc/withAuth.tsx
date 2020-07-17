@@ -25,6 +25,7 @@ export default function withAuth(
                         dispatch(meAsync(storedToken));
                     }
                 } else if (!apiClient.getAuthHeader()) {
+                    console.log("Resetting auth header");
                     // For when users navigate between pages and re-instantiate the apiClient.
                     apiClient.setAuthHeader(accessToken);
                 }

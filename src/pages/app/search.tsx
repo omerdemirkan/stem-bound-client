@@ -3,7 +3,7 @@ import withAuth from "../../components/hoc/withAuth";
 import Search from "../../components/containers/Search";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ESearchFields } from "../../utils/types";
+import { ESearchFields, ICoordinates } from "../../utils/types";
 import { isSearchField, SearchField } from "../../utils/helpers/search.helpers";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSearchDataAsync } from "../../store/search";
@@ -11,11 +11,10 @@ import { getClientQueryParams } from "../../utils/helpers";
 import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 
 interface Props {
-    coordinates;
+    coordinates: ICoordinates;
 }
 
 const SearchAppPage: React.FC<Props> = ({ coordinates }) => {
-    console.log(coordinates);
     const router = useRouter();
     const dispatch = useDispatch();
     const {
@@ -35,19 +34,20 @@ const SearchAppPage: React.FC<Props> = ({ coordinates }) => {
         function () {
             const searchFieldQuery = router.query.q;
             if (
-                searchFieldQuery &&
+                coordinates &&
                 isSearchField(searchFieldQuery) &&
                 searchFieldQuery !== (searchField as any)
             ) {
                 dispatch(
                     fetchSearchDataAsync({
                         field: SearchField(searchFieldQuery),
+                        coordinates,
                     })
                 );
                 setSearchField(searchFieldQuery as any);
             }
         },
-        [router.query.q]
+        [router.query.q, coordinates]
     );
 
     return (

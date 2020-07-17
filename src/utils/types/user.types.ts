@@ -1,4 +1,4 @@
-import { IUserLocation } from "./location.types";
+import { IUserLocation, ICoordinates } from "./location.types";
 
 interface baseUserOriginal {
     _id?: string;
@@ -87,6 +87,7 @@ export type IUser = ISchoolOfficial | IInstructor | IStudent;
 
 export interface IFetchUsersOptions {
     role: EUserRoles;
+    coordinates: ICoordinates;
     limit?: number;
     skip?: number;
     sortField?: string;

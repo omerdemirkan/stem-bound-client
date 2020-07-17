@@ -1,3 +1,5 @@
+import { ICoordinates } from "./location.types";
+
 export interface ISchoolOriginal {
     _id: string;
     name: string;
@@ -85,8 +87,7 @@ export interface ISchool {
 }
 
 export interface IFetchSchoolsOptions {
-    latitude?: number;
-    longitude?: number;
+    coordinates?: ICoordinates;
     text?: string;
     limit?: number;
     skip?: number;

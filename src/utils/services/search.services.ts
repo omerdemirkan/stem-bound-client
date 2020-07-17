@@ -21,9 +21,10 @@ export async function fetchSchools(
     let path = "/schools";
     let queries: any = {};
 
-    if (options.longitude && options.latitude) {
-        queries.long = options.longitude;
-        queries.lat = options.latitude;
+    if (options.coordinates) {
+        const { latitude, longitude } = options.coordinates;
+        queries.long = longitude;
+        queries.lat = latitude;
     }
 
     if (options.skip) {
@@ -56,6 +57,11 @@ export async function fetchUsers(
         path += `&sort_field=${options.sortField}&sort_direction=${options.sortDirection}`;
     }
 
+    if (options.coordinates) {
+        const { latitude, longitude } = options.coordinates;
+        path += `&long=${longitude}&lat=${latitude}`;
+    }
+
     return apiClient.get(path);
 }
 
@@ -74,7 +80,7 @@ export async function fetchSearchData({
             return reject(
                 "Invalid search searchField passed to fetchSearchData"
             );
-        fetchUsers({ role: field as any, ...options })
+        fetchUsers({ role: field as any, ...(options as any) })
             .then(function (res) {
                 resolve(res.data);
             })
