@@ -5,6 +5,7 @@ import { NextPageContext } from "next";
 import { fetchSearchData } from "../utils/services";
 import { ESearchFields, ISearchData } from "../utils/types/search.types";
 import { serverRedirect } from "../utils/helpers";
+import { isSearchField, SearchField } from "../utils/helpers/search.helpers";
 
 interface Props {
     searchField: ESearchFields;
@@ -27,7 +28,10 @@ const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
 export async function getServerSideProps(ctx: NextPageContext) {
     try {
         const searchField = ctx.query.q;
-        let searchData = await fetchSearchData(searchField as any, {});
+        if (!isSearchField(searchField)) throw new Error();
+        let searchData = await fetchSearchData({
+            field: SearchField(searchField),
+        });
         return { props: { searchField, searchData } };
     } catch (e) {
         return serverRedirect(ctx, `search?q=${ESearchFields.INSTRUCTOR}`);

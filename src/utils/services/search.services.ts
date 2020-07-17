@@ -65,16 +65,16 @@ export async function fetchCourses(options: {}): Promise<
     return await apiClient.get(`/courses`);
 }
 
-export async function fetchSearchData(
-    searchField: ESearchFields,
-    options: IFetchSearchDataOptions
-): Promise<ISearchData[]> {
+export async function fetchSearchData({
+    field,
+    ...options
+}: IFetchSearchDataOptions): Promise<ISearchData[]> {
     return new Promise(async function (resolve, reject) {
-        if (!isSearchField(searchField))
+        if (!isSearchField(field))
             return reject(
                 "Invalid search searchField passed to fetchSearchData"
             );
-        fetchUsers({ role: searchField as any, ...options })
+        fetchUsers({ role: field as any, ...options })
             .then(function (res) {
                 resolve(res.data);
             })

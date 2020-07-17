@@ -14,4 +14,9 @@ export interface ISearchOption {
 
 export type ISearchData = IUser | ISchool;
 
-export type IFetchSearchDataOptions = IFetchUsersOptions | IFetchSchoolsOptions;
+export type IFetchSearchDataOptions = (
+    | IFetchUsersOptions
+    | IFetchSchoolsOptions
+) & {
+    field: ESearchFields;
+};

@@ -15,8 +15,8 @@ enum actionTypes {
 
 function initializeFields() {
     let fields = {};
-    Object.values(ESearchFields).forEach(function (searchField) {
-        fields[searchField] = [];
+    Object.values(ESearchFields).forEach(function (field) {
+        fields[field] = [];
     });
     return fields;
 }
@@ -37,7 +37,7 @@ export default function (state = initialState, action) {
                 loading: false,
                 fields: {
                     ...state.fields,
-                    [action.searchField]: action.data,
+                    [action.field]: action.data,
                 },
             });
         case actionTypes.FETCH_SEARCH_DATA_FAILURE:
@@ -49,43 +49,44 @@ export default function (state = initialState, action) {
     }
 }
 
-function fetchSearchDataStart(searchField: ESearchFields) {
-    return { type: actionTypes.FETCH_SEARCH_DATA_START, searchField };
+function fetchSearchDataStart(field: ESearchFields) {
+    return { type: actionTypes.FETCH_SEARCH_DATA_START, field };
 }
 
 function fetchSearchDataSuccess({
     data,
-    searchField,
+    field,
 }: {
     data: ISearchData[];
-    searchField: ESearchFields;
+    field: ESearchFields;
 }) {
     return {
         type: actionTypes.FETCH_SEARCH_DATA_SUCCESS,
         data,
-        searchField,
+        field,
     };
 }
 
-function fetchSearchDataFailure(searchField: ESearchFields, message: string) {
+function fetchSearchDataFailure(field: ESearchFields, message: string) {
     return {
         type: actionTypes.FETCH_SEARCH_DATA_FAILURE,
-        searchField,
+        field,
         message,
     };
 }
 
 export function fetchSearchDataAsync(
-    searchField: ESearchFields,
     searchOptions: IFetchSearchDataOptions,
     arrayOptions: IStoreArrayOptions = {}
 ) {
     return function (dispatch, getState) {
-        dispatch(fetchSearchDataStart(searchField));
+        dispatch(fetchSearchDataStart(searchOptions.field));
 
-        const prevData: ISearchData[] = getState().search.fields[searchField];
+        const prevData: ISearchData[] = getState().search.fields[
+            searchOptions.field
+        ];
 
-        fetchSearchData(searchField, searchOptions)
+        fetchSearchData(searchOptions)
             .then(function (newData) {
                 dispatch(
                     fetchSearchDataSuccess({
@@ -94,12 +95,14 @@ export function fetchSearchDataAsync(
                             newData,
                             arrayOptions
                         ),
-                        searchField,
+                        field: searchOptions.field,
                     })
                 );
             })
             .catch(function (error) {
-                dispatch(fetchSearchDataFailure(searchField, error.message));
+                dispatch(
+                    fetchSearchDataFailure(searchOptions.field, error.message)
+                );
                 console.error(error.message);
             });
     };

@@ -34,7 +34,9 @@ const SearchAppPage: React.FC = () => {
                 searchFieldQuery !== (searchField as any)
             ) {
                 dispatch(
-                    fetchSearchDataAsync(SearchField(searchFieldQuery), {})
+                    fetchSearchDataAsync({
+                        field: SearchField(searchFieldQuery),
+                    })
                 );
                 setSearchField(searchFieldQuery as any);
             }

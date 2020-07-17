@@ -1,8 +1,8 @@
+import Link from "next/link";
 import { ESearchFields, ISearchData } from "../../utils/types/search.types";
 import { searchFieldInputOptions } from "../../utils/constants";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { appendQueriesToUrl } from "../../utils/helpers";
+import { useRouter } from "next/router";
 
 interface Props {
     searchField: ESearchFields;
