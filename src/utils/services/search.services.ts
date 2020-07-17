@@ -8,11 +8,11 @@ import {
 import { appendQueriesToUrl, apiClient } from "../helpers/http.helpers";
 import { IApiResponse } from "../types/api.types";
 import {
-    ESearchQueries,
+    ESearchFields,
     IFetchSearchDataOptions,
     ISearchData,
 } from "../types/search.types";
-import { isSearchQuery } from "../helpers/search.helpers";
+import { isSearchField } from "../helpers/search.helpers";
 import { mapUserData } from "../helpers/user.helpers";
 
 export async function fetchSchools(
@@ -66,13 +66,15 @@ export async function fetchCourses(options: {}): Promise<
 }
 
 export async function fetchSearchData(
-    query: ESearchQueries,
+    searchField: ESearchFields,
     options: IFetchSearchDataOptions
 ): Promise<ISearchData[]> {
     return new Promise(async function (resolve, reject) {
-        if (!isSearchQuery(query))
-            return reject("Invalid search query passed to fetchSearchData");
-        fetchUsers({ role: query as any, ...options })
+        if (!isSearchField(searchField))
+            return reject(
+                "Invalid search searchField passed to fetchSearchData"
+            );
+        fetchUsers({ role: searchField as any, ...options })
             .then(function (res) {
                 resolve(res.data);
             })

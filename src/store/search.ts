@@ -1,12 +1,11 @@
 import { fetchSearchData } from "../utils/services";
 import {
     IStoreArrayOptions,
-    ESearchQueries,
+    ESearchFields,
     IFetchSearchDataOptions,
     ISearchData,
 } from "../utils/types";
 import { updateState, configureArrayState } from "../utils/helpers";
-import { array } from "yup";
 
 enum actionTypes {
     FETCH_SEARCH_DATA_START = "stem-bound/search/FETCH_SEARCH_DATA_START",
@@ -16,8 +15,8 @@ enum actionTypes {
 
 function initializeFields() {
     let fields = {};
-    Object.values(ESearchQueries).forEach(function (query) {
-        fields[query] = [];
+    Object.values(ESearchFields).forEach(function (searchField) {
+        fields[searchField] = [];
     });
     return fields;
 }
@@ -38,7 +37,7 @@ export default function (state = initialState, action) {
                 loading: false,
                 fields: {
                     ...state.fields,
-                    [action.query]: action.data,
+                    [action.searchField]: action.data,
                 },
             });
         case actionTypes.FETCH_SEARCH_DATA_FAILURE:
@@ -50,39 +49,43 @@ export default function (state = initialState, action) {
     }
 }
 
-function fetchSearchDataStart(query: ESearchQueries) {
-    return { type: actionTypes.FETCH_SEARCH_DATA_START, query };
+function fetchSearchDataStart(searchField: ESearchFields) {
+    return { type: actionTypes.FETCH_SEARCH_DATA_START, searchField };
 }
 
 function fetchSearchDataSuccess({
     data,
-    query,
+    searchField,
 }: {
     data: ISearchData[];
-    query: ESearchQueries;
+    searchField: ESearchFields;
 }) {
     return {
         type: actionTypes.FETCH_SEARCH_DATA_SUCCESS,
         data,
-        query,
+        searchField,
     };
 }
 
-function fetchSearchDataFailure(query: ESearchQueries, message: string) {
-    return { type: actionTypes.FETCH_SEARCH_DATA_FAILURE, query, message };
+function fetchSearchDataFailure(searchField: ESearchFields, message: string) {
+    return {
+        type: actionTypes.FETCH_SEARCH_DATA_FAILURE,
+        searchField,
+        message,
+    };
 }
 
 export function fetchSearchDataAsync(
-    query: ESearchQueries,
+    searchField: ESearchFields,
     searchOptions: IFetchSearchDataOptions,
     arrayOptions: IStoreArrayOptions = {}
 ) {
     return function (dispatch, getState) {
-        dispatch(fetchSearchDataStart(query));
+        dispatch(fetchSearchDataStart(searchField));
 
-        const prevData: ISearchData[] = getState().search.fields[query];
+        const prevData: ISearchData[] = getState().search.fields[searchField];
 
-        fetchSearchData(query, searchOptions)
+        fetchSearchData(searchField, searchOptions)
             .then(function (newData) {
                 dispatch(
                     fetchSearchDataSuccess({
@@ -91,12 +94,12 @@ export function fetchSearchDataAsync(
                             newData,
                             arrayOptions
                         ),
-                        query,
+                        searchField,
                     })
                 );
             })
             .catch(function (error) {
-                dispatch(fetchSearchDataFailure(query, error.message));
+                dispatch(fetchSearchDataFailure(searchField, error.message));
                 console.error(error.message);
             });
     };

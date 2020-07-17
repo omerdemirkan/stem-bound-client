@@ -129,7 +129,7 @@ export class HttpClient {
 // maintain global headers.
 export const apiClient = new HttpClient({ baseUrl: API_BASE_URL });
 
-export function getQueryStringParams(query: string): any {
+export function getQueryParamsByString(query: string): any {
     return query
         ? (/^[?#]/.test(query) ? query.slice(1) : query)
               .split("&")
@@ -141,4 +141,8 @@ export function getQueryStringParams(query: string): any {
                   return params;
               }, {})
         : {};
+}
+
+export function getClientQueryParams() {
+    return getQueryParamsByString(window.location.search);
 }

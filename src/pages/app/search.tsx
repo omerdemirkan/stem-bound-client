@@ -3,15 +3,11 @@ import withAuth from "../../components/hoc/withAuth";
 import Search from "../../components/containers/Search";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ESearchQueries, ISearchData } from "../../utils/types/search.types";
-import {
-    isSearchQuery,
-    SearchQuery,
-    getDefaultSearchQuery,
-} from "../../utils/helpers/search.helpers";
+import { ESearchFields } from "../../utils/types";
+import { isSearchField, SearchField } from "../../utils/helpers/search.helpers";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSearchDataAsync } from "../../store/search";
-import { getQueryStringParams } from "../../utils/helpers";
+import { getClientQueryParams } from "../../utils/helpers";
 
 const SearchAppPage: React.FC = () => {
     const router = useRouter();
@@ -20,24 +16,27 @@ const SearchAppPage: React.FC = () => {
         auth: { user },
         search: { loading, fields },
     } = useSelector((state: any) => state);
-    const [query, setQuery] = useState<ESearchQueries>();
+    const [searchField, setSearchField] = useState<ESearchFields>();
 
     useEffect(function () {
-        if (!isSearchQuery(getQueryStringParams(window.location.search).q)) {
+        // Because I'm using a router hook, it returns an empty searchField object until hydration.
+        if (!isSearchField(getClientQueryParams().q)) {
             router.push("/app/dashboard");
         }
     }, []);
 
     useEffect(
         function () {
-            const routerQuery = router.query.q;
+            const searchFieldQuery = router.query.q;
             if (
-                routerQuery &&
-                isSearchQuery(routerQuery) &&
-                routerQuery !== (query as any)
+                searchFieldQuery &&
+                isSearchField(searchFieldQuery) &&
+                searchFieldQuery !== (searchField as any)
             ) {
-                dispatch(fetchSearchDataAsync(SearchQuery(routerQuery), {}));
-                setQuery(routerQuery as any);
+                dispatch(
+                    fetchSearchDataAsync(SearchField(searchFieldQuery), {})
+                );
+                setSearchField(searchFieldQuery as any);
             }
         },
         [router.query.q]
@@ -46,8 +45,11 @@ const SearchAppPage: React.FC = () => {
     return (
         <AppLayout>
             <h4>search</h4>
-            <h5>{query}</h5>
-            <Search query={query} searchData={fields[query]} shallow />
+            <Search
+                searchField={searchField}
+                searchData={fields[searchField]}
+                shallow
+            />
             <style jsx>{``}</style>
         </AppLayout>
     );

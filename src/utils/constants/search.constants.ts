@@ -1,23 +1,23 @@
 import { EUserRoles } from "../types";
-import { ESearchQueries, ISearchOption } from "../types";
+import { ESearchFields, ISearchOption } from "../types";
 
-export const searchQueryInputOptions: ISearchOption[] = [
+export const searchFieldInputOptions: ISearchOption[] = [
     {
         display: "Instructors",
-        query: ESearchQueries.INSTRUCTOR,
+        searchField: ESearchFields.INSTRUCTOR,
     },
     {
         display: "School Officials",
-        query: ESearchQueries.SCHOOL_OFFICIAL,
+        searchField: ESearchFields.SCHOOL_OFFICIAL,
     },
     {
         display: "Students",
-        query: ESearchQueries.STUDENT,
+        searchField: ESearchFields.STUDENT,
     },
 ];
 
-export const defaultSearchQueries = {
-    [EUserRoles.INSTRUCTOR]: ESearchQueries.SCHOOL_OFFICIAL,
-    [EUserRoles.STUDENT]: ESearchQueries.INSTRUCTOR,
-    [EUserRoles.SCHOOL_OFFICIAL]: ESearchQueries.INSTRUCTOR,
+export const defaultSearchFields = {
+    [EUserRoles.INSTRUCTOR]: ESearchFields.SCHOOL_OFFICIAL,
+    [EUserRoles.STUDENT]: ESearchFields.INSTRUCTOR,
+    [EUserRoles.SCHOOL_OFFICIAL]: ESearchFields.INSTRUCTOR,
 };

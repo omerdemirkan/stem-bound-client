@@ -1,23 +1,23 @@
-import { ESearchQueries } from "../types/search.types";
+import { ESearchFields } from "../types/search.types";
 import { EUserRoles } from "../types";
-import { defaultSearchQueries } from "../constants";
+import { defaultSearchFields } from "../constants";
 
-export function isSearchQuery(s: any): boolean {
+export function isSearchField(s: any): boolean {
     if (typeof s !== "string") return false;
-    return Object.values(ESearchQueries).includes(s);
+    return Object.values(ESearchFields).includes(s);
 }
 
-export function SearchQuery(
+export function SearchField(
     s: any,
     options?: { userRole?: EUserRoles }
-): ESearchQueries {
-    if (isSearchQuery(s)) {
-        return s as ESearchQueries;
+): ESearchFields {
+    if (isSearchField(s)) {
+        return s as ESearchFields;
     } else {
-        return getDefaultSearchQuery(options?.userRole);
+        return getDefaultSearchField(options?.userRole);
     }
 }
 
-export function getDefaultSearchQuery(userRole: EUserRoles) {
-    return defaultSearchQueries[userRole] || ESearchQueries.INSTRUCTOR;
+export function getDefaultSearchField(userRole: EUserRoles) {
+    return defaultSearchFields[userRole] || ESearchFields.INSTRUCTOR;
 }
