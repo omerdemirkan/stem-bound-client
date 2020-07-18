@@ -67,7 +67,7 @@ export function fetchMeetingsByCourseId({
     return apiClient.get(path);
 }
 
-export function getMeetingById({
+export function fetchMeetingById({
     meetingId,
     courseId,
 }: IFetchMeetingOptions): Promise<IApiResponse<IMeetingOriginal>> {

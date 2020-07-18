@@ -64,3 +64,14 @@ export function getStudentsByCourseId(
 ): Promise<IApiResponse<IStudentOriginal[]>> {
     return apiClient.get(`/courses/${id}/students`);
 }
+
+export function updateUserById(
+    id: string,
+    userData: Partial<IUserOriginal>
+): Promise<IApiResponse<IUserOriginal>> {
+    return apiClient.patch(`/users/${id}`, userData);
+}
+
+export function deleteUserById(id: string) {
+    return apiClient.delete(`/users/${id}`);
+}
