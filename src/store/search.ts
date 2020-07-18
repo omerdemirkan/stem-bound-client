@@ -4,6 +4,7 @@ import {
     ESearchFields,
     IFetchSearchDataOptions,
     ISearchData,
+    ISearchState,
 } from "../utils/types";
 import { updateState, configureArrayState } from "../utils/helpers";
 
@@ -21,12 +22,12 @@ function initializeFields() {
     return fields;
 }
 
-const initialState = {
+const initialState: ISearchState = {
     loading: false,
     fields: initializeFields(),
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action): ISearchState {
     switch (action.type) {
         case actionTypes.FETCH_SEARCH_DATA_START:
             return updateState(state, {

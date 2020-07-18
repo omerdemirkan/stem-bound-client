@@ -3,13 +3,14 @@ import withAuth from "../../components/hoc/withAuth";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserCoursesAsync } from "../../store/course";
-import { IUser } from "../../utils/types";
+import { IUser, IStoreState } from "../../utils/types";
 
 const CoursesAppPage: React.FC = () => {
     const dispatch = useDispatch();
-    const { user, loading }: { user: IUser; loading: boolean } = useSelector(
-        (state: any) => state.auth
-    );
+    const {
+        auth: { user, loading: authLoading },
+        course: { courses, fetchAttempted: courseFetchAttempted },
+    }: IStoreState = useSelector((state: IStoreState) => state);
     useEffect(
         function () {
             if (user?._id) {

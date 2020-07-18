@@ -53,8 +53,6 @@ interface baseUser {
     firstName: string;
     lastName: string;
     email: string;
-    hash?: string;
-    password?: string;
     shortDescription: string;
     longDescription: string;
     role: EUserRoles;

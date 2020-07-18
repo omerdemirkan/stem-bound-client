@@ -1,4 +1,4 @@
-import { ICourse, IStoreArrayOptions } from "../utils/types";
+import { ICourse, IStoreArrayOptions, ICourseState } from "../utils/types";
 import { fetchCoursesByUserId } from "../utils/services";
 import {
     mapCourseData,
@@ -12,13 +12,13 @@ enum actionTypes {
     FETCH_USER_COURSES_FAILURE = "stem-bound/course/FETCH_USER_COURSES_FAILURE",
 }
 
-const initialState = {
+const initialState: ICourseState = {
     loading: false,
     fetchAttempted: false,
     courses: [],
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action): ICourseState {
     switch (action.type) {
         case actionTypes.FETCH_USER_COURSES_START:
             return updateState(state, {
@@ -32,9 +32,7 @@ export default function (state = initialState, action) {
         case actionTypes.FETCH_USER_COURSES_SUCCESS:
             return updateState(state, {
                 fetchAttempted: true,
-                courses: action.concat
-                    ? state.courses.concat(action.courses)
-                    : action.courses,
+                courses: action.courses,
             });
         default:
             return state;

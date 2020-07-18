@@ -16,6 +16,24 @@ export interface IChatOriginal {
     };
 }
 
+export interface IMessage {
+    text: string;
+    meta: {
+        from: string;
+        readBy: string[];
+    };
+    _id?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export interface IChat {
+    messages: IMessage[];
+    meta: {
+        users: string[];
+    };
+}
+
 // SERVICE TYPES
 
 export interface IFetchMessagesOptions {

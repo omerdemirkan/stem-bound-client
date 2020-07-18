@@ -1,6 +1,7 @@
 import { apiClient, updateState } from "../utils/helpers";
 import { logIn, signUp, me } from "../utils/services";
 import { Dispatch } from "redux";
+import { IAuthState } from "../utils/types";
 
 enum actionTypes {
     AUTH_START = "stem-bound/auth/AUTH_START",
@@ -9,14 +10,14 @@ enum actionTypes {
     LOG_OUT = "stem-bound/auth/LOG_OUT",
 }
 
-const initialState = {
+const initialState: IAuthState = {
     loading: false,
     accessToken: null,
     user: null,
     authAttempted: false,
 };
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action): IAuthState {
     switch (action.type) {
         case actionTypes.AUTH_START:
             return updateState(state, { loading: true });

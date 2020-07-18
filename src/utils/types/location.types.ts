@@ -20,6 +20,8 @@ export interface IUserLocation {
     city: string;
     state: string;
     geoJSON: IGeoJSON;
+    latitude?: number;
+    longitude?: number;
 }
 
 export interface IFetchLocationOptions {
