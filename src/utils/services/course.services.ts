@@ -28,11 +28,11 @@ export function fetchCourseById(
     return apiClient.get(`/courses/${courseId}`);
 }
 
-export function enrollByCourseId(id: string): Promise<any> {
+export function enrollByCourseId(id: string): Promise<IApiResponse<any>> {
     return apiClient.post(`/courses/${id}/enroll`, {});
 }
 
-export function dropByCourseId(id: string): Promise<any> {
+export function dropByCourseId(id: string): Promise<IApiResponse<any>> {
     return apiClient.post(`/courses/${id}/drop`, {});
 }
 
@@ -49,7 +49,7 @@ export function updateCourseById(
     return apiClient.patch(`/courses/${id}`, courseData);
 }
 
-export function deleteCourseById(id: string): Promise<any> {
+export function deleteCourseById(id: string): Promise<IApiResponse<any>> {
     return apiClient.delete(`/courses/${id}`);
 }
 
@@ -97,6 +97,6 @@ export function updateMeetingById({
 export function deleteMeetingById({
     courseId,
     meetingId,
-}: IDeleteMeetingOptions): Promise<any> {
+}: IDeleteMeetingOptions): Promise<IApiResponse<any>> {
     return apiClient.delete(`/courses/${courseId}/meetings/${meetingId}`);
 }
