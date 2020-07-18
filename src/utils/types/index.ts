@@ -7,3 +7,4 @@ export * from "./store.types";
 export * from "./search.types";
 export * from "./api.types";
 export * from "./location.types";
+export * from "./auth.types";

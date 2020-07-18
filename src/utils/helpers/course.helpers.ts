@@ -1,5 +1,5 @@
 import { ICourseOriginal, ICourse } from "../types/course.types";
-import { classTypes, courseTypes } from "../constants/course.constants";
+import { meetingTypes, courseTypes } from "../constants/course.constants";
 
 export function mapCourseData(courseData: ICourseOriginal[]): ICourse[] {
     return courseData.map(
@@ -22,8 +22,8 @@ export function mapCourseData(courseData: ICourseOriginal[]): ICourse[] {
     );
 }
 
-function getClassTypeDisplay(type: string) {
-    return classTypes[type];
+function getMeetingTypeDisplay(type: string) {
+    return meetingTypes[type];
 }
 
 function getCourseTypeDisplay(type: string) {

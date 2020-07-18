@@ -21,3 +21,7 @@ export interface IUserLocation {
     state: string;
     geoJSON: IGeoJSON;
 }
+
+export interface IFetchLocationOptions {
+    text: string;
+}

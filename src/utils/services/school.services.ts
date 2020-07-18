@@ -2,36 +2,38 @@ import { ISchoolOriginal, IFetchSchoolsOptions } from "../types";
 import { apiClient, appendQueriesToUrl } from "../helpers";
 import { IApiResponse } from "../types/api.types";
 
-export async function fetchSchools(
-    options: IFetchSchoolsOptions
-): Promise<IApiResponse<ISchoolOriginal[]>> {
-    let path = "/schools";
-    let queries: any = {};
-
-    if (options.coordinates) {
-        const { latitude, longitude } = options.coordinates;
-        queries.long = longitude;
-        queries.lat = latitude;
-    }
-
-    if (options.skip) {
-        queries.skip = options.skip;
-    }
-    if (options.limit) {
-        queries.limit = options.limit;
-        path += `&limit=${options.limit}`;
-    }
-    if (options.withSchoolOfficials) {
-        queries.with_school_officials = 1;
-    }
-    if (options.text) {
-        queries.text = options.text;
-    }
-    return apiClient.get(appendQueriesToUrl(path, queries));
+export async function fetchSchools({
+    coordinates,
+    limit,
+    skip,
+    text,
+    withSchoolOfficials,
+}: IFetchSchoolsOptions): Promise<IApiResponse<ISchoolOriginal[]>> {
+    const path = appendQueriesToUrl("/schools", {
+        lat: coordinates?.latitude,
+        long: coordinates?.longitude,
+        limit,
+        skip,
+        text,
+        with_school_officials: withSchoolOfficials,
+    });
+    return apiClient.get(path);
 }
 
 export function fetchSchoolById(
     id: string
 ): Promise<IApiResponse<ISchoolOriginal>> {
     return apiClient.get(`/schools/${id}`);
+}
+
+export function fetchSchoolByUserId(
+    id: string
+): Promise<IApiResponse<ISchoolOriginal>> {
+    return apiClient.get(`/users/${id}/school`);
+}
+
+export function fetchSchoolByCourseId(
+    id: string
+): Promise<IApiResponse<ISchoolOriginal>> {
+    return apiClient.get(`/courses/${id}/school`);
 }

@@ -4,14 +4,30 @@ import { API_BASE_URL } from "../../config";
 import fetch from "isomorphic-unfetch";
 
 export function appendQueriesToUrl(url: string, queries: object): string {
-    const keys = Object.keys(queries);
-    if (!keys.length) {
-        return url;
-    }
+    const keys = Object.keys(queries).filter((a) => queries[a]);
+    if (!keys.length) return url;
     keys.forEach((key: string, index) => {
         url += `${!index ? "?" : "&"}${key}=${queries[key]}`;
     });
     return url;
+}
+
+export function getQueryParamsByString(query: string): any {
+    return query
+        ? (/^[?#]/.test(query) ? query.slice(1) : query)
+              .split("&")
+              .reduce((params, param) => {
+                  let [key, value] = param.split("=");
+                  params[key] = value
+                      ? decodeURIComponent(value.replace(/\+/g, " "))
+                      : "";
+                  return params;
+              }, {})
+        : {};
+}
+
+export function getClientQueryParams() {
+    return getQueryParamsByString(window.location.search);
 }
 
 export class HttpClient {
@@ -128,21 +144,3 @@ export class HttpClient {
 // The idea behind exporting one instance rather than having the file using it to instantiate it is to
 // maintain global headers.
 export const apiClient = new HttpClient({ baseUrl: API_BASE_URL });
-
-export function getQueryParamsByString(query: string): any {
-    return query
-        ? (/^[?#]/.test(query) ? query.slice(1) : query)
-              .split("&")
-              .reduce((params, param) => {
-                  let [key, value] = param.split("=");
-                  params[key] = value
-                      ? decodeURIComponent(value.replace(/\+/g, " "))
-                      : "";
-                  return params;
-              }, {})
-        : {};
-}
-
-export function getClientQueryParams() {
-    return getQueryParamsByString(window.location.search);
-}

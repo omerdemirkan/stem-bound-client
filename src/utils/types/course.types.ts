@@ -66,3 +66,32 @@ export interface ICourse {
         school: string;
     };
 }
+
+// COURSE SERVICE TYPES
+
+export interface IFetchMeetingsOptions {
+    courseId: string;
+    limit?: number;
+    skip?: number;
+}
+
+export interface IFetchMeetingOptions {
+    courseId: string;
+    meetingId: string;
+}
+
+export interface IUpdateMeetingOptions {
+    courseId: string;
+    meetingId: string;
+    meetingData: Partial<IMeetingOriginal>;
+}
+
+export interface ICreateMeetingsOptions {
+    courseId: string;
+    meetingsData: Partial<IMeetingOriginal[]>;
+}
+
+export interface IDeleteMeetingOptions {
+    courseId: string;
+    meetingId: string;
+}

@@ -1,4 +1,4 @@
-export const classTypes = {
+export const meetingTypes = {
     IN_PERSON: "In Person",
     REMOTE: "Remote",
 };

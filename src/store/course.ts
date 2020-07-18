@@ -1,6 +1,10 @@
-import { ICourse } from "../utils/types";
+import { ICourse, IStoreArrayOptions } from "../utils/types";
 import { fetchCoursesByUserId } from "../utils/services";
-import { mapCourseData, updateState } from "../utils/helpers";
+import {
+    mapCourseData,
+    updateState,
+    configureArrayState,
+} from "../utils/helpers";
 
 enum actionTypes {
     FETCH_USER_COURSES_START = "stem-bound/course/FETCH_COURSES_START",
@@ -9,7 +13,7 @@ enum actionTypes {
 }
 
 const initialState = {
-    userCoursesLoading: false,
+    loading: false,
     fetchAttempted: false,
     courses: [],
 };
@@ -18,15 +22,16 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case actionTypes.FETCH_USER_COURSES_START:
             return updateState(state, {
-                userCoursesLoading: true,
+                loading: true,
             });
         case actionTypes.FETCH_USER_COURSES_FAILURE:
             return updateState(state, {
-                userCoursesLoading: false,
+                loading: false,
                 fetchAttempted: true,
             });
         case actionTypes.FETCH_USER_COURSES_SUCCESS:
             return updateState(state, {
+                fetchAttempted: true,
                 courses: action.concat
                     ? state.courses.concat(action.courses)
                     : action.courses,
@@ -48,13 +53,22 @@ export function fetchUserCoursesSuccess(courses: ICourse[]) {
     return { type: actionTypes.FETCH_USER_COURSES_SUCCESS, courses };
 }
 
-export function fetchUserCoursesAsync(userId: string) {
-    return function (dispatch) {
+export function fetchUserCoursesAsync(
+    userId: string,
+    arrayOptions: IStoreArrayOptions = {}
+) {
+    return function (dispatch, getState) {
         dispatch(fetchUserCoursesStart());
+
+        const prevCourses: ICourse[] = getState().course.courses;
 
         fetchCoursesByUserId(userId)
             .then(function (res) {
-                const courses = mapCourseData(res.data);
+                const courses = configureArrayState(
+                    prevCourses,
+                    mapCourseData(res.data),
+                    arrayOptions
+                );
                 dispatch(fetchUserCoursesSuccess(courses));
             })
             .catch(function (err) {
