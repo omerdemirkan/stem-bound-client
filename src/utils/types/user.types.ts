@@ -91,3 +91,8 @@ export interface IFetchUsersOptions {
     sortField?: string;
     sortDirection?: number;
 }
+
+export interface IValidateUserRoleOptions {
+    allowedUserRoles: EUserRoles[];
+    userRole: any;
+}

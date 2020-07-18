@@ -1,3 +1,14 @@
+export enum ECourseTypes {
+    IN_PERSON = "IN_PERSON",
+    REMOTE = "REMOTE",
+    HYBRID = "HYBRID",
+}
+
+export enum EMeetingTypes {
+    IN_PERSON = "IN_PERSON",
+    REMOTE = "REMOTE",
+}
+
 export interface IMeetingOriginal {
     type: string;
     roomNum?: string;

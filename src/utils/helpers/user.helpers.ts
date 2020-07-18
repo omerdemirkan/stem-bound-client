@@ -1,4 +1,9 @@
-import { IUserOriginal, IUser } from "../types";
+import {
+    IUserOriginal,
+    IUser,
+    EUserRoles,
+    IValidateUserRoleOptions,
+} from "../types";
 
 export function mapUserData(users: IUserOriginal[]): IUser[] {
     return users.map((user: IUserOriginal) => ({
@@ -22,4 +27,11 @@ export function mapUserData(users: IUserOriginal[]): IUser[] {
         interests: (user as any).interests || undefined,
         specialties: (user as any).specialties || undefined,
     }));
+}
+
+export function validateUserRole({
+    userRole,
+    allowedUserRoles,
+}: IValidateUserRoleOptions) {
+    return allowedUserRoles.includes(userRole);
 }

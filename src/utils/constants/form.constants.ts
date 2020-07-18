@@ -1,8 +1,9 @@
 import * as yup from "yup";
-import { EInputTypes, IFormData, EForms } from "../types";
+import { EInputTypes, IFormData, EForms, ECourseTypes } from "../types";
 import { fetchLocationInputOptions } from "../helpers/location.helpers";
 import { fetchSchoolInputOptions } from "../helpers/school.helpers";
 import { passwordRegex, objectIdRegex } from "./regex.constants";
+import { courseTypesInputOptions } from "./course.constants";
 
 // This is quite the file. I understand there is a lot of duplication, especially between sign up forms.
 // I decided to keep everything explicit as mapping default/common values proved to be more disorienting than useful.
@@ -353,13 +354,7 @@ export const logInFormData: IFormData = {
 
     validationSchema: yup.object().shape({
         email: yup.string().email("Invalid Email.").required("Required."),
-        password: yup
-            .string()
-            .matches(
-                passwordRegex,
-                "Capital letter, lowercase letter, special character, and a minimum of 8 characters required."
-            )
-            .required("Required."),
+        password: yup.string().required("Required."),
     }),
 
     inputs: [
@@ -372,6 +367,56 @@ export const logInFormData: IFormData = {
             toggleHidden: true,
         },
     ],
+};
+
+const createCourseForm: IFormData = {
+    initialValues: {
+        title: "",
+        shortDescription: "",
+        longDescription: "",
+        type: "",
+        schoolId: "",
+    },
+    inputs: [
+        {
+            type: EInputTypes.text,
+            id: "title",
+            label: "Course title",
+        },
+        {
+            type: EInputTypes.text,
+            id: "shortDescription",
+            label: "Short Description",
+        },
+        {
+            type: EInputTypes.textarea,
+            id: "longDescription",
+            label: "Long Description",
+        },
+        {
+            type: EInputTypes.select,
+            id: "type",
+            label: "Course Type",
+            options: courseTypesInputOptions,
+        },
+        {
+            type: EInputTypes.searchSelect,
+            id: "schoolId",
+            label: "School",
+            delay: 1000,
+            fetchOptions: fetchSchoolInputOptions,
+        },
+    ],
+    mapFormToRequestBody: function (formData) {
+        return { ...formData };
+    },
+    validationSchema: yup.object().shape({
+        title: yup.string().min(4).max(30).required(),
+        shortDescription: yup.string().min(4).max(60).required(),
+        longDescription: yup.string().min(4).max(60),
+        type: yup.string().required(),
+        schoolId: yup.string().matches(objectIdRegex).required("Required."),
+    }),
 };
 
 const forms = Object.freeze({
