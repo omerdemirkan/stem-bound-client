@@ -1,34 +1,46 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { IWithAuthOptions, IAuthState } from "../../utils/types";
 import { meAsync } from "../../store/auth";
-import { apiClient } from "../../utils/helpers";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function withAuth(
-    Component: React.ComponentType | React.FC
+    Component: React.ComponentType | React.FC,
+    options?: IWithAuthOptions
 ): React.FC {
     return (props) => {
         const router = useRouter();
-        const { accessToken, authAttempted } = useSelector(
+        const { accessToken, authAttempted, user }: IAuthState = useSelector(
             (state) => (state as any).auth
         );
         const dispatch = useDispatch();
+
+        function validateUser(): boolean {
+            return (
+                authAttempted &&
+                user &&
+                options.allowedUserRoles?.includes(user.role) !== false
+            );
+        }
 
         useEffect(
             function () {
                 // embedded if statements are to limit the number of checks for logged in users.
                 if (!accessToken) {
                     const storedToken = localStorage.getItem("accessToken");
-                    if (authAttempted || !storedToken) {
-                        router.push(storedToken ? "/log-in" : "/sign-up");
+                    if (!storedToken) {
+                        router.push("/sign-up");
+                    } else if (authAttempted && !validateUser()) {
+                        router.push("/log-in");
                     } else {
                         dispatch(meAsync(storedToken));
                     }
-                } else if (!apiClient.getAuthHeader()) {
-                    console.log("Resetting auth header");
-                    // For when users navigate between pages and re-instantiate the apiClient.
-                    apiClient.setAuthHeader(accessToken);
                 }
+                // else if (!apiClient.getAuthHeader()) {
+                //     console.log("Resetting auth header");
+                //     // For when users navigate between pages and re-instantiate the apiClient.
+                //     apiClient.setAuthHeader(accessToken);
+                // }
             },
             [authAttempted]
         );

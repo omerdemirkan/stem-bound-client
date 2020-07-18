@@ -1,9 +1,9 @@
-import AppLayout from "../../components/ui/AppLayout";
-import withAuth from "../../components/hoc/withAuth";
+import AppLayout from "../../../components/ui/AppLayout";
+import withAuth from "../../../components/hoc/withAuth";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserCoursesAsync } from "../../store/course";
-import { IUser, IStoreState } from "../../utils/types";
+import { fetchUserCoursesAsync } from "../../../store/course";
+import { IUser, IStoreState } from "../../../utils/types";
 
 const CoursesAppPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const CoursesAppPage: React.FC = () => {
     return (
         <AppLayout>
             <h4>courses</h4>
+            {user.role}
             <style jsx>{``}</style>
         </AppLayout>
     );
