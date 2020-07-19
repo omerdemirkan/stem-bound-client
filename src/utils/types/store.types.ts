@@ -15,13 +15,26 @@ export interface IAuthState {
 }
 
 export interface ICourseState {
-    loading: boolean;
-    fetchAttempted: boolean;
+    status: {
+        fetchCourses: {
+            loading: boolean;
+            error: null | string;
+        };
+        createCourse: {
+            loading: boolean;
+            error: null | string;
+        };
+    };
     courses: ICourse[];
 }
 
 export interface ISearchState {
-    loading: boolean;
+    status: {
+        fetchSearchData: {
+            loading: boolean;
+            error: null | string;
+        };
+    };
     fields: {
         [key: string]: ISearchData[];
     };
@@ -32,3 +45,5 @@ export interface IStoreState {
     course: ICourseState;
     search: ISearchState;
 }
+
+export type IGetState = () => IStoreState;

@@ -86,7 +86,9 @@ function PaginatedInput({
                     touched={touched}
                 >
                     {input.options.map((option: ISelectInputOption) => (
-                        <Option value={option.value}>{option.display}</Option>
+                        <Option value={option.value} key={option.display}>
+                            {option.display}
+                        </Option>
                     ))}
                 </Select>
             );
@@ -121,6 +123,7 @@ function PaginatedInput({
                                             touched={
                                                 touched ? touched[index] : null
                                             }
+                                            key={input.id}
                                         />
                                         <button
                                             onClick={() =>

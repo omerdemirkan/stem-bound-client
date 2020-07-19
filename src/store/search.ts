@@ -6,7 +6,7 @@ import {
     ISearchData,
     ISearchState,
 } from "../utils/types";
-import { updateState, configureArrayState } from "../utils/helpers";
+import { updateState, configureArrayState, clone } from "../utils/helpers";
 
 enum actionTypes {
     FETCH_SEARCH_DATA_START = "stem-bound/search/FETCH_SEARCH_DATA_START",
@@ -14,39 +14,59 @@ enum actionTypes {
     FETCH_SEARCH_DATA_FAILURE = "stem-bound/search/FETCH_SEARCH_DATA_FAILURE",
 }
 
-function initializeFields() {
-    let fields = {};
-    Object.values(ESearchFields).forEach(function (field) {
-        fields[field] = [];
-    });
-    return fields;
-}
-
 const initialState: ISearchState = {
-    loading: false,
-    fields: initializeFields(),
+    status: {
+        fetchSearchData: {
+            error: null,
+            loading: false,
+        },
+    },
+    fields: (function () {
+        let fields = {};
+        Object.values(ESearchFields).forEach(function (field) {
+            fields[field] = [];
+        });
+        return fields;
+    })(),
+};
+
+const reducerHandlers = {
+    [actionTypes.FETCH_SEARCH_DATA_START]: function (
+        state: ISearchState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.fetchSearchData.loading = true;
+        return newState;
+    },
+
+    [actionTypes.FETCH_SEARCH_DATA_FAILURE]: function (
+        state: ISearchState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.fetchSearchData.loading = false;
+        newState.status.fetchSearchData.error = action.error;
+        return newState;
+    },
+
+    [actionTypes.FETCH_SEARCH_DATA_SUCCESS]: function (
+        state: ISearchState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.fetchSearchData.loading = false;
+        newState.status.fetchSearchData.error = null;
+        newState.fields[action.field] = action.data;
+        return newState;
+    },
 };
 
 export default function (state = initialState, action): ISearchState {
-    switch (action.type) {
-        case actionTypes.FETCH_SEARCH_DATA_START:
-            return updateState(state, {
-                loading: true,
-            });
-        case actionTypes.FETCH_SEARCH_DATA_SUCCESS:
-            return updateState(state, {
-                loading: false,
-                fields: {
-                    ...state.fields,
-                    [action.field]: action.data,
-                },
-            });
-        case actionTypes.FETCH_SEARCH_DATA_FAILURE:
-            return updateState(state, {
-                loading: false,
-            });
-        default:
-            return state;
+    try {
+        return reducerHandlers[action.type](state, action);
+    } catch {
+        return state;
     }
 }
 

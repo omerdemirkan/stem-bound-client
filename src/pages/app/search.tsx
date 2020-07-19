@@ -3,7 +3,7 @@ import withAuth from "../../components/hoc/withAuth";
 import Search from "../../components/containers/Search";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ESearchFields, ICoordinates } from "../../utils/types";
+import { ESearchFields, ICoordinates, IStoreState } from "../../utils/types";
 import { isSearchField, SearchField } from "../../utils/helpers/search.helpers";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSearchDataAsync } from "../../store/search";
@@ -19,8 +19,13 @@ const SearchAppPage: React.FC<Props> = ({ coordinates }) => {
     const dispatch = useDispatch();
     const {
         auth: { user },
-        search: { loading, fields },
-    } = useSelector((state: any) => state);
+        search: {
+            fields,
+            status: {
+                fetchSearchData: { loading },
+            },
+        },
+    } = useSelector((state: IStoreState) => state);
     const [searchField, setSearchField] = useState<ESearchFields>();
 
     useEffect(function () {

@@ -411,10 +411,18 @@ const createCourseForm: IFormData = {
         return { ...formData };
     },
     validationSchema: yup.object().shape({
-        title: yup.string().min(4).max(30).required(),
-        shortDescription: yup.string().min(4).max(60).required(),
-        longDescription: yup.string().min(4).max(60),
-        type: yup.string().required(),
+        title: yup
+            .string()
+            .min(4, "Too short!")
+            .max(30, "Too long!")
+            .required("Required."),
+        shortDescription: yup
+            .string()
+            .min(4, "Too short!")
+            .max(60, "Too long!")
+            .required("Required."),
+        longDescription: yup.string().min(4, "Too short!").max(60, "Too long!"),
+        type: yup.string().required("Required."),
         schoolId: yup.string().matches(objectIdRegex).required("Required."),
     }),
 };
@@ -424,6 +432,7 @@ const forms = Object.freeze({
     [EForms.SCHOOL_OFFICIAL_SIGN_UP]: schoolOfficialSignUpFormData,
     [EForms.STUDENT_SIGN_UP]: studentSignUpFormData,
     [EForms.USER_LOG_IN]: logInFormData,
+    [EForms.CREATE_COURSE]: createCourseForm,
 });
 
 // Naming before exporting as default to allow for autoimports.

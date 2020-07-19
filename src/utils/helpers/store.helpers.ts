@@ -4,7 +4,7 @@ import { IStoreArrayOptions } from "../types";
 export const clone = rfdc({ proto: false, circles: false });
 
 // A helper used in reducers
-export function updateState<T>(state: T, updates: any): T {
+export function updateState<T>(state: T, updates: Partial<T>): T {
     return Object.assign(clone(state), updates);
 }
 

@@ -17,26 +17,37 @@ const initialState: IAuthState = {
     authAttempted: false,
 };
 
+const reducerHandlers = {
+    [actionTypes.AUTH_START]: function (state: IAuthState, action) {
+        return updateState(state, { loading: true });
+    },
+
+    [actionTypes.AUTH_FAILURE]: function (state: IAuthState, action) {
+        return updateState(state, {
+            loading: false,
+            authAttempted: true,
+        });
+    },
+
+    [actionTypes.AUTH_SUCCESS]: function (state: IAuthState, action) {
+        return updateState(state, {
+            loading: false,
+            accessToken: action.accessToken,
+            user: action.user,
+            authAttempted: true,
+        });
+    },
+
+    [actionTypes.LOG_OUT]: function (state: IAuthState, action) {
+        return initialState;
+    },
+};
+
 export default function (state = initialState, action): IAuthState {
-    switch (action.type) {
-        case actionTypes.AUTH_START:
-            return updateState(state, { loading: true });
-        case actionTypes.AUTH_SUCCESS:
-            return updateState(state, {
-                loading: false,
-                accessToken: action.accessToken,
-                user: action.user,
-                authAttempted: true,
-            });
-        case actionTypes.AUTH_FAILURE:
-            return updateState(state, {
-                loading: false,
-                authAttempted: true,
-            });
-        case actionTypes.LOG_OUT:
-            return initialState;
-        default:
-            return state;
+    try {
+        return reducerHandlers[action.type](state, action);
+    } catch {
+        return state;
     }
 }
 
