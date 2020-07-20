@@ -204,7 +204,7 @@ export function createCourseAsync(
                     mapCourseData([res.data]),
                     {
                         concat: true,
-                        sort: (a) => a.createdAt,
+                        sort: (a, b) => a.createdAt - b.createdAt,
                         ...arrayOptions,
                     }
                 );

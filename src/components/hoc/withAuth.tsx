@@ -3,9 +3,10 @@ import { IWithAuthOptions, IAuthState } from "../../utils/types";
 import { meAsync } from "../../store/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { access } from "fs";
 
 export default function withAuth(
-    Component: React.ComponentType | React.FC,
+    Component: React.ComponentType<any> | React.FC<any>,
     options?: IWithAuthOptions
 ): React.FC {
     return (props) => {
@@ -45,6 +46,6 @@ export default function withAuth(
             [authAttempted]
         );
 
-        return <Component {...props} />;
+        return <Component {...props} auth={!!accessToken} />;
     };
 }

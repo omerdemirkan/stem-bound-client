@@ -48,6 +48,7 @@ export interface IAnnouncement {
 }
 
 export interface ICourseOriginal {
+    _id: string;
     title: string;
     shortDescription: string;
     longDescription: string;
@@ -62,6 +63,7 @@ export interface ICourseOriginal {
 }
 
 export interface ICourse {
+    _id: string;
     title: string;
     shortDescription: string;
     longDescription: string;

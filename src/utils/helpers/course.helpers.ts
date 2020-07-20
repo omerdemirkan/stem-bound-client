@@ -4,6 +4,7 @@ import { meetingTypes, courseTypes } from "../constants/course.constants";
 export function mapCourseData(courseData: ICourseOriginal[]): ICourse[] {
     return courseData.map(
         (course: ICourseOriginal): ICourse => ({
+            _id: course._id,
             title: course.title,
             type: {
                 original: course.type,

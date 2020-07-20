@@ -1,18 +1,18 @@
 import AppLayout from "../../../components/ui/AppLayout";
 import withAuth from "../../../components/hoc/withAuth";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import Link from "next/link";
 import {
     fetchUserCoursesAsync,
     resetFetchCourseStatus,
 } from "../../../store/course";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { IStoreState, EUserRoles, ICourse } from "../../../utils/types";
-import Link from "next/link";
 
 const CoursesAppPage: React.FC = () => {
     const dispatch = useDispatch();
     const {
-        auth: { user, loading: authLoading },
+        auth: { user },
         course: {
             courses,
             status: {
@@ -31,9 +31,11 @@ const CoursesAppPage: React.FC = () => {
         },
         [user?._id]
     );
+
     return (
         <AppLayout>
             <h4>courses</h4>
+
             {user?.role === EUserRoles.INSTRUCTOR ? (
                 <Link href="/app/courses/create">
                     <a>
@@ -42,9 +44,20 @@ const CoursesAppPage: React.FC = () => {
                 </Link>
             ) : null}
 
-            {courses.map((course: ICourse) => (
-                <h6>{course.title}</h6>
+            {loading ? <h6>Loading...</h6> : null}
+
+            {courses.map((course) => (
+                <div key={course._id}>
+                    <Link
+                        href="/app/courses/[id]"
+                        as={`/app/courses/${course._id}`}
+                    >
+                        <a>{course.title}</a>
+                    </Link>
+                    <pre>{JSON.stringify(course, null, 2)}</pre>
+                </div>
             ))}
+
             <style jsx>{``}</style>
         </AppLayout>
     );
