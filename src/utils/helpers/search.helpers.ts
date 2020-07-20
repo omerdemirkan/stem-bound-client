@@ -7,6 +7,10 @@ export function isSearchField(s: any): boolean {
     return Object.values(ESearchFields).includes(s);
 }
 
+export function isUserSearchField(s: any): boolean {
+    return isSearchField(s) && Object.values(EUserRoles).includes(s);
+}
+
 export function SearchField(
     s: any,
     options?: { userRole?: EUserRoles }

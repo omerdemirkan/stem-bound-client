@@ -1,31 +1,48 @@
 import {
-    ICourseOriginal,
+    ICourse,
     IApiResponse,
-    ISchoolOriginal,
+    ISchool,
     IFetchMeetingsOptions,
     IFetchMeetingOptions,
-    IMeetingOriginal,
+    IMeeting,
     ICreateMeetingsOptions,
     IDeleteMeetingOptions,
+    ICourseOriginal,
 } from "../types";
-import { apiClient, appendQueriesToUrl } from "../helpers";
+import {
+    apiClient,
+    appendQueriesToUrl,
+    mapCourseData,
+    mapResponseData,
+} from "../helpers";
 
 export function fetchCoursesByUserId(
     userId: string
-): Promise<IApiResponse<ICourseOriginal[]>> {
-    return apiClient.get(`/users/${userId}/courses`);
+): Promise<IApiResponse<ICourse[]>> {
+    const res = mapResponseData(
+        apiClient.get(`/users/${userId}/courses`),
+        mapCourseData
+    );
+    console.log(res);
+    return res as any;
 }
 
 export function fetchCoursesBySchoolId(
     id: string
-): Promise<IApiResponse<ISchoolOriginal[]>> {
-    return apiClient.get(`/schools/${id}/courses`);
+): Promise<IApiResponse<ISchool[]>> {
+    return mapResponseData(
+        apiClient.get(`/schools/${id}/courses`),
+        mapCourseData
+    );
 }
 
 export function fetchCourseById(
     courseId: string
-): Promise<IApiResponse<ICourseOriginal>> {
-    return apiClient.get(`/courses/${courseId}`);
+): Promise<IApiResponse<ICourse>> {
+    return mapResponseData(
+        apiClient.get(`/courses/${courseId}`),
+        mapCourseData
+    );
 }
 
 export function enrollByCourseId(id: string): Promise<IApiResponse<any>> {
@@ -38,15 +55,21 @@ export function dropByCourseId(id: string): Promise<IApiResponse<any>> {
 
 export function createCourse(
     courseData: Partial<ICourseOriginal>
-): Promise<IApiResponse<ICourseOriginal>> {
-    return apiClient.post("/courses", courseData);
+): Promise<IApiResponse<ICourse>> {
+    return mapResponseData(
+        apiClient.post("/courses", courseData),
+        mapCourseData
+    );
 }
 
 export function updateCourseById(
     id: string,
     courseData: Partial<ICourseOriginal>
-): Promise<IApiResponse<ICourseOriginal>> {
-    return apiClient.patch(`/courses/${id}`, courseData);
+): Promise<IApiResponse<ICourse>> {
+    return mapResponseData(
+        apiClient.patch(`/courses/${id}`, courseData),
+        mapCourseData
+    );
 }
 
 export function deleteCourseById(id: string): Promise<IApiResponse<any>> {
@@ -59,38 +82,47 @@ export function fetchMeetingsByCourseId({
     courseId,
     limit,
     skip,
-}: IFetchMeetingsOptions): Promise<IApiResponse<IMeetingOriginal[]>> {
+}: IFetchMeetingsOptions): Promise<IApiResponse<IMeeting[]>> {
     const path = appendQueriesToUrl(`/courses/${courseId}/meetings`, {
         limit,
         skip,
     });
-    return apiClient.get(path);
+    return mapResponseData(apiClient.get(path), mapCourseData);
 }
 
 export function fetchMeetingById({
     meetingId,
     courseId,
-}: IFetchMeetingOptions): Promise<IApiResponse<IMeetingOriginal>> {
-    return apiClient.get(`/courses/${courseId}/meetings/${meetingId}`);
+}: IFetchMeetingOptions): Promise<IApiResponse<IMeeting>> {
+    return mapResponseData(
+        apiClient.get(`/courses/${courseId}/meetings/${meetingId}`),
+        mapCourseData
+    );
 }
 
 export function createMeetings({
     meetingsData,
     courseId,
-}: ICreateMeetingsOptions): Promise<IApiResponse<IMeetingOriginal[]>> {
-    return apiClient.post(`/courses/${courseId}/meetings/`, {
-        meetings: meetingsData,
-    });
+}: ICreateMeetingsOptions): Promise<IApiResponse<IMeeting[]>> {
+    return mapResponseData(
+        apiClient.post(`/courses/${courseId}/meetings/`, {
+            meetings: meetingsData,
+        }),
+        mapCourseData
+    );
 }
 
 export function updateMeetingById({
     courseId,
     meetingId,
     meetingData,
-}): Promise<IApiResponse<IMeetingOriginal>> {
-    return apiClient.patch(
-        `/courses/${courseId}/meetings/${meetingId}`,
-        meetingData
+}): Promise<IApiResponse<IMeeting>> {
+    return mapResponseData(
+        apiClient.patch(
+            `/courses/${courseId}/meetings/${meetingId}`,
+            meetingData
+        ),
+        mapCourseData
     );
 }
 
@@ -98,5 +130,8 @@ export function deleteMeetingById({
     courseId,
     meetingId,
 }: IDeleteMeetingOptions): Promise<IApiResponse<any>> {
-    return apiClient.delete(`/courses/${courseId}/meetings/${meetingId}`);
+    return mapResponseData(
+        apiClient.delete(`/courses/${courseId}/meetings/${meetingId}`),
+        mapCourseData
+    );
 }

@@ -1,35 +1,39 @@
-import { apiClient, appendQueriesToUrl } from "../helpers";
+import {
+    apiClient,
+    appendQueriesToUrl,
+    mapResponseData,
+    mapChatData,
+} from "../helpers";
 import {
     IApiResponse,
-    IChatOriginal,
+    IChat,
     IFetchMessageOptions,
-    IMessageOriginal,
+    IMessage,
     IFetchMessagesOptions,
     ICreateMessageOptions,
     IUpdateMessageOptions,
 } from "../types";
 
-export function fetchChatsByUserId(
-    id: string
-): Promise<IApiResponse<IChatOriginal[]>> {
-    return apiClient.get(`/users/${id}/chats`);
+export function fetchChatsByUserId(id: string): Promise<IApiResponse<IChat[]>> {
+    return mapResponseData(apiClient.get(`/users/${id}/chats`), mapChatData);
 }
 
-export function fetchChatById(
-    id: string
-): Promise<IApiResponse<IChatOriginal>> {
-    return apiClient.get(`/chats/${id}`);
+export function fetchChatById(id: string): Promise<IApiResponse<IChat>> {
+    return mapResponseData(apiClient.get(`/chats/${id}`), mapChatData);
 }
 
 export function updateChatById(
     id: string,
-    chatData: Partial<IChatOriginal>
-): Promise<IApiResponse<IChatOriginal>> {
-    return apiClient.patch(`/chats/${id}`, chatData);
+    chatData: Partial<IChat>
+): Promise<IApiResponse<IChat>> {
+    return mapResponseData(
+        apiClient.patch(`/chats/${id}`, chatData),
+        mapChatData
+    );
 }
 
 export function deleteChatById(id: string): Promise<IApiResponse<any>> {
-    return apiClient.delete(`/chats/${id}`);
+    return mapResponseData(apiClient.delete(`/chats/${id}`), mapChatData);
 }
 
 // MESSAGES
@@ -38,36 +42,42 @@ export function fetchMessagesByChatId({
     chatId,
     limit,
     skip,
-}: IFetchMessagesOptions): Promise<IApiResponse<IMessageOriginal[]>> {
+}: IFetchMessagesOptions): Promise<IApiResponse<IMessage[]>> {
     const path = appendQueriesToUrl(`/chats/${chatId}/messages`, {
         limit,
         skip,
     });
-    return apiClient.get(path);
+    return mapResponseData(apiClient.get(path), mapChatData);
 }
 
 export function fetchMessageById({
     chatId,
     messageId,
-}: IFetchMessageOptions): Promise<IApiResponse<IMessageOriginal>> {
-    return apiClient.get(`/chats/${chatId}/messages/${messageId}`);
+}: IFetchMessageOptions): Promise<IApiResponse<IMessage>> {
+    return mapResponseData(
+        apiClient.get(`/chats/${chatId}/messages/${messageId}`),
+        mapChatData
+    );
 }
 
 export function createMessage({
     chatId,
     messageData,
-}: ICreateMessageOptions): Promise<IApiResponse<IMessageOriginal>> {
-    return apiClient.post(`/chats/${chatId}/messages`, messageData);
+}: ICreateMessageOptions): Promise<IApiResponse<IMessage>> {
+    return mapResponseData(
+        apiClient.post(`/chats/${chatId}/messages`, messageData),
+        mapChatData
+    );
 }
 
 export function updateMessage({
     chatId,
     messageId,
     messageData,
-}: IUpdateMessageOptions): Promise<IApiResponse<IMessageOriginal>> {
-    return apiClient.patch(
-        `/chats/${chatId}/messages/${messageId}`,
-        messageData
+}: IUpdateMessageOptions): Promise<IApiResponse<IMessage>> {
+    return mapResponseData(
+        apiClient.patch(`/chats/${chatId}/messages/${messageId}`, messageData),
+        mapChatData
     );
 }
 
@@ -76,8 +86,8 @@ export function deleteMessage({
     messageId,
     messageData,
 }: IUpdateMessageOptions): Promise<IApiResponse<any>> {
-    return apiClient.patch(
-        `/chats/${chatId}/messages/${messageId}`,
-        messageData
+    return mapResponseData(
+        apiClient.patch(`/chats/${chatId}/messages/${messageId}`, messageData),
+        mapChatData
     );
 }

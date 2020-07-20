@@ -176,7 +176,7 @@ export function fetchUserCoursesAsync(
             .then(function (res) {
                 const courses = configureArrayState(
                     prevCourses,
-                    mapCourseData(res.data),
+                    res.data,
                     arrayOptions
                 );
                 dispatch(fetchUserCoursesSuccess(courses));
@@ -202,15 +202,11 @@ export function createCourseAsync(
 
         createCourse(courseData)
             .then(function (res) {
-                const courses = configureArrayState(
-                    prevCourses,
-                    mapCourseData([res.data]),
-                    {
-                        concat: true,
-                        sort: (a, b) => a.createdAt - b.createdAt,
-                        ...arrayOptions,
-                    }
-                );
+                const courses = configureArrayState(prevCourses, [res.data], {
+                    concat: true,
+                    sort: (a, b) => a.createdAt - b.createdAt,
+                    ...arrayOptions,
+                });
                 dispatch(createCoursesSuccess(courses));
             })
             .catch(function (err) {

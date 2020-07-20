@@ -69,7 +69,7 @@ export const fetchChatsSuccess = (chats) => ({
 
 export function fetchChatsAsync(
     userId: string,
-    arrayOptions: IStoreArrayOptions
+    arrayOptions: IStoreArrayOptions = {}
 ) {
     return function (dispatch, getState: IGetState) {
         dispatch(fetchChatsStart());
@@ -80,9 +80,13 @@ export function fetchChatsAsync(
             .then(function (res) {
                 dispatch(
                     fetchChatsSuccess(
-                        configureArrayState(prevChats, mapChatData(res.data), {
-                            ...arrayOptions,
-                        })
+                        configureArrayState(
+                            prevChats,
+                            res.data.map(mapChatData),
+                            {
+                                ...arrayOptions,
+                            }
+                        )
                     )
                 );
             })

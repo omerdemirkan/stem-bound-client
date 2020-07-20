@@ -13,8 +13,8 @@ export async function fetchSchoolInputOptions(
     }));
 }
 
-export function mapSchoolData(schoolData: ISchoolOriginal[]): ISchool[] {
-    return schoolData.map((school: ISchoolOriginal) => ({
+export function mapSchoolData(school: ISchoolOriginal): ISchool {
+    return {
         _id: school._id,
         name: capitalizeWords(school.name),
         distance: {
@@ -57,7 +57,7 @@ export function mapSchoolData(schoolData: ISchoolOriginal[]): ISchool[] {
         },
         startGrade: school.startGrade,
         endGrade: school.endGrade,
-    }));
+    };
 }
 
 function toSchoolStatusCodeDescription(statusCode: number): string {

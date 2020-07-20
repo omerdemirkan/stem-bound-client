@@ -1,8 +1,13 @@
 import { ISchoolOriginal, IFetchSchoolsOptions } from "../types";
-import { apiClient, appendQueriesToUrl } from "../helpers";
+import {
+    apiClient,
+    appendQueriesToUrl,
+    mapResponseData,
+    mapSchoolData,
+} from "../helpers";
 import { IApiResponse } from "../types/api.types";
 
-export async function fetchSchools({
+export function fetchSchools({
     coordinates,
     limit,
     skip,
@@ -17,23 +22,26 @@ export async function fetchSchools({
         text,
         with_school_officials: withSchoolOfficials,
     });
-    return apiClient.get(path);
+    return mapResponseData(apiClient.get(path), mapSchoolData);
 }
 
 export function fetchSchoolById(
     id: string
 ): Promise<IApiResponse<ISchoolOriginal>> {
-    return apiClient.get(`/schools/${id}`);
+    return mapResponseData(apiClient.get(`/schools/${id}`), mapSchoolData);
 }
 
 export function fetchSchoolByUserId(
     id: string
 ): Promise<IApiResponse<ISchoolOriginal>> {
-    return apiClient.get(`/users/${id}/school`);
+    return mapResponseData(apiClient.get(`/users/${id}/school`), mapSchoolData);
 }
 
 export function fetchSchoolByCourseId(
     id: string
 ): Promise<IApiResponse<ISchoolOriginal>> {
-    return apiClient.get(`/courses/${id}/school`);
+    return mapResponseData(
+        apiClient.get(`/courses/${id}/school`),
+        mapSchoolData
+    );
 }
