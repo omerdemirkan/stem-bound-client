@@ -7,11 +7,7 @@ interface Props {
 const UserCard: React.FC<Props> = ({ user }) => {
     return (
         <div>
-            <p>
-                {user.firstName} {user.lastName}
-            </p>
-            <p>{user.role}</p>
-            <p>{user.shortDescription}</p>
+            <pre>{JSON.stringify(user, null, 2)}</pre>
         </div>
     );
 };

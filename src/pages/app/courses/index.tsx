@@ -1,4 +1,4 @@
-import AppLayout from "../../../components/ui/AppLayout";
+import AppLayout from "../../../components/containers/AppLayout";
 import withAuth from "../../../components/hoc/withAuth";
 import Link from "next/link";
 import {
@@ -8,6 +8,7 @@ import {
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IStoreState, EUserRoles, ICourse } from "../../../utils/types";
+import CourseCard from "../../../components/ui/CourseCard";
 
 const CoursesAppPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -47,15 +48,7 @@ const CoursesAppPage: React.FC = () => {
             {loading ? <h6>Loading...</h6> : null}
 
             {courses.map((course) => (
-                <div key={course._id}>
-                    <Link
-                        href="/app/courses/[id]"
-                        as={`/app/courses/${course._id}`}
-                    >
-                        <a>{course.title}</a>
-                    </Link>
-                    <pre>{JSON.stringify(course, null, 2)}</pre>
-                </div>
+                <CourseCard course={course} key={course._id} />
             ))}
 
             <style jsx>{``}</style>

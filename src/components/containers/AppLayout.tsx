@@ -1,6 +1,6 @@
 import useNavigationData from "../hooks/useNavigationData";
-import NavigationButton from "./NavigationButton";
-import Modal, { ModalFooter } from "./Modal";
+import NavigationButton from "../ui/NavigationButton";
+import Modal, { ModalFooter } from "../ui/Modal";
 import { useRouter } from "next/router";
 import { apiClient } from "../../utils/helpers";
 import { useDispatch } from "react-redux";

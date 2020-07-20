@@ -1,5 +1,5 @@
 import withAuth from "../../../components/hoc/withAuth";
-import AppLayout from "../../../components/ui/AppLayout";
+import AppLayout from "../../../components/containers/AppLayout";
 import Form from "../../../components/ui/Form";
 import useFormData from "../../../components/hooks/useFormData";
 import { EUserRoles, EForms, IStoreState } from "../../../utils/types";

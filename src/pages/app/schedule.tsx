@@ -1,4 +1,4 @@
-import AppLayout from "../../components/ui/AppLayout";
+import AppLayout from "../../components/containers/AppLayout";
 import withAuth from "../../components/hoc/withAuth";
 
 const ScheduleAppPage: React.FC = () => {

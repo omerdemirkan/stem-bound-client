@@ -3,7 +3,6 @@ import { IWithAuthOptions, IAuthState } from "../../utils/types";
 import { meAsync } from "../../store/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { access } from "fs";
 
 export default function withAuth(
     Component: React.ComponentType<any> | React.FC<any>,
@@ -20,7 +19,7 @@ export default function withAuth(
             return (
                 authAttempted &&
                 user &&
-                options.allowedUserRoles?.includes(user.role) !== false
+                options?.allowedUserRoles?.includes(user.role) !== false
             );
         }
 
@@ -37,15 +36,10 @@ export default function withAuth(
                         dispatch(meAsync(storedToken));
                     }
                 }
-                // else if (!apiClient.getAuthHeader()) {
-                //     console.log("Resetting auth header");
-                //     // For when users navigate between pages and re-instantiate the apiClient.
-                //     apiClient.setAuthHeader(accessToken);
-                // }
             },
             [authAttempted]
         );
 
-        return <Component {...props} auth={!!accessToken} />;
+        return accessToken ? <Component {...props} /> : null;
     };
 }

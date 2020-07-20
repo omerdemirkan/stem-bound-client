@@ -1,4 +1,4 @@
-import AppLayout from "../../../components/ui/AppLayout";
+import AppLayout from "../../../components/containers/AppLayout";
 import { useRouter } from "next/router";
 import withAuth from "../../../components/hoc/withAuth";
 import { useSelector } from "react-redux";

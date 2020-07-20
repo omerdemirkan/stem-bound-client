@@ -56,7 +56,9 @@ const Form: React.FC<Props> = ({
                         >
                             {submitButtonText || "Submit"}
                         </button>
+                        <h6>Values</h6>
                         <pre>{JSON.stringify(values, null, 2)}</pre>
+                        <h6>Errors</h6>
                         <pre>{JSON.stringify(errors, null, 2)}</pre>
                     </form>
                     <style jsx>{``}</style>

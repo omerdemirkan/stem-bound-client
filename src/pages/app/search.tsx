@@ -1,6 +1,7 @@
-import AppLayout from "../../components/ui/AppLayout";
+import AppLayout from "../../components/containers/AppLayout";
 import withAuth from "../../components/hoc/withAuth";
 import Search from "../../components/containers/Search";
+import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { ESearchFields, ICoordinates, IStoreState } from "../../utils/types";
@@ -8,7 +9,6 @@ import { isSearchField, SearchField } from "../../utils/helpers/search.helpers";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSearchDataAsync } from "../../store/search";
 import { getClientQueryParams } from "../../utils/helpers";
-import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 
 interface Props {
     coordinates: ICoordinates;
