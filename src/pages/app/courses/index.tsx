@@ -2,8 +2,11 @@ import AppLayout from "../../../components/ui/AppLayout";
 import withAuth from "../../../components/hoc/withAuth";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserCoursesAsync } from "../../../store/course";
-import { IStoreState } from "../../../utils/types";
+import {
+    fetchUserCoursesAsync,
+    resetFetchCourseStatus,
+} from "../../../store/course";
+import { IStoreState, EUserRoles, ICourse } from "../../../utils/types";
 import Link from "next/link";
 
 const CoursesAppPage: React.FC = () => {
@@ -17,6 +20,9 @@ const CoursesAppPage: React.FC = () => {
             },
         },
     }: IStoreState = useSelector((state: IStoreState) => state);
+
+    useEffect(() => () => dispatch(resetFetchCourseStatus()), []);
+
     useEffect(
         function () {
             if (user?._id) {
@@ -28,13 +34,17 @@ const CoursesAppPage: React.FC = () => {
     return (
         <AppLayout>
             <h4>courses</h4>
-            {user?.role ? (
+            {user?.role === EUserRoles.INSTRUCTOR ? (
                 <Link href="/app/courses/create">
                     <a>
                         <button>CREATE COURSE</button>
                     </a>
                 </Link>
             ) : null}
+
+            {courses.map((course: ICourse) => (
+                <h6>{course.title}</h6>
+            ))}
             <style jsx>{``}</style>
         </AppLayout>
     );

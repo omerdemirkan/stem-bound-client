@@ -2,18 +2,48 @@ import withAuth from "../../../components/hoc/withAuth";
 import AppLayout from "../../../components/ui/AppLayout";
 import Form from "../../../components/ui/Form";
 import useFormData from "../../../components/hooks/useFormData";
-import { EUserRoles, EForms } from "../../../utils/types";
-import { useDispatch } from "react-redux";
+import { EUserRoles, EForms, IStoreState } from "../../../utils/types";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    createCourseAsync,
+    resetCreateCourseStatus,
+} from "../../../store/course";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const CreateCourseAppPage: React.FC = () => {
     const dispatch = useDispatch();
+    const router = useRouter();
     const formData = useFormData(EForms.CREATE_COURSE);
+    const {
+        auth: { user },
+        course: {
+            status: {
+                createCourse: { loading, attempted, error },
+            },
+        },
+    } = useSelector((state: IStoreState) => state);
+
+    useEffect(() => () => dispatch(resetCreateCourseStatus()), []);
+
+    useEffect(
+        function () {
+            if (attempted && !error) {
+                router.push("/app/courses");
+            }
+        },
+        [attempted]
+    );
 
     function handleSubmit(values) {
-        console.log(values);
+        const courseData = formData.mapFormToRequestBody(values);
+        courseData.meta.instructors = [user._id];
+        dispatch(createCourseAsync(courseData));
     }
+
     return (
         <AppLayout>
+            {loading ? <h3>Loading...</h3> : null}
             <Form {...formData} onSubmit={handleSubmit} />
         </AppLayout>
     );

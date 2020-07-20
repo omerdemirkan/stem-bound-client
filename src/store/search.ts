@@ -6,7 +6,7 @@ import {
     ISearchData,
     ISearchState,
 } from "../utils/types";
-import { updateState, configureArrayState, clone } from "../utils/helpers";
+import { configureArrayState, clone } from "../utils/helpers";
 
 enum actionTypes {
     FETCH_SEARCH_DATA_START = "stem-bound/search/FETCH_SEARCH_DATA_START",

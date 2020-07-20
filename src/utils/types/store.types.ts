@@ -19,10 +19,12 @@ export interface ICourseState {
         fetchCourses: {
             loading: boolean;
             error: null | string;
+            attempted: boolean;
         };
         createCourse: {
             loading: boolean;
             error: null | string;
+            attempted: boolean;
         };
     };
     courses: ICourse[];

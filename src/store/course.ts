@@ -9,6 +9,9 @@ import { fetchCoursesByUserId, createCourse } from "../utils/services";
 import { mapCourseData, configureArrayState, clone } from "../utils/helpers";
 
 enum actionTypes {
+    RESET_CREATE_COURSE_STATUS = "stem-bound/course/RESET_CREATE_COURSE_STATUS",
+    RESET_FETCH_COURSE_STATUS = "stem-bound/course/RESET_FETCH_COURSE_STATUS",
+
     FETCH_USER_COURSES_START = "stem-bound/course/FETCH_USER_COURSES_START",
     FETCH_USER_COURSES_SUCCESS = "stem-bound/course/FETCH_USER_COURSES_SUCCESS",
     FETCH_USER_COURSES_FAILURE = "stem-bound/course/FETCH_USER_COURSES_FAILURE",
@@ -22,16 +25,36 @@ const initialState: ICourseState = {
         fetchCourses: {
             loading: false,
             error: null,
+            attempted: false,
         },
         createCourse: {
             loading: false,
             error: null,
+            attempted: false,
         },
     },
     courses: [],
 };
 
 const reducerHandlers = {
+    [actionTypes.RESET_CREATE_COURSE_STATUS]: function (
+        state: ICourseState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.createCourse = initialState.status.createCourse;
+        return newState;
+    },
+
+    [actionTypes.RESET_FETCH_COURSE_STATUS]: function (
+        state: ICourseState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.fetchCourses = initialState.status.fetchCourses;
+        return newState;
+    },
+
     [actionTypes.FETCH_USER_COURSES_START]: function (
         state: ICourseState,
         action
@@ -47,6 +70,7 @@ const reducerHandlers = {
     ) {
         const newState = clone(state);
         newState.status.fetchCourses.loading = false;
+        newState.status.fetchCourses.attempted = true;
         newState.status.fetchCourses.error = action.error;
         return newState;
     },
@@ -58,6 +82,7 @@ const reducerHandlers = {
         const newState = clone(state);
         newState.courses = action.courses;
         newState.status.fetchCourses.loading = false;
+        newState.status.fetchCourses.attempted = true;
         newState.status.fetchCourses.error = null;
         return newState;
     },
@@ -73,8 +98,9 @@ const reducerHandlers = {
         action
     ) {
         const newState = clone(state);
-        (newState.status.createCourse.loading = false),
-            (newState.status.createCourse.error = action.error);
+        newState.status.createCourse.loading = false;
+        newState.status.createCourse.attempted = true;
+        newState.status.createCourse.error = action.error;
         return newState;
     },
 
@@ -84,6 +110,7 @@ const reducerHandlers = {
     ) {
         const newState = clone(state);
         newState.status.createCourse.loading = false;
+        newState.status.createCourse.attempted = true;
         newState.status.createCourse.error = null;
         newState.courses = action.courses;
         return newState;
@@ -98,17 +125,29 @@ export default function (state = initialState, action): ICourseState {
     }
 }
 
+// STATUS RESET ACTIONS
+export const resetCreateCourseStatus = () => ({
+    type: actionTypes.RESET_CREATE_COURSE_STATUS,
+});
+
+export const resetFetchCourseStatus = () => ({
+    type: actionTypes.RESET_FETCH_COURSE_STATUS,
+});
+
+// FETCH COURSES ACTIONS
 export const fetchUserCoursesStart = () => ({
     type: actionTypes.FETCH_USER_COURSES_START,
 });
-export const fetchUserCoursesFailure = () => ({
+export const fetchUserCoursesFailure = (error: string) => ({
     type: actionTypes.FETCH_USER_COURSES_FAILURE,
+    error,
 });
 export const fetchUserCoursesSuccess = (courses: ICourse[]) => ({
     type: actionTypes.FETCH_USER_COURSES_SUCCESS,
     courses,
 });
 
+// CREATE COURSE ACTIONS
 export const createCoursesStart = () => ({
     type: actionTypes.CREATE_COURSE_START,
 });
@@ -116,8 +155,9 @@ export const createCoursesSuccess = (courses) => ({
     type: actionTypes.CREATE_COURSE_SUCCESS,
     courses,
 });
-export const createCoursesFailure = () => ({
+export const createCoursesFailure = (error: string) => ({
     type: actionTypes.CREATE_COURSE_FAILURE,
+    error,
 });
 
 export function fetchUserCoursesAsync(
@@ -139,7 +179,11 @@ export function fetchUserCoursesAsync(
                 dispatch(fetchUserCoursesSuccess(courses));
             })
             .catch(function (err) {
-                dispatch(fetchUserCoursesFailure());
+                dispatch(
+                    fetchUserCoursesFailure(
+                        err.message || "An error occured in fetching courses."
+                    )
+                );
             });
     };
 }
@@ -160,13 +204,18 @@ export function createCourseAsync(
                     mapCourseData([res.data]),
                     {
                         concat: true,
+                        sort: (a) => a.createdAt,
                         ...arrayOptions,
                     }
                 );
                 dispatch(createCoursesSuccess(courses));
             })
             .catch(function (err) {
-                dispatch(createCoursesFailure());
+                dispatch(
+                    createCoursesFailure(
+                        err.message || "An error occured in creating courses."
+                    )
+                );
             });
     };
 }

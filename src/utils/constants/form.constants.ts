@@ -4,6 +4,7 @@ import { fetchLocationInputOptions } from "../helpers/location.helpers";
 import { fetchSchoolInputOptions } from "../helpers/school.helpers";
 import { passwordRegex, objectIdRegex } from "./regex.constants";
 import { courseTypesInputOptions } from "./course.constants";
+import { updateState } from "../helpers";
 
 // This is quite the file. I understand there is a lot of duplication, especially between sign up forms.
 // I decided to keep everything explicit as mapping default/common values proved to be more disorienting than useful.
@@ -58,9 +59,7 @@ export const instructorSignUpFormData: IFormData = Object.freeze({
     }),
 
     mapFormToRequestBody: function (values: any) {
-        return {
-            ...values,
-        };
+        return updateState(values, {});
     },
 
     inputs: [
@@ -124,13 +123,11 @@ export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
     },
 
     mapFormToRequestBody: function (values: any) {
-        // Note: fields that aren't in the db schema are weeted out automatically.
-        return {
-            ...values,
+        return updateState(values, {
             meta: {
                 school: values.schoolId,
             },
-        };
+        });
     },
 
     validationSchema: yup.object().shape({
@@ -241,12 +238,11 @@ export const studentSignUpFormData: IFormData = Object.freeze({
     },
 
     mapFormToRequestBody: function (values: any) {
-        return {
-            ...values,
+        return updateState(values, {
             meta: {
                 school: values.schoolId,
             },
-        };
+        });
     },
 
     validationSchema: yup.object().shape({
@@ -349,7 +345,7 @@ export const logInFormData: IFormData = {
     },
 
     mapFormToRequestBody: function (values: any) {
-        return {};
+        return updateState(values, {});
     },
 
     validationSchema: yup.object().shape({
@@ -408,7 +404,11 @@ const createCourseForm: IFormData = {
         },
     ],
     mapFormToRequestBody: function (formData) {
-        return { ...formData };
+        return updateState(formData, {
+            meta: {
+                school: formData.schoolId,
+            },
+        });
     },
     validationSchema: yup.object().shape({
         title: yup
