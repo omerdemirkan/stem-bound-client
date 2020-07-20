@@ -43,7 +43,7 @@ const reducerHandlers = {
     },
 };
 
-export default function (state = initialState, action): IAuthState {
+export default function authReducer(state = initialState, action): IAuthState {
     try {
         return reducerHandlers[action.type](state, action);
     } catch {

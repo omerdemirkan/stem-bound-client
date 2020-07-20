@@ -21,6 +21,7 @@ enum actionTypes {
 }
 
 const initialState: ICourseState = {
+    courses: [],
     status: {
         fetchCourses: {
             loading: false,
@@ -33,7 +34,6 @@ const initialState: ICourseState = {
             attempted: false,
         },
     },
-    courses: [],
 };
 
 const reducerHandlers = {
@@ -117,7 +117,10 @@ const reducerHandlers = {
     },
 };
 
-export default function (state = initialState, action): ICourseState {
+export default function courseReducer(
+    state = initialState,
+    action
+): ICourseState {
     try {
         return reducerHandlers[action.type](state, action);
     } catch {

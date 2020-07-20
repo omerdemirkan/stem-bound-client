@@ -1,10 +1,12 @@
 import { IUser, ICourse, ESearchFields } from ".";
 import { ISearchData } from "./search.types";
+import { IChat } from "./chat.types";
 
 export interface IStoreArrayOptions {
     concat?: boolean;
     sort?: (...args) => any;
     filter?: (...args) => any;
+    uniqueKey?: string;
 }
 
 export interface IAuthState {
@@ -30,6 +32,17 @@ export interface ICourseState {
     courses: ICourse[];
 }
 
+export interface IChatState {
+    status: {
+        fetchChats: {
+            loading: boolean;
+            error: null | string;
+            attempted: boolean;
+        };
+    };
+    chats: IChat[];
+}
+
 export interface ISearchState {
     status: {
         fetchSearchData: {
@@ -46,6 +59,7 @@ export interface IStoreState {
     auth: IAuthState;
     course: ICourseState;
     search: ISearchState;
+    chat: IChatState;
 }
 
 export type IGetState = () => IStoreState;

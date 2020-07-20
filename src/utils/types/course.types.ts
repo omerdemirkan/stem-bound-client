@@ -49,6 +49,7 @@ export interface IAnnouncement {
 
 export interface ICourseOriginal {
     _id: string;
+    createdAt: Date;
     title: string;
     shortDescription: string;
     longDescription: string;
@@ -64,6 +65,7 @@ export interface ICourseOriginal {
 
 export interface ICourse {
     _id: string;
+    createdAt: Date;
     title: string;
     shortDescription: string;
     longDescription: string;
@@ -71,8 +73,8 @@ export interface ICourse {
         display: string;
         original: string;
     };
-    meetings: IMeetingOriginal[];
-    announcements: IAnnouncementOriginal[];
+    meetings: IMeeting[];
+    announcements: IAnnouncement[];
     meta: {
         instructors: string[];
         students: string[];

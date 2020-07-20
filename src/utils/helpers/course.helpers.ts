@@ -5,6 +5,7 @@ export function mapCourseData(courseData: ICourseOriginal[]): ICourse[] {
     return courseData.map(
         (course: ICourseOriginal): ICourse => ({
             _id: course._id,
+            createdAt: course.createdAt,
             title: course.title,
             type: {
                 original: course.type,

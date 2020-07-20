@@ -14,11 +14,13 @@ import thunk from "redux-thunk";
 import authReducer from "./auth";
 import searchReducer from "./search";
 import courseReducer from "./course";
+import chatReducer from "./chat";
 
 const rootReducer = combineReducers({
     auth: authReducer,
     search: searchReducer,
     course: courseReducer,
+    chat: chatReducer,
 });
 
 // Configuring redux devtools

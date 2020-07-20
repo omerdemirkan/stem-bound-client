@@ -62,7 +62,10 @@ const reducerHandlers = {
     },
 };
 
-export default function (state = initialState, action): ISearchState {
+export default function searchReducer(
+    state = initialState,
+    action
+): ISearchState {
     try {
         return reducerHandlers[action.type](state, action);
     } catch {

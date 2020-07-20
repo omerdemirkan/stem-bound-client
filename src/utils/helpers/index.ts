@@ -9,6 +9,7 @@ export * from "./form.helpers";
 export * from "./navigation.helpers";
 export * from "./search.helpers";
 export * from "./user.helpers";
+export * from "./chat.helpers";
 
 // Put common helpers here
 export function capitalizeWords(s: string) {
