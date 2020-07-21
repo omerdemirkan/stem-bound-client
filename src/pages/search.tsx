@@ -29,9 +29,11 @@ export async function getServerSideProps(ctx: NextPageContext) {
     try {
         const searchField = ctx.query.q;
         if (!isSearchField(searchField)) throw new Error();
-        let searchData = await fetchSearchData({
-            field: SearchField(searchField),
-        });
+        let searchData = (
+            await fetchSearchData({
+                field: SearchField(searchField),
+            })
+        ).data;
         return { props: { searchField, searchData } };
     } catch (e) {
         return serverRedirect(ctx, `search?q=${ESearchFields.INSTRUCTOR}`);

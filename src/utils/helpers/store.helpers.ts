@@ -12,7 +12,7 @@ export function filterByUniqueKey<T>(arr: T[], key: string): T[] {
     const hashMap = {};
     for (let i = 0; i < arr.length - 1; i++) {
         if (!hashMap[arr[i][key]]) {
-            hashMap[i] = arr[i];
+            hashMap[arr[i][key]] = arr[i];
         }
     }
     return Object.values(hashMap);
@@ -28,6 +28,10 @@ export function configureArrayState<T>(
 
     if (options.concat) {
         copy = prevArray.concat(copy);
+    }
+
+    if (options.sort) {
+        copy.sort(options.sort);
     }
 
     if (options.filter) {

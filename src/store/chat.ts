@@ -3,14 +3,23 @@ import {
     IStoreArrayOptions,
     IGetState,
     IChat,
+    IFetchMessagesOptions,
+    IMessage,
 } from "../utils/types";
 import { clone, configureArrayState } from "../utils/helpers";
-import { fetchChatsByUserId } from "../utils/services/chat.services";
+import {
+    fetchChatsByUserId,
+    fetchMessagesByChatId,
+} from "../utils/services/chat.services";
 
 enum actionTypes {
     FETCH_CHATS_START = "stem-bound/chat/FETCH_CHATS_START",
     FETCH_CHATS_FAILURE = "stem-bound/chat/FETCH_CHATS_FAILURE",
     FETCH_CHATS_SUCCESS = "stem-bound/chat/FETCH_CHATS_SUCCESS",
+
+    FETCH_CHAT_MESSAGES_START = "stem-bound/chat/FETCH_CHAT_MESSAGES_START",
+    FETCH_CHAT_MESSAGES_FAILURE = "stem-bound/chat/FETCH_CHAT_MESSAGES_FAILURE",
+    FETCH_CHAT_MESSAGES_SUCCESS = "stem-bound/chat/FETCH_CHAT_MESSAGES_SUCCESS",
 }
 
 const initialState: IChatState = {
@@ -67,6 +76,18 @@ export const fetchChatsSuccess = (chats) => ({
     chats,
 });
 
+export const fetchChatMessagesStart = () => ({
+    type: actionTypes.FETCH_CHAT_MESSAGES_START,
+});
+export const fetchChatMessagesFailure = (error: string) => ({
+    type: actionTypes.FETCH_CHAT_MESSAGES_START,
+    error,
+});
+export const fetchChatMessagesSuccess = (messages: IMessage[]) => ({
+    type: actionTypes.FETCH_CHAT_MESSAGES_SUCCESS,
+    messages,
+});
+
 export function fetchChatsAsync(
     userId: string,
     arrayOptions: IStoreArrayOptions = {}
@@ -85,7 +106,44 @@ export function fetchChatsAsync(
                 );
             })
             .catch(function (err) {
-                dispatch(fetchChatsFailure(err.message));
+                dispatch(
+                    fetchChatsFailure(
+                        err.message || "An error occured when fetching chats"
+                    )
+                );
+            });
+    };
+}
+
+export function fetchChatMessages(
+    fetchMessagesOptions: IFetchMessagesOptions,
+    arrayOptions: IStoreArrayOptions = {}
+) {
+    return function (dispatch, getState: IGetState) {
+        dispatch(fetchChatMessagesStart());
+
+        const prevMessages = getState().chat.chats.find(
+            (chat) => chat._id === fetchMessagesOptions.chatId
+        ).messages;
+
+        fetchMessagesByChatId(fetchMessagesOptions)
+            .then(function (res) {
+                dispatch(
+                    fetchChatMessagesSuccess(
+                        configureArrayState(
+                            prevMessages,
+                            res.data,
+                            arrayOptions
+                        )
+                    )
+                );
+            })
+            .catch(function (err) {
+                dispatch(
+                    fetchChatMessagesFailure(
+                        err.message || "An error occured when fetching messages"
+                    )
+                );
             });
     };
 }
