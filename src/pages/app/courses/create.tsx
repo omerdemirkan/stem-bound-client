@@ -2,7 +2,12 @@ import withAuth from "../../../components/hoc/withAuth";
 import AppLayout from "../../../components/containers/AppLayout";
 import Form from "../../../components/ui/Form";
 import useFormData from "../../../components/hooks/useFormData";
-import { EUserRoles, EForms, IStoreState } from "../../../utils/types";
+import {
+    EUserRoles,
+    EForms,
+    IStoreState,
+    IWithAuthProps,
+} from "../../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
 import {
     createCourseAsync,
@@ -11,12 +16,15 @@ import {
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-const CreateCourseAppPage: React.FC = () => {
+const CreateCourseAppPage: React.FC<IWithAuthProps> = ({
+    authAttempted,
+    accessToken,
+    user,
+}) => {
     const dispatch = useDispatch();
     const router = useRouter();
     const formData = useFormData(EForms.CREATE_COURSE);
     const {
-        auth: { user },
         course: {
             status: {
                 createCourse: { loading, attempted, error },

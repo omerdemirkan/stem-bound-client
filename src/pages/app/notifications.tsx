@@ -1,7 +1,8 @@
 import AppLayout from "../../components/containers/AppLayout";
 import withAuth from "../../components/hoc/withAuth";
+import { IWithAuthProps } from "../../utils/types";
 
-const NotificationsAppPage: React.FC = () => {
+const NotificationsAppPage: React.FC<IWithAuthProps> = () => {
     return (
         <AppLayout>
             <h4>notifications</h4>

@@ -6,7 +6,7 @@ import {
     IGetState,
 } from "../utils/types";
 import { fetchCoursesByUserId, createCourse } from "../utils/services";
-import { mapCourseData, configureArrayState, clone } from "../utils/helpers";
+import { configureArrayState, clone } from "../utils/helpers";
 
 enum actionTypes {
     RESET_CREATE_COURSE_STATUS = "stem-bound/course/RESET_CREATE_COURSE_STATUS",

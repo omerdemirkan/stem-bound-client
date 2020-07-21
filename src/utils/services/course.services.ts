@@ -19,12 +19,10 @@ import {
 export function fetchCoursesByUserId(
     userId: string
 ): Promise<IApiResponse<ICourse[]>> {
-    const res = mapResponseData(
+    return mapResponseData(
         apiClient.get(`/users/${userId}/courses`),
         mapCourseData
     );
-    console.log(res);
-    return res as any;
 }
 
 export function fetchCoursesBySchoolId(

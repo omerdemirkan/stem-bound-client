@@ -2,13 +2,13 @@ import AppLayout from "../../../components/containers/AppLayout";
 import { useRouter } from "next/router";
 import withAuth from "../../../components/hoc/withAuth";
 import { useSelector } from "react-redux";
-import { IStoreState } from "../../../utils/types";
+import { IStoreState, IWithAuthProps } from "../../../utils/types";
 
-interface Props {
-    auth: boolean;
-}
-
-const CourseAppPage: React.FC<Props> = ({ auth }) => {
+const CourseAppPage: React.FC<IWithAuthProps> = ({
+    authAttempted,
+    accessToken,
+    user,
+}) => {
     const router = useRouter();
     const { courses } = useSelector((state: IStoreState) => state.course);
     const course = courses.find((course) => course._id === router.query.id);

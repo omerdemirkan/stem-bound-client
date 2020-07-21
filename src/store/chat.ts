@@ -4,7 +4,7 @@ import {
     IGetState,
     IChat,
 } from "../utils/types";
-import { clone, configureArrayState, mapChatData } from "../utils/helpers";
+import { clone, configureArrayState } from "../utils/helpers";
 import { fetchChatsByUserId } from "../utils/services/chat.services";
 
 enum actionTypes {
@@ -80,13 +80,9 @@ export function fetchChatsAsync(
             .then(function (res) {
                 dispatch(
                     fetchChatsSuccess(
-                        configureArrayState(
-                            prevChats,
-                            res.data.map(mapChatData),
-                            {
-                                ...arrayOptions,
-                            }
-                        )
+                        configureArrayState(prevChats, res.data, {
+                            ...arrayOptions,
+                        })
                     )
                 );
             })

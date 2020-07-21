@@ -7,13 +7,21 @@ import {
 } from "../../../store/course";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IStoreState, EUserRoles, ICourse } from "../../../utils/types";
+import {
+    IStoreState,
+    EUserRoles,
+    ICourse,
+    IWithAuthProps,
+} from "../../../utils/types";
 import CourseCard from "../../../components/ui/CourseCard";
 
-const CoursesAppPage: React.FC = () => {
+const CoursesAppPage: React.FC<IWithAuthProps> = ({
+    authAttempted,
+    accessToken,
+    user,
+}) => {
     const dispatch = useDispatch();
     const {
-        auth: { user },
         course: {
             courses,
             status: {

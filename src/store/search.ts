@@ -111,12 +111,12 @@ export function fetchSearchDataAsync(
         ];
 
         fetchSearchData(searchOptions)
-            .then(function (newData) {
+            .then(function (res) {
                 dispatch(
                     fetchSearchDataSuccess({
                         data: configureArrayState(
                             prevData,
-                            newData,
+                            res.data,
                             arrayOptions
                         ),
                         field: searchOptions.field,

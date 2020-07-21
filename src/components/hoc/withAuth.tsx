@@ -40,6 +40,13 @@ export default function withAuth(
             [authAttempted]
         );
 
-        return accessToken ? <Component {...props} /> : null;
+        return accessToken ? (
+            <Component
+                {...props}
+                accessToken={accessToken}
+                authAttempted={authAttempted}
+                user={user}
+            />
+        ) : null;
     };
 }

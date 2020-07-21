@@ -6,7 +6,7 @@ import { IApiResponse } from "../types";
 export async function fetchSearchData({
     field,
     ...options
-}: IFetchSearchDataOptions): Promise<IApiResponse<ISearchData>[]> {
+}: IFetchSearchDataOptions): Promise<IApiResponse<ISearchData[]>> {
     try {
         if (!isSearchField(field)) {
             throw new Error(

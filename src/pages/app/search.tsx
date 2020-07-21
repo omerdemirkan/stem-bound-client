@@ -4,21 +4,26 @@ import Search from "../../components/containers/Search";
 import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ESearchFields, ICoordinates, IStoreState } from "../../utils/types";
 import { isSearchField, SearchField } from "../../utils/helpers/search.helpers";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSearchDataAsync } from "../../store/search";
 import { getClientQueryParams } from "../../utils/helpers";
+import {
+    ESearchFields,
+    IStoreState,
+    IWithUserCoordinates,
+    IWithAuthProps,
+} from "../../utils/types";
 
-interface Props {
-    coordinates: ICoordinates;
-}
-
-const SearchAppPage: React.FC<Props> = ({ coordinates }) => {
+const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
+    coordinates,
+    user,
+    accessToken,
+    authAttempted,
+}) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const {
-        auth: { user },
         search: {
             fields,
             status: {
