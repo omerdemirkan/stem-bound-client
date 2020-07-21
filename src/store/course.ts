@@ -202,11 +202,11 @@ export function createCourseAsync(
 
         createCourse(courseData)
             .then(function (res) {
-                const courses = configureArrayState(prevCourses, [res.data], {
-                    concat: true,
-                    sort: (a, b) => a.createdAt - b.createdAt,
-                    ...arrayOptions,
-                });
+                const courses = configureArrayState(
+                    prevCourses,
+                    [res.data],
+                    arrayOptions
+                );
                 dispatch(createCoursesSuccess(courses));
             })
             .catch(function (err) {

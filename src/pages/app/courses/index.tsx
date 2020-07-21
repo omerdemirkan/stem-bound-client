@@ -30,8 +30,6 @@ const CoursesAppPage: React.FC<IWithAuthProps> = ({
         },
     }: IStoreState = useSelector((state: IStoreState) => state);
 
-    useEffect(() => () => dispatch(resetFetchCourseStatus()), []);
-
     useEffect(
         function () {
             if (user?._id) {

@@ -12,6 +12,7 @@ export function mapMessageData(message: IMessageOriginal): IMessage {
 
 export function mapChatData(chat: IChatOriginal): IChat {
     return {
+        _id: chat._id,
         messages: chat.messages.map(mapMessageData),
         meta: chat.meta,
     };

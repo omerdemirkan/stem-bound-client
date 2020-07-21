@@ -13,7 +13,7 @@ import {
     createCourseAsync,
     resetCreateCourseStatus,
 } from "../../../store/course";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 const CreateCourseAppPage: React.FC<IWithAuthProps> = ({
@@ -24,6 +24,7 @@ const CreateCourseAppPage: React.FC<IWithAuthProps> = ({
     const dispatch = useDispatch();
     const router = useRouter();
     const formData = useFormData(EForms.CREATE_COURSE);
+    const [submitted, setSubmitted] = useState<boolean>(false);
     const {
         course: {
             status: {
@@ -32,11 +33,9 @@ const CreateCourseAppPage: React.FC<IWithAuthProps> = ({
         },
     } = useSelector((state: IStoreState) => state);
 
-    useEffect(() => () => dispatch(resetCreateCourseStatus()), []);
-
     useEffect(
         function () {
-            if (attempted && !error) {
+            if (submitted && attempted && !error) {
                 router.push("/app/courses");
             }
         },
@@ -47,6 +46,7 @@ const CreateCourseAppPage: React.FC<IWithAuthProps> = ({
         const courseData = formData.mapFormToRequestBody(values);
         courseData.meta.instructors = [user._id];
         dispatch(createCourseAsync(courseData));
+        setSubmitted(true);
     }
 
     return (

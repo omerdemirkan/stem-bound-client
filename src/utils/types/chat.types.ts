@@ -10,6 +10,7 @@ export interface IMessageOriginal {
 }
 
 export interface IChatOriginal {
+    _id: string;
     messages: IMessageOriginal[];
     meta: {
         users: string[];
@@ -28,6 +29,7 @@ export interface IMessage {
 }
 
 export interface IChat {
+    _id: string;
     messages: IMessage[];
     meta: {
         users: string[];

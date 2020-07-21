@@ -80,9 +80,7 @@ export function fetchChatsAsync(
             .then(function (res) {
                 dispatch(
                     fetchChatsSuccess(
-                        configureArrayState(prevChats, res.data, {
-                            ...arrayOptions,
-                        })
+                        configureArrayState(prevChats, res.data, arrayOptions)
                     )
                 );
             })
