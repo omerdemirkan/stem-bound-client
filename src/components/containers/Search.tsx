@@ -1,10 +1,10 @@
 import Link from "next/link";
+import UserCard from "../ui/UserCard";
 import { ESearchFields, ISearchData } from "../../utils/types/search.types";
 import { searchFieldInputOptions } from "../../utils/constants";
 import { appendQueriesToUrl } from "../../utils/helpers";
 import { useRouter } from "next/router";
 import { EUserRoles, IUser } from "../../utils/types";
-import UserCard from "../ui/UserCard";
 
 interface SearchProps {
     searchField: ESearchFields;
