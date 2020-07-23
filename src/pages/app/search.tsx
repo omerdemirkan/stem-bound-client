@@ -27,15 +27,6 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
     const dispatch = useDispatch();
     const {
         search: { fields },
-        chat: {
-            status: {
-                createChat: {
-                    error: createChatError,
-                    attempted: createChatAttempted,
-                },
-            },
-            inspectedChat,
-        },
     } = useSelector((state: IStoreState) => state);
     const [searchField, setSearchField] = useState<ESearchFields>();
 
@@ -66,20 +57,21 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
         [router.query.q, coordinates]
     );
 
-    useEffect(
-        function () {
-            if (createChatAttempted && !createChatError && inspectedChat?._id) {
-                router.push(`/app/messaging`, {
-                    query: { id: inspectedChat._id },
-                });
-            }
-        },
-        [createChatAttempted]
-    );
-
     function handleSendMessage(searchedUser: IUser) {
         dispatch(
-            createChatAsync({ meta: { users: [searchedUser._id, user._id] } })
+            createChatAsync(
+                { meta: { users: [searchedUser._id, user._id] } },
+                {
+                    onSuccess(chat) {
+                        router.push(`/app/messaging`, {
+                            query: { id: chat._id },
+                        });
+                    },
+                    onFailure(err) {
+                        console.log(err);
+                    },
+                }
+            )
         );
     }
 

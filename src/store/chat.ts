@@ -6,8 +6,13 @@ import {
     IFetchMessagesOptions,
     IMessage,
     IChatOriginal,
+    IAsyncActionOptions,
 } from "../utils/types";
-import { clone, configureArrayState } from "../utils/helpers";
+import {
+    clone,
+    configureArrayState,
+    configureAsyncActionOptions,
+} from "../utils/helpers";
 import {
     fetchChatsByUserId,
     fetchMessagesByChatId,
@@ -193,13 +198,20 @@ export const fetchChatMessagesSuccess = (
 
 // ASYNC ACTIONS
 
-export function createChatAsync(chatData: Partial<IChatOriginal>) {
+export function createChatAsync(
+    chatData: Partial<IChatOriginal>,
+    asyncActionOptions?: IAsyncActionOptions<IChat>
+) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions
+    );
     return function (dispatch) {
         dispatch(createChatStart());
 
         createChat(chatData)
             .then(function (res) {
                 dispatch(createChatSuccess(res.data));
+                onSuccess(res.data);
             })
             .catch(function (err) {
                 dispatch(
@@ -207,6 +219,7 @@ export function createChatAsync(chatData: Partial<IChatOriginal>) {
                         err.message || "An error occured in creating a chat"
                     )
                 );
+                onFailure(err);
             });
     };
 }

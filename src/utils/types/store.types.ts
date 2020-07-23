@@ -75,3 +75,8 @@ export interface IStoreState {
 }
 
 export type IGetState = () => IStoreState;
+
+export interface IAsyncActionOptions<T> {
+    onSuccess?: (T) => any;
+    onFailure?: (Error) => any;
+}

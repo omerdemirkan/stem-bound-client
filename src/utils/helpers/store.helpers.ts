@@ -1,5 +1,5 @@
 import rfdc from "rfdc";
-import { IStoreArrayOptions } from "../types";
+import { IStoreArrayOptions, IAsyncActionOptions } from "../types";
 
 export const clone = rfdc({ proto: false, circles: false });
 
@@ -42,4 +42,13 @@ export function configureArrayState<T>(
         copy = filterByUniqueKey(copy, options.uniqueKey);
     }
     return copy;
+}
+
+export function configureAsyncActionOptions<T>(
+    options: IAsyncActionOptions<T>
+): IAsyncActionOptions<T> {
+    return {
+        onSuccess: options.onSuccess || function () {},
+        onFailure: options.onFailure || function () {},
+    };
 }
