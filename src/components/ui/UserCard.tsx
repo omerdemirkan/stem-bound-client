@@ -1,12 +1,18 @@
 import { IUser } from "../../utils/types";
+import { useDispatch } from "react-redux";
+import { createChatAsync } from "../../store/chat";
 
 interface Props {
     user: IUser;
+    handleSendMessage: (IUser) => any;
 }
 
-const UserCard: React.FC<Props> = ({ user }) => {
+const UserCard: React.FC<Props> = ({ user, handleSendMessage }) => {
     return (
         <div>
+            <button onClick={() => handleSendMessage(user)}>
+                SEND MESSAGE
+            </button>
             <pre>{JSON.stringify(user, null, 2)}</pre>
         </div>
     );

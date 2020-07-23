@@ -12,7 +12,14 @@ import {
     IFetchMessagesOptions,
     ICreateMessageOptions,
     IUpdateMessageOptions,
+    IChatOriginal,
 } from "../types";
+
+export function createChat(
+    chatData: Partial<IChatOriginal>
+): Promise<IApiResponse<IChat>> {
+    return mapResponseData(apiClient.post("/chats", chatData), mapChatData);
+}
 
 export function fetchChatsByUserId(id: string): Promise<IApiResponse<IChat[]>> {
     return mapResponseData(apiClient.get(`/users/${id}/chats`), mapChatData);

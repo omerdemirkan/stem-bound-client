@@ -13,13 +13,20 @@ interface Props {
 }
 
 const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
+    function handleSendMessage() {
+        console.log("U cant send a message B, you need to be logged in.");
+    }
     return (
         <Layout>
             <Head>
                 <title>Stem-bound - Search</title>
             </Head>
             <h1>Search</h1>
-            <Search searchField={searchField} searchData={searchData} />
+            <Search
+                searchField={searchField}
+                searchData={searchData}
+                handleSendMessage={handleSendMessage}
+            />
             <style jsx>{``}</style>
         </Layout>
     );

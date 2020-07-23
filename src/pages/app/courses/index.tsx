@@ -30,20 +30,15 @@ const CoursesAppPage: React.FC<IWithAuthProps> = ({
         },
     }: IStoreState = useSelector((state: IStoreState) => state);
 
-    useEffect(
-        function () {
-            if (user?._id) {
-                dispatch(fetchUserCoursesAsync(user._id));
-            }
-        },
-        [user?._id]
-    );
+    useEffect(function () {
+        dispatch(fetchUserCoursesAsync(user._id));
+    }, []);
 
     return (
         <AppLayout>
             <h4>courses</h4>
 
-            {user?.role === EUserRoles.INSTRUCTOR ? (
+            {user.role === EUserRoles.INSTRUCTOR ? (
                 <Link href="/app/courses/create">
                     <a>
                         <button>CREATE COURSE</button>

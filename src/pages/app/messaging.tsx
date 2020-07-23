@@ -17,8 +17,7 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
     const {
         chat: { chats, inspectedChat },
     } = useSelector((state: IStoreState) => state);
-
-    const chatId = router.query.chatId;
+    const chatId = router.query.id;
 
     useEffect(function () {
         dispatch(fetchChatsAsync(user._id));
@@ -34,9 +33,13 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
     );
 
     function handleInspectChat(chatId: string) {
-        router.push(router.pathname, {
-            query: { ...router.query, id: chatId },
-        });
+        router.push(
+            router.pathname,
+            {
+                query: { id: chatId },
+            },
+            { shallow: true }
+        );
     }
 
     return (
@@ -49,6 +52,8 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
                     key={chat._id}
                 />
             ))}
+            <h4>Inspected Chat:</h4>
+            <pre>{JSON.stringify(inspectedChat, null, 2)}</pre>
             <style jsx>{``}</style>
         </AppLayout>
     );

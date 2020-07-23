@@ -54,6 +54,7 @@ export class HttpClient {
                 if (response.ok) {
                     return data;
                 } else {
+                    console.error(data);
                     return Promise.reject(data);
                 }
             };

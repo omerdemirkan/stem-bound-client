@@ -13,7 +13,9 @@ import {
     IStoreState,
     IWithUserCoordinates,
     IWithAuthProps,
+    IUser,
 } from "../../utils/types";
+import { createChatAsync } from "../../store/chat";
 
 const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
     coordinates,
@@ -24,11 +26,15 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
     const router = useRouter();
     const dispatch = useDispatch();
     const {
-        search: {
-            fields,
+        search: { fields },
+        chat: {
             status: {
-                fetchSearchData: { loading },
+                createChat: {
+                    error: createChatError,
+                    attempted: createChatAttempted,
+                },
             },
+            inspectedChat,
         },
     } = useSelector((state: IStoreState) => state);
     const [searchField, setSearchField] = useState<ESearchFields>();
@@ -60,6 +66,23 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
         [router.query.q, coordinates]
     );
 
+    useEffect(
+        function () {
+            if (createChatAttempted && !createChatError && inspectedChat?._id) {
+                router.push(`/app/messaging`, {
+                    query: { id: inspectedChat._id },
+                });
+            }
+        },
+        [createChatAttempted]
+    );
+
+    function handleSendMessage(searchedUser: IUser) {
+        dispatch(
+            createChatAsync({ meta: { users: [searchedUser._id, user._id] } })
+        );
+    }
+
     return (
         <AppLayout>
             <h4>search</h4>
@@ -67,6 +90,7 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
                 searchField={searchField}
                 searchData={fields[searchField]}
                 shallow
+                handleSendMessage={handleSendMessage}
             />
             <style jsx>{``}</style>
         </AppLayout>

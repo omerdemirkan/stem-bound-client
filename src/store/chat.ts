@@ -5,12 +5,14 @@ import {
     IChat,
     IFetchMessagesOptions,
     IMessage,
+    IChatOriginal,
 } from "../utils/types";
 import { clone, configureArrayState } from "../utils/helpers";
 import {
     fetchChatsByUserId,
     fetchMessagesByChatId,
     fetchChatById,
+    createChat,
 } from "../utils/services/chat.services";
 
 enum actionTypes {
@@ -142,7 +144,17 @@ export const inspectChat = (chatId) => ({
     type: actionTypes.INSPECT_CHAT,
     chatId,
 });
-// FETCH CHATS ACTIONS
+// ACTION CREATORS
+
+export const createChatStart = () => ({ type: actionTypes.CREATE_CHAT_START });
+export const createChatFailure = (error: string) => ({
+    type: actionTypes.CREATE_CHAT_FAILURE,
+    error,
+});
+export const createChatSuccess = (chat: IChat) => ({
+    type: actionTypes.CREATE_CHAT_SUCCESS,
+    chat,
+});
 
 export const fetchChatsStart = () => ({ type: actionTypes.FETCH_CHATS_START });
 export const fetchChatsFailure = (error: string) => ({
@@ -171,10 +183,33 @@ export const fetchChatMessagesFailure = (error: string) => ({
     type: actionTypes.FETCH_CHAT_MESSAGES_START,
     error,
 });
-export const fetchChatMessagesSuccess = (messages: IMessage[]) => ({
+export const fetchChatMessagesSuccess = (
+    chatId: string,
+    messages: IMessage[]
+) => ({
     type: actionTypes.FETCH_CHAT_MESSAGES_SUCCESS,
     messages,
 });
+
+// ASYNC ACTIONS
+
+export function createChatAsync(chatData: Partial<IChatOriginal>) {
+    return function (dispatch) {
+        dispatch(createChatStart());
+
+        createChat(chatData)
+            .then(function (res) {
+                dispatch(createChatSuccess(res.data));
+            })
+            .catch(function (err) {
+                dispatch(
+                    createChatFailure(
+                        err.message || "An error occured in creating a chat"
+                    )
+                );
+            });
+    };
+}
 
 export function fetchChatsAsync(
     userId: string,
@@ -228,16 +263,17 @@ export function fetchChatMessages(
     return function (dispatch, getState: IGetState) {
         dispatch(fetchChatMessagesStart());
 
-        const prevMessages = getState().chat.chats.find(
+        const chat = getState().chat.chats.find(
             (chat) => chat._id === fetchMessagesOptions.chatId
-        ).messages;
+        );
 
         fetchMessagesByChatId(fetchMessagesOptions)
             .then(function (res) {
                 dispatch(
                     fetchChatMessagesSuccess(
+                        chat._id,
                         configureArrayState(
-                            prevMessages,
+                            chat.messages,
                             res.data,
                             arrayOptions
                         )

@@ -4,3 +4,4 @@ export * from "./school.services";
 export * from "./auth.services";
 export * from "./course.services";
 export * from "./location.services";
+export * from "./chat.services";
