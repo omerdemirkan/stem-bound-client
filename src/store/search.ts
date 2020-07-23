@@ -5,8 +5,13 @@ import {
     IFetchSearchDataOptions,
     ISearchData,
     ISearchState,
+    IAsyncActionOptions,
 } from "../utils/types";
-import { configureArrayState, clone } from "../utils/helpers";
+import {
+    configureArrayState,
+    clone,
+    configureAsyncActionOptions,
+} from "../utils/helpers";
 
 enum actionTypes {
     FETCH_SEARCH_DATA_START = "stem-bound/search/FETCH_SEARCH_DATA_START",
@@ -101,8 +106,12 @@ function fetchSearchDataFailure(field: ESearchFields, message: string) {
 
 export function fetchSearchDataAsync(
     searchOptions: IFetchSearchDataOptions,
-    arrayOptions: IStoreArrayOptions = {}
+    arrayOptions: IStoreArrayOptions = {},
+    asyncActionOptions?: IAsyncActionOptions<ISearchData[]>
 ) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions || {}
+    );
     return function (dispatch, getState) {
         dispatch(fetchSearchDataStart(searchOptions.field));
 
@@ -122,12 +131,13 @@ export function fetchSearchDataAsync(
                         field: searchOptions.field,
                     })
                 );
+                onSuccess(res.data);
             })
-            .catch(function (error) {
+            .catch(function (err) {
                 dispatch(
-                    fetchSearchDataFailure(searchOptions.field, error.message)
+                    fetchSearchDataFailure(searchOptions.field, err.message)
                 );
-                console.error(error.message);
+                onFailure(err);
             });
     };
 }

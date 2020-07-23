@@ -4,9 +4,14 @@ import {
     ICourseState,
     ICourseOriginal,
     IGetState,
+    IAsyncActionOptions,
 } from "../utils/types";
 import { fetchCoursesByUserId, createCourse } from "../utils/services";
-import { configureArrayState, clone } from "../utils/helpers";
+import {
+    configureArrayState,
+    clone,
+    configureAsyncActionOptions,
+} from "../utils/helpers";
 
 enum actionTypes {
     RESET_CREATE_COURSE_STATUS = "stem-bound/course/RESET_CREATE_COURSE_STATUS",
@@ -165,8 +170,12 @@ export const createCoursesFailure = (error: string) => ({
 
 export function fetchUserCoursesAsync(
     userId: string,
-    arrayOptions: IStoreArrayOptions = {}
+    arrayOptions: IStoreArrayOptions = {},
+    asyncActionOptions?: IAsyncActionOptions<ICourse[]>
 ) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions || {}
+    );
     return function (dispatch, getState) {
         dispatch(fetchUserCoursesStart());
 
@@ -174,12 +183,12 @@ export function fetchUserCoursesAsync(
 
         fetchCoursesByUserId(userId)
             .then(function (res) {
-                const courses = configureArrayState(
-                    prevCourses,
-                    res.data,
-                    arrayOptions
+                dispatch(
+                    fetchUserCoursesSuccess(
+                        configureArrayState(prevCourses, res.data, arrayOptions)
+                    )
                 );
-                dispatch(fetchUserCoursesSuccess(courses));
+                onSuccess(res.data);
             })
             .catch(function (err) {
                 dispatch(
@@ -187,14 +196,19 @@ export function fetchUserCoursesAsync(
                         err.message || "An error occured in fetching courses."
                     )
                 );
+                onFailure(err);
             });
     };
 }
 
 export function createCourseAsync(
     courseData: Partial<ICourseOriginal>,
-    arrayOptions: IStoreArrayOptions = {}
+    arrayOptions: IStoreArrayOptions = {},
+    asyncActionOptions?: IAsyncActionOptions<ICourse>
 ) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions || {}
+    );
     return function (dispatch, getState: IGetState) {
         dispatch(createCoursesStart());
 
@@ -202,12 +216,16 @@ export function createCourseAsync(
 
         createCourse(courseData)
             .then(function (res) {
-                const courses = configureArrayState(
-                    prevCourses,
-                    [res.data],
-                    arrayOptions
+                dispatch(
+                    createCoursesSuccess(
+                        configureArrayState(
+                            prevCourses,
+                            [res.data],
+                            arrayOptions
+                        )
+                    )
                 );
-                dispatch(createCoursesSuccess(courses));
+                onSuccess(res.data);
             })
             .catch(function (err) {
                 dispatch(
@@ -215,6 +233,7 @@ export function createCourseAsync(
                         err.message || "An error occured in creating courses."
                     )
                 );
+                onFailure(err);
             });
     };
 }

@@ -48,7 +48,13 @@ export function configureAsyncActionOptions<T>(
     options: IAsyncActionOptions<T>
 ): IAsyncActionOptions<T> {
     return {
-        onSuccess: options.onSuccess || function () {},
-        onFailure: options.onFailure || function () {},
+        onSuccess:
+            typeof options.onSuccess === "function"
+                ? options.onSuccess
+                : function () {},
+        onFailure:
+            typeof options.onFailure === "function"
+                ? options.onFailure
+                : function () {},
     };
 }

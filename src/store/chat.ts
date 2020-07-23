@@ -203,7 +203,7 @@ export function createChatAsync(
     asyncActionOptions?: IAsyncActionOptions<IChat>
 ) {
     const { onSuccess, onFailure } = configureAsyncActionOptions(
-        asyncActionOptions
+        asyncActionOptions || {}
     );
     return function (dispatch) {
         dispatch(createChatStart());
@@ -226,8 +226,12 @@ export function createChatAsync(
 
 export function fetchChatsAsync(
     userId: string,
-    arrayOptions: IStoreArrayOptions = {}
+    arrayOptions: IStoreArrayOptions = {},
+    asyncActionOptions?: IAsyncActionOptions<IChat[]>
 ) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions || {}
+    );
     return function (dispatch, getState: IGetState) {
         dispatch(fetchChatsStart());
 
@@ -240,6 +244,7 @@ export function fetchChatsAsync(
                         configureArrayState(prevChats, res.data, arrayOptions)
                     )
                 );
+                onSuccess(res.data);
             })
             .catch(function (err) {
                 dispatch(
@@ -247,17 +252,25 @@ export function fetchChatsAsync(
                         err.message || "An error occured when fetching chats"
                     )
                 );
+                onFailure(err);
             });
     };
 }
 
-export function fetchChatAsync(chatId: string) {
+export function fetchChatAsync(
+    chatId: string,
+    asyncActionOptions?: IAsyncActionOptions<IChat[]>
+) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions || {}
+    );
     return function (dispatch) {
         dispatch(fetchChatStart());
 
         fetchChatById(chatId)
             .then(function (res) {
                 dispatch(fetchChatSuccess(res.data));
+                onSuccess(res.data);
             })
             .catch(function (err) {
                 dispatch(
@@ -265,14 +278,19 @@ export function fetchChatAsync(chatId: string) {
                         err.message || "An error occured when fetching chat"
                     )
                 );
+                onFailure(err);
             });
     };
 }
 
 export function fetchChatMessages(
     fetchMessagesOptions: IFetchMessagesOptions,
-    arrayOptions: IStoreArrayOptions = {}
+    arrayOptions: IStoreArrayOptions = {},
+    asyncActionOptions?: IAsyncActionOptions<IMessage[]>
 ) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions || {}
+    );
     return function (dispatch, getState: IGetState) {
         dispatch(fetchChatMessagesStart());
 
@@ -292,6 +310,7 @@ export function fetchChatMessages(
                         )
                     )
                 );
+                onSuccess(res.data);
             })
             .catch(function (err) {
                 dispatch(
@@ -299,6 +318,7 @@ export function fetchChatMessages(
                         err.message || "An error occured when fetching messages"
                     )
                 );
+                onFailure(err);
             });
     };
 }

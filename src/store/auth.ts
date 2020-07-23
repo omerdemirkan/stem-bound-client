@@ -1,7 +1,15 @@
-import { apiClient, updateState } from "../utils/helpers";
+import {
+    apiClient,
+    updateState,
+    configureAsyncActionOptions,
+} from "../utils/helpers";
 import { logIn, signUp, me } from "../utils/services";
 import { Dispatch } from "redux";
-import { IAuthState } from "../utils/types";
+import {
+    IAuthState,
+    IAsyncActionOptions,
+    IApiAuthResponse,
+} from "../utils/types";
 
 enum actionTypes {
     AUTH_START = "stem-bound/auth/AUTH_START",
@@ -77,13 +85,19 @@ export function logout() {
 
 // ASYNC ACTION CREATORS
 
-export function logInAsync({
-    email,
-    password,
-}: {
-    email: string;
-    password: string;
-}) {
+export function logInAsync(
+    {
+        email,
+        password,
+    }: {
+        email: string;
+        password: string;
+    },
+    asyncActionOptions?: IAsyncActionOptions<IApiAuthResponse>
+) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions || {}
+    );
     return function (dispatch: Dispatch) {
         dispatch(authStart());
 
@@ -93,15 +107,22 @@ export function logInAsync({
                 apiClient.setAuthHeader(accessToken);
                 localStorage.setItem("accessToken", accessToken);
                 dispatch(authSuccess({ user, accessToken }));
+                onSuccess(res);
             })
-            .catch(function (error) {
+            .catch(function (err) {
                 dispatch(authFailure());
-                console.error(error.message);
+                onFailure(err);
             });
     };
 }
 
-export function signUpAsync(userData: any) {
+export function signUpAsync(
+    userData: any,
+    asyncActionOptions?: IAsyncActionOptions<IApiAuthResponse>
+) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions || {}
+    );
     return function (dispatch: Dispatch) {
         dispatch(authStart());
 
@@ -111,15 +132,22 @@ export function signUpAsync(userData: any) {
                 apiClient.setAuthHeader(accessToken);
                 localStorage.setItem("accessToken", accessToken);
                 dispatch(authSuccess({ user, accessToken }));
+                onSuccess(res);
             })
-            .catch(function (error) {
+            .catch(function (err) {
                 dispatch(authFailure());
-                console.error(error.message);
+                onFailure(err);
             });
     };
 }
 
-export function meAsync(currentAccessToken: string) {
+export function meAsync(
+    currentAccessToken: string,
+    asyncActionOptions?: IAsyncActionOptions<IApiAuthResponse>
+) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions || {}
+    );
     return function (dispatch: Dispatch) {
         dispatch(authStart());
 
@@ -129,10 +157,11 @@ export function meAsync(currentAccessToken: string) {
                 apiClient.setAuthHeader(accessToken);
                 localStorage.setItem("accessToken", accessToken);
                 dispatch(authSuccess({ user, accessToken }));
+                onSuccess(res);
             })
-            .catch(function (error) {
+            .catch(function (err) {
                 dispatch(authFailure());
-                console.error(error.message);
+                onFailure(err);
             });
     };
 }
