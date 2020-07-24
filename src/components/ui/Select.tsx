@@ -1,6 +1,6 @@
 interface SelectProps {
     onChange: (...args: any) => any;
-    id?: string;
+    id: string;
     label?: string;
     disabled?: boolean;
     touched?: boolean;
@@ -24,7 +24,7 @@ const Select: React.FC<SelectProps> = ({
 }) => {
     return (
         <div>
-            {label ? <label>{label}</label> : null}
+            {label ? <label htmlFor={id}>{label}</label> : null}
             <select
                 className="root"
                 onChange={onChange}

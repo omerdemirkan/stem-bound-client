@@ -2,7 +2,7 @@ interface Props {
     onChange: (...args: any) => any;
     onBlur?: (...args: any) => any;
     value: string;
-    id?: string;
+    id: string;
     label?: string;
     disabled?: boolean;
     touched?: boolean;
@@ -21,11 +21,11 @@ const TextArea: React.FC<Props> = ({
 }) => {
     return (
         <div>
-            {label ? <label>{label}</label> : null}
+            {label ? <label htmlFor={id}>{label}</label> : null}
             <textarea
                 onChange={onChange}
                 value={value}
-                id={id || undefined}
+                id={id}
                 onBlur={onBlur}
                 disabled={disabled}
             ></textarea>

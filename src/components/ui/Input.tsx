@@ -3,7 +3,7 @@ interface Props {
     onChange: (...args: any) => any;
     onBlur?: (...args: any) => any;
     label?: string;
-    id?: string;
+    id: string;
     error?: string;
     value?: string | number;
     eventTargetValue?: boolean;
@@ -27,7 +27,7 @@ const Input: React.FC<Props> = ({
 }) => {
     return (
         <div>
-            {label ? <label>{label}</label> : null}
+            {label ? <label htmlFor={id}>{label}</label> : null}
             <input
                 onChange={
                     eventTargetValue
@@ -36,7 +36,7 @@ const Input: React.FC<Props> = ({
                 }
                 onBlur={onBlur}
                 type={hidden ? "password" : type}
-                id={id || undefined}
+                id={id}
                 value={value}
                 disabled={disabled}
             />

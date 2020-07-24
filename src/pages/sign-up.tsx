@@ -45,7 +45,11 @@ const SignUpPage: React.FC = () => {
             </Head>
             <h1>Sign Up</h1>
 
-            <Select onChange={(e) => setFormKey(e.target.value)}>
+            <Select
+                onChange={(e) => setFormKey(e.target.value)}
+                id="user-type"
+                label="User Type"
+            >
                 <Option value={EForms.INSTRUCTOR_SIGN_UP}>Instructor</Option>
                 <Option value={EForms.STUDENT_SIGN_UP}>Student</Option>
                 <Option value={EForms.SCHOOL_OFFICIAL_SIGN_UP}>

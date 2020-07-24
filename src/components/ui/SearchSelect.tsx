@@ -47,9 +47,13 @@ const SearchSelect: React.FC<Props> = ({
     );
     return (
         <div>
-            {label ? <label>{label}</label> : null}
-            <Input type="text" onChange={(e) => setSearch(e.target.value)} />
-            <Select onChange={onChange} id={id}>
+            {label ? <label htmlFor={id + "-text-field"}>{label}</label> : null}
+            <Input
+                type="text"
+                onChange={(e) => setSearch(e.target.value)}
+                id={id + "-text-field"}
+            />
+            <Select onChange={onChange} id={id + "-select-field"}>
                 <Option value="">Select</Option>
                 {options.map((option: ISelectInputOption) => (
                     <Option key={option.value} value={option.value}>
