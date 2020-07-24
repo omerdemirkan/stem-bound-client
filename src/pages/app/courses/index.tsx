@@ -1,10 +1,7 @@
 import AppLayout from "../../../components/containers/AppLayout";
 import withAuth from "../../../components/hoc/withAuth";
 import Link from "next/link";
-import {
-    fetchUserCoursesAsync,
-    resetFetchCourseStatus,
-} from "../../../store/course";
+import { fetchUserCoursesAsync } from "../../../store/course";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,6 +9,7 @@ import {
     EUserRoles,
     ICourse,
     IWithAuthProps,
+    EStateStatus,
 } from "../../../utils/types";
 import CourseCard from "../../../components/ui/CourseCard";
 
@@ -24,9 +22,7 @@ const CoursesAppPage: React.FC<IWithAuthProps> = ({
     const {
         course: {
             courses,
-            status: {
-                fetchCourses: { loading, error },
-            },
+            status: { fetchCourses: fetchCoursesStatus },
         },
     }: IStoreState = useSelector((state: IStoreState) => state);
 
@@ -46,7 +42,9 @@ const CoursesAppPage: React.FC<IWithAuthProps> = ({
                 </Link>
             ) : null}
 
-            {loading ? <h6>Loading...</h6> : null}
+            {fetchCoursesStatus === EStateStatus.loading ? (
+                <h6>Loading...</h6>
+            ) : null}
 
             {courses.map((course) => (
                 <CourseCard course={course} key={course._id} />

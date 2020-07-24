@@ -1,10 +1,11 @@
 import * as yup from "yup";
-import { EInputTypes, IFormData, EForms, ECourseTypes } from "../types";
-import { fetchLocationInputOptions } from "../helpers/location.helpers";
-import { fetchSchoolInputOptions } from "../helpers/school.helpers";
-import { passwordRegex, objectIdRegex } from "./regex.constants";
-import { courseTypesInputOptions } from "./course.constants";
-import { updateState } from "../helpers";
+import { passwordRegex, objectIdRegex, courseTypesInputOptions } from ".";
+import { EInputTypes, IFormData, EForms } from "../types";
+import {
+    fetchLocationInputOptions,
+    fetchSchoolInputOptions,
+    updateState,
+} from "../helpers";
 
 // This is quite the file. I understand there is a lot of duplication, especially between sign up forms.
 // I decided to keep everything explicit as mapping default/common values proved to be more disorienting than useful.

@@ -3,9 +3,8 @@ import Head from "next/head";
 import Search from "../components/containers/Search";
 import { NextPageContext } from "next";
 import { fetchSearchData } from "../utils/services";
-import { ESearchFields, ISearchData } from "../utils/types/search.types";
-import { serverRedirect } from "../utils/helpers";
-import { isSearchField, SearchField } from "../utils/helpers/search.helpers";
+import { ESearchFields, ISearchData } from "../utils/types";
+import { serverRedirect, isSearchField, SearchField } from "../utils/helpers";
 
 interface Props {
     searchField: ESearchFields;

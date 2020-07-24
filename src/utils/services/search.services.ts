@@ -1,7 +1,6 @@
-import { IFetchSearchDataOptions, ISearchData } from "../types/search.types";
-import { isSearchField, isUserSearchField } from "../helpers/search.helpers";
-import { fetchUsers } from "./user.services";
-import { IApiResponse } from "../types";
+import { IFetchSearchDataOptions, ISearchData, IApiResponse } from "../types";
+import { isSearchField, isUserSearchField } from "../helpers";
+import { fetchUsers } from ".";
 
 export async function fetchSearchData({
     field,

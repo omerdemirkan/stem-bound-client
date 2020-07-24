@@ -5,8 +5,8 @@ import {
     IMeeting,
     IAnnouncement,
     IAnnouncementOriginal,
-} from "../types/course.types";
-import { meetingTypes, courseTypes } from "../constants/course.constants";
+} from "../types";
+import { meetingTypes, courseTypes } from "../constants";
 
 export function mapMeetingData(meeting: IMeetingOriginal): IMeeting {
     return {

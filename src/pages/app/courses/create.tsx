@@ -7,12 +7,10 @@ import {
     EForms,
     IStoreState,
     IWithAuthProps,
+    EStateStatus,
 } from "../../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    createCourseAsync,
-    resetCreateCourseStatus,
-} from "../../../store/course";
+import { createCourseAsync } from "../../../store/course";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -27,19 +25,17 @@ const CreateCourseAppPage: React.FC<IWithAuthProps> = ({
     const [submitted, setSubmitted] = useState<boolean>(false);
     const {
         course: {
-            status: {
-                createCourse: { loading, attempted, error },
-            },
+            status: { createCourse: createCourseStatus },
         },
     } = useSelector((state: IStoreState) => state);
 
     useEffect(
         function () {
-            if (submitted && attempted && !error) {
+            if (createCourseStatus === EStateStatus.successful) {
                 router.push("/app/courses");
             }
         },
-        [attempted]
+        [createCourseStatus]
     );
 
     function handleSubmit(values) {
@@ -51,7 +47,9 @@ const CreateCourseAppPage: React.FC<IWithAuthProps> = ({
 
     return (
         <AppLayout>
-            {loading ? <h3>Loading...</h3> : null}
+            {createCourseStatus === EStateStatus.loading ? (
+                <h3>Loading...</h3>
+            ) : null}
             <Form {...formData} onSubmit={handleSubmit} />
         </AppLayout>
     );

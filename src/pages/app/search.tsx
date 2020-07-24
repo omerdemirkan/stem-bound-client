@@ -4,10 +4,14 @@ import Search from "../../components/containers/Search";
 import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { isSearchField, SearchField } from "../../utils/helpers/search.helpers";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSearchDataAsync } from "../../store/search";
-import { getClientQueryParams } from "../../utils/helpers";
+import { createChatAsync } from "../../store/chat";
+import {
+    isSearchField,
+    SearchField,
+    getClientQueryParams,
+} from "../../utils/helpers";
 import {
     ESearchFields,
     IStoreState,
@@ -15,7 +19,6 @@ import {
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
-import { createChatAsync } from "../../store/chat";
 
 const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
     coordinates,

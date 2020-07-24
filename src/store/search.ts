@@ -6,6 +6,7 @@ import {
     ISearchData,
     ISearchState,
     IAsyncActionOptions,
+    EStateStatus,
 } from "../utils/types";
 import {
     configureArrayState,
@@ -21,10 +22,7 @@ enum actionTypes {
 
 const initialState: ISearchState = {
     status: {
-        fetchSearchData: {
-            error: null,
-            loading: false,
-        },
+        fetchSearchData: EStateStatus.idle,
     },
     fields: (function () {
         let fields = {};
@@ -41,7 +39,7 @@ const reducerHandlers = {
         action
     ) {
         const newState = clone(state);
-        newState.status.fetchSearchData.loading = true;
+        newState.status.fetchSearchData = EStateStatus.loading;
         return newState;
     },
 
@@ -50,8 +48,7 @@ const reducerHandlers = {
         action
     ) {
         const newState = clone(state);
-        newState.status.fetchSearchData.loading = false;
-        newState.status.fetchSearchData.error = action.error;
+        newState.status.fetchSearchData = EStateStatus.failed;
         return newState;
     },
 
@@ -60,8 +57,7 @@ const reducerHandlers = {
         action
     ) {
         const newState = clone(state);
-        newState.status.fetchSearchData.loading = false;
-        newState.status.fetchSearchData.error = null;
+        newState.status.fetchSearchData = EStateStatus.successful;
         newState.fields[action.field] = action.data;
         return newState;
     },
@@ -81,28 +77,22 @@ export default function searchReducer(
 function fetchSearchDataStart(field: ESearchFields) {
     return { type: actionTypes.FETCH_SEARCH_DATA_START, field };
 }
-
-function fetchSearchDataSuccess({
+const fetchSearchDataFailure = () => ({
+    type: actionTypes.FETCH_SEARCH_DATA_FAILURE,
+});
+const fetchSearchDataSuccess = ({
     data,
     field,
 }: {
     data: ISearchData[];
     field: ESearchFields;
-}) {
+}) => {
     return {
         type: actionTypes.FETCH_SEARCH_DATA_SUCCESS,
         data,
         field,
     };
-}
-
-function fetchSearchDataFailure(field: ESearchFields, message: string) {
-    return {
-        type: actionTypes.FETCH_SEARCH_DATA_FAILURE,
-        field,
-        message,
-    };
-}
+};
 
 export function fetchSearchDataAsync(
     searchOptions: IFetchSearchDataOptions,
@@ -134,9 +124,7 @@ export function fetchSearchDataAsync(
                 onSuccess(res.data);
             })
             .catch(function (err) {
-                dispatch(
-                    fetchSearchDataFailure(searchOptions.field, err.message)
-                );
+                dispatch(fetchSearchDataFailure());
                 onFailure(err);
             });
     };

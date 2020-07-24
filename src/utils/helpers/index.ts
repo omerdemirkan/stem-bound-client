@@ -1,4 +1,4 @@
-import { urlRegex } from "../constants/regex.constants";
+import { urlRegex } from "../constants";
 
 export * from "./location.helpers";
 export * from "./course.helpers";

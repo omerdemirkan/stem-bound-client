@@ -1,7 +1,6 @@
 import { IUser, ICourse, ESearchFields } from ".";
 import { ISearchData } from "./search.types";
 import { IChat } from "./chat.types";
-import { string } from "yup";
 
 export interface IStoreArrayOptions {
     concat?: boolean;
@@ -19,48 +18,27 @@ export interface IAuthState {
 
 export interface ICourseState {
     status: {
-        fetchCourses: {
-            loading: boolean;
-            error: null | string;
-            attempted: boolean;
-        };
-        createCourse: {
-            loading: boolean;
-            error: null | string;
-            attempted: boolean;
-        };
+        fetchCourses: EStateStatus;
+        createCourse: EStateStatus;
     };
     courses: ICourse[];
 }
 
 export interface IChatState {
     status: {
-        fetchChats: {
-            loading: boolean;
-            error: null | string;
-            attempted: boolean;
-        };
-        fetchChat: {
-            loading: boolean;
-            error: null | string;
-            attempted: boolean;
-        };
-        createChat: {
-            loading: boolean;
-            error: null | string;
-            attempted: boolean;
-        };
+        fetchChats: EStateStatus;
+        fetchChat: EStateStatus;
+        createChat: EStateStatus;
+        sendMessage: EStateStatus;
     };
     chats: IChat[];
     inspectedChat: IChat;
+    textField: string;
 }
 
 export interface ISearchState {
     status: {
-        fetchSearchData: {
-            loading: boolean;
-            error: null | string;
-        };
+        fetchSearchData: EStateStatus;
     };
     fields: {
         [key: string]: ISearchData[];
@@ -79,4 +57,11 @@ export type IGetState = () => IStoreState;
 export interface IAsyncActionOptions<T> {
     onSuccess?: (T) => any;
     onFailure?: (Error) => any;
+}
+
+export enum EStateStatus {
+    "idle",
+    "loading",
+    "successful",
+    "failed",
 }
