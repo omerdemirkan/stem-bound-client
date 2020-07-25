@@ -77,7 +77,7 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
                     key={chat._id}
                 />
             ))}
-            {inspectChat != null ? (
+            {inspectedChat != null ? (
                 <>
                     <h4>Inspected Chat:</h4>
                     <pre>{JSON.stringify(inspectedChat, null, 2)}</pre>
@@ -85,6 +85,7 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
                         type="text"
                         id="message-text-field"
                         onChange={handleUpdateTextField}
+                        value={textField}
                         eventTargetValue
                     />
                     <button onClick={handleSendMessage}>SEND</button>

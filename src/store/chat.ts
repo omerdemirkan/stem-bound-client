@@ -122,7 +122,6 @@ const reducerHandlers = {
         const newState = clone(state);
         newState.status.createChat = EStateStatus.successful;
         newState.inspectedChat = action.chat;
-        newState.textField = "";
         return newState;
     },
 
@@ -153,6 +152,7 @@ const reducerHandlers = {
             .indexOf(action.chatId);
         newState.chats[chatIndex].messages.push(action.message);
         newState.inspectedChat.messages.push(action.message);
+        newState.textField = "";
         return newState;
     },
 

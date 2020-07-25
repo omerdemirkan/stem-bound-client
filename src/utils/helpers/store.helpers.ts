@@ -55,6 +55,6 @@ export function configureAsyncActionOptions<T>(
         onFailure:
             typeof options.onFailure === "function"
                 ? options.onFailure
-                : function () {},
+                : console.error,
     };
 }

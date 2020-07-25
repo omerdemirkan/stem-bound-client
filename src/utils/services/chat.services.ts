@@ -3,6 +3,7 @@ import {
     appendQueriesToUrl,
     mapResponseData,
     mapChatData,
+    mapMessageData,
 } from "../helpers";
 import {
     IApiResponse,
@@ -73,7 +74,7 @@ export function createMessage({
 }: ICreateMessageOptions): Promise<IApiResponse<IMessage>> {
     return mapResponseData(
         apiClient.post(`/chats/${chatId}/messages`, messageData),
-        mapChatData
+        mapMessageData
     );
 }
 
