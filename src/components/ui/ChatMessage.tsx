@@ -3,13 +3,16 @@ import { IMessage } from "../../utils/types";
 interface Props {
     message: IMessage;
     onSetEdit?: (messageId: string) => any;
+    onDelete?: (messageId: string) => any;
 }
 
-const ChatMessage: React.FC<Props> = ({ message, onSetEdit }) => {
+const ChatMessage: React.FC<Props> = ({ message, onSetEdit, onDelete }) => {
     return (
-        <pre onClick={() => onSetEdit(message._id)}>
-            {JSON.stringify(message, null, 2)}
-        </pre>
+        <div>
+            <button onClick={() => onSetEdit(message._id)}>EDIT</button>
+            <button onClick={() => onDelete(message._id)}>DELETE</button>
+            <pre>{JSON.stringify(message, null, 2)}</pre>
+        </div>
     );
 };
 

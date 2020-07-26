@@ -10,6 +10,7 @@ import {
     ICreateMessageOptions,
     EStateStatus,
     IUpdateMessageOptions,
+    IDeleteMessageOptions,
 } from "../utils/types";
 import {
     clone,
@@ -24,6 +25,7 @@ import {
     createChat,
     createMessage,
     updateMessage,
+    deleteMessage,
 } from "../utils/services";
 
 export default function chatReducer(state = initialState, action) {
@@ -59,6 +61,10 @@ enum actionTypes {
     UPDATE_CHAT_MESSAGE_FAILURE = "stem-bound/chat/UPDATE_CHAT_MESSAGE_FAILURE",
     UPDATE_CHAT_MESSAGE_SUCCESS = "stem-bound/chat/UPDATE_CHAT_MESSAGE_SUCCESS",
 
+    DELETE_CHAT_MESSAGE_START = "stem-bound/chat/DELETE_CHAT_MESSAGE_START",
+    DELETE_CHAT_MESSAGE_FAILURE = "stem-bound/chat/DELETE_CHAT_MESSAGE_FAILURE",
+    DELETE_CHAT_MESSAGE_SUCCESS = "stem-bound/chat/DELETE_CHAT_MESSAGE_SUCCESS",
+
     INSPECT_CHAT = "stem-bound/chat/INSPECT_CHAT",
 
     UPDATE_CHAT_TEXT_FIELD = "stem-bound/chat/UPDATE_CHAT_TEXT_FIELD",
@@ -77,6 +83,7 @@ const initialState: IChatState = {
         createChat: EStateStatus.idle,
         sendMessage: EStateStatus.idle,
         updateMessage: EStateStatus.idle,
+        deleteMessage: EStateStatus.idle,
     },
 };
 
@@ -203,9 +210,45 @@ const reducerHandlers = {
 
         newState.chats[updatedChatIndex].messages[updatedMessageIndex] =
             action.message;
-        if (newState.inspectedChat === action.chatId) {
+        if (newState.inspectedChat._id === action.chatId) {
             newState.inspectedChat.messages[updatedMessageIndex] =
                 action.message;
+        }
+        return newState;
+    },
+
+    [actionTypes.DELETE_CHAT_MESSAGE_START]: function (
+        state: IChatState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.deleteMessage = EStateStatus.loading;
+        return newState;
+    },
+    [actionTypes.DELETE_CHAT_MESSAGE_FAILURE]: function (
+        state: IChatState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.deleteMessage = EStateStatus.failed;
+        return newState;
+    },
+    [actionTypes.DELETE_CHAT_MESSAGE_SUCCESS]: function (
+        state: IChatState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.deleteMessage = EStateStatus.successful;
+        const chatIndex = newState.chats.findIndex(
+            (chat) => chat._id === action.chatId
+        );
+        const deletedMessageIndex = newState.chats[
+            chatIndex
+        ].messages.findIndex((message) => message._id);
+        console.log(chatIndex, deletedMessageIndex);
+        newState.chats[chatIndex].messages.splice(deletedMessageIndex, 1);
+        if (newState.inspectedChat._id === action.chatId) {
+            newState.inspectedChat.messages.splice(deletedMessageIndex, 1);
         }
         return newState;
     },
@@ -313,6 +356,24 @@ export const updateChatMessageSuccess = ({
     chatId,
     messageId,
     message,
+});
+
+export const deleteChatMessageStart = () => ({
+    type: actionTypes.DELETE_CHAT_MESSAGE_START,
+});
+export const deleteChatMessageFailure = () => ({
+    type: actionTypes.DELETE_CHAT_MESSAGE_FAILURE,
+});
+export const deleteChatMessageSuccess = ({
+    chatId,
+    messageId,
+}: {
+    chatId: string;
+    messageId: string;
+}) => ({
+    type: actionTypes.DELETE_CHAT_MESSAGE_SUCCESS,
+    chatId,
+    messageId,
 });
 
 // ASYNC ACTIONS
@@ -473,6 +534,28 @@ export function updateChatMessageAsync(
             })
             .catch(function (err) {
                 dispatch(updateChatMessageFailure());
+                onFailure(err);
+            });
+    };
+}
+
+export function deleteChatMessageAsync(
+    { chatId, messageId }: IDeleteMessageOptions,
+    asyncActionOptions?: IAsyncActionOptions<any>
+) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions || {}
+    );
+    return function (dispatch) {
+        dispatch(deleteChatMessageStart());
+
+        deleteMessage({ chatId, messageId })
+            .then(function (res) {
+                dispatch(deleteChatMessageSuccess({ chatId, messageId }));
+                onSuccess(res);
+            })
+            .catch(function (err) {
+                dispatch(deleteChatMessageFailure());
                 onFailure(err);
             });
     };

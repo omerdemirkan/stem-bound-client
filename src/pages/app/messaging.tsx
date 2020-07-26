@@ -10,6 +10,7 @@ import {
     updateChatTextField,
     createChatMessageAsync,
     updateChatMessageAsync,
+    deleteChatMessageAsync,
 } from "../../store/chat";
 import ChatCard from "../../components/ui/ChatCard";
 import { useRouter } from "next/router";
@@ -103,6 +104,12 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
         );
     }
 
+    function handleDeleteMessage(messageId: string) {
+        dispatch(
+            deleteChatMessageAsync({ chatId: inspectedChat._id, messageId })
+        );
+    }
+
     return (
         <AppLayout>
             <h4>messaging</h4>
@@ -126,6 +133,7 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
                             message={message}
                             key={message._id}
                             onSetEdit={setEditedMessageId}
+                            onDelete={handleDeleteMessage}
                         />
                     ))}
                     <Input
