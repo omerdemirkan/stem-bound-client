@@ -9,6 +9,7 @@ import {
     IAsyncActionOptions,
     ICreateMessageOptions,
     EStateStatus,
+    IUpdateMessageOptions,
 } from "../utils/types";
 import {
     clone,
@@ -22,6 +23,7 @@ import {
     fetchChatById,
     createChat,
     createMessage,
+    updateMessage,
 } from "../utils/services";
 
 export default function chatReducer(state = initialState, action) {
@@ -53,6 +55,10 @@ enum actionTypes {
     CREATE_CHAT_MESSAGE_FAILURE = "stem-bound/chat/CREATE_CHAT_MESSAGE_FAILURE",
     CREATE_CHAT_MESSAGE_SUCCESS = "stem-bound/chat/CREATE_CHAT_MESSAGE_SUCCESS",
 
+    UPDATE_CHAT_MESSAGE_START = "stem-bound/chat/UPDATE_CHAT_MESSAGE_START",
+    UPDATE_CHAT_MESSAGE_FAILURE = "stem-bound/chat/UPDATE_CHAT_MESSAGE_FAILURE",
+    UPDATE_CHAT_MESSAGE_SUCCESS = "stem-bound/chat/UPDATE_CHAT_MESSAGE_SUCCESS",
+
     INSPECT_CHAT = "stem-bound/chat/INSPECT_CHAT",
 
     UPDATE_CHAT_TEXT_FIELD = "stem-bound/chat/UPDATE_CHAT_TEXT_FIELD",
@@ -66,10 +72,11 @@ const initialState: IChatState = {
     // if the user accidentally navigates away.
     textField: "",
     status: {
-        fetchChats: EStateStatus.failed,
-        fetchChat: EStateStatus.failed,
-        createChat: EStateStatus.failed,
-        sendMessage: EStateStatus.failed,
+        fetchChats: EStateStatus.idle,
+        fetchChat: EStateStatus.idle,
+        createChat: EStateStatus.idle,
+        sendMessage: EStateStatus.idle,
+        updateMessage: EStateStatus.idle,
     },
 };
 
@@ -164,6 +171,45 @@ const reducerHandlers = {
         return newState;
     },
 
+    [actionTypes.UPDATE_CHAT_MESSAGE_START]: function (
+        state: IChatState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.updateMessage = EStateStatus.loading;
+        return newState;
+    },
+    [actionTypes.UPDATE_CHAT_MESSAGE_FAILURE]: function (
+        state: IChatState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.updateMessage = EStateStatus.failed;
+        return newState;
+    },
+    [actionTypes.UPDATE_CHAT_MESSAGE_SUCCESS]: function (
+        state: IChatState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.updateMessage = EStateStatus.successful;
+
+        const updatedChatIndex = newState.chats.findIndex(
+            (chat) => chat._id === action.chatId
+        );
+        const updatedMessageIndex = newState.chats[
+            updatedChatIndex
+        ].messages.findIndex((message) => message._id);
+
+        newState.chats[updatedChatIndex].messages[updatedMessageIndex] =
+            action.message;
+        if (newState.inspectedChat === action.chatId) {
+            newState.inspectedChat.messages[updatedMessageIndex] =
+                action.message;
+        }
+        return newState;
+    },
+
     [actionTypes.UPDATE_CHAT_TEXT_FIELD]: function (state: IChatState, action) {
         return updateState(state, {
             textField: action.text,
@@ -182,6 +228,7 @@ export const updateChatTextField = (text: string) => ({
     type: actionTypes.UPDATE_CHAT_TEXT_FIELD,
     text,
 });
+
 // ACTION CREATORS
 
 export const createChatStart = () => ({ type: actionTypes.CREATE_CHAT_START });
@@ -244,6 +291,27 @@ export const createChatMessageSuccess = ({
 }) => ({
     type: actionTypes.CREATE_CHAT_MESSAGE_SUCCESS,
     chatId,
+    message,
+});
+
+export const updateChatMessageStart = () => ({
+    type: actionTypes.UPDATE_CHAT_MESSAGE_START,
+});
+export const updateChatMessageFailure = () => ({
+    type: actionTypes.UPDATE_CHAT_MESSAGE_FAILURE,
+});
+export const updateChatMessageSuccess = ({
+    chatId,
+    message,
+    messageId,
+}: {
+    chatId: string;
+    messageId: string;
+    message: IMessage;
+}) => ({
+    type: actionTypes.UPDATE_CHAT_MESSAGE_SUCCESS,
+    chatId,
+    messageId,
     message,
 });
 
@@ -359,7 +427,7 @@ export function fetchChatMessages(
 }
 
 export function createChatMessageAsync(
-    { chatId, messageData }: ICreateMessageOptions,
+    { chatId, text }: ICreateMessageOptions,
     asyncActionOptions?: IAsyncActionOptions<IMessage>
 ) {
     const { onSuccess, onFailure } = configureAsyncActionOptions(
@@ -368,7 +436,7 @@ export function createChatMessageAsync(
     return function (dispatch) {
         dispatch(createChatMessageStart());
 
-        createMessage({ chatId, messageData })
+        createMessage({ chatId, text })
             .then(function (res) {
                 dispatch(
                     createChatMessageSuccess({ chatId, message: res.data })
@@ -377,6 +445,34 @@ export function createChatMessageAsync(
             })
             .catch(function (err) {
                 dispatch(createChatMessageFailure());
+                onFailure(err);
+            });
+    };
+}
+
+export function updateChatMessageAsync(
+    { chatId, text, messageId }: IUpdateMessageOptions,
+    asyncActionOptions?: IAsyncActionOptions<IMessage>
+) {
+    const { onSuccess, onFailure } = configureAsyncActionOptions(
+        asyncActionOptions || {}
+    );
+    return function (dispatch) {
+        dispatch(updateChatMessageStart());
+
+        updateMessage({ chatId, messageId, text })
+            .then(function (res) {
+                dispatch(
+                    updateChatMessageSuccess({
+                        chatId,
+                        messageId: res.data._id,
+                        message: res.data,
+                    })
+                );
+                onSuccess(res.data);
+            })
+            .catch(function (err) {
+                dispatch(updateChatMessageFailure());
                 onFailure(err);
             });
     };

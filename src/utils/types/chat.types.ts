@@ -51,11 +51,16 @@ export interface IFetchMessageOptions {
 
 export interface ICreateMessageOptions {
     chatId: string;
-    messageData: Partial<IMessageOriginal>;
+    text: string;
 }
 
 export interface IUpdateMessageOptions {
     chatId: string;
     messageId: string;
-    messageData: Partial<IMessageOriginal>;
+    text: string;
+}
+
+export interface IDeleteMessageOptions {
+    chatId: string;
+    messageId: string;
 }

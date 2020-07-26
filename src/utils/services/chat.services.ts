@@ -14,6 +14,7 @@ import {
     ICreateMessageOptions,
     IUpdateMessageOptions,
     IChatOriginal,
+    IDeleteMessageOptions,
 } from "../types";
 
 export function createChat(
@@ -70,10 +71,10 @@ export function fetchMessageById({
 
 export function createMessage({
     chatId,
-    messageData,
+    text,
 }: ICreateMessageOptions): Promise<IApiResponse<IMessage>> {
     return mapResponseData(
-        apiClient.post(`/chats/${chatId}/messages`, messageData),
+        apiClient.post(`/chats/${chatId}/messages`, { text }),
         mapMessageData
     );
 }
@@ -81,21 +82,17 @@ export function createMessage({
 export function updateMessage({
     chatId,
     messageId,
-    messageData,
+    text,
 }: IUpdateMessageOptions): Promise<IApiResponse<IMessage>> {
     return mapResponseData(
-        apiClient.patch(`/chats/${chatId}/messages/${messageId}`, messageData),
-        mapChatData
+        apiClient.patch(`/chats/${chatId}/messages/${messageId}`, { text }),
+        mapMessageData
     );
 }
 
 export function deleteMessage({
     chatId,
     messageId,
-    messageData,
-}: IUpdateMessageOptions): Promise<IApiResponse<any>> {
-    return mapResponseData(
-        apiClient.patch(`/chats/${chatId}/messages/${messageId}`, messageData),
-        mapChatData
-    );
+}: IDeleteMessageOptions): Promise<IApiResponse<any>> {
+    return apiClient.delete(`/chats/${chatId}/messages/${messageId}`);
 }

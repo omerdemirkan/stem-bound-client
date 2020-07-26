@@ -1,11 +1,11 @@
 import { IApiResponse } from "../types";
 
 export function mapResponseData<T>(
-    fetcher: Promise<IApiResponse<any>>,
+    fetchPromise: Promise<IApiResponse<any>>,
     mapFunction: (any) => any
 ): Promise<IApiResponse<T>> {
     return new Promise(function (resolve, reject) {
-        fetcher
+        fetchPromise
             .then(function (res) {
                 try {
                     res.data = (res.data as any).map(mapFunction);
