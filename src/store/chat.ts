@@ -206,7 +206,7 @@ const reducerHandlers = {
         );
         const updatedMessageIndex = newState.chats[
             updatedChatIndex
-        ].messages.findIndex((message) => message._id);
+        ].messages.findIndex((message) => message._id === action.messageId);
 
         newState.chats[updatedChatIndex].messages[updatedMessageIndex] =
             action.message;
@@ -244,8 +244,7 @@ const reducerHandlers = {
         );
         const deletedMessageIndex = newState.chats[
             chatIndex
-        ].messages.findIndex((message) => message._id);
-        console.log(chatIndex, deletedMessageIndex);
+        ].messages.findIndex((message) => message._id === action.messageId);
         newState.chats[chatIndex].messages.splice(deletedMessageIndex, 1);
         if (newState.inspectedChat._id === action.chatId) {
             newState.inspectedChat.messages.splice(deletedMessageIndex, 1);
