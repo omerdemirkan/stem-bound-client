@@ -24,7 +24,10 @@ export function createChat(
 }
 
 export function fetchChatsByUserId(id: string): Promise<IApiResponse<IChat[]>> {
-    return mapResponseData(apiClient.get(`/users/${id}/chats`), mapChatData);
+    return mapResponseData(
+        apiClient.get(`/users/${id}/chats?include_unread_messages=1`),
+        mapChatData
+    );
 }
 
 export function fetchChatById(id: string): Promise<IApiResponse<IChat>> {

@@ -1,8 +1,10 @@
 import AppLayout from "../../../components/containers/AppLayout";
 import { useRouter } from "next/router";
 import withAuth from "../../../components/hoc/withAuth";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { IStoreState, IWithAuthProps } from "../../../utils/types";
+import { useEffect } from "react";
+import { inspectCourse, fetchCourseAsync } from "../../../store/course";
 
 const CourseAppPage: React.FC<IWithAuthProps> = ({
     authAttempted,
@@ -10,11 +12,22 @@ const CourseAppPage: React.FC<IWithAuthProps> = ({
     user,
 }) => {
     const router = useRouter();
-    const { courses } = useSelector((state: IStoreState) => state.course);
-    const course = courses.find((course) => course._id === router.query.id);
+    const queryCourseId = router.query.id;
+    const dispatch = useDispatch();
+    const { inspectedCourse } = useSelector(
+        (state: IStoreState) => state.course
+    );
+
+    useEffect(
+        function () {
+            dispatch(inspectCourse(queryCourseId as string));
+            dispatch(fetchCourseAsync(queryCourseId as string));
+        },
+        [queryCourseId]
+    );
     return (
         <AppLayout>
-            <pre>{JSON.stringify(course, null, 2)}</pre>
+            <pre>{JSON.stringify(inspectedCourse, null, 2)}</pre>
         </AppLayout>
     );
 };

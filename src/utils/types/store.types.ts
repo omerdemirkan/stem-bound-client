@@ -20,8 +20,10 @@ export interface ICourseState {
     status: {
         fetchCourses: EStateStatus;
         createCourse: EStateStatus;
+        fetchCourse: EStateStatus;
     };
     courses: ICourse[];
+    inspectedCourse: ICourse;
 }
 
 export interface IChatState {

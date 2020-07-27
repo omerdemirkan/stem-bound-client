@@ -42,10 +42,6 @@ const CoursesAppPage: React.FC<IWithAuthProps> = ({
                 </Link>
             ) : null}
 
-            {fetchCoursesStatus === EStateStatus.loading ? (
-                <h6>Loading...</h6>
-            ) : null}
-
             {courses.map((course) => (
                 <CourseCard course={course} key={course._id} />
             ))}
