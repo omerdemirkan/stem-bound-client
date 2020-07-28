@@ -15,6 +15,8 @@ export interface IChatOriginal {
     meta: {
         users: string[];
     };
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export interface IMessage {
@@ -34,6 +36,8 @@ export interface IChat {
     meta: {
         users: string[];
     };
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 // SERVICE TYPES

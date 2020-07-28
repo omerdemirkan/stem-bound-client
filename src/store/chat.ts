@@ -210,6 +210,14 @@ const reducerHandlers = {
 
         newState.chats[updatedChatIndex].messages[updatedMessageIndex] =
             action.message;
+
+        // newState.chats[
+        //     updatedChatIndex
+        // ].updatedAt = (action.message as IMessage).updatedAt;
+        // newState.chats = newState.chats.sort(
+        //     // @ts-ignore
+        //     (a, b) => new Date(a.updatedAt) - new Date(b.updatedAt)
+        // );
         if (newState.inspectedChat._id === action.chatId) {
             newState.inspectedChat.messages[updatedMessageIndex] =
                 action.message;
