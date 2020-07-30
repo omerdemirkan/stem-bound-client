@@ -31,6 +31,7 @@ export interface IChatState {
         fetchChats: EStateStatus;
         fetchChat: EStateStatus;
         createChat: EStateStatus;
+        fetchMessages: EStateStatus;
         sendMessage: EStateStatus;
         updateMessage: EStateStatus;
         deleteMessage: EStateStatus;

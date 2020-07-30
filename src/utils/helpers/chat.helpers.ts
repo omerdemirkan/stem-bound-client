@@ -5,6 +5,7 @@ export function mapMessageData(message: IMessageOriginal): IMessage {
         meta: message.meta,
         text: message.text,
         _id: message._id,
+        isDeleted: message.isDeleted,
         createdAt: message.createdAt,
         updatedAt: message.updatedAt,
     };

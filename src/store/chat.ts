@@ -12,6 +12,7 @@ import {
     IUpdateMessageOptions,
     IDeleteMessageOptions,
     ICreateChatOptions,
+    IFetchChatOptions,
 } from "../utils/types";
 import {
     clone,
@@ -81,6 +82,7 @@ const initialState: IChatState = {
     status: {
         fetchChats: EStateStatus.idle,
         fetchChat: EStateStatus.idle,
+        fetchMessages: EStateStatus.idle,
         createChat: EStateStatus.idle,
         sendMessage: EStateStatus.idle,
         updateMessage: EStateStatus.idle,
@@ -120,6 +122,38 @@ const reducerHandlers = {
         const newState = clone(state);
         newState.status.fetchChat = EStateStatus.successful;
         newState.inspectedChat = action.chat;
+        return newState;
+    },
+
+    [actionTypes.FETCH_CHAT_MESSAGES_START]: function (
+        state: IChatState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.fetchMessages = EStateStatus.loading;
+        return newState;
+    },
+    [actionTypes.FETCH_CHAT_MESSAGES_FAILURE]: function (
+        state: IChatState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.fetchMessages = EStateStatus.failed;
+        return newState;
+    },
+    [actionTypes.FETCH_CHAT_MESSAGES_SUCCESS]: function (
+        state: IChatState,
+        action
+    ) {
+        const newState = clone(state);
+        newState.status.fetchMessages = EStateStatus.successful;
+        const chatIndex = state.chats.findIndex(
+            (chat) => chat._id === action.chatId
+        );
+        newState.chats[chatIndex].messages = action.messages;
+        if (newState.inspectedChat._id === action.chatId) {
+            newState.inspectedChat.messages = action.messages;
+        }
         return newState;
     },
 
@@ -254,9 +288,13 @@ const reducerHandlers = {
         const deletedMessageIndex = newState.chats[
             chatIndex
         ].messages.findIndex((message) => message._id === action.messageId);
-        newState.chats[chatIndex].messages.splice(deletedMessageIndex, 1);
+        newState.chats[chatIndex].messages[
+            deletedMessageIndex
+        ].isDeleted = true;
         if (newState.inspectedChat._id === action.chatId) {
-            newState.inspectedChat.messages.splice(deletedMessageIndex, 1);
+            newState.inspectedChat.messages[
+                deletedMessageIndex
+            ].isDeleted = true;
         }
         return newState;
     },
@@ -394,7 +432,10 @@ export function createChatAsync(
     const { onSuccess, onFailure } = configureAsyncActionOptions(
         asyncActionOptions || {}
     );
-    return function (dispatch) {
+    return function (dispatch, getState: IGetState) {
+        if (getState().chat.status.createChat === EStateStatus.loading)
+            return null;
+
         dispatch(createChatStart());
 
         createChat(chatData, createChatOptions)
@@ -412,15 +453,18 @@ export function createChatAsync(
 export function fetchChatsAsync(
     userId: string,
     arrayOptions: IStoreArrayOptions = {},
-    asyncActionOptions?: IAsyncActionOptions<IChat[]>
+    asyncActionOptions: IAsyncActionOptions<IChat[]> = {}
 ) {
     const { onSuccess, onFailure } = configureAsyncActionOptions(
-        asyncActionOptions || {}
+        asyncActionOptions
     );
     return function (dispatch, getState: IGetState) {
+        const state = getState();
+        if (state.chat.status.fetchChats === EStateStatus.loading) return null;
+
         dispatch(fetchChatsStart());
 
-        const prevChats: IChat[] = getState().chat.chats;
+        const prevChats: IChat[] = state.chat.chats;
 
         fetchChatsByUserId(userId, { includeUnreadMessages: true })
             .then(function (res) {
@@ -440,12 +484,16 @@ export function fetchChatsAsync(
 
 export function fetchChatAsync(
     chatId: string,
+    {}: IFetchChatOptions,
     asyncActionOptions?: IAsyncActionOptions<IChat[]>
 ) {
     const { onSuccess, onFailure } = configureAsyncActionOptions(
         asyncActionOptions || {}
     );
-    return function (dispatch) {
+    return function (dispatch, getState: IGetState) {
+        const state = getState();
+        if (state.chat.status.fetchChat === EStateStatus.loading) return null;
+
         dispatch(fetchChatStart());
 
         fetchChatById(chatId)
@@ -460,7 +508,7 @@ export function fetchChatAsync(
     };
 }
 
-export function fetchChatMessages(
+export function fetchChatMessagesAsync(
     fetchMessagesOptions: IFetchMessagesOptions,
     arrayOptions: IStoreArrayOptions = {},
     asyncActionOptions?: IAsyncActionOptions<IMessage[]>
@@ -469,9 +517,13 @@ export function fetchChatMessages(
         asyncActionOptions || {}
     );
     return function (dispatch, getState: IGetState) {
+        const state = getState();
+        if (state.chat.status.fetchMessages === EStateStatus.loading)
+            return null;
+
         dispatch(fetchChatMessagesStart());
 
-        const chat = getState().chat.chats.find(
+        const chat = state.chat.chats.find(
             (chat) => chat._id === fetchMessagesOptions.chatId
         );
 
@@ -503,7 +555,10 @@ export function createChatMessageAsync(
     const { onSuccess, onFailure } = configureAsyncActionOptions(
         asyncActionOptions || {}
     );
-    return function (dispatch) {
+    return function (dispatch, getState: IGetState) {
+        const state = getState();
+        if (state.chat.status.createChat === EStateStatus.loading) return null;
+
         dispatch(createChatMessageStart());
 
         createMessage({ chatId, text })
@@ -527,7 +582,11 @@ export function updateChatMessageAsync(
     const { onSuccess, onFailure } = configureAsyncActionOptions(
         asyncActionOptions || {}
     );
-    return function (dispatch) {
+    return function (dispatch, getState: IGetState) {
+        const state = getState();
+        if (state.chat.status.updateMessage === EStateStatus.loading)
+            return null;
+
         dispatch(updateChatMessageStart());
 
         updateMessage({ chatId, messageId, text })
@@ -555,7 +614,11 @@ export function deleteChatMessageAsync(
     const { onSuccess, onFailure } = configureAsyncActionOptions(
         asyncActionOptions || {}
     );
-    return function (dispatch) {
+    return function (dispatch, getState: IGetState) {
+        const state = getState();
+        if (state.chat.status.deleteMessage === EStateStatus.loading)
+            return null;
+
         dispatch(deleteChatMessageStart());
 
         deleteMessage({ chatId, messageId })

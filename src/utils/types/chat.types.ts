@@ -4,6 +4,7 @@ export interface IMessageOriginal {
         from: string;
         readBy: string[];
     };
+    isDeleted: boolean;
     _id?: string;
     createdAt?: Date;
     updatedAt?: Date;
@@ -25,6 +26,7 @@ export interface IMessage {
         from: string;
         readBy: string[];
     };
+    isDeleted: boolean;
     _id?: string;
     createdAt?: Date;
     updatedAt?: Date;
@@ -44,6 +46,11 @@ export interface IChat {
 
 export interface IFetchChatsOptions {
     includeUnreadMessages?: boolean;
+    limit?: number;
+    skip?: number;
+}
+
+export interface IFetchChatOptions {
     limit?: number;
     skip?: number;
 }

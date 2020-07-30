@@ -44,7 +44,12 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
     useEffect(
         function () {
             if (chatId) {
-                dispatch(fetchChatAsync(chatId as any));
+                dispatch(
+                    fetchChatAsync(chatId as any, {
+                        skip: inspectedChat?.messages.length,
+                        limit: 20,
+                    })
+                );
             }
         },
         [chatId]
@@ -113,6 +118,7 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
     return (
         <AppLayout>
             <h4>messaging</h4>
+            <button></button>
             {chats.map((chat: IChat) => (
                 <ChatCard
                     chat={chat}

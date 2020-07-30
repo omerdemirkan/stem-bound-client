@@ -9,6 +9,7 @@ import {
     IAuthState,
     IAsyncActionOptions,
     IApiAuthResponse,
+    IGetState,
 } from "../utils/types";
 
 enum actionTypes {
@@ -98,7 +99,9 @@ export function logInAsync(
     const { onSuccess, onFailure } = configureAsyncActionOptions(
         asyncActionOptions || {}
     );
-    return function (dispatch: Dispatch) {
+    return function (dispatch: Dispatch, getState: IGetState) {
+        if (getState().auth.loading) return null;
+
         dispatch(authStart());
 
         logIn({ email, password })
@@ -123,7 +126,9 @@ export function signUpAsync(
     const { onSuccess, onFailure } = configureAsyncActionOptions(
         asyncActionOptions || {}
     );
-    return function (dispatch: Dispatch) {
+    return function (dispatch: Dispatch, getState: IGetState) {
+        if (getState().auth.loading) return null;
+
         dispatch(authStart());
 
         signUp(userData)
@@ -148,7 +153,9 @@ export function meAsync(
     const { onSuccess, onFailure } = configureAsyncActionOptions(
         asyncActionOptions || {}
     );
-    return function (dispatch: Dispatch) {
+    return function (dispatch: Dispatch, getState: IGetState) {
+        if (getState().auth.loading) return null;
+
         dispatch(authStart());
 
         me(currentAccessToken)
