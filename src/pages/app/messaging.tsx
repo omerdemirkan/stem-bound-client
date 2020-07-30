@@ -16,6 +16,7 @@ import ChatCard from "../../components/ui/ChatCard";
 import { useRouter } from "next/router";
 import Input from "../../components/ui/Input";
 import ChatMessage from "../../components/ui/ChatMessage";
+import useSocket from "../../components/hooks/useSocket";
 
 const MessagingAppPage: React.FC<IWithAuthProps> = ({
     authAttempted,
@@ -24,6 +25,7 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
 }) => {
     const dispatch = useDispatch();
     const router = useRouter();
+    const socket = useSocket();
     const {
         chat: {
             chats,
@@ -40,6 +42,15 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
     useEffect(function () {
         dispatch(fetchChatsAsync(user._id));
     }, []);
+
+    useEffect(
+        function () {
+            if (socket?.connected) {
+                socket.on("connection", () => console.log("Connected!"));
+            }
+        },
+        [socket?.connected]
+    );
 
     useEffect(
         function () {

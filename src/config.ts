@@ -1,4 +1,11 @@
-export const API_BASE_URL =
+export const SERVER_BASE_URL =
     process.env.NODE_ENV === "development"
-        ? "http://localhost:8080/api/v1"
-        : "https://stem-bound-api-4ea6ol7fuq-uc.a.run.app/api/v1";
+        ? "http://127.0.0.1:8080"
+        : "https://stem-bound-api-4ea6ol7fuq-uc.a.run.app";
+
+export const API_BASE_URL = SERVER_BASE_URL + "/api/v1";
+
+export const SOCKET_BASE_URL =
+    process.env.NODE_ENV === "development"
+        ? "http://127.0.0.1:443"
+        : "https://stem-bound-api-4ea6ol7fuq-uc.a.run.app";
