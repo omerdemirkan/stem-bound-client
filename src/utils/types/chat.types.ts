@@ -30,6 +30,7 @@ export interface IMessage {
     _id?: string;
     createdAt?: Date;
     updatedAt?: Date;
+    typing?: string[];
 }
 
 export interface IChat {

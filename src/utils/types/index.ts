@@ -10,3 +10,4 @@ export * from "./location.types";
 export * from "./auth.types";
 export * from "./chat.types";
 export * from "./hoc.types";
+export * from "./socket.types";

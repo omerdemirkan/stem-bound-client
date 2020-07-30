@@ -8,6 +8,7 @@ export function mapMessageData(message: IMessageOriginal): IMessage {
         isDeleted: message.isDeleted,
         createdAt: message.createdAt,
         updatedAt: message.updatedAt,
+        typing: [],
     };
 }
 

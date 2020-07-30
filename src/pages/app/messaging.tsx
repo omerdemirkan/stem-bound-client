@@ -25,7 +25,6 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
 }) => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const socket = useSocket();
     const {
         chat: {
             chats,
@@ -34,6 +33,11 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
             status: { fetchChat: fetchChatStatus },
         },
     } = useSelector((state: IStoreState) => state);
+
+    const socket = useSocket(function (socket) {
+        socket.on("pong", () => console.log("pong"));
+    });
+
     const chatId = router.query.id;
 
     const [editedMessageId, setEditedMessageId] = useState<null | string>(null);
@@ -42,15 +46,6 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
     useEffect(function () {
         dispatch(fetchChatsAsync(user._id));
     }, []);
-
-    useEffect(
-        function () {
-            if (socket?.connected) {
-                socket.on("connection", () => console.log("Connected!"));
-            }
-        },
-        [socket?.connected]
-    );
 
     useEffect(
         function () {
@@ -129,7 +124,7 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
     return (
         <AppLayout>
             <h4>messaging</h4>
-            <button></button>
+            <button onClick={() => socket.emit("ping", "Boojie")}>PING</button>
             {chats.map((chat: IChat) => (
                 <ChatCard
                     chat={chat}
