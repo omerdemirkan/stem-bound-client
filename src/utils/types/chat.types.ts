@@ -42,6 +42,16 @@ export interface IChat {
 
 // SERVICE TYPES
 
+export interface IFetchChatsOptions {
+    includeUnreadMessages?: boolean;
+    limit?: number;
+    skip?: number;
+}
+
+export interface ICreateChatOptions {
+    duplicateFallback?: boolean;
+}
+
 export interface IFetchMessagesOptions {
     chatId: string;
     limit?: number;

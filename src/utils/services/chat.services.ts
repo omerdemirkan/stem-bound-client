@@ -15,17 +15,37 @@ import {
     IUpdateMessageOptions,
     IChatOriginal,
     IDeleteMessageOptions,
+    IFetchChatsOptions,
+    ICreateChatOptions,
 } from "../types";
 
 export function createChat(
-    chatData: Partial<IChatOriginal>
+    chatData: Partial<IChatOriginal>,
+    options?: ICreateChatOptions
 ): Promise<IApiResponse<IChat>> {
-    return mapResponseData(apiClient.post("/chats", chatData), mapChatData);
+    return mapResponseData(
+        apiClient.post(
+            appendQueriesToUrl("/chats", {
+                duplicate_fallback: options?.duplicateFallback,
+            }),
+            chatData
+        ),
+        mapChatData
+    );
 }
 
-export function fetchChatsByUserId(id: string): Promise<IApiResponse<IChat[]>> {
+export function fetchChatsByUserId(
+    id: string,
+    options?: IFetchChatsOptions
+): Promise<IApiResponse<IChat[]>> {
     return mapResponseData(
-        apiClient.get(`/users/${id}/chats?include_unread_messages=1`),
+        apiClient.get(
+            appendQueriesToUrl(`/users/${id}/chats`, {
+                include_unread_messages: options?.includeUnreadMessages,
+                limit: options?.limit,
+                skip: options?.skip,
+            })
+        ),
         mapChatData
     );
 }

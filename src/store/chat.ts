@@ -11,6 +11,7 @@ import {
     EStateStatus,
     IUpdateMessageOptions,
     IDeleteMessageOptions,
+    ICreateChatOptions,
 } from "../utils/types";
 import {
     clone,
@@ -387,6 +388,7 @@ export const deleteChatMessageSuccess = ({
 
 export function createChatAsync(
     chatData: Partial<IChatOriginal>,
+    createChatOptions: ICreateChatOptions,
     asyncActionOptions?: IAsyncActionOptions<IChat>
 ) {
     const { onSuccess, onFailure } = configureAsyncActionOptions(
@@ -395,7 +397,7 @@ export function createChatAsync(
     return function (dispatch) {
         dispatch(createChatStart());
 
-        createChat(chatData)
+        createChat(chatData, createChatOptions)
             .then(function (res) {
                 dispatch(createChatSuccess(res.data));
                 onSuccess(res.data);
@@ -420,7 +422,7 @@ export function fetchChatsAsync(
 
         const prevChats: IChat[] = getState().chat.chats;
 
-        fetchChatsByUserId(userId)
+        fetchChatsByUserId(userId, { includeUnreadMessages: true })
             .then(function (res) {
                 dispatch(
                     fetchChatsSuccess(

@@ -64,14 +64,12 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
         dispatch(
             createChatAsync(
                 { meta: { users: [searchedUser._id, user._id] } },
+                { duplicateFallback: true },
                 {
                     onSuccess(chat) {
                         router.push(`/app/messaging`, {
                             query: { id: chat._id },
                         });
-                    },
-                    onFailure(err) {
-                        console.log(err);
                     },
                 }
             )
