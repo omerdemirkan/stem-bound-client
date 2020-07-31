@@ -35,7 +35,7 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
     } = useSelector((state: IStoreState) => state);
 
     const socket = useSocket(function (socket) {
-        socket.on("pong", () => console.log("pong"));
+        socket.on("pong", console.log);
     });
 
     const chatId = router.query.id;
@@ -124,7 +124,7 @@ const MessagingAppPage: React.FC<IWithAuthProps> = ({
     return (
         <AppLayout>
             <h4>messaging</h4>
-            <button onClick={() => socket.emit("ping", "Boojie")}>PING</button>
+            <button onClick={() => socket.emit("/ping")}>PING</button>
             {chats.map((chat: IChat) => (
                 <ChatCard
                     chat={chat}
