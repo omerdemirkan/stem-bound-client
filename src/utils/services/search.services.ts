@@ -1,5 +1,10 @@
-import { IFetchSearchDataOptions, ISearchData, IApiResponse } from "../types";
-import { isSearchField, isUserSearchField } from "../helpers";
+import {
+    IFetchSearchDataOptions,
+    ISearchData,
+    IApiResponse,
+    ESearchFieldTypes,
+} from "../types";
+import { getSearchFieldType } from "../helpers";
 import { fetchUsers } from ".";
 
 export async function fetchSearchData({
@@ -7,15 +12,16 @@ export async function fetchSearchData({
     ...options
 }: IFetchSearchDataOptions): Promise<IApiResponse<ISearchData[]>> {
     try {
-        if (!isSearchField(field)) {
-            throw new Error(
-                "Invalid search searchField passed to fetchSearchData"
-            );
-        } else if (isUserSearchField(field)) {
-            return (await fetchUsers({
-                role: field as any,
-                ...(options as any),
-            })) as any;
+        switch (getSearchFieldType(field)) {
+            case ESearchFieldTypes.USER:
+                return (await fetchUsers({
+                    role: field as any,
+                    ...(options as any),
+                })) as any;
+            default:
+                throw new Error(
+                    "Invalid search searchField passed to fetchSearchData"
+                );
         }
     } catch (e) {
         return Promise.reject(e);

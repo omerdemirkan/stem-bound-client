@@ -7,6 +7,10 @@ export enum ESearchFields {
     "INSTRUCTOR" = EUserRoles.INSTRUCTOR,
 }
 
+export enum ESearchFieldTypes {
+    USER = "user",
+}
+
 export interface ISearchOption {
     display: string;
     searchField: ESearchFields;

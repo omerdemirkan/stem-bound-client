@@ -426,7 +426,7 @@ export const deleteChatMessageSuccess = ({
 
 export function createChatAsync(
     chatData: Partial<IChatOriginal>,
-    createChatOptions: ICreateChatOptions,
+    createChatOptions?: ICreateChatOptions,
     asyncActionOptions?: IAsyncActionOptions<IChat>
 ) {
     const { onSuccess, onFailure } = configureAsyncActionOptions(

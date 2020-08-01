@@ -1,4 +1,4 @@
-import { EUserRoles } from "../types";
+import { EUserRoles, ESearchFieldTypes } from "../types";
 import { ESearchFields, ISearchOption } from "../types";
 
 export const searchFieldInputOptions: ISearchOption[] = [
@@ -20,4 +20,10 @@ export const defaultSearchFields = {
     [EUserRoles.INSTRUCTOR]: ESearchFields.SCHOOL_OFFICIAL,
     [EUserRoles.STUDENT]: ESearchFields.INSTRUCTOR,
     [EUserRoles.SCHOOL_OFFICIAL]: ESearchFields.INSTRUCTOR,
+};
+
+export const searchFieldTypes = {
+    [ESearchFields.INSTRUCTOR]: ESearchFieldTypes.USER,
+    [ESearchFields.SCHOOL_OFFICIAL]: ESearchFieldTypes.USER,
+    [ESearchFields.STUDENT]: ESearchFieldTypes.USER,
 };

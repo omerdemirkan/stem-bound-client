@@ -8,6 +8,7 @@ import ChatCard from "../../components/ui/ChatCard";
 import { IStoreState, IChat } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useContext } from "react";
+import { useRouter } from "next/router";
 import {
     fetchChatsAsync,
     fetchChatAsync,
@@ -17,7 +18,6 @@ import {
     updateChatMessageAsync,
     deleteChatMessageAsync,
 } from "../../store/chat";
-import { useRouter } from "next/router";
 
 const MessagingAppPage: React.FC = () => {
     const dispatch = useDispatch();
