@@ -3,12 +3,15 @@ import "../styles/index.css";
 
 import store from "../store";
 import { createWrapper } from "next-redux-wrapper";
+import { AuthContextProvider } from "../components/contexts/AuthContext";
 
 const App: React.FC = function ({ Component, pageProps }: any) {
     return (
-        <Provider store={store}>
-            <Component {...pageProps}></Component>
-        </Provider>
+        <AuthContextProvider>
+            <Provider store={store}>
+                <Component {...pageProps}></Component>
+            </Provider>
+        </AuthContextProvider>
     );
 };
 

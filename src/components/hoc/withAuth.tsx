@@ -11,23 +11,19 @@ export default function withAuth(
 ): React.FC {
     return (props) => {
         const router = useRouter();
-        const authContextState = useContext(AuthContext);
-        const [
-            { accessToken, authAttempted, user, authLoading },
-            setAuthState,
-        ] = useState<IAuthContextState>(authContextState);
+        const { accessToken, authAttempted, user, authLoading } = useContext(
+            AuthContext
+        );
 
         useEffect(
             function () {
                 // embedded if statements are to limit the number of checks for logged in users.
-                if (!accessToken) {
+                if (authAttempted) {
                     const storedToken = localStorage.getItem("accessToken");
                     if (!storedToken) {
                         router.push("/sign-up");
-                    } else if (authAttempted && !validateUser()) {
+                    } else if (!validateUser()) {
                         router.push("/log-in");
-                    } else {
-                        authenticateUser(storedToken);
                     }
                 }
             },
@@ -42,38 +38,6 @@ export default function withAuth(
             );
         }
 
-        function authenticateUser(accessToken: string) {
-            setAuthState((prevState) => ({
-                ...prevState,
-                authLoading: true,
-            }));
-            me(accessToken)
-                .then(function (res) {
-                    const { user, accessToken } = res.data;
-                    apiClient.setAuthHeader(accessToken);
-                    localStorage.setItem("accessToken", accessToken);
-                    setAuthState({
-                        user,
-                        accessToken,
-                        authAttempted: true,
-                        authLoading: false,
-                    });
-                })
-                .catch(function (err) {
-                    setAuthState((prevState) => ({
-                        ...prevState,
-                        authLoading: false,
-                        authAttempted: true,
-                    }));
-                });
-        }
-
-        return accessToken ? (
-            <AuthContext.Provider
-                value={{ accessToken, authAttempted, user, authLoading }}
-            >
-                <Component {...props} />
-            </AuthContext.Provider>
-        ) : null;
+        return accessToken ? <Component {...props} /> : null;
     };
 }
