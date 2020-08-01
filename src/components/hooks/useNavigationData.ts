@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { getNavigationDataByUserRole } from "../../utils/helpers";
-import { INavigationData, IUser } from "../../utils/types";
+import { INavigationData } from "../../utils/types";
+import AuthContext from "../contexts/AuthContext";
 
 export default function useNavigationData(): INavigationData {
-    const user: IUser = useSelector((state: any) => state.auth.user);
+    const { user } = useContext(AuthContext);
     const [
         navigationData,
         setNavigationData,

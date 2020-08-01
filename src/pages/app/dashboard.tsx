@@ -2,11 +2,7 @@ import AppLayout from "../../components/containers/AppLayout";
 import withAuth from "../../components/hoc/withAuth";
 import { IWithAuthProps } from "../../utils/types";
 
-const DashboardAppPage: React.FC<IWithAuthProps> = ({
-    authAttempted,
-    accessToken,
-    user,
-}) => {
+const DashboardAppPage: React.FC<IWithAuthProps> = () => {
     return (
         <AppLayout>
             <h4>dashboard</h4>

@@ -3,10 +3,11 @@ import Head from "next/head";
 import Form from "../components/ui/Form";
 import useFormData from "../components/hooks/useFormData";
 import Select, { Option } from "../components/ui/Select";
+import AuthContext from "../components/contexts/AuthContext";
 import { getUserRoleBySignUpFormKey } from "../utils/helpers";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { EForms, IFormData } from "../utils/types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { signUpAsync } from "../store/auth";
 import { useRouter } from "next/router";
 
@@ -15,12 +16,7 @@ const SignUpPage: React.FC = () => {
     const formData: IFormData = useFormData(formKey);
     const dispatch = useDispatch();
     const router = useRouter();
-    const {
-        loading,
-        accessToken,
-    }: { loading: boolean; accessToken: string | null } = useSelector(
-        (state: any) => state.auth
-    );
+    const { authLoading, accessToken } = useContext(AuthContext);
     async function submitSignUpHandler(values: any): Promise<void> {
         const userData = {
             ...formData.mapFormToRequestBody(values),
@@ -59,7 +55,7 @@ const SignUpPage: React.FC = () => {
 
             {formData ? (
                 <Form
-                    isSubmitting={loading}
+                    isSubmitting={authLoading}
                     onSubmit={submitSignUpHandler}
                     {...formData}
                 />

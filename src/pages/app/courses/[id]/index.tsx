@@ -4,13 +4,8 @@ import useSWR from "swr";
 import withAuth from "../../../../components/hoc/withAuth";
 import { useRouter } from "next/router";
 import { courseFetcher } from "../../../../utils/services";
-import { IWithAuthProps } from "../../../../utils/types";
 
-const CourseAppPage: React.FC<IWithAuthProps> = ({
-    authAttempted,
-    accessToken,
-    user,
-}) => {
+const CourseAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
     const { data: course, error } = useSWR(

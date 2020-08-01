@@ -1,8 +1,13 @@
 import AppLayout from "../../components/containers/AppLayout";
 import withAuth from "../../components/hoc/withAuth";
-import { IWithAuthProps, IStoreState, IChat } from "../../utils/types";
+import Input from "../../components/ui/Input";
+import ChatMessage from "../../components/ui/ChatMessage";
+import useSocket from "../../components/hooks/useSocket";
+import AuthContext from "../../components/contexts/AuthContext";
+import ChatCard from "../../components/ui/ChatCard";
+import { IStoreState, IChat } from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
     fetchChatsAsync,
     fetchChatAsync,
@@ -12,19 +17,12 @@ import {
     updateChatMessageAsync,
     deleteChatMessageAsync,
 } from "../../store/chat";
-import ChatCard from "../../components/ui/ChatCard";
 import { useRouter } from "next/router";
-import Input from "../../components/ui/Input";
-import ChatMessage from "../../components/ui/ChatMessage";
-import useSocket from "../../components/hooks/useSocket";
 
-const MessagingAppPage: React.FC<IWithAuthProps> = ({
-    authAttempted,
-    accessToken,
-    user,
-}) => {
+const MessagingAppPage: React.FC = () => {
     const dispatch = useDispatch();
     const router = useRouter();
+    const { user } = useContext(AuthContext);
     const {
         chat: {
             chats,

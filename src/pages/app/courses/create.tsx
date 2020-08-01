@@ -2,23 +2,16 @@ import withAuth from "../../../components/hoc/withAuth";
 import AppLayout from "../../../components/containers/AppLayout";
 import Form from "../../../components/ui/Form";
 import useFormData from "../../../components/hooks/useFormData";
-import {
-    EUserRoles,
-    EForms,
-    IWithAuthProps,
-    EStateStatus,
-} from "../../../utils/types";
-import { useState } from "react";
+import { EUserRoles, EForms, EStateStatus } from "../../../utils/types";
+import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { createCourse } from "../../../utils/services";
+import AuthContext from "../../../components/contexts/AuthContext";
 
-const CreateCourseAppPage: React.FC<IWithAuthProps> = ({
-    authAttempted,
-    accessToken,
-    user,
-}) => {
+const CreateCourseAppPage: React.FC = () => {
     const router = useRouter();
     const formData = useFormData(EForms.CREATE_COURSE);
+    const { user } = useContext(AuthContext);
     const [status, setStatus] = useState<EStateStatus>(EStateStatus.idle);
 
     function handleSubmit(values) {

@@ -1,8 +1,8 @@
 import Modal, { ModalFooter } from "../ui/Modal";
-import { useState, useEffect } from "react";
+import AuthContext from "../contexts/AuthContext";
+import { useState, useEffect, useContext } from "react";
 import { ICoordinates, IUser } from "../../utils/types";
 import { getCurrentLocation } from "../../utils/helpers";
-import { useSelector } from "react-redux";
 
 export default function withUserCoordinates(Component): React.FC {
     return function (props) {
@@ -13,9 +13,7 @@ export default function withUserCoordinates(Component): React.FC {
             boolean | null
         >(null);
         const [coordinates, setCoordinates] = useState<ICoordinates>();
-        const { user }: { user: IUser } = useSelector(
-            (state: any) => state.auth
-        );
+        const { user }: { user: IUser } = useContext(AuthContext);
 
         useEffect(function () {
             handleSetCoordinates();

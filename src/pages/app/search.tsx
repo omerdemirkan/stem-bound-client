@@ -3,7 +3,7 @@ import withAuth from "../../components/hoc/withAuth";
 import Search from "../../components/containers/Search";
 import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSearchDataAsync } from "../../store/search";
 import { createChatAsync } from "../../store/chat";
@@ -19,15 +19,14 @@ import {
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
+import AuthContext from "../../components/contexts/AuthContext";
 
 const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
     coordinates,
-    user,
-    accessToken,
-    authAttempted,
 }) => {
     const router = useRouter();
     const dispatch = useDispatch();
+    const { user } = useContext(AuthContext);
     const {
         search: { fields },
     } = useSelector((state: IStoreState) => state);

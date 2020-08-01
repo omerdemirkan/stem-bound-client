@@ -4,13 +4,12 @@ import Link from "next/link";
 import CourseCard from "../../../components/ui/CourseCard";
 import useSWR from "swr";
 import { userCoursesFetcher } from "../../../utils/services";
-import { EUserRoles, IWithAuthProps } from "../../../utils/types";
+import { EUserRoles } from "../../../utils/types";
+import { useContext } from "react";
+import AuthContext from "../../../components/contexts/AuthContext";
 
-const CoursesAppPage: React.FC<IWithAuthProps> = ({
-    authAttempted,
-    accessToken,
-    user,
-}) => {
+const CoursesAppPage: React.FC = () => {
+    const { user } = useContext(AuthContext);
     const { data: courses } = useSWR(
         `/api/v1/user/${user._id}/courses`,
         userCoursesFetcher(user._id)
