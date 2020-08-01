@@ -32,10 +32,6 @@ const MessagingAppPage: React.FC = () => {
         },
     } = useSelector((state: IStoreState) => state);
 
-    const socket = useSocket(function (socket) {
-        socket.on("pong", console.log);
-    });
-
     const chatId = router.query.id;
 
     const [editedMessageId, setEditedMessageId] = useState<null | string>(null);
@@ -122,7 +118,6 @@ const MessagingAppPage: React.FC = () => {
     return (
         <AppLayout>
             <h4>messaging</h4>
-            <button onClick={() => socket.emit("/ping")}>PING</button>
             {chats.map((chat: IChat) => (
                 <ChatCard
                     chat={chat}

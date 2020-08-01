@@ -5,24 +5,22 @@ import useFormData from "../components/hooks/useFormData";
 import Select, { Option } from "../components/ui/Select";
 import AuthContext from "../components/contexts/AuthContext";
 import { getUserRoleBySignUpFormKey } from "../utils/helpers";
-import { useDispatch } from "react-redux";
 import { EForms, IFormData } from "../utils/types";
 import { useState, useEffect, useContext } from "react";
-import { signUpAsync } from "../store/auth";
 import { useRouter } from "next/router";
 
 const SignUpPage: React.FC = () => {
     const [formKey, setFormKey] = useState<EForms>(null);
     const formData: IFormData = useFormData(formKey);
-    const dispatch = useDispatch();
     const router = useRouter();
-    const { authLoading, accessToken } = useContext(AuthContext);
+    const { authLoading, accessToken, signup } = useContext(AuthContext);
+
     async function submitSignUpHandler(values: any): Promise<void> {
         const userData = {
             ...formData.mapFormToRequestBody(values),
             role: getUserRoleBySignUpFormKey(formKey),
         };
-        dispatch(signUpAsync(userData));
+        signup(userData);
     }
 
     useEffect(

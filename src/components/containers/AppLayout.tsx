@@ -1,23 +1,19 @@
 import useNavigationData from "../hooks/useNavigationData";
 import NavigationButton from "../ui/NavigationButton";
+import AuthContext from "../contexts/AuthContext";
 import Modal, { ModalFooter } from "../ui/Modal";
 import { useRouter } from "next/router";
-import { apiClient } from "../../utils/helpers";
-import { useDispatch } from "react-redux";
-import { logout } from "../../store/auth";
 import { INavigationDataButton } from "../../utils/types";
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 const AppLayout: React.FC = ({ children }) => {
     const router = useRouter();
-    const dispatch = useDispatch();
     const navigationData = useNavigationData();
     const [logoutModalOpen, setLogoutModalOpen] = useState<boolean>();
+    const { logout } = useContext(AuthContext);
 
     function logoutHandler() {
-        apiClient.deleteAuthHeader();
-        localStorage.removeItem("accessToken");
-        dispatch(logout());
+        logout();
         router.push("/");
     }
 

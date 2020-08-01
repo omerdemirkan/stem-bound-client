@@ -11,18 +11,8 @@ import { EForms, IFormData } from "../utils/types";
 
 const LogInPage: React.FC = () => {
     const router = useRouter();
-    const dispatch = useDispatch();
     const formData: IFormData = useFormData(EForms.USER_LOG_IN);
-    const { authLoading, accessToken } = useContext(AuthContext);
-
-    async function logInHandler(values: { email: string; password: string }) {
-        dispatch(
-            logInAsync({
-                email: values.email,
-                password: values.password,
-            })
-        );
-    }
+    const { authLoading, accessToken, login } = useContext(AuthContext);
 
     useEffect(
         function () {
@@ -40,11 +30,7 @@ const LogInPage: React.FC = () => {
             </Head>
             <h1>Log In</h1>
 
-            <Form
-                onSubmit={logInHandler}
-                isSubmitting={authLoading}
-                {...formData}
-            />
+            <Form onSubmit={login} isSubmitting={authLoading} {...formData} />
             <style jsx>{``}</style>
         </Layout>
     );

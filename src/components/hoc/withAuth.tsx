@@ -1,9 +1,7 @@
-import AuthContext, { initialAuthContextState } from "../contexts/AuthContext";
-import { IWithAuthOptions, IAuthContextState } from "../../utils/types";
+import AuthContext from "../contexts/AuthContext";
+import { IWithAuthOptions } from "../../utils/types";
 import { useRouter } from "next/router";
-import { useEffect, useState, useContext } from "react";
-import { me } from "../../utils/services";
-import { apiClient } from "../../utils/helpers";
+import { useEffect, useContext } from "react";
 
 export default function withAuth(
     Component: React.ComponentType<any> | React.FC<any>,

@@ -15,4 +15,8 @@ export interface IAuthContextState {
     accessToken: null | string;
     authLoading: boolean;
     authAttempted: boolean;
+    login: (options: { email: string; password: string }) => any;
+    logout: () => any;
+    signup: (options: { email: string; password: string }) => any;
+    authenticateToken: (token: string) => any;
 }
