@@ -5,51 +5,38 @@ import useFormData from "../../../components/hooks/useFormData";
 import {
     EUserRoles,
     EForms,
-    IStoreState,
     IWithAuthProps,
     EStateStatus,
 } from "../../../utils/types";
-import { useDispatch, useSelector } from "react-redux";
-import { createCourseAsync } from "../../../store/course";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
+import { createCourse } from "../../../utils/services";
 
 const CreateCourseAppPage: React.FC<IWithAuthProps> = ({
     authAttempted,
     accessToken,
     user,
 }) => {
-    const dispatch = useDispatch();
     const router = useRouter();
     const formData = useFormData(EForms.CREATE_COURSE);
-    const [submitted, setSubmitted] = useState<boolean>(false);
-    const {
-        course: {
-            status: { createCourse: createCourseStatus },
-        },
-    } = useSelector((state: IStoreState) => state);
-
-    useEffect(
-        function () {
-            if (createCourseStatus === EStateStatus.successful) {
-                router.push("/app/courses");
-            }
-        },
-        [createCourseStatus]
-    );
+    const [status, setStatus] = useState<EStateStatus>(EStateStatus.idle);
 
     function handleSubmit(values) {
         const courseData = formData.mapFormToRequestBody(values);
         courseData.meta.instructors = [user._id];
-        dispatch(createCourseAsync(courseData));
-        setSubmitted(true);
+        createCourse(courseData)
+            .then(function (res) {
+                setStatus(EStateStatus.successful);
+                router.push("/app/courses");
+            })
+            .catch(function (err) {
+                setStatus(EStateStatus.failed);
+            });
     }
 
     return (
         <AppLayout>
-            {createCourseStatus === EStateStatus.loading ? (
-                <h3>Loading...</h3>
-            ) : null}
+            {status === EStateStatus.loading ? <h3>Loading...</h3> : null}
             <Form {...formData} onSubmit={handleSubmit} />
         </AppLayout>
     );

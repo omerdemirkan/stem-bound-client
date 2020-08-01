@@ -1,28 +1,20 @@
 import AppLayout from "../../../components/containers/AppLayout";
 import withAuth from "../../../components/hoc/withAuth";
 import Link from "next/link";
-import { fetchUserCoursesAsync } from "../../../store/course";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { IStoreState, EUserRoles, IWithAuthProps } from "../../../utils/types";
 import CourseCard from "../../../components/ui/CourseCard";
+import useSWR from "swr";
+import { userCoursesFetcher } from "../../../utils/services";
+import { EUserRoles, IWithAuthProps } from "../../../utils/types";
 
 const CoursesAppPage: React.FC<IWithAuthProps> = ({
     authAttempted,
     accessToken,
     user,
 }) => {
-    const dispatch = useDispatch();
-    const {
-        course: {
-            courses,
-            status: { fetchCourses: fetchCoursesStatus },
-        },
-    }: IStoreState = useSelector((state: IStoreState) => state);
-
-    useEffect(function () {
-        dispatch(fetchUserCoursesAsync(user._id));
-    }, []);
+    const { data: courses } = useSWR(
+        `/api/v1/user/${user._id}/courses`,
+        userCoursesFetcher(user._id)
+    );
 
     return (
         <AppLayout>
@@ -36,9 +28,10 @@ const CoursesAppPage: React.FC<IWithAuthProps> = ({
                 </Link>
             ) : null}
 
-            {courses.map((course) => (
-                <CourseCard course={course} key={course._id} />
-            ))}
+            {courses &&
+                courses.map((course) => (
+                    <CourseCard course={course} key={course._id} />
+                ))}
 
             <style jsx>{``}</style>
         </AppLayout>
