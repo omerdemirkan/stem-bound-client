@@ -29,7 +29,6 @@ const MessagingAppPage: React.FC = () => {
         { initialData: chats?.find((chat) => chat._id === chatId) }
     );
 
-    const [] = useState();
     const [editedMessageId, setEditedMessageId] = useState<null | string>(null);
     const [editedMessageText, setEditedMessageText] = useState<string>("");
     const [textField, setTextField] = useState<string>("");

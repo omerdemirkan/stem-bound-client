@@ -1,6 +1,4 @@
 import { IUser } from "../../utils/types";
-import { useDispatch } from "react-redux";
-import { createChatAsync } from "../../store/chat";
 
 interface Props {
     user: IUser;
