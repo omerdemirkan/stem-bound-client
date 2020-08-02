@@ -3,8 +3,6 @@ import Head from "next/head";
 import Form from "../components/ui/Form";
 import AuthContext from "../components/contexts/AuthContext";
 import useFormData from "../components/hooks/useFormData";
-import { useDispatch } from "react-redux";
-import { logInAsync } from "../store/auth";
 import { useRouter } from "next/router";
 import { useEffect, useContext } from "react";
 import { EForms, IFormData } from "../utils/types";

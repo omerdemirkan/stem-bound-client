@@ -2,58 +2,37 @@ import AppLayout from "../../components/containers/AppLayout";
 import withAuth from "../../components/hoc/withAuth";
 import Input from "../../components/ui/Input";
 import ChatMessage from "../../components/ui/ChatMessage";
-import useSocket from "../../components/hooks/useSocket";
 import AuthContext from "../../components/contexts/AuthContext";
 import ChatCard from "../../components/ui/ChatCard";
-import { IStoreState, IChat } from "../../utils/types";
-import { useDispatch, useSelector } from "react-redux";
+import useSWR from "swr";
+import { IChat } from "../../utils/types";
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import {
-    fetchChatsAsync,
-    fetchChatAsync,
-    inspectChat,
-    updateChatTextField,
-    createChatMessageAsync,
-    updateChatMessageAsync,
-    deleteChatMessageAsync,
-} from "../../store/chat";
+    userChatsFetcher,
+    chatFetcher,
+    createMessage,
+    updateMessage,
+    deleteMessage,
+} from "../../utils/services";
+import { clone } from "../../utils/helpers";
 
 const MessagingAppPage: React.FC = () => {
-    const dispatch = useDispatch();
     const router = useRouter();
-    const { user } = useContext(AuthContext);
-    const {
-        chat: {
-            chats,
-            inspectedChat,
-            textField,
-            status: { fetchChat: fetchChatStatus },
-        },
-    } = useSelector((state: IStoreState) => state);
-
     const chatId = router.query.id;
+    const { user } = useContext(AuthContext);
 
+    const { data: chats } = useSWR(`/chats`, userChatsFetcher(user._id));
+    const { data: inspectedChat, mutate: mutateInspectedChat } = useSWR(
+        chatId ? `/chats/${chatId}` : null,
+        chatFetcher(chatId as string),
+        { initialData: chats?.find((chat) => chat._id === chatId) }
+    );
+
+    const [] = useState();
     const [editedMessageId, setEditedMessageId] = useState<null | string>(null);
     const [editedMessageText, setEditedMessageText] = useState<string>("");
-
-    useEffect(function () {
-        dispatch(fetchChatsAsync(user._id));
-    }, []);
-
-    useEffect(
-        function () {
-            if (chatId) {
-                dispatch(
-                    fetchChatAsync(chatId as any, {
-                        skip: inspectedChat?.messages.length,
-                        limit: 20,
-                    })
-                );
-            }
-        },
-        [chatId]
-    );
+    const [textField, setTextField] = useState<string>("");
 
     useEffect(
         function () {
@@ -70,61 +49,72 @@ const MessagingAppPage: React.FC = () => {
         [editedMessageId]
     );
 
-    function handleInspectChat(chatId: string) {
-        dispatch(inspectChat(chatId));
-        dispatch(updateChatTextField(""));
+    function handleInspectChat(id: string) {
         router.push(
-            router.pathname,
+            { pathname: router.pathname, query: { id } },
+            { pathname: router.pathname, query: { id } },
             {
-                query: { id: chatId },
-            },
-            { shallow: true }
+                shallow: true,
+            }
         );
     }
 
     function handleSendMessage() {
-        dispatch(
-            createChatMessageAsync({
-                chatId: inspectedChat._id,
-                text: textField,
+        createMessage({
+            chatId: inspectedChat._id,
+            text: textField,
+        })
+            .then(function (res) {
+                const newInspectedChat = clone(inspectedChat);
+                newInspectedChat.messages.unshift(res.data);
+                mutateInspectedChat(newInspectedChat);
             })
-        );
+            .catch(console.error);
     }
 
     function handleUpdateMessage() {
-        dispatch(
-            updateChatMessageAsync(
-                {
-                    text: editedMessageText,
-                    chatId: inspectedChat._id,
-                    messageId: editedMessageId,
-                },
-                {
-                    onSuccess() {
-                        setEditedMessageId(null);
-                        setEditedMessageText("");
-                    },
-                }
-            )
-        );
+        updateMessage({
+            chatId: inspectedChat._id,
+            messageId: editedMessageId,
+            text: editedMessageText,
+        })
+            .then(function (res) {
+                const newInspectedChat = clone(inspectedChat);
+                const messageIndex = newInspectedChat.messages.findIndex(
+                    (message) => message._id === editedMessageId
+                );
+                newInspectedChat.messages[messageIndex] = res.data;
+                mutateInspectedChat(newInspectedChat);
+            })
+            .catch(console.error);
     }
 
     function handleDeleteMessage(messageId: string) {
-        dispatch(
-            deleteChatMessageAsync({ chatId: inspectedChat._id, messageId })
-        );
+        deleteMessage({ chatId: inspectedChat._id, messageId })
+            .then(function (res) {
+                const newInspectedChat = clone(inspectedChat);
+                const messageIndex = newInspectedChat.messages.findIndex(
+                    (message) => message._id === editedMessageId
+                );
+                const deletedMessage = newInspectedChat.messages[messageIndex];
+                deletedMessage.isDeleted = true;
+                deletedMessage.text = "This message was deleted";
+                mutateInspectedChat(newInspectedChat);
+            })
+            .catch(console.error);
     }
 
     return (
         <AppLayout>
             <h4>messaging</h4>
-            {chats.map((chat: IChat) => (
-                <ChatCard
-                    chat={chat}
-                    handleInspect={handleInspectChat}
-                    key={chat._id}
-                />
-            ))}
+            {chats &&
+                chats.map((chat: IChat) => (
+                    <ChatCard
+                        chat={chat}
+                        handleInspect={handleInspectChat}
+                        key={chat._id}
+                    />
+                ))}
             {inspectedChat ? (
                 <>
                     <h4>Inspected Chat:</h4>
@@ -147,7 +137,7 @@ const MessagingAppPage: React.FC = () => {
                         onChange={
                             editedMessageId
                                 ? setEditedMessageText
-                                : (text) => dispatch(updateChatTextField(text))
+                                : (text) => setTextField(text)
                         }
                         value={editedMessageId ? editedMessageText : textField}
                         eventTargetValue
