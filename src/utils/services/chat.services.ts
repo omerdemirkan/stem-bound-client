@@ -119,3 +119,10 @@ export function deleteMessage({
 }: IDeleteMessageOptions): Promise<IApiResponse<any>> {
     return apiClient.delete(`/chats/${chatId}/messages/${messageId}`);
 }
+
+export function restoreMessage({
+    chatId,
+    messageId,
+}: IDeleteMessageOptions): Promise<IApiResponse<any>> {
+    return apiClient.delete(`/chats/${chatId}/messages/${messageId}?restore=1`);
+}

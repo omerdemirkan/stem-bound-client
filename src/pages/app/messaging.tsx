@@ -14,6 +14,7 @@ import {
     createMessage,
     updateMessage,
     deleteMessage,
+    restoreMessage,
 } from "../../utils/services";
 import { clone } from "../../utils/helpers";
 
@@ -84,6 +85,8 @@ const MessagingAppPage: React.FC = () => {
                 );
                 newInspectedChat.messages[messageIndex] = res.data;
                 mutateInspectedChat(newInspectedChat);
+                setEditedMessageId(null);
+                setEditedMessageText("");
             })
             .catch(console.error);
     }
@@ -93,11 +96,24 @@ const MessagingAppPage: React.FC = () => {
             .then(function (res) {
                 const newInspectedChat = clone(inspectedChat);
                 const messageIndex = newInspectedChat.messages.findIndex(
-                    (message) => message._id === editedMessageId
+                    (message) => message._id === messageId
                 );
                 const deletedMessage = newInspectedChat.messages[messageIndex];
                 deletedMessage.isDeleted = true;
                 deletedMessage.text = "This message was deleted";
+                mutateInspectedChat(newInspectedChat);
+            })
+            .catch(console.error);
+    }
+
+    function handleRestoreMessage(messageId: string) {
+        restoreMessage({ chatId: inspectedChat._id, messageId })
+            .then(function (res) {
+                const newInspectedChat = clone(inspectedChat);
+                const messageIndex = newInspectedChat.messages.findIndex(
+                    (message) => message._id === messageId
+                );
+                newInspectedChat.messages[messageIndex] = res.data;
                 mutateInspectedChat(newInspectedChat);
             })
             .catch(console.error);
@@ -128,6 +144,7 @@ const MessagingAppPage: React.FC = () => {
                             key={message._id}
                             onSetEdit={setEditedMessageId}
                             onDelete={handleDeleteMessage}
+                            onRestore={handleRestoreMessage}
                         />
                     ))}
                     <Input
