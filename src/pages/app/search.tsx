@@ -1,4 +1,5 @@
 import AppLayout from "../../components/containers/AppLayout";
+import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
 import Search from "../../components/containers/Search";
 import withUserCoordinates from "../../components/hoc/withUserCoordinates";
@@ -18,7 +19,6 @@ import {
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
-import Head from "next/head";
 
 const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
     coordinates,

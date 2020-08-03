@@ -1,4 +1,4 @@
-import Modal, { ModalFooter } from "../ui/Modal";
+import AlertModal, { AlertModalFooter } from "../ui/AlertModal";
 import AuthContext from "../contexts/AuthContext";
 import { useState, useEffect, useContext } from "react";
 import { ICoordinates, IUser } from "../../utils/types";
@@ -73,14 +73,14 @@ export default function withUserCoordinates(Component): React.FC {
         return (
             <>
                 <Component {...props} coordinates={coordinates} />
-                <Modal
+                <AlertModal
                     open={permissionModalOpen === true}
                     headerText="geo-location permission"
                     bodyText="STEM-bound uses geo-location to make search results as relevant as possible. Sensitive information like your exact location is not stored."
                     onClose={() => setPermissionModalOpen(false)}
                     hideCloseIcon
                 >
-                    <ModalFooter>
+                    <AlertModalFooter>
                         <button
                             onClick={() => {
                                 setCoordinatesByGeolocationApi();
@@ -89,8 +89,8 @@ export default function withUserCoordinates(Component): React.FC {
                         >
                             OK
                         </button>
-                    </ModalFooter>
-                </Modal>
+                    </AlertModalFooter>
+                </AlertModal>
             </>
         );
     };

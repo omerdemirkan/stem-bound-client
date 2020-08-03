@@ -1,7 +1,7 @@
 import useNavigationData from "../hooks/useNavigationData";
 import NavigationButton from "../ui/NavigationButton";
 import AuthContext from "../contexts/AuthContext";
-import Modal, { ModalFooter } from "../ui/Modal";
+import AlertModal, { AlertModalFooter } from "../ui/AlertModal";
 import { useRouter } from "next/router";
 import { INavigationDataButton } from "../../utils/types";
 import { useState, useContext } from "react";
@@ -43,19 +43,19 @@ const AppLayout: React.FC = ({ children }) => {
                 </nav>
                 <div>{children}</div>
             </div>
-            <Modal
+            <AlertModal
                 open={logoutModalOpen}
                 headerText="Are you sure you want to log out?"
                 bodyText="This is a body text"
                 onClose={() => setLogoutModalOpen(false)}
             >
-                <ModalFooter>
+                <AlertModalFooter>
                     <button onClick={() => setLogoutModalOpen(false)}>
                         CANCEL
                     </button>
                     <button onClick={logoutHandler}>YES</button>
-                </ModalFooter>
-            </Modal>
+                </AlertModalFooter>
+            </AlertModal>
             <style jsx>{``}</style>
         </>
     );

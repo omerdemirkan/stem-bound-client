@@ -1,27 +1,11 @@
-import CrossSVG from "../svg/icons/cross";
-
 interface Props {
     open: boolean;
-    onClose: (...args: any) => any;
-    headerText?: string;
-    bodyText?: string;
-    hideCloseIcon?: boolean;
 }
 
-const Modal: React.FC<Props> = ({
-    open,
-    headerText,
-    bodyText,
-    onClose,
-    children,
-    hideCloseIcon,
-}) => {
+const Modal: React.FC<Props> = ({ open, children }) => {
     return (
         <>
             <div className="modal" style={{ display: open ? "block" : "none" }}>
-                {!hideCloseIcon ? <CrossSVG onClick={onClose} /> : null}
-                <h3>{headerText}</h3>
-                <p>{bodyText}</p>
                 {children}
             </div>
             <div
@@ -32,10 +16,10 @@ const Modal: React.FC<Props> = ({
             <style jsx>{`
                 .modal {
                     position: fixed;
-                    height: 400px;
                     width: 400px;
                     top: 50%;
                     left: 50%;
+                    padding: 30px;
                     transform: translate(-50%, -50%);
 
                     background-color: var(--background-light);
@@ -61,5 +45,3 @@ const Modal: React.FC<Props> = ({
 };
 
 export default Modal;
-
-export const ModalFooter: React.FC = ({ children }) => <div>{children}</div>;
