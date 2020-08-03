@@ -1,4 +1,5 @@
 import AppLayout from "../../../components/containers/AppLayout";
+import Head from "next/head";
 import withAuth from "../../../components/hoc/withAuth";
 import Link from "next/link";
 import CourseCard from "../../../components/ui/CourseCard";
@@ -17,6 +18,9 @@ const CoursesAppPage: React.FC = () => {
 
     return (
         <AppLayout>
+            <Head>
+                <title>STEM-bound - My Courses</title>
+            </Head>
             <h4>courses</h4>
 
             {user.role === EUserRoles.INSTRUCTOR ? (

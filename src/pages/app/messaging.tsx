@@ -1,4 +1,5 @@
 import AppLayout from "../../components/containers/AppLayout";
+import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
 import Input from "../../components/ui/Input";
 import ChatMessage from "../../components/ui/ChatMessage";
@@ -121,6 +122,9 @@ const MessagingAppPage: React.FC = () => {
 
     return (
         <AppLayout>
+            <Head>
+                <title>STEM-bound - Messaging</title>
+            </Head>
             <h4>messaging</h4>
             {chats &&
                 chats.map((chat: IChat) => (

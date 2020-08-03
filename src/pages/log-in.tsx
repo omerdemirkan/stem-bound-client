@@ -24,7 +24,7 @@ const LogInPage: React.FC = () => {
     return (
         <Layout>
             <Head>
-                <title>Stem-bound - Log In</title>
+                <title>STEM-bound - Log In</title>
             </Head>
             <h1>Log In</h1>
 

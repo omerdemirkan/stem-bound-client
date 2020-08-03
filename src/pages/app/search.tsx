@@ -18,6 +18,7 @@ import {
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
+import Head from "next/head";
 
 const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
     coordinates,
@@ -72,6 +73,9 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
 
     return (
         <AppLayout>
+            <Head>
+                <title>STEM-bound - Search</title>
+            </Head>
             <h4>search</h4>
             <Search
                 searchField={searchField}

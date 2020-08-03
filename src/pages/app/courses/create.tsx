@@ -1,5 +1,6 @@
 import withAuth from "../../../components/hoc/withAuth";
 import AppLayout from "../../../components/containers/AppLayout";
+import Head from "next/head";
 import Form from "../../../components/ui/Form";
 import useFormData from "../../../components/hooks/useFormData";
 import { EUserRoles, EForms, EStateStatus } from "../../../utils/types";
@@ -29,6 +30,9 @@ const CreateCourseAppPage: React.FC = () => {
 
     return (
         <AppLayout>
+            <Head>
+                <title>STEM-bound - Create Course</title>
+            </Head>
             {status === EStateStatus.loading ? <h3>Loading...</h3> : null}
             <Form {...formData} onSubmit={handleSubmit} />
         </AppLayout>

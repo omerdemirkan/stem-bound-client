@@ -35,7 +35,7 @@ const SignUpPage: React.FC = () => {
     return (
         <Layout>
             <Head>
-                <title>Stem-bound - Sign Up</title>
+                <title>STEM-bound - Sign Up</title>
             </Head>
             <h1>Sign Up</h1>
 

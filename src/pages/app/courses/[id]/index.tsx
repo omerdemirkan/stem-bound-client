@@ -1,4 +1,5 @@
 import AppLayout from "../../../../components/containers/AppLayout";
+import Head from "next/head";
 import Link from "next/link";
 import useSWR from "swr";
 import withAuth from "../../../../components/hoc/withAuth";
@@ -15,6 +16,9 @@ const CourseAppPage: React.FC = () => {
 
     return (
         <AppLayout>
+            <Head>
+                <title>STEM-bound - {course?.title || "Course"}</title>
+            </Head>
             <h4>{course?.title}</h4>
             <pre>{JSON.stringify(course, null, 2)}</pre>
             <Link

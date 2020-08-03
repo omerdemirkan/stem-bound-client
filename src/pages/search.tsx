@@ -18,7 +18,7 @@ const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
     return (
         <Layout>
             <Head>
-                <title>Stem-bound - Search</title>
+                <title>STEM-bound - Search</title>
             </Head>
             <h1>Search</h1>
             <Search

@@ -2,7 +2,6 @@ import { createContext, useState, useEffect } from "react";
 import { IAuthContextState, IUser } from "../../utils/types";
 import { me, logIn, signUp } from "../../utils/services";
 import { apiClient } from "../../utils/helpers";
-import { useRouter } from "next/router";
 
 export const initialAuthContextState: IAuthContextState = {
     authLoading: false,
