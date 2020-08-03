@@ -45,3 +45,5 @@ const Modal: React.FC<Props> = ({ open, children }) => {
 };
 
 export default Modal;
+
+export const ModalFooter: React.FC = ({ children }) => <div>{children}</div>;

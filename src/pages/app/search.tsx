@@ -8,17 +8,15 @@ import useSWR from "swr";
 import { searchDataFetcher, createChat } from "../../utils/services";
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
-import {
-    isSearchField,
-    SearchField,
-    getClientQueryParams,
-} from "../../utils/helpers";
+import { isSearchField, SearchField } from "../../utils/helpers";
 import {
     ESearchFields,
     IWithUserCoordinates,
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
+import Modal from "../../components/ui/Modal";
+import Input from "../../components/ui/Input";
 
 const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
     coordinates,
@@ -37,12 +35,11 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
     );
 
     const [searchField, setSearchField] = useState<ESearchFields>();
-
-    useEffect(function () {
-        if (!isSearchField(getClientQueryParams().q)) {
-            router.push("/app/dashboard");
-        }
-    }, []);
+    const [contactedUser, setContactedUser] = useState<IUser | null>(null);
+    const [contactedModalOpen, setContactedModalOpen] = useState(false);
+    const [contactUserMessageInput, setContactUserMessageInput] = useState<
+        string
+    >("");
 
     useEffect(
         function () {
@@ -53,14 +50,24 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
             ) {
                 revalidate();
                 setSearchField(searchFieldQuery as any);
+            } else if (!searchFieldQuery) {
+                router.push("/app/dashboard");
             }
         },
         [searchFieldQuery, coordinates]
     );
 
-    function handleSendMessage(searchedUser: IUser) {
+    function handleSendMessage() {
         createChat(
-            { meta: { users: [searchedUser._id, user._id] } },
+            {
+                meta: { users: [contactedUser._id, user._id] },
+                messages: [
+                    {
+                        text: contactUserMessageInput,
+                        meta: { from: user._id },
+                    } as any,
+                ],
+            },
             { duplicateFallback: true }
         )
             .then(function ({ data: chat }) {
@@ -69,6 +76,17 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
                 });
             })
             .catch(console.error);
+    }
+
+    function handleCancelContact() {
+        setContactedModalOpen(false);
+        setContactedUser(null);
+        setContactUserMessageInput("");
+    }
+
+    function handleContactUserModalOpen(user: IUser) {
+        setContactedModalOpen(true);
+        setContactedUser(user);
     }
 
     return (
@@ -80,9 +98,25 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
             <Search
                 searchField={searchField}
                 searchData={searchData}
-                handleSendMessage={handleSendMessage}
+                onContactUser={handleContactUserModalOpen}
                 shallow
             />
+            <Modal open={contactedModalOpen}>
+                <Input
+                    id="message"
+                    onChange={setContactUserMessageInput}
+                    value={contactUserMessageInput}
+                    type="text"
+                    eventTargetValue
+                />
+                <button
+                    onClick={handleSendMessage}
+                    disabled={contactUserMessageInput.length === 0}
+                >
+                    SEND
+                </button>
+                <button onClick={handleCancelContact}>CANCEL</button>
+            </Modal>
             <style jsx>{``}</style>
         </AppLayout>
     );

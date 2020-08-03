@@ -9,7 +9,7 @@ import { EUserRoles, IUser } from "../../utils/types";
 interface SearchProps {
     searchField: ESearchFields;
     searchData: ISearchData[];
-    handleSendMessage: (IUser) => any;
+    onContactUser: (IUser) => any;
     shallow?: boolean;
 }
 
@@ -17,7 +17,7 @@ const Search: React.FC<SearchProps> = ({
     searchField,
     searchData,
     shallow,
-    handleSendMessage,
+    onContactUser,
 }) => {
     const router = useRouter();
 
@@ -38,7 +38,7 @@ const Search: React.FC<SearchProps> = ({
             <PaginatedSearchData
                 searchDataArray={searchData || []}
                 searchField={searchField}
-                handleSendMessage={handleSendMessage}
+                onContactUser={onContactUser}
             />
         </div>
     );
@@ -47,13 +47,13 @@ const Search: React.FC<SearchProps> = ({
 interface PaginatedSearchDataProps {
     searchDataArray: ISearchData[];
     searchField: ESearchFields;
-    handleSendMessage: (IUser) => any;
+    onContactUser: (IUser) => any;
 }
 
 const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
     searchDataArray,
     searchField,
-    handleSendMessage,
+    onContactUser,
 }) => {
     if (Object.values(EUserRoles).includes(searchField as any)) {
         return (
@@ -62,7 +62,7 @@ const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
                     <UserCard
                         user={searchData}
                         key={searchData._id}
-                        handleSendMessage={handleSendMessage}
+                        onContactUser={onContactUser}
                     />
                 ))}
             </>

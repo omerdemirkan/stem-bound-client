@@ -2,15 +2,13 @@ import { IUser } from "../../utils/types";
 
 interface Props {
     user: IUser;
-    handleSendMessage: (IUser) => any;
+    onContactUser: (IUser) => any;
 }
 
-const UserCard: React.FC<Props> = ({ user, handleSendMessage }) => {
+const UserCard: React.FC<Props> = ({ user, onContactUser }) => {
     return (
         <div>
-            <button onClick={() => handleSendMessage(user)}>
-                SEND MESSAGE
-            </button>
+            <button onClick={() => onContactUser(user)}>CONTACT</button>
             <pre>{JSON.stringify(user, null, 2)}</pre>
         </div>
     );
