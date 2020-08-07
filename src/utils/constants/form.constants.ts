@@ -2,10 +2,12 @@ import * as yup from "yup";
 import { passwordRegex, objectIdRegex, courseTypesInputOptions } from ".";
 import { EInputTypes, IFormData, EForms } from "../types";
 import {
-    fetchLocationInputOptions,
-    fetchSchoolInputOptions,
+    // fetchSchoolInputOptions,
+    // fetchLocationInputOptions,
     updateState,
+    capitalizeWords,
 } from "../helpers";
+import { fetchLocations, fetchSchools } from "../services";
 
 // This is quite the file. I understand there is a lot of duplication, especially between sign up forms.
 // I decided to keep everything explicit as mapping default/common values proved to be more disorienting than useful.
@@ -438,3 +440,24 @@ const forms = Object.freeze({
 
 // Naming before exporting as default to allow for autoimports.
 export default forms;
+
+async function fetchLocationInputOptions(text: string) {
+    try {
+        const { data } = await fetchLocations({ text });
+        const locationInputs = data.map((location) => ({
+            display: `${location.city}, ${location.state}`,
+            value: location.zip,
+        }));
+        return locationInputs;
+    } catch (e) {
+        return [];
+    }
+}
+
+async function fetchSchoolInputOptions(s: string) {
+    const { data: schools } = await fetchSchools({ text: s });
+    return schools.map((school) => ({
+        display: capitalizeWords(school.name),
+        value: school._id,
+    }));
+}

@@ -1,8 +1,7 @@
 // promise is wrapped in function to avoid immediate execution and to allow for multiple calls.
 
 import { fetchLocations } from "../services";
-import { ICoordinates } from "../types/location.types";
-import { ISelectInputOption } from "../types";
+import { ICoordinates, ISelectInputOption } from "../types";
 
 // promise exists because to avoid callback hell where ever this function is used.
 export const getCurrentLocation = () => {
