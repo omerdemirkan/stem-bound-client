@@ -5,6 +5,8 @@ import Search from "../../components/containers/Search";
 import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 import AuthContext from "../../components/contexts/AuthContext";
 import useSWR from "swr";
+import Modal from "../../components/ui/Modal";
+import Input from "../../components/ui/Input";
 import { searchDataFetcher, createChat } from "../../utils/services";
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
@@ -15,8 +17,6 @@ import {
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
-import Modal from "../../components/ui/Modal";
-import Input from "../../components/ui/Input";
 
 const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
     coordinates,
@@ -30,7 +30,7 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
     const { user } = useContext(AuthContext);
 
     const { data: searchData, revalidate } = useSWR(
-        searchFieldQuery ? `/api/v1/search/${searchFieldQuery}` : null,
+        searchFieldQuery ? `/search/${searchFieldQuery}` : null,
         searchDataFetcher({ field: searchFieldQuery })
     );
 

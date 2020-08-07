@@ -10,7 +10,7 @@ const CourseAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
     const { data: course, error } = useSWR(
-        queryCourseId ? `/api/v1/courses/${queryCourseId}` : null,
+        queryCourseId ? `/courses/${queryCourseId}` : null,
         courseFetcher(queryCourseId as any)
     );
 

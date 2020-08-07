@@ -8,12 +8,14 @@ import {
     ICreateMeetingsOptions,
     IDeleteMeetingOptions,
     ICourseOriginal,
+    IAnnouncement,
 } from "../types";
 import {
     apiClient,
     appendQueriesToUrl,
     mapCourseData,
     mapResponseData,
+    mapAnnouncementData,
 } from "../helpers";
 
 export function fetchCoursesByUserId(
@@ -131,5 +133,17 @@ export function deleteMeetingById({
     return mapResponseData(
         apiClient.delete(`/courses/${courseId}/meetings/${meetingId}`),
         mapCourseData
+    );
+}
+
+export function fetchAnnouncementsByCourseId(
+    courseId: string,
+    options?: { skip?: number; limit?: number }
+): Promise<IApiResponse<IAnnouncement[]>> {
+    return mapResponseData(
+        apiClient.get(
+            appendQueriesToUrl(`/courses/${courseId}/announcements`, options)
+        ),
+        mapAnnouncementData
     );
 }

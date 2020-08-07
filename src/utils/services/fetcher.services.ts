@@ -2,6 +2,7 @@ import {
     fetchCourseById,
     fetchMeetingsByCourseId,
     fetchCoursesByUserId,
+    fetchAnnouncementsByCourseId,
 } from "./course.services";
 import {
     IFetchMeetingsOptions,
@@ -33,4 +34,8 @@ export function userChatsFetcher(id: string, options?: IFetchChatsOptions) {
 
 export function chatFetcher(id: string) {
     return async () => (await fetchChatById(id)).data;
+}
+
+export function announcementsFetcher(courseId: string) {
+    return async () => (await fetchAnnouncementsByCourseId(courseId)).data;
 }

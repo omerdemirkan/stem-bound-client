@@ -12,11 +12,11 @@ const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
     const { data: course, error: fetchCourseError } = useSWR(
-        queryCourseId ? `/api/v1/courses/${queryCourseId}` : null,
+        queryCourseId ? `/courses/${queryCourseId}` : null,
         courseFetcher(queryCourseId as any)
     );
     const { data: meetings, error: fetchCourseMeetingsError } = useSWR(
-        queryCourseId ? `/api/v1/courses/${queryCourseId}/meetings` : null,
+        queryCourseId ? `/courses/${queryCourseId}/meetings` : null,
         courseMeetingsFetcher({ courseId: queryCourseId as any })
     );
 

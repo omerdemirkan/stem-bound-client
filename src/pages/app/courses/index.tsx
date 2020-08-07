@@ -11,10 +11,7 @@ import AuthContext from "../../../components/contexts/AuthContext";
 
 const CoursesAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
-    const { data: courses } = useSWR(
-        `/api/v1/user/${user._id}/courses`,
-        userCoursesFetcher(user._id)
-    );
+    const { data: courses } = useSWR(`/courses`, userCoursesFetcher(user._id));
 
     return (
         <AppLayout>
