@@ -10,11 +10,20 @@ import {
     courseFetcher,
     announcementsFetcher,
     deleteAnnouncementById,
+    updateAnnouncementById,
 } from "../../../../../utils/services";
 import { useContext, useState } from "react";
 import { EUserRoles } from "../../../../../utils/types";
 import Modal from "../../../../../components/ui/Modal";
 import Input from "../../../../../components/ui/Input";
+import { clone } from "../../../../../utils/helpers";
+
+interface EditState {
+    announcementId: null | string;
+    announcementText: string;
+    modalIsOpen: boolean;
+    loading: boolean;
+}
 
 const AnnouncementsAppPage: React.FC = () => {
     const router = useRouter();
@@ -34,13 +43,15 @@ const AnnouncementsAppPage: React.FC = () => {
     );
 
     const { user } = useContext(AuthContext);
-    const [editedAnnouncementId, setEditedAnnouncementId] = useState<
-        string | null
-    >(null);
-    const [editedAnnouncementText, setEditedAnnouncementText] = useState<
-        string | null
-    >(null);
-    const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+
+    const [editState, setEditState] = useState<EditState>({
+        announcementId: null,
+        announcementText: "",
+        modalIsOpen: false,
+        loading: false,
+    });
+    const updateEditState = (updates: Partial<EditState>) =>
+        setEditState((previous) => ({ ...previous, ...updates }));
 
     function handleDeleteAnnouncement(announcementId: string) {
         deleteAnnouncementById({ announcementId, courseId: course._id }).then(
@@ -54,7 +65,26 @@ const AnnouncementsAppPage: React.FC = () => {
         );
     }
 
-    function handleEditAnnouncement(announcementId: string) {}
+    function handleEditAnnouncement(announcementId: string) {
+        if (editState.loading) return;
+        updateEditState({
+            announcementText: "",
+            modalIsOpen: false,
+            loading: true,
+        });
+
+        updateAnnouncementById(
+            { text: editState.announcementText },
+            { announcementId, courseId: course._id }
+        ).then(function (res) {
+            const newAnnouncements = clone(announcements);
+            const announcementIndex = announcements.findIndex(
+                (announcement) => announcement._id === announcementId
+            );
+            newAnnouncements[announcementIndex] = res.data;
+            mutateCourseAnnouncements(newAnnouncements);
+        });
+    }
 
     return (
         <AppLayout>
@@ -78,35 +108,44 @@ const AnnouncementsAppPage: React.FC = () => {
                     key={announcement._id}
                     announcement={announcement}
                     onDeleteButtonClicked={handleDeleteAnnouncement}
-                    onEditButtonClicked={(announcementId: string) => {
-                        setEditedAnnouncementId(announcementId);
-                        setEditModalOpen(true);
-                    }}
+                    onEditButtonClicked={(announcementId: string) =>
+                        updateEditState({
+                            announcementId,
+                            modalIsOpen: true,
+                            announcementText: announcements.find(
+                                (announcement) =>
+                                    announcement._id === announcementId
+                            ).text,
+                        })
+                    }
                 />
             ))}
 
-            <Modal open={editModalOpen}>
+            <Modal open={editState.modalIsOpen}>
                 <Input
                     id="editedAnnouncement"
                     type="text"
                     label="Edit Announcement"
-                    onChange={setEditedAnnouncementText}
+                    value={editState.announcementText}
+                    onChange={(announcementText: string) =>
+                        updateEditState({ announcementText })
+                    }
                     eventTargetValue
                 />
                 <button
-                    onClick={() => {
-                        setEditModalOpen(false);
-                        setEditedAnnouncementText("");
-                    }}
+                    onClick={() =>
+                        updateEditState({
+                            modalIsOpen: false,
+                            announcementText: "",
+                        })
+                    }
                 >
                     CANCEL
                 </button>
                 <button
-                    onClick={() => {
-                        handleEditAnnouncement(editedAnnouncementId);
-                        setEditModalOpen(false);
-                        setEditedAnnouncementText("");
-                    }}
+                    onClick={() =>
+                        handleEditAnnouncement(editState.announcementId)
+                    }
                 >
                     EDIT
                 </button>

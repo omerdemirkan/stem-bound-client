@@ -180,10 +180,29 @@ export function deleteAnnouncementById({
 }: {
     courseId: string;
     announcementId: string;
-}) {
+}): Promise<IApiResponse<IAnnouncement>> {
     return mapResponseData(
         apiClient.delete(
             `/courses/${courseId}/announcements/${announcementId}`
+        ),
+        mapAnnouncementData
+    );
+}
+
+export function updateAnnouncementById(
+    updatedAnnouncement: Partial<IAnnouncementOriginal>,
+    {
+        courseId,
+        announcementId,
+    }: {
+        courseId: string;
+        announcementId: string;
+    }
+): Promise<IApiResponse<IAnnouncement>> {
+    return mapResponseData(
+        apiClient.patch(
+            `/courses/${courseId}/announcements/${announcementId}`,
+            updatedAnnouncement
         ),
         mapAnnouncementData
     );
