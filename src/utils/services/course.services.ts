@@ -149,12 +149,42 @@ export function fetchAnnouncementsByCourseId(
     );
 }
 
+export function fetchAnnouncementById(
+    { courseId, announcementId }: { courseId: string; announcementId: string },
+    options?: { skip?: number; limit?: number }
+): Promise<IApiResponse<IAnnouncement[]>> {
+    return mapResponseData(
+        apiClient.get(
+            appendQueriesToUrl(
+                `/courses/${courseId}/announcements/${announcementId}`,
+                options
+            )
+        ),
+        mapAnnouncementData
+    );
+}
+
 export function createAnnouncement(
     announcementData: Partial<IAnnouncementOriginal>,
     { courseId }: { courseId: string }
 ): Promise<IApiResponse<IAnnouncement>> {
     return mapResponseData(
         apiClient.post(`/courses/${courseId}/announcements`, announcementData),
+        mapAnnouncementData
+    );
+}
+
+export function deleteAnnouncementById({
+    courseId,
+    announcementId,
+}: {
+    courseId: string;
+    announcementId: string;
+}) {
+    return mapResponseData(
+        apiClient.delete(
+            `/courses/${courseId}/announcements/${announcementId}`
+        ),
         mapAnnouncementData
     );
 }

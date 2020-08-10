@@ -2,10 +2,11 @@ import useFormData from "../../../../../components/hooks/useFormData";
 import AuthContext from "../../../../../components/contexts/AuthContext";
 import Form from "../../../../../components/ui/Form";
 import AppLayout from "../../../../../components/containers/AppLayout";
-import { EForms } from "../../../../../utils/types";
+import { EForms, EUserRoles } from "../../../../../utils/types";
 import { useContext } from "react";
 import { createAnnouncement } from "../../../../../utils/services";
 import { useRouter } from "next/router";
+import withAuth from "../../../../../components/hoc/withAuth";
 
 const CreateAnnouncementAppPage: React.FC = () => {
     const router = useRouter();
@@ -31,4 +32,6 @@ const CreateAnnouncementAppPage: React.FC = () => {
     );
 };
 
-export default CreateAnnouncementAppPage;
+export default withAuth(CreateAnnouncementAppPage, {
+    allowedUserRoles: [EUserRoles.INSTRUCTOR],
+});
