@@ -430,12 +430,38 @@ const createCourseForm: IFormData = {
     }),
 };
 
+export const createAnnouncementForm: IFormData = {
+    initialValues: {
+        announcementText: "",
+    },
+    inputs: [
+        {
+            id: "announcementText",
+            type: EInputTypes.textarea,
+            label: "Announcement",
+        },
+    ],
+    mapFormToRequestBody(values) {
+        const body = { ...values, text: values.announcementText };
+        delete body.announcementText;
+        return body;
+    },
+    validationSchema: yup.object().shape({
+        announcementText: yup
+            .string()
+            .min(4, "Too short!")
+            .max(2000, "Too long!")
+            .required("Required."),
+    }),
+};
+
 const forms = Object.freeze({
     [EForms.INSTRUCTOR_SIGN_UP]: instructorSignUpFormData,
     [EForms.SCHOOL_OFFICIAL_SIGN_UP]: schoolOfficialSignUpFormData,
     [EForms.STUDENT_SIGN_UP]: studentSignUpFormData,
     [EForms.USER_LOG_IN]: logInFormData,
     [EForms.CREATE_COURSE]: createCourseForm,
+    [EForms.CREATE_ANNOUNCEMENT]: createAnnouncementForm,
 });
 
 // Naming before exporting as default to allow for autoimports.

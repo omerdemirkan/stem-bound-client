@@ -1,12 +1,12 @@
-import AppLayout from "../../../../components/containers/AppLayout";
+import AppLayout from "../../../../../components/containers/AppLayout";
 import Head from "next/head";
-import withAuth from "../../../../components/hoc/withAuth";
+import withAuth from "../../../../../components/hoc/withAuth";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import {
     courseFetcher,
     courseMeetingsFetcher,
-} from "../../../../utils/services";
+} from "../../../../../utils/services";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();

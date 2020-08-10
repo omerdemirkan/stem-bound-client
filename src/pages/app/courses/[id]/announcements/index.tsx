@@ -1,5 +1,6 @@
 import AppLayout from "../../../../../components/containers/AppLayout";
 import Head from "next/head";
+import Link from "next/link";
 import withAuth from "../../../../../components/hoc/withAuth";
 import useSWR from "swr";
 import AnnouncementCard from "../../../../../components/ui/AnnouncementCard";
@@ -16,7 +17,10 @@ const AnnouncementsAppPage: React.FC = () => {
         queryCourseId ? `/courses/${queryCourseId}` : null,
         courseFetcher(queryCourseId as any)
     );
-    const { data: announcements } = useSWR(
+    const {
+        data: announcements,
+        error: fetchAnnouncementsError,
+    } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}/announcements` : null,
         announcementsFetcher(queryCourseId as any),
         { initialData: course?.announcements }
@@ -28,8 +32,19 @@ const AnnouncementsAppPage: React.FC = () => {
                 <title>STEM-bound - Announcements</title>
             </Head>
             <h4>announcements</h4>
+            <Link
+                href="/app/courses/[id]/announcements/create"
+                as={`/app/courses/${course?._id}/announcements/create`}
+            >
+                <a>
+                    <button>CREATE</button>
+                </a>
+            </Link>
             {announcements?.map((announcement) => (
-                <AnnouncementCard announcement={announcement} />
+                <AnnouncementCard
+                    key={announcement._id}
+                    announcement={announcement}
+                />
             ))}
         </AppLayout>
     );

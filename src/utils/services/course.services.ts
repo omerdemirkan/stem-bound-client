@@ -9,6 +9,7 @@ import {
     IDeleteMeetingOptions,
     ICourseOriginal,
     IAnnouncement,
+    IAnnouncementOriginal,
 } from "../types";
 import {
     apiClient,
@@ -144,6 +145,16 @@ export function fetchAnnouncementsByCourseId(
         apiClient.get(
             appendQueriesToUrl(`/courses/${courseId}/announcements`, options)
         ),
+        mapAnnouncementData
+    );
+}
+
+export function createAnnouncement(
+    announcementData: Partial<IAnnouncementOriginal>,
+    { courseId }: { courseId: string }
+): Promise<IApiResponse<IAnnouncement>> {
+    return mapResponseData(
+        apiClient.post(`/courses/${courseId}/announcements`, announcementData),
         mapAnnouncementData
     );
 }

@@ -77,4 +77,5 @@ export enum EForms {
     "STUDENT_SIGN_UP",
     "USER_LOG_IN",
     "CREATE_COURSE",
+    "CREATE_ANNOUNCEMENT",
 }
