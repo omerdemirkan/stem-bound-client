@@ -7,6 +7,9 @@ import {
     courseFetcher,
     courseMeetingsFetcher,
 } from "../../../../../utils/services";
+import { useContext } from "react";
+import AuthContext from "../../../../../components/contexts/AuthContext";
+import Link from "next/link";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -19,6 +22,7 @@ const MeetingsAppPage: React.FC = () => {
         queryCourseId ? `/courses/${queryCourseId}/meetings` : null,
         courseMeetingsFetcher({ courseId: queryCourseId as any })
     );
+    const { user } = useContext(AuthContext);
 
     return (
         <AppLayout>
@@ -26,6 +30,18 @@ const MeetingsAppPage: React.FC = () => {
                 <title>STEM-bound - {course?.title || "Course"}</title>
             </Head>
             <h4>{course?.title} meetings</h4>
+
+            {course?.meta.instructors.includes(user._id) ? (
+                <Link
+                    href="/app/courses/[id]/meetings/create"
+                    as={`/app/courses/${course?._id}/meetings/create`}
+                >
+                    <a>
+                        <button>CREATE MEETINGS</button>
+                    </a>
+                </Link>
+            ) : null}
+
             <pre>{JSON.stringify(meetings || course?.meetings, null, 2)}</pre>
         </AppLayout>
     );

@@ -1,3 +1,4 @@
 @import "./global/index.styles.css";
 @import "./global/theme.styles.css";
 @import "./global/button.styles.css";
+@import "../../node_modules/react-dates/lib/css/_datepicker.css";

@@ -1,49 +1,44 @@
-import React from "react";
-import { DayPickerSingleDateController, CalendarDay } from "react-dates";
+import { useState, useEffect } from "react";
+import { DayPickerSingleDateController } from "react-dates";
+import "react-dates/initialize";
 
 interface Props {
-    dates: Date[];
     onChange: (...args) => any;
+    sortOrder?: "ascending" | "descending";
 }
 
-export class MultiDatePicker extends React.Component<Props> {
-    static defaultProps = {
-        dates: [],
-    };
-    state = {
-        dates: this.props.dates,
-    };
+const MultiDatePicker: React.FC<Props> = ({ onChange, sortOrder }) => {
+    const [dates, setDates] = useState<moment.Moment[]>([]);
+    const [focused, setFocused] = useState<boolean>(false);
 
-    handleChange(date) {
-        const { dates } = this.state;
+    const isDescendingOrder = sortOrder === "descending";
 
-        const newDates = dates.includes(date)
-            ? dates.filter((d) => !date.isSame(d))
-            : [...dates, date];
-
-        this.setState({ dates: newDates });
-        this.props.onChange && this.props.onChange(newDates);
+    function handleDateChange(date: moment.Moment) {
+        const wasPreviouslyPicked = dates.some((d) => d.isSame(date));
+        if (wasPreviouslyPicked) {
+            setDates((previousDates) =>
+                previousDates.filter((d) => !d.isSame(date))
+            );
+        } else {
+            setDates((previousDates) =>
+                [...previousDates, date].sort((a, b) =>
+                    b.isAfter(a) === isDescendingOrder ? 1 : -1
+                )
+            );
+        }
     }
 
-    render() {
-        return (
-            <DayPickerSingleDateController
-                numberOfMonths={1}
-                onDateChange={this.handleChange}
-                renderCalendarDay={(props) => {
-                    const { day, modifiers } = props;
+    useEffect(() => onChange(dates), [dates]);
 
-                    if (this.state.dates.includes(day)) {
-                        modifiers && modifiers.add("selected");
-                    } else {
-                        modifiers && modifiers.delete("selected");
-                    }
-
-                    return <CalendarDay {...props} modifiers={modifiers} />;
-                }}
-            />
-        );
-    }
-}
-
+    return (
+        <DayPickerSingleDateController
+            onDateChange={handleDateChange}
+            focused={focused}
+            onFocusChange={() => setFocused((prev) => !prev)}
+            date={null}
+            isDayHighlighted={(day) => dates.some((d) => d.isSame(day, "day"))}
+            keepOpenOnDateSelect
+        />
+    );
+};
 export default MultiDatePicker;
