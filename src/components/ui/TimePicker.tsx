@@ -2,10 +2,11 @@ import { useState, ChangeEvent } from "react";
 
 interface Props {
     onChange: (time: string) => any;
+    label?: string;
     validateTime?: (time: string) => boolean;
 }
 
-const TimePicker: React.FC<Props> = ({ onChange, validateTime }) => {
+const TimePicker: React.FC<Props> = ({ onChange, validateTime, label }) => {
     const [time, setTime] = useState<any>();
 
     function handleTimeChange(e: ChangeEvent<HTMLInputElement>) {
@@ -15,7 +16,12 @@ const TimePicker: React.FC<Props> = ({ onChange, validateTime }) => {
             onChange(e.target.value);
         }
     }
-    return <input type="time" onChange={handleTimeChange} value={time} />;
+    return (
+        <div>
+            {label ? <label>{label}</label> : null}
+            <input type="time" onChange={handleTimeChange} value={time} />
+        </div>
+    );
 };
 
 export default TimePicker;

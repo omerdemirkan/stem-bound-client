@@ -1,0 +1,16 @@
+.CalendarDay__highlighted_calendar {
+  background-color: var(--accent-light) !important;
+  color: var(--background-dark) !important;
+}
+
+.CalendarDay__highlighted_calendar:hover {
+  opacity: 0.9 !important;
+}
+
+.DayPickerKeyboardShortcuts_show__bottomRight {
+  display: none;
+}
+
+.CalendarDay__default {
+  border: none !important;
+}

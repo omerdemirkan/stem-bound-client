@@ -46,7 +46,8 @@ const CreateMeetingAppPage: React.FC = () => {
 
     return (
         <AppLayout>
-            <TimePicker onChange={console.log} />
+            <TimePicker onChange={console.log} label="Start" />
+            <TimePicker onChange={console.log} label="End" />
             <MultiDatePicker onChange={handleDatesUpdate} />
         </AppLayout>
     );
