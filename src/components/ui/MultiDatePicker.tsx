@@ -3,7 +3,7 @@ import { DayPickerSingleDateController } from "react-dates";
 import "react-dates/initialize";
 
 interface Props {
-    onChange: (...args) => any;
+    onChange: (dates: moment.Moment[]) => any;
     sortOrder?: "ascending" | "descending";
 }
 
