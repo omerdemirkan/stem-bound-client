@@ -38,7 +38,6 @@ const MultiDatePicker: React.FC<Props> = ({ onChange, sortOrder }) => {
             date={null}
             isDayHighlighted={(day) => dates.some((d) => d.isSame(day, "day"))}
             keepOpenOnDateSelect
-            noBorder
         />
     );
 };

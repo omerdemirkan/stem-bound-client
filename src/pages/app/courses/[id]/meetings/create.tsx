@@ -1,8 +1,9 @@
 import AppLayout from "../../../../../components/containers/AppLayout";
 import MultiDatePicker from "../../../../../components/ui/MultiDatePicker";
+import SingleDatePicker from "../../../../../components/ui/SingleDatePicker";
+import TimePicker from "../../../../../components/ui/TimePicker";
 import { useState } from "react";
 import { IMeetingOriginal } from "../../../../../utils/types";
-import TimePicker from "../../../../../components/ui/TimePicker";
 
 const CreateMeetingAppPage: React.FC = () => {
     const [meetings, setMeetings] = useState<
@@ -49,6 +50,7 @@ const CreateMeetingAppPage: React.FC = () => {
             <TimePicker onChange={console.log} label="Start" />
             <TimePicker onChange={console.log} label="End" />
             <MultiDatePicker onChange={handleDatesUpdate} />
+            <SingleDatePicker id="Date" onChange={console.log} />
         </AppLayout>
     );
 };
