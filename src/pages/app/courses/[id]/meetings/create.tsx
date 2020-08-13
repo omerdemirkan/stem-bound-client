@@ -33,15 +33,23 @@ const CreateMeetingAppPage: React.FC = () => {
                 )
             );
         } else {
-            const oldDateKeysHashTable = {};
-            meetings.forEach(function (meeting) {
-                oldDateKeysHashTable[meeting.dateKey] = true;
+            setMeetings((previousMeetings) => {
+                let newMeetings = [];
+                const oldDateKeysHashTable = {};
+
+                previousMeetings.forEach(function (meeting) {
+                    oldDateKeysHashTable[meeting.dateKey] = meeting;
+                });
+
+                dates.forEach((date) =>
+                    newMeetings.push(
+                        oldDateKeysHashTable[date.toString()] ||
+                            constructDefaultMeeting(date)
+                    )
+                );
+
+                return newMeetings;
             });
-            let newDate: moment.Moment = dates.find(
-                (date) => !oldDateKeysHashTable[date.toString()]
-            );
-            const newMeeting = constructDefaultMeeting(newDate);
-            setMeetings((previous) => [...previous, newMeeting]);
         }
     }
 
@@ -49,8 +57,12 @@ const CreateMeetingAppPage: React.FC = () => {
         <AppLayout>
             <TimePicker onChange={console.log} label="Start" />
             <TimePicker onChange={console.log} label="End" />
-            <MultiDatePicker onChange={handleDatesUpdate} />
+            <MultiDatePicker
+                onChange={handleDatesUpdate}
+                sortOrder="descending"
+            />
             <SingleDatePicker id="Date" onChange={console.log} />
+            <pre>{JSON.stringify(meetings, null, 2)}</pre>
         </AppLayout>
     );
 };
