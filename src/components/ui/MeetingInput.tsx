@@ -4,7 +4,10 @@ import Input from "./Input";
 import Select, { Option } from "./Select";
 import { IMeetingOriginal, ECourseTypes } from "../../utils/types";
 import { clone } from "../../utils/helpers";
-import { getTimeStringFromDate } from "../../utils/helpers/date.helpers";
+import {
+    getTimeStringFromDate,
+    configureDateByTimeString,
+} from "../../utils/helpers/date.helpers";
 
 interface Props {
     meeting: IMeetingOriginal & { dateKey: string };
@@ -25,22 +28,28 @@ const MeetingInput: React.FC<Props> = ({
         Object.assign(newMeeting, { [e.target.id]: e.target.value });
         onChange(newMeeting);
     }
-    console.log(
-        getTimeStringFromDate(meeting.start),
-        getTimeStringFromDate(meeting.end)
-    );
+
+    function handleTimeChange(e) {
+        const newMeeting = clone(meeting);
+        Object.assign(newMeeting, {
+            [e.target.id]: date
+                ? configureDateByTimeString(date, e.target.value)
+                : e.target.value,
+        });
+        onChange(newMeeting);
+    }
 
     return (
         <div>
             <TimePicker
-                onChange={handleChange}
+                onChange={handleTimeChange}
                 id="start"
                 label="Start"
                 value={getTimeStringFromDate(meeting.start)}
                 date={date}
             />
             <TimePicker
-                onChange={handleChange}
+                onChange={handleTimeChange}
                 id="end"
                 label="End"
                 value={getTimeStringFromDate(meeting.end)}
@@ -48,7 +57,9 @@ const MeetingInput: React.FC<Props> = ({
             />
             <Select onChange={handleChange} id="type">
                 {availableCourseTypes.map((courseType) => (
-                    <Option value={courseType}>{courseType}</Option>
+                    <Option value={courseType} key={courseType}>
+                        {courseType}
+                    </Option>
                 ))}
             </Select>
             <Input

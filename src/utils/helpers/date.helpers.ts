@@ -16,7 +16,7 @@ export function getTimeStringFromDate(date: Date): string {
     )}`;
 }
 
-export function getDateAppendedToTimeString(
+export function configureDateByTimeString(
     date: Date,
     timeString: string
 ): Date {
