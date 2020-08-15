@@ -3,7 +3,7 @@ import SingleDatePicker from "../../components/ui/SingleDatePicker";
 import TimePicker from "../../components/ui/TimePicker";
 import AlertBar from "../../components/ui/AlertBar";
 import MeetingInput from "../../components/ui/MeetingInput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     IMeetingOriginal,
     ECourseTypes,
@@ -15,15 +15,18 @@ import { clone } from "../../utils/helpers";
 
 interface Props {
     course: ICourse;
+    onChange: (meetings: IMeetingOriginal[]) => any;
 }
 
-const MeetingsInput: React.FC<Props> = ({ course }) => {
+const MeetingsInput: React.FC<Props> = ({ course, onChange }) => {
     const [meetings, setMeetings] = useState<
         (IMeetingOriginal & { dateKey: string })[]
     >([]);
 
     const [startTime, setStartTime] = useState<string>("03:00");
     const [endTime, setEndTime] = useState<string>("04:00");
+
+    useEffect(() => onChange(meetings));
 
     function constructDefaultMeeting(
         date: moment.Moment

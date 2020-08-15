@@ -1,8 +1,8 @@
 import useDebounce from "../hooks/useDebounce";
+import Input from "./Input";
+import Select, { Option } from "./Select";
 import { ISelectInputOption } from "../../utils/types";
 import { useState, useEffect } from "react";
-import Select, { Option } from "./Select";
-import Input from "./Input";
 
 interface Props {
     delay: number;

@@ -1,7 +1,6 @@
-import { IAnnouncement, EUserRoles } from "../../utils/types";
+import { IAnnouncement } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 import { useContext } from "react";
-import withAuth from "../hoc/withAuth";
 
 interface Props {
     announcement: IAnnouncement;

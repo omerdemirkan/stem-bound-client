@@ -46,14 +46,12 @@ const MeetingInput: React.FC<Props> = ({
                 id="start"
                 label="Start"
                 value={getTimeStringFromDate(meeting.start)}
-                date={date}
             />
             <TimePicker
                 onChange={handleTimeChange}
                 id="end"
                 label="End"
                 value={getTimeStringFromDate(meeting.end)}
-                date={date}
             />
             <Select onChange={handleChange} id="type">
                 {availableCourseTypes.map((courseType) => (
