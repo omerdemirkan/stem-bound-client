@@ -22,7 +22,8 @@ export function configureDateByTimeString(
 ): Date {
     const newDate = new Date(date);
     const { hours, minutes } = getTimeStringValues(timeString);
-    newDate.setMinutes(hours * 60 + minutes);
+    newDate.setHours(hours);
+    newDate.setMinutes(minutes);
     return newDate;
 }
 

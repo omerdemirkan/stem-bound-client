@@ -14,7 +14,7 @@ const CreateMeetingAppPage: React.FC = () => {
 
     return (
         <AppLayout>
-            <MeetingsInput course={course} onChange={console.log} />
+            <MeetingsInput course={course} onChange={() => {}} />
         </AppLayout>
     );
 };

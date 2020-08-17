@@ -23,12 +23,12 @@ const MultiDatePicker: React.FC<Props> = ({
     function handleDateChange(date: moment.Moment) {
         const wasPreviouslyPicked = dates.some((d) => d.isSame(date));
         if (wasPreviouslyPicked) {
-            onDateRemoved(date);
+            onDateRemoved && onDateRemoved(date);
             setDates((previousDates) =>
                 previousDates.filter((d) => !d.isSame(date))
             );
         } else {
-            onDateSelected(date);
+            onDateSelected && onDateSelected(date);
             setDates((previousDates) =>
                 [...previousDates, date].sort((a, b) =>
                     b.isAfter(a) === isDescendingOrder ? 1 : -1

@@ -30,6 +30,8 @@ const MeetingInput: React.FC<Props> = ({
     }
 
     function handleTimeChange(e) {
+        getTimeStringFromDate(configureDateByTimeString(date, e.target.value));
+
         const newMeeting = clone(meeting);
         Object.assign(newMeeting, {
             [e.target.id]: date
