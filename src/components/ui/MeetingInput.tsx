@@ -3,7 +3,7 @@ import TextArea from "./TextArea";
 import Input from "./Input";
 import Select, { Option } from "./Select";
 import { IMeetingOriginal, ECourseTypes } from "../../utils/types";
-import { clone } from "../../utils/helpers";
+import { clone, validateMeetingDates } from "../../utils/helpers";
 import {
     getTimeStringFromDate,
     configureDateByTimeString,
@@ -30,13 +30,9 @@ const MeetingInput: React.FC<Props> = ({
     }
 
     function handleTimeChange(e) {
-        getTimeStringFromDate(configureDateByTimeString(date, e.target.value));
-
         const newMeeting = clone(meeting);
         Object.assign(newMeeting, {
-            [e.target.id]: date
-                ? configureDateByTimeString(date, e.target.value)
-                : e.target.value,
+            [e.target.id]: configureDateByTimeString(date, e.target.value),
         });
         onChange(newMeeting);
     }
@@ -48,12 +44,24 @@ const MeetingInput: React.FC<Props> = ({
                 id="start"
                 label="Start"
                 value={getTimeStringFromDate(meeting.start)}
+                validateTime={(timeString: string) =>
+                    validateMeetingDates({
+                        start: configureDateByTimeString(date, timeString),
+                        end: meeting.end,
+                    })
+                }
             />
             <TimePicker
                 onChange={handleTimeChange}
                 id="end"
                 label="End"
                 value={getTimeStringFromDate(meeting.end)}
+                validateTime={(timeString: string) =>
+                    validateMeetingDates({
+                        start: meeting.start,
+                        end: configureDateByTimeString(date, timeString),
+                    })
+                }
             />
             <Select onChange={handleChange} id="type">
                 {availableCourseTypes.map((courseType) => (

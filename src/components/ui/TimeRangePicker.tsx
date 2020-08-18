@@ -12,19 +12,22 @@ const TimeRangePicker: React.FC<Props> = ({ value, onChange }) => {
         <div>
             <TimePicker
                 onChange={function (e) {
-                    const timeRange = { start: e.target.value, end: value[1] };
+                    const timeRange = { start: e.target.value, end: value.end };
                     if (validateTimeStringRange(timeRange)) onChange(timeRange);
                 }}
                 name="start"
-                value={value[0]}
+                value={value.start}
             />
             <TimePicker
                 onChange={function (e) {
-                    const timeRange = { start: value[0], end: e.target.value };
+                    const timeRange = {
+                        start: value.start,
+                        end: e.target.value,
+                    };
                     if (validateTimeStringRange(timeRange)) onChange(timeRange);
                 }}
                 name="end"
-                value={value[1]}
+                value={value.end}
             />
         </div>
     );

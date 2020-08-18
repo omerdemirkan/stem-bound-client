@@ -1,14 +1,15 @@
 import MultiDatePicker from "../../components/ui/MultiDatePicker";
 import SingleDatePicker from "../../components/ui/SingleDatePicker";
-import TimePicker from "../../components/ui/TimePicker";
 import AlertBar from "../../components/ui/AlertBar";
 import MeetingInput from "../../components/ui/MeetingInput";
+import TimeRangePicker from "../ui/TimeRangePicker";
 import { useState, useEffect } from "react";
 import {
     IMeetingOriginal,
     ECourseTypes,
     EMeetingTypes,
     ICourse,
+    ITimeStringRange,
 } from "../../utils/types";
 import { getTimeStringValues } from "../../utils/helpers/date.helpers";
 import { clone } from "../../utils/helpers";
@@ -23,8 +24,10 @@ const MeetingsInput: React.FC<Props> = ({ course, onChange }) => {
         (IMeetingOriginal & { dateKey: string })[]
     >([]);
 
-    const [startTime, setStartTime] = useState<string>("03:00");
-    const [endTime, setEndTime] = useState<string>("04:00");
+    const [timeRange, setTimeRange] = useState<ITimeStringRange>({
+        start: "03:00",
+        end: "04:00",
+    });
 
     useEffect(() => onChange(meetings));
 
@@ -34,9 +37,9 @@ const MeetingsInput: React.FC<Props> = ({ course, onChange }) => {
         const {
             hours: startHours,
             minutes: startMinutes,
-        } = getTimeStringValues(startTime);
+        } = getTimeStringValues(timeRange.start);
         const { hours: endHours, minutes: endMinutes } = getTimeStringValues(
-            endTime
+            timeRange.end
         );
 
         return {
@@ -111,18 +114,7 @@ const MeetingsInput: React.FC<Props> = ({ course, onChange }) => {
                 Choose time and days
             </AlertBar>
 
-            <TimePicker
-                id="start"
-                label="Start"
-                onChange={(e) => setStartTime(e.target.value)}
-                value={startTime}
-            />
-            <TimePicker
-                id="end"
-                onChange={(e) => setEndTime(e.target.value)}
-                label="End"
-                value={endTime}
-            />
+            <TimeRangePicker value={timeRange} onChange={setTimeRange} />
 
             <MultiDatePicker
                 onChange={handleDatesUpdate}
