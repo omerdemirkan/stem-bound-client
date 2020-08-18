@@ -1,9 +1,11 @@
-import MultiDatePicker from "../../components/ui/MultiDatePicker";
-import SingleDatePicker from "../../components/ui/SingleDatePicker";
-import AlertBar from "../../components/ui/AlertBar";
-import MeetingInput from "../../components/ui/MeetingInput";
+import MultiDatePicker from "../ui/MultiDatePicker";
+import SingleDatePicker from "../ui/SingleDatePicker";
+import AlertBar from "../ui/AlertBar";
+import MeetingInput from "../ui/MeetingInput";
 import TimeRangePicker from "../ui/TimeRangePicker";
 import { useState, useEffect } from "react";
+import { getTimeStringValues } from "../../utils/helpers/date.helpers";
+import { clone } from "../../utils/helpers";
 import {
     IMeetingOriginal,
     ECourseTypes,
@@ -11,15 +13,14 @@ import {
     ICourse,
     ITimeStringRange,
 } from "../../utils/types";
-import { getTimeStringValues } from "../../utils/helpers/date.helpers";
-import { clone } from "../../utils/helpers";
 
 interface Props {
     course: ICourse;
-    onChange: (meetings: IMeetingOriginal[]) => any;
+    onChange?: (meetings: IMeetingOriginal[]) => any;
+    onSubmit?: (meetings: IMeetingOriginal[]) => any;
 }
 
-const MeetingsInput: React.FC<Props> = ({ course, onChange }) => {
+const MeetingsForm: React.FC<Props> = ({ course, onChange, onSubmit }) => {
     const [meetings, setMeetings] = useState<
         (IMeetingOriginal & { dateKey: string })[]
     >([]);
@@ -29,7 +30,7 @@ const MeetingsInput: React.FC<Props> = ({ course, onChange }) => {
         end: "04:00",
     });
 
-    useEffect(() => onChange(meetings));
+    useEffect(() => onChange && onChange(meetings));
 
     function constructDefaultMeeting(
         date: moment.Moment
@@ -106,7 +107,12 @@ const MeetingsInput: React.FC<Props> = ({ course, onChange }) => {
     }
 
     return (
-        <>
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                onSubmit(meetings);
+            }}
+        >
             <AlertBar
                 finePrint="You can later update meetings individually"
                 type="info"
@@ -132,8 +138,10 @@ const MeetingsInput: React.FC<Props> = ({ course, onChange }) => {
             ))}
 
             <pre>{JSON.stringify(meetings, null, 2)}</pre>
-        </>
+
+            <button type="submit">SUBMIT</button>
+        </form>
     );
 };
 
-export default MeetingsInput;
+export default MeetingsForm;
