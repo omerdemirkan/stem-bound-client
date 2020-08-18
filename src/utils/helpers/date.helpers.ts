@@ -1,3 +1,5 @@
+import { ITimeStringRange } from "../types";
+
 export function getTimeStringValues(
     timeString: string,
     defaultTimeString?: string
@@ -31,4 +33,13 @@ export function addZeroPadding(num, size): string {
     var s = num + "";
     while (s.length < size) s = "0" + s;
     return s;
+}
+
+export function validateTimeStringRange({ start, end }: ITimeStringRange) {
+    const { hours: startHours, minutes: startMinutes } = getTimeStringValues(
+        start
+    );
+    const { hours: endHours, minutes: endMinutes } = getTimeStringValues(end);
+
+    return endHours * 60 + endMinutes > startHours * 60 + startMinutes;
 }

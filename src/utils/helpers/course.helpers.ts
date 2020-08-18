@@ -58,3 +58,18 @@ function getMeetingTypeDisplay(type: string) {
 function getCourseTypeDisplay(type: string) {
     return courseTypes[type];
 }
+
+export const minimumMeetingDurationMiliseconds = 1000 * 60 * 20;
+
+export function validateMeetingDates({
+    start,
+    end,
+}: {
+    start: Date;
+    end: Date;
+}) {
+    return (
+        start < end &&
+        end.getTime() - start.getTime() >= minimumMeetingDurationMiliseconds
+    );
+}
