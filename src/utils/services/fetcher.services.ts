@@ -3,17 +3,24 @@ import {
     fetchMeetingsByCourseId,
     fetchCoursesByUserId,
     fetchAnnouncementsByCourseId,
+    fetchCourseByIdUnmapped,
 } from "./course.services";
 import {
     IFetchMeetingsOptions,
     IFetchSearchDataOptions,
     IFetchChatsOptions,
+    ICourseOriginal,
 } from "../types";
 import { fetchSearchData } from "./search.services";
 import { fetchChatsByUserId, fetchChatById } from "./chat.services";
+import { apiClient } from "../helpers";
 
 export function courseFetcher(id: string) {
     return async () => (await fetchCourseById(id))?.data;
+}
+
+export function courseFetcherUnmapped(id: string) {
+    return async () => (await fetchCourseByIdUnmapped(id))?.data;
 }
 
 export function courseMeetingsFetcher(options: IFetchMeetingsOptions) {

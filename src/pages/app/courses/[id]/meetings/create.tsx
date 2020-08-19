@@ -2,8 +2,15 @@ import AppLayout from "../../../../../components/containers/AppLayout";
 import useSWR from "swr";
 import MeetingsForm from "../../../../../components/containers/MeetingsForm";
 import { useRouter } from "next/router";
-import { courseFetcher, createMeetings } from "../../../../../utils/services";
-import { IMeetingOriginal } from "../../../../../utils/types";
+import {
+    createMeetings,
+    courseFetcherUnmapped,
+} from "../../../../../utils/services";
+import {
+    IMeetingOriginal,
+    ECourseTypes,
+    EMeetingTypes,
+} from "../../../../../utils/types";
 import {
     clone,
     mapMeetingData,
@@ -14,8 +21,8 @@ const CreateMeetingAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
     const { data: course, error, mutate: mutateCourse } = useSWR(
-        queryCourseId ? `/courses/${queryCourseId}` : null,
-        courseFetcher(queryCourseId as any)
+        queryCourseId ? `/courses/${queryCourseId}#unmapped` : null,
+        courseFetcherUnmapped(queryCourseId as any)
     );
 
     function handleSubmit(meetings: IMeetingOriginal[]) {
@@ -25,13 +32,26 @@ const CreateMeetingAppPage: React.FC = () => {
             const newCourse = clone(course);
             Object.assign(newCourse, { meetings: data.map(mapMeetingData) });
             mutateCourse(newCourse);
-            router.push("");
+            router.push(`/app/courses/${course._id}/meetings`);
         });
     }
 
     return (
         <AppLayout>
-            <MeetingsForm course={course} onSubmit={handleSubmit} />
+            {course ? (
+                <MeetingsForm
+                    defaultMeetingType={
+                        course.type === ECourseTypes.REMOTE
+                            ? EMeetingTypes.REMOTE
+                            : EMeetingTypes.IN_PERSON
+                    }
+                    initialMeetingInputs={course.meetings.map((meeting) => ({
+                        ...meeting,
+                        dateKey: meeting.start.toString(),
+                    }))}
+                    onSubmit={handleSubmit}
+                />
+            ) : null}
         </AppLayout>
     );
 };

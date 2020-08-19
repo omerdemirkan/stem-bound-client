@@ -5,11 +5,13 @@ import { ITimeStringRange } from "../../utils/types";
 interface Props {
     onChange: (timeStringRange: ITimeStringRange) => any;
     value: ITimeStringRange;
+    label?: string;
 }
 
-const TimeRangePicker: React.FC<Props> = ({ value, onChange }) => {
+const TimeRangePicker: React.FC<Props> = ({ value, onChange, label }) => {
     return (
         <div>
+            <label>{label}</label>
             <TimePicker
                 onChange={function (e) {
                     const timeRange = { start: e.target.value, end: value.end };

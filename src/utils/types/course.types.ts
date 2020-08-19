@@ -109,3 +109,5 @@ export interface IDeleteMeetingOptions {
     courseId: string;
     meetingId: string;
 }
+
+export type IMeetingInput = IMeetingOriginal & { dateKey: string };

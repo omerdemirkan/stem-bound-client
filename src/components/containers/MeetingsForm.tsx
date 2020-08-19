@@ -1,63 +1,63 @@
 import MultiDatePicker from "../ui/MultiDatePicker";
-import SingleDatePicker from "../ui/SingleDatePicker";
 import AlertBar from "../ui/AlertBar";
 import MeetingInput from "../ui/MeetingInput";
 import TimeRangePicker from "../ui/TimeRangePicker";
-import { useState, useEffect } from "react";
-import { getTimeStringValues } from "../../utils/helpers/date.helpers";
-import { clone } from "../../utils/helpers";
+import Input from "../ui/Input";
+import moment from "moment";
+import { useState, useEffect, FormEvent } from "react";
+import {
+    getTimeStringValues,
+    clone,
+    configureDateByTimeString,
+} from "../../utils/helpers";
 import {
     IMeetingOriginal,
-    ECourseTypes,
     EMeetingTypes,
-    ICourse,
     ITimeStringRange,
+    IMeetingInput,
 } from "../../utils/types";
-import Input from "../ui/Input";
 
 interface Props {
-    course: ICourse;
+    defaultMeetingType: EMeetingTypes;
+    initialMeetingInputs?: IMeetingInput[];
     onChange?: (meetings: IMeetingOriginal[]) => any;
     onSubmit?: (meetings: IMeetingOriginal[]) => any;
 }
 
-const MeetingsForm: React.FC<Props> = ({ course, onChange, onSubmit }) => {
-    const [meetings, setMeetings] = useState<
-        (IMeetingOriginal & { dateKey: string })[]
-    >([]);
-
+const MeetingsForm: React.FC<Props> = ({
+    onChange,
+    onSubmit,
+    defaultMeetingType,
+    initialMeetingInputs,
+}) => {
+    const [meetings, setMeetings] = useState<IMeetingInput[]>(
+        initialMeetingInputs
+    );
     const [timeRange, setTimeRange] = useState<ITimeStringRange>({
         start: "03:00",
         end: "04:00",
     });
-
     const [roomNum, setRoomNum] = useState<string>();
 
-    useEffect(() => onChange && onChange(meetings));
+    useEffect(() => onChange && meetings && onChange(meetings), [meetings]);
 
     function constructDefaultMeeting(
         date: moment.Moment
     ): IMeetingOriginal & { dateKey: string } {
-        const {
-            hours: startHours,
-            minutes: startMinutes,
-        } = getTimeStringValues(timeRange.start);
-        const { hours: endHours, minutes: endMinutes } = getTimeStringValues(
-            timeRange.end
+        const start = new Date(
+            configureDateByTimeString(date.toDate(), timeRange.start)
+        );
+        const end = new Date(
+            configureDateByTimeString(date.toDate(), timeRange.end)
         );
 
         return {
-            dateKey: date.toString(),
-            start: new Date(
-                date.toDate().setMinutes(startHours * 60 + startMinutes)
-            ),
-            end: new Date(date.toDate().setMinutes(endHours * 60 + endMinutes)),
+            start,
+            end,
+            dateKey: start.toString(),
             roomNum: roomNum,
             message: "",
-            type:
-                course?.type.original === ECourseTypes.REMOTE
-                    ? EMeetingTypes.REMOTE
-                    : EMeetingTypes.IN_PERSON,
+            type: defaultMeetingType,
         };
     }
 
@@ -110,13 +110,27 @@ const MeetingsForm: React.FC<Props> = ({ course, onChange, onSubmit }) => {
         });
     }
 
+    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const newMeetings = clone(meetings);
+
+        newMeetings.forEach(function (meeting) {
+            delete meeting.dateKey;
+        });
+
+        onSubmit(newMeetings);
+    }
+
+    // console.log(meetings);
+
+    const initialDates = initialMeetingInputs?.map((meeting) =>
+        moment(meeting.start)
+    );
+
+    console.log(initialDates);
+
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                onSubmit(meetings);
-            }}
-        >
+        <form onSubmit={handleSubmit}>
             <AlertBar
                 finePrint="You can later update meetings individually"
                 type="info"
@@ -124,19 +138,24 @@ const MeetingsForm: React.FC<Props> = ({ course, onChange, onSubmit }) => {
                 Choose time and days
             </AlertBar>
 
-            <TimeRangePicker value={timeRange} onChange={setTimeRange} />
+            <TimeRangePicker
+                value={timeRange}
+                onChange={setTimeRange}
+                label="Default time range"
+            />
 
             <Input
                 label="Room number (for in person classes)"
-                id="roomNum"
                 onChange={(e) => setRoomNum(e.target.value)}
                 value={roomNum}
+                id="roomNum"
                 type="text"
             />
 
             <MultiDatePicker
                 onChange={handleDatesUpdate}
                 sortOrder="ascending"
+                initialValue={initialDates}
             />
 
             {meetings.map((meeting) => (

@@ -12,15 +12,16 @@ import {
 interface Props {
     meeting: IMeetingOriginal & { dateKey: string };
     onChange: (meeting: IMeetingOriginal) => any;
-    availableCourseTypes?: ECourseTypes[];
+    availableMeetingTypes?: ECourseTypes[];
 }
 
 const MeetingInput: React.FC<Props> = ({
     meeting,
     onChange,
-    availableCourseTypes,
+    availableMeetingTypes,
 }) => {
-    availableCourseTypes = availableCourseTypes || Object.values(ECourseTypes);
+    availableMeetingTypes =
+        availableMeetingTypes || Object.values(ECourseTypes);
     const date = new Date(meeting.dateKey);
 
     function handleChange(e) {
@@ -64,7 +65,7 @@ const MeetingInput: React.FC<Props> = ({
                 }
             />
             <Select onChange={handleChange} id="type">
-                {availableCourseTypes.map((courseType) => (
+                {availableMeetingTypes.map((courseType) => (
                     <Option value={courseType} key={courseType}>
                         {courseType}
                     </Option>

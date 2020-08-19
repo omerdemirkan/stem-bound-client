@@ -47,6 +47,12 @@ export function fetchCourseById(
     );
 }
 
+export function fetchCourseByIdUnmapped(
+    courseId: string
+): Promise<IApiResponse<ICourseOriginal>> {
+    return apiClient.get(`/courses/${courseId}`);
+}
+
 export function enrollByCourseId(id: string): Promise<IApiResponse<any>> {
     return apiClient.post(`/courses/${id}/enroll`, {});
 }

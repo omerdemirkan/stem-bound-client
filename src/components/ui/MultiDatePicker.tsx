@@ -3,10 +3,12 @@ import { DayPickerSingleDateController } from "react-dates";
 import "react-dates/initialize";
 
 interface Props {
+    initialValue?: moment.Moment[];
     onChange?: (dates: moment.Moment[]) => any;
     onDateSelected?: (date: moment.Moment) => any;
     onDateRemoved?: (date: moment.Moment) => any;
     sortOrder?: "ascending" | "descending";
+    disabled?: boolean;
 }
 
 const MultiDatePicker: React.FC<Props> = ({
@@ -14,8 +16,10 @@ const MultiDatePicker: React.FC<Props> = ({
     sortOrder,
     onDateRemoved,
     onDateSelected,
+    disabled,
+    initialValue,
 }) => {
-    const [dates, setDates] = useState<moment.Moment[]>([]);
+    const [dates, setDates] = useState<moment.Moment[]>(initialValue || []);
     const [focused, setFocused] = useState<boolean>(false);
 
     const isDescendingOrder = sortOrder === "descending";
