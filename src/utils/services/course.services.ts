@@ -17,6 +17,7 @@ import {
     mapCourseData,
     mapResponseData,
     mapAnnouncementData,
+    mapMeetingData,
 } from "../helpers";
 
 export function fetchCoursesByUserId(
@@ -101,15 +102,15 @@ export function fetchMeetingById({
     );
 }
 
-export function createMeetings({
+export function createMeetings(
     meetingsData,
-    courseId,
-}: ICreateMeetingsOptions): Promise<IApiResponse<IMeeting[]>> {
+    { courseId }: ICreateMeetingsOptions
+): Promise<IApiResponse<IMeeting[]>> {
     return mapResponseData(
         apiClient.post(`/courses/${courseId}/meetings/`, {
             meetings: meetingsData,
         }),
-        mapCourseData
+        mapMeetingData
     );
 }
 

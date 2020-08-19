@@ -73,6 +73,7 @@ const MeetingInput: React.FC<Props> = ({
             <Input
                 type="text"
                 onChange={handleChange}
+                value={meeting.roomNum}
                 id="roomNum"
                 label="Room"
             />

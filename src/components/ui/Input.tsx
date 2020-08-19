@@ -37,7 +37,7 @@ const Input: React.FC<Props> = ({
                 onBlur={onBlur}
                 type={hidden ? "password" : type}
                 id={id}
-                value={value}
+                value={value || ""}
                 disabled={disabled}
             />
             {touched && error ? <span>{error}</span> : null}

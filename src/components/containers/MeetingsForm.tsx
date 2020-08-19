@@ -13,6 +13,7 @@ import {
     ICourse,
     ITimeStringRange,
 } from "../../utils/types";
+import Input from "../ui/Input";
 
 interface Props {
     course: ICourse;
@@ -29,6 +30,8 @@ const MeetingsForm: React.FC<Props> = ({ course, onChange, onSubmit }) => {
         start: "03:00",
         end: "04:00",
     });
+
+    const [roomNum, setRoomNum] = useState<string>();
 
     useEffect(() => onChange && onChange(meetings));
 
@@ -49,6 +52,7 @@ const MeetingsForm: React.FC<Props> = ({ course, onChange, onSubmit }) => {
                 date.toDate().setMinutes(startHours * 60 + startMinutes)
             ),
             end: new Date(date.toDate().setMinutes(endHours * 60 + endMinutes)),
+            roomNum: roomNum,
             message: "",
             type:
                 course?.type.original === ECourseTypes.REMOTE
@@ -122,12 +126,18 @@ const MeetingsForm: React.FC<Props> = ({ course, onChange, onSubmit }) => {
 
             <TimeRangePicker value={timeRange} onChange={setTimeRange} />
 
+            <Input
+                label="Room number (for in person classes)"
+                id="roomNum"
+                onChange={(e) => setRoomNum(e.target.value)}
+                value={roomNum}
+                type="text"
+            />
+
             <MultiDatePicker
                 onChange={handleDatesUpdate}
                 sortOrder="ascending"
             />
-
-            <SingleDatePicker id="Date" onChange={() => {}} />
 
             {meetings.map((meeting) => (
                 <MeetingInput
