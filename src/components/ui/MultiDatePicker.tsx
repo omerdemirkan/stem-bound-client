@@ -25,6 +25,7 @@ const MultiDatePicker: React.FC<Props> = ({
     const isDescendingOrder = sortOrder === "descending";
 
     function handleDateChange(date: moment.Moment) {
+        date = date.startOf("day");
         const wasPreviouslyPicked = dates.some((d) => d.isSame(date));
         if (wasPreviouslyPicked) {
             onDateRemoved && onDateRemoved(date);

@@ -5,11 +5,7 @@ import TimeRangePicker from "../ui/TimeRangePicker";
 import Input from "../ui/Input";
 import moment from "moment";
 import { useState, useEffect, FormEvent } from "react";
-import {
-    getTimeStringValues,
-    clone,
-    configureDateByTimeString,
-} from "../../utils/helpers";
+import { clone, configureDateByTimeString } from "../../utils/helpers";
 import {
     IMeetingOriginal,
     EMeetingTypes,
@@ -44,17 +40,19 @@ const MeetingsForm: React.FC<Props> = ({
     function constructDefaultMeeting(
         date: moment.Moment
     ): IMeetingOriginal & { dateKey: string } {
-        const start = new Date(
-            configureDateByTimeString(date.toDate(), timeRange.start)
-        );
-        const end = new Date(
-            configureDateByTimeString(date.toDate(), timeRange.end)
-        );
+        const start = configureDateByTimeString(
+            date.toDate(),
+            timeRange.start
+        ).toString();
+        const end = configureDateByTimeString(
+            date.toDate(),
+            timeRange.end
+        ).toString();
 
         return {
             start,
             end,
-            dateKey: start.toString(),
+            dateKey: date.toString(),
             roomNum: roomNum,
             message: "",
             type: defaultMeetingType,
@@ -121,13 +119,11 @@ const MeetingsForm: React.FC<Props> = ({
         onSubmit(newMeetings);
     }
 
-    // console.log(meetings);
+    console.log(meetings);
 
     const initialDates = initialMeetingInputs?.map((meeting) =>
-        moment(meeting.start)
+        moment(meeting.start).startOf("day")
     );
-
-    console.log(initialDates);
 
     return (
         <form onSubmit={handleSubmit}>

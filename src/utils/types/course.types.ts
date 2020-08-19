@@ -12,8 +12,8 @@ export enum EMeetingTypes {
 export interface IMeetingOriginal {
     type: string;
     roomNum?: string;
-    start: Date;
-    end: Date;
+    start: Date | string;
+    end: Date | string;
     message: string;
     _id?: string;
 }

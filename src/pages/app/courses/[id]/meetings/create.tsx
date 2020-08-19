@@ -16,6 +16,7 @@ import {
     mapMeetingData,
     removeEmptyStrings,
 } from "../../../../../utils/helpers";
+import moment from "moment";
 
 const CreateMeetingAppPage: React.FC = () => {
     const router = useRouter();
@@ -47,7 +48,9 @@ const CreateMeetingAppPage: React.FC = () => {
                     }
                     initialMeetingInputs={course.meetings.map((meeting) => ({
                         ...meeting,
-                        dateKey: meeting.start.toString(),
+                        dateKey: moment(meeting.start)
+                            .startOf("day")
+                            .toString(),
                     }))}
                     onSubmit={handleSubmit}
                 />
