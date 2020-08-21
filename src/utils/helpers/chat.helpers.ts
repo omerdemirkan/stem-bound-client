@@ -1,4 +1,5 @@
 import { IChat, IChatOriginal, IMessageOriginal, IMessage } from "../types";
+import moment from "moment";
 
 export function mapMessageData(message: IMessageOriginal): IMessage {
     return {
@@ -6,8 +7,8 @@ export function mapMessageData(message: IMessageOriginal): IMessage {
         text: message.text,
         _id: message._id,
         isDeleted: message.isDeleted,
-        createdAt: message.createdAt,
-        updatedAt: message.updatedAt,
+        createdAt: moment(message.createdAt),
+        updatedAt: moment(message.updatedAt),
         typing: [],
     };
 }
@@ -17,7 +18,7 @@ export function mapChatData(chat: IChatOriginal): IChat {
         _id: chat._id,
         messages: chat.messages.map(mapMessageData),
         meta: chat.meta,
-        createdAt: chat.createdAt,
-        updatedAt: chat.updatedAt,
+        createdAt: moment(chat.createdAt),
+        updatedAt: moment(chat.updatedAt),
     };
 }

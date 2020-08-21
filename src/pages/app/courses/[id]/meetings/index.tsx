@@ -32,24 +32,14 @@ const MeetingsAppPage: React.FC = () => {
             <h4>{course?.title} meetings</h4>
 
             {course?.meta.instructors.includes(user._id) ? (
-                <>
-                    <Link
-                        href="/app/courses/[id]/meetings/create"
-                        as={`/app/courses/${course?._id}/meetings/create`}
-                    >
-                        <a>
-                            <button>CREATE MEETINGS</button>
-                        </a>
-                    </Link>
-                    <Link
-                        href="/app/courses/[id]/meetings/update"
-                        as={`/app/courses/${course?._id}/meetings/update`}
-                    >
-                        <a>
-                            <button>UDPATE MEETINGS</button>
-                        </a>
-                    </Link>
-                </>
+                <Link
+                    href="/app/courses/[id]/meetings/update"
+                    as={`/app/courses/${course?._id}/meetings/update`}
+                >
+                    <a>
+                        <button>CREATE/UDPATE MEETINGS</button>
+                    </a>
+                </Link>
             ) : null}
 
             <pre>{JSON.stringify(meetings || course?.meetings, null, 2)}</pre>

@@ -28,8 +28,8 @@ export interface IMessage {
     };
     isDeleted: boolean;
     _id?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt?: moment.Moment;
+    updatedAt?: moment.Moment;
     typing?: string[];
 }
 
@@ -39,8 +39,8 @@ export interface IChat {
     meta: {
         users: string[];
     };
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt?: moment.Moment;
+    updatedAt?: moment.Moment;
 }
 
 // SERVICE TYPES
