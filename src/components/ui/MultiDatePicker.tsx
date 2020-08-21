@@ -19,7 +19,9 @@ const MultiDatePicker: React.FC<Props> = ({
     disabled,
     initialValue,
 }) => {
-    const [dates, setDates] = useState<moment.Moment[]>(initialValue || []);
+    const [dates, setDates] = useState<moment.Moment[]>(
+        initialValue?.map((d) => d.startOf("day")) || []
+    );
     const [focused, setFocused] = useState<boolean>(false);
 
     const isDescendingOrder = sortOrder === "descending";

@@ -10,6 +10,7 @@ import {
     IMeetingOriginal,
     ECourseTypes,
     EMeetingTypes,
+    EUserRoles,
 } from "../../../../../utils/types";
 import {
     clone,
@@ -17,8 +18,9 @@ import {
     removeEmptyStrings,
 } from "../../../../../utils/helpers";
 import moment from "moment";
+import withAuth from "../../../../../components/hoc/withAuth";
 
-const CreateMeetingAppPage: React.FC = () => {
+const UpdateMeetingAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
     const { data: course, error, mutate: mutateCourse } = useSWR(
@@ -59,4 +61,6 @@ const CreateMeetingAppPage: React.FC = () => {
     );
 };
 
-export default CreateMeetingAppPage;
+export default withAuth(UpdateMeetingAppPage, {
+    allowedUserRoles: [EUserRoles.INSTRUCTOR],
+});

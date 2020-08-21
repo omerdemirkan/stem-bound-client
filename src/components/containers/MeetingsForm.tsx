@@ -27,7 +27,7 @@ const MeetingsForm: React.FC<Props> = ({
     initialMeetingInputs,
 }) => {
     const [meetings, setMeetings] = useState<IMeetingInput[]>(
-        initialMeetingInputs
+        initialMeetingInputs || []
     );
     const [timeRange, setTimeRange] = useState<ITimeStringRange>({
         start: "03:00",
@@ -122,7 +122,7 @@ const MeetingsForm: React.FC<Props> = ({
     console.log(meetings);
 
     const initialDates = initialMeetingInputs?.map((meeting) =>
-        moment(meeting.start).startOf("day")
+        moment(meeting.start)
     );
 
     return (
