@@ -6,7 +6,5 @@ export enum ESocketEvents {
 }
 
 export interface ISocketContextState {
-    on(event: string, fn: Function): SocketIOClient.Emitter;
-    emit(event: string, ...args: any[]): SocketIOClient.Socket;
-    connected: boolean;
+    socket: SocketIOClient.Socket;
 }

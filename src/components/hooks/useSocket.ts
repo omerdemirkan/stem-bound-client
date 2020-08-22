@@ -1,29 +1,19 @@
-import io from "socket.io-client";
-import { SERVER_BASE_URL } from "../../config";
-import { useEffect, useState, useContext } from "react";
-import AuthContext from "../contexts/AuthContext";
+import SocketContext from "../contexts/SocketContext";
+import { useContext, useEffect } from "react";
 
 export default function useSocket(
-    initializer?: null | ((socket: SocketIOClient.Socket) => any),
-    options?: { url?: string } & SocketIOClient.ConnectOpts
+    initializer?: null | ((socket: SocketIOClient.Socket) => any)
 ): SocketIOClient.Socket {
-    const [socket, setSocket] = useState<SocketIOClient.Socket>();
-    const { user } = useContext(AuthContext);
-    useEffect(function () {
-        const socket = io(options?.url || SERVER_BASE_URL, {
-            reconnection: true,
-            query: { userId: user._id },
-            ...options,
-        });
+    const { socket } = useContext(SocketContext);
 
-        socket.emit;
+    useEffect(
+        function () {
+            if (socket?.connected && initializer) {
+                initializer(socket);
+            }
+        },
+        [socket?.connected]
+    );
 
-        const cleanup = (initializer && initializer(socket)) || (() => {});
-        setSocket(socket);
-        return function () {
-            cleanup();
-            socket.disconnect();
-        };
-    }, []);
     return socket;
 }
