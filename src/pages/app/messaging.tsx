@@ -19,6 +19,7 @@ import {
     deleteMessage,
     restoreMessage,
 } from "../../utils/services";
+import useDebounce from "../../components/hooks/useDebounce";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -35,12 +36,38 @@ const MessagingAppPage: React.FC = () => {
     const [editedMessageId, setEditedMessageId] = useState<null | string>(null);
     const [editedMessageText, setEditedMessageText] = useState<string>("");
     const [textField, setTextField] = useState<string>("");
+    const [typingUsers, setTypingUsers] = useState<string[]>([]);
 
-    useSocket(function (socket: SocketIOClient.Socket) {
+    const debouncedTextField = useDebounce(textField, 3000);
+
+    const userIsTyping = debouncedTextField !== textField;
+
+    const socket = useSocket(function (socket: SocketIOClient.Socket) {
         socket.emit(ESocketEvents.JOIN_ROOM, chatId);
-
+        socket.on(ESocketEvents.CHAT_USER_STARTED_TYPING, function ({
+            userId,
+        }) {
+            setTypingUsers((prev) => ({ ...prev, userId }));
+        });
+        socket.on(ESocketEvents.CHAT_USER_STOPPED_TYPING, function ({
+            userId,
+        }) {
+            setTypingUsers(typingUsers.filter((id) => id !== userId));
+        });
         return () => socket.emit(ESocketEvents.LEAVE_ROOM, chatId);
     });
+
+    useEffect(
+        function () {
+            socket?.emit(
+                userIsTyping
+                    ? ESocketEvents.CHAT_USER_STARTED_TYPING
+                    : ESocketEvents.CHAT_USER_STOPPED_TYPING,
+                { userId: user._id, chatId: chatId }
+            );
+        },
+        [userIsTyping]
+    );
 
     useEffect(
         function () {
@@ -187,6 +214,8 @@ const MessagingAppPage: React.FC = () => {
                     )}
                 </>
             ) : null}
+
+            <pre>{JSON.stringify(typingUsers, null, 2)}</pre>
             <style jsx>{``}</style>
         </AppLayout>
     );
