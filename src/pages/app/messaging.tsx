@@ -6,8 +6,10 @@ import ChatMessage from "../../components/ui/ChatMessage";
 import AuthContext from "../../components/contexts/AuthContext";
 import ChatCard from "../../components/ui/ChatCard";
 import useSWR from "swr";
-import { IChat } from "../../utils/types";
+import useSocket from "../../components/hooks/useSocket";
+import { IChat, ESocketEvents } from "../../utils/types";
 import { useEffect, useState, useContext } from "react";
+import { clone } from "../../utils/helpers";
 import { useRouter } from "next/router";
 import {
     userChatsFetcher,
@@ -17,7 +19,6 @@ import {
     deleteMessage,
     restoreMessage,
 } from "../../utils/services";
-import { clone } from "../../utils/helpers";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -35,6 +36,12 @@ const MessagingAppPage: React.FC = () => {
     const [editedMessageText, setEditedMessageText] = useState<string>("");
     const [textField, setTextField] = useState<string>("");
 
+    useSocket(function (socket: SocketIOClient.Socket) {
+        socket.emit(ESocketEvents.JOIN_ROOM, chatId);
+
+        return () => socket.emit(ESocketEvents.LEAVE_ROOM, chatId);
+    });
+
     useEffect(
         function () {
             if (editedMessageId) {
@@ -48,6 +55,15 @@ const MessagingAppPage: React.FC = () => {
             }
         },
         [editedMessageId]
+    );
+
+    useEffect(
+        function () {
+            setTextField("");
+            setEditedMessageId(null);
+            setEditedMessageText("");
+        },
+        [chatId]
     );
 
     function handleInspectChat(id: string) {
@@ -69,6 +85,7 @@ const MessagingAppPage: React.FC = () => {
                 const newInspectedChat = clone(inspectedChat);
                 newInspectedChat.messages.unshift(res.data);
                 mutateInspectedChat(newInspectedChat);
+                setTextField("");
             })
             .catch(console.error);
     }
