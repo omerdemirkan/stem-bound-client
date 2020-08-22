@@ -44,17 +44,18 @@ const MessagingAppPage: React.FC = () => {
 
     const socket = useSocket(function (socket: SocketIOClient.Socket) {
         socket.emit(ESocketEvents.JOIN_ROOM, chatId);
+
         socket.on(ESocketEvents.CHAT_USER_STARTED_TYPING, function ({
             userId,
         }) {
-            setTypingUsers((prev) => ({ ...prev, userId }));
+            setTypingUsers((prev) => [...prev, userId]);
         });
+
         socket.on(ESocketEvents.CHAT_USER_STOPPED_TYPING, function ({
             userId,
         }) {
-            setTypingUsers(typingUsers.filter((id) => id !== userId));
+            setTypingUsers((prev) => prev.filter((id) => id !== userId));
         });
-        return () => socket.emit(ESocketEvents.LEAVE_ROOM, chatId);
     });
 
     useEffect(
@@ -89,11 +90,14 @@ const MessagingAppPage: React.FC = () => {
             setTextField("");
             setEditedMessageId(null);
             setEditedMessageText("");
+            setTypingUsers([]);
         },
         [chatId]
     );
 
     function handleInspectChat(id: string) {
+        socket.emit(ESocketEvents.LEAVE_ROOM, chatId);
+        socket.emit(ESocketEvents.JOIN_ROOM, id);
         router.push(
             { pathname: router.pathname, query: { id } },
             { pathname: router.pathname, query: { id } },

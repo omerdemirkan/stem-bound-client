@@ -4,3 +4,9 @@ export enum ESocketEvents {
     JOIN_ROOM = "JOIN_ROOM",
     LEAVE_ROOM = "LEAVE_ROOM",
 }
+
+export interface ISocketContextState {
+    on(event: string, fn: Function): SocketIOClient.Emitter;
+    emit(event: string, ...args: any[]): SocketIOClient.Socket;
+    connected: boolean;
+}
