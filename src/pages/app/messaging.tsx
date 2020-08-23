@@ -7,7 +7,7 @@ import AuthContext from "../../components/contexts/AuthContext";
 import ChatCard from "../../components/ui/ChatCard";
 import useSWR from "swr";
 import useSocket from "../../components/hooks/useSocket";
-import { IChat, ESocketEvents } from "../../utils/types";
+import { IChat, ESocketEvents, IUser, IMessage } from "../../utils/types";
 import { useEffect, useState, useContext } from "react";
 import { clone } from "../../utils/helpers";
 import { useRouter } from "next/router";
@@ -36,25 +36,34 @@ const MessagingAppPage: React.FC = () => {
     const [editedMessageId, setEditedMessageId] = useState<null | string>(null);
     const [editedMessageText, setEditedMessageText] = useState<string>("");
     const [textField, setTextField] = useState<string>("");
-    const [typingUsers, setTypingUsers] = useState<string[]>([]);
+    const [typingUsers, setTypingUsers] = useState<IUser[]>([]);
 
     const debouncedTextField = useDebounce(textField, 3000);
 
     const userIsTyping = debouncedTextField !== textField;
 
-    const socket = useSocket(function (socket: SocketIOClient.Socket) {
+    const { socket } = useSocket(function (socket: SocketIOClient.Socket) {
         socket.emit(ESocketEvents.JOIN_ROOM, chatId);
 
-        socket.on(ESocketEvents.CHAT_USER_STARTED_TYPING, function ({
-            userId,
-        }) {
-            setTypingUsers((prev) => [...prev, userId]);
+        socket.on(ESocketEvents.CHAT_USER_STARTED_TYPING, function ({ user }) {
+            setTypingUsers((prev) => [...prev, user]);
         });
 
-        socket.on(ESocketEvents.CHAT_USER_STOPPED_TYPING, function ({
-            userId,
-        }) {
-            setTypingUsers((prev) => prev.filter((id) => id !== userId));
+        socket.on(ESocketEvents.CHAT_USER_STOPPED_TYPING, function ({ user }) {
+            setTypingUsers((prev) => prev.filter((u) => u._id !== user._id));
+        });
+
+        socket.on(ESocketEvents.CHAT_MESSAGE_CREATED, function ({ message }) {
+            handleMessageCreated(message);
+        });
+        socket.on(ESocketEvents.CHAT_MESSAGE_UPDATED, function ({ message }) {
+            handleMessageUpdated(message);
+        });
+        socket.on(ESocketEvents.CHAT_MESSAGE_DELETED, function ({ message }) {
+            handleMessageDeleted(message);
+        });
+        socket.on(ESocketEvents.CHAT_MESSAGE_RESTORED, function ({ message }) {
+            handleMessageUpdated(message);
         });
     });
 
@@ -64,7 +73,7 @@ const MessagingAppPage: React.FC = () => {
                 userIsTyping
                     ? ESocketEvents.CHAT_USER_STARTED_TYPING
                     : ESocketEvents.CHAT_USER_STOPPED_TYPING,
-                { userId: user._id, chatId: chatId }
+                { user, chatId }
             );
         },
         [userIsTyping]
@@ -95,6 +104,39 @@ const MessagingAppPage: React.FC = () => {
         [chatId]
     );
 
+    // API CALL FUNCTIONS
+
+    async function handleSendMessage() {
+        await createMessage({
+            chatId: inspectedChat._id,
+            text: textField,
+        });
+        setTextField("");
+    }
+
+    async function handleUpdateMessage() {
+        await updateMessage({
+            chatId: inspectedChat._id,
+            messageId: editedMessageId,
+            text: editedMessageText,
+        });
+        setEditedMessageId(null);
+        setEditedMessageText("");
+    }
+
+    async function handleDeleteMessage(messageId: string) {
+        await deleteMessage({ chatId: inspectedChat._id, messageId });
+    }
+
+    async function handleRestoreMessage(messageId: string) {
+        await restoreMessage({
+            chatId: inspectedChat._id,
+            messageId,
+        });
+    }
+
+    // CHAT STATE UPDATE HELPERS
+
     function handleInspectChat(id: string) {
         socket.emit(ESocketEvents.LEAVE_ROOM, chatId);
         socket.emit(ESocketEvents.JOIN_ROOM, id);
@@ -107,65 +149,36 @@ const MessagingAppPage: React.FC = () => {
         );
     }
 
-    function handleSendMessage() {
-        createMessage({
-            chatId: inspectedChat._id,
-            text: textField,
-        })
-            .then(function (res) {
-                const newInspectedChat = clone(inspectedChat);
-                newInspectedChat.messages.unshift(res.data);
-                mutateInspectedChat(newInspectedChat);
-                setTextField("");
-            })
-            .catch(console.error);
+    function handleMessageCreated(newMessage: IMessage) {
+        mutateInspectedChat(function (previous) {
+            const newInspectedChat = clone(previous);
+            newInspectedChat.messages.unshift(newMessage);
+            return newInspectedChat;
+        }, false);
     }
 
-    function handleUpdateMessage() {
-        updateMessage({
-            chatId: inspectedChat._id,
-            messageId: editedMessageId,
-            text: editedMessageText,
-        })
-            .then(function (res) {
-                const newInspectedChat = clone(inspectedChat);
-                const messageIndex = newInspectedChat.messages.findIndex(
-                    (message) => message._id === editedMessageId
-                );
-                newInspectedChat.messages[messageIndex] = res.data;
-                mutateInspectedChat(newInspectedChat);
-                setEditedMessageId(null);
-                setEditedMessageText("");
-            })
-            .catch(console.error);
+    function handleMessageUpdated(updatedMessage: IMessage) {
+        mutateInspectedChat(function (previous) {
+            const newInspectedChat = clone(previous);
+            const messageIndex = newInspectedChat.messages.findIndex(
+                (message) => message._id === updatedMessage._id
+            );
+            newInspectedChat.messages[messageIndex] = updatedMessage;
+            return newInspectedChat;
+        }, false);
     }
 
-    function handleDeleteMessage(messageId: string) {
-        deleteMessage({ chatId: inspectedChat._id, messageId })
-            .then(function (res) {
-                const newInspectedChat = clone(inspectedChat);
-                const messageIndex = newInspectedChat.messages.findIndex(
-                    (message) => message._id === messageId
-                );
-                const deletedMessage = newInspectedChat.messages[messageIndex];
-                deletedMessage.isDeleted = true;
-                deletedMessage.text = "This message was deleted";
-                mutateInspectedChat(newInspectedChat);
-            })
-            .catch(console.error);
-    }
-
-    function handleRestoreMessage(messageId: string) {
-        restoreMessage({ chatId: inspectedChat._id, messageId })
-            .then(function (res) {
-                const newInspectedChat = clone(inspectedChat);
-                const messageIndex = newInspectedChat.messages.findIndex(
-                    (message) => message._id === messageId
-                );
-                newInspectedChat.messages[messageIndex] = res.data;
-                mutateInspectedChat(newInspectedChat);
-            })
-            .catch(console.error);
+    function handleMessageDeleted(messageId: string) {
+        mutateInspectedChat(function (previous) {
+            const newInspectedChat = clone(previous);
+            const messageIndex = newInspectedChat.messages.findIndex(
+                (message) => message._id === messageId
+            );
+            const deletedMessage = newInspectedChat.messages[messageIndex];
+            deletedMessage.isDeleted = true;
+            deletedMessage.text = "This message was deleted";
+            return newInspectedChat;
+        }, false);
     }
 
     return (
@@ -219,7 +232,9 @@ const MessagingAppPage: React.FC = () => {
                 </>
             ) : null}
 
-            <pre>{JSON.stringify(typingUsers, null, 2)}</pre>
+            {typingUsers.map((user) => (
+                <div>{user.firstName} is typing...</div>
+            ))}
             <style jsx>{``}</style>
         </AppLayout>
     );

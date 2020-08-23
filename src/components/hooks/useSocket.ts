@@ -1,19 +1,22 @@
 import SocketContext from "../contexts/SocketContext";
 import { useContext, useEffect } from "react";
+import { ISocketContextState } from "../../utils/types";
 
 export default function useSocket(
     initializer?: null | ((socket: SocketIOClient.Socket) => any)
-): SocketIOClient.Socket {
-    const { socket } = useContext(SocketContext);
+): ISocketContextState {
+    const context = useContext(SocketContext);
 
     useEffect(
         function () {
-            if (socket?.connected && initializer) {
-                initializer(socket);
+            let cleanup = () => null;
+            if (context.socket?.connected && initializer) {
+                cleanup = initializer(context.socket) || cleanup;
             }
+            return cleanup;
         },
-        [socket?.connected]
+        [context.socket?.connected]
     );
 
-    return socket;
+    return context;
 }
