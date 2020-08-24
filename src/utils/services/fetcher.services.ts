@@ -12,7 +12,11 @@ import {
     ICourseOriginal,
 } from "../types";
 import { fetchSearchData } from "./search.services";
-import { fetchChatsByUserId, fetchChatById } from "./chat.services";
+import {
+    fetchChatsByUserId,
+    fetchChatById,
+    fetchMessagesByChatId,
+} from "./chat.services";
 import { apiClient } from "../helpers";
 
 export function courseFetcher(id: string) {
@@ -41,6 +45,10 @@ export function userChatsFetcher(id: string, options?: IFetchChatsOptions) {
 
 export function chatFetcher(id: string) {
     return async () => (await fetchChatById(id)).data;
+}
+
+export function messagesFetcher(chatId: string) {
+    return async () => (await fetchMessagesByChatId({ chatId })).data;
 }
 
 export function announcementsFetcher(courseId: string) {

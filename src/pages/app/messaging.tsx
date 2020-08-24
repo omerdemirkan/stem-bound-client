@@ -11,14 +11,7 @@ import { IChat, ESocketEvents, IUser, IMessage } from "../../utils/types";
 import { useEffect, useState, useContext } from "react";
 import { clone, mapMessageData } from "../../utils/helpers";
 import { useRouter } from "next/router";
-import {
-    userChatsFetcher,
-    chatFetcher,
-    createMessage,
-    updateMessage,
-    deleteMessage,
-    restoreMessage,
-} from "../../utils/services";
+import { userChatsFetcher, messagesFetcher } from "../../utils/services";
 import useDebounce from "../../components/hooks/useDebounce";
 
 const MessagingAppPage: React.FC = () => {
@@ -27,11 +20,13 @@ const MessagingAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
 
     const { data: chats } = useSWR(`/chats`, userChatsFetcher(user._id));
-    const { data: inspectedChat, mutate: mutateInspectedChat } = useSWR(
-        chatId ? `/chats/${chatId}` : null,
-        chatFetcher(chatId as string),
-        { initialData: chats?.find((chat) => chat._id === chatId) }
+    const { data: messages, mutate: mutateMessages, error } = useSWR(
+        chatId ? `/chats/${chatId}/messages` : null,
+        messagesFetcher(chatId as string),
+        { initialData: chats?.find((chat) => chat._id === chatId).messages }
     );
+
+    console.log({ error, messages });
 
     const [editedMessageId, setEditedMessageId] = useState<null | string>(null);
     const [editedMessageText, setEditedMessageText] = useState<string>("");
@@ -98,9 +93,8 @@ const MessagingAppPage: React.FC = () => {
         function () {
             if (editedMessageId) {
                 setEditedMessageText(
-                    inspectedChat.messages.find(
-                        (message) => message._id === editedMessageId
-                    ).text
+                    messages.find((message) => message._id === editedMessageId)
+                        .text
                 );
             } else {
                 setEditedMessageText("");
@@ -165,35 +159,35 @@ const MessagingAppPage: React.FC = () => {
     }
 
     function handleMessageCreated(newMessage: IMessage) {
-        mutateInspectedChat(function (previous) {
-            const newInspectedChat = clone(previous);
-            newInspectedChat.messages.unshift(newMessage);
-            return newInspectedChat;
+        mutateMessages(function (previous) {
+            const newMessages = clone(previous);
+            newMessages.unshift(newMessage);
+            return newMessages;
         }, false);
     }
 
     function handleMessageUpdated(updatedMessage: IMessage) {
-        mutateInspectedChat(function (previous) {
-            const newInspectedChat = clone(previous);
-            const messageIndex = newInspectedChat.messages.findIndex(
+        mutateMessages(function (previous) {
+            const newMessages = clone(previous);
+            const messageIndex = newMessages.findIndex(
                 (message) => message._id === updatedMessage._id
             );
 
-            newInspectedChat.messages[messageIndex] = updatedMessage;
-            return newInspectedChat;
+            newMessages[messageIndex] = updatedMessage;
+            return newMessages;
         }, false);
     }
 
     function handleMessageDeleted(messageId: string) {
-        mutateInspectedChat(function (previous) {
-            const newInspectedChat = clone(previous);
-            const messageIndex = newInspectedChat.messages.findIndex(
+        mutateMessages(function (previous) {
+            const newMessages = clone(previous);
+            const messageIndex = newMessages.findIndex(
                 (message) => message._id === messageId
             );
-            const deletedMessage = newInspectedChat.messages[messageIndex];
+            const deletedMessage = newMessages[messageIndex];
             deletedMessage.isDeleted = true;
             deletedMessage.text = "This message was deleted";
-            return newInspectedChat;
+            return newMessages;
         }, false);
     }
 
@@ -210,7 +204,7 @@ const MessagingAppPage: React.FC = () => {
                     key={chat._id}
                 />
             ))}
-            {inspectedChat ? (
+            {messages ? (
                 <>
                     <h4>Inspected Chat:</h4>
                     {editedMessageId ? (
@@ -218,7 +212,7 @@ const MessagingAppPage: React.FC = () => {
                             CANCEL EDIT
                         </button>
                     ) : null}
-                    {inspectedChat.messages.map((message) => (
+                    {messages.map((message) => (
                         <ChatMessage
                             message={message}
                             key={message._id}

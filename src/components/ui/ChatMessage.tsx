@@ -1,4 +1,6 @@
 import { IMessage } from "../../utils/types";
+import AuthContext from "../contexts/AuthContext";
+import { useContext } from "react";
 
 interface Props {
     message: IMessage;
@@ -13,10 +15,18 @@ const ChatMessage: React.FC<Props> = ({
     onDelete,
     onRestore,
 }) => {
+    const { user } = useContext(AuthContext);
+    const userIsMessageSender = user._id === message.meta.from;
     return (
         <div>
-            <button onClick={() => onSetEdit(message._id)}>EDIT</button>
-            <button onClick={() => onDelete(message._id)}>DELETE</button>
+            {userIsMessageSender ? (
+                <>
+                    <button onClick={() => onSetEdit(message._id)}>EDIT</button>
+                    <button onClick={() => onDelete(message._id)}>
+                        DELETE
+                    </button>
+                </>
+            ) : null}
             {message.isDeleted ? (
                 <button onClick={() => onRestore(message._id)}>RESTORE</button>
             ) : null}

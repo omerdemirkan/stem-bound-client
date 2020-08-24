@@ -79,7 +79,7 @@ export function fetchMessagesByChatId({
         limit,
         skip,
     });
-    return mapResponseData(apiClient.get(path), mapChatData);
+    return mapResponseData(apiClient.get(path), mapMessageData);
 }
 
 export function fetchMessageById({
