@@ -119,8 +119,6 @@ const MeetingsForm: React.FC<Props> = ({
         onSubmit(newMeetings);
     }
 
-    console.log(meetings);
-
     const initialDates = initialMeetingInputs?.map((meeting) =>
         moment(meeting.start)
     );

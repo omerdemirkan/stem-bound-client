@@ -7,8 +7,8 @@ export function mapMessageData(message: IMessageOriginal): IMessage {
         text: message.text,
         _id: message._id,
         isDeleted: message.isDeleted,
-        createdAt: moment(message.createdAt),
-        updatedAt: moment(message.updatedAt),
+        createdAt: message.createdAt,
+        updatedAt: message.updatedAt,
         typing: [],
     };
 }
@@ -18,7 +18,7 @@ export function mapChatData(chat: IChatOriginal): IChat {
         _id: chat._id,
         messages: chat.messages.map(mapMessageData),
         meta: chat.meta,
-        createdAt: moment(chat.createdAt),
-        updatedAt: moment(chat.updatedAt),
+        createdAt: chat.createdAt,
+        updatedAt: chat.updatedAt,
     };
 }

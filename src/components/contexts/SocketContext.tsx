@@ -14,13 +14,13 @@ export default SocketContext;
 
 export const SocketContextProvider: React.FC = ({ children }) => {
     const [socket, setSocket] = useState<SocketIOClient.Socket>();
-    const { user } = useContext(AuthContext);
+    const { accessToken } = useContext(AuthContext);
     useEffect(
         function () {
-            if (user?._id) {
+            if (accessToken) {
                 const socket = io(SERVER_BASE_URL, {
                     reconnection: true,
-                    query: { userId: user._id },
+                    query: { authorization: accessToken },
                 });
 
                 setSocket(socket);
@@ -28,7 +28,7 @@ export const SocketContextProvider: React.FC = ({ children }) => {
                 return () => socket.disconnect();
             }
         },
-        [user]
+        [accessToken]
     );
 
     return (

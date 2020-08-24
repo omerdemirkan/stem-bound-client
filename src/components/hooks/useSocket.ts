@@ -11,7 +11,7 @@ export default function useSocket(
         function () {
             let cleanup = () => null;
             if (context.socket?.connected && initializer) {
-                cleanup = initializer(context.socket) || cleanup;
+                cleanup = initializer(context.socket) || (() => null);
             }
             return cleanup;
         },

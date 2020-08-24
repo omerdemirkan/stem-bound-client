@@ -6,8 +6,8 @@ export interface IMessageOriginal {
     };
     isDeleted: boolean;
     _id?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface IChatOriginal {
@@ -16,8 +16,8 @@ export interface IChatOriginal {
     meta: {
         users: string[];
     };
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface IMessage {
@@ -28,8 +28,8 @@ export interface IMessage {
     };
     isDeleted: boolean;
     _id?: string;
-    createdAt?: moment.Moment;
-    updatedAt?: moment.Moment;
+    createdAt?: string;
+    updatedAt?: string;
     typing?: string[];
 }
 
@@ -39,8 +39,8 @@ export interface IChat {
     meta: {
         users: string[];
     };
-    createdAt?: moment.Moment;
-    updatedAt?: moment.Moment;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 // SERVICE TYPES

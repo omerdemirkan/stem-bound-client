@@ -9,7 +9,7 @@ import useSWR from "swr";
 import useSocket from "../../components/hooks/useSocket";
 import { IChat, ESocketEvents, IUser, IMessage } from "../../utils/types";
 import { useEffect, useState, useContext } from "react";
-import { clone } from "../../utils/helpers";
+import { clone, mapMessageData } from "../../utils/helpers";
 import { useRouter } from "next/router";
 import {
     userChatsFetcher,
@@ -45,6 +45,8 @@ const MessagingAppPage: React.FC = () => {
     const { socket } = useSocket(function (socket: SocketIOClient.Socket) {
         socket.emit(ESocketEvents.JOIN_ROOM, chatId);
 
+        const clientUserId = user._id;
+
         socket.on(ESocketEvents.CHAT_USER_STARTED_TYPING, function ({ user }) {
             setTypingUsers((prev) => [...prev, user]);
         });
@@ -54,16 +56,29 @@ const MessagingAppPage: React.FC = () => {
         });
 
         socket.on(ESocketEvents.CHAT_MESSAGE_CREATED, function ({ message }) {
-            handleMessageCreated(message);
+            const newMessage = mapMessageData(message);
+            if (message.meta.from === user._id) {
+                setTextField("");
+            }
+            handleMessageCreated(newMessage);
         });
+
         socket.on(ESocketEvents.CHAT_MESSAGE_UPDATED, function ({ message }) {
-            handleMessageUpdated(message);
+            const updatedMessage = mapMessageData(message);
+            if (updatedMessage.meta.from === user._id) {
+                setEditedMessageId(null);
+                setEditedMessageText("");
+            }
+            handleMessageUpdated(updatedMessage);
         });
+
         socket.on(ESocketEvents.CHAT_MESSAGE_DELETED, function ({ message }) {
-            handleMessageDeleted(message);
+            handleMessageDeleted(message._id);
         });
+
         socket.on(ESocketEvents.CHAT_MESSAGE_RESTORED, function ({ message }) {
-            handleMessageUpdated(message);
+            const newMessage = mapMessageData(message);
+            handleMessageUpdated(newMessage);
         });
     });
 
@@ -106,31 +121,31 @@ const MessagingAppPage: React.FC = () => {
 
     // API CALL FUNCTIONS
 
-    async function handleSendMessage() {
-        await createMessage({
-            chatId: inspectedChat._id,
+    function handleSendMessage() {
+        socket.emit(ESocketEvents.CHAT_MESSAGE_CREATED, {
+            chatId,
             text: textField,
         });
-        setTextField("");
     }
 
-    async function handleUpdateMessage() {
-        await updateMessage({
-            chatId: inspectedChat._id,
+    function handleUpdateMessage() {
+        socket.emit(ESocketEvents.CHAT_MESSAGE_UPDATED, {
+            chatId,
             messageId: editedMessageId,
             text: editedMessageText,
         });
-        setEditedMessageId(null);
-        setEditedMessageText("");
     }
 
-    async function handleDeleteMessage(messageId: string) {
-        await deleteMessage({ chatId: inspectedChat._id, messageId });
+    function handleDeleteMessage(messageId: string) {
+        socket.emit(ESocketEvents.CHAT_MESSAGE_DELETED, {
+            chatId,
+            messageId,
+        });
     }
 
-    async function handleRestoreMessage(messageId: string) {
-        await restoreMessage({
-            chatId: inspectedChat._id,
+    function handleRestoreMessage(messageId: string) {
+        socket.emit(ESocketEvents.CHAT_MESSAGE_RESTORED, {
+            chatId,
             messageId,
         });
     }
@@ -163,6 +178,7 @@ const MessagingAppPage: React.FC = () => {
             const messageIndex = newInspectedChat.messages.findIndex(
                 (message) => message._id === updatedMessage._id
             );
+
             newInspectedChat.messages[messageIndex] = updatedMessage;
             return newInspectedChat;
         }, false);
@@ -187,14 +203,13 @@ const MessagingAppPage: React.FC = () => {
                 <title>STEM-bound - Messaging</title>
             </Head>
             <h4>messaging</h4>
-            {chats &&
-                chats.map((chat: IChat) => (
-                    <ChatCard
-                        chat={chat}
-                        handleInspect={handleInspectChat}
-                        key={chat._id}
-                    />
-                ))}
+            {chats?.map((chat: IChat) => (
+                <ChatCard
+                    chat={chat}
+                    handleInspect={handleInspectChat}
+                    key={chat._id}
+                />
+            ))}
             {inspectedChat ? (
                 <>
                     <h4>Inspected Chat:</h4>
@@ -233,7 +248,7 @@ const MessagingAppPage: React.FC = () => {
             ) : null}
 
             {typingUsers.map((user) => (
-                <div>{user.firstName} is typing...</div>
+                <div key={user._id}>{user.firstName} is typing...</div>
             ))}
             <style jsx>{``}</style>
         </AppLayout>
