@@ -22,13 +22,17 @@ const ChatMessage: React.FC<Props> = ({
             {userIsMessageSender ? (
                 <>
                     <button onClick={() => onSetEdit(message._id)}>EDIT</button>
-                    <button onClick={() => onDelete(message._id)}>
-                        DELETE
-                    </button>
+
+                    {message.isDeleted ? (
+                        <button onClick={() => onRestore(message._id)}>
+                            RESTORE
+                        </button>
+                    ) : (
+                        <button onClick={() => onDelete(message._id)}>
+                            DELETE
+                        </button>
+                    )}
                 </>
-            ) : null}
-            {message.isDeleted ? (
-                <button onClick={() => onRestore(message._id)}>RESTORE</button>
             ) : null}
             <pre>{JSON.stringify(message, null, 2)}</pre>
         </div>
