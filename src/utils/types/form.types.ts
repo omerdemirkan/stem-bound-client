@@ -1,6 +1,7 @@
 export interface IFormData {
     inputs: IInputData[];
     initialValues: any;
+    setInitialValues?: (...vals) => any;
     mapFormToRequestBody: (values: any) => any;
     validationSchema: object;
 }
@@ -72,10 +73,10 @@ export type IInputData =
     | ISearchSelectInput;
 
 export enum EForms {
-    "INSTRUCTOR_SIGN_UP",
-    "SCHOOL_OFFICIAL_SIGN_UP",
-    "STUDENT_SIGN_UP",
-    "USER_LOG_IN",
-    "CREATE_COURSE",
-    "CREATE_ANNOUNCEMENT",
+    INSTRUCTOR_SIGN_UP = "INSTRUCTOR_SIGN_UP",
+    SCHOOL_OFFICIAL_SIGN_UP = "SCHOOL_OFFICIAL_SIGN_UP",
+    STUDENT_SIGN_UP = "STUDENT_SIGN_UP",
+    USER_LOG_IN = "USER_LOG_IN",
+    CREATE_COURSE = "CREATE_COURSE",
+    CREATE_ANNOUNCEMENT = "CREATE_ANNOUNCEMENT",
 }

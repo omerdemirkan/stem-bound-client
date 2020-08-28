@@ -6,14 +6,24 @@ export function getFormDataByKey(formKey: EForms) {
     return forms[formKey];
 }
 
-const userRolesByFormKey = {
+const userRolesBySignUpFormKey = {
     [EForms.INSTRUCTOR_SIGN_UP]: EUserRoles.INSTRUCTOR,
     [EForms.SCHOOL_OFFICIAL_SIGN_UP]: EUserRoles.SCHOOL_OFFICIAL,
     [EForms.STUDENT_SIGN_UP]: EUserRoles.STUDENT,
 };
 
 export function getUserRoleBySignUpFormKey(formKey: EForms): EUserRoles {
-    return userRolesByFormKey[formKey];
+    return userRolesBySignUpFormKey[formKey];
+}
+
+const signUpFormKeysByUserRole = {
+    [EUserRoles.INSTRUCTOR]: EForms.INSTRUCTOR_SIGN_UP,
+    [EUserRoles.SCHOOL_OFFICIAL]: EForms.SCHOOL_OFFICIAL_SIGN_UP,
+    [EUserRoles.STUDENT]: EForms.STUDENT_SIGN_UP,
+};
+
+export function getSignUpFormKeysByUserRole(userRole: EUserRoles): EForms {
+    return signUpFormKeysByUserRole[userRole];
 }
 
 export function removeEmptyStrings<T>(

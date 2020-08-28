@@ -455,6 +455,16 @@ export const createAnnouncementForm: IFormData = {
     }),
 };
 
+// const instructorAccountEditForm: IFormData = {
+//     initialValues: {
+//         firstName: "",
+//         lastName: "",
+//         email: "",
+//         shortDescription: "",
+//         longDescription: "",
+//     }
+// }
+
 const forms = Object.freeze({
     [EForms.INSTRUCTOR_SIGN_UP]: instructorSignUpFormData,
     [EForms.SCHOOL_OFFICIAL_SIGN_UP]: schoolOfficialSignUpFormData,
