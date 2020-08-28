@@ -1,6 +1,8 @@
 import AppLayout from "../../../../../components/containers/AppLayout";
 import useSWR from "swr";
 import MeetingsForm from "../../../../../components/containers/MeetingsForm";
+import moment from "moment";
+import withAuth from "../../../../../components/hoc/withAuth";
 import { useRouter } from "next/router";
 import {
     createMeetings,
@@ -17,8 +19,6 @@ import {
     mapMeetingData,
     removeEmptyStrings,
 } from "../../../../../utils/helpers";
-import moment from "moment";
-import withAuth from "../../../../../components/hoc/withAuth";
 
 const UpdateMeetingAppPage: React.FC = () => {
     const router = useRouter();
@@ -33,7 +33,9 @@ const UpdateMeetingAppPage: React.FC = () => {
             courseId: course._id,
         }).then(function ({ data }) {
             const newCourse = clone(course);
-            Object.assign(newCourse, { meetings: data.map(mapMeetingData) });
+            Object.assign(newCourse, {
+                meetings: data.map(mapMeetingData as any),
+            });
             mutateCourse(newCourse);
             router.push(`/app/courses/${course._id}/meetings`);
         });

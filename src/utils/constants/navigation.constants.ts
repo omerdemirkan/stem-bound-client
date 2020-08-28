@@ -41,6 +41,11 @@ export const instructorNavigationData: INavigationData = {
             Icon: InfoSVG,
             path: "/app/notifications",
         },
+        {
+            text: "MY ACCOUNT",
+            Icon: InfoSVG,
+            path: "/app/my-account",
+        },
     ],
 };
 
@@ -77,6 +82,11 @@ export const studentNavigationData: INavigationData = {
             Icon: InfoSVG,
             path: "/app/notifications",
         },
+        {
+            text: "MY ACCOUNT",
+            Icon: InfoSVG,
+            path: "/app/my-account",
+        },
     ],
 };
 
@@ -102,6 +112,11 @@ export const schoolOfficialNavigationData: INavigationData = {
             text: "NOTIFICATIONS",
             Icon: InfoSVG,
             path: "/app/notifications",
+        },
+        {
+            text: "MY ACCOUNT",
+            Icon: InfoSVG,
+            path: "/app/my-account",
         },
     ],
 };

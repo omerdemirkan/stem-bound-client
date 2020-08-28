@@ -17,7 +17,7 @@ import {
     fetchChatById,
     fetchMessagesByChatId,
 } from "./chat.services";
-import { apiClient } from "../helpers";
+import { fetchUserById } from "./user.services";
 
 export function courseFetcher(id: string) {
     return async () => (await fetchCourseById(id))?.data;
@@ -53,4 +53,8 @@ export function messagesFetcher(chatId: string) {
 
 export function announcementsFetcher(courseId: string) {
     return async () => (await fetchAnnouncementsByCourseId(courseId)).data;
+}
+
+export function userFetcher(userId: string) {
+    return async () => (await fetchUserById(userId)).data;
 }

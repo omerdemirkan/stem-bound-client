@@ -5,28 +5,34 @@ import Input from "../../components/ui/Input";
 import ChatMessage from "../../components/ui/ChatMessage";
 import AuthContext from "../../components/contexts/AuthContext";
 import ChatCard from "../../components/ui/ChatCard";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import useSocket from "../../components/hooks/useSocket";
+import useDebounce from "../../components/hooks/useDebounce";
 import { IChat, ESocketEvents, IUser, IMessage } from "../../utils/types";
 import { useEffect, useState, useContext } from "react";
 import { clone, mapMessageData } from "../../utils/helpers";
 import { useRouter } from "next/router";
 import { userChatsFetcher, messagesFetcher } from "../../utils/services";
-import useDebounce from "../../components/hooks/useDebounce";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
+
     const chatId = router.query.id;
+    const messagesFetcherKey = chatId ? `/chats/${chatId}/messages` : null;
+
     const { user } = useContext(AuthContext);
 
-    const { data: chats } = useSWR(`/chats`, userChatsFetcher(user._id));
-    const { data: messages, mutate: mutateMessages, error } = useSWR(
-        chatId ? `/chats/${chatId}/messages` : null,
-        messagesFetcher(chatId as string),
-        { initialData: chats?.find((chat) => chat._id === chatId).messages }
+    const { data: chats, isValidating: fetchChatsValidating } = useSWR(
+        `/chats`,
+        userChatsFetcher(user._id)
     );
-
-    console.log({ error, messages });
+    const { data: messages, mutate: mutateMessages } = useSWR(
+        messagesFetcherKey,
+        messagesFetcher(chatId as string),
+        {
+            initialData: chats?.find((chat) => chat._id === chatId)?.messages,
+        }
+    );
 
     const [editedMessageId, setEditedMessageId] = useState<null | string>(null);
     const [editedMessageText, setEditedMessageText] = useState<string>("");
@@ -38,9 +44,9 @@ const MessagingAppPage: React.FC = () => {
     const userIsTyping = debouncedTextField !== textField;
 
     const { socket } = useSocket(function (socket: SocketIOClient.Socket) {
-        socket.emit(ESocketEvents.JOIN_ROOM, chatId);
-
-        const clientUserId = user._id;
+        if (chatId) {
+            socket.emit(ESocketEvents.JOIN_ROOM, chatId);
+        }
 
         socket.on(ESocketEvents.CHAT_USER_STARTED_TYPING, function ({ user }) {
             setTypingUsers((prev) => [...prev, user]);
@@ -68,10 +74,13 @@ const MessagingAppPage: React.FC = () => {
         });
 
         socket.on(ESocketEvents.CHAT_MESSAGE_DELETED, function ({ message }) {
-            handleMessageDeleted(message._id);
+            console.log("deleted: ", message);
+            const newMessage = mapMessageData(message);
+            handleMessageUpdated(newMessage);
         });
 
         socket.on(ESocketEvents.CHAT_MESSAGE_RESTORED, function ({ message }) {
+            console.log("restored: ", message);
             const newMessage = mapMessageData(message);
             handleMessageUpdated(newMessage);
         });
@@ -147,14 +156,14 @@ const MessagingAppPage: React.FC = () => {
     // CHAT STATE UPDATE HELPERS
 
     function handleInspectChat(id: string) {
-        socket.emit(ESocketEvents.LEAVE_ROOM, chatId);
+        if (chatId) {
+            socket.emit(ESocketEvents.LEAVE_ROOM, chatId);
+        }
         socket.emit(ESocketEvents.JOIN_ROOM, id);
         router.push(
             { pathname: router.pathname, query: { id } },
             { pathname: router.pathname, query: { id } },
-            {
-                shallow: true,
-            }
+            { shallow: true }
         );
     }
 
@@ -167,26 +176,12 @@ const MessagingAppPage: React.FC = () => {
     }
 
     function handleMessageUpdated(updatedMessage: IMessage) {
-        mutateMessages(function (previous) {
-            const newMessages = clone(previous);
+        mutateMessages(function (prevMessages) {
+            const newMessages = clone(prevMessages);
             const messageIndex = newMessages.findIndex(
                 (message) => message._id === updatedMessage._id
             );
-
             newMessages[messageIndex] = updatedMessage;
-            return newMessages;
-        }, false);
-    }
-
-    function handleMessageDeleted(messageId: string) {
-        mutateMessages(function (previous) {
-            const newMessages = clone(previous);
-            const messageIndex = newMessages.findIndex(
-                (message) => message._id === messageId
-            );
-            const deletedMessage = newMessages[messageIndex];
-            deletedMessage.isDeleted = true;
-            deletedMessage.text = "This message was deleted";
             return newMessages;
         }, false);
     }
@@ -197,6 +192,7 @@ const MessagingAppPage: React.FC = () => {
                 <title>STEM-bound - Messaging</title>
             </Head>
             <h4>messaging</h4>
+            {!fetchChatsValidating && !chats?.length ? <h6>No chats</h6> : null}
             {chats?.map((chat: IChat) => (
                 <ChatCard
                     chat={chat}
