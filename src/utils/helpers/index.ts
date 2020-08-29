@@ -12,6 +12,7 @@ export * from "./user.helpers";
 export * from "./chat.helpers";
 export * from "./api.helpers";
 export * from "./date.helpers";
+export * from "./file.helpers";
 
 // Put common helpers here
 export function capitalizeWords(s: string) {

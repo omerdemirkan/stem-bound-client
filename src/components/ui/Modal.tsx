@@ -1,8 +1,9 @@
 interface Props {
     open: boolean;
+    width?: string;
 }
 
-const Modal: React.FC<Props> = ({ open, children }) => {
+const Modal: React.FC<Props> = ({ open, width, children }) => {
     return (
         <>
             <div className="modal" style={{ display: open ? "block" : "none" }}>
@@ -16,7 +17,8 @@ const Modal: React.FC<Props> = ({ open, children }) => {
             <style jsx>{`
                 .modal {
                     position: fixed;
-                    width: 400px;
+                    width: ${width || "400px"};
+                    max-width: 95%;
                     top: 50%;
                     left: 50%;
                     padding: 30px;

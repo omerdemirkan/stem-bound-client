@@ -111,7 +111,7 @@ function PaginatedInput({
                             {input.label ? <label>{input.label}</label> : null}
                             {value &&
                                 value.map((s: string, index: number) => (
-                                    <div>
+                                    <div key={input.id}>
                                         <Input
                                             type="text"
                                             onChange={handleChange}
@@ -121,7 +121,6 @@ function PaginatedInput({
                                             touched={
                                                 touched ? touched[index] : null
                                             }
-                                            key={input.id}
                                         />
                                         <button
                                             onClick={() =>
