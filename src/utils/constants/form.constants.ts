@@ -13,6 +13,9 @@ import { fetchLocations, fetchSchools } from "../services";
 // I decided to keep everything explicit as mapping default/common values proved to be more disorienting than useful.
 
 export const instructorSignUpFormData: IFormData = Object.freeze({
+    setInitialValues: function (vals: any) {
+        Object.assign(this.initialValues, vals);
+    },
     initialValues: {
         firstName: "",
         lastName: "",
@@ -113,6 +116,9 @@ export const instructorSignUpFormData: IFormData = Object.freeze({
 });
 
 export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
+    setInitialValues: function (vals: any) {
+        Object.assign(this.initialValues, vals);
+    },
     initialValues: {
         firstName: "",
         lastName: "",
@@ -228,6 +234,9 @@ export const schoolOfficialSignUpFormData: IFormData = Object.freeze({
 });
 
 export const studentSignUpFormData: IFormData = Object.freeze({
+    setInitialValues: function (vals: any) {
+        Object.assign(this.initialValues, vals);
+    },
     initialValues: {
         firstName: "",
         lastName: "",

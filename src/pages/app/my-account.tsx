@@ -17,7 +17,7 @@ const MyAccountAppPage: React.FC = () => {
     );
     const user = fetchedUser || storedUser;
     const formKey = getSignUpFormKeysByUserRole(user?.role);
-    const formData = useFormData(formKey);
+    const formData = useFormData(formKey, { initialData: user });
     const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
     return (
