@@ -1,14 +1,19 @@
-import { ChangeEvent, useState, useRef } from "react";
-import ReactCrop, { Crop } from "react-image-crop";
 import Modal from "./Modal";
+import ReactCrop, { Crop } from "react-image-crop";
 import { getCroppedImg } from "../../utils/helpers";
+import { ChangeEvent, useState, useRef } from "react";
 
 interface Props {
-    onImageCropped: (blob: Blob) => any;
+    onImageCropped: (rawImage: string | ArrayBuffer) => any;
+    onBlobCreated?: (blob: Blob) => any;
     imageName?: string;
 }
 
-const PictureInput: React.FC<Props> = ({ onImageCropped, imageName }) => {
+const PictureInput: React.FC<Props> = ({
+    onImageCropped,
+    onBlobCreated,
+    imageName,
+}) => {
     const [src, setSrc] = useState<string | ArrayBuffer>();
     const imageRef = useRef<HTMLImageElement>();
     const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -31,12 +36,16 @@ const PictureInput: React.FC<Props> = ({ onImageCropped, imageName }) => {
     }
 
     async function handleFinishCrop() {
-        const croppedImage = await getCroppedImg(
+        const croppedImageBlob = await getCroppedImg(
             imageRef.current,
             crop,
             imageName || "image"
         );
-        onImageCropped(croppedImage);
+        onBlobCreated && onBlobCreated(croppedImageBlob);
+        const reader = new FileReader();
+
+        reader.onload = () => onImageCropped(reader.result);
+        reader.readAsDataURL(croppedImageBlob);
         setModalOpen(false);
     }
 

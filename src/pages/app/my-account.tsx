@@ -3,7 +3,7 @@ import useSWR from "swr";
 import Head from "next/head";
 import AppLayout from "../../components/containers/AppLayout";
 import { userFetcher } from "../../utils/services";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import PictureInput from "../../components/ui/PictureInput";
 
 const MyAccountAppPage: React.FC = () => {
@@ -14,13 +14,20 @@ const MyAccountAppPage: React.FC = () => {
     );
     const user = fetchedUser || storedUser;
 
+    const [rawImage, setRawImage] = useState<string | ArrayBuffer>();
+
+    function handleImageCropped(rawImage: string | ArrayBuffer) {
+        setRawImage(rawImage);
+    }
+
     return (
         <AppLayout>
             <Head>
                 <title>STEM-bound - My Account</title>
             </Head>
             <h3>My Account</h3>
-            <PictureInput onImageCropped={console.log} />
+            <PictureInput onImageCropped={handleImageCropped} />
+            <img src={rawImage as string} alt="profile-pic" />
         </AppLayout>
     );
 };
