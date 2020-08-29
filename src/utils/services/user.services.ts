@@ -4,9 +4,18 @@ import {
     IStudentOriginal,
     IFetchUsersOptions,
     IInstructorOriginal,
+    IUser,
+    IStudent,
+    IInstructor,
 } from "../types/user.types";
-import { ISchoolOriginal } from "../types";
-import { apiClient, appendQueriesToUrl } from "../helpers";
+import { ISchoolOriginal, ISchool } from "../types";
+import {
+    apiClient,
+    appendQueriesToUrl,
+    mapResponseData,
+    mapUserData,
+    mapSchoolData,
+} from "../helpers";
 import { IApiResponse } from "../types/api.types";
 
 export function fetchUsers({
@@ -16,7 +25,7 @@ export function fetchUsers({
     skip,
     sortDirection,
     sortField,
-}: IFetchUsersOptions): Promise<IApiResponse<IUserOriginal[]>> {
+}: IFetchUsersOptions): Promise<IApiResponse<IUser[]>> {
     const url = appendQueriesToUrl("/users", {
         role,
         skip,
@@ -26,52 +35,69 @@ export function fetchUsers({
         long: coordinates?.longitude,
         lat: coordinates?.latitude,
     });
-    return apiClient.get(url);
+    return mapResponseData(apiClient.get(url), mapUserData);
 }
 
-export function fetchUserById(
-    id: string
-): Promise<IApiResponse<IUserOriginal>> {
-    return apiClient.get(`/users/${id}`);
+export function fetchUserById(id: string): Promise<IApiResponse<IUser>> {
+    return mapResponseData(apiClient.get(`/users/${id}`), mapUserData);
 }
 
 export function fetchUserSchoolById(
     id: string
-): Promise<IApiResponse<ISchoolOriginal>> {
-    return apiClient.get(`/users/${id}/school`);
+): Promise<IApiResponse<ISchool>> {
+    return mapResponseData(apiClient.get(`/users/${id}/school`), mapSchoolData);
 }
 
 export function fetchSchoolOfficialsBySchoolId(
     id: string
 ): Promise<IApiResponse<ISchoolOfficial[]>> {
-    return apiClient.get(`/schools/${id}/school-officials`);
+    return mapResponseData(
+        apiClient.get(`/schools/${id}/school-officials`),
+        mapUserData
+    );
 }
 
 export function fetchStudentsBySchoolId(
     id: string
-): Promise<IApiResponse<IStudentOriginal[]>> {
-    return apiClient.get(`/schools/${id}/students`);
+): Promise<IApiResponse<IStudent[]>> {
+    return mapResponseData(
+        apiClient.get(`/schools/${id}/students`),
+        mapUserData
+    );
 }
 
 export function getInstructorsByCourseId(
     id: string
-): Promise<IApiResponse<IInstructorOriginal[]>> {
-    return apiClient.get(`/courses/${id}/instructors`);
+): Promise<IApiResponse<IInstructor[]>> {
+    return mapResponseData(
+        apiClient.get(`/courses/${id}/instructors`),
+        mapUserData
+    );
 }
 
 export function getStudentsByCourseId(
     id: string
-): Promise<IApiResponse<IStudentOriginal[]>> {
-    return apiClient.get(`/courses/${id}/students`);
+): Promise<IApiResponse<IStudent[]>> {
+    return mapResponseData(
+        apiClient.get(`/courses/${id}/students`),
+        mapUserData
+    );
 }
 
 export function updateUserById(
     id: string,
     userData: Partial<IUserOriginal>
-): Promise<IApiResponse<IUserOriginal>> {
-    return apiClient.patch(`/users/${id}`, userData);
+): Promise<IApiResponse<IUser>> {
+    return mapResponseData(
+        apiClient.patch(`/users/${id}`, userData),
+        mapUserData
+    );
 }
 
 export function deleteUserById(id: string) {
     return apiClient.delete(`/users/${id}`);
 }
+
+// export function createUserProfilePicture(userId: string) {
+
+// }
