@@ -4,15 +4,15 @@ import { getCroppedImg } from "../../utils/helpers";
 import { ChangeEvent, useState, useRef } from "react";
 
 interface Props {
-    onImageCropped: (rawImage: string | ArrayBuffer) => any;
+    onRawImageCreated?: (rawImage: string | ArrayBuffer) => any;
     onBlobCreated?: (blob: Blob) => any;
-    imageName?: string;
+    baseFileName: string;
 }
 
 const PictureInput: React.FC<Props> = ({
-    onImageCropped,
+    onRawImageCreated,
     onBlobCreated,
-    imageName,
+    baseFileName,
 }) => {
     const [src, setSrc] = useState<string | ArrayBuffer>();
     const imageRef = useRef<HTMLImageElement>();
@@ -36,17 +36,22 @@ const PictureInput: React.FC<Props> = ({
     }
 
     async function handleFinishCrop() {
+        const fileExtension = imageRef.current.src.split(";")[0].split("/")[1];
+        const fileName = `${baseFileName}.${fileExtension}`;
         const croppedImageBlob = await getCroppedImg(
             imageRef.current,
             crop,
-            imageName || "image"
+            fileName
         );
         onBlobCreated && onBlobCreated(croppedImageBlob);
-        const reader = new FileReader();
 
-        reader.onload = () => onImageCropped(reader.result);
-        reader.readAsDataURL(croppedImageBlob);
-        setModalOpen(false);
+        if (onRawImageCreated) {
+            const reader = new FileReader();
+
+            reader.onload = () => onRawImageCreated(reader.result);
+            reader.readAsDataURL(croppedImageBlob);
+            setModalOpen(false);
+        }
     }
 
     function handleCancelCrop() {

@@ -2,9 +2,10 @@ import AuthContext from "../../components/contexts/AuthContext";
 import useSWR from "swr";
 import Head from "next/head";
 import AppLayout from "../../components/containers/AppLayout";
-import { userFetcher } from "../../utils/services";
+import { userFetcher, createUserProfilePicture } from "../../utils/services";
 import { useContext, useState } from "react";
 import PictureInput from "../../components/ui/PictureInput";
+import withAuth from "../../components/hoc/withAuth";
 
 const MyAccountAppPage: React.FC = () => {
     const { user: storedUser } = useContext(AuthContext);
@@ -14,10 +15,13 @@ const MyAccountAppPage: React.FC = () => {
     );
     const user = fetchedUser || storedUser;
 
-    const [rawImage, setRawImage] = useState<string | ArrayBuffer>();
+    const [profilePictureRawImage, setProfilePictureRawImage] = useState<
+        string | ArrayBuffer
+    >();
 
-    function handleImageCropped(rawImage: string | ArrayBuffer) {
-        setRawImage(rawImage);
+    async function handleBlobCreated(blob: Blob) {
+        const { data } = await createUserProfilePicture(user._id, blob);
+        console.log(data);
     }
 
     return (
@@ -26,10 +30,20 @@ const MyAccountAppPage: React.FC = () => {
                 <title>STEM-bound - My Account</title>
             </Head>
             <h3>My Account</h3>
-            <PictureInput onImageCropped={handleImageCropped} />
-            <img src={rawImage as string} alt="profile-pic" />
+            <PictureInput
+                onBlobCreated={handleBlobCreated}
+                onRawImageCreated={setProfilePictureRawImage}
+                baseFileName={`${user._id}-profile-picture`}
+            />
+            <img
+                src="https://storage.googleapis.com/stem-bound-static/5f1205e56058912af89518fb-profile-picture.jpeg"
+                alt="profile-pic"
+            />
+            {profilePictureRawImage && (
+                <img src={profilePictureRawImage as string} alt="profile-pic" />
+            )}
         </AppLayout>
     );
 };
 
-export default MyAccountAppPage;
+export default withAuth(MyAccountAppPage);

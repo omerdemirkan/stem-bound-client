@@ -98,6 +98,6 @@ export function deleteUserById(id: string) {
     return apiClient.delete(`/users/${id}`);
 }
 
-// export function createUserProfilePicture(userId: string) {
-
-// }
+export function createUserProfilePicture(userId: string, file: File | Blob) {
+    return apiClient.post(`/users/${userId}/profile-picture`, { file });
+}
