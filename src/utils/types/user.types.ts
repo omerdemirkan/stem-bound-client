@@ -92,6 +92,7 @@ export interface IFetchUsersOptions {
     skip?: number;
     sortField?: string;
     sortDirection?: number;
+    exclude: string[];
 }
 
 export interface IValidateUserRoleOptions {

@@ -2,5 +2,6 @@
 @import "./global/theme.styles.css";
 @import "./global/button.styles.css";
 @import "./global/override.styles.css";
+@import "./global/user.styles.css";
 @import "../../node_modules/react-dates/lib/css/_datepicker.css";
 @import "../../node_modules/react-image-crop/dist/ReactCrop.css";

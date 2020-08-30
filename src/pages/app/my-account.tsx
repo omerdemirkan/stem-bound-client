@@ -47,6 +47,7 @@ const MyAccountAppPage: React.FC = () => {
                 src={user.profilePictureUrl || "/default-profile-picture.svg"}
                 alt="profile-pic"
                 id="profile-pic"
+                className="profile-picture large"
             />
             <PictureInput
                 onFileCreated={handleFileCreated}
@@ -56,14 +57,6 @@ const MyAccountAppPage: React.FC = () => {
                     user.profilePictureUrl ? "Update" : "Add"
                 } Profile Picture`}
             />
-
-            <style jsx>{`
-                #profile-pic {
-                    width: 160px;
-                    height: 160px;
-                    border-radius: 80px;
-                }
-            `}</style>
         </AppLayout>
     );
 };

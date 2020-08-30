@@ -31,7 +31,7 @@ const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
 
     const { data: searchData, revalidate } = useSWR(
         searchFieldQuery ? `/search/${searchFieldQuery}` : null,
-        searchDataFetcher({ field: searchFieldQuery })
+        searchDataFetcher({ field: searchFieldQuery, exclude: [user._id] })
     );
 
     const [searchField, setSearchField] = useState<ESearchFields>();

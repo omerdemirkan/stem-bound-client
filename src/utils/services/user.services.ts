@@ -1,14 +1,12 @@
 import {
     IUserOriginal,
     ISchoolOfficial,
-    IStudentOriginal,
     IFetchUsersOptions,
-    IInstructorOriginal,
     IUser,
     IStudent,
     IInstructor,
 } from "../types/user.types";
-import { ISchoolOriginal, ISchool } from "../types";
+import { ISchool } from "../types";
 import {
     apiClient,
     appendQueriesToUrl,
@@ -26,6 +24,7 @@ export function fetchUsers({
     skip,
     sortDirection,
     sortField,
+    exclude,
 }: IFetchUsersOptions): Promise<IApiResponse<IUser[]>> {
     const url = appendQueriesToUrl("/users", {
         role,
@@ -35,6 +34,7 @@ export function fetchUsers({
         sort_direction: sortDirection,
         long: coordinates?.longitude,
         lat: coordinates?.latitude,
+        exclude: exclude?.join(",") || undefined,
     });
     return mapResponseData(apiClient.get(url), mapUserData);
 }
