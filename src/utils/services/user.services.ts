@@ -17,6 +17,7 @@ import {
     mapSchoolData,
 } from "../helpers";
 import { IApiResponse } from "../types/api.types";
+import { API_BASE_URL } from "../../config";
 
 export function fetchUsers({
     coordinates,
@@ -98,6 +99,14 @@ export function deleteUserById(id: string) {
     return apiClient.delete(`/users/${id}`);
 }
 
-export function createUserProfilePicture(userId: string, file: File | Blob) {
-    return apiClient.post(`/users/${userId}/profile-picture`, { file });
+export function createUserProfilePicture(userId: string, file: File) {
+    const fd = new FormData();
+    fd.append("file", file);
+    return fetch(`${API_BASE_URL}/users/${userId}/profile-picture`, {
+        method: "POST",
+        body: fd,
+        headers: {
+            authorization: apiClient.getAuthHeader(),
+        },
+    }).then((res) => res.json());
 }

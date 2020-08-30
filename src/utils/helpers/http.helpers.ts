@@ -120,6 +120,10 @@ export class HttpClient {
         });
     }
 
+    getHeaders() {
+        return this.defaultConfig.headers;
+    }
+
     getAuthHeader() {
         try {
             return this.defaultConfig.headers["authorization"];

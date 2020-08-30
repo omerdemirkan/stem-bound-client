@@ -40,3 +40,9 @@ export function getCroppedImg(
         )
     );
 }
+
+export function blobToFile(theBlob: Blob, fileName: string): File {
+    var b: any = theBlob;
+    b.lastModifiedDate = Date.now();
+    return new File([theBlob], fileName);
+}

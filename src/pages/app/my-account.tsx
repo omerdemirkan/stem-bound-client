@@ -6,6 +6,7 @@ import { userFetcher, createUserProfilePicture } from "../../utils/services";
 import { useContext, useState } from "react";
 import PictureInput from "../../components/ui/PictureInput";
 import withAuth from "../../components/hoc/withAuth";
+import { blobToFile } from "../../utils/helpers";
 
 const MyAccountAppPage: React.FC = () => {
     const { user: storedUser } = useContext(AuthContext);
@@ -19,9 +20,9 @@ const MyAccountAppPage: React.FC = () => {
         string | ArrayBuffer
     >();
 
-    async function handleBlobCreated(blob: Blob) {
-        const { data } = await createUserProfilePicture(user._id, blob);
-        console.log(data);
+    async function handleFileCreated(file: File) {
+        const res = await createUserProfilePicture(user._id, file);
+        console.log(res);
     }
 
     return (
@@ -31,13 +32,9 @@ const MyAccountAppPage: React.FC = () => {
             </Head>
             <h3>My Account</h3>
             <PictureInput
-                onBlobCreated={handleBlobCreated}
+                onFileCreated={handleFileCreated}
                 onRawImageCreated={setProfilePictureRawImage}
                 baseFileName={`${user._id}-profile-picture`}
-            />
-            <img
-                src="https://storage.googleapis.com/stem-bound-static/5f1205e56058912af89518fb-profile-picture.jpeg"
-                alt="profile-pic"
             />
             {profilePictureRawImage && (
                 <img src={profilePictureRawImage as string} alt="profile-pic" />

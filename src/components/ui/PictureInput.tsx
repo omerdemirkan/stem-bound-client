@@ -1,18 +1,20 @@
 import Modal from "./Modal";
 import ReactCrop, { Crop } from "react-image-crop";
-import { getCroppedImg } from "../../utils/helpers";
+import { getCroppedImg, blobToFile } from "../../utils/helpers";
 import { ChangeEvent, useState, useRef } from "react";
 
 interface Props {
     onRawImageCreated?: (rawImage: string | ArrayBuffer) => any;
-    onBlobCreated?: (blob: Blob) => any;
+    onFileCreated?: (blob: Blob) => any;
+    name?: string;
     baseFileName: string;
 }
 
 const PictureInput: React.FC<Props> = ({
     onRawImageCreated,
-    onBlobCreated,
+    onFileCreated,
     baseFileName,
+    name,
 }) => {
     const [src, setSrc] = useState<string | ArrayBuffer>();
     const imageRef = useRef<HTMLImageElement>();
@@ -43,13 +45,16 @@ const PictureInput: React.FC<Props> = ({
             crop,
             fileName
         );
-        onBlobCreated && onBlobCreated(croppedImageBlob);
+
+        const file = blobToFile(croppedImageBlob, fileName);
+        console.log(file);
+        onFileCreated && onFileCreated(file);
 
         if (onRawImageCreated) {
             const reader = new FileReader();
 
             reader.onload = () => onRawImageCreated(reader.result);
-            reader.readAsDataURL(croppedImageBlob);
+            reader.readAsDataURL(file);
             setModalOpen(false);
         }
     }
@@ -59,8 +64,13 @@ const PictureInput: React.FC<Props> = ({
     }
 
     return (
-        <div>
-            <input type="file" accept="image/*" onChange={handleFileSelected} />
+        <>
+            <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelected}
+                name={name}
+            />
             <Modal open={modalOpen} width="800px">
                 {src ? (
                     <div>
@@ -77,7 +87,7 @@ const PictureInput: React.FC<Props> = ({
                 <button onClick={handleCancelCrop}>CANCEL</button>
                 <button onClick={handleFinishCrop}>FINISH</button>
             </Modal>
-        </div>
+        </>
     );
 };
 
