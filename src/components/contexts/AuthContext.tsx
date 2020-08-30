@@ -12,6 +12,7 @@ export const initialAuthContextState: IAuthContextState = {
     logout: () => {},
     signup: (options: { email: string; password: string }) => {},
     authenticateToken: (token: string) => {},
+    mutateUser: (user: IUser) => {},
 };
 
 const AuthContext = createContext(initialAuthContextState);
@@ -24,6 +25,9 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         setAuthState,
     ] = useState<Partial<IAuthContextState>>(initialAuthContextState);
 
+    const updateAuthState = (updates: Partial<IAuthContextState>) =>
+        setAuthState((prev) => ({ ...prev, updates }));
+
     useEffect(function () {
         const storedToken = localStorage.getItem("accessToken");
         if (storedToken) {
@@ -34,10 +38,9 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     }, []);
 
     function authenticateToken(accessToken: string) {
-        setAuthState((prevState) => ({
-            ...prevState,
+        updateAuthState({
             authLoading: true,
-        }));
+        });
         me(accessToken)
             .then(function ({ data: { accessToken, user } }) {
                 handleAuthSuccess({ user, accessToken });
@@ -91,11 +94,14 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     }
 
     function handleAuthFailure() {
-        setAuthState((prevState) => ({
-            ...prevState,
+        updateAuthState({
             authLoading: false,
             authAttempted: true,
-        }));
+        });
+    }
+
+    function mutateUser(user: IUser) {
+        updateAuthState({ user });
     }
 
     return (
@@ -109,6 +115,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
                 logout,
                 signup,
                 authenticateToken,
+                mutateUser,
             }}
         >
             {children}

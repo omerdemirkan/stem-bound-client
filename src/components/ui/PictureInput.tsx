@@ -1,13 +1,14 @@
 import Modal from "./Modal";
 import ReactCrop, { Crop } from "react-image-crop";
 import { getCroppedImg, blobToFile } from "../../utils/helpers";
-import { ChangeEvent, useState, useRef } from "react";
+import { ChangeEvent, useState, useRef, Ref } from "react";
 
 interface Props {
+    baseFileName?: string;
     onRawImageCreated?: (rawImage: string | ArrayBuffer) => any;
     onFileCreated?: (blob: Blob) => any;
     name?: string;
-    baseFileName: string;
+    buttonText?: string;
 }
 
 const PictureInput: React.FC<Props> = ({
@@ -15,19 +16,22 @@ const PictureInput: React.FC<Props> = ({
     onFileCreated,
     baseFileName,
     name,
+    buttonText,
 }) => {
     const [src, setSrc] = useState<string | ArrayBuffer>();
-    const imageRef = useRef<HTMLImageElement>();
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [crop, setCrop] = useState<Crop>({
         aspect: 1,
         unit: "%",
         width: 50,
     });
+    const imageRef = useRef<HTMLImageElement>();
+
+    const inputRef = useRef<HTMLInputElement>();
 
     function handleFileSelected(event: ChangeEvent<HTMLInputElement>): void {
         const file = event.target.files[0];
-        if (file.size / Math.pow(2, 20) > 5) return;
+        if (!file || file.size / Math.pow(2, 20) > 5) return;
         const reader = new FileReader();
 
         reader.onload = function () {
@@ -70,7 +74,12 @@ const PictureInput: React.FC<Props> = ({
                 accept="image/*"
                 onChange={handleFileSelected}
                 name={name}
+                ref={inputRef}
+                style={{ display: "none" }}
             />
+            <button onClick={() => inputRef.current.click()}>
+                {buttonText || "Select Image"}
+            </button>
             <Modal open={modalOpen} width="800px">
                 {src ? (
                     <div>

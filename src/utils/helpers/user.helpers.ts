@@ -12,6 +12,7 @@ export function mapUserData(users: IUserOriginal[]): IUser[] {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
+        profilePictureUrl: user.profilePictureUrl,
         location: {
             city: user.location.city,
             geoJSON: user.location.geoJSON,

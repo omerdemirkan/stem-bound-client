@@ -9,6 +9,7 @@ interface baseUserOriginal {
     password?: string;
     shortDescription: string;
     longDescription: string;
+    profilePictureUrl: string;
     role: EUserRoles;
     location: IUserLocation;
 }
@@ -55,6 +56,7 @@ interface baseUser {
     email: string;
     shortDescription: string;
     longDescription: string;
+    profilePictureUrl: string;
     role: EUserRoles;
     location: IUserLocation;
 }

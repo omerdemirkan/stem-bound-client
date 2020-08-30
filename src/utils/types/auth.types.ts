@@ -19,4 +19,5 @@ export interface IAuthContextState {
     logout: () => any;
     signup: (options: { email: string; password: string }) => any;
     authenticateToken: (token: string) => any;
+    mutateUser: (user: IUser) => any;
 }
