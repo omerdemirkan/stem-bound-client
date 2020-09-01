@@ -66,9 +66,11 @@ export function validateMeetingDates({
     start,
     end,
 }: {
-    start: Date;
-    end: Date;
+    start: Date | string;
+    end: Date | string;
 }) {
+    start = typeof start === "string" ? new Date(start) : start;
+    end = typeof end === "string" ? new Date(end) : end;
     return (
         start < end &&
         end.getTime() - start.getTime() >= minimumMeetingDurationMiliseconds

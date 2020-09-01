@@ -10,7 +10,7 @@ export function getTimeStringValues(
     return { hours, minutes };
 }
 
-export function getTimeStringFromDate(date: Date): string {
+export function getTimeStringFromDate(date: Date | string): string {
     date = typeof date === "object" ? date : new Date(date);
     return `${addZeroPadding(date.getHours(), 2)}:${addZeroPadding(
         date.getMinutes(),

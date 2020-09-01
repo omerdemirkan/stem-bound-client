@@ -4,7 +4,7 @@ export function getCroppedImg(
     image: HTMLImageElement,
     crop: Crop,
     fileName: string
-): Promise<Blob> {
+): Promise<File> {
     const canvas = document.createElement("canvas");
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -24,17 +24,9 @@ export function getCroppedImg(
         crop.height
     );
 
-    // As Base64 string
-    // const base64Image = canvas.toDataURL('image/jpeg');
-
-    // As a blob
     return new Promise((resolve, reject) =>
         canvas.toBlob(
-            (blob) => {
-                // @ts-ignore
-                blob.name = fileName;
-                resolve(blob);
-            },
+            (blob) => resolve(blobToFile(blob, fileName)),
             "image/jpeg",
             1
         )

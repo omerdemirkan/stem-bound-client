@@ -44,14 +44,7 @@ const PictureInput: React.FC<Props> = ({
     async function handleFinishCrop() {
         const fileExtension = imageRef.current.src.split(";")[0].split("/")[1];
         const fileName = `${baseFileName}.${fileExtension}`;
-        const croppedImageBlob = await getCroppedImg(
-            imageRef.current,
-            crop,
-            fileName
-        );
-
-        const file = blobToFile(croppedImageBlob, fileName);
-        console.log(file);
+        const file = await getCroppedImg(imageRef.current, crop, fileName);
         onFileCreated && onFileCreated(file);
 
         if (onRawImageCreated) {
