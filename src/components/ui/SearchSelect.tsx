@@ -51,6 +51,7 @@ const SearchSelect: React.FC<Props> = ({
             <Input
                 type="text"
                 onChange={(e) => setSearch(e.target.value)}
+                value={search}
                 id={id + "-text-field"}
             />
             <Select onChange={onChange} id={id + "-select-field"}>

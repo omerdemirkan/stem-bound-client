@@ -1,12 +1,7 @@
-import {
-    IUserOriginal,
-    IUser,
-    EUserRoles,
-    IValidateUserRoleOptions,
-} from "../types";
+import { IUserOriginal, IUser, IValidateUserRoleOptions } from "../types";
 
-export function mapUserData(users: IUserOriginal[]): IUser[] {
-    return users.map((user: IUserOriginal) => ({
+export function mapUserData(user: IUserOriginal): IUser {
+    return {
         _id: user._id,
         role: user.role,
         email: user.email,
@@ -27,7 +22,7 @@ export function mapUserData(users: IUserOriginal[]): IUser[] {
         position: (user as any).position || undefined,
         interests: (user as any).interests || undefined,
         specialties: (user as any).specialties || undefined,
-    }));
+    };
 }
 
 export function validateUserRole({

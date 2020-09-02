@@ -1,13 +1,11 @@
 import { useState, Dispatch } from "react";
-import Modal, { ModalFooter } from "../ui/Modal";
+import Modal, { ModalFooter } from "./Modal";
 
 interface Props {
-    renderInput: (
-        value: any,
-        setValue: Dispatch<any>
-    ) => React.ComponentClass | React.FC;
-    onSubmit?: (value: any) => any;
-    initialValue: any;
+    renderInput(value: any, setValue: Dispatch<any>): void;
+    onSubmit: (value: any) => any;
+    initialValue?: any;
+    disabled?: boolean;
 }
 
 const InputButton: React.FC<Props> = ({
@@ -15,17 +13,23 @@ const InputButton: React.FC<Props> = ({
     onSubmit,
     renderInput,
     initialValue,
+    disabled,
 }) => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [value, setValue] = useState<any>(initialValue);
 
     function handleSubmit() {
+        // if (value !== initialValue) {
+        //     onSubmit(value);
+        // }
         onSubmit(value);
         setModalOpen(false);
     }
     return (
         <>
-            <button onClick={() => setModalOpen(true)}>{children}</button>
+            <button onClick={() => setModalOpen(true)} disabled={disabled}>
+                {children}
+            </button>
             <Modal open={modalOpen}>
                 {renderInput(value, setValue)}
                 <ModalFooter>

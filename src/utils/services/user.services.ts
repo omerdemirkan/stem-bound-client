@@ -99,14 +99,27 @@ export function deleteUserById(id: string) {
     return apiClient.delete(`/users/${id}`);
 }
 
-export function createUserProfilePicture(userId: string, file: File) {
+export function updateUserProfilePicture(
+    userId: string,
+    file: File
+): Promise<IApiResponse<IUser>> {
     const fd = new FormData();
     fd.append("file", file);
     return fetch(`${API_BASE_URL}/users/${userId}/profile-picture`, {
-        method: "POST",
+        method: "PUT",
         body: fd,
         headers: {
             authorization: apiClient.getAuthHeader(),
         },
     }).then((res) => res.json());
+}
+
+export function updateUserLocation(
+    userId: string,
+    { zip }: { zip: string }
+): Promise<IApiResponse<IUser>> {
+    return mapResponseData(
+        apiClient.put(`/users/${userId}/location`, { zip }),
+        mapUserData
+    );
 }

@@ -4,8 +4,20 @@ import Head from "next/head";
 import AppLayout from "../../components/containers/AppLayout";
 import PictureInput from "../../components/ui/PictureInput";
 import withAuth from "../../components/hoc/withAuth";
-import { userFetcher, createUserProfilePicture } from "../../utils/services";
-import { useContext, useState, useEffect } from "react";
+import {
+    userFetcher,
+    updateUserProfilePicture,
+    updateUserById,
+    fetchLocations,
+    updateUserLocation,
+} from "../../utils/services";
+import { useContext, useEffect } from "react";
+import InputButton from "../../components/ui/InputButton";
+import Input from "../../components/ui/Input";
+import { IUserOriginal } from "../../utils/types";
+import TextArea from "../../components/ui/TextArea";
+import SearchSelect from "../../components/ui/SearchSelect";
+import { fetchLocationInputOptions } from "../../utils/helpers";
 
 const MyAccountAppPage: React.FC = () => {
     const { user: storedUser, mutateUser: mutateAuthContextUser } = useContext(
@@ -28,9 +40,25 @@ const MyAccountAppPage: React.FC = () => {
         [fetchedUser]
     );
 
-    async function handleFileCreated(file: File) {
-        const { data } = await createUserProfilePicture(user._id, file);
-        mutateFetchedUser(data, false);
+    async function handleProfilePictureCreated(file: File) {
+        const { data: updatedUser } = await updateUserProfilePicture(
+            user._id,
+            file
+        );
+        mutateFetchedUser(updatedUser, false);
+    }
+
+    async function handleUpdateUser(update: Partial<IUserOriginal>) {
+        const { data: updatedUser } = await updateUserById(user._id, update);
+        console.log(updatedUser);
+        mutateFetchedUser(updatedUser, false);
+    }
+
+    async function handleUpdateUserLocationByZip(zip: string) {
+        const { data: updatedUser } = await updateUserLocation(user._id, {
+            zip,
+        });
+        mutateFetchedUser(updatedUser, false);
     }
 
     return (
@@ -41,10 +69,7 @@ const MyAccountAppPage: React.FC = () => {
             <h3>My Account</h3>
             <br />
             <h3>{`${user.firstName} ${user.lastName}`}</h3>
-            <h6>{user.shortDescription}</h6>
-            <p>
-                {user.longDescription || <button>ADD LONG DESCRIPTION</button>}
-            </p>
+
             <img
                 src={user.profilePictureUrl || "/default-profile-picture.svg"}
                 alt="profile-pic"
@@ -52,12 +77,62 @@ const MyAccountAppPage: React.FC = () => {
                 className="profile-picture large"
             />
             <PictureInput
-                onFileCreated={handleFileCreated}
+                onFileCreated={handleProfilePictureCreated}
                 baseFileName={`${user._id}-profile-picture`}
                 buttonText={`${
                     user.profilePictureUrl ? "Update" : "Add"
                 } Profile Picture`}
             />
+
+            <p>{`${user.location.city}, ${user.location.state}`}</p>
+            <InputButton
+                initialValue={user.location.zip}
+                onSubmit={handleUpdateUserLocationByZip}
+                renderInput={(value, setValue) => (
+                    <SearchSelect
+                        delay={1000}
+                        id="location"
+                        onChange={(e) => setValue(e.target.value)}
+                        fetchOptions={fetchLocationInputOptions}
+                    />
+                )}
+            >
+                UPDATE LOCATION
+            </InputButton>
+
+            <p>{user.shortDescription}</p>
+            <InputButton
+                initialValue={user.shortDescription}
+                onSubmit={(value) =>
+                    handleUpdateUser({ shortDescription: value })
+                }
+                renderInput={(value, setValue) => (
+                    <TextArea
+                        id="short-description"
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                    />
+                )}
+            >
+                UPDATE SHORT DESCRIPTION
+            </InputButton>
+
+            <p>{user.longDescription}</p>
+            <InputButton
+                initialValue={user.longDescription || ""}
+                onSubmit={(value) =>
+                    handleUpdateUser({ longDescription: value })
+                }
+                renderInput={(value, setValue) => (
+                    <TextArea
+                        id="long-description"
+                        onChange={(e) => setValue(e.target.value)}
+                        value={value}
+                    />
+                )}
+            >
+                {`${user.longDescription ? "UPDATE" : "ADD"} LONG DESCRIPTION`}
+            </InputButton>
         </AppLayout>
     );
 };
