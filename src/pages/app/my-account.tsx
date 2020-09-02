@@ -8,16 +8,21 @@ import {
     userFetcher,
     updateUserProfilePicture,
     updateUserById,
-    fetchLocations,
     updateUserLocation,
 } from "../../utils/services";
 import { useContext, useEffect } from "react";
 import InputButton from "../../components/ui/InputButton";
-import Input from "../../components/ui/Input";
-import { IUserOriginal } from "../../utils/types";
+import {
+    IUserOriginal,
+    IStudent,
+    EUserRoles,
+    IInstructor,
+} from "../../utils/types";
 import TextArea from "../../components/ui/TextArea";
 import SearchSelect from "../../components/ui/SearchSelect";
-import { fetchLocationInputOptions } from "../../utils/helpers";
+import { fetchLocationInputOptions, clone } from "../../utils/helpers";
+import Input from "../../components/ui/Input";
+import TextArrayInput from "../../components/ui/TextArrayInput";
 
 const MyAccountAppPage: React.FC = () => {
     const { user: storedUser, mutateUser: mutateAuthContextUser } = useContext(
@@ -80,8 +85,8 @@ const MyAccountAppPage: React.FC = () => {
                 onFileCreated={handleProfilePictureCreated}
                 baseFileName={`${user._id}-profile-picture`}
                 buttonText={`${
-                    user.profilePictureUrl ? "Update" : "Add"
-                } Profile Picture`}
+                    user.profilePictureUrl ? "UPDATE" : "ADD"
+                } PROFILE PICTURE`}
             />
 
             <p>{`${user.location.city}, ${user.location.state}`}</p>
@@ -133,6 +138,56 @@ const MyAccountAppPage: React.FC = () => {
             >
                 {`${user.longDescription ? "UPDATE" : "ADD"} LONG DESCRIPTION`}
             </InputButton>
+
+            {user.role === EUserRoles.STUDENT ? (
+                <>
+                    <p>Interests:</p>
+                    {(user as IStudent).interests.map((interest) => (
+                        <p key={interest}>{interest}</p>
+                    ))}
+
+                    <InputButton
+                        initialValue={(user as IStudent).interests}
+                        onSubmit={(interests) =>
+                            handleUpdateUser({ interests })
+                        }
+                        renderInput={(value, setValue) => (
+                            <TextArrayInput
+                                id="interests"
+                                onChange={setValue}
+                                value={value}
+                            />
+                        )}
+                    >
+                        UPDATE INTERESTS
+                    </InputButton>
+                </>
+            ) : null}
+
+            {user.role === EUserRoles.INSTRUCTOR ? (
+                <>
+                    <p>Specialties:</p>
+                    {(user as IInstructor).specialties.map((specialty) => (
+                        <p>{specialty}</p>
+                    ))}
+
+                    <InputButton
+                        initialValue={(user as IInstructor).specialties}
+                        onSubmit={(specialties) =>
+                            handleUpdateUser({ specialties })
+                        }
+                        renderInput={(value, setValue) => (
+                            <TextArrayInput
+                                id="specialties"
+                                onChange={setValue}
+                                value={value}
+                            />
+                        )}
+                    >
+                        UPDATE INTERESTS
+                    </InputButton>
+                </>
+            ) : null}
         </AppLayout>
     );
 };
