@@ -1,4 +1,5 @@
 import { IUser, ICoordinates } from ".";
+import { EUserRoles } from "./user.types";
 
 export interface IWithAuthProps {
     accessToken: string;
@@ -6,6 +7,14 @@ export interface IWithAuthProps {
     user: IUser;
 }
 
-export interface IWithUserCoordinates {
+export interface IWithAuthOptions {
+    allowedUserRoles?: EUserRoles[];
+}
+
+export interface IWithUserCoordinatesProps {
     coordinates: ICoordinates;
+}
+
+export interface IWithForcedRerenderProps {
+    rerender(): void;
 }

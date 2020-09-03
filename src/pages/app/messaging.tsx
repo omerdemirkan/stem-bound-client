@@ -5,7 +5,7 @@ import Input from "../../components/ui/Input";
 import ChatMessage from "../../components/ui/ChatMessage";
 import AuthContext from "../../components/contexts/AuthContext";
 import ChatCard from "../../components/ui/ChatCard";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import useSocket from "../../components/hooks/useSocket";
 import useDebounce from "../../components/hooks/useDebounce";
 import { IChat, ESocketEvents, IUser, IMessage } from "../../utils/types";
@@ -26,13 +26,14 @@ const MessagingAppPage: React.FC = () => {
         `/chats`,
         userChatsFetcher(user._id)
     );
-    const { data: messages, mutate: mutateMessages } = useSWR(
-        messagesFetcherKey,
-        messagesFetcher(chatId as string),
-        {
-            initialData: chats?.find((chat) => chat._id === chatId)?.messages,
-        }
-    );
+    const {
+        data: messages,
+        mutate: mutateMessages,
+        error,
+        isValidating,
+    } = useSWR(messagesFetcherKey, messagesFetcher(chatId as string), {
+        initialData: chats?.find((chat) => chat._id === chatId)?.messages,
+    });
 
     const [editedMessageId, setEditedMessageId] = useState<null | string>(null);
     const [editedMessageText, setEditedMessageText] = useState<string>("");
@@ -43,7 +44,9 @@ const MessagingAppPage: React.FC = () => {
 
     const userIsTyping = debouncedTextField !== textField;
 
-    const { socket } = useSocket(function (socket: SocketIOClient.Socket) {
+    const { socket, reinitialize } = useSocket(function (
+        socket: SocketIOClient.Socket
+    ) {
         if (chatId) {
             socket.emit(ESocketEvents.JOIN_ROOM, chatId);
         }
@@ -74,13 +77,23 @@ const MessagingAppPage: React.FC = () => {
         });
 
         socket.on(ESocketEvents.CHAT_MESSAGE_DELETED, function ({ message }) {
-            console.log("deleted: ", message);
+            console.log("deleted: ", {
+                messages,
+                message,
+                isValidating,
+                error,
+            });
             const newMessage = mapMessageData(message);
             handleMessageUpdated(newMessage);
         });
 
         socket.on(ESocketEvents.CHAT_MESSAGE_RESTORED, function ({ message }) {
-            console.log("restored: ", message);
+            console.log("restored: ", {
+                messages,
+                message,
+                isValidating,
+                error,
+            });
             const newMessage = mapMessageData(message);
             handleMessageUpdated(newMessage);
         });
@@ -158,6 +171,8 @@ const MessagingAppPage: React.FC = () => {
     function handleInspectChat(id: string) {
         if (chatId) {
             socket.emit(ESocketEvents.LEAVE_ROOM, chatId);
+        } else {
+            reinitialize();
         }
         socket.emit(ESocketEvents.JOIN_ROOM, id);
         router.push(
@@ -176,7 +191,9 @@ const MessagingAppPage: React.FC = () => {
     }
 
     function handleMessageUpdated(updatedMessage: IMessage) {
+        console.log("handleMessageUpdated");
         mutateMessages(function (prevMessages) {
+            console.log("inside mutateMessages callback");
             const newMessages = clone(prevMessages);
             const messageIndex = newMessages.findIndex(
                 (message) => message._id === updatedMessage._id

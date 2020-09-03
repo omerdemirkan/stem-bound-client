@@ -4,6 +4,10 @@ import Head from "next/head";
 import AppLayout from "../../components/containers/AppLayout";
 import PictureInput from "../../components/ui/PictureInput";
 import withAuth from "../../components/hoc/withAuth";
+import TextArea from "../../components/ui/TextArea";
+import SearchSelect from "../../components/ui/SearchSelect";
+import TextArrayInput from "../../components/ui/TextArrayInput";
+import { fetchLocationInputOptions } from "../../utils/helpers";
 import {
     userFetcher,
     updateUserProfilePicture,
@@ -18,11 +22,6 @@ import {
     EUserRoles,
     IInstructor,
 } from "../../utils/types";
-import TextArea from "../../components/ui/TextArea";
-import SearchSelect from "../../components/ui/SearchSelect";
-import { fetchLocationInputOptions, clone } from "../../utils/helpers";
-import Input from "../../components/ui/Input";
-import TextArrayInput from "../../components/ui/TextArrayInput";
 
 const MyAccountAppPage: React.FC = () => {
     const { user: storedUser, mutateUser: mutateAuthContextUser } = useContext(
@@ -184,7 +183,7 @@ const MyAccountAppPage: React.FC = () => {
                             />
                         )}
                     >
-                        UPDATE INTERESTS
+                        UPDATE SPECIALTIES
                     </InputButton>
                 </>
             ) : null}

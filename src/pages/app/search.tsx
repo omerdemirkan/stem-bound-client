@@ -13,12 +13,12 @@ import { useRouter } from "next/router";
 import { isSearchField, SearchField } from "../../utils/helpers";
 import {
     ESearchFields,
-    IWithUserCoordinates,
+    IWithUserCoordinatesProps,
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
 
-const SearchAppPage: React.FC<IWithUserCoordinates & IWithAuthProps> = ({
+const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     coordinates,
 }) => {
     const router = useRouter();

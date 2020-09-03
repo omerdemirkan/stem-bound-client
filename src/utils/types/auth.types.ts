@@ -6,10 +6,6 @@ export type IApiAuthResponse = IApiResponse<{
     accessToken: string;
 }>;
 
-export interface IWithAuthOptions {
-    allowedUserRoles?: EUserRoles[];
-}
-
 export interface IAuthContextState {
     user: null | IUser;
     accessToken: null | string;
