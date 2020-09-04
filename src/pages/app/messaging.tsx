@@ -10,7 +10,7 @@ import useSocket from "../../components/hooks/useSocket";
 import useDebounce from "../../components/hooks/useDebounce";
 import { IChat, ESocketEvents, IUser, IMessage } from "../../utils/types";
 import { useEffect, useState, useContext } from "react";
-import { clone, mapMessageData } from "../../utils/helpers";
+import { clone, mapMessageData, reverseMap } from "../../utils/helpers";
 import { useRouter } from "next/router";
 import { userChatsFetcher, messagesFetcher } from "../../utils/services";
 
@@ -45,7 +45,7 @@ const MessagingAppPage: React.FC = () => {
     const userIsTyping = debouncedTextField !== textField;
 
     const { socket } = useSocket(
-        messages?.length &&
+        messages &&
             function (socket: SocketIOClient.Socket) {
                 socket.emit(ESocketEvents.JOIN_ROOM, chatId);
 
@@ -87,12 +87,6 @@ const MessagingAppPage: React.FC = () => {
                 socket.on(ESocketEvents.CHAT_MESSAGE_DELETED, function ({
                     message,
                 }) {
-                    console.log("deleted: ", {
-                        messages,
-                        message,
-                        isValidating,
-                        error,
-                    });
                     const newMessage = mapMessageData(message);
                     handleMessageUpdated(newMessage);
                 });
@@ -100,12 +94,6 @@ const MessagingAppPage: React.FC = () => {
                 socket.on(ESocketEvents.CHAT_MESSAGE_RESTORED, function ({
                     message,
                 }) {
-                    console.log("restored: ", {
-                        messages,
-                        message,
-                        isValidating,
-                        error,
-                    });
                     const newMessage = mapMessageData(message);
                     handleMessageUpdated(newMessage);
                 });
@@ -234,7 +222,7 @@ const MessagingAppPage: React.FC = () => {
                             CANCEL EDIT
                         </button>
                     ) : null}
-                    {messages.map((message) => (
+                    {reverseMap(messages, (message) => (
                         <ChatMessage
                             message={message}
                             key={message._id}
