@@ -44,60 +44,73 @@ const MessagingAppPage: React.FC = () => {
 
     const userIsTyping = debouncedTextField !== textField;
 
-    const { socket, reinitialize } = useSocket(function (
-        socket: SocketIOClient.Socket
-    ) {
-        if (chatId) {
-            socket.emit(ESocketEvents.JOIN_ROOM, chatId);
-        }
+    const { socket } = useSocket(
+        messages?.length &&
+            function (socket: SocketIOClient.Socket) {
+                socket.emit(ESocketEvents.JOIN_ROOM, chatId);
 
-        socket.on(ESocketEvents.CHAT_USER_STARTED_TYPING, function ({ user }) {
-            setTypingUsers((prev) => [...prev, user]);
-        });
+                socket.on(ESocketEvents.CHAT_USER_STARTED_TYPING, function ({
+                    user,
+                }) {
+                    setTypingUsers((prev) => [...prev, user]);
+                });
 
-        socket.on(ESocketEvents.CHAT_USER_STOPPED_TYPING, function ({ user }) {
-            setTypingUsers((prev) => prev.filter((u) => u._id !== user._id));
-        });
+                socket.on(ESocketEvents.CHAT_USER_STOPPED_TYPING, function ({
+                    user,
+                }) {
+                    setTypingUsers((prev) =>
+                        prev.filter((u) => u._id !== user._id)
+                    );
+                });
 
-        socket.on(ESocketEvents.CHAT_MESSAGE_CREATED, function ({ message }) {
-            const newMessage = mapMessageData(message);
-            if (message.meta.from === user._id) {
-                setTextField("");
+                socket.on(ESocketEvents.CHAT_MESSAGE_CREATED, function ({
+                    message,
+                }) {
+                    const newMessage = mapMessageData(message);
+                    if (message.meta.from === user._id) {
+                        setTextField("");
+                    }
+                    handleMessageCreated(newMessage);
+                });
+
+                socket.on(ESocketEvents.CHAT_MESSAGE_UPDATED, function ({
+                    message,
+                }) {
+                    const updatedMessage = mapMessageData(message);
+                    if (updatedMessage.meta.from === user._id) {
+                        setEditedMessageId(null);
+                        setEditedMessageText("");
+                    }
+                    handleMessageUpdated(updatedMessage);
+                });
+
+                socket.on(ESocketEvents.CHAT_MESSAGE_DELETED, function ({
+                    message,
+                }) {
+                    console.log("deleted: ", {
+                        messages,
+                        message,
+                        isValidating,
+                        error,
+                    });
+                    const newMessage = mapMessageData(message);
+                    handleMessageUpdated(newMessage);
+                });
+
+                socket.on(ESocketEvents.CHAT_MESSAGE_RESTORED, function ({
+                    message,
+                }) {
+                    console.log("restored: ", {
+                        messages,
+                        message,
+                        isValidating,
+                        error,
+                    });
+                    const newMessage = mapMessageData(message);
+                    handleMessageUpdated(newMessage);
+                });
             }
-            handleMessageCreated(newMessage);
-        });
-
-        socket.on(ESocketEvents.CHAT_MESSAGE_UPDATED, function ({ message }) {
-            const updatedMessage = mapMessageData(message);
-            if (updatedMessage.meta.from === user._id) {
-                setEditedMessageId(null);
-                setEditedMessageText("");
-            }
-            handleMessageUpdated(updatedMessage);
-        });
-
-        socket.on(ESocketEvents.CHAT_MESSAGE_DELETED, function ({ message }) {
-            console.log("deleted: ", {
-                messages,
-                message,
-                isValidating,
-                error,
-            });
-            const newMessage = mapMessageData(message);
-            handleMessageUpdated(newMessage);
-        });
-
-        socket.on(ESocketEvents.CHAT_MESSAGE_RESTORED, function ({ message }) {
-            console.log("restored: ", {
-                messages,
-                message,
-                isValidating,
-                error,
-            });
-            const newMessage = mapMessageData(message);
-            handleMessageUpdated(newMessage);
-        });
-    });
+    );
 
     useEffect(
         function () {
@@ -171,8 +184,6 @@ const MessagingAppPage: React.FC = () => {
     function handleInspectChat(id: string) {
         if (chatId) {
             socket.emit(ESocketEvents.LEAVE_ROOM, chatId);
-        } else {
-            reinitialize();
         }
         socket.emit(ESocketEvents.JOIN_ROOM, id);
         router.push(
@@ -183,18 +194,16 @@ const MessagingAppPage: React.FC = () => {
     }
 
     function handleMessageCreated(newMessage: IMessage) {
-        mutateMessages(function (previous) {
-            const newMessages = clone(previous);
+        mutateMessages(function (prevMessages) {
+            const newMessages = clone(prevMessages || messages);
             newMessages.unshift(newMessage);
             return newMessages;
         }, false);
     }
 
     function handleMessageUpdated(updatedMessage: IMessage) {
-        console.log("handleMessageUpdated");
         mutateMessages(function (prevMessages) {
-            console.log("inside mutateMessages callback");
-            const newMessages = clone(prevMessages);
+            const newMessages = clone(prevMessages || messages);
             const messageIndex = newMessages.findIndex(
                 (message) => message._id === updatedMessage._id
             );
