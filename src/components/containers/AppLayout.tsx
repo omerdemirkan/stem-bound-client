@@ -1,16 +1,16 @@
 import useNavigationData from "../hooks/useNavigationData";
 import NavigationButton from "../ui/NavigationButton";
 import AuthContext from "../contexts/AuthContext";
-import AlertModal, { AlertModalFooter } from "../ui/AlertModal";
+import NotificationContext from "../contexts/NotificationContext";
 import { useRouter } from "next/router";
-import { INavigationDataButton } from "../../utils/types";
-import { useState, useContext } from "react";
+import { INavigationDataButton, ENotificationTypes } from "../../utils/types";
+import { useContext } from "react";
 
 const AppLayout: React.FC = ({ children }) => {
     const router = useRouter();
     const navigationData = useNavigationData();
-    const [logoutModalOpen, setLogoutModalOpen] = useState<boolean>();
     const { logout } = useContext(AuthContext);
+    const { createAlert } = useContext(NotificationContext);
 
     function logoutHandler() {
         logout();
@@ -35,25 +35,22 @@ const AppLayout: React.FC = ({ children }) => {
                         )}
                     </ul>
 
-                    <button onClick={() => setLogoutModalOpen(true)}>
+                    <button
+                        onClick={() =>
+                            createAlert({
+                                headerText: "Are you sure you want to log out?",
+                                bodyText: "This is a body text",
+                                type: ENotificationTypes.DANGER,
+                                onOk: logoutHandler,
+                                onCancel: () => {},
+                            })
+                        }
+                    >
                         LOGOUT
                     </button>
                 </nav>
                 <div>{children}</div>
             </div>
-            <AlertModal
-                open={logoutModalOpen}
-                headerText="Are you sure you want to log out?"
-                bodyText="This is a body text"
-                onClose={() => setLogoutModalOpen(false)}
-            >
-                <AlertModalFooter>
-                    <button onClick={() => setLogoutModalOpen(false)}>
-                        CANCEL
-                    </button>
-                    <button onClick={logoutHandler}>YES</button>
-                </AlertModalFooter>
-            </AlertModal>
             <style jsx>{``}</style>
         </>
     );

@@ -1,10 +1,10 @@
+import AlertModal, { AlertModalFooter } from "../ui/AlertModal";
 import { createContext, useState } from "react";
 import {
     INotificationContextState,
     IAlertData,
     ISnackbarData,
 } from "../../utils/types";
-import AlertModal, { AlertModalFooter } from "../ui/AlertModal";
 import { clone } from "../../utils/helpers";
 
 const initialState: INotificationContextState = {
@@ -24,13 +24,22 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
 
     const alert = alertQueue[0];
 
-    function handleAlertOkButtonClicked() {
+    function handleCloseAlert() {
         setAlertQueue(function (prev) {
             const newAlerts = clone(prev);
             newAlerts.shift();
             return newAlerts;
         });
+    }
+
+    function handleAlertOkButtonClicked() {
+        handleCloseAlert();
         alert.onOk();
+    }
+
+    function handleAlertCancelButtonClicked() {
+        handleCloseAlert();
+        alert.onCancel();
     }
 
     return (
@@ -48,15 +57,28 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
 
             <AlertModal
                 open={!!alert}
-                bodyText={alert.bodyText}
-                headerText={alert.bodyText}
+                bodyText={alert?.bodyText}
+                headerText={alert?.bodyText}
                 hideCloseIcon
             >
                 <AlertModalFooter>
-                    {alert.renderFooter ? (
-                        alert.renderFooter()
+                    {alert?.renderFooter ? (
+                        alert?.renderFooter()
                     ) : (
-                        <button onClick={handleAlertOkButtonClicked}>OK</button>
+                        <>
+                            {alert?.onOk && (
+                                <button onClick={handleAlertOkButtonClicked}>
+                                    OK
+                                </button>
+                            )}
+                            {alert?.onCancel && (
+                                <button
+                                    onClick={handleAlertCancelButtonClicked}
+                                >
+                                    CANCEL
+                                </button>
+                            )}
+                        </>
                     )}
                 </AlertModalFooter>
             </AlertModal>
