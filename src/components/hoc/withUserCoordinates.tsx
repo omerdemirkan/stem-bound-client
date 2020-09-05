@@ -1,7 +1,8 @@
 import AlertModal, { AlertModalFooter } from "../ui/AlertModal";
 import AuthContext from "../contexts/AuthContext";
+import NotificationContext from "../contexts/NotificationContext";
 import { useState, useEffect, useContext } from "react";
-import { ICoordinates, IUser } from "../../utils/types";
+import { ICoordinates, ENotificationTypes } from "../../utils/types";
 import { getCurrentLocation } from "../../utils/helpers";
 
 export default function withUserCoordinates(Component): React.FC {
@@ -9,11 +10,10 @@ export default function withUserCoordinates(Component): React.FC {
         const [permissionStatus, setPermissionStatus] = useState<
             PermissionState
         >();
-        const [permissionModalOpen, setPermissionModalOpen] = useState<
-            boolean | null
-        >(null);
         const [coordinates, setCoordinates] = useState<ICoordinates>();
-        const { user }: { user: IUser } = useContext(AuthContext);
+
+        const { user } = useContext(AuthContext);
+        const { createAlert } = useContext(NotificationContext);
 
         useEffect(function () {
             handleSetCoordinates();
@@ -39,7 +39,7 @@ export default function withUserCoordinates(Component): React.FC {
                     setCoordinatesByUserState();
                     break;
                 case "prompt":
-                    setPermissionModalOpen(true);
+                    handleOpenPermissionModal();
                     break;
             }
         }
@@ -70,28 +70,16 @@ export default function withUserCoordinates(Component): React.FC {
             } catch (e) {}
         }
 
-        return (
-            <>
-                <Component {...props} coordinates={coordinates} />
-                <AlertModal
-                    open={permissionModalOpen === true}
-                    headerText="geo-location permission"
-                    bodyText="STEM-bound uses geo-location to make search results as relevant as possible. Sensitive information like your exact location is not stored."
-                    onClose={() => setPermissionModalOpen(false)}
-                    hideCloseIcon
-                >
-                    <AlertModalFooter>
-                        <button
-                            onClick={() => {
-                                setCoordinatesByGeolocationApi();
-                                setPermissionModalOpen(false);
-                            }}
-                        >
-                            OK
-                        </button>
-                    </AlertModalFooter>
-                </AlertModal>
-            </>
-        );
+        function handleOpenPermissionModal() {
+            createAlert({
+                headerText: "geo-location permission",
+                bodyText:
+                    "STEM-bound uses geo-location to make search results as relevant as possible. Sensitive information like your exact location is not stored.",
+                type: ENotificationTypes.INFO,
+                onOk: setCoordinatesByGeolocationApi,
+            });
+        }
+
+        return <Component {...props} coordinates={coordinates} />;
     };
 }
