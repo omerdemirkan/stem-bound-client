@@ -1,6 +1,7 @@
 import CrossSVG from "../svg/icons/cross";
 import { ENotificationTypes } from "../../utils/types";
 import { useEffect } from "react";
+import IconButton from "./IconButton";
 
 interface Props {
     text: string;
@@ -8,6 +9,7 @@ interface Props {
     onClose: () => any;
     renderActions?: () => any;
     autoClose?: number;
+    onClick?: () => any;
 }
 
 const SnackBar: React.FC<Props> = ({
@@ -15,6 +17,7 @@ const SnackBar: React.FC<Props> = ({
     onClose,
     renderActions,
     autoClose,
+    onClick,
 }) => {
     useEffect(function () {
         setTimeout(onClose, autoClose || 6000);
@@ -22,24 +25,52 @@ const SnackBar: React.FC<Props> = ({
 
     return (
         <>
-            <div className="root">
-                <p>{text}</p>
-                {renderActions ? (
-                    renderActions()
-                ) : (
-                    <CrossSVG onClick={onClose} />
-                )}
+            <div className="root" onClick={onClick || (() => {})}>
+                <div className="text-box">
+                    <p>{text}</p>
+                </div>
+                <span className="actions-box">
+                    {renderActions ? (
+                        renderActions()
+                    ) : (
+                        <IconButton>
+                            <CrossSVG
+                                className="close-icon"
+                                style={{
+                                    fill: "var(--background-light)",
+                                    cursor: "pointer",
+                                }}
+                                onClick={onClose}
+                            />
+                        </IconButton>
+                    )}
+                </span>
             </div>
             <style jsx>{`
                 .root {
-                    display: fixed;
+                    background-color: var(--contrast-light);
+                    color: var(--background-light);
+
+                    position: fixed;
                     bottom: 5vh;
                     left: 5vw;
 
-                    width: 90%;
-                    max-width: 600px;
+                    width: 600px;
+                    max-width: 90%;
                     height: 60px;
                     margin: 0;
+
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                .text-box {
+                    width: 80%;
+                    margin: auto 10px;
+                }
+
+                .actions-box {
+                    margin: auto 10px;
                 }
             `}</style>
         </>

@@ -17,7 +17,8 @@ export interface ISnackbarData {
     type: ENotificationTypes;
     text: string;
     imgsrc?: string;
-    renderActions?: () => void;
+    renderActions?: () => any;
+    onClick: () => any;
 }
 
 export interface INotificationContextState {

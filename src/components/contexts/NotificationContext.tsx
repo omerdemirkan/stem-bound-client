@@ -6,6 +6,7 @@ import {
     ISnackbarData,
 } from "../../utils/types";
 import { clone } from "../../utils/helpers";
+import SnackBar from "../ui/SnackBar";
 
 const initialState: INotificationContextState = {
     alertQueue: [],
@@ -30,6 +31,10 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
             newAlerts.shift();
             return newAlerts;
         });
+    }
+
+    function handleCloseSnackbar(index: number) {
+        setSnackbarQueue((prev) => prev.filter((s, i) => i !== index));
     }
 
     function handleAlertOkButtonClicked() {
@@ -82,6 +87,16 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
                     )}
                 </AlertModalFooter>
             </AlertModal>
+
+            {snackbarQueue.map((snackbarData: ISnackbarData, index) => (
+                <SnackBar
+                    text={snackbarData.text}
+                    key={`snackbar[${index}]`}
+                    onClose={() => handleCloseSnackbar(index)}
+                    onClick={snackbarData.onClick}
+                    type={snackbarData.type}
+                />
+            ))}
         </NotificationContext.Provider>
     );
 };
