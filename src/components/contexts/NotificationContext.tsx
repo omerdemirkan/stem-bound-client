@@ -1,0 +1,65 @@
+import { createContext, useState } from "react";
+import {
+    INotificationContextState,
+    IAlertData,
+    ISnackbarData,
+} from "../../utils/types";
+import AlertModal, { AlertModalFooter } from "../ui/AlertModal";
+import { clone } from "../../utils/helpers";
+
+const initialState: INotificationContextState = {
+    alertQueue: [],
+    snackbarQueue: [],
+    createAlert: () => {},
+    createSnackbar: () => {},
+};
+
+const NotificationContext = createContext(initialState);
+
+export default NotificationContext;
+
+export const NotificationContextProvider: React.FC = ({ children }) => {
+    const [alertQueue, setAlertQueue] = useState<IAlertData[]>([]);
+    const [snackbarQueue, setSnackbarQueue] = useState<ISnackbarData[]>([]);
+
+    const alert = alertQueue[0];
+
+    function handleAlertOkButtonClicked() {
+        setAlertQueue(function (prev) {
+            const newAlerts = clone(prev);
+            newAlerts.shift();
+            return newAlerts;
+        });
+        alert.onOk();
+    }
+
+    return (
+        <NotificationContext.Provider
+            value={{
+                alertQueue,
+                snackbarQueue,
+                createAlert: (alertData: IAlertData) =>
+                    setAlertQueue((prev) => [...prev, alertData]),
+                createSnackbar: (snackbarData: ISnackbarData) =>
+                    setSnackbarQueue((prev) => [...prev, snackbarData]),
+            }}
+        >
+            {children}
+
+            <AlertModal
+                open={!!alert}
+                bodyText={alert.bodyText}
+                headerText={alert.bodyText}
+                hideCloseIcon
+            >
+                <AlertModalFooter>
+                    {alert.renderFooter ? (
+                        alert.renderFooter()
+                    ) : (
+                        <button onClick={handleAlertOkButtonClicked}>OK</button>
+                    )}
+                </AlertModalFooter>
+            </AlertModal>
+        </NotificationContext.Provider>
+    );
+};

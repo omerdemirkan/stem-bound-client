@@ -8,7 +8,6 @@ export enum ESocketEvents {
     JOIN_ROOM = "JOIN_ROOM",
     LEAVE_ROOM = "LEAVE_ROOM",
 }
-
 export interface ISocketContextState {
     socket: SocketIOClient.Socket;
 }

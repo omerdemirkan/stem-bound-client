@@ -3,7 +3,7 @@ import Modal from "./Modal";
 
 interface Props {
     open: boolean;
-    onClose: (...args: any) => any;
+    onClose?: (...args: any) => any;
     headerText?: string;
     bodyText?: string;
     hideCloseIcon?: boolean;

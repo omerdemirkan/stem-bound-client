@@ -21,7 +21,12 @@ const ChatMessage: React.FC<Props> = ({
         <div>
             {userIsMessageSender ? (
                 <>
-                    <button onClick={() => onSetEdit(message._id)}>EDIT</button>
+                    <button
+                        onClick={() => onSetEdit(message._id)}
+                        disabled={message.isDeleted}
+                    >
+                        EDIT
+                    </button>
 
                     {message.isDeleted ? (
                         <button onClick={() => onRestore(message._id)}>

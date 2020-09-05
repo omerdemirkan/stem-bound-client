@@ -29,8 +29,8 @@ const MessagingAppPage: React.FC = () => {
     const {
         data: messages,
         mutate: mutateMessages,
-        error,
         isValidating,
+        error,
     } = useSWR(messagesFetcherKey, messagesFetcher(chatId as string), {
         initialData: chats?.find((chat) => chat._id === chatId)?.messages,
     });
@@ -45,19 +45,25 @@ const MessagingAppPage: React.FC = () => {
     const userIsTyping = debouncedTextField !== textField;
 
     const { socket } = useSocket(
-        messages &&
+        messages?.length &&
             function (socket: SocketIOClient.Socket) {
                 socket.emit(ESocketEvents.JOIN_ROOM, chatId);
 
+                const routerChatId = chatId;
+
                 socket.on(ESocketEvents.CHAT_USER_STARTED_TYPING, function ({
                     user,
+                    chatId,
                 }) {
+                    if (chatId !== routerChatId) return;
                     setTypingUsers((prev) => [...prev, user]);
                 });
 
                 socket.on(ESocketEvents.CHAT_USER_STOPPED_TYPING, function ({
                     user,
+                    chatId,
                 }) {
+                    if (chatId !== routerChatId) return;
                     setTypingUsers((prev) =>
                         prev.filter((u) => u._id !== user._id)
                     );
@@ -65,7 +71,9 @@ const MessagingAppPage: React.FC = () => {
 
                 socket.on(ESocketEvents.CHAT_MESSAGE_CREATED, function ({
                     message,
+                    chatId,
                 }) {
+                    if (chatId !== routerChatId) return;
                     const newMessage = mapMessageData(message);
                     if (message.meta.from === user._id) {
                         setTextField("");
@@ -75,7 +83,9 @@ const MessagingAppPage: React.FC = () => {
 
                 socket.on(ESocketEvents.CHAT_MESSAGE_UPDATED, function ({
                     message,
+                    chatId,
                 }) {
+                    if (chatId !== routerChatId) return;
                     const updatedMessage = mapMessageData(message);
                     if (updatedMessage.meta.from === user._id) {
                         setEditedMessageId(null);
@@ -86,14 +96,19 @@ const MessagingAppPage: React.FC = () => {
 
                 socket.on(ESocketEvents.CHAT_MESSAGE_DELETED, function ({
                     message,
+                    chatId,
                 }) {
+                    console.log({ chatId, routerChatId });
+                    if (chatId !== routerChatId) return;
                     const newMessage = mapMessageData(message);
                     handleMessageUpdated(newMessage);
                 });
 
                 socket.on(ESocketEvents.CHAT_MESSAGE_RESTORED, function ({
                     message,
+                    chatId,
                 }) {
+                    if (chatId !== routerChatId) return;
                     const newMessage = mapMessageData(message);
                     handleMessageUpdated(newMessage);
                 });

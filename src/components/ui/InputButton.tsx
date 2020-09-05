@@ -19,12 +19,15 @@ const InputButton: React.FC<Props> = ({
     const [value, setValue] = useState<any>(initialValue);
 
     function handleSubmit() {
-        // if (value !== initialValue) {
-        //     onSubmit(value);
-        // }
-        onSubmit(value);
+        onSubmit(value.filter((s) => s));
         setModalOpen(false);
     }
+
+    function handleCancelButtonClicked() {
+        setModalOpen(false);
+        setValue(initialValue);
+    }
+
     return (
         <>
             <button onClick={() => setModalOpen(true)} disabled={disabled}>
@@ -33,7 +36,7 @@ const InputButton: React.FC<Props> = ({
             <Modal open={modalOpen}>
                 {renderInput(value, setValue)}
                 <ModalFooter>
-                    <button onClick={() => setModalOpen(false)}>CANCEL</button>
+                    <button onClick={handleCancelButtonClicked}>CANCEL</button>
                     <button onClick={handleSubmit}>CONTINUE</button>
                 </ModalFooter>
             </Modal>
