@@ -18,6 +18,9 @@ export function mapChatData(chat: IChatOriginal): IChat {
         _id: chat._id,
         messages: chat.messages.map(mapMessageData),
         meta: chat.meta,
+        isGroupChat: chat.isGroupChat,
+        name: chat?.name,
+        pictureUrl: chat?.pictureUrl,
         createdAt: chat.createdAt,
         updatedAt: chat.updatedAt,
     };

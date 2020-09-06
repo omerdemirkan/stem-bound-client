@@ -1,12 +1,20 @@
 import AlertModal, { AlertModalFooter } from "../ui/AlertModal";
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 import {
     INotificationContextState,
     IAlertData,
     ISnackbarData,
+    ESocketEvents,
+    IUserOriginal,
+    ENotificationTypes,
+    IAnnouncementOriginal,
+    ICourseOriginal,
 } from "../../utils/types";
-import { clone } from "../../utils/helpers";
+import { clone, mapUserData } from "../../utils/helpers";
 import SnackBar from "../ui/SnackBar";
+import useSocket from "../hooks/useSocket";
+import AuthContext from "./AuthContext";
+import { useRouter } from "next/router";
 
 const initialState: INotificationContextState = {
     alertQueue: [],
@@ -22,6 +30,47 @@ export default NotificationContext;
 export const NotificationContextProvider: React.FC = ({ children }) => {
     const [alertQueue, setAlertQueue] = useState<IAlertData[]>([]);
     const [snackbarQueue, setSnackbarQueue] = useState<ISnackbarData[]>([]);
+
+    const router = useRouter();
+
+    const { user } = useContext(AuthContext);
+
+    useSocket(function (socket: SocketIOClient.Socket) {
+        const localUser = user;
+        socket.on(ESocketEvents.CHAT_MESSAGE_CREATED, function ({
+            user,
+            chatId,
+        }: {
+            user: IUserOriginal;
+            chatId: string;
+        }) {
+            if (localUser._id === user._id || router.query?.id === chatId)
+                return;
+
+            user = mapUserData(user);
+            createSnackbar({
+                text: `${user.firstName} ${user.lastName} sent you a message`,
+                onClick: () =>
+                    router.push(`/app/messaging`, {
+                        query: { id: chatId },
+                    }),
+                type: ENotificationTypes.INFO,
+            });
+        });
+
+        socket.on(ESocketEvents.COURSE_ANNOUNCEMENT_CREATED, function ({
+            announcement,
+            course,
+        }: {
+            announcement: IAnnouncementOriginal;
+            course: ICourseOriginal;
+        }) {
+            createSnackbar({
+                text: `${course.title} - New Announcement: ${announcement.text}`,
+                type: ENotificationTypes.INFO,
+            });
+        });
+    });
 
     const alert = alertQueue[0];
 
@@ -47,15 +96,21 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
         alert.onCancel();
     }
 
+    function createAlert(alertData: IAlertData) {
+        setAlertQueue((prev) => [...prev, alertData]);
+    }
+
+    function createSnackbar(snackbarData: ISnackbarData) {
+        setSnackbarQueue((prev) => [...prev, snackbarData]);
+    }
+
     return (
         <NotificationContext.Provider
             value={{
                 alertQueue,
                 snackbarQueue,
-                createAlert: (alertData: IAlertData) =>
-                    setAlertQueue((prev) => [...prev, alertData]),
-                createSnackbar: (snackbarData: ISnackbarData) =>
-                    setSnackbarQueue((prev) => [...prev, snackbarData]),
+                createAlert,
+                createSnackbar,
             }}
         >
             {children}
@@ -71,16 +126,16 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
                         alert?.renderFooter()
                     ) : (
                         <>
-                            {alert?.onOk && (
-                                <button onClick={handleAlertOkButtonClicked}>
-                                    OK
-                                </button>
-                            )}
                             {alert?.onCancel && (
                                 <button
                                     onClick={handleAlertCancelButtonClicked}
                                 >
                                     CANCEL
+                                </button>
+                            )}
+                            {alert?.onOk && (
+                                <button onClick={handleAlertOkButtonClicked}>
+                                    OK
                                 </button>
                             )}
                         </>

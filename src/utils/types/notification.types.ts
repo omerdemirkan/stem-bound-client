@@ -18,7 +18,7 @@ export interface ISnackbarData {
     text: string;
     imgsrc?: string;
     renderActions?: () => any;
-    onClick: () => any;
+    onClick?: () => any;
 }
 
 export interface INotificationContextState {

@@ -1,28 +1,24 @@
-import AppLayout from "../../../../../components/containers/AppLayout";
+import AppLayout from "../../../../components/containers/AppLayout";
 import Head from "next/head";
 import Link from "next/link";
-import withAuth from "../../../../../components/hoc/withAuth";
-import AuthContext from "../../../../../components/contexts/AuthContext";
+import withAuth from "../../../../components/hoc/withAuth";
+import AuthContext from "../../../../components/contexts/AuthContext";
 import useSWR from "swr";
-import AnnouncementCard from "../../../../../components/ui/AnnouncementCard";
+import AnnouncementCard from "../../../../components/ui/AnnouncementCard";
 import { useRouter } from "next/router";
 import {
     courseFetcher,
     announcementsFetcher,
     deleteAnnouncementById,
     updateAnnouncementById,
-} from "../../../../../utils/services";
+    createAnnouncement,
+} from "../../../../utils/services";
 import { useContext } from "react";
-import { EUserRoles, ENotificationTypes } from "../../../../../utils/types";
-import { clone } from "../../../../../utils/helpers";
-import NotificationContext from "../../../../../components/contexts/NotificationContext";
-
-interface EditState {
-    announcementId: null | string;
-    announcementText: string;
-    modalIsOpen: boolean;
-    loading: boolean;
-}
+import { EUserRoles, ENotificationTypes } from "../../../../utils/types";
+import { clone } from "../../../../utils/helpers";
+import NotificationContext from "../../../../components/contexts/NotificationContext";
+import TextArea from "../../../../components/ui/TextArea";
+import InputButton from "../../../../components/ui/InputButton";
 
 const AnnouncementsAppPage: React.FC = () => {
     const router = useRouter();
@@ -73,6 +69,24 @@ const AnnouncementsAppPage: React.FC = () => {
         });
     }
 
+    async function handleCreateAnnouncement(text: string) {
+        const { data: newAnnouncement } = await createAnnouncement(
+            {
+                text,
+                // @ts-ignore
+                meta: {
+                    from: user._id,
+                },
+            },
+            { courseId: queryCourseId as any }
+        );
+        mutateCourseAnnouncements(function (prevAnnouncements) {
+            const newAnnouncements = clone(prevAnnouncements);
+            newAnnouncements.unshift(newAnnouncement);
+            return newAnnouncements;
+        });
+    }
+
     return (
         <AppLayout>
             <Head>
@@ -80,14 +94,19 @@ const AnnouncementsAppPage: React.FC = () => {
             </Head>
             <h4>announcements</h4>
             {user.role === EUserRoles.INSTRUCTOR ? (
-                <Link
-                    href="/app/courses/[id]/announcements/create"
-                    as={`/app/courses/${course?._id}/announcements/create`}
+                <InputButton
+                    renderInput={(value, setValue) => (
+                        <TextArea
+                            id="create-announcement"
+                            onChange={(e) => setValue(e.target.value)}
+                            value={value}
+                        />
+                    )}
+                    onSubmit={handleCreateAnnouncement}
+                    initialValue={""}
                 >
-                    <a>
-                        <button>CREATE</button>
-                    </a>
-                </Link>
+                    CREATE
+                </InputButton>
             ) : null}
 
             {announcements?.map((announcement) => (

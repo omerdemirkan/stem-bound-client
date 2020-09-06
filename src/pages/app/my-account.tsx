@@ -167,7 +167,7 @@ const MyAccountAppPage: React.FC = () => {
                 <>
                     <p>Specialties:</p>
                     {(user as IInstructor).specialties.map((specialty) => (
-                        <p>{specialty}</p>
+                        <p key={specialty}>{specialty}</p>
                     ))}
 
                     <InputButton

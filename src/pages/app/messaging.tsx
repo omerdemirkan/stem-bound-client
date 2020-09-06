@@ -98,7 +98,6 @@ const MessagingAppPage: React.FC = () => {
                     message,
                     chatId,
                 }) {
-                    console.log({ chatId, routerChatId });
                     if (chatId !== routerChatId) return;
                     const newMessage = mapMessageData(message);
                     handleMessageUpdated(newMessage);

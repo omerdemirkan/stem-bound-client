@@ -16,6 +16,9 @@ export interface IChatOriginal {
     meta: {
         users: string[];
     };
+    isGroupChat: boolean;
+    name?: string;
+    pictureUrl?: string;
     createdAt?: string;
     updatedAt?: string;
 }
@@ -39,6 +42,9 @@ export interface IChat {
     meta: {
         users: string[];
     };
+    isGroupChat: boolean;
+    name?: string;
+    pictureUrl?: string;
     createdAt?: string;
     updatedAt?: string;
 }

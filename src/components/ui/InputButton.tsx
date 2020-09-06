@@ -23,20 +23,20 @@ const InputButton: React.FC<Props> = ({
         setModalOpen(false);
     }
 
-    function handleCancelButtonClicked() {
-        setModalOpen(false);
+    function handleButtonClicked() {
+        setModalOpen(true);
         setValue(initialValue);
     }
 
     return (
         <>
-            <button onClick={() => setModalOpen(true)} disabled={disabled}>
+            <button onClick={handleButtonClicked} disabled={disabled}>
                 {children}
             </button>
             <Modal open={modalOpen}>
                 {renderInput(value, setValue)}
                 <ModalFooter>
-                    <button onClick={handleCancelButtonClicked}>CANCEL</button>
+                    <button onClick={() => setModalOpen(false)}>CANCEL</button>
                     <button onClick={handleSubmit}>CONTINUE</button>
                 </ModalFooter>
             </Modal>
