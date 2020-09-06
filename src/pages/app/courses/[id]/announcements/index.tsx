@@ -12,11 +12,10 @@ import {
     deleteAnnouncementById,
     updateAnnouncementById,
 } from "../../../../../utils/services";
-import { useContext, useState } from "react";
-import { EUserRoles } from "../../../../../utils/types";
-import Modal from "../../../../../components/ui/Modal";
-import Input from "../../../../../components/ui/Input";
+import { useContext } from "react";
+import { EUserRoles, ENotificationTypes } from "../../../../../utils/types";
 import { clone } from "../../../../../utils/helpers";
+import NotificationContext from "../../../../../components/contexts/NotificationContext";
 
 interface EditState {
     announcementId: null | string;
@@ -43,15 +42,7 @@ const AnnouncementsAppPage: React.FC = () => {
     );
 
     const { user } = useContext(AuthContext);
-
-    const [editState, setEditState] = useState<EditState>({
-        announcementId: null,
-        announcementText: "",
-        modalIsOpen: false,
-        loading: false,
-    });
-    const updateEditState = (updates: Partial<EditState>) =>
-        setEditState((previous) => ({ ...previous, ...updates }));
+    const { createAlert } = useContext(NotificationContext);
 
     function handleDeleteAnnouncement(announcementId: string) {
         deleteAnnouncementById({ announcementId, courseId: course._id }).then(
@@ -65,16 +56,12 @@ const AnnouncementsAppPage: React.FC = () => {
         );
     }
 
-    function handleEditAnnouncement(announcementId: string) {
-        if (editState.loading) return;
-        updateEditState({
-            announcementText: "",
-            modalIsOpen: false,
-            loading: true,
-        });
-
+    function handleEditAnnouncement(
+        announcementId: string,
+        newAnnouncementText: string
+    ) {
         updateAnnouncementById(
-            { text: editState.announcementText },
+            { text: newAnnouncementText },
             { announcementId, courseId: course._id }
         ).then(function (res) {
             const newAnnouncements = clone(announcements);
@@ -107,49 +94,20 @@ const AnnouncementsAppPage: React.FC = () => {
                 <AnnouncementCard
                     key={announcement._id}
                     announcement={announcement}
-                    onDeleteButtonClicked={handleDeleteAnnouncement}
-                    onEditButtonClicked={(announcementId: string) =>
-                        updateEditState({
-                            announcementId,
-                            modalIsOpen: true,
-                            announcementText: announcements.find(
-                                (announcement) =>
-                                    announcement._id === announcementId
-                            ).text,
+                    onDeleteAnnouncement={() =>
+                        createAlert({
+                            headerText:
+                                "Are you sure you want to delete this announcement?",
+                            bodyText: "You cannot undo a deletion.",
+                            type: ENotificationTypes.DANGER,
+                            onOk: () =>
+                                handleDeleteAnnouncement(announcement._id),
+                            onCancel: () => {},
                         })
                     }
+                    onEditAnnouncement={handleEditAnnouncement}
                 />
             ))}
-
-            <Modal open={editState.modalIsOpen}>
-                <Input
-                    id="editedAnnouncement"
-                    type="text"
-                    label="Edit Announcement"
-                    value={editState.announcementText}
-                    onChange={(announcementText: string) =>
-                        updateEditState({ announcementText })
-                    }
-                    eventTargetValue
-                />
-                <button
-                    onClick={() =>
-                        updateEditState({
-                            modalIsOpen: false,
-                            announcementText: "",
-                        })
-                    }
-                >
-                    CANCEL
-                </button>
-                <button
-                    onClick={() =>
-                        handleEditAnnouncement(editState.announcementId)
-                    }
-                >
-                    EDIT
-                </button>
-            </Modal>
         </AppLayout>
     );
 };

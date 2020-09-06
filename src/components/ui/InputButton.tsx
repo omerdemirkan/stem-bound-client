@@ -19,7 +19,7 @@ const InputButton: React.FC<Props> = ({
     const [value, setValue] = useState<any>(initialValue);
 
     function handleSubmit() {
-        onSubmit(value.filter((s) => s));
+        onSubmit(value);
         setModalOpen(false);
     }
 

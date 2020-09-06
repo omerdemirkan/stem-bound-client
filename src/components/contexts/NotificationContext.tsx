@@ -63,7 +63,7 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
             <AlertModal
                 open={!!alert}
                 bodyText={alert?.bodyText}
-                headerText={alert?.bodyText}
+                headerText={alert?.headerText}
                 hideCloseIcon
             >
                 <AlertModalFooter>

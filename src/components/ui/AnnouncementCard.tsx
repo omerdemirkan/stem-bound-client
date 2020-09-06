@@ -1,33 +1,50 @@
 import { IAnnouncement } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 import { useContext } from "react";
+import InputButton from "./InputButton";
+import TextArea from "./TextArea";
 
 interface Props {
     announcement: IAnnouncement;
-    onDeleteButtonClicked?: (announcementId: string) => any;
-    onEditButtonClicked?: (announcementId: string) => any;
+    onEditAnnouncement?: (
+        announcementId: string,
+        newAnnouncementText: string
+    ) => any;
+    onDeleteAnnouncement?: (announcementId: string) => any;
 }
 
 const AnnouncementCard: React.FC<Props> = ({
     announcement,
-    onDeleteButtonClicked,
-    onEditButtonClicked,
+    onDeleteAnnouncement,
+    onEditAnnouncement,
 }) => {
     const { user } = useContext(AuthContext);
     const userIsAuthorizedToEdit = user._id === announcement.meta.from;
 
     return (
         <div>
-            {userIsAuthorizedToEdit && onDeleteButtonClicked ? (
-                <button onClick={() => onDeleteButtonClicked(announcement._id)}>
+            {userIsAuthorizedToEdit && onDeleteAnnouncement && (
+                <button onClick={() => onDeleteAnnouncement(announcement._id)}>
                     DELETE
                 </button>
-            ) : null}
-            {userIsAuthorizedToEdit && onEditButtonClicked ? (
-                <button onClick={() => onEditButtonClicked(announcement._id)}>
+            )}
+            {userIsAuthorizedToEdit && onEditAnnouncement && (
+                <InputButton
+                    onSubmit={(newAnnouncement) =>
+                        onEditAnnouncement(announcement._id, newAnnouncement)
+                    }
+                    initialValue={announcement.text}
+                    renderInput={(value, setValue) => (
+                        <TextArea
+                            id="edit-announcement"
+                            onChange={(e) => setValue(e.target.value)}
+                            value={value}
+                        />
+                    )}
+                >
                     EDIT
-                </button>
-            ) : null}
+                </InputButton>
+            )}
             <pre>{JSON.stringify(announcement, null, 2)}</pre>
         </div>
     );
