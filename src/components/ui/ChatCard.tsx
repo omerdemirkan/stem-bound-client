@@ -7,9 +7,18 @@ interface Props {
 
 const ChatCard: React.FC<Props> = ({ chat, handleInspect }) => {
     return (
-        <div>
-            <p onClick={() => handleInspect(chat._id)}>{chat._id}</p>
-            <pre>{JSON.stringify(chat, null, 2)}</pre>
+        <div onClick={() => handleInspect(chat._id)}>
+            <img
+                src={
+                    chat.pictureUrl ||
+                    (chat.isGroupChat
+                        ? "/default-groupchat-picture.svg"
+                        : "/default-profile-picture.svg")
+                }
+                alt="chat-image"
+                className="profile-picture small"
+            />
+            <p>{chat.name}</p>
         </div>
     );
 };
