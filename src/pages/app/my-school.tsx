@@ -1,11 +1,11 @@
 import AppLayout from "../../components/containers/AppLayout";
 import withAuth from "../../components/hoc/withAuth";
 import useSWR from "swr";
-import { useContext } from "react";
+import Head from "next/head";
 import AuthContext from "../../components/contexts/AuthContext";
 import { userSchoolFetcher, schoolCoursesFetcher } from "../../utils/services";
-import Head from "next/head";
 import { IStudent } from "../../utils/types";
+import { useContext } from "react";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);

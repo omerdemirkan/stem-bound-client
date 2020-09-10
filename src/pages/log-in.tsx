@@ -1,16 +1,17 @@
 import Layout from "../components/ui/Layout";
 import Head from "next/head";
-import Form from "../components/ui/Form";
 import AuthContext from "../components/contexts/AuthContext";
-import useFormData from "../components/hooks/useFormData";
 import { useRouter } from "next/router";
 import { useEffect, useContext } from "react";
-import { EForms, IFormData } from "../utils/types";
+import { useForm } from "react-hook-form";
+import { emailRegex, passwordRegex } from "../utils/constants";
+import { Button, TextField } from "@material-ui/core";
+import { logIn } from "../utils/services";
 
 const LogInPage: React.FC = () => {
     const router = useRouter();
-    const formData: IFormData = useFormData(EForms.USER_LOG_IN);
     const { authLoading, accessToken, login } = useContext(AuthContext);
+    const { register, handleSubmit, errors } = useForm();
 
     useEffect(
         function () {
@@ -28,7 +29,31 @@ const LogInPage: React.FC = () => {
             </Head>
             <h1>Log In</h1>
 
-            <Form onSubmit={login} isSubmitting={authLoading} {...formData} />
+            <form onSubmit={handleSubmit((data) => login(data as any))}>
+                <TextField
+                    name="email"
+                    inputRef={register({ required: true, pattern: emailRegex })}
+                    label="Email"
+                    error={errors.email}
+                    helperText={errors.email && "Invalid email"}
+                />
+                <TextField
+                    name="password"
+                    type="password"
+                    label="Password"
+                    inputRef={register({
+                        required: "Required",
+                        pattern: passwordRegex,
+                    })}
+                    error={errors.password}
+                    helperText={
+                        errors.email &&
+                        "a number, lowercase and capital letters required"
+                    }
+                />
+                <Button type="submit">SUBMIT</Button>
+            </form>
+
             <style jsx>{``}</style>
         </Layout>
     );
