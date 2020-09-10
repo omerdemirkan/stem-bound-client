@@ -4,6 +4,7 @@ import {
     fetchCoursesByUserId,
     fetchAnnouncementsByCourseId,
     fetchCourseByIdUnmapped,
+    fetchCoursesBySchoolId,
 } from "./course.services";
 import {
     IFetchMeetingsOptions,
@@ -17,7 +18,7 @@ import {
     fetchChatById,
     fetchMessagesByChatId,
 } from "./chat.services";
-import { fetchUserById } from "./user.services";
+import { fetchUserById, fetchUserSchoolById } from "./user.services";
 
 export function courseFetcher(id: string) {
     return async () => (await fetchCourseById(id))?.data;
@@ -57,4 +58,12 @@ export function announcementsFetcher(courseId: string) {
 
 export function userFetcher(userId: string) {
     return async () => (await fetchUserById(userId)).data;
+}
+
+export function userSchoolFetcher(userId: string) {
+    return async () => (await fetchUserSchoolById(userId)).data;
+}
+
+export function schoolCoursesFetcher(courseId: string) {
+    return async () => (await fetchCoursesBySchoolId(courseId)).data;
 }
