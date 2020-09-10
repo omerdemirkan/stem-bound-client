@@ -8,9 +8,14 @@ import {
     Card,
     Button,
 } from "@material-ui/core";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
 import ChipInput from "../../components/ui/ChipInput";
+import AsyncSelect from "../../components/ui/AsyncSelect";
+import {
+    fetchSchoolInputOptions,
+    fetchLocationInputOptions,
+} from "../../utils/helpers";
 
 const useStyles = makeStyles({
     formCard: {
@@ -25,11 +30,13 @@ const useStyles = makeStyles({
 });
 
 const InstructorSignUpPage: React.FC = () => {
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit, errors, control } = useForm();
 
     const classes = useStyles();
 
-    function onSubmit() {}
+    function onSubmit(values) {
+        console.log(values);
+    }
 
     return (
         <Layout>
@@ -117,26 +124,42 @@ const InstructorSignUpPage: React.FC = () => {
                         fullWidth
                         multiline
                     />
-                    <TextField
-                        inputRef={register}
+                    <Controller
                         name="specialties"
-                        label="Speciaties"
-                        placeholder="What's are your areas of expertise?"
-                        error={errors.firstName}
-                        helperText={errors.firstName && "Required"}
-                        margin="normal"
-                        fullWidth
-                        multiline
+                        control={control}
+                        render={({ name, onBlur, onChange, value }) => (
+                            <ChipInput
+                                TextFieldProps={{
+                                    fullWidth: true,
+                                    label: "Specialties",
+                                    placeholder:
+                                        "What's are your areas of expertise?",
+                                    margin: "normal",
+                                }}
+                                onChange={onChange}
+                                name={name}
+                                ref={register}
+                            />
+                        )}
                     />
-                    <ChipInput
-                        TextFieldProps={{
-                            fullWidth: true,
-                            label: "Specialties",
-                            placeholder: "What's are your areas of expertise?",
-                            margin: "normal",
-                        }}
-                        ref={register}
+
+                    <Controller
+                        name="zip"
+                        control={control}
+                        render={(params) => (
+                            <AsyncSelect
+                                {...params}
+                                fetchOptions={fetchLocationInputOptions}
+                                TextFieldProps={{
+                                    fullWidth: true,
+                                    label: "Location",
+                                    placeholder: "E.g Northridge",
+                                    margin: "normal",
+                                }}
+                            />
+                        )}
                     />
+
                     <Button
                         className={classes.submitButton}
                         variant="contained"

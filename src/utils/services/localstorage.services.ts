@@ -13,7 +13,11 @@ export function deleteSavedPassword() {
 }
 
 export function getTheme() {
-    return localStorage.getItem("theme");
+    try {
+        return localStorage.getItem("theme");
+    } catch {
+        return ETheme.LIGHT;
+    }
 }
 
 export function setTheme(theme: ETheme) {

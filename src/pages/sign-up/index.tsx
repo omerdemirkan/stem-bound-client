@@ -1,6 +1,10 @@
 import Layout from "../../components/ui/Layout";
 import Head from "next/head";
 import AuthContext from "../../components/contexts/AuthContext";
+import InstructorSVG from "../../components/svg/illustrations/instructor";
+import StudentSVG from "../../components/svg/illustrations/student";
+import SchoolSVG from "../../components/svg/illustrations/school";
+import Link from "next/link";
 import { useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import {
@@ -13,10 +17,6 @@ import {
     Step,
     StepLabel,
 } from "@material-ui/core";
-import InstructorSVG from "../../components/svg/illustrations/instructor";
-import StudentSVG from "../../components/svg/illustrations/student";
-import SchoolSVG from "../../components/svg/illustrations/school";
-import Link from "next/link";
 
 const useStyles = makeStyles({
     card: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     },
     cardActionArea: {
         height: "100%",
-        padding: "20px 0 30px",
+        padding: "40px 0 60px",
     },
 });
 
@@ -48,7 +48,7 @@ const SignUpPage: React.FC = () => {
             <Head>
                 <title>STEM-bound - Sign Up</title>
             </Head>
-            <Typography variant="h3" component="h1" align="center">
+            <Typography variant="h4" component="h3" align="center" gutterBottom>
                 Sign Up
             </Typography>
 
@@ -95,9 +95,9 @@ const SignUpPage: React.FC = () => {
                                     className={classes.cardActionArea}
                                 >
                                     <Typography
-                                        gutterBottom
                                         variant="h5"
                                         component="h2"
+                                        gutterBottom
                                     >
                                         I'm a School Official
                                     </Typography>

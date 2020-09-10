@@ -4,6 +4,8 @@ import Select, { Option } from "./Select";
 import { ISelectInputOption } from "../../utils/types";
 import { useState, useEffect } from "react";
 
+import Autocomplete from "@material-ui/lab/Autocomplete";
+
 interface Props {
     delay: number;
     id: string;
@@ -32,7 +34,7 @@ const SearchSelect: React.FC<Props> = ({
     const debouncedText = useDebounce(search, delay || 1000);
 
     async function updateSearch() {
-        const options = await fetchOptions(search);
+        const options = await fetchOptions(debouncedText);
         setOptions(options);
     }
 

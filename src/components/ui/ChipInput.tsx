@@ -13,6 +13,7 @@ type Props = {
     TextFieldProps?: TextFieldProps;
     ChipProps?: ChipTypeMap<{}, "div">;
     onChange?(chips: string[]): void;
+    onBlur?(): void;
     initialValues?: string[];
     name?: string;
     ref?: LegacyRef<HTMLInputElement>;
@@ -20,6 +21,7 @@ type Props = {
 
 const ChipInput: React.FC<Props> = ({
     onChange,
+    onBlur,
     name,
     ref,
     initialValues,
@@ -29,7 +31,7 @@ const ChipInput: React.FC<Props> = ({
     const [chips, setChips] = useState<string[]>([]);
 
     function handleCheckIconClicked() {
-        if (!textField.length) return;
+        if (!textField.length || chips.includes(textField)) return;
         setChips((prev) => [...prev, textField]);
         setTextField("");
     }
@@ -42,14 +44,15 @@ const ChipInput: React.FC<Props> = ({
     );
 
     return (
-        <div>
+        <>
             <TextField
                 {...TextFieldProps}
                 value={textField}
                 onChange={(e) => setTextField(e.target.value)}
+                onBlur={onBlur}
                 InputProps={{
                     endAdornment: (
-                        <InputAdornment>
+                        <InputAdornment {...({} as any)}>
                             <IconButton size="small">
                                 <CheckIcon onClick={handleCheckIconClicked} />
                             </IconButton>
@@ -76,7 +79,7 @@ const ChipInput: React.FC<Props> = ({
             ))}
 
             {}
-        </div>
+        </>
     );
 };
 

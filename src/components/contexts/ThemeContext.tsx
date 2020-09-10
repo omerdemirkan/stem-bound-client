@@ -20,28 +20,28 @@ const darkTheme = createMuiTheme({
 
 const initialThemeContextState: IThemeContextState = {
     theme: ETheme.LIGHT,
+    toggleTheme: () => {},
 };
 
 const ThemeContext = createContext(initialThemeContextState);
 
-const ThemeProvider: React.FC = ({ children }) => {
-    const [state, setState] = useState<IThemeContextState>({
-        theme: getTheme() as ETheme,
-    });
-    const updateState = (updates) =>
-        setState((prev) => ({ ...prev, ...updates }));
+export default ThemeContext;
 
-    const theme = state.theme === ETheme.LIGHT ? lightTheme : darkTheme;
+export const ThemeProvider: React.FC = ({ children }) => {
+    const [darkMode, setDarkMode] = useState<boolean>(
+        getTheme() === ETheme.DARK
+    );
+
+    const theme = darkMode ? darkTheme : lightTheme;
 
     return (
         <ThemeContext.Provider
             value={{
-                ...state,
+                theme: darkMode ? ETheme.DARK : ETheme.LIGHT,
+                toggleTheme: () => setDarkMode((prev) => !prev),
             }}
         >
             <MuiThemeProvider theme={theme}> {children}</MuiThemeProvider>
         </ThemeContext.Provider>
     );
 };
-
-export default ThemeProvider;
