@@ -13,6 +13,8 @@ const InstructorSignUpPage: React.FC = () => {
                 Sign Up
             </Typography>
             <SignUpStepper activeStep={1} />
+
+            <form></form>
         </Layout>
     );
 };

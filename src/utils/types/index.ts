@@ -13,3 +13,4 @@ export * from "./hoc.types";
 export * from "./socket.types";
 export * from "./date.types";
 export * from "./notification.types";
+export * from "./theme.types";
