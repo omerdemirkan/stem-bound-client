@@ -4,7 +4,12 @@ import Search from "../components/containers/Search";
 import { NextPageContext } from "next";
 import { fetchSearchData } from "../utils/services";
 import { ESearchFields, ISearchData } from "../utils/types";
-import { serverRedirect, isSearchField, SearchField } from "../utils/helpers";
+import {
+    serverRedirect,
+    isSearchField,
+    SearchField,
+    deleteUndefined,
+} from "../utils/helpers";
 
 interface Props {
     searchField: ESearchFields;
@@ -40,6 +45,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
                 field: SearchField(searchField),
             })
         ).data;
+        deleteUndefined(searchData);
         return { props: { searchField, searchData } };
     } catch (e) {
         return serverRedirect(ctx, `search?q=${ESearchFields.INSTRUCTOR}`);
