@@ -15,9 +15,10 @@ import ChipInput from "../../components/ui/ChipInput";
 import AsyncSelect from "../../components/ui/AsyncSelect";
 import { fetchLocationInputOptions } from "../../utils/helpers";
 import AuthContext from "../../components/contexts/AuthContext";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { EUserRoles } from "../../utils/types";
+import InfoIcon from "@material-ui/icons/Info";
 
 const useStyles = makeStyles({
     formCard: {
@@ -37,6 +38,8 @@ const InstructorSignUpPage: React.FC = () => {
     const router = useRouter();
     const classes = useStyles();
 
+    const [error, setError] = useState<Error>();
+
     useEffect(
         function () {
             if (accessToken) {
@@ -49,7 +52,7 @@ const InstructorSignUpPage: React.FC = () => {
     function onSubmit(values) {
         signup({ ...values, role: EUserRoles.INSTRUCTOR })
             .then(() => router.push("/app/dashboard"))
-            .catch(({ errorMessage }) => console.error(errorMessage));
+            .catch(setError);
     }
 
     return (
@@ -65,12 +68,26 @@ const InstructorSignUpPage: React.FC = () => {
             <Card className={classes.formCard}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Typography variant="h5" align="center" gutterBottom>
+                        <InfoIcon
+                            style={{ marginRight: "20px" }}
+                            color="primary"
+                        />
                         Personal Details
                     </Typography>
                     <Typography paragraph color="textSecondary" gutterBottom>
                         Just a few basic details to set up and you'll be on your
                         way!
                     </Typography>
+                    {error ? (
+                        <Typography
+                            paragraph
+                            gutterBottom
+                            align="center"
+                            color="error"
+                        >
+                            {error.message}
+                        </Typography>
+                    ) : null}
                     <Divider />
                     <TextField
                         inputRef={register({
@@ -80,8 +97,9 @@ const InstructorSignUpPage: React.FC = () => {
                         label="First Name"
                         error={errors.firstName}
                         helperText={errors.firstName?.message}
-                        fullWidth
                         margin="normal"
+                        fullWidth
+                        autoFocus
                     />
                     <TextField
                         inputRef={register({
@@ -115,13 +133,14 @@ const InstructorSignUpPage: React.FC = () => {
                         label="Password"
                         inputRef={register({
                             required: "Required",
-                            pattern: passwordRegex,
+                            pattern: {
+                                value: passwordRegex,
+                                message:
+                                    "A number, lowercase and capital letters required",
+                            },
                         })}
                         error={errors.password}
-                        helperText={
-                            errors.email &&
-                            "a number, lowercase and capital letters required"
-                        }
+                        helperText={errors.email}
                         fullWidth
                         margin="normal"
                     />
@@ -132,8 +151,8 @@ const InstructorSignUpPage: React.FC = () => {
                         name="shortDescription"
                         label="Short Description"
                         placeholder="e.g 3'th year Computer Science Student at CSUN"
-                        error={errors.firstName}
-                        helperText={errors.firstName?.message}
+                        error={errors.shortDescription}
+                        helperText={errors.shortDescription?.message}
                         margin="normal"
                         fullWidth
                         multiline

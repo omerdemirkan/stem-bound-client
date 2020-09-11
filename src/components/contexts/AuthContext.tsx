@@ -60,7 +60,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
             return { ok: true };
         } catch (e) {
             handleAuthFailure();
-            return { ok: false, error: e.error };
+            return Promise.reject(e.error);
         }
     }
 
@@ -83,10 +83,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
             return { ok: true };
         } catch (e) {
             handleAuthFailure();
-            return Promise.reject({
-                ok: false,
-                error: e.error,
-            });
+            return Promise.reject(e.error);
         }
     }
 
@@ -103,10 +100,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
             return { ok: true };
         } catch (e) {
             handleAuthFailure();
-            return Promise.reject({
-                ok: false,
-                error: e.error,
-            });
+            return Promise.reject(e.error);
         }
     }
 

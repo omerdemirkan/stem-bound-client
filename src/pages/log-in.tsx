@@ -84,12 +84,16 @@ const LogInPage: React.FC = () => {
                     <TextField
                         name="email"
                         inputRef={register({
-                            required: true,
-                            pattern: emailRegex,
+                            required: "Required",
+                            pattern: {
+                                value: emailRegex,
+                                message: "Invalid email",
+                            },
                         })}
+                        autoFocus
                         label="Email"
                         error={errors.email}
-                        helperText={errors.email && "Invalid email"}
+                        helperText={errors.email?.message}
                         fullWidth
                         margin="normal"
                     />
@@ -99,13 +103,14 @@ const LogInPage: React.FC = () => {
                         label="Password"
                         inputRef={register({
                             required: "Required",
-                            pattern: passwordRegex,
+                            pattern: {
+                                value: passwordRegex,
+                                message:
+                                    "A number, lowercase and capital letters required",
+                            },
                         })}
                         error={errors.password}
-                        helperText={
-                            errors.email &&
-                            "a number, lowercase and capital letters required"
-                        }
+                        helperText={errors.email?.message}
                         fullWidth
                         margin="normal"
                     />
