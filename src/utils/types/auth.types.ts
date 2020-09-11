@@ -12,7 +12,7 @@ export interface IAuthContextState {
     authAttempted: boolean;
     login: (options: { email: string; password: string }) => any;
     logout: () => any;
-    signup: (options: { email: string; password: string }) => any;
+    signup: (userData: Partial<IUser>) => any;
     authenticateToken: (token: string) => any;
     mutateUser: (user: IUser) => any;
 }

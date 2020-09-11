@@ -10,9 +10,10 @@ import CheckIcon from "@material-ui/icons/Check";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 type Props = {
+    value: string[];
+    onChange(chips: string[]): void;
     TextFieldProps?: TextFieldProps;
     ChipProps?: ChipTypeMap<{}, "div">;
-    onChange?(chips: string[]): void;
     onBlur?(): void;
     initialValues?: string[];
     name?: string;
@@ -20,6 +21,7 @@ type Props = {
 };
 
 const ChipInput: React.FC<Props> = ({
+    value,
     onChange,
     onBlur,
     name,
@@ -28,20 +30,12 @@ const ChipInput: React.FC<Props> = ({
     TextFieldProps,
 }) => {
     const [textField, setTextField] = useState<string>("");
-    const [chips, setChips] = useState<string[]>([]);
 
     function handleCheckIconClicked() {
-        if (!textField.length || chips.includes(textField)) return;
-        setChips((prev) => [...prev, textField]);
+        if (!textField.length || value.includes(textField)) return;
+        onChange([...value, textField]);
         setTextField("");
     }
-
-    useEffect(
-        function () {
-            onChange && onChange(chips);
-        },
-        [chips]
-    );
 
     return (
         <>
@@ -60,22 +54,13 @@ const ChipInput: React.FC<Props> = ({
                     ),
                 }}
             />
-            {chips.map((chip, index) => (
-                <>
-                    <Chip
-                        label={chip}
-                        color="primary"
-                        onDelete={() =>
-                            setChips((prev) => prev.filter((s) => s !== chip))
-                        }
-                    />
-                    <input
-                        type="text"
-                        style={{ display: "none" }}
-                        ref={ref}
-                        name={`${name}[${index}]`}
-                    />
-                </>
+            {value?.map((chip, index) => (
+                <Chip
+                    label={chip}
+                    key={chip}
+                    color="primary"
+                    onDelete={() => onChange(value.filter((s) => s !== chip))}
+                />
             ))}
 
             {}

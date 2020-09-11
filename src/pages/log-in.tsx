@@ -11,6 +11,7 @@ import {
     Card,
     makeStyles,
     Typography,
+    Divider,
 } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/Lock";
 
@@ -50,10 +51,19 @@ const LogInPage: React.FC = () => {
 
             <Card className={classes.formCard}>
                 <form onSubmit={handleSubmit((data) => login(data as any))}>
-                    <LockIcon style={{ margin: "0 20px" }} />
-                    <Typography variant="h4" align="center" color="textPrimary">
+                    <Typography
+                        variant="h4"
+                        align="center"
+                        color="textPrimary"
+                        gutterBottom
+                    >
+                        <LockIcon
+                            style={{ marginRight: "20px" }}
+                            color="primary"
+                        />
                         Log In
                     </Typography>
+                    <Divider />
                     <TextField
                         name="email"
                         inputRef={register({

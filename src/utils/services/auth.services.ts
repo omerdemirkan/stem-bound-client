@@ -1,6 +1,7 @@
 import { apiClient } from "../helpers";
 import { IApiResponse } from "../types/api.types";
 import { IApiAuthResponse } from "../types/auth.types";
+import { IUserOriginal } from "../types";
 
 export function logIn({
     email,
@@ -15,7 +16,9 @@ export function logIn({
     });
 }
 
-export function signUp(userData: any): Promise<IApiAuthResponse> {
+export function signUp(
+    userData: Partial<IUserOriginal>
+): Promise<IApiAuthResponse> {
     return apiClient.post("/auth/sign-up", userData);
 }
 

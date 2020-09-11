@@ -7,15 +7,17 @@ import {
     makeStyles,
     Card,
     Button,
+    Divider,
 } from "@material-ui/core";
 import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
 import ChipInput from "../../components/ui/ChipInput";
 import AsyncSelect from "../../components/ui/AsyncSelect";
-import {
-    fetchSchoolInputOptions,
-    fetchLocationInputOptions,
-} from "../../utils/helpers";
+import { fetchLocationInputOptions } from "../../utils/helpers";
+import AuthContext from "../../components/contexts/AuthContext";
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
+import { EUserRoles } from "../../utils/types";
 
 const useStyles = makeStyles({
     formCard: {
@@ -31,12 +33,18 @@ const useStyles = makeStyles({
 
 const InstructorSignUpPage: React.FC = () => {
     const { register, handleSubmit, errors, control } = useForm();
-
+    const { signup, accessToken } = useContext(AuthContext);
+    const router = useRouter();
     const classes = useStyles();
 
-    function onSubmit(values) {
-        console.log(values);
-    }
+    useEffect(
+        function () {
+            if (accessToken) {
+                router.push("/app/dashboard");
+            }
+        },
+        [accessToken]
+    );
 
     return (
         <Layout>
@@ -49,38 +57,53 @@ const InstructorSignUpPage: React.FC = () => {
             <SignUpStepper activeStep={1} />
 
             <Card className={classes.formCard}>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form
+                    onSubmit={handleSubmit((values) =>
+                        signup({ ...values, role: EUserRoles.INSTRUCTOR })
+                    )}
+                >
+                    <Typography variant="h5" align="center" gutterBottom>
+                        Personal Details
+                    </Typography>
+                    <Typography paragraph color="textSecondary" gutterBottom>
+                        Just a few basic details to set up and you'll be on your
+                        way!
+                    </Typography>
+                    <Divider />
                     <TextField
                         inputRef={register({
-                            required: true,
+                            required: "Required",
                         })}
                         name="firstName"
                         label="First Name"
                         error={errors.firstName}
-                        helperText={errors.firstName && "Required"}
+                        helperText={errors.firstName?.message}
                         fullWidth
                         margin="normal"
                     />
                     <TextField
                         inputRef={register({
-                            required: true,
+                            required: "Required",
                         })}
                         name="lastName"
                         label="Last Name"
                         error={errors.firstName}
-                        helperText={errors.firstName && "Required"}
+                        helperText={errors.firstName?.message}
                         fullWidth
                         margin="normal"
                     />
                     <TextField
                         name="email"
                         inputRef={register({
-                            required: true,
-                            pattern: emailRegex,
+                            required: "Required",
+                            pattern: {
+                                value: emailRegex,
+                                message: "Invalid Email",
+                            },
                         })}
                         label="Email"
                         error={errors.email}
-                        helperText={errors.email && "Invalid email"}
+                        helperText={errors.email?.message}
                         fullWidth
                         margin="normal"
                     />
@@ -102,13 +125,13 @@ const InstructorSignUpPage: React.FC = () => {
                     />
                     <TextField
                         inputRef={register({
-                            required: true,
+                            required: "Required",
                         })}
                         name="shortDescription"
                         label="Short Description"
-                        placeholder="e.g Software Engineer at AT&T"
+                        placeholder="e.g 3'th year Computer Science Student at CSUN"
                         error={errors.firstName}
-                        helperText={errors.firstName && "Required"}
+                        helperText={errors.firstName?.message}
                         margin="normal"
                         fullWidth
                         multiline
@@ -118,8 +141,6 @@ const InstructorSignUpPage: React.FC = () => {
                         name="longDescription"
                         label="Long Description (Optional)"
                         placeholder="Tell us about yourself!"
-                        error={errors.firstName}
-                        helperText={errors.firstName && "Required"}
                         margin="normal"
                         fullWidth
                         multiline
@@ -127,18 +148,24 @@ const InstructorSignUpPage: React.FC = () => {
                     <Controller
                         name="specialties"
                         control={control}
-                        render={({ name, onBlur, onChange, value }) => (
+                        rules={{
+                            validate: (values) =>
+                                values.length > 0 ||
+                                "At least one specialty required",
+                        }}
+                        defaultValue={[]}
+                        render={(params) => (
                             <ChipInput
+                                {...params}
                                 TextFieldProps={{
                                     fullWidth: true,
                                     label: "Specialties",
                                     placeholder:
                                         "What's are your areas of expertise?",
                                     margin: "normal",
+                                    error: errors.specialties,
+                                    helperText: errors.specialties?.message,
                                 }}
-                                onChange={onChange}
-                                name={name}
-                                ref={register}
                             />
                         )}
                     />
@@ -146,6 +173,8 @@ const InstructorSignUpPage: React.FC = () => {
                     <Controller
                         name="zip"
                         control={control}
+                        rules={{ required: "Required" }}
+                        defaultValue=""
                         render={(params) => (
                             <AsyncSelect
                                 {...params}
@@ -153,8 +182,10 @@ const InstructorSignUpPage: React.FC = () => {
                                 TextFieldProps={{
                                     fullWidth: true,
                                     label: "Location",
-                                    placeholder: "E.g Northridge",
+                                    placeholder: "e.g Northridge",
                                     margin: "normal",
+                                    error: errors.zip,
+                                    helperText: errors.zip?.message,
                                 }}
                             />
                         )}

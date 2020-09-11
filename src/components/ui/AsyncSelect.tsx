@@ -31,6 +31,11 @@ const AsyncSelect: React.FC<Props> = ({
         setLoading(false);
     }
 
+    function handleUpdateTextField(e) {
+        setSearch(e.target.value);
+        onChange(null);
+    }
+
     useEffect(
         function () {
             if (debouncedSearch) {
@@ -51,7 +56,7 @@ const AsyncSelect: React.FC<Props> = ({
                 ref={ref}
                 renderInput={(params) => (
                     <TextField
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={handleUpdateTextField}
                         value={search}
                         inputProps={{
                             endAdornment: (
