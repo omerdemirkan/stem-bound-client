@@ -1,50 +1,48 @@
 import { INavigationData, EUserRoles } from "../types";
 
-// SVG components
-import HomeSVG from "../../components/svg/icons/home";
-import MagnifierSVG from "../../components/svg/icons/magnifier";
-import CalendarSVG from "../../components/svg/icons/calendar";
-import MailSVG from "../../components/svg/icons/mail";
-import InfoSVG from "../../components/svg/icons/info";
 import { ESearchFields } from "../types/search.types";
+
+// Icon components
+import HomeIcon from "@material-ui/icons/Home";
+import SearchIcon from "@material-ui/icons/Search";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import MailIcon from "@material-ui/icons/Mail";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import InfoIcon from "@material-ui/icons/Info";
+import SchoolIcon from "@material-ui/icons/School";
 
 export const instructorNavigationData: INavigationData = {
     userRole: EUserRoles.INSTRUCTOR,
     buttons: [
         {
             text: "DASHBOARD",
-            Icon: HomeSVG,
+            Icon: HomeIcon,
             path: "/app/dashboard",
         },
         {
             text: "SEARCH",
-            Icon: MagnifierSVG,
+            Icon: SearchIcon,
             path: `/app/search?q=${ESearchFields.SCHOOL_OFFICIAL}`,
         },
         {
             text: "SCHEDULE",
-            Icon: CalendarSVG,
+            Icon: CalendarTodayIcon,
             path: "/app/schedule",
         },
         {
             text: "MESSAGING",
-            Icon: MailSVG,
+            Icon: MailIcon,
             path: "/app/messaging",
         },
         {
             text: "MY COURSES",
-            Icon: MagnifierSVG,
+            Icon: LibraryBooksIcon,
             path: "/app/courses",
         },
         {
             text: "NOTIFICATIONS",
-            Icon: InfoSVG,
+            Icon: InfoIcon,
             path: "/app/notifications",
-        },
-        {
-            text: "MY ACCOUNT",
-            Icon: InfoSVG,
-            path: "/app/my-account",
         },
     ],
 };
@@ -54,43 +52,38 @@ export const studentNavigationData: INavigationData = {
     buttons: [
         {
             text: "DASHBOARD",
-            Icon: HomeSVG,
+            Icon: HomeIcon,
             path: "/app/dashboard",
         },
         {
             text: "SEARCH",
-            Icon: MagnifierSVG,
+            Icon: SearchIcon,
             path: `/app/search?q=${ESearchFields.INSTRUCTOR}`,
         },
         {
             text: "SCHEDULE",
-            Icon: CalendarSVG,
+            Icon: CalendarTodayIcon,
             path: "/app/schedule",
         },
         {
             text: "MESSAGING",
-            Icon: MailSVG,
+            Icon: MailIcon,
             path: "/app/messaging",
         },
         {
             text: "MY COURSES",
-            Icon: MagnifierSVG,
+            Icon: LibraryBooksIcon,
             path: "/app/courses",
         },
         {
             text: "NOTIFICATIONS",
-            Icon: InfoSVG,
+            Icon: InfoIcon,
             path: "/app/notifications",
         },
         {
             text: "MY SCHOOL",
-            Icon: InfoSVG,
+            Icon: SchoolIcon,
             path: "/app/my-school",
-        },
-        {
-            text: "MY ACCOUNT",
-            Icon: InfoSVG,
-            path: "/app/my-account",
         },
     ],
 };
@@ -100,33 +93,28 @@ export const schoolOfficialNavigationData: INavigationData = {
     buttons: [
         {
             text: "DASHBOARD",
-            Icon: HomeSVG,
+            Icon: HomeIcon,
             path: "/app/dashboard",
         },
         {
             text: "SEARCH",
-            Icon: MagnifierSVG,
+            Icon: SearchIcon,
             path: `/app/search?q=${ESearchFields.INSTRUCTOR}`,
         },
         {
             text: "MESSAGING",
-            Icon: MailSVG,
+            Icon: MailIcon,
             path: "/app/messaging",
         },
         {
             text: "NOTIFICATIONS",
-            Icon: InfoSVG,
+            Icon: InfoIcon,
             path: "/app/notifications",
         },
         {
             text: "MY SCHOOL",
-            Icon: InfoSVG,
+            Icon: SchoolIcon,
             path: "/app/my-school",
-        },
-        {
-            text: "MY ACCOUNT",
-            Icon: InfoSVG,
-            path: "/app/my-account",
         },
     ],
 };

@@ -3,7 +3,7 @@ import AuthContext from "../contexts/AuthContext";
 import NotificationContext from "../contexts/NotificationContext";
 import { useRouter } from "next/router";
 import { INavigationDataButton, ENotificationTypes } from "../../utils/types";
-import { useContext } from "react";
+import { useContext, useState, useRef } from "react";
 import {
     List,
     ListItem,
@@ -14,13 +14,22 @@ import {
     Avatar,
     Divider,
     Typography,
+    Menu,
+    MenuItem,
 } from "@material-ui/core";
 import Link from "next/link";
 import WordLogoSVG from "../svg/icons/word-logo";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const useStyles = makeStyles({
     listItem: {
         paddingLeft: "40px",
+    },
+    userMenuButton: {
+        marginBottom: "20px",
+    },
+    userMenu: {
+        justifyContent: "flex-end",
     },
     finePrint: {
         position: "absolute",
@@ -37,11 +46,28 @@ const AppLayout: React.FC = ({ children }) => {
     const { user, logout } = useContext(AuthContext);
     const { createAlert } = useContext(NotificationContext);
 
+    const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
+
+    const userMenuButtonRef = useRef();
+
+    const toggleUserMenu = () => setUserMenuOpen((prev) => !prev);
+
     const classes = useStyles();
 
     function logoutHandler() {
         logout();
         router.push("/");
+    }
+
+    function handleOpenLogoutModal() {
+        setUserMenuOpen(false);
+        createAlert({
+            headerText: "Are you sure you want to log out?",
+            bodyText: "This is a body text",
+            type: ENotificationTypes.DANGER,
+            onOk: logoutHandler,
+            onCancel: () => {},
+        });
     }
 
     return (
@@ -51,41 +77,78 @@ const AppLayout: React.FC = ({ children }) => {
                     <div className="logo-box">
                         <WordLogoSVG width="60px" />
                     </div>
-                    <div className="user-box">
-                        <Avatar src={user.profilePictureUrl} />
-                    </div>
+                    <Button
+                        onClick={toggleUserMenu}
+                        variant="text"
+                        color="inherit"
+                        className={classes.userMenuButton}
+                        fullWidth
+                    >
+                        <Avatar
+                            src={user.profilePictureUrl}
+                            style={{ marginRight: "20px" }}
+                        />
+                        {`${user.firstName} ${user.lastName}`}
+                        <ArrowDropDownIcon
+                            style={{ marginLeft: "10px" }}
+                            color="primary"
+                            ref={userMenuButtonRef}
+                        />
+                    </Button>
+                    <Menu
+                        open={userMenuOpen}
+                        onClose={toggleUserMenu}
+                        anchorEl={userMenuButtonRef.current}
+                        className={classes.userMenu}
+                    >
+                        <MenuItem onClick={toggleUserMenu}>
+                            <Link href="/app/my-account">My Account</Link>
+                        </MenuItem>
+                        <MenuItem onClick={toggleUserMenu}>Settings</MenuItem>
+                        <MenuItem onClick={handleOpenLogoutModal}>
+                            Logout
+                        </MenuItem>
+                    </Menu>
+
                     <Divider />
+
                     <List component="nav">
-                        {navigationData?.buttons.map(
-                            ({ path, Icon, text }: INavigationDataButton) => (
+                        {navigationData?.buttons.map(function ({
+                            path,
+                            Icon,
+                            text,
+                        }: INavigationDataButton) {
+                            const selected = path.includes(router.pathname);
+                            return (
                                 <Link href={path} key={path}>
                                     <ListItem
                                         button
                                         className={classes.listItem}
-                                        selected={path.includes(
-                                            router.pathname
-                                        )}
+                                        selected={selected}
                                     >
                                         <ListItemIcon>
-                                            <Icon />
+                                            <Icon
+                                                color={
+                                                    selected
+                                                        ? "primary"
+                                                        : undefined
+                                                }
+                                            />
                                         </ListItemIcon>
-                                        <ListItemText primary={text} />
+                                        <ListItemText
+                                            primary={text}
+                                            color={
+                                                selected ? "primary" : undefined
+                                            }
+                                        />
                                     </ListItem>
                                 </Link>
-                            )
-                        )}
+                            );
+                        })}
                     </List>
 
                     <Button
-                        onClick={() =>
-                            createAlert({
-                                headerText: "Are you sure you want to log out?",
-                                bodyText: "This is a body text",
-                                type: ENotificationTypes.DANGER,
-                                onOk: logoutHandler,
-                                onCancel: () => {},
-                            })
-                        }
+                        onClick={handleOpenLogoutModal}
                         color="primary"
                         variant="text"
                         fullWidth
@@ -116,8 +179,8 @@ const AppLayout: React.FC = ({ children }) => {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    height: 100px;
-                    padding: 20px 40px 0;
+                    height: 120px;
+                    padding: 0 40px;
                 }
 
                 .user-box {

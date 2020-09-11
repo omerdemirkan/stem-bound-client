@@ -1,4 +1,6 @@
 import { EUserRoles } from "./user.types";
+import { OverridableComponent } from "@material-ui/core/OverridableComponent";
+import { SvgIconTypeMap } from "@material-ui/core";
 
 export interface INavigationData {
     userRole: EUserRoles;
@@ -7,7 +9,9 @@ export interface INavigationData {
 
 export interface INavigationDataButton {
     text: string;
-    Icon?: React.FC<React.SVGProps<SVGSVGElement>>;
+    Icon?:
+        | React.FC<React.SVGProps<SVGSVGElement>>
+        | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
     iconPath?: string;
     path: string;
 }
