@@ -2,7 +2,7 @@ import Layout from "../components/ui/Layout";
 import Head from "next/head";
 import AuthContext from "../components/contexts/AuthContext";
 import { useRouter } from "next/router";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { emailRegex, passwordRegex } from "../utils/constants";
 import {
@@ -31,6 +31,7 @@ const LogInPage: React.FC = () => {
     const router = useRouter();
     const { authLoading, accessToken, login } = useContext(AuthContext);
     const { register, handleSubmit, errors } = useForm();
+    const [error, setError] = useState<Error>();
 
     useEffect(
         function () {
@@ -43,6 +44,12 @@ const LogInPage: React.FC = () => {
 
     const classes = useStyles();
 
+    function onSubmit(values) {
+        login(values)
+            .then(() => router.push("/app/dashboard"))
+            .catch(({ error }) => setError(error));
+    }
+
     return (
         <Layout>
             <Head>
@@ -50,7 +57,7 @@ const LogInPage: React.FC = () => {
             </Head>
 
             <Card className={classes.formCard}>
-                <form onSubmit={handleSubmit((data) => login(data as any))}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <Typography
                         variant="h4"
                         align="center"
@@ -63,6 +70,16 @@ const LogInPage: React.FC = () => {
                         />
                         Log In
                     </Typography>
+                    {error ? (
+                        <Typography
+                            paragraph
+                            gutterBottom
+                            align="center"
+                            color="error"
+                        >
+                            {error.message}
+                        </Typography>
+                    ) : null}
                     <Divider />
                     <TextField
                         name="email"
@@ -98,7 +115,7 @@ const LogInPage: React.FC = () => {
                         color="primary"
                         variant="contained"
                         fullWidth
-                        disabled={authLoading}
+                        disabled={authLoading || !!accessToken}
                     >
                         SUBMIT
                     </Button>

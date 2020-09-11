@@ -1,5 +1,9 @@
 import { createContext, useState, useEffect } from "react";
-import { IAuthContextState, IUser } from "../../utils/types";
+import {
+    IAuthContextState,
+    IUser,
+    IAuthHelperResponse,
+} from "../../utils/types";
 import { me, logIn, signUp } from "../../utils/services";
 import { apiClient } from "../../utils/helpers";
 
@@ -8,10 +12,14 @@ export const initialAuthContextState: IAuthContextState = {
     accessToken: null,
     user: null,
     authAttempted: false,
-    login: (options: { email: string; password: string }) => {},
+    login: async (options: { email: string; password: string }) => ({
+        ok: true,
+    }),
     logout: () => {},
-    signup: (options: { email: string; password: string }) => {},
-    authenticateToken: (token: string) => {},
+    signup: async (options: { email: string; password: string }) => ({
+        ok: true,
+    }),
+    authenticateToken: async (token: string) => ({ ok: true }),
     mutateUser: (user: IUser) => {},
 };
 
@@ -37,37 +45,69 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         }
     }, []);
 
-    function authenticateToken(accessToken: string) {
+    async function authenticateToken(
+        token: string
+    ): Promise<IAuthHelperResponse> {
         updateAuthState({
             authLoading: true,
         });
-        me(accessToken)
-            .then(function ({ data: { accessToken, user } }) {
-                handleAuthSuccess({ user, accessToken });
-            })
-            .catch(function (err) {
-                handleAuthFailure();
-            });
+
+        try {
+            const {
+                data: { accessToken, user },
+            } = await me(token);
+            handleAuthSuccess({ user, accessToken });
+            return { ok: true };
+        } catch (e) {
+            handleAuthFailure();
+            return { ok: false, error: e.error };
+        }
     }
 
-    function login({ email, password }: { email: string; password: string }) {
-        logIn({ email, password })
-            .then(function ({ data: { accessToken, user } }) {
-                handleAuthSuccess({ user, accessToken });
-            })
-            .catch(function (err) {
-                handleAuthFailure();
+    async function login({
+        email,
+        password,
+    }: {
+        email: string;
+        password: string;
+    }): Promise<IAuthHelperResponse> {
+        updateAuthState({
+            authLoading: true,
+        });
+
+        try {
+            const {
+                data: { accessToken, user },
+            } = await logIn({ email, password });
+            handleAuthSuccess({ user, accessToken });
+            return { ok: true };
+        } catch (e) {
+            handleAuthFailure();
+            return Promise.reject({
+                ok: false,
+                error: e.error,
             });
+        }
     }
 
-    function signup(userData) {
-        signUp(userData)
-            .then(function ({ data: { accessToken, user } }) {
-                handleAuthSuccess({ user, accessToken });
-            })
-            .catch(function (err) {
-                handleAuthFailure();
+    async function signup(userData): Promise<IAuthHelperResponse> {
+        updateAuthState({
+            authLoading: true,
+        });
+
+        try {
+            const {
+                data: { accessToken, user },
+            } = await signUp(userData);
+            handleAuthSuccess({ user, accessToken });
+            return { ok: true };
+        } catch (e) {
+            handleAuthFailure();
+            return Promise.reject({
+                ok: false,
+                error: e.error,
             });
+        }
     }
 
     function logout() {

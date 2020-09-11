@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 
 const InstructorSignUpPage: React.FC = () => {
     const { register, handleSubmit, errors, control } = useForm();
-    const { signup, accessToken } = useContext(AuthContext);
+    const { signup, accessToken, authLoading } = useContext(AuthContext);
     const router = useRouter();
     const classes = useStyles();
 
@@ -46,6 +46,12 @@ const InstructorSignUpPage: React.FC = () => {
         [accessToken]
     );
 
+    function onSubmit(values) {
+        signup({ ...values, role: EUserRoles.INSTRUCTOR })
+            .then(() => router.push("/app/dashboard"))
+            .catch(({ errorMessage }) => console.error(errorMessage));
+    }
+
     return (
         <Layout>
             <Head>
@@ -57,11 +63,7 @@ const InstructorSignUpPage: React.FC = () => {
             <SignUpStepper activeStep={1} />
 
             <Card className={classes.formCard}>
-                <form
-                    onSubmit={handleSubmit((values) =>
-                        signup({ ...values, role: EUserRoles.INSTRUCTOR })
-                    )}
-                >
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <Typography variant="h5" align="center" gutterBottom>
                         Personal Details
                     </Typography>
@@ -196,6 +198,7 @@ const InstructorSignUpPage: React.FC = () => {
                         variant="contained"
                         color="primary"
                         type="submit"
+                        disabled={authLoading || !!accessToken}
                         fullWidth
                     >
                         SUBMIT

@@ -74,11 +74,7 @@ const SignUpPage: React.FC = () => {
                                 <CardActionArea
                                     className={classes.cardActionArea}
                                 >
-                                    <Typography
-                                        gutterBottom
-                                        variant="h5"
-                                        component="h2"
-                                    >
+                                    <Typography variant="h5" gutterBottom>
                                         I'm an Instructor
                                     </Typography>
                                     <InstructorSVG />
@@ -94,11 +90,7 @@ const SignUpPage: React.FC = () => {
                                 <CardActionArea
                                     className={classes.cardActionArea}
                                 >
-                                    <Typography
-                                        variant="h5"
-                                        component="h2"
-                                        gutterBottom
-                                    >
+                                    <Typography variant="h5" gutterBottom>
                                         I'm a School Official
                                     </Typography>
                                     <SchoolSVG />
@@ -114,7 +106,7 @@ const SignUpPage: React.FC = () => {
                                 <CardActionArea
                                     className={classes.cardActionArea}
                                 >
-                                    <Typography variant="h5" component="h2">
+                                    <Typography variant="h5" gutterBottom>
                                         I'm a Student
                                     </Typography>
                                     <StudentSVG />
