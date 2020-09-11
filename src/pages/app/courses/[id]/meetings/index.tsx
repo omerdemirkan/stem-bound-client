@@ -25,7 +25,13 @@ const MeetingsAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
 
     return (
-        <AppLayout>
+        <AppLayout
+            breadCrumbs={[
+                { label: "Courses", href: "/app/courses" },
+                { label: course?.title, href: `/app/courses/${course?._id}` },
+                { label: "Meetings" },
+            ]}
+        >
             <Head>
                 <title>STEM-bound - {course?.title || "Course"}</title>
             </Head>

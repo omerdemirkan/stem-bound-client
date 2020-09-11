@@ -8,7 +8,13 @@ import ChatCard from "../../components/ui/ChatCard";
 import useSWR from "swr";
 import useSocket from "../../components/hooks/useSocket";
 import useDebounce from "../../components/hooks/useDebounce";
-import { IChat, ESocketEvents, IUser, IMessage } from "../../utils/types";
+import {
+    IChat,
+    ESocketEvents,
+    IUser,
+    IMessage,
+    IBreadCrumb,
+} from "../../utils/types";
 import { useEffect, useState, useContext } from "react";
 import { clone, mapMessageData, reverseMap } from "../../utils/helpers";
 import { useRouter } from "next/router";
@@ -26,14 +32,15 @@ const MessagingAppPage: React.FC = () => {
         `/chats`,
         userChatsFetcher(user._id)
     );
-    const {
-        data: messages,
-        mutate: mutateMessages,
-        isValidating,
-        error,
-    } = useSWR(messagesFetcherKey, messagesFetcher(chatId as string), {
-        initialData: chats?.find((chat) => chat._id === chatId)?.messages,
-    });
+    const { data: messages, mutate: mutateMessages } = useSWR(
+        messagesFetcherKey,
+        messagesFetcher(chatId as string),
+        {
+            initialData: chats?.find((chat) => chat._id === chatId)?.messages,
+        }
+    );
+
+    const inspectedChat = chats?.find((chat) => chat._id === chatId);
 
     const [editedMessageId, setEditedMessageId] = useState<null | string>(null);
     const [editedMessageText, setEditedMessageText] = useState<string>("");
@@ -214,8 +221,18 @@ const MessagingAppPage: React.FC = () => {
         }, false);
     }
 
+    const breadCrumbs: IBreadCrumb[] = [
+        { label: "Messaging", href: "/app/messaging", shallow: true },
+    ];
+
+    if (chatId && inspectedChat) {
+        breadCrumbs.push({
+            label: inspectedChat.name,
+        });
+    }
+
     return (
-        <AppLayout>
+        <AppLayout breadCrumbs={breadCrumbs}>
             <Head>
                 <title>STEM-bound - Messaging</title>
             </Head>

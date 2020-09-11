@@ -15,7 +15,12 @@ const CourseAppPage: React.FC = () => {
     );
 
     return (
-        <AppLayout>
+        <AppLayout
+            breadCrumbs={[
+                { label: "Courses", href: "/app/courses" },
+                { label: course?.title },
+            ]}
+        >
             <Head>
                 <title>STEM-bound - {course?.title || "Course"}</title>
             </Head>

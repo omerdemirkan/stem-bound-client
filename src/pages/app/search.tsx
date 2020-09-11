@@ -90,7 +90,7 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     }
 
     return (
-        <AppLayout>
+        <AppLayout header="Search">
             <Head>
                 <title>STEM-bound - Search</title>
             </Head>

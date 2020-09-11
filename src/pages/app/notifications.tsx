@@ -4,7 +4,7 @@ import Head from "next/head";
 
 const NotificationsAppPage: React.FC = () => {
     return (
-        <AppLayout>
+        <AppLayout header="Notifications">
             <Head>
                 <title>STEM-bound - Notifications</title>
             </Head>

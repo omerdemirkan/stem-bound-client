@@ -42,7 +42,17 @@ const UpdateMeetingAppPage: React.FC = () => {
     }
 
     return (
-        <AppLayout>
+        <AppLayout
+            breadCrumbs={[
+                { label: "Courses", href: "/app/courses" },
+                { label: course?.title, href: `/app/courses/${course?._id}` },
+                {
+                    label: "Meetings",
+                    href: `/app/courses/${course?._id}/meetings`,
+                },
+                { label: "Update" },
+            ]}
+        >
             {course ? (
                 <MeetingsForm
                     defaultMeetingType={

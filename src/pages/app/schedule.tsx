@@ -4,7 +4,7 @@ import Head from "next/head";
 
 const ScheduleAppPage: React.FC = () => {
     return (
-        <AppLayout>
+        <AppLayout header="Schedule">
             <Head>
                 <title>STEM-bound - Schedule</title>
             </Head>

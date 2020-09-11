@@ -2,7 +2,11 @@ import useNavigationData from "../hooks/useNavigationData";
 import AuthContext from "../contexts/AuthContext";
 import NotificationContext from "../contexts/NotificationContext";
 import { useRouter } from "next/router";
-import { INavigationDataButton, ENotificationTypes } from "../../utils/types";
+import {
+    INavigationDataButton,
+    ENotificationTypes,
+    IBreadCrumb,
+} from "../../utils/types";
 import { useContext, useState, useRef } from "react";
 import {
     List,
@@ -16,6 +20,7 @@ import {
     Typography,
     Menu,
     MenuItem,
+    Breadcrumbs,
 } from "@material-ui/core";
 import Link from "next/link";
 import WordLogoSVG from "../svg/icons/word-logo";
@@ -40,7 +45,12 @@ const useStyles = makeStyles({
     },
 });
 
-const AppLayout: React.FC = ({ children }) => {
+interface Props {
+    header?: string;
+    breadCrumbs?: IBreadCrumb[];
+}
+
+const AppLayout: React.FC<Props> = ({ children, header, breadCrumbs }) => {
     const router = useRouter();
     const navigationData = useNavigationData();
     const { user, logout } = useContext(AuthContext);
@@ -68,6 +78,14 @@ const AppLayout: React.FC = ({ children }) => {
             onOk: logoutHandler,
             onCancel: () => {},
         });
+    }
+
+    if (header && !breadCrumbs) {
+        breadCrumbs = [
+            {
+                label: header,
+            },
+        ];
     }
 
     return (
@@ -146,15 +164,6 @@ const AppLayout: React.FC = ({ children }) => {
                             );
                         })}
                     </List>
-
-                    <Button
-                        onClick={handleOpenLogoutModal}
-                        color="primary"
-                        variant="text"
-                        fullWidth
-                    >
-                        LOGOUT
-                    </Button>
                     <Typography
                         paragraph
                         gutterBottom
@@ -165,7 +174,42 @@ const AppLayout: React.FC = ({ children }) => {
                     </Typography>
                 </aside>
 
-                <span className="main">{children}</span>
+                <span className="main">
+                    {breadCrumbs ? (
+                        <Breadcrumbs>
+                            {breadCrumbs?.map(function (
+                                { label, href, shallow },
+                                index
+                            ) {
+                                const isLast = index === breadCrumbs.length - 1;
+                                let bc = (
+                                    <Typography
+                                        key={label + href}
+                                        variant="h5"
+                                        color={
+                                            isLast
+                                                ? "textPrimary"
+                                                : "textSecondary"
+                                        }
+                                        gutterBottom
+                                    >
+                                        {label}
+                                    </Typography>
+                                );
+                                if (href) {
+                                    bc = (
+                                        <Link href={href} shallow={shallow}>
+                                            <a>{bc}</a>
+                                        </Link>
+                                    );
+                                }
+                                return bc;
+                            })}
+                        </Breadcrumbs>
+                    ) : null}
+                    <Divider />
+                    {children}
+                </span>
             </div>
             <style jsx>{`
                 .root {
@@ -173,6 +217,11 @@ const AppLayout: React.FC = ({ children }) => {
                     height: 100vh;
                     grid-template-columns: 280px auto;
                     position: relative;
+                    overflow: hidden;
+                }
+
+                .sidebar {
+                    padding: 0 15px;
                 }
 
                 .logo-box {
@@ -193,7 +242,7 @@ const AppLayout: React.FC = ({ children }) => {
                     background-color: var(--background-dark);
                     border-top-left-radius: 20px;
                     border-bottom-left-radius: 20px;
-                    padding: 40px;
+                    padding: 40px 60px;
                     overflow-y: scroll;
                     overflow-x: hidden;
                 }

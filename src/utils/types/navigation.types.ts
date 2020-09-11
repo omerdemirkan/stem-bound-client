@@ -15,3 +15,9 @@ export interface INavigationDataButton {
     iconPath?: string;
     path: string;
 }
+
+export interface IBreadCrumb {
+    label: string;
+    href?: string;
+    shallow?: boolean;
+}

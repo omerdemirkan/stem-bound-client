@@ -20,7 +20,7 @@ const MySchoolAppPage: React.FC = () => {
     );
 
     return (
-        <AppLayout>
+        <AppLayout header="My School">
             <Head>
                 <title>STEM-bound - My School</title>
             </Head>

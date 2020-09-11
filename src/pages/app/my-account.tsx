@@ -66,7 +66,7 @@ const MyAccountAppPage: React.FC = () => {
     }
 
     return (
-        <AppLayout>
+        <AppLayout header="My Account">
             <Head>
                 <title>STEM-bound - My Account</title>
             </Head>

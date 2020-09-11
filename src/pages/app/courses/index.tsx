@@ -14,7 +14,7 @@ const CoursesAppPage: React.FC = () => {
     const { data: courses } = useSWR(`/courses`, userCoursesFetcher(user._id));
 
     return (
-        <AppLayout>
+        <AppLayout header="Courses">
             <Head>
                 <title>STEM-bound - My Courses</title>
             </Head>

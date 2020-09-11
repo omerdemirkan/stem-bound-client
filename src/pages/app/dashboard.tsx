@@ -5,7 +5,7 @@ import { IWithAuthProps } from "../../utils/types";
 
 const DashboardAppPage: React.FC<IWithAuthProps> = () => {
     return (
-        <AppLayout>
+        <AppLayout header="Dashboard">
             <Head>
                 <title>STEM-bound - Dashboard</title>
             </Head>

@@ -88,7 +88,13 @@ const AnnouncementsAppPage: React.FC = () => {
     }
 
     return (
-        <AppLayout>
+        <AppLayout
+            breadCrumbs={[
+                { label: "Courses", href: "/app/courses" },
+                { label: course?.title, href: `/app/courses/${course?._id}` },
+                { label: "Announcements" },
+            ]}
+        >
             <Head>
                 <title>STEM-bound - Announcements</title>
             </Head>

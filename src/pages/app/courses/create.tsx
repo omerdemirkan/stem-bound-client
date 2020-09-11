@@ -29,7 +29,12 @@ const CreateCourseAppPage: React.FC = () => {
     }
 
     return (
-        <AppLayout>
+        <AppLayout
+            breadCrumbs={[
+                { label: "Courses", href: "/app/dashboard" },
+                { label: "New Course" },
+            ]}
+        >
             <Head>
                 <title>STEM-bound - Create Course</title>
             </Head>
