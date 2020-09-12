@@ -6,15 +6,15 @@ import { ThemeProvider } from "../components/contexts/ThemeContext";
 
 const App: React.FC = function ({ Component, pageProps }: any) {
     return (
-        <AuthContextProvider>
-            <SocketContextProvider>
-                <NotificationContextProvider>
-                    <ThemeProvider>
+        <ThemeProvider>
+            <AuthContextProvider>
+                <SocketContextProvider>
+                    <NotificationContextProvider>
                         <Component {...pageProps} />
-                    </ThemeProvider>
-                </NotificationContextProvider>
-            </SocketContextProvider>
-        </AuthContextProvider>
+                    </NotificationContextProvider>
+                </SocketContextProvider>
+            </AuthContextProvider>
+        </ThemeProvider>
     );
 };
 

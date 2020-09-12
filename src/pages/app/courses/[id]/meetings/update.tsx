@@ -45,10 +45,15 @@ const UpdateMeetingAppPage: React.FC = () => {
         <AppLayout
             breadCrumbs={[
                 { label: "Courses", href: "/app/courses" },
-                { label: course?.title, href: `/app/courses/${course?._id}` },
+                {
+                    label: course?.title,
+                    href: "/app/courses/[id]",
+                    as: `/app/courses/${course?._id}`,
+                },
                 {
                     label: "Meetings",
-                    href: `/app/courses/${course?._id}/meetings`,
+                    href: "/app/courses/[id]/meetings",
+                    as: `/app/courses/${course?._id}/meetings`,
                 },
                 { label: "Update" },
             ]}

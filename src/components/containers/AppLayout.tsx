@@ -7,7 +7,7 @@ import {
     ENotificationTypes,
     IBreadCrumb,
 } from "../../utils/types";
-import { useContext, useState, useRef } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import {
     List,
     ListItem,
@@ -48,13 +48,19 @@ const useStyles = makeStyles({
 interface Props {
     header?: string;
     breadCrumbs?: IBreadCrumb[];
+    renderFooter?(): any;
 }
 
-const AppLayout: React.FC<Props> = ({ children, header, breadCrumbs }) => {
+const AppLayout: React.FC<Props> = ({
+    children,
+    header,
+    breadCrumbs,
+    renderFooter,
+}) => {
     const router = useRouter();
     const navigationData = useNavigationData();
     const { user, logout } = useContext(AuthContext);
-    const { createAlert } = useContext(NotificationContext);
+    const { createAlert, createSnackbar } = useContext(NotificationContext);
 
     const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
 
@@ -120,10 +126,15 @@ const AppLayout: React.FC<Props> = ({ children, header, breadCrumbs }) => {
                         className={classes.userMenu}
                     >
                         <MenuItem onClick={toggleUserMenu}>
-                            <Link href="/app/my-account">My Account</Link>
+                            <Link href="/app/my-account">
+                                <a>My Account</a>
+                            </Link>
                         </MenuItem>
                         <MenuItem onClick={toggleUserMenu}>Settings</MenuItem>
-                        <MenuItem onClick={handleOpenLogoutModal}>
+                        <MenuItem
+                            onClick={handleOpenLogoutModal}
+                            color="primary"
+                        >
                             Logout
                         </MenuItem>
                     </Menu>
@@ -139,27 +150,31 @@ const AppLayout: React.FC<Props> = ({ children, header, breadCrumbs }) => {
                             const selected = path.includes(router.pathname);
                             return (
                                 <Link href={path} key={path}>
-                                    <ListItem
-                                        button
-                                        className={classes.listItem}
-                                        selected={selected}
-                                    >
-                                        <ListItemIcon>
-                                            <Icon
+                                    <a>
+                                        <ListItem
+                                            button
+                                            className={classes.listItem}
+                                            selected={selected}
+                                        >
+                                            <ListItemIcon>
+                                                <Icon
+                                                    color={
+                                                        selected
+                                                            ? "primary"
+                                                            : undefined
+                                                    }
+                                                />
+                                            </ListItemIcon>
+                                            <ListItemText
+                                                primary={text}
                                                 color={
                                                     selected
                                                         ? "primary"
                                                         : undefined
                                                 }
                                             />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={text}
-                                            color={
-                                                selected ? "primary" : undefined
-                                            }
-                                        />
-                                    </ListItem>
+                                        </ListItem>
+                                    </a>
                                 </Link>
                             );
                         })}
@@ -175,10 +190,10 @@ const AppLayout: React.FC<Props> = ({ children, header, breadCrumbs }) => {
                 </aside>
 
                 <span className="main">
-                    {breadCrumbs ? (
+                    <div className="main-header">
                         <Breadcrumbs>
                             {breadCrumbs?.map(function (
-                                { label, href, shallow },
+                                { label, href, shallow, as },
                                 index
                             ) {
                                 const isLast = index === breadCrumbs.length - 1;
@@ -198,7 +213,11 @@ const AppLayout: React.FC<Props> = ({ children, header, breadCrumbs }) => {
                                 );
                                 if (href) {
                                     bc = (
-                                        <Link href={href} shallow={shallow}>
+                                        <Link
+                                            href={href}
+                                            as={as}
+                                            shallow={shallow}
+                                        >
                                             <a>{bc}</a>
                                         </Link>
                                     );
@@ -206,9 +225,12 @@ const AppLayout: React.FC<Props> = ({ children, header, breadCrumbs }) => {
                                 return bc;
                             })}
                         </Breadcrumbs>
-                    ) : null}
-                    <Divider />
-                    {children}
+                        <Divider />
+                    </div>
+                    <div className="main-body">{children}</div>
+                    <div className="main-footer">
+                        {renderFooter && renderFooter()}
+                    </div>
                 </span>
             </div>
             <style jsx>{`

@@ -19,5 +19,6 @@ export interface INavigationDataButton {
 export interface IBreadCrumb {
     label: string;
     href?: string;
+    as?: string;
     shallow?: boolean;
 }

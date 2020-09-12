@@ -94,7 +94,6 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
             <Head>
                 <title>STEM-bound - Search</title>
             </Head>
-            <h4>search</h4>
             <Search
                 searchField={searchField}
                 searchData={searchData}

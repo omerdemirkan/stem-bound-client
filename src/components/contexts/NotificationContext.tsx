@@ -11,10 +11,20 @@ import {
     ICourseOriginal,
 } from "../../utils/types";
 import { clone, mapUserData } from "../../utils/helpers";
-import SnackBar from "../ui/SnackBar";
 import useSocket from "../hooks/useSocket";
 import AuthContext from "./AuthContext";
 import { useRouter } from "next/router";
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    Button,
+    DialogActions,
+    Snackbar,
+    IconButton,
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 
 const initialState: INotificationContextState = {
     alertQueue: [],
@@ -30,6 +40,9 @@ export default NotificationContext;
 export const NotificationContextProvider: React.FC = ({ children }) => {
     const [alertQueue, setAlertQueue] = useState<IAlertData[]>([]);
     const [snackbarQueue, setSnackbarQueue] = useState<ISnackbarData[]>([]);
+
+    const [lastAlert, setLastAlert] = useState<IAlertData>();
+    const [lastSnackbar, setLastSnackbar] = useState<ISnackbarData>();
 
     const router = useRouter();
 
@@ -72,9 +85,15 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
         });
     });
 
-    const alert = alertQueue[0];
+    const alertModalOpen = !!alertQueue.length;
+    const alert = alertQueue[0] || lastAlert;
+    const snackbarOpen = !!snackbarQueue.length;
+    const snackbar = snackbarQueue[0] || lastSnackbar;
 
     function handleCloseAlert() {
+        if (alertQueue.length === 1) {
+            setLastAlert(alertQueue[0]);
+        }
         setAlertQueue(function (prev) {
             const newAlerts = clone(prev);
             newAlerts.shift();
@@ -82,8 +101,15 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
         });
     }
 
-    function handleCloseSnackbar(index: number) {
-        setSnackbarQueue((prev) => prev.filter((s, i) => i !== index));
+    function handleCloseSnackbar() {
+        if (snackbarQueue.length === 1) {
+            setLastSnackbar(snackbarQueue[0]);
+        }
+        setSnackbarQueue(function (prev) {
+            const newSnackbars = clone(prev);
+            newSnackbars.shift();
+            return newSnackbars;
+        });
     }
 
     function handleAlertOkButtonClicked() {
@@ -115,43 +141,60 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
         >
             {children}
 
-            <AlertModal
-                open={!!alert}
-                bodyText={alert?.bodyText}
-                headerText={alert?.headerText}
-                hideCloseIcon
+            <Dialog
+                open={!!alertModalOpen}
+                onClose={handleAlertCancelButtonClicked}
             >
-                <AlertModalFooter>
-                    {alert?.renderFooter ? (
-                        alert?.renderFooter()
-                    ) : (
-                        <>
-                            {alert?.onCancel && (
-                                <button
-                                    onClick={handleAlertCancelButtonClicked}
-                                >
-                                    CANCEL
-                                </button>
-                            )}
-                            {alert?.onOk && (
-                                <button onClick={handleAlertOkButtonClicked}>
-                                    OK
-                                </button>
-                            )}
-                        </>
+                <DialogTitle>{alert?.headerText}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {alert?.bodyText}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    {alert?.onCancel && (
+                        <Button
+                            onClick={handleAlertCancelButtonClicked}
+                            color="primary"
+                            variant="outlined"
+                        >
+                            Cancel
+                        </Button>
                     )}
-                </AlertModalFooter>
-            </AlertModal>
+                    {alert?.onOk && (
+                        <Button
+                            onClick={handleAlertOkButtonClicked}
+                            color="primary"
+                            variant="contained"
+                            autoFocus
+                        >
+                            Ok
+                        </Button>
+                    )}
+                </DialogActions>
+            </Dialog>
 
-            {snackbarQueue.map((snackbarData: ISnackbarData, index) => (
-                <SnackBar
-                    text={snackbarData.text}
-                    key={`snackbar[${index}]`}
-                    onClose={() => handleCloseSnackbar(index)}
-                    onClick={snackbarData.onClick}
-                    type={snackbarData.type}
-                />
-            ))}
+            <Snackbar
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                }}
+                open={snackbarOpen}
+                onClose={handleCloseSnackbar}
+                message={snackbar?.text}
+                action={
+                    <>
+                        <IconButton
+                            size="small"
+                            aria-label="close"
+                            color="inherit"
+                            onClick={handleCloseSnackbar}
+                        >
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    </>
+                }
+            />
         </NotificationContext.Provider>
     );
 };
