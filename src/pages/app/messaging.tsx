@@ -249,7 +249,7 @@ const MessagingAppPage: React.FC = () => {
                         fullWidth
                         multiline
                         helperText={editedMessageId && "Editing"}
-                        placeholder={`Message ${inspectedChat.name}`}
+                        placeholder={`Message ${inspectedChat?.name}`}
                         value={editedMessageId ? editedMessageText : textField}
                         onChange={(e) =>
                             (editedMessageId

@@ -9,4 +9,5 @@
 @import "../../node_modules/react-image-crop/dist/ReactCrop.css";
 
 .test {
+  align-items: flex-end;
 }
