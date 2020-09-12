@@ -17,8 +17,14 @@ import {
 } from "../../utils/types";
 import { useEffect, useState, useContext } from "react";
 import { clone, mapMessageData, reverseMap } from "../../utils/helpers";
-import { useRouter } from "next/router";
 import { userChatsFetcher, messagesFetcher } from "../../utils/services";
+import { useRouter } from "next/router";
+import {
+    TextField,
+    InputAdornment,
+    IconButton,
+    Button,
+} from "@material-ui/core";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -164,6 +170,7 @@ const MessagingAppPage: React.FC = () => {
             chatId,
             text: textField,
         });
+        setTextField("");
     }
 
     function handleUpdateMessage() {
@@ -232,7 +239,62 @@ const MessagingAppPage: React.FC = () => {
     }
 
     return (
-        <AppLayout breadCrumbs={breadCrumbs}>
+        <AppLayout
+            breadCrumbs={breadCrumbs}
+            footerEl={
+                chatId && (
+                    <TextField
+                        variant="outlined"
+                        autoFocus
+                        fullWidth
+                        multiline
+                        helperText={editedMessageId && "Editing"}
+                        placeholder={`Message ${inspectedChat.name}`}
+                        value={editedMessageId ? editedMessageText : textField}
+                        onChange={(e) =>
+                            (editedMessageId
+                                ? setEditedMessageText
+                                : setTextField)(e.target.value)
+                        }
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    {editedMessageId ? (
+                                        <>
+                                            <Button
+                                                onClick={() =>
+                                                    setEditedMessageId(null)
+                                                }
+                                                variant="outlined"
+                                                color="primary"
+                                            >
+                                                Cancel
+                                            </Button>
+                                            <Button
+                                                onClick={handleUpdateMessage}
+                                                variant="contained"
+                                                color="primary"
+                                                style={{ marginLeft: "10px" }}
+                                            >
+                                                Edit
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <Button
+                                            onClick={handleSendMessage}
+                                            variant="contained"
+                                            color="primary"
+                                        >
+                                            Send
+                                        </Button>
+                                    )}
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                )
+            }
+        >
             <Head>
                 <title>STEM-bound - Messaging</title>
             </Head>
@@ -253,6 +315,7 @@ const MessagingAppPage: React.FC = () => {
                             CANCEL EDIT
                         </button>
                     ) : null}
+
                     {reverseMap(messages, (message) => (
                         <ChatMessage
                             message={message}
@@ -262,13 +325,14 @@ const MessagingAppPage: React.FC = () => {
                             onRestore={handleRestoreMessage}
                         />
                     ))}
+
                     <Input
                         type="text"
                         id="message-text-field"
                         onChange={
                             editedMessageId
                                 ? setEditedMessageText
-                                : (text) => setTextField(text)
+                                : setTextField
                         }
                         value={editedMessageId ? editedMessageText : textField}
                         eventTargetValue

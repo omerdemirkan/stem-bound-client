@@ -31,7 +31,7 @@ const CreateCourseAppPage: React.FC = () => {
     return (
         <AppLayout
             breadCrumbs={[
-                { label: "Courses", href: "/app/dashboard" },
+                { label: "Courses", href: "/app/courses" },
                 { label: "New Course" },
             ]}
         >

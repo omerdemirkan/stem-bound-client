@@ -48,14 +48,14 @@ const useStyles = makeStyles({
 interface Props {
     header?: string;
     breadCrumbs?: IBreadCrumb[];
-    renderFooter?(): any;
+    footerEl?: any;
 }
 
 const AppLayout: React.FC<Props> = ({
     children,
     header,
     breadCrumbs,
-    renderFooter,
+    footerEl,
 }) => {
     const router = useRouter();
     const navigationData = useNavigationData();
@@ -228,9 +228,7 @@ const AppLayout: React.FC<Props> = ({
                         <Divider />
                     </div>
                     <div className="main-body">{children}</div>
-                    <div className="main-footer">
-                        {renderFooter && renderFooter()}
-                    </div>
+                    <div className="main-footer">{footerEl}</div>
                 </span>
             </div>
             <style jsx>{`
@@ -264,9 +262,26 @@ const AppLayout: React.FC<Props> = ({
                     background-color: var(--background-dark);
                     border-top-left-radius: 20px;
                     border-bottom-left-radius: 20px;
-                    padding: 40px 60px;
-                    overflow-y: scroll;
-                    overflow-x: hidden;
+
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+                }
+
+                .main-header {
+                    padding: 40px 60px 0;
+                    z-index: 8;
+                }
+
+                .main-body {
+                    overflow-y: auto;
+                    padding: 20px 60px 60px;
+                }
+
+                .main-footer {
+                    padding: 20px 60px;
+                    z-index: 8;
+                    margin-top: auto;
                 }
             `}</style>
         </>
