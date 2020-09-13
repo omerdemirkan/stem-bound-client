@@ -43,7 +43,7 @@ const AppNavigation: React.FC = () => {
                                 </ListItemIcon>
                                 <ListItemText
                                     primary={text}
-                                    color={selected ? "primary" : undefined}
+                                    color={selected ? "primary" : "secondary"}
                                 />
                             </ListItem>
                         </a>

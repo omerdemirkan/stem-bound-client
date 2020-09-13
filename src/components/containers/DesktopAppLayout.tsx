@@ -1,8 +1,7 @@
-import useNavigationData from "../hooks/useNavigationData";
 import AuthContext from "../contexts/AuthContext";
 import NotificationContext from "../contexts/NotificationContext";
 import { useRouter } from "next/router";
-import { ENotificationTypes, IBreadCrumb } from "../../utils/types";
+import { ENotificationTypes, ETheme } from "../../utils/types";
 import { useContext, useState, useRef } from "react";
 import {
     makeStyles,
@@ -18,6 +17,8 @@ import Link from "next/link";
 import WordLogoSVG from "../svg/icons/word-logo";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import AppNavigation from "./AppNavigation";
+import { IAppLayoutProps } from "./AppLayout";
+import ThemeContext from "../contexts/ThemeContext";
 
 const useStyles = makeStyles({
     listItem: {
@@ -38,13 +39,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
-    header?: string;
-    breadCrumbs?: IBreadCrumb[];
-    footerEl?: any;
-}
-
-const DesktopAppLayout: React.FC<Props> = ({
+const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
     children,
     header,
     breadCrumbs,
@@ -53,6 +48,7 @@ const DesktopAppLayout: React.FC<Props> = ({
     const router = useRouter();
     const { user, logout } = useContext(AuthContext);
     const { createAlert, createSnackbar } = useContext(NotificationContext);
+    const { theme } = useContext(ThemeContext);
 
     const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
 
@@ -87,7 +83,7 @@ const DesktopAppLayout: React.FC<Props> = ({
     }
 
     return (
-        <div className="root">
+        <div className={`root ${theme === ETheme.DARK ? "dark-theme" : null}`}>
             <aside className="sidebar">
                 <div className="logo-box">
                     <WordLogoSVG width="60px" />
@@ -188,6 +184,7 @@ const DesktopAppLayout: React.FC<Props> = ({
                         grid-template-columns: 280px auto;
                         position: relative;
                         overflow: hidden;
+                        background-color: var(--background-light);
                     }
 
                     .sidebar {

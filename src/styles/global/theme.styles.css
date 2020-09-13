@@ -9,7 +9,7 @@
   --shadow-opacity-dark: 0.1;
 }
 
-.dark-mode {
+.dark-theme {
   --background-light: #424242;
   --background-dark: #333333;
   --contrast-light: #ffffff;
@@ -18,4 +18,7 @@
   --accent-dark: #6c57eb;
   --shadow-opacity: 0.2;
   --shadow-opacity-dark: 0.3;
+}
+
+* {
 }

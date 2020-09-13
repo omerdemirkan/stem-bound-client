@@ -1,14 +1,20 @@
 import DesktopAppLayout from "./DesktopAppLayout";
-import { IBreadCrumb } from "../../utils/types";
+import { IBreadCrumb, ETheme } from "../../utils/types";
+import MobileAppLayout from "./MobileAppLayout";
 
-interface Props {
+export interface IAppLayoutProps {
     header?: string;
     breadCrumbs?: IBreadCrumb[];
     footerEl?: any;
+    theme?: ETheme;
 }
 
-const AppLayout: React.FC<Props> = ({ children, ...props }) => {
-    return <DesktopAppLayout {...props}>{children}</DesktopAppLayout>;
+const AppLayout: React.FC<IAppLayoutProps> = ({ children, ...props }) => {
+    return (
+        <DesktopAppLayout {...props}>
+            <MobileAppLayout {...props}>{children}</MobileAppLayout>
+        </DesktopAppLayout>
+    );
 };
 
 export default AppLayout;
