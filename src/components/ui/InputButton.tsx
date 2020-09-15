@@ -1,5 +1,6 @@
 import { useState, Dispatch } from "react";
 import Modal, { ModalFooter } from "./Modal";
+import { Button } from "@material-ui/core";
 
 interface Props {
     renderInput(value: any, setValue: Dispatch<any>): void;
@@ -30,9 +31,9 @@ const InputButton: React.FC<Props> = ({
 
     return (
         <>
-            <button onClick={handleButtonClicked} disabled={disabled}>
+            <Button onClick={handleButtonClicked} disabled={disabled}>
                 {children}
-            </button>
+            </Button>
             <Modal open={modalOpen}>
                 {renderInput(value, setValue)}
                 <ModalFooter>

@@ -198,9 +198,7 @@ const MessagingAppPage: React.FC = () => {
     // CHAT STATE UPDATE HELPERS
 
     function handleInspectChat(id: string) {
-        if (chatId) {
-            socket.emit(ESocketEvents.LEAVE_ROOM, chatId);
-        }
+        socket.emit(ESocketEvents.LEAVE_ROOM, chatId);
         socket.emit(ESocketEvents.JOIN_ROOM, id);
         router.push(
             { pathname: router.pathname, query: { id } },
