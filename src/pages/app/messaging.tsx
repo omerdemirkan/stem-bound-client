@@ -19,12 +19,7 @@ import { useEffect, useState, useContext } from "react";
 import { clone, mapMessageData, reverseMap } from "../../utils/helpers";
 import { userChatsFetcher, messagesFetcher } from "../../utils/services";
 import { useRouter } from "next/router";
-import {
-    TextField,
-    InputAdornment,
-    IconButton,
-    Button,
-} from "@material-ui/core";
+import { TextField, InputAdornment, Button } from "@material-ui/core";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -55,76 +50,85 @@ const MessagingAppPage: React.FC = () => {
 
     const debouncedTextField = useDebounce(textField, 3000);
 
-    const userIsTyping = debouncedTextField !== textField;
+    const userIsTyping = textField && debouncedTextField !== textField;
 
-    const { socket } = useSocket(
+    const { socket, reinitializeListeners } = useSocket(
         messages?.length &&
-            function (socket: SocketIOClient.Socket) {
-                socket.emit(ESocketEvents.JOIN_ROOM, chatId);
+            (() =>
+                function (socket: SocketIOClient.Socket) {
+                    socket.emit(ESocketEvents.JOIN_ROOM, chatId);
 
-                const routerChatId = chatId;
+                    const routerChatId = chatId;
 
-                socket.on(ESocketEvents.CHAT_USER_STARTED_TYPING, function ({
-                    user,
-                    chatId,
-                }) {
-                    if (chatId !== routerChatId) return;
-                    setTypingUsers((prev) => [...prev, user]);
-                });
-
-                socket.on(ESocketEvents.CHAT_USER_STOPPED_TYPING, function ({
-                    user,
-                    chatId,
-                }) {
-                    if (chatId !== routerChatId) return;
-                    setTypingUsers((prev) =>
-                        prev.filter((u) => u._id !== user._id)
+                    socket.on(
+                        ESocketEvents.CHAT_USER_STARTED_TYPING,
+                        function ({ user, chatId }) {
+                            if (chatId !== routerChatId) return;
+                            setTypingUsers((prev) => [...prev, user]);
+                        }
                     );
-                });
 
-                socket.on(ESocketEvents.CHAT_MESSAGE_CREATED, function ({
-                    message,
-                    chatId,
-                }) {
-                    if (chatId !== routerChatId) return;
-                    const newMessage = mapMessageData(message);
-                    if (message.meta.from === user._id) {
-                        setTextField("");
-                    }
-                    handleMessageCreated(newMessage);
-                });
+                    socket.on(
+                        ESocketEvents.CHAT_USER_STOPPED_TYPING,
+                        function ({ user, chatId }) {
+                            if (chatId !== routerChatId) return;
+                            setTypingUsers((prev) =>
+                                prev.filter((u) => u._id !== user._id)
+                            );
+                        }
+                    );
 
-                socket.on(ESocketEvents.CHAT_MESSAGE_UPDATED, function ({
-                    message,
-                    chatId,
-                }) {
-                    if (chatId !== routerChatId) return;
-                    const updatedMessage = mapMessageData(message);
-                    if (updatedMessage.meta.from === user._id) {
-                        setEditedMessageId(null);
-                        setEditedMessageText("");
-                    }
-                    handleMessageUpdated(updatedMessage);
-                });
+                    socket.on(ESocketEvents.CHAT_MESSAGE_CREATED, function ({
+                        message,
+                        chatId,
+                    }) {
+                        if (chatId !== routerChatId) return;
+                        const newMessage = mapMessageData(message);
+                        if (message.meta.from === user._id) {
+                            setTextField("");
+                        }
+                        handleMessageCreated(newMessage);
+                    });
 
-                socket.on(ESocketEvents.CHAT_MESSAGE_DELETED, function ({
-                    message,
-                    chatId,
-                }) {
-                    if (chatId !== routerChatId) return;
-                    const newMessage = mapMessageData(message);
-                    handleMessageUpdated(newMessage);
-                });
+                    socket.on(ESocketEvents.CHAT_MESSAGE_UPDATED, function ({
+                        message,
+                        chatId,
+                    }) {
+                        if (chatId !== routerChatId) return;
+                        const updatedMessage = mapMessageData(message);
+                        if (updatedMessage.meta.from === user._id) {
+                            setEditedMessageId(null);
+                            setEditedMessageText("");
+                        }
+                        handleMessageUpdated(updatedMessage);
+                    });
 
-                socket.on(ESocketEvents.CHAT_MESSAGE_RESTORED, function ({
-                    message,
-                    chatId,
-                }) {
-                    if (chatId !== routerChatId) return;
-                    const newMessage = mapMessageData(message);
-                    handleMessageUpdated(newMessage);
-                });
-            }
+                    socket.on(ESocketEvents.CHAT_MESSAGE_DELETED, function ({
+                        message,
+                        chatId,
+                    }) {
+                        if (chatId !== routerChatId) return;
+                        const newMessage = mapMessageData(message);
+                        handleMessageUpdated(newMessage);
+                    });
+
+                    socket.on(ESocketEvents.CHAT_MESSAGE_RESTORED, function ({
+                        message,
+                        chatId,
+                    }) {
+                        if (chatId !== routerChatId) return;
+                        const newMessage = mapMessageData(message);
+                        handleMessageUpdated(newMessage);
+                    });
+                }),
+        [
+            ESocketEvents.CHAT_MESSAGE_CREATED,
+            ESocketEvents.CHAT_MESSAGE_DELETED,
+            ESocketEvents.CHAT_MESSAGE_RESTORED,
+            ESocketEvents.CHAT_MESSAGE_UPDATED,
+            ESocketEvents.CHAT_USER_STARTED_TYPING,
+            ESocketEvents.CHAT_USER_STOPPED_TYPING,
+        ]
     );
 
     useEffect(
@@ -159,6 +163,7 @@ const MessagingAppPage: React.FC = () => {
             setEditedMessageId(null);
             setEditedMessageText("");
             setTypingUsers([]);
+            reinitializeListeners();
         },
         [chatId]
     );
