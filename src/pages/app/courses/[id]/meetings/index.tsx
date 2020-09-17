@@ -40,7 +40,6 @@ const MeetingsAppPage: React.FC = () => {
             <Head>
                 <title>STEM-bound - {course?.title || "Course"}</title>
             </Head>
-            <h4>{course?.title} meetings</h4>
 
             {course?.meta.instructors.includes(user._id) ? (
                 <Link

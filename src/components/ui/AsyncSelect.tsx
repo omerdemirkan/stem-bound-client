@@ -53,7 +53,7 @@ const AsyncSelect: React.FC<Props> = ({
                 options={options}
                 getOptionLabel={(option) => option.display}
                 onChange={(event, option: ISelectInputOption) =>
-                    onChange(option.value)
+                    onChange(option?.value)
                 }
                 id={id}
                 ref={ref}

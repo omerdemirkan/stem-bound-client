@@ -158,7 +158,12 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                             );
                             if (href) {
                                 bc = (
-                                    <Link href={href} as={as} shallow={shallow}>
+                                    <Link
+                                        href={href}
+                                        as={as}
+                                        shallow={shallow}
+                                        key={label + href}
+                                    >
                                         <a>{bc}</a>
                                     </Link>
                                 );

@@ -19,14 +19,9 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { EUserRoles } from "../../utils/types";
 import InfoIcon from "@material-ui/icons/Info";
+import FormCard from "../../components/ui/FormCard";
 
 const useStyles = makeStyles({
-    formCard: {
-        width: "90%",
-        maxWidth: "500px",
-        margin: "5vh auto",
-        padding: "30px",
-    },
     submitButton: {
         marginTop: "30px",
     },
@@ -65,7 +60,7 @@ const InstructorSignUpPage: React.FC = () => {
             </Typography>
             <SignUpStepper activeStep={1} />
 
-            <Card className={classes.formCard}>
+            <FormCard>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Typography variant="h5" align="center" gutterBottom>
                         <InfoIcon
@@ -93,6 +88,7 @@ const InstructorSignUpPage: React.FC = () => {
                         inputRef={register({
                             required: "Required",
                         })}
+                        required
                         name="firstName"
                         label="First Name"
                         error={errors.firstName}
@@ -105,6 +101,7 @@ const InstructorSignUpPage: React.FC = () => {
                         inputRef={register({
                             required: "Required",
                         })}
+                        required
                         name="lastName"
                         label="Last Name"
                         error={errors.firstName}
@@ -121,6 +118,7 @@ const InstructorSignUpPage: React.FC = () => {
                                 message: "Invalid Email",
                             },
                         })}
+                        required
                         label="Email"
                         error={errors.email}
                         helperText={errors.email?.message}
@@ -139,6 +137,7 @@ const InstructorSignUpPage: React.FC = () => {
                                     "A number, lowercase and capital letters required",
                             },
                         })}
+                        required
                         error={errors.password}
                         helperText={errors.email}
                         fullWidth
@@ -148,6 +147,7 @@ const InstructorSignUpPage: React.FC = () => {
                         inputRef={register({
                             required: "Required",
                         })}
+                        required
                         name="shortDescription"
                         label="Short Description"
                         placeholder="e.g 3'th year Computer Science Student at CSUN"
@@ -186,6 +186,7 @@ const InstructorSignUpPage: React.FC = () => {
                                     margin: "normal",
                                     error: errors.specialties,
                                     helperText: errors.specialties?.message,
+                                    required: true,
                                 }}
                             />
                         )}
@@ -207,6 +208,7 @@ const InstructorSignUpPage: React.FC = () => {
                                     margin: "normal",
                                     error: errors.zip,
                                     helperText: errors.zip?.message,
+                                    required: true,
                                 }}
                             />
                         )}
@@ -223,7 +225,7 @@ const InstructorSignUpPage: React.FC = () => {
                         SUBMIT
                     </Button>
                 </form>
-            </Card>
+            </FormCard>
         </Layout>
     );
 };

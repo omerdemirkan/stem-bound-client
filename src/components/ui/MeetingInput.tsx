@@ -1,13 +1,10 @@
-import TimePicker from "./TimePicker";
 import TextArea from "./TextArea";
 import Input from "./Input";
 import Select, { Option } from "./Select";
 import { IMeetingOriginal, ECourseTypes } from "../../utils/types";
-import { clone, validateMeetingDates } from "../../utils/helpers";
-import {
-    getTimeStringFromDate,
-    configureDateByTimeString,
-} from "../../utils/helpers/date.helpers";
+import { clone } from "../../utils/helpers";
+import { configureDateByTimeString } from "../../utils/helpers/date.helpers";
+import { TimePicker } from "@material-ui/pickers";
 
 interface Props {
     meeting: IMeetingOriginal & { dateKey: string };
@@ -33,7 +30,7 @@ const MeetingInput: React.FC<Props> = ({
     function handleTimeChange(e) {
         const newMeeting = clone(meeting);
         Object.assign(newMeeting, {
-            [e.target.id]: configureDateByTimeString(date, e.target.value),
+            [e.target.id]: e.target.value,
         });
         onChange(newMeeting);
     }
@@ -44,25 +41,13 @@ const MeetingInput: React.FC<Props> = ({
                 onChange={handleTimeChange}
                 id="start"
                 label="Start"
-                value={getTimeStringFromDate(meeting.start)}
-                validateTime={(timeString: string) =>
-                    validateMeetingDates({
-                        start: configureDateByTimeString(date, timeString),
-                        end: meeting.end,
-                    })
-                }
+                value={meeting.start}
             />
             <TimePicker
                 onChange={handleTimeChange}
                 id="end"
                 label="End"
-                value={getTimeStringFromDate(meeting.end)}
-                validateTime={(timeString: string) =>
-                    validateMeetingDates({
-                        start: meeting.start,
-                        end: configureDateByTimeString(date, timeString),
-                    })
-                }
+                value={meeting.end}
             />
             <Select onChange={handleChange} id="type">
                 {availableMeetingTypes.map((courseType) => (

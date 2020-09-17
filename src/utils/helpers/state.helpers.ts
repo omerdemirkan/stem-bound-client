@@ -79,3 +79,15 @@ export function deleteUndefined(obj: Record<string, any> | undefined): void {
         });
     }
 }
+
+export function deleteEmptyStrings(obj: Record<string, any> | undefined): void {
+    if (obj) {
+        Object.keys(obj).forEach((key: string) => {
+            if (obj[key] && typeof obj[key] === "object") {
+                deleteEmptyStrings(obj[key]);
+            } else if (obj[key] === "") {
+                delete obj[key]; // eslint-disable-line no-param-reassign
+            }
+        });
+    }
+}

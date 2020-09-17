@@ -8,20 +8,14 @@ import { emailRegex, passwordRegex } from "../utils/constants";
 import {
     Button,
     TextField,
-    Card,
     makeStyles,
     Typography,
     Divider,
 } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/Lock";
+import FormCard from "../components/ui/FormCard";
 
 const useStyles = makeStyles({
-    formCard: {
-        width: "90%",
-        maxWidth: "500px",
-        margin: "15vh auto",
-        padding: "30px",
-    },
     submitButton: {
         marginTop: "30px",
     },
@@ -56,7 +50,7 @@ const LogInPage: React.FC = () => {
                 <title>STEM-bound - Log In</title>
             </Head>
 
-            <Card className={classes.formCard}>
+            <FormCard style={{ margin: "15vh auto" }}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Typography
                         variant="h4"
@@ -125,7 +119,7 @@ const LogInPage: React.FC = () => {
                         SUBMIT
                     </Button>
                 </form>
-            </Card>
+            </FormCard>
 
             <style jsx>{``}</style>
         </Layout>
