@@ -19,6 +19,7 @@ import { clone } from "../../../../utils/helpers";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
 import TextArea from "../../../../components/ui/TextArea";
 import InputButton from "../../../../components/ui/InputButton";
+import { TextField } from "@material-ui/core";
 
 const AnnouncementsAppPage: React.FC = () => {
     const router = useRouter();
@@ -106,10 +107,12 @@ const AnnouncementsAppPage: React.FC = () => {
             {user.role === EUserRoles.INSTRUCTOR ? (
                 <InputButton
                     renderInput={(value, setValue) => (
-                        <TextArea
+                        <TextField
                             id="create-announcement"
+                            label="New Announcement"
                             onChange={(e) => setValue(e.target.value)}
                             value={value}
+                            multiline
                         />
                     )}
                     onSubmit={handleCreateAnnouncement}

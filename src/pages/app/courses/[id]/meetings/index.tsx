@@ -10,6 +10,7 @@ import {
 import { useContext } from "react";
 import AuthContext from "../../../../../components/contexts/AuthContext";
 import Link from "next/link";
+import { Button } from "@material-ui/core";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -47,7 +48,9 @@ const MeetingsAppPage: React.FC = () => {
                     as={`/app/courses/${course?._id}/meetings/update`}
                 >
                     <a>
-                        <button>CREATE/UDPATE MEETINGS</button>
+                        <Button variant="contained">
+                            CREATE/UDPATE MEETINGS
+                        </Button>
                     </a>
                 </Link>
             ) : null}

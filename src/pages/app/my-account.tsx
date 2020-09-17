@@ -22,6 +22,8 @@ import {
     EUserRoles,
     IInstructor,
 } from "../../utils/types";
+import AsyncSelect from "../../components/ui/AsyncSelect";
+import { TextField } from "@material-ui/core";
 
 const MyAccountAppPage: React.FC = () => {
     const { user: storedUser, mutateUser: mutateAuthContextUser } = useContext(
@@ -93,9 +95,14 @@ const MyAccountAppPage: React.FC = () => {
                 initialValue={user.location.zip}
                 onSubmit={handleUpdateUserLocationByZip}
                 renderInput={(value, setValue) => (
-                    <SearchSelect
-                        delay={1000}
-                        id="location"
+                    <AsyncSelect
+                        TextFieldProps={{
+                            fullWidth: true,
+                            label: "Location",
+                            placeholder: "e.g Reseda",
+                            id: "location",
+                        }}
+                        delay={400}
                         onChange={(e) => setValue(e.target.value)}
                         fetchOptions={fetchLocationInputOptions}
                     />
@@ -111,10 +118,12 @@ const MyAccountAppPage: React.FC = () => {
                     handleUpdateUser({ shortDescription: value })
                 }
                 renderInput={(value, setValue) => (
-                    <TextArea
+                    <TextField
                         id="short-description"
                         value={value}
                         onChange={(e) => setValue(e.target.value)}
+                        fullWidth
+                        multiline
                     />
                 )}
             >

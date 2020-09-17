@@ -5,6 +5,7 @@ import useSWR from "swr";
 import withAuth from "../../../../components/hoc/withAuth";
 import { useRouter } from "next/router";
 import { courseFetcher } from "../../../../utils/services";
+import { Button } from "@material-ui/core";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
@@ -31,7 +32,7 @@ const CourseAppPage: React.FC = () => {
                 as={`/app/courses/${course?._id}/meetings`}
             >
                 <a>
-                    <button>MEETINGS</button>
+                    <Button variant="contained">MEETINGS</Button>
                 </a>
             </Link>
             <Link
@@ -39,7 +40,7 @@ const CourseAppPage: React.FC = () => {
                 as={`/app/courses/${course?._id}/announcements`}
             >
                 <a>
-                    <button>ANNOUNCEMENTS</button>
+                    <Button variant="contained">ANNOUNCEMENTS</Button>
                 </a>
             </Link>
         </AppLayout>

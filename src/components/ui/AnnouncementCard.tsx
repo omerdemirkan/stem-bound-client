@@ -3,6 +3,7 @@ import AuthContext from "../contexts/AuthContext";
 import { useContext } from "react";
 import InputButton from "./InputButton";
 import TextArea from "./TextArea";
+import { TextField } from "@material-ui/core";
 
 interface Props {
     announcement: IAnnouncement;
@@ -35,10 +36,12 @@ const AnnouncementCard: React.FC<Props> = ({
                     }
                     initialValue={announcement.text}
                     renderInput={(value, setValue) => (
-                        <TextArea
+                        <TextField
                             id="edit-announcement"
                             onChange={(e) => setValue(e.target.value)}
                             value={value}
+                            multiline
+                            fullWidth
                         />
                     )}
                 >

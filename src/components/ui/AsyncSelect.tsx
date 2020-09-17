@@ -10,6 +10,7 @@ interface Props {
     delay?: number;
     onChange?(val: any): void;
     ref?: Ref<unknown>;
+    id?: string;
 }
 
 const AsyncSelect: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const AsyncSelect: React.FC<Props> = ({
     TextFieldProps,
     onChange,
     ref,
+    id,
 }) => {
     const [search, setSearch] = useState<string>("");
     const [options, setOptions] = useState<ISelectInputOption[]>([]);
@@ -53,6 +55,7 @@ const AsyncSelect: React.FC<Props> = ({
                 onChange={(event, option: ISelectInputOption) =>
                     onChange(option.value)
                 }
+                id={id}
                 ref={ref}
                 renderInput={(params) => (
                     <TextField

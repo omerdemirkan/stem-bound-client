@@ -1,9 +1,13 @@
 import { useState, Dispatch } from "react";
-import Modal, { ModalFooter } from "./Modal";
-import { Button } from "@material-ui/core";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+} from "@material-ui/core";
 
 interface Props {
-    renderInput(value: any, setValue: Dispatch<any>): void;
+    renderInput(value: any, setValue: Dispatch<any>): any;
     onSubmit: (value: any) => any;
     initialValue?: any;
     disabled?: boolean;
@@ -34,13 +38,27 @@ const InputButton: React.FC<Props> = ({
             <Button onClick={handleButtonClicked} disabled={disabled}>
                 {children}
             </Button>
-            <Modal open={modalOpen}>
-                {renderInput(value, setValue)}
-                <ModalFooter>
-                    <button onClick={() => setModalOpen(false)}>CANCEL</button>
-                    <button onClick={handleSubmit}>CONTINUE</button>
-                </ModalFooter>
-            </Modal>
+
+            <Dialog open={!!modalOpen} onClose={() => setModalOpen(false)}>
+                <DialogContent>{renderInput(value, setValue)}</DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={() => setModalOpen(false)}
+                        color="primary"
+                        variant="outlined"
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={handleSubmit}
+                        color="primary"
+                        variant="contained"
+                        autoFocus
+                    >
+                        Continue
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 };

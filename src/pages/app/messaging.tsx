@@ -312,13 +312,6 @@ const MessagingAppPage: React.FC = () => {
             ))}
             {messages ? (
                 <>
-                    <h4>Inspected Chat:</h4>
-                    {editedMessageId ? (
-                        <button onClick={() => setEditedMessageId(null)}>
-                            CANCEL EDIT
-                        </button>
-                    ) : null}
-
                     {reverseMap(messages, (message) => (
                         <ChatMessage
                             message={message}
@@ -328,24 +321,6 @@ const MessagingAppPage: React.FC = () => {
                             onRestore={handleRestoreMessage}
                         />
                     ))}
-
-                    <Input
-                        type="text"
-                        id="message-text-field"
-                        onChange={
-                            editedMessageId
-                                ? setEditedMessageText
-                                : setTextField
-                        }
-                        value={editedMessageId ? editedMessageText : textField}
-                        eventTargetValue
-                    />
-
-                    {editedMessageId ? (
-                        <button onClick={handleUpdateMessage}>EDIT</button>
-                    ) : (
-                        <button onClick={handleSendMessage}>SEND</button>
-                    )}
                 </>
             ) : null}
 

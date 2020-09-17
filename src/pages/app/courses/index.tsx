@@ -8,6 +8,7 @@ import { userCoursesFetcher } from "../../../utils/services";
 import { EUserRoles } from "../../../utils/types";
 import { useContext } from "react";
 import AuthContext from "../../../components/contexts/AuthContext";
+import { Button } from "@material-ui/core";
 
 const CoursesAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -23,7 +24,7 @@ const CoursesAppPage: React.FC = () => {
             {user.role === EUserRoles.INSTRUCTOR ? (
                 <Link href="/app/courses/create">
                     <a>
-                        <button>CREATE COURSE</button>
+                        <Button variant="contained">CREATE COURSE</Button>
                     </a>
                 </Link>
             ) : null}
