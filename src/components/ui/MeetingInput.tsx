@@ -1,15 +1,38 @@
-import TextArea from "./TextArea";
-import Input from "./Input";
-import Select, { Option } from "./Select";
-import { IMeetingOriginal, ECourseTypes } from "../../utils/types";
+import {
+    IMeetingOriginal,
+    ECourseTypes,
+    EMeetingTypes,
+} from "../../utils/types";
 import { clone } from "../../utils/helpers";
-import { configureDateByTimeString } from "../../utils/helpers/date.helpers";
 import { TimePicker } from "@material-ui/pickers";
+import {
+    Card,
+    makeStyles,
+    MenuItem,
+    Select,
+    TextField,
+    Typography,
+} from "@material-ui/core";
+import moment from "moment";
+
+const useStyles = makeStyles({
+    card: {
+        width: "90%",
+        maxWidth: "500px",
+        padding: "30px",
+    },
+    halfWidth: {
+        width: "50%",
+    },
+    select: {
+        margin: "15px 0 10px",
+    },
+});
 
 interface Props {
     meeting: IMeetingOriginal & { dateKey: string };
     onChange: (meeting: IMeetingOriginal) => any;
-    availableMeetingTypes?: ECourseTypes[];
+    availableMeetingTypes?: EMeetingTypes[];
 }
 
 const MeetingInput: React.FC<Props> = ({
@@ -18,58 +41,95 @@ const MeetingInput: React.FC<Props> = ({
     availableMeetingTypes,
 }) => {
     availableMeetingTypes =
-        availableMeetingTypes || Object.values(ECourseTypes);
-    const date = new Date(meeting.dateKey);
+        availableMeetingTypes || Object.values(EMeetingTypes);
+
+    const classes = useStyles();
 
     function handleChange(e) {
         const newMeeting = clone(meeting);
-        Object.assign(newMeeting, { [e.target.id]: e.target.value });
+        Object.assign(newMeeting, { [e.target.name]: e.target.value });
         onChange(newMeeting);
     }
 
-    function handleTimeChange(e) {
+    function handleTimeChange(moment: moment.Moment, key: string) {
         const newMeeting = clone(meeting);
         Object.assign(newMeeting, {
-            [e.target.id]: e.target.value,
+            [key]: moment.toDate(),
         });
         onChange(newMeeting);
     }
 
     return (
-        <div>
+        <Card className={classes.card}>
+            <Typography variant="h5" align="center">
+                {moment(meeting.dateKey)
+                    .format("dddd, MMMM Do YYYY")
+                    .toString()}
+            </Typography>
             <TimePicker
-                onChange={handleTimeChange}
-                id="start"
+                onChange={(d) => handleTimeChange(d, "start")}
+                name="start"
                 label="Start"
-                value={meeting.start}
+                value={moment(meeting.start)}
+                className={classes.halfWidth}
+                margin="normal"
             />
             <TimePicker
-                onChange={handleTimeChange}
-                id="end"
+                onChange={(d) => handleTimeChange(d, "end")}
+                name="end"
                 label="End"
-                value={meeting.end}
+                value={moment(meeting.end)}
+                className={classes.halfWidth}
+                margin="normal"
             />
-            <Select onChange={handleChange} id="type">
+
+            <Select
+                onChange={handleChange}
+                name="type"
+                defaultValue={meeting.type}
+                fullWidth
+                className={classes.select}
+            >
                 {availableMeetingTypes.map((courseType) => (
-                    <Option value={courseType} key={courseType}>
+                    <MenuItem value={courseType} key={courseType}>
                         {courseType}
-                    </Option>
+                    </MenuItem>
                 ))}
             </Select>
-            <Input
-                type="text"
+
+            {meeting.type === EMeetingTypes.IN_PERSON ? (
+                <TextField
+                    onChange={handleChange}
+                    value={meeting.roomNum}
+                    name="roomNum"
+                    label="Room"
+                    margin="normal"
+                    fullWidth
+                />
+            ) : (
+                <TextField
+                    onChange={handleChange}
+                    value={meeting.url}
+                    name="url"
+                    label="Meeting Url"
+                    margin="normal"
+                    fullWidth
+                />
+            )}
+
+            <TextField
                 onChange={handleChange}
-                value={meeting.roomNum}
-                id="roomNum"
-                label="Room"
-            />
-            <TextArea
-                onChange={handleChange}
-                id="message"
+                name="message"
                 value={meeting.message}
                 label="Message"
-            ></TextArea>
-        </div>
+                margin="normal"
+                fullWidth
+                multiline
+            />
+            <style jsx>{`
+                .
+            `}</style>
+        </Card>
     );
 };
 

@@ -12,6 +12,7 @@ export enum EMeetingTypes {
 export interface IMeetingOriginal {
     type: string;
     roomNum?: string;
+    url?: string;
     start: Date | string;
     end: Date | string;
     message: string;
@@ -21,6 +22,7 @@ export interface IMeetingOriginal {
 export interface IMeeting {
     type: string;
     roomNum?: string;
+    url?: string;
     start: moment.Moment;
     end: moment.Moment;
     message: string;

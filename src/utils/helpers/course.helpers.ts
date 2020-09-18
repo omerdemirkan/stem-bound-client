@@ -17,6 +17,7 @@ export function mapMeetingData(meeting: IMeetingOriginal): IMeeting {
         type: meeting.type,
         _id: meeting._id,
         roomNum: meeting.roomNum,
+        url: meeting.url,
     };
 }
 

@@ -29,11 +29,12 @@ const MeetingsForm: React.FC<Props> = ({
     const [meetings, setMeetings] = useState<IMeetingInput[]>(
         initialMeetingInputs || []
     );
-    const [timeRange, setTimeRange] = useState<ITimeStringRange>({
+    const [defaultTimeRange, setDefaultTimeRange] = useState<ITimeStringRange>({
         start: "03:00",
         end: "04:00",
     });
-    const [roomNum, setRoomNum] = useState<string>();
+    const [defaultRoomNum, setDefaultRoomNum] = useState<string>();
+    const [defaultUrl, setDefaultUrl] = useState<string>();
 
     useEffect(() => onChange && meetings && onChange(meetings), [meetings]);
 
@@ -42,21 +43,29 @@ const MeetingsForm: React.FC<Props> = ({
     ): IMeetingOriginal & { dateKey: string } {
         const start = configureDateByTimeString(
             date.toDate(),
-            timeRange.start
+            defaultTimeRange.start
         ).toString();
         const end = configureDateByTimeString(
             date.toDate(),
-            timeRange.end
+            defaultTimeRange.end
         ).toString();
 
-        return {
+        let defaultMeeting: IMeetingInput = {
             start,
             end,
             dateKey: date.toString(),
-            roomNum: roomNum,
             message: "",
             type: defaultMeetingType,
         };
+
+        switch (defaultMeeting.type) {
+            case EMeetingTypes.IN_PERSON:
+                defaultMeeting.roomNum = defaultRoomNum;
+            case EMeetingTypes.REMOTE:
+                defaultMeeting.url = defaultUrl;
+        }
+
+        return defaultMeeting;
     }
 
     function handleDatesUpdate(dates: moment.Moment[]) {
@@ -133,15 +142,15 @@ const MeetingsForm: React.FC<Props> = ({
             </AlertBar>
 
             <TimeRangePicker
-                value={timeRange}
-                onChange={setTimeRange}
+                value={defaultTimeRange}
+                onChange={setDefaultTimeRange}
                 label="Default time range"
             />
 
             <Input
                 label="Room number (for in person classes)"
-                onChange={(e) => setRoomNum(e.target.value)}
-                value={roomNum}
+                onChange={(e) => setDefaultRoomNum(e.target.value)}
+                value={defaultRoomNum}
                 id="roomNum"
                 type="text"
             />
