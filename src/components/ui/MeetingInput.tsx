@@ -13,7 +13,6 @@ import {
     TextField,
     Typography,
 } from "@material-ui/core";
-import moment from "moment";
 
 const useStyles = makeStyles({
     card: {
@@ -62,15 +61,13 @@ const MeetingInput: React.FC<Props> = ({
     return (
         <Card className={classes.card}>
             <Typography variant="h5" align="center">
-                {moment(meeting.dateKey)
-                    .format("dddd, MMMM Do YYYY")
-                    .toString()}
+                {meeting.dateKey}
             </Typography>
             <TimePicker
                 onChange={(date) => handleTimeChange(date, "start")}
                 name="start"
                 label="Start"
-                value={moment(meeting.start)}
+                value={meeting.start}
                 className={classes.halfWidth}
                 margin="normal"
             />
@@ -78,7 +75,7 @@ const MeetingInput: React.FC<Props> = ({
                 onChange={(date) => handleTimeChange(date, "end")}
                 name="end"
                 label="End"
-                value={moment(meeting.end)}
+                value={meeting.end}
                 className={classes.halfWidth}
                 margin="normal"
             />

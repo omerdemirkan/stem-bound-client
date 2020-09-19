@@ -15,6 +15,6 @@
   border: none !important;
 }
 
-.DayPicker__withBorder {
-  font-family: Arial, Helvetica, sans-serif !important;
+.DayPicker {
+  font-family: "Roboto", Helvetica, sans-serif !important;
 }

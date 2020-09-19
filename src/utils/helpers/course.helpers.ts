@@ -7,12 +7,11 @@ import {
     IAnnouncementOriginal,
 } from "../types";
 import { meetingTypes, courseTypes } from "../constants";
-import moment from "moment";
 
 export function mapMeetingData(meeting: IMeetingOriginal): IMeeting {
     return {
-        start: moment(meeting.start),
-        end: moment(meeting.end),
+        start: new Date(meeting.start),
+        end: new Date(meeting.end),
         message: meeting.message,
         type: meeting.type,
         _id: meeting._id,
@@ -28,14 +27,14 @@ export function mapAnnouncementData(
         meta: announcement.meta,
         text: announcement.text,
         _id: announcement._id,
-        createdAt: moment(announcement.createdAt),
+        createdAt: announcement.createdAt,
     };
 }
 
 export function mapCourseData(course: ICourseOriginal): ICourse {
     return {
         _id: course._id,
-        createdAt: moment(course.createdAt),
+        createdAt: course.createdAt,
         title: course.title,
         type: {
             original: course.type,

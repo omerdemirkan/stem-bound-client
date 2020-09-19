@@ -23,8 +23,8 @@ export interface IMeeting {
     type: string;
     roomNum?: string;
     url?: string;
-    start: moment.Moment;
-    end: moment.Moment;
+    start: Date;
+    end: Date;
     message: string;
     _id?: string;
 }
@@ -46,7 +46,7 @@ export interface IAnnouncement {
         readBy: string;
     };
     _id?: string;
-    createdAt?: moment.Moment;
+    createdAt?: Date;
 }
 
 export interface ICourseOriginal {
@@ -67,7 +67,7 @@ export interface ICourseOriginal {
 
 export interface ICourse {
     _id: string;
-    createdAt: moment.Moment;
+    createdAt: Date;
     title: string;
     shortDescription: string;
     longDescription: string;

@@ -51,9 +51,10 @@ const MultiDatePicker: React.FC<Props> = ({
             onDateChange={handleDateChange}
             focused={focused}
             onFocusChange={() => setFocused((prev) => !prev)}
-            date={null}
             isDayHighlighted={(day) => dates.some((d) => d.isSame(day, "day"))}
             keepOpenOnDateSelect
+            date={null}
+            noBorder
         />
     );
 };
