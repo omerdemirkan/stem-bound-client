@@ -51,10 +51,10 @@ const MeetingInput: React.FC<Props> = ({
         onChange(newMeeting);
     }
 
-    function handleTimeChange(moment: moment.Moment, key: string) {
+    function handleTimeChange(date: Date, key: string) {
         const newMeeting = clone(meeting);
         Object.assign(newMeeting, {
-            [key]: moment.toDate(),
+            [key]: date,
         });
         onChange(newMeeting);
     }
@@ -67,7 +67,7 @@ const MeetingInput: React.FC<Props> = ({
                     .toString()}
             </Typography>
             <TimePicker
-                onChange={(d) => handleTimeChange(d, "start")}
+                onChange={(date) => handleTimeChange(date, "start")}
                 name="start"
                 label="Start"
                 value={moment(meeting.start)}
@@ -75,7 +75,7 @@ const MeetingInput: React.FC<Props> = ({
                 margin="normal"
             />
             <TimePicker
-                onChange={(d) => handleTimeChange(d, "end")}
+                onChange={(date) => handleTimeChange(date, "end")}
                 name="end"
                 label="End"
                 value={moment(meeting.end)}
