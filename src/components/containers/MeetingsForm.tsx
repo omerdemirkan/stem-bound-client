@@ -1,7 +1,6 @@
-import MultiDatePicker from "../ui/MultiDatePicker";
+import MultipleDatesPicker from "@randex/material-ui-multiple-dates-picker";
 import MeetingInput from "../ui/MeetingInput";
 import FormCard from "../ui/FormCard";
-import moment from "moment";
 import { useState, useEffect, FormEvent } from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { TimePicker } from "@material-ui/pickers";
@@ -14,12 +13,12 @@ import {
 import {
     Button,
     Divider,
+    Grid,
     makeStyles,
     Step,
     StepLabel,
     Stepper,
     TextField,
-    Typography,
 } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -31,6 +30,9 @@ const useStyles = makeStyles({
     },
     alert: {
         marginBottom: "15px",
+    },
+    stepper: {
+        marginBottom: "20px",
     },
 });
 
@@ -55,10 +57,12 @@ const MeetingsForm: React.FC<Props> = ({
     const [step, setStep] = useState<number>(0);
     const [defaultRoomNum, setDefaultRoomNum] = useState<string>();
     const [defaultUrl, setDefaultUrl] = useState<string>();
+    const [dates, setDates] = useState<Date[]>([]);
 
     useEffect(() => onChange && meetings && onChange(meetings), [meetings]);
 
     useEffect(function () {
+        let date;
         let startTime = new Date();
         let endTime = new Date();
 
@@ -67,15 +71,24 @@ const MeetingsForm: React.FC<Props> = ({
 
         setDefaultMeetingStart(startTime);
         setDefaultMeetingEnd(endTime);
+
+        const initialDates: Date[] = initialMeetingInputs?.map(function (
+            meeting
+        ) {
+            date = new Date(meeting.start);
+            date.setHours(0, 0);
+            return date;
+        });
+
+        setDates(initialDates || []);
     }, []);
 
     const classes = useStyles();
 
-    function constructDefaultMeeting(
-        date: Date
-    ): IMeetingOriginal & { dateKey: string } {
-        const start = new Date(date.toString());
-        const end = new Date(date.toString());
+    function constructDefaultMeetingByDate(date: Date): IMeetingInput {
+        const dateKey = date.toString();
+        let start = new Date(dateKey);
+        let end = new Date(dateKey);
 
         start.setHours(
             defaultMeetingStart.getHours(),
@@ -89,7 +102,7 @@ const MeetingsForm: React.FC<Props> = ({
         let defaultMeeting: IMeetingInput = {
             start,
             end,
-            dateKey: date.toString(),
+            dateKey,
             message: "",
             type: defaultMeetingType,
         };
@@ -104,46 +117,20 @@ const MeetingsForm: React.FC<Props> = ({
         return defaultMeeting;
     }
 
-    function handleDatesUpdate(dates: moment.Moment[]) {
-        if (dates.length === meetings.length) return;
-        const meetingWasRemoved = dates.length < meetings.length;
+    function handleDatesSelected(dates: Date[]) {
+        setDates(dates);
 
-        if (meetingWasRemoved) {
-            const newDateKeysHashTable = {};
-            dates.forEach(function (date) {
-                newDateKeysHashTable[date.toString()] = true;
-            });
-            setMeetings((previous) =>
-                previous.filter(
-                    (meeting) => newDateKeysHashTable[meeting.dateKey]
-                )
-            );
-        } else {
-            setMeetings((previousMeetings) => {
-                let newMeetings = [];
-                const oldDateKeysHashTable = {};
-
-                previousMeetings.forEach(function (meeting) {
-                    oldDateKeysHashTable[meeting.dateKey] = meeting;
-                });
-
-                dates.forEach((date) =>
-                    newMeetings.push(
-                        oldDateKeysHashTable[date.toString()] ||
-                            constructDefaultMeeting(date.toDate())
-                    )
-                );
-
-                return newMeetings;
-            });
-        }
+        let meetings = [];
+        dates.forEach(function (date) {
+            meetings.push(constructDefaultMeetingByDate(date));
+        });
+        setMeetings(meetings);
+        setStep(2);
     }
 
-    function handleMeetingChange(
-        newMeeting: IMeetingOriginal & { dateKey: string }
-    ) {
+    function handleMeetingChanged(newMeeting: IMeetingInput) {
         setMeetings((prev) => {
-            const newMeetings = clone(prev);
+            const newMeetings = [...prev];
             newMeetings[
                 newMeetings.findIndex(
                     (meeting) => meeting.dateKey === newMeeting.dateKey
@@ -164,13 +151,9 @@ const MeetingsForm: React.FC<Props> = ({
         onSubmit(newMeetings);
     }
 
-    const initialDates = initialMeetingInputs?.map((meeting) =>
-        moment(meeting.start)
-    );
-
     return (
         <form onSubmit={handleSubmit}>
-            <Stepper activeStep={step}>
+            <Stepper activeStep={step} className={classes.stepper}>
                 <Step>
                     <StepLabel>Set meeting defaults</StepLabel>
                 </Step>
@@ -235,33 +218,26 @@ const MeetingsForm: React.FC<Props> = ({
                 </FormCard>
             ) : null}
 
-            {step === 1 ? (
-                <FormCard>
-                    <Typography variant="h5" gutterBottom>
-                        Select the course's meeting dates
-                    </Typography>
-                    <Divider />
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                        <MultiDatePicker
-                            onChange={handleDatesUpdate}
-                            sortOrder="ascending"
-                            initialValue={initialDates}
-                        />
-                    </div>
-                </FormCard>
-            ) : null}
+            <MultipleDatesPicker
+                open={step === 1}
+                selectedDates={dates}
+                onCancel={() => setStep(0)}
+                onSubmit={handleDatesSelected}
+            />
 
-            {step === 2
-                ? meetings.map((meeting) => (
-                      <FormCard>
-                          <MeetingInput
-                              meeting={meeting}
-                              onChange={handleMeetingChange}
-                              key={meeting.dateKey}
-                          />
-                      </FormCard>
-                  ))
-                : null}
+            {step === 2 ? (
+                <Grid container spacing={3} justify="space-evenly">
+                    {meetings.map((meeting) => (
+                        <Grid item wrap="wrap">
+                            <MeetingInput
+                                meeting={meeting}
+                                onChange={handleMeetingChanged}
+                                key={meeting.dateKey}
+                            />
+                        </Grid>
+                    ))}
+                </Grid>
+            ) : null}
 
             <pre>{JSON.stringify(meetings, null, 2)}</pre>
 

@@ -1,12 +1,9 @@
-import {
-    IMeetingOriginal,
-    ECourseTypes,
-    EMeetingTypes,
-} from "../../utils/types";
+import { IMeetingOriginal, EMeetingTypes } from "../../utils/types";
 import { clone } from "../../utils/helpers";
 import { TimePicker } from "@material-ui/pickers";
 import {
     Card,
+    CardProps,
     makeStyles,
     MenuItem,
     Select,
@@ -16,9 +13,9 @@ import {
 
 const useStyles = makeStyles({
     card: {
-        width: "90%",
-        maxWidth: "500px",
-        padding: "30px",
+        width: "100%",
+        maxWidth: "400px",
+        padding: "20px",
     },
     halfWidth: {
         width: "50%",
@@ -32,12 +29,14 @@ interface Props {
     meeting: IMeetingOriginal & { dateKey: string };
     onChange: (meeting: IMeetingOriginal) => any;
     availableMeetingTypes?: EMeetingTypes[];
+    CardProps?: CardProps;
 }
 
 const MeetingInput: React.FC<Props> = ({
     meeting,
     onChange,
     availableMeetingTypes,
+    CardProps,
 }) => {
     availableMeetingTypes =
         availableMeetingTypes || Object.values(EMeetingTypes);
@@ -47,6 +46,17 @@ const MeetingInput: React.FC<Props> = ({
     function handleChange(e) {
         const newMeeting = clone(meeting);
         Object.assign(newMeeting, { [e.target.name]: e.target.value });
+        // if (
+        //     e.target.name === "type" &&
+        //     e.target.value === EMeetingTypes.IN_PERSON
+        // ) {
+        //     delete newMeeting.url;
+        // } else if (
+        //     e.target.name === "type" &&
+        //     e.target.value === EMeetingTypes.REMOTE
+        // ) {
+        //     delete newMeeting.roomNum;
+        // }
         onChange(newMeeting);
     }
 
@@ -59,9 +69,13 @@ const MeetingInput: React.FC<Props> = ({
     }
 
     return (
-        <Card className={classes.card}>
+        <Card className={classes.card} {...CardProps}>
             <Typography variant="h5" align="center">
-                {meeting.dateKey}
+                {new Date(meeting.dateKey).toLocaleString("en-US", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                })}
             </Typography>
             <TimePicker
                 onChange={(date) => handleTimeChange(date, "start")}
@@ -97,7 +111,7 @@ const MeetingInput: React.FC<Props> = ({
             {meeting.type === EMeetingTypes.IN_PERSON ? (
                 <TextField
                     onChange={handleChange}
-                    value={meeting.roomNum}
+                    value={meeting.roomNum || ""}
                     name="roomNum"
                     label="Room"
                     margin="normal"
@@ -106,7 +120,7 @@ const MeetingInput: React.FC<Props> = ({
             ) : (
                 <TextField
                     onChange={handleChange}
-                    value={meeting.url}
+                    value={meeting.url || ""}
                     name="url"
                     label="Meeting Url"
                     margin="normal"
