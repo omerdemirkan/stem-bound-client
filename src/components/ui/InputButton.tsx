@@ -1,4 +1,4 @@
-import { useState, Dispatch } from "react";
+import { useState, Dispatch, ChangeEvent } from "react";
 import {
     Button,
     Dialog,
@@ -7,7 +7,14 @@ import {
 } from "@material-ui/core";
 
 interface Props {
-    renderInput(value: any, setValue: Dispatch<any>): any;
+    renderInput(
+        value: any,
+        setValue: Dispatch<any>,
+        options?: {
+            updateFields(value: any): void;
+            handleChange(event: ChangeEvent<any>): void;
+        }
+    ): any;
     onSubmit: (value: any) => any;
     initialValue?: any;
     disabled?: boolean;
@@ -33,6 +40,14 @@ const InputButton: React.FC<Props> = ({
         setValue(initialValue);
     }
 
+    function updateFields(updates: any) {
+        setValue((prev) => ({ ...prev, ...updates }));
+    }
+
+    function handleChange(e: ChangeEvent<any>) {
+        updateFields({ [e.target.name || e.target.id]: e.target.value });
+    }
+
     return (
         <>
             <Button onClick={handleButtonClicked} disabled={disabled}>
@@ -40,7 +55,12 @@ const InputButton: React.FC<Props> = ({
             </Button>
 
             <Dialog open={!!modalOpen} onClose={() => setModalOpen(false)}>
-                <DialogContent>{renderInput(value, setValue)}</DialogContent>
+                <DialogContent>
+                    {renderInput(value, setValue, {
+                        updateFields,
+                        handleChange,
+                    })}
+                </DialogContent>
                 <DialogActions>
                     <Button
                         onClick={() => setModalOpen(false)}

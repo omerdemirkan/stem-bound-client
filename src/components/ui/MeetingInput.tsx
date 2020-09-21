@@ -10,6 +10,7 @@ import {
     TextField,
     Typography,
 } from "@material-ui/core";
+import InputButton from "./InputButton";
 
 const useStyles = makeStyles({
     card: {
@@ -43,100 +44,100 @@ const MeetingInput: React.FC<Props> = ({
 
     const classes = useStyles();
 
-    function handleChange(e) {
-        const newMeeting = clone(meeting);
-        Object.assign(newMeeting, { [e.target.name]: e.target.value });
-        // if (
-        //     e.target.name === "type" &&
-        //     e.target.value === EMeetingTypes.IN_PERSON
-        // ) {
-        //     delete newMeeting.url;
-        // } else if (
-        //     e.target.name === "type" &&
-        //     e.target.value === EMeetingTypes.REMOTE
-        // ) {
-        //     delete newMeeting.roomNum;
-        // }
-        onChange(newMeeting);
-    }
-
-    function handleTimeChange(date: Date, key: string) {
-        const newMeeting = clone(meeting);
-        Object.assign(newMeeting, {
-            [key]: date,
-        });
-        onChange(newMeeting);
-    }
-
     return (
         <Card className={classes.card} {...CardProps}>
-            <Typography variant="h5" align="center">
-                {new Date(meeting.dateKey).toLocaleString("en-US", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                })}
-            </Typography>
-            <TimePicker
-                onChange={(date) => handleTimeChange(date, "start")}
-                name="start"
-                label="Start"
-                value={meeting.start}
-                className={classes.halfWidth}
-                margin="normal"
-            />
-            <TimePicker
-                onChange={(date) => handleTimeChange(date, "end")}
-                name="end"
-                label="End"
-                value={meeting.end}
-                className={classes.halfWidth}
-                margin="normal"
-            />
+            <InputButton
+                onSubmit={onChange}
+                initialValue={clone(meeting)}
+                renderInput={function (
+                    value,
+                    setValue,
+                    { updateFields, handleChange }
+                ) {
+                    return (
+                        <>
+                            <Typography variant="h5" align="center">
+                                {new Date(value.dateKey).toLocaleString(
+                                    "en-US",
+                                    {
+                                        day: "numeric",
+                                        month: "short",
+                                        year: "numeric",
+                                    }
+                                )}
+                            </Typography>
+                            <TimePicker
+                                onChange={(date) =>
+                                    updateFields({ start: date })
+                                }
+                                name="start"
+                                label="Start"
+                                value={value.start}
+                                className={classes.halfWidth}
+                                margin="normal"
+                            />
+                            <TimePicker
+                                onChange={(date) => updateFields({ end: date })}
+                                name="end"
+                                label="End"
+                                value={value.end}
+                                className={classes.halfWidth}
+                                margin="normal"
+                            />
 
-            <Select
-                onChange={handleChange}
-                name="type"
-                defaultValue={meeting.type}
-                fullWidth
-                className={classes.select}
+                            <Select
+                                onChange={handleChange}
+                                name="type"
+                                defaultValue={value.type}
+                                fullWidth
+                                className={classes.select}
+                            >
+                                {availableMeetingTypes.map((courseType) => (
+                                    <MenuItem
+                                        value={courseType}
+                                        key={courseType}
+                                    >
+                                        {courseType}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+
+                            {value.type === EMeetingTypes.IN_PERSON ? (
+                                <TextField
+                                    onChange={handleChange}
+                                    value={value.roomNum || ""}
+                                    name="roomNum"
+                                    label="Room"
+                                    margin="normal"
+                                    fullWidth
+                                />
+                            ) : (
+                                <TextField
+                                    onChange={handleChange}
+                                    value={value.url || ""}
+                                    name="url"
+                                    label="Meeting Url"
+                                    margin="normal"
+                                    fullWidth
+                                />
+                            )}
+
+                            <TextField
+                                onChange={handleChange}
+                                name="message"
+                                value={value.message}
+                                label="Message"
+                                margin="normal"
+                                fullWidth
+                                multiline
+                            />
+                        </>
+                    );
+                }}
             >
-                {availableMeetingTypes.map((courseType) => (
-                    <MenuItem value={courseType} key={courseType}>
-                        {courseType}
-                    </MenuItem>
-                ))}
-            </Select>
+                Edit Meeting
+            </InputButton>
 
-            {meeting.type === EMeetingTypes.IN_PERSON ? (
-                <TextField
-                    onChange={handleChange}
-                    value={meeting.roomNum || ""}
-                    name="roomNum"
-                    label="Room"
-                    margin="normal"
-                    fullWidth
-                />
-            ) : (
-                <TextField
-                    onChange={handleChange}
-                    value={meeting.url || ""}
-                    name="url"
-                    label="Meeting Url"
-                    margin="normal"
-                    fullWidth
-                />
-            )}
-
-            <TextField
-                onChange={handleChange}
-                name="message"
-                value={meeting.message}
-                label="Message"
-                margin="normal"
-                fullWidth
-                multiline
-            />
             <style jsx>{`
                 .
             `}</style>

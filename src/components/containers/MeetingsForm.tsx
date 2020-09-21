@@ -72,13 +72,15 @@ const MeetingsForm: React.FC<Props> = ({
         setDefaultMeetingStart(startTime);
         setDefaultMeetingEnd(endTime);
 
-        const initialDates: Date[] = initialMeetingInputs?.map(function (
-            meeting
-        ) {
-            date = new Date(meeting.start);
-            date.setHours(0, 0);
-            return date;
-        });
+        const now = new Date();
+
+        const initialDates: Date[] = initialMeetingInputs
+            ?.filter((meeting) => new Date(meeting.start) > now)
+            .map(function (meeting) {
+                date = new Date(meeting.start);
+                date.setHours(0, 0);
+                return date;
+            });
 
         setDates(initialDates || []);
     }, []);
@@ -99,22 +101,15 @@ const MeetingsForm: React.FC<Props> = ({
             defaultMeetingEnd.getMinutes()
         );
 
-        let defaultMeeting: IMeetingInput = {
+        return {
             start,
             end,
             dateKey,
             message: "",
             type: defaultMeetingType,
+            url: defaultUrl,
+            roomNum: defaultRoomNum,
         };
-
-        switch (defaultMeeting.type) {
-            case EMeetingTypes.IN_PERSON:
-                defaultMeeting.roomNum = defaultRoomNum;
-            case EMeetingTypes.REMOTE:
-                defaultMeeting.url = defaultUrl;
-        }
-
-        return defaultMeeting;
     }
 
     function handleDatesSelected(dates: Date[]) {
@@ -165,58 +160,54 @@ const MeetingsForm: React.FC<Props> = ({
                 </Step>
             </Stepper>
 
-            {step === 0 ? (
-                <FormCard>
-                    <Alert severity="info" className={classes.alert}>
-                        <AlertTitle>
-                            Choose default times, room and url.
-                        </AlertTitle>
-                        You can later update meetings individually.
-                    </Alert>
-                    <Divider />
-                    <TimePicker
-                        value={defaultMeetingStart}
-                        onChange={setDefaultMeetingStart}
-                        label="Default Start Time"
-                        className={classes.defaultTimePicker}
-                        margin="normal"
-                    />
-                    <TimePicker
-                        value={defaultMeetingEnd}
-                        onChange={setDefaultMeetingEnd}
-                        label="Default End Time"
-                        className={classes.defaultTimePicker}
-                        margin="normal"
-                    />
+            <FormCard style={step === 0 ? null : { display: "none" }}>
+                <Alert severity="info" className={classes.alert}>
+                    <AlertTitle>Choose default times, room and url.</AlertTitle>
+                    You can later update meetings individually.
+                </Alert>
+                <Divider />
+                <TimePicker
+                    value={defaultMeetingStart}
+                    onChange={setDefaultMeetingStart}
+                    label="Default Start Time"
+                    className={classes.defaultTimePicker}
+                    margin="normal"
+                />
+                <TimePicker
+                    value={defaultMeetingEnd}
+                    onChange={setDefaultMeetingEnd}
+                    label="Default End Time"
+                    className={classes.defaultTimePicker}
+                    margin="normal"
+                />
 
-                    <TextField
-                        label="Default Room Number"
-                        onChange={(e) => setDefaultRoomNum(e.target.value)}
-                        value={defaultRoomNum}
-                        id="roomNum"
-                        helperText="For in-person classes"
-                        margin="normal"
-                        fullWidth
-                    />
-                    <TextField
-                        label="Meeting Url"
-                        onChange={(e) => setDefaultUrl(e.target.value)}
-                        value={defaultUrl}
-                        id="url"
-                        helperText="For remote classes"
-                        margin="normal"
-                        fullWidth
-                    />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        onClick={() => setStep(1)}
-                    >
-                        Next
-                    </Button>
-                </FormCard>
-            ) : null}
+                <TextField
+                    label="Default Room Number"
+                    onChange={(e) => setDefaultRoomNum(e.target.value)}
+                    value={defaultRoomNum || ""}
+                    id="roomNum"
+                    helperText="For in-person classes"
+                    margin="normal"
+                    fullWidth
+                />
+                <TextField
+                    label="Meeting Url"
+                    onChange={(e) => setDefaultUrl(e.target.value)}
+                    value={defaultUrl || ""}
+                    id="url"
+                    helperText="For remote classes"
+                    margin="normal"
+                    fullWidth
+                />
+                <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => setStep(1)}
+                >
+                    Next
+                </Button>
+            </FormCard>
 
             <MultipleDatesPicker
                 open={step === 1}
