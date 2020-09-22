@@ -2,6 +2,7 @@ import {
     IMeetingOriginal,
     EMeetingTypes,
     IMeetingDateDisplayData,
+    ENotificationTypes,
 } from "../../utils/types";
 import {
     clone,
@@ -24,13 +25,14 @@ import {
     Typography,
 } from "@material-ui/core";
 import InputButton from "./InputButton";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
+import NotificationContext from "../contexts/NotificationContext";
 
 const useStyles = makeStyles({
     card: {
-        width: "400px",
+        width: "10000px",
         maxWidth: "100%",
     },
     halfWidth: {
@@ -48,6 +50,7 @@ const useStyles = makeStyles({
 interface Props {
     meeting: IMeetingOriginal & { dateKey: string };
     onChange: (meeting: IMeetingOriginal) => any;
+    onDelete: (dateKey: string) => any;
     availableMeetingTypes?: EMeetingTypes[];
     CardProps?: CardProps;
 }
@@ -57,11 +60,14 @@ const MeetingInput: React.FC<Props> = ({
     onChange,
     availableMeetingTypes,
     CardProps,
+    onDelete,
 }) => {
     availableMeetingTypes =
         availableMeetingTypes || Object.values(EMeetingTypes);
 
     let { current: meetingDateDisplayData } = useRef<IMeetingDateDisplayData>();
+
+    const { createAlert } = useContext(NotificationContext);
 
     meetingDateDisplayData =
         meetingDateDisplayData || getMeetingDateDisplayData(meeting);
@@ -99,7 +105,19 @@ const MeetingInput: React.FC<Props> = ({
             <Divider />
 
             <CardActions className={classes.cardAction}>
-                <IconButton aria-label="delete">
+                <IconButton
+                    aria-label="delete"
+                    onClick={() =>
+                        createAlert({
+                            headerText:
+                                "Are you sure you want to delete this event?",
+                            bodyText: `This will not delete an existing meeting, but will require you to go back to step 2 to create a meeting on ${meetingDateDisplayData.dateString}.`,
+                            type: ENotificationTypes.DANGER,
+                            onOk: () => onDelete(meeting.dateKey),
+                            onCancel: () => {},
+                        })
+                    }
+                >
                     <DeleteIcon />
                 </IconButton>
                 <InputButton

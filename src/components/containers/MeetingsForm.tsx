@@ -131,6 +131,12 @@ const MeetingsForm: React.FC<Props> = ({
         });
     }
 
+    function handleDeleteMeeting(dateKey: string) {
+        setMeetings((prev) =>
+            prev.filter((meeting) => meeting.dateKey !== dateKey)
+        );
+    }
+
     function handleSubmit() {
         const newMeetings = clone(meetings);
         newMeetings.forEach(function (meeting) {
@@ -171,10 +177,11 @@ const MeetingsForm: React.FC<Props> = ({
                 <>
                     <Grid container spacing={3} justify="space-evenly">
                         {meetings.map((meeting) => (
-                            <Grid item wrap="wrap" md={6} lg={4}>
+                            <Grid item wrap="wrap" xs={12} md={6} lg={4}>
                                 <MeetingInput
                                     meeting={meeting}
                                     onChange={handleMeetingChanged}
+                                    onDelete={handleDeleteMeeting}
                                     key={meeting.dateKey}
                                 />
                             </Grid>
