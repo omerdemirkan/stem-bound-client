@@ -71,6 +71,7 @@ const UpdateMeetingAppPage: React.FC = () => {
                             .startOf("day")
                             .toString(),
                     }))}
+                    courseType={course.type}
                     onSubmit={handleSubmit}
                 />
             ) : null}

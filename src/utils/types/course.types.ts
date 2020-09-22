@@ -10,7 +10,7 @@ export enum EMeetingTypes {
 }
 
 export interface IMeetingOriginal {
-    type: string;
+    type: EMeetingTypes;
     roomNum?: string;
     url?: string;
     start: Date | string;
@@ -20,7 +20,7 @@ export interface IMeetingOriginal {
 }
 
 export interface IMeeting {
-    type: string;
+    type: EMeetingTypes;
     displayType: string;
     roomNum?: string;
     url?: string;
@@ -56,7 +56,7 @@ export interface ICourseOriginal {
     title: string;
     shortDescription: string;
     longDescription: string;
-    type: string;
+    type: ECourseTypes;
     meetings: IMeetingOriginal[];
     announcements: IAnnouncementOriginal[];
     meta: {
@@ -72,7 +72,7 @@ export interface ICourse {
     title: string;
     shortDescription: string;
     longDescription: string;
-    type: string;
+    type: ECourseTypes;
     displayType: string;
     meetings: IMeeting[];
     announcements: IAnnouncement[];
@@ -118,4 +118,11 @@ export interface IMeetingDateDisplayData {
     startTimeString;
     endTimeString;
     durationString;
+}
+
+export interface IDefaultMeetingData {
+    start: Date;
+    end: Date;
+    url?: string;
+    roomNum?: string;
 }

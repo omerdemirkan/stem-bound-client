@@ -68,8 +68,6 @@ const MeetingInput: React.FC<Props> = ({
 
     const classes = useStyles();
 
-    const meetingTypeDisplay = getMeetingTypeDisplay(meeting.type);
-
     return (
         <Card className={classes.card} {...CardProps}>
             <CardHeader
