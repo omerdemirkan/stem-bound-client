@@ -1,19 +1,29 @@
-import { Card, CardProps, makeStyles } from "@material-ui/core";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardProps,
+    makeStyles,
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
     formCard: {
         width: "90%",
         maxWidth: "500px",
         margin: "5vh auto",
-        padding: "30px",
     },
 });
 
-const FormCard: React.FC<CardProps> = ({ children, ...CardProps }) => {
+type Props = CardProps & {
+    header?: any;
+};
+
+const FormCard: React.FC<Props> = ({ children, header, ...CardProps }) => {
     const classes = useStyles();
     return (
         <Card className={classes.formCard} {...CardProps}>
-            {children}
+            {header}
+            <CardContent>{children}</CardContent>
         </Card>
     );
 };

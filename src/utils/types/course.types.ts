@@ -21,6 +21,7 @@ export interface IMeetingOriginal {
 
 export interface IMeeting {
     type: string;
+    displayType: string;
     roomNum?: string;
     url?: string;
     start: Date;
@@ -71,10 +72,8 @@ export interface ICourse {
     title: string;
     shortDescription: string;
     longDescription: string;
-    type: {
-        display: string;
-        original: string;
-    };
+    type: string;
+    displayType: string;
     meetings: IMeeting[];
     announcements: IAnnouncement[];
     meta: {
@@ -113,3 +112,10 @@ export interface IDeleteMeetingOptions {
 }
 
 export type IMeetingInput = IMeetingOriginal & { dateKey: string };
+
+export interface IMeetingDateDisplayData {
+    dateString;
+    startTimeString;
+    endTimeString;
+    durationString;
+}

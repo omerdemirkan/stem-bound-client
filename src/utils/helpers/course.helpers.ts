@@ -5,8 +5,12 @@ import {
     IMeeting,
     IAnnouncement,
     IAnnouncementOriginal,
+    IMeetingDateDisplayData,
+    IMeetingInput,
 } from "../types";
 import { meetingTypes, courseTypes } from "../constants";
+import differenceInMinutes from "date-fns/differenceInMinutes";
+import format from "date-fns/format";
 
 export function mapMeetingData(meeting: IMeetingOriginal): IMeeting {
     return {
@@ -14,6 +18,7 @@ export function mapMeetingData(meeting: IMeetingOriginal): IMeeting {
         end: new Date(meeting.end),
         message: meeting.message,
         type: meeting.type,
+        displayType: getMeetingTypeDisplay(meeting.type),
         _id: meeting._id,
         roomNum: meeting.roomNum,
         url: meeting.url,
@@ -36,10 +41,8 @@ export function mapCourseData(course: ICourseOriginal): ICourse {
         _id: course._id,
         createdAt: course.createdAt,
         title: course.title,
-        type: {
-            original: course.type,
-            display: getCourseTypeDisplay(course.type),
-        },
+        type: course.type,
+        displayType: getCourseTypeDisplay(course.type),
         longDescription: course.longDescription,
         shortDescription: course.shortDescription,
         meta: {
@@ -52,11 +55,11 @@ export function mapCourseData(course: ICourseOriginal): ICourse {
     };
 }
 
-function getMeetingTypeDisplay(type: string) {
+export function getMeetingTypeDisplay(type: string) {
     return meetingTypes[type];
 }
 
-function getCourseTypeDisplay(type: string) {
+export function getCourseTypeDisplay(type: string) {
     return courseTypes[type];
 }
 
@@ -75,4 +78,27 @@ export function validateMeetingDates({
         start < end &&
         end.getTime() - start.getTime() >= minimumMeetingDurationMiliseconds
     );
+}
+
+export function getMeetingDateDisplayData(
+    meeting: IMeeting | IMeetingInput
+): IMeetingDateDisplayData {
+    const startDate = new Date(meeting.start);
+    const endDate = new Date(meeting.end);
+    const durationInMinutes = differenceInMinutes(endDate, startDate);
+    const durationMinutes = durationInMinutes % 60;
+    const durationHours = Math.floor(durationInMinutes / 60);
+
+    return {
+        dateString: format(new Date(meeting.start), "EEEE, MMMM do yyyy"),
+        startTimeString: format(startDate, "h:mm a"),
+        endTimeString: format(endDate, "h:mm a"),
+        durationString: `${
+            durationHours
+                ? durationHours + ` hour${durationHours > 1 ? "s" : ""}`
+                : ""
+        }${durationMinutes && durationHours ? " and" : ""}${
+            durationMinutes ? " " + durationMinutes + " minutes" : ""
+        }`,
+    };
 }

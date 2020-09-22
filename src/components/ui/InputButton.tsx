@@ -1,6 +1,7 @@
 import { useState, Dispatch, ChangeEvent } from "react";
 import {
     Button,
+    ButtonProps,
     Dialog,
     DialogActions,
     DialogContent,
@@ -15,9 +16,11 @@ interface Props {
             handleChange(event: ChangeEvent<any>): void;
         }
     ): any;
+    renderButton?(props: { onClick(): any; disabled: boolean }): any;
     onSubmit: (value: any) => any;
     initialValue?: any;
     disabled?: boolean;
+    ButtonProps?: ButtonProps;
 }
 
 const InputButton: React.FC<Props> = ({
@@ -26,6 +29,8 @@ const InputButton: React.FC<Props> = ({
     renderInput,
     initialValue,
     disabled,
+    ButtonProps,
+    renderButton,
 }) => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [value, setValue] = useState<any>(initialValue);
@@ -50,9 +55,17 @@ const InputButton: React.FC<Props> = ({
 
     return (
         <>
-            <Button onClick={handleButtonClicked} disabled={disabled}>
-                {children}
-            </Button>
+            {renderButton ? (
+                renderButton({ onClick: handleButtonClicked, disabled })
+            ) : (
+                <Button
+                    onClick={handleButtonClicked}
+                    disabled={disabled}
+                    {...ButtonProps}
+                >
+                    {children}
+                </Button>
+            )}
 
             <Dialog open={!!modalOpen} onClose={() => setModalOpen(false)}>
                 <DialogContent>

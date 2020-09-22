@@ -217,22 +217,21 @@ const MeetingsForm: React.FC<Props> = ({
             />
 
             {step === 2 ? (
-                <Grid container spacing={3} justify="space-evenly">
-                    {meetings.map((meeting) => (
-                        <Grid item wrap="wrap">
-                            <MeetingInput
-                                meeting={meeting}
-                                onChange={handleMeetingChanged}
-                                key={meeting.dateKey}
-                            />
-                        </Grid>
-                    ))}
-                </Grid>
+                <>
+                    <Grid container spacing={3} justify="space-evenly">
+                        {meetings.map((meeting) => (
+                            <Grid item wrap="wrap">
+                                <MeetingInput
+                                    meeting={meeting}
+                                    onChange={handleMeetingChanged}
+                                    key={meeting.dateKey}
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
+                    <button type="submit">SUBMIT</button>
+                </>
             ) : null}
-
-            <pre>{JSON.stringify(meetings, null, 2)}</pre>
-
-            <button type="submit">SUBMIT</button>
         </form>
     );
 };

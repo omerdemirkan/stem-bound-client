@@ -51,19 +51,16 @@ const LogInPage: React.FC = () => {
             </Head>
 
             <FormCard style={{ margin: "15vh auto" }}>
+                <Typography
+                    variant="h4"
+                    align="center"
+                    color="textPrimary"
+                    gutterBottom
+                >
+                    <LockIcon style={{ marginRight: "20px" }} color="primary" />
+                    Log In
+                </Typography>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <Typography
-                        variant="h4"
-                        align="center"
-                        color="textPrimary"
-                        gutterBottom
-                    >
-                        <LockIcon
-                            style={{ marginRight: "20px" }}
-                            color="primary"
-                        />
-                        Log In
-                    </Typography>
                     {error ? (
                         <Typography
                             paragraph
