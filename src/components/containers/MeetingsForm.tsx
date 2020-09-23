@@ -157,6 +157,19 @@ const MeetingsForm: React.FC<Props> = ({
                 <Step>
                     <StepLabel>Edit meetings</StepLabel>
                 </Step>
+                {step === 2 ? (
+                    <Step>
+                        <StepLabel>
+                            <Button
+                                onClick={handleSubmit}
+                                variant="contained"
+                                color="primary"
+                            >
+                                SUBMIT
+                            </Button>
+                        </StepLabel>
+                    </Step>
+                ) : null}
             </Stepper>
 
             {step < 2 ? (
@@ -175,7 +188,7 @@ const MeetingsForm: React.FC<Props> = ({
 
             {step === 2 ? (
                 <>
-                    <Grid container spacing={3} justify="space-evenly">
+                    <Grid container spacing={3}>
                         {meetings.map((meeting) => (
                             <Grid item wrap="wrap" xs={12} md={6} lg={4}>
                                 <MeetingInput

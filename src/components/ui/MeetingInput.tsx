@@ -29,6 +29,7 @@ import { useContext, useRef } from "react";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 import NotificationContext from "../contexts/NotificationContext";
+import MeetingCard from "./MeetingCard";
 
 const useStyles = makeStyles({
     card: {
@@ -75,155 +76,128 @@ const MeetingInput: React.FC<Props> = ({
     const classes = useStyles();
 
     return (
-        <Card className={classes.card} {...CardProps}>
-            <CardHeader
-                title={meetingDateDisplayData.dateString}
-                subheader={`From ${meetingDateDisplayData.startTimeString} to ${meetingDateDisplayData.endTimeString}`}
-            />
+        <MeetingCard
+            CardProps={CardProps}
+            meeting={meeting as any}
+            renderFooter={() => (
+                <CardActions className={classes.cardAction}>
+                    <IconButton
+                        aria-label="delete"
+                        onClick={() =>
+                            createAlert({
+                                headerText:
+                                    "Are you sure you want to delete this event?",
+                                bodyText: `This will not delete an existing meeting, but will require you to go back to step 2 to create a meeting on ${meetingDateDisplayData.dateString}.`,
+                                type: ENotificationTypes.DANGER,
+                                onOk: () => onDelete(meeting.dateKey),
+                                onCancel: () => {},
+                            })
+                        }
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                    <InputButton
+                        onSubmit={onChange}
+                        initialValue={clone(meeting)}
+                        renderButton={(props) => (
+                            <IconButton
+                                aria-label="edit"
+                                color="primary"
+                                {...props}
+                            >
+                                <CreateIcon />
+                            </IconButton>
+                        )}
+                        renderInput={function (
+                            value,
+                            setValue,
+                            { updateFields, handleChange }
+                        ) {
+                            return (
+                                <>
+                                    <Typography variant="h5" align="center">
+                                        {meetingDateDisplayData.dateString}
+                                    </Typography>
+                                    <TimePicker
+                                        onChange={(date) =>
+                                            updateFields({ start: date })
+                                        }
+                                        name="start"
+                                        label="Start"
+                                        value={value.start}
+                                        className={classes.halfWidth}
+                                        margin="normal"
+                                    />
+                                    <TimePicker
+                                        onChange={(date) =>
+                                            updateFields({ end: date })
+                                        }
+                                        name="end"
+                                        label="End"
+                                        value={value.end}
+                                        className={classes.halfWidth}
+                                        margin="normal"
+                                    />
 
-            <Divider />
+                                    <Select
+                                        onChange={handleChange}
+                                        name="type"
+                                        defaultValue={value.type}
+                                        fullWidth
+                                        className={classes.select}
+                                    >
+                                        {availableMeetingTypes.map(
+                                            (meetingType) => (
+                                                <MenuItem
+                                                    value={meetingType}
+                                                    key={meetingType}
+                                                >
+                                                    {getMeetingTypeDisplay(
+                                                        meetingType
+                                                    )}
+                                                </MenuItem>
+                                            )
+                                        )}
+                                    </Select>
 
-            <CardContent>
-                {meeting.type === EMeetingTypes.IN_PERSON ? (
-                    <Typography paragraph>
-                        An in-person meeting lasting{" "}
-                        {meetingDateDisplayData.durationString} in room{" "}
-                        <strong>{meeting.roomNum}</strong>.
-                    </Typography>
-                ) : (
-                    <Typography paragraph>
-                        A remote meeting lasting{" "}
-                        {meetingDateDisplayData.durationString}. Url:{" "}
-                        <strong>{meeting.url}</strong>.
-                    </Typography>
-                )}
-                <Typography paragraph>
-                    Message: {meeting.message || "no message"}
-                </Typography>
-            </CardContent>
-
-            <Divider />
-
-            <CardActions className={classes.cardAction}>
-                <IconButton
-                    aria-label="delete"
-                    onClick={() =>
-                        createAlert({
-                            headerText:
-                                "Are you sure you want to delete this event?",
-                            bodyText: `This will not delete an existing meeting, but will require you to go back to step 2 to create a meeting on ${meetingDateDisplayData.dateString}.`,
-                            type: ENotificationTypes.DANGER,
-                            onOk: () => onDelete(meeting.dateKey),
-                            onCancel: () => {},
-                        })
-                    }
-                >
-                    <DeleteIcon />
-                </IconButton>
-                <InputButton
-                    onSubmit={onChange}
-                    initialValue={clone(meeting)}
-                    renderButton={(props) => (
-                        <IconButton
-                            aria-label="edit"
-                            color="primary"
-                            {...props}
-                        >
-                            <CreateIcon />
-                        </IconButton>
-                    )}
-                    renderInput={function (
-                        value,
-                        setValue,
-                        { updateFields, handleChange }
-                    ) {
-                        return (
-                            <>
-                                <Typography variant="h5" align="center">
-                                    {meetingDateDisplayData.dateString}
-                                </Typography>
-                                <TimePicker
-                                    onChange={(date) =>
-                                        updateFields({ start: date })
-                                    }
-                                    name="start"
-                                    label="Start"
-                                    value={value.start}
-                                    className={classes.halfWidth}
-                                    margin="normal"
-                                />
-                                <TimePicker
-                                    onChange={(date) =>
-                                        updateFields({ end: date })
-                                    }
-                                    name="end"
-                                    label="End"
-                                    value={value.end}
-                                    className={classes.halfWidth}
-                                    margin="normal"
-                                />
-
-                                <Select
-                                    onChange={handleChange}
-                                    name="type"
-                                    defaultValue={value.type}
-                                    fullWidth
-                                    className={classes.select}
-                                >
-                                    {availableMeetingTypes.map(
-                                        (meetingType) => (
-                                            <MenuItem
-                                                value={meetingType}
-                                                key={meetingType}
-                                            >
-                                                {getMeetingTypeDisplay(
-                                                    meetingType
-                                                )}
-                                            </MenuItem>
-                                        )
+                                    {value.type === EMeetingTypes.IN_PERSON ? (
+                                        <TextField
+                                            onChange={handleChange}
+                                            value={value.roomNum || ""}
+                                            name="roomNum"
+                                            label="Room"
+                                            margin="normal"
+                                            fullWidth
+                                        />
+                                    ) : (
+                                        <TextField
+                                            onChange={handleChange}
+                                            value={value.url || ""}
+                                            name="url"
+                                            label="Meeting Url"
+                                            margin="normal"
+                                            fullWidth
+                                        />
                                     )}
-                                </Select>
 
-                                {value.type === EMeetingTypes.IN_PERSON ? (
                                     <TextField
                                         onChange={handleChange}
-                                        value={value.roomNum || ""}
-                                        name="roomNum"
-                                        label="Room"
+                                        name="message"
+                                        value={value.message}
+                                        label="Message"
                                         margin="normal"
                                         fullWidth
+                                        multiline
                                     />
-                                ) : (
-                                    <TextField
-                                        onChange={handleChange}
-                                        value={value.url || ""}
-                                        name="url"
-                                        label="Meeting Url"
-                                        margin="normal"
-                                        fullWidth
-                                    />
-                                )}
-
-                                <TextField
-                                    onChange={handleChange}
-                                    name="message"
-                                    value={value.message}
-                                    label="Message"
-                                    margin="normal"
-                                    fullWidth
-                                    multiline
-                                />
-                            </>
-                        );
-                    }}
-                >
-                    Edit Meeting
-                </InputButton>
-            </CardActions>
-            <style jsx>{`
-                .
-            `}</style>
-        </Card>
+                                </>
+                            );
+                        }}
+                    >
+                        Edit Meeting
+                    </InputButton>
+                </CardActions>
+            )}
+        />
     );
 };
 
