@@ -10,7 +10,7 @@ import { TimePicker } from "@material-ui/pickers";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { IDefaultMeetingData } from "../../utils/types";
-import FormCard from "./FormCard";
+import FormCard from "../ui/FormCard";
 
 const useStyles = makeStyles({
     defaultTimePicker: {

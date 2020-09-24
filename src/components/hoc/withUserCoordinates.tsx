@@ -1,4 +1,3 @@
-import AlertModal, { AlertModalFooter } from "../ui/AlertModal";
 import AuthContext from "../contexts/AuthContext";
 import NotificationContext from "../contexts/NotificationContext";
 import { useState, useEffect, useContext } from "react";

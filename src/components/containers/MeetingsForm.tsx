@@ -19,7 +19,7 @@ import {
     Stepper,
     TextField,
 } from "@material-ui/core";
-import MeetingDefaultDataForm from "../ui/MeetingDefaultDataForm";
+import MeetingDefaultDataForm from "../forms/MeetingDefaultDataForm";
 
 const useStyles = makeStyles({
     defaultTimePicker: {

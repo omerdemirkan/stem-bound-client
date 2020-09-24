@@ -1,4 +1,3 @@
-import AlertModal, { AlertModalFooter } from "../ui/AlertModal";
 import { createContext, useState, useContext } from "react";
 import {
     INotificationContextState,
