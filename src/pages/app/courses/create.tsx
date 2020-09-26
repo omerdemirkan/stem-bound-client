@@ -6,7 +6,7 @@ import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { createCourse } from "../../../utils/services";
 import AuthContext from "../../../components/contexts/AuthContext";
-import CreateCourseForm from "../../../components/forms/CreateCourseForm";
+import CourseForm from "../../../components/forms/CourseForm";
 
 const CreateCourseAppPage: React.FC = () => {
     const router = useRouter();
@@ -35,7 +35,7 @@ const CreateCourseAppPage: React.FC = () => {
                 <title>STEM-bound - Create Course</title>
             </Head>
             {status === EStateStatus.loading ? <h3>Loading...</h3> : null}
-            <CreateCourseForm onSubmit={handleSubmit} userId={user._id} />
+            <CourseForm onSubmit={handleSubmit} userId={user._id} />
         </AppLayout>
     );
 };

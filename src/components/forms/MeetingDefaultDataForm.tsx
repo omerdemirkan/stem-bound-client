@@ -28,12 +28,14 @@ interface Props {
     requiredFields: string[];
     onSubmit(values: IDefaultMeetingData): any;
     CardProps?: CardProps;
+    withoutCard?: boolean;
 }
 
 const MeetingDefaultDataForm: React.FC<Props> = ({
     requiredFields,
     CardProps,
     onSubmit,
+    withoutCard,
 }) => {
     const { register, errors, control, setValue, handleSubmit } = useForm();
     const classes = useStyles();
@@ -47,8 +49,13 @@ const MeetingDefaultDataForm: React.FC<Props> = ({
         setValue("start", startTime);
         setValue("end", endTime);
     }, []);
+
+    const ModifiedFormCard = withoutCard
+        ? ({ children }) => <div>{children}</div>
+        : FormCard;
+
     return (
-        <FormCard {...CardProps}>
+        <ModifiedFormCard {...CardProps}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Alert severity="info" className={classes.alert}>
                     <AlertTitle>Choose default times, room and url.</AlertTitle>
@@ -122,7 +129,7 @@ const MeetingDefaultDataForm: React.FC<Props> = ({
                     Next
                 </Button>
             </form>
-        </FormCard>
+        </ModifiedFormCard>
     );
 };
 

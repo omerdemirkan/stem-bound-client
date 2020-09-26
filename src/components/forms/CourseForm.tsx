@@ -21,9 +21,15 @@ interface Props {
     onSubmit(values: any): void;
     userId: string;
     CardProps?: CardProps;
+    withoutCard?: boolean;
 }
 
-const CreateCourseForm: React.FC<Props> = ({ onSubmit, userId, CardProps }) => {
+const CourseForm: React.FC<Props> = ({
+    onSubmit,
+    userId,
+    withoutCard,
+    CardProps,
+}) => {
     const { register, handleSubmit, errors, control } = useForm();
 
     function onSubmitClicked(values) {
@@ -36,8 +42,12 @@ const CreateCourseForm: React.FC<Props> = ({ onSubmit, userId, CardProps }) => {
         onSubmit(values);
     }
 
+    const ModifiedFormCard = withoutCard
+        ? ({ children }) => <div>{children}</div>
+        : FormCard;
+
     return (
-        <FormCard {...CardProps}>
+        <ModifiedFormCard {...CardProps}>
             <form onSubmit={handleSubmit(onSubmitClicked)}>
                 <Typography variant="h5" align="center" gutterBottom>
                     <LibraryBooksIcon
@@ -154,8 +164,8 @@ const CreateCourseForm: React.FC<Props> = ({ onSubmit, userId, CardProps }) => {
                     Submit
                 </Button>
             </form>
-        </FormCard>
+        </ModifiedFormCard>
     );
 };
 
-export default CreateCourseForm;
+export default CourseForm;

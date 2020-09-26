@@ -23,6 +23,7 @@ interface Props {
     loading?: boolean;
     success?: boolean;
     CardProps?: CardProps;
+    withoutCard?: boolean;
 }
 
 const LogInForm: React.FC<Props> = ({
@@ -31,13 +32,18 @@ const LogInForm: React.FC<Props> = ({
     loading,
     success,
     CardProps,
+    withoutCard,
 }) => {
     const { register, handleSubmit, errors } = useForm();
 
     const classes = useStyles();
 
+    const ModifiedFormCard = withoutCard
+        ? ({ children }) => <div>{children}</div>
+        : FormCard;
+
     return (
-        <FormCard {...CardProps}>
+        <ModifiedFormCard {...CardProps}>
             <Typography
                 variant="h4"
                 align="center"
@@ -103,7 +109,7 @@ const LogInForm: React.FC<Props> = ({
                     SUBMIT
                 </Button>
             </form>
-        </FormCard>
+        </ModifiedFormCard>
     );
 };
 

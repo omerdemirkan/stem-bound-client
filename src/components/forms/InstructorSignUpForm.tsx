@@ -26,6 +26,7 @@ interface Props {
     loading?: boolean;
     success?: boolean;
     CardProps?: CardProps;
+    withoutCard?: boolean;
 }
 
 const InstructorSignUpForm: React.FC<Props> = ({
@@ -33,12 +34,17 @@ const InstructorSignUpForm: React.FC<Props> = ({
     loading,
     success,
     errorMessage,
+    withoutCard,
 }) => {
     const { register, handleSubmit, errors, control } = useForm();
     const classes = useStyles();
 
+    const ModifiedFormCard = withoutCard
+        ? ({ children }) => <div>{children}</div>
+        : FormCard;
+
     return (
-        <FormCard>
+        <ModifiedFormCard>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Typography variant="h5" align="center" gutterBottom>
                     <InfoIcon style={{ marginRight: "20px" }} color="primary" />
@@ -200,7 +206,7 @@ const InstructorSignUpForm: React.FC<Props> = ({
                     SUBMIT
                 </Button>
             </form>
-        </FormCard>
+        </ModifiedFormCard>
     );
 };
 
