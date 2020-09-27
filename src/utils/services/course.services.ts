@@ -95,7 +95,7 @@ export function fetchMeetingsByCourseId({
         limit,
         skip,
     });
-    return mapResponseData(apiClient.get(path), mapCourseData);
+    return mapResponseData(apiClient.get(path), mapMeetingData);
 }
 
 export function fetchMeetingById({
@@ -104,7 +104,7 @@ export function fetchMeetingById({
 }: IFetchMeetingOptions): Promise<IApiResponse<IMeeting>> {
     return mapResponseData(
         apiClient.get(`/courses/${courseId}/meetings/${meetingId}`),
-        mapCourseData
+        mapMeetingData
     );
 }
 

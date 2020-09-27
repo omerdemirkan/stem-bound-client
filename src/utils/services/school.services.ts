@@ -1,4 +1,4 @@
-import { ISchoolOriginal, IFetchSchoolsOptions } from "../types";
+import { ISchool, IFetchSchoolsOptions } from "../types";
 import {
     apiClient,
     appendQueriesToUrl,
@@ -13,7 +13,7 @@ export function fetchSchools({
     skip,
     text,
     withSchoolOfficials,
-}: IFetchSchoolsOptions): Promise<IApiResponse<ISchoolOriginal[]>> {
+}: IFetchSchoolsOptions): Promise<IApiResponse<ISchool[]>> {
     const path = appendQueriesToUrl("/schools", {
         lat: coordinates?.latitude,
         long: coordinates?.longitude,
@@ -25,21 +25,19 @@ export function fetchSchools({
     return mapResponseData(apiClient.get(path), mapSchoolData);
 }
 
-export function fetchSchoolById(
-    id: string
-): Promise<IApiResponse<ISchoolOriginal>> {
+export function fetchSchoolById(id: string): Promise<IApiResponse<ISchool>> {
     return mapResponseData(apiClient.get(`/schools/${id}`), mapSchoolData);
 }
 
 export function fetchSchoolByUserId(
     id: string
-): Promise<IApiResponse<ISchoolOriginal>> {
+): Promise<IApiResponse<ISchool>> {
     return mapResponseData(apiClient.get(`/users/${id}/school`), mapSchoolData);
 }
 
 export function fetchSchoolByCourseId(
     id: string
-): Promise<IApiResponse<ISchoolOriginal>> {
+): Promise<IApiResponse<ISchool>> {
     return mapResponseData(
         apiClient.get(`/courses/${id}/school`),
         mapSchoolData

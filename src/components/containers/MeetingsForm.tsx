@@ -188,18 +188,14 @@ const MeetingsForm: React.FC<Props> = ({
 
             {step === 2 ? (
                 <>
-                    <Grid container spacing={3}>
-                        {meetings.map((meeting) => (
-                            <Grid item wrap="wrap" xs={12} md={6} lg={4}>
-                                <MeetingInput
-                                    meeting={meeting}
-                                    onChange={handleMeetingChanged}
-                                    onDelete={handleDeleteMeeting}
-                                    key={meeting.dateKey}
-                                />
-                            </Grid>
-                        ))}
-                    </Grid>
+                    {meetings.map((meeting) => (
+                        <MeetingInput
+                            meeting={meeting}
+                            onChange={handleMeetingChanged}
+                            onDelete={handleDeleteMeeting}
+                            key={meeting.dateKey}
+                        />
+                    ))}
                     <button onClick={handleSubmit}>SUBMIT</button>
                 </>
             ) : null}

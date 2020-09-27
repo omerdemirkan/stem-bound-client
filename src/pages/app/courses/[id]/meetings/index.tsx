@@ -4,24 +4,31 @@ import withAuth from "../../../../../components/hoc/withAuth";
 import useSWR from "swr";
 import AuthContext from "../../../../../components/contexts/AuthContext";
 import Link from "next/link";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import {
     courseFetcher,
     courseMeetingsFetcher,
+    schoolFetcher,
+    userSchoolFetcher,
 } from "../../../../../utils/services";
+import MeetingCard from "../../../../../components/ui/MeetingCard";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
     const { data: course, error: fetchCourseError } = useSWR(
-        queryCourseId ? `/courses/${queryCourseId}` : null,
+        queryCourseId && `/courses/${queryCourseId}`,
         courseFetcher(queryCourseId as any)
     );
     const { data: meetings, error: fetchCourseMeetingsError } = useSWR(
-        queryCourseId ? `/courses/${queryCourseId}/meetings` : null,
+        queryCourseId && `/courses/${queryCourseId}/meetings`,
         courseMeetingsFetcher({ courseId: queryCourseId as any })
+    );
+    const { data: school } = useSWR(
+        course?.meta.school && `/schools/${course?.meta.school}`,
+        schoolFetcher(course?.meta.school)
     );
     const { user } = useContext(AuthContext);
 
@@ -54,7 +61,14 @@ const MeetingsAppPage: React.FC = () => {
                 </Link>
             ) : null}
 
-            <pre>{JSON.stringify(meetings || course?.meetings, null, 2)}</pre>
+            {meetings?.map((meeting) => (
+                <MeetingCard
+                    meeting={meeting}
+                    key={meeting._id}
+                    courseTitle={course?.title}
+                    schoolName={school?.name}
+                />
+            ))}
         </AppLayout>
     );
 };

@@ -19,6 +19,7 @@ import {
     fetchMessagesByChatId,
 } from "./chat.services";
 import { fetchUserById, fetchUserSchoolById } from "./user.services";
+import { fetchSchoolById } from "./school.services";
 
 export function courseFetcher(id: string) {
     return async () => (await fetchCourseById(id))?.data;
@@ -64,6 +65,10 @@ export function userSchoolFetcher(userId: string) {
     return async () => (await fetchUserSchoolById(userId)).data;
 }
 
-export function schoolCoursesFetcher(courseId: string) {
-    return async () => (await fetchCoursesBySchoolId(courseId)).data;
+export function schoolCoursesFetcher(schoolId: string) {
+    return async () => (await fetchCoursesBySchoolId(schoolId)).data;
+}
+
+export function schoolFetcher(schoolId: string) {
+    return async () => (await fetchSchoolById(schoolId)).data;
 }
