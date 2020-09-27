@@ -9,5 +9,5 @@
 @import "../../node_modules/react-image-crop/dist/ReactCrop.css";
 
 .test {
-  display: grid;
+  justify-content: right;
 }

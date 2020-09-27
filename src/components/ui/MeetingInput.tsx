@@ -46,6 +46,8 @@ const useStyles = makeStyles({
 
 interface Props {
     meeting: IMeetingOriginal & { dateKey: string };
+    courseTitle: string;
+    schoolName: string;
     onChange: (meeting: IMeetingOriginal) => any;
     onDelete: (dateKey: string) => any;
     availableMeetingTypes?: EMeetingTypes[];
@@ -54,10 +56,12 @@ interface Props {
 
 const MeetingInput: React.FC<Props> = ({
     meeting,
+    courseTitle,
+    schoolName,
     onChange,
+    onDelete,
     availableMeetingTypes,
     CardProps,
-    onDelete,
 }) => {
     availableMeetingTypes =
         availableMeetingTypes || Object.values(EMeetingTypes);
@@ -75,10 +79,13 @@ const MeetingInput: React.FC<Props> = ({
         <MeetingCard
             CardProps={CardProps}
             meeting={meeting as any}
-            renderFooter={() => (
+            schoolName={schoolName}
+            courseTitle={courseTitle}
+            renderActions={() => (
                 <CardActions className={classes.cardAction}>
                     <IconButton
                         aria-label="delete"
+                        color="secondary"
                         onClick={() =>
                             createAlert({
                                 headerText:

@@ -44,14 +44,14 @@ interface Props {
     courseTitle: string;
     schoolName: string;
     CardProps?: CardProps;
-    renderFooter?(): any;
+    renderActions?(): any;
 }
 
 const MeetingCard: React.FC<Props> = ({
     meeting,
     schoolName,
     courseTitle,
-    renderFooter,
+    renderActions,
     CardProps,
 }) => {
     let { current: meetingDateDisplayData } = useRef<IMeetingDateDisplayData>();
@@ -85,33 +85,39 @@ const MeetingCard: React.FC<Props> = ({
             </CardContent>
 
             <CardContent className={classes.cardContent}>
-                {meeting.type === EMeetingTypes.IN_PERSON ? (
-                    <Typography
-                        paragraph
-                        align="right"
-                        className={classes.cardContentParagraph}
-                    >
-                        Room Number: {meeting.roomNum}
-                    </Typography>
-                ) : (
-                    <Typography
-                        paragraph
-                        align="right"
-                        className={classes.cardContentParagraph}
-                        style={{ cursor: "pointer" }}
-                    >
-                        {meeting.url}
-                        <IconButton className={classes.copyIconButton}>
-                            <FileCopyIcon />
-                        </IconButton>
-                    </Typography>
-                )}
-                {renderFooter && renderFooter()}
+                <div className="actions-wrapper">
+                    {meeting.type === EMeetingTypes.IN_PERSON ? (
+                        <Typography
+                            paragraph
+                            align="right"
+                            className={classes.cardContentParagraph}
+                        >
+                            Room Number: {meeting.roomNum}
+                        </Typography>
+                    ) : (
+                        <Typography
+                            paragraph
+                            align="right"
+                            className={classes.cardContentParagraph}
+                            style={{ cursor: "pointer" }}
+                        >
+                            <strong>{meeting.url}</strong>
+                        </Typography>
+                    )}
+                    <IconButton className={classes.copyIconButton}>
+                        <FileCopyIcon />
+                    </IconButton>
+                    {renderActions && renderActions()}
+                </div>
             </CardContent>
 
             <style jsx>{`
-        .
-    `}</style>
+                .actions-wrapper {
+                    display: flex;
+                    justify-content: end;
+                    align-items: center;
+                }
+            `}</style>
         </Card>
     );
 };

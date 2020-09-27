@@ -39,6 +39,8 @@ const useStyles = makeStyles({
 interface Props {
     defaultMeetingType: EMeetingTypes;
     courseType: ECourseTypes;
+    courseTitle: string;
+    schoolName: string;
     initialMeetingInputs?: IMeetingInput[];
     onChange?: (meetings: IMeetingOriginal[]) => any;
     onSubmit?: (meetings: IMeetingOriginal[]) => any;
@@ -50,6 +52,8 @@ const MeetingsForm: React.FC<Props> = ({
     defaultMeetingType,
     initialMeetingInputs,
     courseType,
+    courseTitle,
+    schoolName,
 }) => {
     const [meetings, setMeetings] = useState<IMeetingInput[]>(
         initialMeetingInputs || []
@@ -194,6 +198,8 @@ const MeetingsForm: React.FC<Props> = ({
                             onChange={handleMeetingChanged}
                             onDelete={handleDeleteMeeting}
                             key={meeting.dateKey}
+                            courseTitle={courseTitle}
+                            schoolName={schoolName}
                         />
                     ))}
                     <button onClick={handleSubmit}>SUBMIT</button>

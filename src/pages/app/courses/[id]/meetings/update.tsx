@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import {
     createMeetings,
     courseFetcherUnmapped,
+    schoolFetcher,
 } from "../../../../../utils/services";
 import {
     IMeetingOriginal,
@@ -26,6 +27,10 @@ const UpdateMeetingAppPage: React.FC = () => {
     const { data: course, error, mutate: mutateCourse } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}#unmapped` : null,
         courseFetcherUnmapped(queryCourseId as any)
+    );
+    const { data: school } = useSWR(
+        course?.meta.school && `/schools/${course?.meta.school}`,
+        schoolFetcher(course?.meta.school)
     );
 
     function handleSubmit(meetings: IMeetingOriginal[]) {
@@ -71,6 +76,8 @@ const UpdateMeetingAppPage: React.FC = () => {
                             .startOf("day")
                             .toString(),
                     }))}
+                    courseTitle={course?.title}
+                    schoolName={school?.name}
                     courseType={course.type}
                     onSubmit={handleSubmit}
                 />
