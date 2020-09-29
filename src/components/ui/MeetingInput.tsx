@@ -3,6 +3,9 @@ import {
     EMeetingTypes,
     IMeetingDateDisplayData,
     ENotificationTypes,
+    IAlertData,
+    IMeetingInput,
+    IMeeting,
 } from "../../utils/types";
 import {
     clone,
@@ -45,13 +48,14 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-    meeting: IMeetingOriginal & { dateKey: string };
+    meeting: IMeetingInput | IMeeting;
     courseTitle: string;
     schoolName: string;
     onChange: (meeting: IMeetingOriginal) => any;
     onDelete: (dateKey: string) => any;
     availableMeetingTypes?: EMeetingTypes[];
     CardProps?: CardProps;
+    DeleteAlertData?: IAlertData;
 }
 
 const MeetingInput: React.FC<Props> = ({
@@ -62,6 +66,7 @@ const MeetingInput: React.FC<Props> = ({
     onDelete,
     availableMeetingTypes,
     CardProps,
+    DeleteAlertData,
 }) => {
     availableMeetingTypes =
         availableMeetingTypes || Object.values(EMeetingTypes);
@@ -92,8 +97,12 @@ const MeetingInput: React.FC<Props> = ({
                                     "Are you sure you want to delete this event?",
                                 bodyText: `This will not delete an existing meeting, but will require you to go back to step 2 to create a meeting on ${meetingDateDisplayData.dateString}.`,
                                 type: ENotificationTypes.DANGER,
-                                onOk: () => onDelete(meeting.dateKey),
+                                onOk: () =>
+                                    onDelete(
+                                        (meeting as any).dateKey || meeting._id
+                                    ),
                                 onCancel: () => {},
+                                ...DeleteAlertData,
                             })
                         }
                     >

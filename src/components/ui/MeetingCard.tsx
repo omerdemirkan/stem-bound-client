@@ -72,7 +72,7 @@ const MeetingCard: React.FC<Props> = ({
 
     const classes = useStyles();
 
-    const smallScreen = useMediaQuery("(max-width: 900px)");
+    const smallScreen = useMediaQuery("(max-width: 1100px)");
 
     return (
         <Card

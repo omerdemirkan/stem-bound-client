@@ -14,6 +14,7 @@ import {
     userSchoolFetcher,
 } from "../../../../../utils/services";
 import MeetingCard from "../../../../../components/ui/MeetingCard";
+import MeetingInput from "../../../../../components/forms/MeetingForm";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -49,16 +50,29 @@ const MeetingsAppPage: React.FC = () => {
             </Head>
 
             {course?.meta.instructors.includes(user._id) ? (
-                <Link
-                    href="/app/courses/[id]/meetings/update"
-                    as={`/app/courses/${course?._id}/meetings/update`}
-                >
-                    <a>
-                        <Button variant="contained">
-                            CREATE/UDPATE MEETINGS
-                        </Button>
-                    </a>
-                </Link>
+                <>
+                    <Link
+                        href="/app/courses/[id]/meetings/create"
+                        as={`/app/courses/${course?._id}/meetings/create`}
+                    >
+                        <a>
+                            <Button variant="contained" color="primary">
+                                CREATE MEETINGS
+                            </Button>
+                        </a>
+                    </Link>
+                    <Link
+                        href="/app/courses/[id]/meetings/update"
+                        as={`/app/courses/${course?._id}/meetings/update`}
+                        shallow
+                    >
+                        <a>
+                            <Button variant="contained" color="primary">
+                                UPDATE MEETINGS
+                            </Button>
+                        </a>
+                    </Link>
+                </>
             ) : null}
 
             {meetings?.map((meeting) => (
