@@ -1,5 +1,6 @@
 import {
     Card,
+    CardActions,
     CardContent,
     CardHeader,
     CardProps,
@@ -8,14 +9,18 @@ import {
     makeStyles,
     Typography,
 } from "@material-ui/core";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { getMeetingDateDisplayData } from "../../utils/helpers";
 import {
     IMeeting,
     IMeetingDateDisplayData,
     EMeetingTypes,
+    ENotificationTypes,
 } from "../../utils/types";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import NotificationContext from "../contexts/NotificationContext";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles({
     card: {
@@ -23,11 +28,15 @@ const useStyles = makeStyles({
         maxWidth: "100%",
         display: "grid",
         margin: "20px 0",
-        gridTemplateColumns: "400px 5px auto auto",
     },
 
     cardContent: {
         paddingTop: "20px",
+    },
+
+    cardActions: {
+        justifySelf: "end",
+        paddingRight: "30px",
     },
 
     cardContentParagraph: {
@@ -59,14 +68,29 @@ const MeetingCard: React.FC<Props> = ({
     meetingDateDisplayData =
         meetingDateDisplayData || getMeetingDateDisplayData(meeting);
 
+    const { createSnackbar } = useContext(NotificationContext);
+
     const classes = useStyles();
+
+    const smallScreen = useMediaQuery("(max-width: 900px)");
+
     return (
-        <Card className={classes.card} {...CardProps}>
+        <Card
+            className={classes.card}
+            style={
+                smallScreen
+                    ? { gridTemplateColumns: "100%" }
+                    : {
+                          gridTemplateColumns: "400px 5px auto auto",
+                      }
+            }
+            {...CardProps}
+        >
             <CardHeader
                 title={meetingDateDisplayData.dateString}
                 subheader={`${meeting.displayType}, from ${meetingDateDisplayData.startTimeString} to ${meetingDateDisplayData.endTimeString}, ${meetingDateDisplayData.durationString}`}
             />
-            <Divider orientation="vertical" />
+            <Divider orientation={smallScreen ? "horizontal" : "vertical"} />
 
             <CardContent className={classes.cardContent}>
                 <Typography
@@ -84,7 +108,7 @@ const MeetingCard: React.FC<Props> = ({
                 </Typography>
             </CardContent>
 
-            <CardContent className={classes.cardContent}>
+            <CardActions className={classes.cardActions}>
                 <div className="actions-wrapper">
                     {meeting.type === EMeetingTypes.IN_PERSON ? (
                         <Typography
@@ -95,21 +119,34 @@ const MeetingCard: React.FC<Props> = ({
                             Room Number: {meeting.roomNum}
                         </Typography>
                     ) : (
-                        <Typography
-                            paragraph
-                            align="right"
-                            className={classes.cardContentParagraph}
-                            style={{ cursor: "pointer" }}
-                        >
-                            <strong>{meeting.url}</strong>
-                        </Typography>
+                        <>
+                            <Typography
+                                paragraph
+                                align="right"
+                                className={classes.cardContentParagraph}
+                                style={{ cursor: "pointer" }}
+                            >
+                                <strong>{meeting.url}</strong>
+                            </Typography>
+                            <CopyToClipboard
+                                text={meeting.url}
+                                onCopy={() =>
+                                    createSnackbar({
+                                        text: "Meeting URL Copied to Clipboard",
+                                        type: ENotificationTypes.SUCCESS,
+                                    })
+                                }
+                            >
+                                <IconButton className={classes.copyIconButton}>
+                                    <FileCopyIcon />
+                                </IconButton>
+                            </CopyToClipboard>
+                        </>
                     )}
-                    <IconButton className={classes.copyIconButton}>
-                        <FileCopyIcon />
-                    </IconButton>
+
                     {renderActions && renderActions()}
                 </div>
-            </CardContent>
+            </CardActions>
 
             <style jsx>{`
                 .actions-wrapper {
