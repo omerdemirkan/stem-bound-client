@@ -10,7 +10,6 @@ import {
     IFetchMeetingsOptions,
     IFetchSearchDataOptions,
     IFetchChatsOptions,
-    ICourseOriginal,
 } from "../types";
 import { fetchSearchData } from "./search.services";
 import {
@@ -18,7 +17,11 @@ import {
     fetchChatById,
     fetchMessagesByChatId,
 } from "./chat.services";
-import { fetchUserById, fetchUserSchoolById } from "./user.services";
+import {
+    fetchUserById,
+    fetchUserSchoolById,
+    fetchInstructorsByCourseId,
+} from "./user.services";
 import { fetchSchoolById } from "./school.services";
 
 export function courseFetcher(id: string) {
@@ -71,4 +74,8 @@ export function schoolCoursesFetcher(schoolId: string) {
 
 export function schoolFetcher(schoolId: string) {
     return async () => (await fetchSchoolById(schoolId)).data;
+}
+
+export function courseInstructorsFetcher(courseId: string) {
+    return async () => (await fetchInstructorsByCourseId(courseId)).data;
 }

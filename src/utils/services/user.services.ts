@@ -67,7 +67,7 @@ export function fetchStudentsBySchoolId(
     );
 }
 
-export function getInstructorsByCourseId(
+export function fetchInstructorsByCourseId(
     id: string
 ): Promise<IApiResponse<IInstructor[]>> {
     return mapResponseData(
@@ -76,7 +76,7 @@ export function getInstructorsByCourseId(
     );
 }
 
-export function getStudentsByCourseId(
+export function fetchStudentsByCourseId(
     id: string
 ): Promise<IApiResponse<IStudent[]>> {
     return mapResponseData(

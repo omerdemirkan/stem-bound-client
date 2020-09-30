@@ -147,7 +147,7 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                             let bc = (
                                 <Typography
                                     key={label + href}
-                                    variant="h5"
+                                    variant="h6"
                                     color={
                                         isLast ? "textPrimary" : "textSecondary"
                                     }
