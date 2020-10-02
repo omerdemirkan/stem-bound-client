@@ -55,7 +55,7 @@ interface Props {
     onDelete: (dateKey: string) => any;
     availableMeetingTypes?: EMeetingTypes[];
     CardProps?: CardProps;
-    DeleteAlertData?: IAlertData;
+    DeleteAlertData?: Partial<IAlertData>;
 }
 
 const MeetingInput: React.FC<Props> = ({

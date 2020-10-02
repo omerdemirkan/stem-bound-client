@@ -140,7 +140,7 @@ export function deleteMeetingById({
 }: IDeleteMeetingOptions): Promise<IApiResponse<any>> {
     return mapResponseData(
         apiClient.delete(`/courses/${courseId}/meetings/${meetingId}`),
-        mapCourseData
+        mapMeetingData
     );
 }
 
