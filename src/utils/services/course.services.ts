@@ -130,7 +130,7 @@ export function updateMeetingById({
             `/courses/${courseId}/meetings/${meetingId}`,
             meetingData
         ),
-        mapCourseData
+        mapMeetingData
     );
 }
 

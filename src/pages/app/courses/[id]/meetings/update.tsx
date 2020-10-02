@@ -7,11 +7,18 @@ import {
     courseFetcher,
     courseMeetingsFetcher,
     deleteMeetingById,
+    updateMeetingById,
 } from "../../../../../utils/services";
-import { ENotificationTypes, EUserRoles } from "../../../../../utils/types";
+import {
+    ENotificationTypes,
+    EUserRoles,
+    ICourseOriginal,
+    IMeetingOriginal,
+} from "../../../../../utils/types";
 import MeetingInput from "../../../../../components/ui/MeetingInput";
 import { useContext } from "react";
 import NotificationContext from "../../../../../components/contexts/NotificationContext";
+import { clone } from "../../../../../utils/helpers";
 
 const UpdateMeetingAppPage: React.FC = () => {
     const router = useRouter();
@@ -35,12 +42,33 @@ const UpdateMeetingAppPage: React.FC = () => {
         console.log("inside handleDeleteCOurse");
         await deleteMeetingById({ meetingId, courseId: course._id });
         createSnackbar({
-            text: "Meeting has been deleted",
+            text: "Meeting successfully deleted",
             type: ENotificationTypes.SUCCESS,
         });
         mutateMeetings((prev) =>
             prev.filter((meeting) => meeting._id !== meetingId)
         );
+    }
+
+    async function handleUpdateCourse(meetingData: IMeetingOriginal) {
+        const { data: updatedMeeting } = await updateMeetingById({
+            courseId: course._id,
+            meetingId: meetingData._id,
+            meetingData: meetingData,
+        });
+        createSnackbar({
+            text: "Meeting successfully updated",
+            type: ENotificationTypes.SUCCESS,
+        });
+        mutateMeetings(function (previousMeetings) {
+            const newMeetings = clone(previousMeetings);
+            newMeetings[
+                newMeetings.findIndex(
+                    (meeting) => meeting._id === updatedMeeting._id
+                )
+            ] = updatedMeeting;
+            return newMeetings;
+        });
     }
 
     return (
@@ -65,7 +93,7 @@ const UpdateMeetingAppPage: React.FC = () => {
                     key={meeting._id}
                     meeting={meeting}
                     courseTitle={course?.title}
-                    onChange={console.log}
+                    onChange={handleUpdateCourse}
                     schoolName={school?.name}
                     onDelete={handleDeleteCourse}
                     DeleteAlertData={{

@@ -116,7 +116,7 @@ const MeetingCard: React.FC<Props> = ({
                             align="right"
                             className={classes.cardContentParagraph}
                         >
-                            Room Number: {meeting.roomNum}
+                            <strong>Room Number: {meeting.roomNum}</strong>
                         </Typography>
                     ) : (
                         <>
