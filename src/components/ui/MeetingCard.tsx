@@ -24,10 +24,10 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles({
     card: {
-        width: "10000px",
-        maxWidth: "100%",
-        display: "grid",
-        margin: "20px 0",
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        margin: "15px 0",
     },
 
     cardContent: {
@@ -41,10 +41,6 @@ const useStyles = makeStyles({
 
     cardContentParagraph: {
         margin: "5px",
-    },
-
-    copyIconButton: {
-        marginLeft: "30px",
     },
 });
 
@@ -72,18 +68,12 @@ const MeetingCard: React.FC<Props> = ({
 
     const classes = useStyles();
 
-    const smallScreen = useMediaQuery("(max-width: 1100px)");
+    const smallScreen = useMediaQuery("(max-width: 1200px)");
 
     return (
         <Card
             className={classes.card}
-            style={
-                smallScreen
-                    ? { gridTemplateColumns: "100%" }
-                    : {
-                          gridTemplateColumns: "400px 5px auto auto",
-                      }
-            }
+            style={smallScreen ? { flexDirection: "column" } : null}
             {...CardProps}
         >
             <CardHeader
@@ -110,24 +100,8 @@ const MeetingCard: React.FC<Props> = ({
 
             <CardActions className={classes.cardActions}>
                 <div className="actions-wrapper">
-                    {meeting.type === EMeetingTypes.IN_PERSON ? (
-                        <Typography
-                            paragraph
-                            align="right"
-                            className={classes.cardContentParagraph}
-                        >
-                            <strong>Room Number: {meeting.roomNum}</strong>
-                        </Typography>
-                    ) : (
-                        <>
-                            <Typography
-                                paragraph
-                                align="right"
-                                className={classes.cardContentParagraph}
-                                style={{ cursor: "pointer" }}
-                            >
-                                <strong>{meeting.url}</strong>
-                            </Typography>
+                    <div className="action-buttons-box">
+                        {meeting.type === EMeetingTypes.REMOTE ? (
                             <CopyToClipboard
                                 text={meeting.url}
                                 onCopy={() =>
@@ -137,22 +111,35 @@ const MeetingCard: React.FC<Props> = ({
                                     })
                                 }
                             >
-                                <IconButton className={classes.copyIconButton}>
+                                <IconButton>
                                     <FileCopyIcon />
                                 </IconButton>
                             </CopyToClipboard>
-                        </>
-                    )}
-
-                    {renderActions && renderActions()}
+                        ) : null}
+                        {renderActions && renderActions()}
+                    </div>
+                    <Typography
+                        paragraph
+                        align="right"
+                        className={classes.cardContentParagraph}
+                    >
+                        <strong>
+                            {meeting.type === EMeetingTypes.IN_PERSON
+                                ? `Room Number: ${meeting.roomNum}`
+                                : meeting.url}
+                        </strong>
+                    </Typography>
                 </div>
             </CardActions>
 
             <style jsx>{`
                 .actions-wrapper {
                     display: flex;
-                    justify-content: end;
-                    align-items: center;
+                    flex-direction: column;
+                }
+                .action-buttons-box {
+                    display: flex;
+                    justify-content: center;
                 }
             `}</style>
         </Card>

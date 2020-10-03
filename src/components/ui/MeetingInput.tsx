@@ -87,7 +87,7 @@ const MeetingInput: React.FC<Props> = ({
             schoolName={schoolName}
             courseTitle={courseTitle}
             renderActions={() => (
-                <CardActions className={classes.cardAction}>
+                <>
                     <IconButton
                         aria-label="delete"
                         color="secondary"
@@ -207,7 +207,7 @@ const MeetingInput: React.FC<Props> = ({
                     >
                         Edit Meeting
                     </InputButton>
-                </CardActions>
+                </>
             )}
         />
     );
