@@ -7,16 +7,14 @@ import {
     Typography,
     Avatar,
     CardActions,
-    Button,
     makeStyles,
     Chip,
 } from "@material-ui/core";
-import { AvatarGroup } from "@material-ui/lab";
 import Link from "next/link";
 import { useContext } from "react";
 import useSWR from "swr";
 import { courseInstructorsFetcher, schoolFetcher } from "../../utils/services";
-import { ICourse, EUserRoles } from "../../utils/types";
+import { ICourse } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 
 const useStyles = makeStyles({
@@ -30,7 +28,7 @@ const useStyles = makeStyles({
 
 interface Props {
     course: ICourse;
-    CardProps: CardProps;
+    CardProps?: CardProps;
     fullWidth?: boolean;
 }
 

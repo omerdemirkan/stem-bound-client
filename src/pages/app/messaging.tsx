@@ -1,7 +1,6 @@
 import AppLayout from "../../components/containers/AppLayout";
 import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
-import Input from "../../components/ui/Input";
 import ChatMessage from "../../components/ui/ChatMessage";
 import AuthContext from "../../components/contexts/AuthContext";
 import ChatCard from "../../components/ui/ChatCard";

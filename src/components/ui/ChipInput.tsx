@@ -1,4 +1,4 @@
-import { useState, LegacyRef, useEffect } from "react";
+import { useState, LegacyRef } from "react";
 import {
     Chip,
     TextField,

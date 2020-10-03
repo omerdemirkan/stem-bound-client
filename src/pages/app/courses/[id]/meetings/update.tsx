@@ -12,7 +12,6 @@ import {
 import {
     ENotificationTypes,
     EUserRoles,
-    ICourseOriginal,
     IMeetingOriginal,
 } from "../../../../../utils/types";
 import MeetingInput from "../../../../../components/ui/MeetingInput";

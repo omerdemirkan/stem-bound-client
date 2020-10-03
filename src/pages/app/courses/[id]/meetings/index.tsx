@@ -4,17 +4,15 @@ import withAuth from "../../../../../components/hoc/withAuth";
 import useSWR from "swr";
 import AuthContext from "../../../../../components/contexts/AuthContext";
 import Link from "next/link";
-import { Button, Grid } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import {
     courseFetcher,
     courseMeetingsFetcher,
     schoolFetcher,
-    userSchoolFetcher,
 } from "../../../../../utils/services";
 import MeetingCard from "../../../../../components/ui/MeetingCard";
-import MeetingInput from "../../../../../components/forms/MeetingForm";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();

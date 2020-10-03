@@ -2,7 +2,6 @@ import { IAnnouncement } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 import { useContext } from "react";
 import InputButton from "./InputButton";
-import TextArea from "./TextArea";
 import { TextField } from "@material-ui/core";
 
 interface Props {

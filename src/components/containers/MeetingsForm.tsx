@@ -1,6 +1,6 @@
 import MultipleDatesPicker from "@randex/material-ui-multiple-dates-picker";
 import MeetingInput from "../ui/MeetingInput";
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect } from "react";
 import { clone } from "../../utils/helpers";
 import {
     IMeetingOriginal,
@@ -11,13 +11,10 @@ import {
 } from "../../utils/types";
 import {
     Button,
-    Divider,
-    Grid,
     makeStyles,
     Step,
     StepLabel,
     Stepper,
-    TextField,
 } from "@material-ui/core";
 import MeetingDefaultDataForm from "../forms/MeetingDefaultDataForm";
 

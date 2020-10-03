@@ -1,6 +1,5 @@
 import AppLayout from "../../../../components/containers/AppLayout";
 import Head from "next/head";
-import Link from "next/link";
 import withAuth from "../../../../components/hoc/withAuth";
 import AuthContext from "../../../../components/contexts/AuthContext";
 import useSWR from "swr";
@@ -17,7 +16,6 @@ import { useContext } from "react";
 import { EUserRoles, ENotificationTypes } from "../../../../utils/types";
 import { clone } from "../../../../utils/helpers";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
-import TextArea from "../../../../components/ui/TextArea";
 import InputButton from "../../../../components/ui/InputButton";
 import { TextField } from "@material-ui/core";
 

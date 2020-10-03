@@ -1,25 +1,11 @@
 import Layout from "../../components/ui/Layout";
 import Head from "next/head";
 import { SignUpStepper } from ".";
-import {
-    Typography,
-    TextField,
-    makeStyles,
-    Card,
-    Button,
-    Divider,
-} from "@material-ui/core";
-import { useForm, Controller } from "react-hook-form";
-import { passwordRegex, emailRegex } from "../../utils/constants";
-import ChipInput from "../../components/ui/ChipInput";
-import AsyncSelect from "../../components/ui/AsyncSelect";
-import { fetchLocationInputOptions } from "../../utils/helpers";
+import { Typography, makeStyles } from "@material-ui/core";
 import AuthContext from "../../components/contexts/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { EUserRoles } from "../../utils/types";
-import InfoIcon from "@material-ui/icons/Info";
-import FormCard from "../../components/ui/FormCard";
 import InstructorSignUpForm from "../../components/forms/InstructorSignUpForm";
 
 const useStyles = makeStyles({

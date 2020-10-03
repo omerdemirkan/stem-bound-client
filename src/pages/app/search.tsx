@@ -5,7 +5,6 @@ import Search from "../../components/containers/Search";
 import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 import AuthContext from "../../components/contexts/AuthContext";
 import useSWR from "swr";
-import Input from "../../components/ui/Input";
 import { searchDataFetcher, createChat } from "../../utils/services";
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
@@ -16,7 +15,7 @@ import {
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
-import { Dialog } from "@material-ui/core";
+import { Button, Dialog, TextField } from "@material-ui/core";
 
 const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     coordinates,
@@ -101,20 +100,28 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
                 shallow
             />
             <Dialog open={contactedModalOpen}>
-                <Input
+                <TextField
                     id="message"
-                    onChange={setContactUserMessageInput}
+                    onChange={(e) => setContactUserMessageInput(e.target.value)}
                     value={contactUserMessageInput}
                     type="text"
-                    eventTargetValue
+                    fullWidth
                 />
-                <button
+                <Button
+                    onClick={handleCancelContact}
+                    variant="outlined"
+                    color="primary"
+                >
+                    CANCEL
+                </Button>
+                <Button
                     onClick={handleSendMessage}
                     disabled={contactUserMessageInput.length === 0}
+                    variant="contained"
+                    color="primary"
                 >
                     SEND
-                </button>
-                <button onClick={handleCancelContact}>CANCEL</button>
+                </Button>
             </Dialog>
             <style jsx>{``}</style>
         </AppLayout>
