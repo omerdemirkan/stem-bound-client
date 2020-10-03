@@ -5,6 +5,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
+    DialogProps,
 } from "@material-ui/core";
 
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
     initialValue?: any;
     disabled?: boolean;
     ButtonProps?: ButtonProps;
+    DialogProps?: DialogProps;
 }
 
 const InputButton: React.FC<Props> = ({
@@ -29,8 +31,9 @@ const InputButton: React.FC<Props> = ({
     renderInput,
     initialValue,
     disabled,
-    ButtonProps,
     renderButton,
+    ButtonProps,
+    DialogProps,
 }) => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [value, setValue] = useState<any>(initialValue);
@@ -67,7 +70,12 @@ const InputButton: React.FC<Props> = ({
                 </Button>
             )}
 
-            <Dialog open={!!modalOpen} onClose={() => setModalOpen(false)}>
+            <Dialog
+                open={!!modalOpen}
+                onClose={() => setModalOpen(false)}
+                maxWidth="md"
+                {...DialogProps}
+            >
                 <DialogContent>
                     {renderInput(value, setValue, {
                         updateFields,

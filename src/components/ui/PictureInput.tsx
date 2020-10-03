@@ -1,7 +1,13 @@
-import Modal from "./Modal";
 import ReactCrop, { Crop } from "react-image-crop";
 import { getCroppedImg, blobToFile } from "../../utils/helpers";
 import { ChangeEvent, useState, useRef, Ref } from "react";
+import { Button, Dialog, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+    button: {
+        margin: "5px 10px",
+    },
+});
 
 interface Props {
     baseFileName?: string;
@@ -28,6 +34,7 @@ const PictureInput: React.FC<Props> = ({
     const imageRef = useRef<HTMLImageElement>();
 
     const inputRef = useRef<HTMLInputElement>();
+    const classes = useStyles();
 
     function handleFileSelected(event: ChangeEvent<HTMLInputElement>): void {
         const file = event.target.files[0];
@@ -70,10 +77,14 @@ const PictureInput: React.FC<Props> = ({
                 ref={inputRef}
                 style={{ display: "none" }}
             />
-            <button onClick={() => inputRef.current.click()}>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => inputRef.current.click()}
+            >
                 {buttonText || "Select Image"}
-            </button>
-            <Modal open={modalOpen} width="800px">
+            </Button>
+            <Dialog open={modalOpen}>
                 {src ? (
                     <div>
                         <ReactCrop
@@ -86,9 +97,23 @@ const PictureInput: React.FC<Props> = ({
                         />
                     </div>
                 ) : null}
-                <button onClick={handleCancelCrop}>CANCEL</button>
-                <button onClick={handleFinishCrop}>FINISH</button>
-            </Modal>
+                <Button
+                    onClick={handleCancelCrop}
+                    className={classes.button}
+                    variant="outlined"
+                    color="primary"
+                >
+                    CANCEL
+                </Button>
+                <Button
+                    onClick={handleFinishCrop}
+                    className={classes.button}
+                    variant="contained"
+                    color="primary"
+                >
+                    FINISH
+                </Button>
+            </Dialog>
         </>
     );
 };

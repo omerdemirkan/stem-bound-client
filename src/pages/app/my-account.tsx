@@ -4,9 +4,6 @@ import Head from "next/head";
 import AppLayout from "../../components/containers/AppLayout";
 import PictureInput from "../../components/ui/PictureInput";
 import withAuth from "../../components/hoc/withAuth";
-import TextArea from "../../components/ui/TextArea";
-import SearchSelect from "../../components/ui/SearchSelect";
-import TextArrayInput from "../../components/ui/TextArrayInput";
 import { fetchLocationInputOptions } from "../../utils/helpers";
 import {
     userFetcher,
@@ -24,6 +21,7 @@ import {
 } from "../../utils/types";
 import AsyncSelect from "../../components/ui/AsyncSelect";
 import { TextField } from "@material-ui/core";
+import ChipInput from "../../components/ui/ChipInput";
 
 const MyAccountAppPage: React.FC = () => {
     const { user: storedUser, mutateUser: mutateAuthContextUser } = useContext(
@@ -137,10 +135,12 @@ const MyAccountAppPage: React.FC = () => {
                     handleUpdateUser({ longDescription: value })
                 }
                 renderInput={(value, setValue) => (
-                    <TextArea
+                    <TextField
                         id="long-description"
                         onChange={(e) => setValue(e.target.value)}
                         value={value}
+                        multiline
+                        fullWidth
                     />
                 )}
             >
@@ -160,10 +160,13 @@ const MyAccountAppPage: React.FC = () => {
                             handleUpdateUser({ interests })
                         }
                         renderInput={(value, setValue) => (
-                            <TextArrayInput
-                                id="interests"
+                            <ChipInput
                                 onChange={setValue}
                                 value={value}
+                                TextFieldProps={{
+                                    fullWidth: true,
+                                    id: "interests",
+                                }}
                             />
                         )}
                     >
@@ -185,10 +188,13 @@ const MyAccountAppPage: React.FC = () => {
                             handleUpdateUser({ specialties })
                         }
                         renderInput={(value, setValue) => (
-                            <TextArrayInput
-                                id="specialties"
+                            <ChipInput
                                 onChange={setValue}
                                 value={value}
+                                TextFieldProps={{
+                                    fullWidth: true,
+                                    id: "specialties",
+                                }}
                             />
                         )}
                     >

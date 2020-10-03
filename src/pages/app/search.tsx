@@ -5,7 +5,6 @@ import Search from "../../components/containers/Search";
 import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 import AuthContext from "../../components/contexts/AuthContext";
 import useSWR from "swr";
-import Modal from "../../components/ui/Modal";
 import Input from "../../components/ui/Input";
 import { searchDataFetcher, createChat } from "../../utils/services";
 import { useEffect, useState, useContext } from "react";
@@ -17,6 +16,7 @@ import {
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
+import { Dialog } from "@material-ui/core";
 
 const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     coordinates,
@@ -100,7 +100,7 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
                 onContactUser={handleContactUserModalOpen}
                 shallow
             />
-            <Modal open={contactedModalOpen}>
+            <Dialog open={contactedModalOpen}>
                 <Input
                     id="message"
                     onChange={setContactUserMessageInput}
@@ -115,7 +115,7 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
                     SEND
                 </button>
                 <button onClick={handleCancelContact}>CANCEL</button>
-            </Modal>
+            </Dialog>
             <style jsx>{``}</style>
         </AppLayout>
     );

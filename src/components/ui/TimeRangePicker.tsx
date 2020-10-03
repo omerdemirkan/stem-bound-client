@@ -1,10 +1,10 @@
-import TimePicker from "./TimePicker";
-import { validateTimeStringRange } from "../../utils/helpers";
-import { ITimeStringRange } from "../../utils/types";
+import { TimePicker } from "@material-ui/pickers";
+import { validateTimeRange } from "../../utils/helpers";
+import { ITimeRange } from "../../utils/types";
 
 interface Props {
-    onChange: (timeStringRange: ITimeStringRange) => any;
-    value: ITimeStringRange;
+    onChange: (timeStringRange: ITimeRange) => any;
+    value: ITimeRange;
     label?: string;
 }
 
@@ -13,20 +13,17 @@ const TimeRangePicker: React.FC<Props> = ({ value, onChange, label }) => {
         <div>
             <label>{label}</label>
             <TimePicker
-                onChange={function (e) {
-                    const timeRange = { start: e.target.value, end: value.end };
-                    if (validateTimeStringRange(timeRange)) onChange(timeRange);
+                onChange={function (date) {
+                    const timeRange = { start: date, end: value.end };
+                    if (validateTimeRange(timeRange)) onChange(timeRange);
                 }}
                 name="start"
                 value={value.start}
             />
             <TimePicker
-                onChange={function (e) {
-                    const timeRange = {
-                        start: value.start,
-                        end: e.target.value,
-                    };
-                    if (validateTimeStringRange(timeRange)) onChange(timeRange);
+                onChange={function (date) {
+                    const timeRange = { start: value.start, end: date };
+                    if (validateTimeRange(timeRange)) onChange(timeRange);
                 }}
                 name="end"
                 value={value.end}

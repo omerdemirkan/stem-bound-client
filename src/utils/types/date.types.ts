@@ -1,4 +1,4 @@
-export interface ITimeStringRange {
-    start: string;
-    end: string;
+export interface ITimeRange {
+    start: Date;
+    end: Date;
 }
