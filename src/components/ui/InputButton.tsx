@@ -72,30 +72,39 @@ const InputButton: React.FC<Props> = ({
                 maxWidth="md"
                 {...DialogProps}
             >
-                <DialogContent>
-                    {renderInput(value, setValue, {
-                        updateFields,
-                        handleChange,
-                    })}
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        onClick={() => setModalOpen(false)}
-                        color="primary"
-                        variant="outlined"
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={handleSubmit}
-                        color="primary"
-                        variant="contained"
-                        autoFocus
-                    >
-                        Continue
-                    </Button>
-                </DialogActions>
+                <div className="dialog-content-container">
+                    <DialogContent>
+                        {renderInput(value, setValue, {
+                            updateFields,
+                            handleChange,
+                        })}
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={() => setModalOpen(false)}
+                            color="primary"
+                            variant="outlined"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={handleSubmit}
+                            color="primary"
+                            variant="contained"
+                            autoFocus
+                        >
+                            Continue
+                        </Button>
+                    </DialogActions>
+                </div>
             </Dialog>
+
+            <style jsx>{`
+                .dialog-content-container {
+                    min-width: 450px;
+                    max-width: 100%;
+                }
+            `}</style>
         </>
     );
 };
