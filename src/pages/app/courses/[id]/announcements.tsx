@@ -17,7 +17,7 @@ import { EUserRoles, ENotificationTypes } from "../../../../utils/types";
 import { clone } from "../../../../utils/helpers";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
 import InputButton from "../../../../components/ui/InputButton";
-import { TextField } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 
 const AnnouncementsAppPage: React.FC = () => {
     const router = useRouter();

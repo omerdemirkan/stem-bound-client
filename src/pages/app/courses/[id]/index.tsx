@@ -5,7 +5,7 @@ import useSWR from "swr";
 import withAuth from "../../../../components/hoc/withAuth";
 import { useRouter } from "next/router";
 import { courseFetcher } from "../../../../utils/services";
-import { Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();

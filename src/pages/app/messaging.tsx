@@ -18,7 +18,9 @@ import { useEffect, useState, useContext } from "react";
 import { clone, mapMessageData, reverseMap } from "../../utils/helpers";
 import { userChatsFetcher, messagesFetcher } from "../../utils/services";
 import { useRouter } from "next/router";
-import { TextField, InputAdornment, Button } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Button from "@material-ui/core/Button";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();

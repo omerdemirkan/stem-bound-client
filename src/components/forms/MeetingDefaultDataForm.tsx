@@ -1,10 +1,8 @@
-import {
-    Button,
-    CardProps,
-    Divider,
-    makeStyles,
-    TextField,
-} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import { CardProps } from "@material-ui/core/Card";
+import Divider from "@material-ui/core/Divider";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import TextField from "@material-ui/core/TextField";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { TimePicker } from "@material-ui/pickers";
 import { useEffect } from "react";

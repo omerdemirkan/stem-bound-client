@@ -8,7 +8,7 @@ import { userCoursesFetcher } from "../../../utils/services";
 import { EUserRoles } from "../../../utils/types";
 import { useContext } from "react";
 import AuthContext from "../../../components/contexts/AuthContext";
-import { Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 const CoursesAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);

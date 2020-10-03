@@ -1,4 +1,6 @@
-import { Card, CardContent, CardProps, makeStyles } from "@material-ui/core";
+import Card, { CardProps } from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles({
     formCard: {

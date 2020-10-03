@@ -1,15 +1,13 @@
 import { IMeetingOriginal, EMeetingTypes } from "../../utils/types";
 import { getMeetingTypeDisplay } from "../../utils/helpers";
 import { TimePicker } from "@material-ui/pickers";
-import {
-    Button,
-    CardProps,
-    makeStyles,
-    MenuItem,
-    Select,
-    TextField,
-    Typography,
-} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import { CardProps } from "@material-ui/core/Card";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import { Controller, useForm } from "react-hook-form";
 import FormCard from "../ui/FormCard";
 

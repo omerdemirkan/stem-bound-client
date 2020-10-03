@@ -1,12 +1,13 @@
 import Layout from "../../components/ui/Layout";
 import Head from "next/head";
 import { SignUpStepper } from ".";
-import { Typography, makeStyles } from "@material-ui/core";
 import AuthContext from "../../components/contexts/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { EUserRoles } from "../../utils/types";
 import InstructorSignUpForm from "../../components/forms/InstructorSignUpForm";
+import Typography from "@material-ui/core/Typography";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles({
     submitButton: {

@@ -2,7 +2,8 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { useState, useEffect, Ref } from "react";
 import { ISelectInputOption } from "../../utils/types";
 import useDebounce from "../hooks/useDebounce";
-import { TextField, TextFieldProps, CircularProgress } from "@material-ui/core";
+import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 interface Props {
     fetchOptions: (s: string) => Promise<ISelectInputOption[]>;

@@ -1,13 +1,11 @@
 import { useForm } from "react-hook-form";
 import { emailRegex, passwordRegex } from "../../utils/constants";
-import {
-    Button,
-    TextField,
-    makeStyles,
-    Typography,
-    Divider,
-    CardProps,
-} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import { CardProps } from "@material-ui/core/Card";
 import LockIcon from "@material-ui/icons/Lock";
 import FormCard from "../ui/FormCard";
 

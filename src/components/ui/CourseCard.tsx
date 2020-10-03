@@ -1,15 +1,12 @@
-import {
-    Card,
-    CardHeader,
-    CardProps,
-    Divider,
-    CardContent,
-    Typography,
-    Avatar,
-    CardActions,
-    makeStyles,
-    Chip,
-} from "@material-ui/core";
+import Card, { CardProps } from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import Divider from "@material-ui/core/Divider";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
+import CardActions from "@material-ui/core/CardActions";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Chip from "@material-ui/core/Chip";
 import Link from "next/link";
 import { useContext } from "react";
 import useSWR from "swr";

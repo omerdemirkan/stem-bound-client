@@ -1,7 +1,9 @@
 import ReactCrop, { Crop } from "react-image-crop";
 import { getCroppedImg } from "../../utils/helpers";
 import { ChangeEvent, useState, useRef } from "react";
-import { Button, Dialog, makeStyles } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles({
     button: {

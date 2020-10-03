@@ -1,14 +1,12 @@
 import { ECourseTypes } from "../../utils/types";
 import { Controller, useForm } from "react-hook-form";
-import {
-    Button,
-    CardProps,
-    Divider,
-    MenuItem,
-    Select,
-    TextField,
-    Typography,
-} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import { CardProps } from "@material-ui/core/Card";
+import Divider from "@material-ui/core/Divider";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import FormCard from "../ui/FormCard";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import {

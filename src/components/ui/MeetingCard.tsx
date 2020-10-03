@@ -1,14 +1,3 @@
-import {
-    Card,
-    CardActions,
-    CardContent,
-    CardHeader,
-    CardProps,
-    Divider,
-    IconButton,
-    makeStyles,
-    Typography,
-} from "@material-ui/core";
 import { useContext, useRef } from "react";
 import { getMeetingDateDisplayData } from "../../utils/helpers";
 import {
@@ -21,6 +10,14 @@ import FileCopyIcon from "@material-ui/icons/FileCopy";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import NotificationContext from "../contexts/NotificationContext";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Card, { CardProps } from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
     card: {

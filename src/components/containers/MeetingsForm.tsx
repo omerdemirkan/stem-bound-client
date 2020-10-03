@@ -9,13 +9,11 @@ import {
     ECourseTypes,
     IDefaultMeetingData,
 } from "../../utils/types";
-import {
-    Button,
-    makeStyles,
-    Step,
-    StepLabel,
-    Stepper,
-} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
+import Stepper from "@material-ui/core/Stepper";
 import MeetingDefaultDataForm from "../forms/MeetingDefaultDataForm";
 
 const useStyles = makeStyles({

@@ -13,16 +13,14 @@ import { clone, mapUserData } from "../../utils/helpers";
 import useSocket from "../hooks/useSocket";
 import AuthContext from "./AuthContext";
 import { useRouter } from "next/router";
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    Button,
-    DialogActions,
-    Snackbar,
-    IconButton,
-} from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import Button from "@material-ui/core/Button";
+import DialogActions from "@material-ui/core/DialogActions";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
 const initialState: INotificationContextState = {

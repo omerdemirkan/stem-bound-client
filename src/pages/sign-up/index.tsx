@@ -7,16 +7,14 @@ import SchoolSVG from "../../components/svg/illustrations/school";
 import Link from "next/link";
 import { useEffect, useContext } from "react";
 import { useRouter } from "next/router";
-import {
-    Card,
-    CardActionArea,
-    Typography,
-    Grid,
-    makeStyles,
-    Stepper,
-    Step,
-    StepLabel,
-} from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
 
 const useStyles = makeStyles({
     card: {

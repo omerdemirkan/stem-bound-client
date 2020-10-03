@@ -4,7 +4,7 @@ import withAuth from "../../../../../components/hoc/withAuth";
 import useSWR from "swr";
 import AuthContext from "../../../../../components/contexts/AuthContext";
 import Link from "next/link";
-import { Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import {

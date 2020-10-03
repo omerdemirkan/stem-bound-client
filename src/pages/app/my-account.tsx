@@ -20,7 +20,7 @@ import {
     IInstructor,
 } from "../../utils/types";
 import AsyncSelect from "../../components/ui/AsyncSelect";
-import { TextField } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 import ChipInput from "../../components/ui/ChipInput";
 
 const MyAccountAppPage: React.FC = () => {

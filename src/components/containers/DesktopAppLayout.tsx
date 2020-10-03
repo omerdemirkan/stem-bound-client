@@ -3,16 +3,14 @@ import NotificationContext from "../contexts/NotificationContext";
 import { useRouter } from "next/router";
 import { ENotificationTypes, ETheme } from "../../utils/types";
 import { useContext, useState, useRef } from "react";
-import {
-    makeStyles,
-    Button,
-    Avatar,
-    Divider,
-    Typography,
-    Menu,
-    MenuItem,
-    Breadcrumbs,
-} from "@material-ui/core";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Button from "@material-ui/core/Button";
+import Avatar from "@material-ui/core/Avatar";
+import Divider from "@material-ui/core/Divider";
+import Typography from "@material-ui/core/Typography";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "next/link";
 import WordLogoSVG from "../svg/icons/word-logo";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";

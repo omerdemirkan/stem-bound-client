@@ -1,12 +1,8 @@
 import { useState, LegacyRef } from "react";
-import {
-    Chip,
-    TextField,
-    TextFieldProps,
-    ChipTypeMap,
-    IconButton,
-} from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
+import Chip, { ChipTypeMap } from "@material-ui/core/Chip";
+import IconButton from "@material-ui/core/IconButton";
+import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 type Props = {

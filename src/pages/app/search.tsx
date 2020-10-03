@@ -15,7 +15,9 @@ import {
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
-import { Button, Dialog, TextField } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import TextField from "@material-ui/core/TextField";
 
 const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     coordinates,

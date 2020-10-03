@@ -1,12 +1,8 @@
 import { useState, Dispatch, ChangeEvent } from "react";
-import {
-    Button,
-    ButtonProps,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogProps,
-} from "@material-ui/core";
+import Button, { ButtonProps } from "@material-ui/core/Button";
+import Dialog, { DialogProps } from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
 
 interface Props {
     renderInput(

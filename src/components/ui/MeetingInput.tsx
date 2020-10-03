@@ -13,21 +13,19 @@ import {
     getMeetingTypeDisplay,
 } from "../../utils/helpers";
 import { TimePicker } from "@material-ui/pickers";
-import {
-    CardProps,
-    IconButton,
-    makeStyles,
-    MenuItem,
-    Select,
-    TextField,
-    Typography,
-} from "@material-ui/core";
 import InputButton from "./InputButton";
 import { useContext, useRef } from "react";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 import NotificationContext from "../contexts/NotificationContext";
 import MeetingCard from "./MeetingCard";
+import { CardProps } from "@material-ui/core/Card";
+import IconButton from "@material-ui/core/IconButton";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
     card: {
