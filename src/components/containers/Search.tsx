@@ -1,5 +1,5 @@
 import Link from "next/link";
-import UserCard from "../ui/UserCard";
+import UserCard, { UserCardProps } from "../ui/UserCard";
 import { ESearchFields, ISearchData } from "../../utils/types/search.types";
 import { searchFieldInputOptions } from "../../utils/constants";
 import { appendQueriesToUrl } from "../../utils/helpers";
@@ -9,15 +9,15 @@ import { EUserRoles, IUser } from "../../utils/types";
 interface SearchProps {
     searchField: ESearchFields;
     searchData: ISearchData[];
-    onContactUser: (IUser) => any;
     shallow?: boolean;
+    UserCardProps?: Partial<UserCardProps>;
 }
 
 const Search: React.FC<SearchProps> = ({
     searchField,
     searchData,
     shallow,
-    onContactUser,
+    UserCardProps,
 }) => {
     const router = useRouter();
 
@@ -38,7 +38,7 @@ const Search: React.FC<SearchProps> = ({
             <PaginatedSearchData
                 searchDataArray={searchData || []}
                 searchField={searchField}
-                onContactUser={onContactUser}
+                UserCardProps={UserCardProps}
             />
         </div>
     );
@@ -47,13 +47,13 @@ const Search: React.FC<SearchProps> = ({
 interface PaginatedSearchDataProps {
     searchDataArray: ISearchData[];
     searchField: ESearchFields;
-    onContactUser: (IUser) => any;
+    UserCardProps?: Partial<UserCardProps>;
 }
 
 const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
     searchDataArray,
     searchField,
-    onContactUser,
+    UserCardProps,
 }) => {
     if (Object.values(EUserRoles).includes(searchField as any)) {
         return (
@@ -62,7 +62,7 @@ const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
                     <UserCard
                         user={searchData}
                         key={searchData._id}
-                        onContactUser={onContactUser}
+                        {...UserCardProps}
                     />
                 ))}
             </>

@@ -5,7 +5,11 @@ import Search from "../../components/containers/Search";
 import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 import AuthContext from "../../components/contexts/AuthContext";
 import useSWR from "swr";
-import { searchDataFetcher, createChat } from "../../utils/services";
+import {
+    searchDataFetcher,
+    createChat,
+    createMessage,
+} from "../../utils/services";
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { isSearchField, SearchField } from "../../utils/helpers";
@@ -15,9 +19,6 @@ import {
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import TextField from "@material-ui/core/TextField";
 
 const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     coordinates,
@@ -36,11 +37,6 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     );
 
     const [searchField, setSearchField] = useState<ESearchFields>();
-    const [contactedUser, setContactedUser] = useState<IUser | null>(null);
-    const [contactedModalOpen, setContactedModalOpen] = useState(false);
-    const [contactUserMessageInput, setContactUserMessageInput] = useState<
-        string
-    >("");
 
     useEffect(
         function () {
@@ -58,36 +54,38 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
         [searchFieldQuery, coordinates]
     );
 
-    function handleSendMessage() {
-        createChat(
-            {
-                meta: { users: [contactedUser._id, user._id] },
-                messages: [
-                    {
-                        text: contactUserMessageInput,
-                        meta: { from: user._id },
-                    } as any,
-                ],
-            },
-            { duplicateFallback: true }
-        )
-            .then(function ({ data: chat }) {
-                router.push(`/app/messaging`, {
-                    query: { id: chat._id },
-                });
-            })
-            .catch(console.error);
-    }
+    async function handleContactUser(contactedUser: IUser, message: string) {
+        const currentUserChatIdsHashTable = {};
+        (user.meta as any).chats.forEach(function (chatId) {
+            currentUserChatIdsHashTable[chatId] = true;
+        });
+        const existingChat = (contactedUser.meta as any).chats.find(
+            (chatId) => currentUserChatIdsHashTable[chatId]
+        );
 
-    function handleCancelContact() {
-        setContactedModalOpen(false);
-        setContactedUser(null);
-        setContactUserMessageInput("");
-    }
-
-    function handleContactUserModalOpen(user: IUser) {
-        setContactedModalOpen(true);
-        setContactedUser(user);
+        if (existingChat) {
+            await createMessage({ chatId: existingChat, text: message });
+            router.push(`/app/messaging`, {
+                pathname: `/app/messaging`,
+                query: { id: existingChat },
+            });
+        } else {
+            const { data: chat } = await createChat(
+                {
+                    meta: { users: [contactedUser._id, user._id] },
+                    messages: [
+                        {
+                            text: message,
+                            meta: { from: user._id },
+                        } as any,
+                    ],
+                },
+                { duplicateFallback: true }
+            );
+            router.push(`/app/messaging`, {
+                query: { id: chat._id },
+            });
+        }
     }
 
     return (
@@ -98,33 +96,12 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
             <Search
                 searchField={searchField}
                 searchData={searchData}
-                onContactUser={handleContactUserModalOpen}
                 shallow
+                UserCardProps={{
+                    contactUserEnabled: true,
+                    onContactUser: handleContactUser,
+                }}
             />
-            <Dialog open={contactedModalOpen}>
-                <TextField
-                    id="message"
-                    onChange={(e) => setContactUserMessageInput(e.target.value)}
-                    value={contactUserMessageInput}
-                    type="text"
-                    fullWidth
-                />
-                <Button
-                    onClick={handleCancelContact}
-                    variant="outlined"
-                    color="primary"
-                >
-                    CANCEL
-                </Button>
-                <Button
-                    onClick={handleSendMessage}
-                    disabled={contactUserMessageInput.length === 0}
-                    variant="contained"
-                    color="primary"
-                >
-                    SEND
-                </Button>
-            </Dialog>
             <style jsx>{``}</style>
         </AppLayout>
     );

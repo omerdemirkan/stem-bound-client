@@ -55,6 +55,8 @@ export interface IFetchChatsOptions {
     includeUnreadMessages?: boolean;
     limit?: number;
     skip?: number;
+    userIds?: string[];
+    exact?: number;
 }
 
 export interface IFetchChatOptions {

@@ -1,7 +1,7 @@
 import ReactCrop, { Crop } from "react-image-crop";
 import { getCroppedImg } from "../../utils/helpers";
 import { ChangeEvent, useState, useRef } from "react";
-import Button from "@material-ui/core/Button";
+import Button, { ButtonProps } from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
@@ -17,6 +17,7 @@ interface Props {
     onFileCreated?: (blob: Blob) => any;
     name?: string;
     buttonText?: string;
+    ButtonProps?: ButtonProps;
 }
 
 const PictureInput: React.FC<Props> = ({
@@ -24,7 +25,9 @@ const PictureInput: React.FC<Props> = ({
     onFileCreated,
     baseFileName,
     name,
+    children,
     buttonText,
+    ButtonProps,
 }) => {
     const [src, setSrc] = useState<string | ArrayBuffer>();
     const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -83,8 +86,9 @@ const PictureInput: React.FC<Props> = ({
                 variant="contained"
                 color="primary"
                 onClick={() => inputRef.current.click()}
+                {...ButtonProps}
             >
-                {buttonText || "Select Image"}
+                {buttonText || "Choose File"}
             </Button>
             <Dialog open={modalOpen}>
                 {src ? (

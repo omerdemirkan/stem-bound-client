@@ -44,6 +44,8 @@ export function fetchChatsByUserId(
                 include_unread_messages: options?.includeUnreadMessages,
                 limit: options?.limit,
                 skip: options?.skip,
+                user_ids: options?.userIds.join(","),
+                exact: options?.exact,
             })
         ),
         mapChatData

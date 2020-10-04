@@ -1,14 +1,36 @@
+import TextField from "@material-ui/core/TextField";
 import { IUser } from "../../utils/types";
+import InputButton from "./InputButton";
 
-interface Props {
+export interface UserCardProps {
     user: IUser;
-    onContactUser: (IUser) => any;
+    onContactUser?: (user: IUser, message: string) => void;
+    contactUserEnabled?: boolean;
 }
 
-const UserCard: React.FC<Props> = ({ user, onContactUser }) => {
+const UserCard: React.FC<UserCardProps> = ({
+    user,
+    onContactUser,
+    contactUserEnabled,
+}) => {
     return (
         <div>
-            <button onClick={() => onContactUser(user)}>CONTACT</button>
+            {contactUserEnabled ? (
+                <InputButton
+                    onSubmit={(message) => onContactUser(user, message)}
+                    renderInput={(value, setValue) => (
+                        <TextField
+                            value={value}
+                            onChange={(e) => setValue(e.target.value)}
+                            fullWidth
+                            autoFocus
+                        />
+                    )}
+                >
+                    Contact
+                </InputButton>
+            ) : null}
+
             <img
                 src={user.profilePictureUrl || "/default-profile-picture.svg"}
                 alt={`${user.firstName} ${user.lastName} Profile Picture`}

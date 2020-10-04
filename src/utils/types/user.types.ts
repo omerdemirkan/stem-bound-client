@@ -19,6 +19,7 @@ export interface IStudentOriginal extends baseUserOriginal {
     meta: {
         school: string;
         courses: string;
+        chats: string[];
     };
 }
 
@@ -26,6 +27,7 @@ export interface IInstructorOriginal extends baseUserOriginal {
     specialties: string[];
     meta: {
         courses: string[];
+        chats: string[];
     };
 }
 
@@ -33,6 +35,7 @@ export interface ISchoolOfficialOriginal extends baseUserOriginal {
     position: string;
     meta: {
         school: string;
+        chats: string[];
     };
 }
 

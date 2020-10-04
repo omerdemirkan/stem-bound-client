@@ -11,8 +11,9 @@ import Link from "next/link";
 import { useContext } from "react";
 import useSWR from "swr";
 import { courseInstructorsFetcher, schoolFetcher } from "../../utils/services";
-import { ICourse } from "../../utils/types";
+import { EUserRoles, ICourse } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
     card: {
@@ -20,6 +21,9 @@ const useStyles = makeStyles({
     },
     cardContent: {
         paddingTop: "20px",
+    },
+    divider: {
+        margin: "5px 0",
     },
 });
 
@@ -43,10 +47,6 @@ const CourseCard: React.FC<Props> = ({ course, CardProps, fullWidth }) => {
     const userRole = user?.role;
 
     const classes = useStyles();
-
-    const instructorsString = courseInstructors
-        ?.map((instructor) => `${instructor.firstName} ${instructor.lastName}`)
-        .join(", ");
 
     return (
         <Card
@@ -89,15 +89,26 @@ const CourseCard: React.FC<Props> = ({ course, CardProps, fullWidth }) => {
                     ))}
                 </div>
 
+                <Divider className={classes.divider} />
+
                 <div className="card-content-section">
-                    <Typography variant="h6">Course Description</Typography>
-                    <Typography paragraph color="textSecondary">
-                        <strong>{course?.shortDescription}</strong> -{" "}
+                    <Typography variant="h6" gutterBottom>
+                        Course Description
+                    </Typography>
+                    <Typography paragraph>
+                        <strong>{course?.shortDescription}</strong>
+                        <br />
                         {course?.longDescription}
                     </Typography>
                 </div>
             </CardContent>
-            <CardActions></CardActions>
+            <CardActions>
+                {user?.role === EUserRoles.SCHOOL_OFFICIAL ? (
+                    <Button variant="contained" color="primary">
+                        Contact Instructor
+                    </Button>
+                ) : null}
+            </CardActions>
 
             <style jsx>{`
                 .card-content-section {

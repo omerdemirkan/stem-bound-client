@@ -86,6 +86,10 @@ const MyAccountAppPage: React.FC = () => {
                 buttonText={`${
                     user.profilePictureUrl ? "UPDATE" : "ADD"
                 } PROFILE PICTURE`}
+                ButtonProps={{
+                    variant: "contained",
+                    color: "primary",
+                }}
             />
 
             <p>{`${user.location.city}, ${user.location.state}`}</p>
@@ -101,10 +105,14 @@ const MyAccountAppPage: React.FC = () => {
                             id: "location",
                         }}
                         delay={400}
-                        onChange={(e) => setValue(e.target.value)}
+                        onChange={setValue}
                         fetchOptions={fetchLocationInputOptions}
                     />
                 )}
+                ButtonProps={{
+                    variant: "contained",
+                    color: "primary",
+                }}
             >
                 UPDATE LOCATION
             </InputButton>
@@ -119,11 +127,15 @@ const MyAccountAppPage: React.FC = () => {
                     <TextField
                         id="short-description"
                         value={value}
-                        onChange={(e) => setValue(e.target.value)}
+                        onChange={setValue}
                         fullWidth
                         multiline
                     />
                 )}
+                ButtonProps={{
+                    variant: "contained",
+                    color: "primary",
+                }}
             >
                 UPDATE SHORT DESCRIPTION
             </InputButton>
@@ -143,6 +155,10 @@ const MyAccountAppPage: React.FC = () => {
                         fullWidth
                     />
                 )}
+                ButtonProps={{
+                    variant: "contained",
+                    color: "primary",
+                }}
             >
                 {`${user.longDescription ? "UPDATE" : "ADD"} LONG DESCRIPTION`}
             </InputButton>
@@ -169,6 +185,10 @@ const MyAccountAppPage: React.FC = () => {
                                 }}
                             />
                         )}
+                        ButtonProps={{
+                            variant: "contained",
+                            color: "primary",
+                        }}
                     >
                         UPDATE INTERESTS
                     </InputButton>
@@ -197,6 +217,10 @@ const MyAccountAppPage: React.FC = () => {
                                 }}
                             />
                         )}
+                        ButtonProps={{
+                            variant: "contained",
+                            color: "primary",
+                        }}
                     >
                         UPDATE SPECIALTIES
                     </InputButton>
