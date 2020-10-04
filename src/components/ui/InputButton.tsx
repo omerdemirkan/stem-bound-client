@@ -69,7 +69,7 @@ const InputButton: React.FC<Props> = ({
             <Dialog
                 open={!!modalOpen}
                 onClose={() => setModalOpen(false)}
-                maxWidth="md"
+                maxWidth="sm"
                 {...DialogProps}
             >
                 <div className="dialog-content-container">

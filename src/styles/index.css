@@ -5,8 +5,4 @@
 @import "./global/override.styles.css";
 @import "./global/user.styles.css";
 @import "./global/typography.styles.css";
-@import "../../node_modules/react-dates/lib/css/_datepicker.css";
 @import "../../node_modules/react-image-crop/dist/ReactCrop.css";
-
-.test {
-}

@@ -1,5 +1,4 @@
 import { IChat, IChatOriginal, IMessageOriginal, IMessage } from "../types";
-import moment from "moment";
 
 export function mapMessageData(message: IMessageOriginal): IMessage {
     return {
