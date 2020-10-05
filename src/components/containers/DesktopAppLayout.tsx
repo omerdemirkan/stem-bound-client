@@ -236,12 +236,12 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                 }
 
                 @media (max-width: 900px) {
-                    .root {
-                    }
                     .sidebar {
                         display: none;
                     }
                     .main {
+                        display: block;
+                        padding: 30px 30px 80px;
                     }
                 }
             `}</style>

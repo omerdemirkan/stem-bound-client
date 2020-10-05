@@ -57,9 +57,9 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
             if (localUser._id === user._id || router.query?.id === chatId)
                 return;
 
-            user = mapUserData(user);
+            const mappedUser = mapUserData(user);
             createSnackbar({
-                text: `${user.firstName} ${user.lastName} sent you a message`,
+                text: `${mappedUser.firstName} ${mappedUser.lastName} sent you a message`,
                 onClick: () =>
                     router.push(`/app/messaging`, {
                         query: { id: chatId },
