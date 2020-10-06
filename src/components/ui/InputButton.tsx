@@ -101,7 +101,7 @@ const InputButton: React.FC<Props> = ({
 
             <style jsx>{`
                 .dialog-content-container {
-                    min-width: 450px;
+                    width: 450px;
                     max-width: 100%;
                 }
             `}</style>

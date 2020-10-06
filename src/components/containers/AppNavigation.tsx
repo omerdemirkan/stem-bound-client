@@ -34,7 +34,7 @@ const AppNavigation: React.FC = () => {
     const navigationData = useNavigationData();
     const router = useRouter();
     const { user, logout } = useContext(AuthContext);
-    const { createAlert, createSnackbar } = useContext(NotificationContext);
+    const { createAlert } = useContext(NotificationContext);
 
     const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
 

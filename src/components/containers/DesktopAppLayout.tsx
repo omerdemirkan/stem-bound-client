@@ -102,70 +102,73 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                 </div>
             </main>
             <style jsx>{`
-                @media (min-width: 900px) {
-                    .root {
-                        display: grid;
-                        height: 100vh;
-                        grid-template-columns: 280px auto;
-                        position: relative;
-                        overflow: hidden;
-                        background-color: var(--background-light);
-                    }
+                .root {
+                    display: grid;
+                    height: 100vh;
+                    grid-template-columns: 280px auto;
+                    position: relative;
+                    overflow: hidden;
+                    background-color: var(--background-light);
+                }
 
-                    .sidebar {
-                        padding: 0 15px;
-                    }
+                .sidebar {
+                    padding: 0 15px;
+                }
 
-                    .logo-box {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 120px;
-                        padding: 0 40px;
-                    }
+                .logo-box {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 120px;
+                    padding: 0 40px;
+                }
 
-                    .user-box {
-                        padding: 30px 50px;
-                        padding-right: 0;
-                    }
+                .main {
+                    margin: 20px 0;
+                    background-color: var(--background-dark);
+                    border-top-left-radius: 20px;
+                    border-bottom-left-radius: 20px;
 
-                    .main {
-                        margin: 20px 0;
-                        background-color: var(--background-dark);
-                        border-top-left-radius: 20px;
-                        border-bottom-left-radius: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+                }
 
-                        display: flex;
-                        flex-direction: column;
-                        overflow: hidden;
-                    }
+                .main-header {
+                    padding: 40px 60px 0;
+                    z-index: 8;
+                }
 
-                    .main-header {
-                        padding: 40px 60px 0;
-                        z-index: 8;
-                    }
+                .main-body {
+                    overflow-y: auto;
+                    padding: 20px 60px 60px;
+                }
 
-                    .main-body {
-                        overflow-y: auto;
-                        padding: 20px 60px 60px;
-                    }
-
-                    .main-footer {
-                        padding: 20px 60px;
-                        z-index: 8;
-                        margin-top: auto;
-                    }
+                .main-footer {
+                    padding: 20px 60px;
+                    z-index: 8;
+                    margin-top: auto;
                 }
 
                 @media (max-width: 900px) {
+                    .root {
+                        grid-template-columns: 100%;
+                    }
                     .sidebar {
                         display: none;
                     }
                     .main {
-                        padding: 30px;
-                        display: block;
-                        min-height: 100vh;
-                        background-color: var(--background-dark);
+                        margin: 0;
+                        padding-bottom: 60px;
+                    }
+                    .main-header {
+                        padding: 5vh 5vw 0;
+                    }
+                    .main-body {
+                        padding: 5vh 5vw;
+                    }
+                    .main-footer {
+                        padding: 20px 5vw;
                     }
                 }
             `}</style>
