@@ -1,33 +1,16 @@
-import AuthContext from "../contexts/AuthContext";
-import NotificationContext from "../contexts/NotificationContext";
-import { useRouter } from "next/router";
-import { ENotificationTypes, ETheme } from "../../utils/types";
-import { useContext, useState, useRef } from "react";
+import { ETheme } from "../../utils/types";
+import { useContext } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "next/link";
 import WordLogoSVG from "../svg/icons/word-logo";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import AppNavigation from "./AppNavigation";
 import { IAppLayoutProps } from "./AppLayout";
 import ThemeContext from "../contexts/ThemeContext";
 
 const useStyles = makeStyles({
-    listItem: {
-        paddingLeft: "40px",
-    },
-    userMenuButton: {
-        marginBottom: "20px",
-    },
-    userMenu: {
-        justifyContent: "flex-end",
-    },
     finePrint: {
         position: "absolute",
         bottom: "0",
@@ -43,34 +26,9 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
     breadCrumbs,
     footerEl,
 }) => {
-    const router = useRouter();
-    const { user, logout } = useContext(AuthContext);
-    const { createAlert, createSnackbar } = useContext(NotificationContext);
     const { theme } = useContext(ThemeContext);
 
-    const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
-
-    const userMenuButtonRef = useRef();
-
-    const toggleUserMenu = () => setUserMenuOpen((prev) => !prev);
-
     const classes = useStyles();
-
-    function logoutHandler() {
-        logout();
-        router.push("/");
-    }
-
-    function handleOpenLogoutModal() {
-        setUserMenuOpen(false);
-        createAlert({
-            headerText: "Are you sure you want to log out?",
-            bodyText: "This is a body text",
-            type: ENotificationTypes.DANGER,
-            onOk: logoutHandler,
-            onCancel: () => {},
-        });
-    }
 
     if (header && !breadCrumbs) {
         breadCrumbs = [
@@ -86,42 +44,6 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                 <div className="logo-box">
                     <WordLogoSVG width="60px" />
                 </div>
-                <Button
-                    onClick={toggleUserMenu}
-                    variant="text"
-                    color="inherit"
-                    className={classes.userMenuButton}
-                    fullWidth
-                >
-                    <Avatar
-                        src={user.profilePictureUrl}
-                        style={{ marginRight: "20px" }}
-                    />
-                    {`${user.firstName} ${user.lastName}`}
-                    <ArrowDropDownIcon
-                        style={{ marginLeft: "10px" }}
-                        color="primary"
-                        ref={userMenuButtonRef}
-                    />
-                </Button>
-                <Menu
-                    open={userMenuOpen}
-                    onClose={toggleUserMenu}
-                    anchorEl={userMenuButtonRef.current}
-                    className={classes.userMenu}
-                >
-                    <MenuItem onClick={toggleUserMenu}>
-                        <Link href="/app/my-account">
-                            <a>My Account</a>
-                        </Link>
-                    </MenuItem>
-                    <MenuItem onClick={toggleUserMenu}>Settings</MenuItem>
-                    <MenuItem onClick={handleOpenLogoutModal} color="primary">
-                        Logout
-                    </MenuItem>
-                </Menu>
-
-                <Divider />
 
                 <AppNavigation />
                 <Typography
@@ -134,7 +56,7 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                 </Typography>
             </aside>
 
-            <span className="main">
+            <main className="main">
                 <div className="main-header">
                     <Breadcrumbs>
                         {breadCrumbs?.map(function (
@@ -178,7 +100,7 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                 >
                     {footerEl}
                 </div>
-            </span>
+            </main>
             <style jsx>{`
                 @media (min-width: 900px) {
                     .root {
@@ -240,8 +162,10 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                         display: none;
                     }
                     .main {
+                        padding: 30px;
                         display: block;
-                        padding: 30px 30px 80px;
+                        min-height: 100vh;
+                        background-color: var(--background-dark);
                     }
                 }
             `}</style>
