@@ -9,6 +9,8 @@ import { EUserRoles } from "../../../utils/types";
 import { useContext } from "react";
 import AuthContext from "../../../components/contexts/AuthContext";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import ActionBar from "../../../components/ui/ActionBar";
 
 const CoursesAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -19,20 +21,33 @@ const CoursesAppPage: React.FC = () => {
             <Head>
                 <title>STEM-bound - My Courses</title>
             </Head>
-            <h4>courses</h4>
 
             {user.role === EUserRoles.INSTRUCTOR ? (
-                <Link href="/app/courses/create">
-                    <a>
-                        <Button variant="contained">CREATE COURSE</Button>
-                    </a>
-                </Link>
+                <ActionBar>
+                    <Link href="/app/courses/create">
+                        <a>
+                            <Button variant="contained" color="primary">
+                                CREATE COURSE
+                            </Button>
+                        </a>
+                    </Link>
+                </ActionBar>
             ) : null}
 
-            {courses &&
-                courses.map((course) => (
-                    <CourseCard course={course} key={course._id} />
-                ))}
+            {courses && (
+                <Grid container spacing={3}>
+                    {courses.map((course) => (
+                        <Grid item xs={12} lg={6} xl={4}>
+                            <CourseCard
+                                course={course}
+                                key={course._id}
+                                fullWidth
+                                noMargin
+                            />
+                        </Grid>
+                    ))}
+                </Grid>
+            )}
 
             <style jsx>{``}</style>
         </AppLayout>

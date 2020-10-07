@@ -31,9 +31,15 @@ interface Props {
     course: ICourse;
     CardProps?: CardProps;
     fullWidth?: boolean;
+    noMargin?: boolean;
 }
 
-const CourseCard: React.FC<Props> = ({ course, CardProps, fullWidth }) => {
+const CourseCard: React.FC<Props> = ({
+    course,
+    CardProps,
+    fullWidth,
+    noMargin,
+}) => {
     const { data: courseInstructors } = useSWR(
         course?._id ? `/courses/${course?._id}/instructors` : null,
         courseInstructorsFetcher(course?._id)
@@ -44,14 +50,16 @@ const CourseCard: React.FC<Props> = ({ course, CardProps, fullWidth }) => {
     );
 
     const { user } = useContext(AuthContext);
-    const userRole = user?.role;
 
     const classes = useStyles();
 
     return (
         <Card
             className={classes.card}
-            style={fullWidth ? undefined : { maxWidth: "500px" }}
+            style={{
+                maxWidth: fullWidth ? undefined : "500px",
+                margin: noMargin ? "0" : undefined,
+            }}
             {...CardProps}
         >
             <Link href="/app/courses/[id]" as={`/app/courses/${course._id}`}>

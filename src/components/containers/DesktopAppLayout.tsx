@@ -160,12 +160,13 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                     .main {
                         margin: 0;
                         padding-bottom: 60px;
+                        border-radius: 0;
                     }
                     .main-header {
-                        padding: 5vh 5vw 0;
+                        padding: 5vw 5vw 0;
                     }
                     .main-body {
-                        padding: 5vh 5vw;
+                        padding: 2vh 5vw;
                     }
                     .main-footer {
                         padding: 20px 5vw;
