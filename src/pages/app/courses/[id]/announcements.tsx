@@ -111,6 +111,7 @@ const AnnouncementsAppPage: React.FC = () => {
                             onChange={(e) => setValue(e.target.value)}
                             value={value}
                             multiline
+                            fullWidth
                         />
                     )}
                     onSubmit={handleCreateAnnouncement}

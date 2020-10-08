@@ -14,6 +14,7 @@ import { courseInstructorsFetcher, schoolFetcher } from "../../utils/services";
 import { EUserRoles, ICourse } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 import Button from "@material-ui/core/Button";
+import { format } from "date-fns";
 
 const useStyles = makeStyles({
     card: {
@@ -72,6 +73,11 @@ const CourseCard: React.FC<Props> = ({
 
             <CardContent>
                 <div className="card-content-section">
+                    <Typography paragraph gutterBottom>
+                        A {course?.displayType} with{" "}
+                        {course?.meta.students.length || "Currently No"}{" "}
+                        Students
+                    </Typography>
                     <Typography variant="h6" gutterBottom>
                         Taught by
                     </Typography>

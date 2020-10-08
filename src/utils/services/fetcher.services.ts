@@ -21,6 +21,7 @@ import {
     fetchUserById,
     fetchUserSchoolById,
     fetchInstructorsByCourseId,
+    fetchStudentsByCourseId,
 } from "./user.services";
 import { fetchSchoolById } from "./school.services";
 
@@ -78,4 +79,8 @@ export function schoolFetcher(schoolId: string) {
 
 export function courseInstructorsFetcher(courseId: string) {
     return async () => (await fetchInstructorsByCourseId(courseId)).data;
+}
+
+export function courseStudentsFetcher(courseId: string) {
+    return async () => (await fetchStudentsByCourseId(courseId)).data;
 }
