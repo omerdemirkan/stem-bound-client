@@ -3,6 +3,12 @@ import Head from "next/head";
 import Link from "next/link";
 import useSWR from "swr";
 import withAuth from "../../../../components/hoc/withAuth";
+import Button from "@material-ui/core/Button";
+import ActionBar from "../../../../components/ui/ActionBar";
+import Typography from "@material-ui/core/Typography";
+import UserCard from "../../../../components/ui/UserCard";
+import CourseAnnouncement from "../../../../components/ui/CourseAnnouncement";
+import MeetingCard from "../../../../components/ui/MeetingCard";
 import { useRouter } from "next/router";
 import {
     courseFetcher,
@@ -10,13 +16,6 @@ import {
     courseStudentsFetcher,
     schoolFetcher,
 } from "../../../../utils/services";
-import Button from "@material-ui/core/Button";
-import ActionBar from "../../../../components/ui/ActionBar";
-import Typography from "@material-ui/core/Typography";
-import UserCard from "../../../../components/ui/UserCard";
-import Divider from "@material-ui/core/Divider";
-import AnnouncementCard from "../../../../components/ui/AnnouncementCard";
-import MeetingCard from "../../../../components/ui/MeetingCard";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
@@ -51,7 +50,17 @@ const CourseAppPage: React.FC = () => {
 
             <div className="page-container">
                 <div>
-                    <ActionBar>
+                    <ActionBar
+                        startEl={
+                            <Typography
+                                variant="h4"
+                                gutterBottom
+                                align="center"
+                            >
+                                {course?.title}
+                            </Typography>
+                        }
+                    >
                         <Link
                             href="/app/courses/[id]/meetings"
                             as={`/app/courses/${course?._id}/meetings`}
@@ -71,17 +80,14 @@ const CourseAppPage: React.FC = () => {
                             </a>
                         </Link>
                     </ActionBar>
-                    <Typography variant="h4" gutterBottom align="center">
-                        {course?.title}
-                    </Typography>
 
                     {course?.announcements.length ? (
                         <>
-                            <Typography variant="h5">
+                            <Typography variant="h5" gutterBottom>
                                 Recent Announcements
                             </Typography>
                             {course.announcements.map((announcement) => (
-                                <AnnouncementCard
+                                <CourseAnnouncement
                                     announcement={announcement}
                                     key={announcement._id}
                                 />
@@ -89,7 +95,9 @@ const CourseAppPage: React.FC = () => {
                         </>
                     ) : null}
 
-                    <Typography variant="h5">Recent Announcements</Typography>
+                    <Typography variant="h5" gutterBottom>
+                        Upcoming Meetings
+                    </Typography>
                     {course?.meetings.map((meeting) => (
                         <MeetingCard
                             courseTitle={course?.title}
@@ -100,13 +108,13 @@ const CourseAppPage: React.FC = () => {
                     ))}
                 </div>
                 <aside>
-                    <Typography variant="h6" align="center">
+                    <Typography variant="h6" align="center" gutterBottom>
                         Instructors
                     </Typography>
                     {courseInstructors?.map((instructor) => (
                         <UserCard user={instructor} key={instructor._id} />
                     ))}
-                    <Typography variant="h6" align="center">
+                    <Typography variant="h6" align="center" gutterBottom>
                         Students
                     </Typography>
                     {courseStudents?.map((instructor) => (
@@ -127,7 +135,7 @@ const CourseAppPage: React.FC = () => {
                     overflow-y: auto;
                 }
 
-                @media (max-width: 900px) {
+                @media (max-width: 1200px) {
                     .page-container {
                         grid-template-columns: 100%;
                     }

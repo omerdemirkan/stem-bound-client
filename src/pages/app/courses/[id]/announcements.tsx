@@ -3,7 +3,7 @@ import Head from "next/head";
 import withAuth from "../../../../components/hoc/withAuth";
 import AuthContext from "../../../../components/contexts/AuthContext";
 import useSWR from "swr";
-import AnnouncementCard from "../../../../components/ui/AnnouncementCard";
+import CourseAnnouncement from "../../../../components/ui/CourseAnnouncement";
 import { useRouter } from "next/router";
 import {
     courseFetcher,
@@ -122,7 +122,7 @@ const AnnouncementsAppPage: React.FC = () => {
             ) : null}
 
             {announcements?.map((announcement) => (
-                <AnnouncementCard
+                <CourseAnnouncement
                     key={announcement._id}
                     announcement={announcement}
                     onDeleteAnnouncement={() =>

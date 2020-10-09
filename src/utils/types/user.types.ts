@@ -1,6 +1,6 @@
 import { IUserLocation, ICoordinates } from "./location.types";
 
-interface baseUserOriginal {
+interface IBaseUserOriginal {
     _id?: string;
     firstName: string;
     lastName: string;
@@ -14,7 +14,7 @@ interface baseUserOriginal {
     location: IUserLocation;
 }
 
-export interface IStudentOriginal extends baseUserOriginal {
+export interface IStudentOriginal extends IBaseUserOriginal {
     interests: string[];
     meta: {
         school: string;
@@ -23,7 +23,7 @@ export interface IStudentOriginal extends baseUserOriginal {
     };
 }
 
-export interface IInstructorOriginal extends baseUserOriginal {
+export interface IInstructorOriginal extends IBaseUserOriginal {
     specialties: string[];
     meta: {
         courses: string[];
@@ -31,7 +31,7 @@ export interface IInstructorOriginal extends baseUserOriginal {
     };
 }
 
-export interface ISchoolOfficialOriginal extends baseUserOriginal {
+export interface ISchoolOfficialOriginal extends IBaseUserOriginal {
     position: string;
     meta: {
         school: string;
@@ -52,7 +52,15 @@ export enum EUserRoles {
     GUEST = "GUEST",
 }
 
-interface baseUser {
+export enum EUserDisplayRoles {
+    SCHOOL_OFFICIAL = "School Official",
+    STUDENT = "Student",
+    INSTRUCTOR = "Instructor",
+    ADMIN = "Admin",
+    GUEST = "Guest",
+}
+
+interface IBaseUser {
     _id?: string;
     firstName: string;
     lastName: string;
@@ -60,11 +68,12 @@ interface baseUser {
     shortDescription: string;
     longDescription: string;
     profilePictureUrl: string;
-    role: EUserRoles;
     location: IUserLocation;
+    role: EUserRoles;
+    displayRole: EUserDisplayRoles;
 }
 
-export interface IStudent extends baseUser {
+export interface IStudent extends IBaseUser {
     interests: string[];
     meta: {
         school: string;
@@ -72,14 +81,14 @@ export interface IStudent extends baseUser {
     };
 }
 
-export interface IInstructor extends baseUser {
+export interface IInstructor extends IBaseUser {
     specialties: string[];
     meta: {
         courses: string[];
     };
 }
 
-export interface ISchoolOfficial extends baseUser {
+export interface ISchoolOfficial extends IBaseUser {
     position: string;
     meta: {
         school: string;

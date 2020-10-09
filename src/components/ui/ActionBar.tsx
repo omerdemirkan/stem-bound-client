@@ -1,5 +1,3 @@
-import Typography from "@material-ui/core/Typography";
-
 interface Props {
     float?: "left" | "right";
     startEl?: any;
@@ -20,6 +18,7 @@ const ActionBar: React.FC<Props> = ({ children, float, startEl }) => {
                         float === "left" ? "flex-start" : "space-between"
                     };
                     padding: 10px 0 15px;
+                    flex-wrap: wrap;
                 }
                 .main-container > * {
                     margin-${float === "left" ? "right" : "left"}: 10px;

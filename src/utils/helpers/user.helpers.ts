@@ -1,9 +1,16 @@
-import { IUserOriginal, IUser, IValidateUserRoleOptions } from "../types";
+import {
+    IUserOriginal,
+    IUser,
+    IValidateUserRoleOptions,
+    EUserRoles,
+    EUserDisplayRoles,
+} from "../types";
 
 export function mapUserData(user: IUserOriginal): IUser {
     return {
         _id: user._id,
         role: user.role,
+        displayRole: getUserDisplayRole(user.role),
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -30,4 +37,14 @@ export function validateUserRole({
     allowedUserRoles,
 }: IValidateUserRoleOptions) {
     return allowedUserRoles.includes(userRole);
+}
+
+const userRoleDisplayTable = {
+    [EUserRoles.INSTRUCTOR]: EUserDisplayRoles.INSTRUCTOR,
+    [EUserRoles.SCHOOL_OFFICIAL]: EUserDisplayRoles.SCHOOL_OFFICIAL,
+    [EUserRoles.STUDENT]: EUserDisplayRoles.STUDENT,
+};
+
+export function getUserDisplayRole(userRole: EUserRoles): EUserDisplayRoles {
+    return userRoleDisplayTable[userRole];
 }

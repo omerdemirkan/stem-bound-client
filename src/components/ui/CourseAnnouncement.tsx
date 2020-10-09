@@ -3,6 +3,9 @@ import AuthContext from "../contexts/AuthContext";
 import { useContext } from "react";
 import InputButton from "./InputButton";
 import TextField from "@material-ui/core/TextField";
+import Alert from "@material-ui/lab/Alert";
+import AlertTitle from "@material-ui/lab/AlertTitle";
+import { format } from "date-fns";
 
 interface Props {
     announcement: IAnnouncement;
@@ -13,7 +16,7 @@ interface Props {
     onDeleteAnnouncement?: (announcementId: string) => any;
 }
 
-const AnnouncementCard: React.FC<Props> = ({
+const CourseAnnouncement: React.FC<Props> = ({
     announcement,
     onDeleteAnnouncement,
     onEditAnnouncement,
@@ -22,7 +25,13 @@ const AnnouncementCard: React.FC<Props> = ({
     const userIsAuthorizedToEdit = user._id === announcement.meta.from;
 
     return (
-        <div>
+        <Alert severity="info">
+            <AlertTitle>
+                Announcement -{" "}
+                {announcement?.createdAt &&
+                    format(new Date(announcement.createdAt), "DDDD, MMMM Mo")}
+            </AlertTitle>
+            {announcement.text}
             {userIsAuthorizedToEdit && onDeleteAnnouncement && (
                 <button onClick={() => onDeleteAnnouncement(announcement._id)}>
                     DELETE
@@ -47,9 +56,8 @@ const AnnouncementCard: React.FC<Props> = ({
                     EDIT
                 </InputButton>
             )}
-            <pre>{JSON.stringify(announcement, null, 2)}</pre>
-        </div>
+        </Alert>
     );
 };
 
-export default AnnouncementCard;
+export default CourseAnnouncement;

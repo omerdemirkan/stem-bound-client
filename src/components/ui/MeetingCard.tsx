@@ -29,7 +29,6 @@ const useStyles = makeStyles({
 
     cardContent: {
         paddingTop: "20px",
-        textAlign: "center",
     },
 
     cardActions: {
@@ -134,7 +133,6 @@ const MeetingCard: React.FC<Props> = ({
                 .actions-wrapper {
                     display: flex;
                     flex-direction: column;
-                    margin: auto;
                 }
                 .action-buttons-box {
                     display: flex;
