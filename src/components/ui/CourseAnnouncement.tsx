@@ -29,7 +29,10 @@ const CourseAnnouncement: React.FC<Props> = ({
             <AlertTitle>
                 Announcement -{" "}
                 {announcement?.createdAt &&
-                    format(new Date(announcement.createdAt), "DDDD, MMMM Mo")}
+                    format(
+                        new Date(announcement.createdAt),
+                        "EEEE, MMMM do yyyy"
+                    )}
             </AlertTitle>
             {announcement.text}
             {userIsAuthorizedToEdit && onDeleteAnnouncement && (
