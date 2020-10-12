@@ -1,6 +1,6 @@
 import MultipleDatesPicker from "@randex/material-ui-multiple-dates-picker";
 import MeetingInput from "../ui/MeetingInput";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { clone } from "../../utils/helpers";
 import {
     IMeetingOriginal,
@@ -8,6 +8,7 @@ import {
     IMeetingInput,
     ECourseTypes,
     IDefaultMeetingData,
+    ENotificationTypes,
 } from "../../utils/types";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -15,6 +16,8 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
 import MeetingDefaultDataForm from "../forms/MeetingDefaultDataForm";
+import NotificationContext from "../contexts/NotificationContext";
+import Link from "next/link";
 
 const useStyles = makeStyles({
     defaultTimePicker: {
@@ -39,6 +42,7 @@ interface Props {
     initialMeetingInputs?: IMeetingInput[];
     onChange?: (meetings: IMeetingOriginal[]) => any;
     onSubmit?: (meetings: IMeetingOriginal[]) => any;
+    validateDate?: (dates: Date) => boolean;
 }
 
 const MeetingsForm: React.FC<Props> = ({
@@ -49,6 +53,7 @@ const MeetingsForm: React.FC<Props> = ({
     courseType,
     courseTitle,
     schoolName,
+    validateDate,
 }) => {
     const [meetings, setMeetings] = useState<IMeetingInput[]>(
         initialMeetingInputs || []
@@ -58,6 +63,8 @@ const MeetingsForm: React.FC<Props> = ({
     const [defaultMeetingData, setDefaultMeetingData] = useState<
         IDefaultMeetingData
     >();
+
+    const { createSnackbar } = useContext(NotificationContext);
 
     useEffect(() => onChange && meetings && onChange(meetings), [meetings]);
 
@@ -109,13 +116,25 @@ const MeetingsForm: React.FC<Props> = ({
     }
 
     function handleDatesSelected(dates: Date[]) {
-        setDates(dates);
-        let meetings = [];
-        dates.forEach(function (date) {
-            meetings.push(constructDefaultMeetingByDate(date));
-        });
-        setMeetings(meetings);
-        setStep(2);
+        const filteredDates = dates.filter(validateDate || ((d) => d));
+        if (dates.length !== filteredDates.length) {
+            createSnackbar({
+                text: filteredDates.length
+                    ? "Some dates meeting dates were removed due to conflict."
+                    : "All selected meetings conflict with previously created meetings.",
+                type: ENotificationTypes.INFO,
+            });
+        }
+
+        if (filteredDates.length) {
+            setDates(filteredDates);
+            let meetings = [];
+            filteredDates.forEach(function (date) {
+                meetings.push(constructDefaultMeetingByDate(date));
+            });
+            setMeetings(meetings);
+            setStep(2);
+        }
     }
 
     function handleMeetingChanged(newMeeting: IMeetingInput) {
@@ -185,21 +204,17 @@ const MeetingsForm: React.FC<Props> = ({
                 onSubmit={handleDatesSelected}
             />
 
-            {step === 2 ? (
-                <>
-                    {meetings.map((meeting) => (
-                        <MeetingInput
-                            meeting={meeting}
-                            onChange={handleMeetingChanged}
-                            onDelete={handleDeleteMeeting}
-                            key={meeting.dateKey}
-                            courseTitle={courseTitle}
-                            schoolName={schoolName}
-                        />
-                    ))}
-                    <button onClick={handleSubmit}>SUBMIT</button>
-                </>
-            ) : null}
+            {step === 2 &&
+                meetings.map((meeting) => (
+                    <MeetingInput
+                        meeting={meeting}
+                        onChange={handleMeetingChanged}
+                        onDelete={handleDeleteMeeting}
+                        key={meeting.dateKey}
+                        courseTitle={courseTitle}
+                        schoolName={schoolName}
+                    />
+                ))}
         </div>
     );
 };

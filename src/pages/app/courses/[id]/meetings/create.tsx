@@ -1,13 +1,13 @@
 import AppLayout from "../../../../../components/containers/AppLayout";
 import useSWR from "swr";
 import MeetingsForm from "../../../../../components/containers/MeetingsForm";
-import moment from "moment";
 import withAuth from "../../../../../components/hoc/withAuth";
 import { useRouter } from "next/router";
 import {
     createMeetings,
     courseFetcherUnmapped,
     schoolFetcher,
+    courseMeetingsFetcher,
 } from "../../../../../utils/services";
 import {
     IMeetingOriginal,
@@ -20,6 +20,7 @@ import {
     mapMeetingData,
     removeEmptyStrings,
 } from "../../../../../utils/helpers";
+import startOfDay from "date-fns/startOfDay";
 
 const CreateMeetingAppPage: React.FC = () => {
     const router = useRouter();
@@ -27,6 +28,10 @@ const CreateMeetingAppPage: React.FC = () => {
     const { data: course, error, mutate: mutateCourse } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}#unmapped` : null,
         courseFetcherUnmapped(queryCourseId as any)
+    );
+    const { data: meetings, mutate: mutateMeetings } = useSWR(
+        queryCourseId && `/courses/${queryCourseId}/meetings`,
+        courseMeetingsFetcher({ courseId: queryCourseId as any })
     );
     const { data: school } = useSWR(
         course?.meta.school && `/schools/${course?.meta.school}`,
@@ -45,6 +50,13 @@ const CreateMeetingAppPage: React.FC = () => {
             router.push(`/app/courses/${course._id}/meetings`);
         });
     }
+
+    const previousMeetingsDatesHashTable = {};
+    meetings?.forEach(function (meeting) {
+        previousMeetingsDatesHashTable[
+            startOfDay(meeting.start).toString()
+        ] = true;
+    });
 
     return (
         <AppLayout
@@ -70,16 +82,15 @@ const CreateMeetingAppPage: React.FC = () => {
                             ? EMeetingTypes.REMOTE
                             : EMeetingTypes.IN_PERSON
                     }
-                    initialMeetingInputs={course.meetings.map((meeting) => ({
-                        ...meeting,
-                        dateKey: moment(meeting.start)
-                            .startOf("day")
-                            .toString(),
-                    }))}
                     courseTitle={course?.title}
                     schoolName={school?.name}
                     courseType={course.type}
                     onSubmit={handleSubmit}
+                    validateDate={function (date: Date) {
+                        return !previousMeetingsDatesHashTable[
+                            startOfDay(date).toString()
+                        ];
+                    }}
                 />
             ) : null}
         </AppLayout>

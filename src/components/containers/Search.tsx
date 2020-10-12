@@ -5,6 +5,7 @@ import { searchFieldInputOptions } from "../../utils/constants";
 import { appendQueriesToUrl } from "../../utils/helpers";
 import { useRouter } from "next/router";
 import { EUserRoles, IUser } from "../../utils/types";
+import Grid from "@material-ui/core/Grid";
 
 interface SearchProps {
     searchField: ESearchFields;
@@ -57,15 +58,17 @@ const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
 }) => {
     if (Object.values(EUserRoles).includes(searchField as any)) {
         return (
-            <>
+            <Grid container spacing={3}>
                 {searchDataArray.map((searchData: IUser) => (
-                    <UserCard
-                        user={searchData}
-                        key={searchData._id}
-                        {...UserCardProps}
-                    />
+                    <Grid item xs={12} lg={6} xl={4}>
+                        <UserCard
+                            user={searchData}
+                            key={searchData._id}
+                            {...UserCardProps}
+                        />
+                    </Grid>
                 ))}
-            </>
+            </Grid>
         );
     }
     return null;

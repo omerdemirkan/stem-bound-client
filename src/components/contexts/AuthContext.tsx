@@ -56,7 +56,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
             const {
                 data: { accessToken, user },
             } = await me(token);
-            handleAuthSuccess({ user, accessToken });
+            handleAuthSuccess({ user: mapUserData(user), accessToken });
             return { ok: true };
         } catch (e) {
             handleAuthFailure();

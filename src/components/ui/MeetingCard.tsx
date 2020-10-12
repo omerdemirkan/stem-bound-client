@@ -1,5 +1,8 @@
 import { useContext, useRef } from "react";
-import { getMeetingDateDisplayData } from "../../utils/helpers";
+import {
+    getMeetingDateDisplayData,
+    getMeetingTypeDisplay,
+} from "../../utils/helpers";
 import {
     IMeeting,
     IMeetingDateDisplayData,
@@ -75,7 +78,11 @@ const MeetingCard: React.FC<Props> = ({
         >
             <CardHeader
                 title={meetingDateDisplayData.dateString}
-                subheader={`${meeting.displayType}, from ${meetingDateDisplayData.startTimeString} to ${meetingDateDisplayData.endTimeString}, ${meetingDateDisplayData.durationString}`}
+                subheader={`${
+                    meeting.displayType || getMeetingTypeDisplay(meeting.type)
+                }, from ${meetingDateDisplayData.startTimeString} to ${
+                    meetingDateDisplayData.endTimeString
+                }, ${meetingDateDisplayData.durationString}`}
             />
             <Divider orientation={smallScreen ? "horizontal" : "vertical"} />
 
