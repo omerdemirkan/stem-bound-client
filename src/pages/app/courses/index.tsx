@@ -11,6 +11,7 @@ import AuthContext from "../../../components/contexts/AuthContext";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import ActionBar from "../../../components/ui/ActionBar";
+import Typography from "@material-ui/core/Typography";
 
 const CoursesAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -22,8 +23,10 @@ const CoursesAppPage: React.FC = () => {
                 <title>STEM-bound - My Courses</title>
             </Head>
 
-            {user.role === EUserRoles.INSTRUCTOR ? (
-                <ActionBar>
+            <ActionBar
+                startEl={<Typography variant="h5">My Courses</Typography>}
+            >
+                {user.role === EUserRoles.INSTRUCTOR ? (
                     <Link href="/app/courses/create">
                         <a>
                             <Button variant="contained" color="primary">
@@ -31,8 +34,8 @@ const CoursesAppPage: React.FC = () => {
                             </Button>
                         </a>
                     </Link>
-                </ActionBar>
-            ) : null}
+                ) : null}
+            </ActionBar>
 
             {courses && (
                 <Grid container spacing={3}>

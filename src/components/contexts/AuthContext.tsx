@@ -5,7 +5,7 @@ import {
     IAuthHelperResponse,
 } from "../../utils/types";
 import { me, logIn, signUp } from "../../utils/services";
-import { apiClient } from "../../utils/helpers";
+import { apiClient, mapUserData } from "../../utils/helpers";
 
 export const initialAuthContextState: IAuthContextState = {
     authLoading: false,
@@ -79,7 +79,8 @@ export const AuthContextProvider: React.FC = ({ children }) => {
             const {
                 data: { accessToken, user },
             } = await logIn({ email, password });
-            handleAuthSuccess({ user, accessToken });
+
+            handleAuthSuccess({ user: mapUserData(user), accessToken });
             return { ok: true };
         } catch (e) {
             handleAuthFailure();
@@ -96,7 +97,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
             const {
                 data: { accessToken, user },
             } = await signUp(userData);
-            handleAuthSuccess({ user, accessToken });
+            handleAuthSuccess({ user: mapUserData(user), accessToken });
             return { ok: true };
         } catch (e) {
             handleAuthFailure();
