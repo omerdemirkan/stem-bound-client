@@ -16,6 +16,7 @@ import {
     courseStudentsFetcher,
     schoolFetcher,
 } from "../../../../utils/services";
+import Section from "../../../../components/ui/Section";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
@@ -82,7 +83,7 @@ const CourseAppPage: React.FC = () => {
                     </ActionBar>
 
                     {course?.announcements.length ? (
-                        <>
+                        <Section>
                             <Typography variant="h5" gutterBottom>
                                 Recent Announcements
                             </Typography>
@@ -92,34 +93,41 @@ const CourseAppPage: React.FC = () => {
                                     key={announcement._id}
                                 />
                             ))}
-                        </>
+                        </Section>
                     ) : null}
 
-                    <Typography variant="h5" gutterBottom>
-                        Upcoming Meetings
-                    </Typography>
-                    {course?.meetings.map((meeting) => (
-                        <MeetingCard
-                            courseTitle={course?.title}
-                            schoolName={school?.name}
-                            meeting={meeting}
-                            key={meeting._id}
-                        />
-                    ))}
+                    <Section spacing={10}>
+                        <Typography variant="h5" gutterBottom>
+                            Upcoming Meetings
+                        </Typography>
+                        {course?.meetings.map((meeting) => (
+                            <MeetingCard
+                                courseTitle={course?.title}
+                                schoolName={school?.name}
+                                meeting={meeting}
+                                key={meeting._id}
+                            />
+                        ))}
+                    </Section>
                 </div>
                 <aside>
-                    <Typography variant="h6" align="center" gutterBottom>
-                        Instructors
-                    </Typography>
-                    {courseInstructors?.map((instructor) => (
-                        <UserCard user={instructor} key={instructor._id} />
-                    ))}
-                    <Typography variant="h6" align="center" gutterBottom>
-                        Students
-                    </Typography>
-                    {courseStudents?.map((instructor) => (
-                        <UserCard user={instructor} key={instructor._id} />
-                    ))}
+                    <Section spacing={8}>
+                        <Typography variant="h6" align="center" gutterBottom>
+                            Instructors
+                        </Typography>
+                        {courseInstructors?.map((instructor) => (
+                            <UserCard user={instructor} key={instructor._id} />
+                        ))}
+                    </Section>
+
+                    <Section spacing={8}>
+                        <Typography variant="h6" align="center" gutterBottom>
+                            Students
+                        </Typography>
+                        {courseStudents?.map((instructor) => (
+                            <UserCard user={instructor} key={instructor._id} />
+                        ))}
+                    </Section>
                 </aside>
             </div>
 

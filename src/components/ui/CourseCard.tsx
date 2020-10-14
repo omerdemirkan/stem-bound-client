@@ -14,7 +14,7 @@ import { courseInstructorsFetcher, schoolFetcher } from "../../utils/services";
 import { EUserRoles, ICourse } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 import Button from "@material-ui/core/Button";
-import { format } from "date-fns";
+import Section from "./Section";
 
 const useStyles = makeStyles({
     card: {
@@ -72,7 +72,7 @@ const CourseCard: React.FC<Props> = ({
             <Divider />
 
             <CardContent>
-                <div className="card-content-section">
+                <Section>
                     <Typography paragraph gutterBottom>
                         A {course?.displayType} with{" "}
                         {course?.meta.students.length || "Currently No"}{" "}
@@ -101,11 +101,11 @@ const CourseCard: React.FC<Props> = ({
                             color="primary"
                         />
                     ))}
-                </div>
+                </Section>
 
-                <Divider className={classes.divider} />
+                <Divider className={classes.divider} light />
 
-                <div className="card-content-section">
+                <Section>
                     <Typography variant="h6" gutterBottom>
                         Course Description
                     </Typography>
@@ -114,7 +114,7 @@ const CourseCard: React.FC<Props> = ({
                         <br />
                         {course?.longDescription}
                     </Typography>
-                </div>
+                </Section>
             </CardContent>
             <CardActions>
                 {user?.role === EUserRoles.SCHOOL_OFFICIAL ? (
@@ -123,12 +123,6 @@ const CourseCard: React.FC<Props> = ({
                     </Button>
                 ) : null}
             </CardActions>
-
-            <style jsx>{`
-                .card-content-section {
-                    margin-bottom: 10px;
-                }
-            `}</style>
         </Card>
     );
 };

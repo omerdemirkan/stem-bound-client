@@ -13,6 +13,8 @@ import {
     schoolFetcher,
 } from "../../../../../utils/services";
 import MeetingCard from "../../../../../components/ui/MeetingCard";
+import ActionBar from "../../../../../components/ui/ActionBar";
+import Section from "../../../../../components/ui/Section";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -48,7 +50,7 @@ const MeetingsAppPage: React.FC = () => {
             </Head>
 
             {course?.meta.instructors.includes(user._id) ? (
-                <>
+                <ActionBar>
                     <Link
                         href="/app/courses/[id]/meetings/create"
                         as={`/app/courses/${course?._id}/meetings/create`}
@@ -70,17 +72,19 @@ const MeetingsAppPage: React.FC = () => {
                             </Button>
                         </a>
                     </Link>
-                </>
+                </ActionBar>
             ) : null}
 
-            {meetings?.map((meeting) => (
-                <MeetingCard
-                    meeting={meeting}
-                    key={meeting._id}
-                    courseTitle={course?.title}
-                    schoolName={school?.name}
-                />
-            ))}
+            <Section>
+                {meetings?.map((meeting) => (
+                    <MeetingCard
+                        meeting={meeting}
+                        key={meeting._id}
+                        courseTitle={course?.title}
+                        schoolName={school?.name}
+                    />
+                ))}
+            </Section>
         </AppLayout>
     );
 };

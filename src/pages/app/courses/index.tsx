@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import ActionBar from "../../../components/ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
+import Section from "../../../components/ui/Section";
 
 const CoursesAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -38,18 +39,20 @@ const CoursesAppPage: React.FC = () => {
             </ActionBar>
 
             {courses && (
-                <Grid container spacing={3}>
-                    {courses.map((course) => (
-                        <Grid item xs={12} lg={6} xl={4}>
-                            <CourseCard
-                                course={course}
-                                key={course._id}
-                                fullWidth
-                                noMargin
-                            />
-                        </Grid>
-                    ))}
-                </Grid>
+                <Section>
+                    <Grid container spacing={3}>
+                        {courses.map((course) => (
+                            <Grid item xs={12} lg={6} xl={4}>
+                                <CourseCard
+                                    course={course}
+                                    key={course._id}
+                                    fullWidth
+                                    noMargin
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Section>
             )}
 
             <style jsx>{``}</style>

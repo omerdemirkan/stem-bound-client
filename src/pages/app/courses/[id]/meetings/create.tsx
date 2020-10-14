@@ -21,6 +21,7 @@ import {
     removeEmptyStrings,
 } from "../../../../../utils/helpers";
 import startOfDay from "date-fns/startOfDay";
+import Section from "../../../../../components/ui/Section";
 
 const CreateMeetingAppPage: React.FC = () => {
     const router = useRouter();
@@ -76,22 +77,24 @@ const CreateMeetingAppPage: React.FC = () => {
             ]}
         >
             {course ? (
-                <MeetingsForm
-                    defaultMeetingType={
-                        course.type === ECourseTypes.REMOTE
-                            ? EMeetingTypes.REMOTE
-                            : EMeetingTypes.IN_PERSON
-                    }
-                    courseTitle={course?.title}
-                    schoolName={school?.name}
-                    courseType={course.type}
-                    onSubmit={handleSubmit}
-                    validateDate={function (date: Date) {
-                        return !previousMeetingsDatesHashTable[
-                            startOfDay(date).toString()
-                        ];
-                    }}
-                />
+                <Section spacing={8}>
+                    <MeetingsForm
+                        defaultMeetingType={
+                            course.type === ECourseTypes.REMOTE
+                                ? EMeetingTypes.REMOTE
+                                : EMeetingTypes.IN_PERSON
+                        }
+                        courseTitle={course?.title}
+                        schoolName={school?.name}
+                        courseType={course.type}
+                        onSubmit={handleSubmit}
+                        validateDate={function (date: Date) {
+                            return !previousMeetingsDatesHashTable[
+                                startOfDay(date).toString()
+                            ];
+                        }}
+                    />
+                </Section>
             ) : null}
         </AppLayout>
     );

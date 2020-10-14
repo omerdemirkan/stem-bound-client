@@ -18,6 +18,7 @@ import Stepper from "@material-ui/core/Stepper";
 import MeetingDefaultDataForm from "../forms/MeetingDefaultDataForm";
 import NotificationContext from "../contexts/NotificationContext";
 import Link from "next/link";
+import Section from "../ui/Section";
 
 const useStyles = makeStyles({
     defaultTimePicker: {
@@ -165,56 +166,60 @@ const MeetingsForm: React.FC<Props> = ({
 
     return (
         <div>
-            <Stepper activeStep={step} className={classes.stepper}>
-                <Step>
-                    <StepLabel>Set meeting defaults</StepLabel>
-                </Step>
-                <Step>
-                    <StepLabel>Set meeting dates</StepLabel>
-                </Step>
-                <Step>
-                    <StepLabel>Edit meetings</StepLabel>
-                </Step>
-                {step === 2 ? (
+            <Section>
+                <Stepper activeStep={step} className={classes.stepper}>
                     <Step>
-                        <StepLabel>
-                            <Button
-                                onClick={handleSubmit}
-                                variant="contained"
-                                color="primary"
-                            >
-                                SUBMIT
-                            </Button>
-                        </StepLabel>
+                        <StepLabel>Set meeting defaults</StepLabel>
                     </Step>
-                ) : null}
-            </Stepper>
+                    <Step>
+                        <StepLabel>Set meeting dates</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel>Edit meetings</StepLabel>
+                    </Step>
+                    {step === 2 ? (
+                        <Step>
+                            <StepLabel>
+                                <Button
+                                    onClick={handleSubmit}
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    SUBMIT
+                                </Button>
+                            </StepLabel>
+                        </Step>
+                    ) : null}
+                </Stepper>
+            </Section>
 
-            {step < 2 ? (
-                <MeetingDefaultDataForm
-                    onSubmit={handleDefaultDataSelected}
-                    requiredFields={["roomNum", "url"]}
-                />
-            ) : null}
-
-            <MultipleDatesPicker
-                open={step === 1}
-                selectedDates={dates}
-                onCancel={() => setStep(0)}
-                onSubmit={handleDatesSelected}
-            />
-
-            {step === 2 &&
-                meetings.map((meeting) => (
-                    <MeetingInput
-                        meeting={meeting}
-                        onChange={handleMeetingChanged}
-                        onDelete={handleDeleteMeeting}
-                        key={meeting.dateKey}
-                        courseTitle={courseTitle}
-                        schoolName={schoolName}
+            <Section spacing={10}>
+                {step < 2 ? (
+                    <MeetingDefaultDataForm
+                        onSubmit={handleDefaultDataSelected}
+                        requiredFields={["roomNum", "url"]}
                     />
-                ))}
+                ) : null}
+
+                <MultipleDatesPicker
+                    open={step === 1}
+                    selectedDates={dates}
+                    onCancel={() => setStep(0)}
+                    onSubmit={handleDatesSelected}
+                />
+
+                {step === 2 &&
+                    meetings.map((meeting) => (
+                        <MeetingInput
+                            meeting={meeting}
+                            onChange={handleMeetingChanged}
+                            onDelete={handleDeleteMeeting}
+                            key={meeting.dateKey}
+                            courseTitle={courseTitle}
+                            schoolName={schoolName}
+                        />
+                    ))}
+            </Section>
         </div>
     );
 };
