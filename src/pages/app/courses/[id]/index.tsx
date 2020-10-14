@@ -67,7 +67,13 @@ const CourseAppPage: React.FC = () => {
                             as={`/app/courses/${course?._id}/meetings`}
                         >
                             <a>
-                                <Button variant="contained">MEETINGS</Button>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className="spaced-horizontal"
+                                >
+                                    MEETINGS
+                                </Button>
                             </a>
                         </Link>
                         <Link
@@ -75,7 +81,11 @@ const CourseAppPage: React.FC = () => {
                             as={`/app/courses/${course?._id}/announcements`}
                         >
                             <a>
-                                <Button variant="contained">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className="spaced-horizontal"
+                                >
                                     ANNOUNCEMENTS
                                 </Button>
                             </a>

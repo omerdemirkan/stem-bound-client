@@ -14,17 +14,17 @@ const ActionBar: React.FC<Props> = ({ children, float, startEl }) => {
             <style jsx>{`
                 .root {
                     display: flex;
-                    justify-content: ${
-                        float === "left" ? "flex-start" : "space-between"
-                    };
+                    justify-content: ${float === "left"
+                        ? "flex-start"
+                        : "space-between"};
                     padding: 10px 0 15px;
                     flex-wrap: wrap;
                 }
                 .main-container > * {
-                    margin-${float === "left" ? "right" : "left"}: 10px;
+                    margin: 0 10px !important;
                 }
                 .start-container > * {
-                    margin-right: 10px;
+                    margin-right: 10px !important;
                 }
             `}</style>
         </>

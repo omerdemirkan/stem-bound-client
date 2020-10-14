@@ -1,1 +1,9 @@
 /* Global button styles here. */
+
+.spaced-verticle {
+  margin: 8px 0px !important;
+}
+
+.spaced-horizontal {
+  margin: 0px 8px !important;
+}

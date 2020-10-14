@@ -41,6 +41,8 @@ export function mapSchoolData(school: ISchoolOriginal): ISchool {
             zip: school.location.zip,
             latitude: school.location.latitude,
             longitude: school.location.longitude,
+            shortDisplay: getSchoolLocationShortDisplay(school),
+            longDisplay: getSchoolLocationLongDisplay(school),
         },
         type: {
             code: school.type,
@@ -66,4 +68,17 @@ function toSchoolStatusCodeDescription(statusCode: number): string {
 
 function toSchoolTypeDescription(type: number): string {
     return schoolTypes[type.toString()];
+}
+
+export function getSchoolLocationShortDisplay(school: ISchoolOriginal): string {
+    if (!school) return "";
+    return `${capitalizeWords(school.location.city)}, ${capitalizeWords(
+        school.location.county
+    )} ${school.location.state}`;
+}
+
+export function getSchoolLocationLongDisplay(school: ISchoolOriginal): string {
+    return `${getSchoolLocationShortDisplay(school)} ${
+        school.distance ? school.distance + " miles away" : ""
+    }`;
 }

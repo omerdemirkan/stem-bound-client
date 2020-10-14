@@ -63,6 +63,8 @@ export interface ISchool {
         zip: string;
         latitude: number;
         longitude: number;
+        shortDisplay: string;
+        longDisplay: string;
     };
     demographics: {
         enrollment: number;

@@ -6,6 +6,8 @@ import AuthContext from "../../components/contexts/AuthContext";
 import { userSchoolFetcher, schoolCoursesFetcher } from "../../utils/services";
 import { IStudent } from "../../utils/types";
 import { useContext } from "react";
+import { Typography } from "@material-ui/core";
+import Section from "../../components/ui/Section";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -24,11 +26,15 @@ const MySchoolAppPage: React.FC = () => {
             <Head>
                 <title>STEM-bound - My School</title>
             </Head>
-            <h3>My School</h3>
-            <pre>{JSON.stringify(school, null, 2)}</pre>
-
-            <h6>Courses</h6>
-            <pre>{JSON.stringify(courses, null, 2)}</pre>
+            <Typography variant="h5" gutterBottom>
+                {school?.name}
+            </Typography>
+            <Typography>{school?.location.shortDisplay}</Typography>
+            <Section spacing={15}>
+                <Typography variant="h5" gutterBottom>
+                    Courses
+                </Typography>
+            </Section>
         </AppLayout>
     );
 };
