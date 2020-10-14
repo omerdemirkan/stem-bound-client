@@ -17,6 +17,7 @@ import {
     schoolFetcher,
 } from "../../../../utils/services";
 import Section from "../../../../components/ui/Section";
+import SplitScreen from "../../../../components/ui/SplitScreen";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
@@ -49,116 +50,115 @@ const CourseAppPage: React.FC = () => {
                 <title>STEM-bound - {course?.title || "Course"}</title>
             </Head>
 
-            <div className="page-container">
-                <div>
-                    <ActionBar
-                        startEl={
-                            <Typography
-                                variant="h4"
-                                gutterBottom
-                                align="center"
+            <SplitScreen
+                mainEl={
+                    <>
+                        <ActionBar
+                            startEl={
+                                <Typography
+                                    variant="h4"
+                                    gutterBottom
+                                    align="center"
+                                >
+                                    {course?.title}
+                                </Typography>
+                            }
+                        >
+                            <Link
+                                href="/app/courses/[id]/meetings"
+                                as={`/app/courses/${course?._id}/meetings`}
                             >
-                                {course?.title}
-                            </Typography>
-                        }
-                    >
-                        <Link
-                            href="/app/courses/[id]/meetings"
-                            as={`/app/courses/${course?._id}/meetings`}
-                        >
-                            <a>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className="spaced-horizontal"
-                                >
-                                    MEETINGS
-                                </Button>
-                            </a>
-                        </Link>
-                        <Link
-                            href="/app/courses/[id]/announcements"
-                            as={`/app/courses/${course?._id}/announcements`}
-                        >
-                            <a>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className="spaced-horizontal"
-                                >
-                                    ANNOUNCEMENTS
-                                </Button>
-                            </a>
-                        </Link>
-                    </ActionBar>
+                                <a>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        className="spaced-horizontal"
+                                    >
+                                        MEETINGS
+                                    </Button>
+                                </a>
+                            </Link>
+                            <Link
+                                href="/app/courses/[id]/announcements"
+                                as={`/app/courses/${course?._id}/announcements`}
+                            >
+                                <a>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        className="spaced-horizontal"
+                                    >
+                                        ANNOUNCEMENTS
+                                    </Button>
+                                </a>
+                            </Link>
+                        </ActionBar>
 
-                    {course?.announcements.length ? (
-                        <Section>
+                        {course?.announcements.length ? (
+                            <Section>
+                                <Typography variant="h5" gutterBottom>
+                                    Recent Announcements
+                                </Typography>
+                                {course.announcements.map((announcement) => (
+                                    <CourseAnnouncement
+                                        announcement={announcement}
+                                        key={announcement._id}
+                                    />
+                                ))}
+                            </Section>
+                        ) : null}
+
+                        <Section spacing={10}>
                             <Typography variant="h5" gutterBottom>
-                                Recent Announcements
+                                Upcoming Meetings
                             </Typography>
-                            {course.announcements.map((announcement) => (
-                                <CourseAnnouncement
-                                    announcement={announcement}
-                                    key={announcement._id}
+                            {course?.meetings.map((meeting) => (
+                                <MeetingCard
+                                    courseTitle={course?.title}
+                                    schoolName={school?.name}
+                                    meeting={meeting}
+                                    key={meeting._id}
                                 />
                             ))}
                         </Section>
-                    ) : null}
-
-                    <Section spacing={10}>
-                        <Typography variant="h5" gutterBottom>
-                            Upcoming Meetings
-                        </Typography>
-                        {course?.meetings.map((meeting) => (
-                            <MeetingCard
-                                courseTitle={course?.title}
-                                schoolName={school?.name}
-                                meeting={meeting}
-                                key={meeting._id}
-                            />
-                        ))}
-                    </Section>
-                </div>
-                <aside>
-                    <Section spacing={8}>
-                        <Typography variant="h6" align="center" gutterBottom>
-                            Instructors
-                        </Typography>
-                        {courseInstructors?.map((instructor) => (
-                            <UserCard user={instructor} key={instructor._id} />
-                        ))}
-                    </Section>
-
-                    <Section spacing={8}>
-                        <Typography variant="h6" align="center" gutterBottom>
-                            Students
-                        </Typography>
-                        {courseStudents?.map((instructor) => (
-                            <UserCard user={instructor} key={instructor._id} />
-                        ))}
-                    </Section>
-                </aside>
-            </div>
-
-            <style jsx>{`
-                .page-container {
-                    display: grid;
-                    grid-template-columns: auto 400px;
-                    grid-gap: 50px;
+                    </>
                 }
+                secondaryEl={
+                    <>
+                        <Section spacing={8}>
+                            <Typography
+                                variant="h6"
+                                align="center"
+                                gutterBottom
+                            >
+                                Instructors
+                            </Typography>
+                            {courseInstructors?.map((instructor) => (
+                                <UserCard
+                                    user={instructor}
+                                    key={instructor._id}
+                                />
+                            ))}
+                        </Section>
 
-                .page-container > aside {
-                    overflow-x: hidden;
-                    overflow-y: auto;
+                        <Section spacing={8}>
+                            <Typography
+                                variant="h6"
+                                align="center"
+                                gutterBottom
+                            >
+                                Students
+                            </Typography>
+                            {courseStudents?.map((instructor) => (
+                                <UserCard
+                                    user={instructor}
+                                    key={instructor._id}
+                                />
+                            ))}
+                        </Section>
+                    </>
                 }
-
-                @media (max-width: 1200px) {
-                    .page-container {
-                        grid-template-columns: 100%;
-                    }
-                }
-            `}</style>
+            />
         </AppLayout>
     );
 };
