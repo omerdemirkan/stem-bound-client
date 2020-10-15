@@ -1,5 +1,5 @@
 import CardHeader from "@material-ui/core/CardHeader";
-import Card from "@material-ui/core/Card";
+import Card, { CardProps } from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import InputButton from "./InputButton";
 import Avatar from "@material-ui/core/Avatar";
@@ -9,12 +9,20 @@ import { EUserRoles, IInstructor, IStudent, IUser } from "../../utils/types";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+const useStyles = makeStyles({
+    card: {
+        margin: "10px 0",
+    },
+});
 
 export interface UserCardProps {
     user: IUser;
     onContactUser?: (user: IUser, message: string) => void;
     contactUserEnabled?: boolean;
     footerEl?: any;
+    CardProps?: CardProps;
 }
 
 const UserCard: React.FC<UserCardProps> = ({
@@ -22,11 +30,12 @@ const UserCard: React.FC<UserCardProps> = ({
     onContactUser,
     contactUserEnabled,
     footerEl,
+    CardProps,
 }) => {
     const fullName = `${user?.firstName} ${user?.lastName}`;
-    console.log(user);
+    const classes = useStyles();
     return (
-        <Card>
+        <Card className={classes.card} {...CardProps}>
             <CardHeader
                 title={fullName}
                 subheader={user?.displayRole}

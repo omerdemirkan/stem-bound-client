@@ -31,7 +31,7 @@ export function fetchCoursesByUserId(
 
 export function fetchCoursesBySchoolId(
     id: string
-): Promise<IApiResponse<ISchool[]>> {
+): Promise<IApiResponse<ICourse[]>> {
     return mapResponseData(
         apiClient.get(`/schools/${id}/courses`),
         mapCourseData

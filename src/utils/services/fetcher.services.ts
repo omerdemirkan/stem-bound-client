@@ -22,6 +22,8 @@ import {
     fetchUserSchoolById,
     fetchInstructorsByCourseId,
     fetchStudentsByCourseId,
+    fetchSchoolOfficialsBySchoolId,
+    fetchStudentsBySchoolId,
 } from "./user.services";
 import { fetchSchoolById } from "./school.services";
 
@@ -71,6 +73,14 @@ export function userSchoolFetcher(userId: string) {
 
 export function schoolCoursesFetcher(schoolId: string) {
     return async () => (await fetchCoursesBySchoolId(schoolId)).data;
+}
+
+export function schoolSchoolOfficialsFetcher(schoolId: string) {
+    return async () => (await fetchSchoolOfficialsBySchoolId(schoolId)).data;
+}
+
+export function schoolStudentsFetcher(schoolId: string) {
+    return async () => (await fetchStudentsBySchoolId(schoolId)).data;
 }
 
 export function schoolFetcher(schoolId: string) {

@@ -33,6 +33,7 @@ interface Props {
     CardProps?: CardProps;
     fullWidth?: boolean;
     noMargin?: boolean;
+    footerEl?: any;
 }
 
 const CourseCard: React.FC<Props> = ({
@@ -40,6 +41,7 @@ const CourseCard: React.FC<Props> = ({
     CardProps,
     fullWidth,
     noMargin,
+    footerEl,
 }) => {
     const { data: courseInstructors } = useSWR(
         course?._id ? `/courses/${course?._id}/instructors` : null,
@@ -122,6 +124,7 @@ const CourseCard: React.FC<Props> = ({
                         Contact Instructor
                     </Button>
                 ) : null}
+                {footerEl}
             </CardActions>
         </Card>
     );
