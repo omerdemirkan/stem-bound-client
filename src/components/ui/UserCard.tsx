@@ -9,13 +9,6 @@ import { EUserRoles, IInstructor, IStudent, IUser } from "../../utils/types";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-
-const useStyles = makeStyles({
-    card: {
-        margin: "10px 0",
-    },
-});
 
 export interface UserCardProps {
     user: IUser;
@@ -23,6 +16,7 @@ export interface UserCardProps {
     contactUserEnabled?: boolean;
     footerEl?: any;
     CardProps?: CardProps;
+    noMargin?: boolean;
 }
 
 const UserCard: React.FC<UserCardProps> = ({
@@ -31,11 +25,11 @@ const UserCard: React.FC<UserCardProps> = ({
     contactUserEnabled,
     footerEl,
     CardProps,
+    noMargin,
 }) => {
     const fullName = `${user?.firstName} ${user?.lastName}`;
-    const classes = useStyles();
     return (
-        <Card className={classes.card} {...CardProps}>
+        <Card style={{ margin: noMargin ? "0" : "10px 0" }} {...CardProps}>
             <CardHeader
                 title={fullName}
                 subheader={user?.displayRole}
@@ -45,8 +39,7 @@ const UserCard: React.FC<UserCardProps> = ({
             <CardContent>
                 <Typography paragraph>
                     <strong>{user?.shortDescription}</strong>
-                    {" - "}
-                    {user?.longDescription}
+                    {user?.longDescription ? " - " + user.longDescription : ""}
                 </Typography>
                 {user?.role === EUserRoles.INSTRUCTOR ? (
                     <>

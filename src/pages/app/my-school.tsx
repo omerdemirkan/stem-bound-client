@@ -115,7 +115,7 @@ const MySchoolAppPage: React.FC = () => {
                                                     user?._id
                                                 ) ? (
                                                     <Button
-                                                        color="primary"
+                                                        color="secondary"
                                                         onClick={() =>
                                                             handleDropCourse(
                                                                 course._id

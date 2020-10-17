@@ -67,19 +67,30 @@ const CourseCard: React.FC<Props> = ({
         >
             <Link href="/app/courses/[id]" as={`/app/courses/${course._id}`}>
                 <a>
-                    <CardHeader title={course.title} subheader={school?.name} />
+                    <CardHeader
+                        title={course.title}
+                        subheader={`${school?.name}, ${course?.meta.students.length} currently enrolled`}
+                    />
                 </a>
             </Link>
 
             <Divider />
 
             <CardContent>
-                <Section>
-                    <Typography paragraph gutterBottom>
-                        A {course?.displayType} with{" "}
-                        {course?.meta.students.length || "Currently No"}{" "}
-                        Students
+                <Section marginTop="0">
+                    <Typography variant="h6" gutterBottom>
+                        {course?.shortDescription}
                     </Typography>
+                    {course?.longDescription && (
+                        <Typography paragraph>
+                            {course.longDescription}
+                        </Typography>
+                    )}
+                </Section>
+
+                <Divider className={classes.divider} light />
+
+                <Section marginBottom="0">
                     <Typography variant="h6" gutterBottom>
                         Taught by
                     </Typography>
@@ -103,19 +114,6 @@ const CourseCard: React.FC<Props> = ({
                             color="primary"
                         />
                     ))}
-                </Section>
-
-                <Divider className={classes.divider} light />
-
-                <Section>
-                    <Typography variant="h6" gutterBottom>
-                        Course Description
-                    </Typography>
-                    <Typography paragraph>
-                        <strong>{course?.shortDescription}</strong>
-                        <br />
-                        {course?.longDescription}
-                    </Typography>
                 </Section>
             </CardContent>
             <CardActions>

@@ -56,7 +56,7 @@ const CourseAppPage: React.FC = () => {
                         <ActionBar
                             startEl={
                                 <Typography
-                                    variant="h4"
+                                    variant="h5"
                                     gutterBottom
                                     align="center"
                                 >

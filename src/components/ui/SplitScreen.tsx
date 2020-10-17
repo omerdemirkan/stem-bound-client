@@ -21,18 +21,17 @@ const SplitScreen: React.FC<Props> = ({
 }) => {
     return (
         <div className="root-container">
-            <div {...MainContainerProps}>{mainEl}</div>
-            <aside {...SecondaryContainerProps}>{secondaryEl}</aside>
+            <div className="main-container" {...MainContainerProps}>
+                {mainEl}
+            </div>
+            <aside className="secondary-container" {...SecondaryContainerProps}>
+                {secondaryEl}
+            </aside>
             <style jsx>{`
                 .root-container {
                     display: grid;
                     grid-template-columns: auto 400px;
                     grid-gap: 50px;
-                }
-
-                .root-container > aside {
-                    overflow-x: hidden;
-                    overflow-y: auto;
                 }
 
                 @media (max-width: 1200px) {
