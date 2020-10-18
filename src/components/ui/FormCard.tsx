@@ -4,7 +4,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles({
     formCard: {
-        width: "90%",
+        width: "100%",
         maxWidth: "500px",
         margin: "5vh auto",
     },

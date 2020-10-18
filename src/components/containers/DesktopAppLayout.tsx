@@ -30,14 +30,6 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
 
     const classes = useStyles();
 
-    if (header && !breadCrumbs) {
-        breadCrumbs = [
-            {
-                label: header,
-            },
-        ];
-    }
-
     return (
         <div className={`root ${theme === ETheme.DARK ? "dark-theme" : null}`}>
             <aside className="sidebar">
@@ -159,11 +151,11 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                     }
                     .main {
                         margin: 0;
-                        padding-bottom: 60px;
                         border-radius: 0;
                     }
                     .main-header {
                         padding: 5vw 5vw 0;
+                        display: none;
                     }
                     .main-body {
                         padding: 2vh 5vw;

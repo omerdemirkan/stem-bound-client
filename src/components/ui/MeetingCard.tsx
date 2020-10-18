@@ -21,6 +21,7 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
+import Link from "next/link";
 
 const useStyles = makeStyles({
     card: {
@@ -94,58 +95,37 @@ const MeetingCard: React.FC<Props> = ({
                 >
                     {schoolName} / {courseTitle}
                 </Typography>
-                <Typography paragraph className={classes.cardContentParagraph}>
-                    Message:{" "}
-                    {meeting.message || (
-                        <span style={{ opacity: "0.8" }}>No Message</span>
-                    )}
-                </Typography>
+                {meeting.type === EMeetingTypes.IN_PERSON ? (
+                    <Typography
+                        paragraph
+                        className={classes.cardContentParagraph}
+                    >
+                        Room {meeting.roomNum}
+                    </Typography>
+                ) : (
+                    <CopyToClipboard
+                        text={meeting.url}
+                        onCopy={() =>
+                            createSnackbar({
+                                text: "Meeting URL Copied to Clipboard",
+                                type: ENotificationTypes.SUCCESS,
+                            })
+                        }
+                    >
+                        <Typography
+                            paragraph
+                            className={classes.cardContentParagraph}
+                            style={{ cursor: "pointer" }}
+                        >
+                            {meeting.url}
+                        </Typography>
+                    </CopyToClipboard>
+                )}
             </CardContent>
 
             <CardActions className={classes.cardActions}>
-                <div className="actions-wrapper">
-                    <div className="action-buttons-box">
-                        {meeting.type === EMeetingTypes.REMOTE ? (
-                            <CopyToClipboard
-                                text={meeting.url}
-                                onCopy={() =>
-                                    createSnackbar({
-                                        text: "Meeting URL Copied to Clipboard",
-                                        type: ENotificationTypes.SUCCESS,
-                                    })
-                                }
-                            >
-                                <IconButton>
-                                    <FileCopyIcon />
-                                </IconButton>
-                            </CopyToClipboard>
-                        ) : null}
-                        {renderActions && renderActions()}
-                    </div>
-                    <Typography
-                        paragraph
-                        align="right"
-                        className={classes.cardContentParagraph}
-                    >
-                        <strong>
-                            {meeting.type === EMeetingTypes.IN_PERSON
-                                ? `Room Number: ${meeting.roomNum}`
-                                : meeting.url}
-                        </strong>
-                    </Typography>
-                </div>
+                {renderActions && renderActions()}
             </CardActions>
-
-            <style jsx>{`
-                .actions-wrapper {
-                    display: flex;
-                    flex-direction: column;
-                }
-                .action-buttons-box {
-                    display: flex;
-                    justify-content: center;
-                }
-            `}</style>
         </Card>
     );
 };

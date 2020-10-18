@@ -10,10 +10,17 @@ export interface IAppLayoutProps {
 }
 
 const AppLayout: React.FC<IAppLayoutProps> = ({ children, ...props }) => {
+    if (props.header && !props.breadCrumbs) {
+        props.breadCrumbs = [
+            {
+                label: props.header,
+            },
+        ];
+    }
     return (
-        <DesktopAppLayout {...props}>
-            <MobileAppLayout {...props}>{children}</MobileAppLayout>
-        </DesktopAppLayout>
+        <MobileAppLayout {...props}>
+            <DesktopAppLayout {...props}>{children}</DesktopAppLayout>
+        </MobileAppLayout>
     );
 };
 
