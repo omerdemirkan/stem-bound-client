@@ -7,7 +7,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { useRef, useState } from "react";
 import AppNavigation from "./AppNavigation";
 import Drawer from "@material-ui/core/Drawer";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import WordLogoSVG from "../svg/icons/word-logo";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Link from "next/link";
@@ -31,16 +30,11 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
     const classes = useStyles();
     const rootRef = useRef<HTMLDivElement>();
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-    const smallScreen = useMediaQuery("(max-width: 900px)");
     const toggleSidebar = () => setSidebarOpen((prev) => !prev);
 
     return (
         <div className="root" ref={rootRef}>
-            <div
-                className="mobile-navigation-wrapper"
-                aria-hidden={!smallScreen}
-                style={{ display: smallScreen ? "block" : "none" }}
-            >
+            <div className="mobile-navigation-wrapper">
                 <AppBar className={classes.appBar}>
                     <Toolbar>
                         <IconButton color="inherit" onClick={toggleSidebar}>
