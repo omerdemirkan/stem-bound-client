@@ -141,29 +141,6 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                     z-index: 8;
                     margin-top: auto;
                 }
-
-                @media (max-width: 900px) {
-                    .root {
-                        grid-template-columns: 100%;
-                    }
-                    .sidebar {
-                        display: none;
-                    }
-                    .main {
-                        margin: 0;
-                        border-radius: 0;
-                    }
-                    .main-header {
-                        padding: 5vw 5vw 0;
-                        display: none;
-                    }
-                    .main-body {
-                        padding: 2vh 5vw;
-                    }
-                    .main-footer {
-                        padding: 20px 5vw;
-                    }
-                }
             `}</style>
         </div>
     );

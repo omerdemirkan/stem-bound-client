@@ -11,14 +11,16 @@ import WordLogoSVG from "../svg/icons/word-logo";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Link from "next/link";
 import Typography from "@material-ui/core/Typography";
-import { Breadcrumbs } from "@material-ui/core";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import { IBreadCrumb } from "../../utils/types";
+import { Box } from "@material-ui/core";
 
 const useStyles = makeStyles({
-    appBar: {
-        top: "auto",
-        bottom: "0",
+    toolBar: {
+        display: "flex",
+        justifyContent: "space-between",
+        paddingLeft: "0",
     },
-    toolBar: {},
     drawer: {},
 });
 
@@ -34,52 +36,60 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
 
     return (
         <div className="root" ref={rootRef}>
-            <div className="mobile-navigation-wrapper">
-                <AppBar className={classes.appBar}>
-                    <Toolbar>
-                        <IconButton color="inherit" onClick={toggleSidebar}>
-                            <MenuIcon />
-                        </IconButton>
-                    </Toolbar>
-                </AppBar>
+            <AppBar color="default" position="relative">
+                <Toolbar className={classes.toolBar}>
+                    <header className="mobile-navigation-header">
+                        {breadCrumbs.length >= 2
+                            ? (function () {
+                                  const backBreadCrumb =
+                                      breadCrumbs[breadCrumbs.length - 2];
+                                  if (!backBreadCrumb.href) return null;
+                                  return (
+                                      <Link
+                                          href={backBreadCrumb.href}
+                                          as={backBreadCrumb.as}
+                                      >
+                                          <a>
+                                              <IconButton size="small">
+                                                  <ArrowBackIosIcon color="inherit" />
+                                              </IconButton>
+                                          </a>
+                                      </Link>
+                                  );
+                              })()
+                            : null}
+                        {paginateBreadcrumbs(breadCrumbs)}
+                    </header>
+                    <IconButton color="inherit" onClick={toggleSidebar}>
+                        <MenuIcon />
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
 
-                <Drawer
-                    anchor="left"
-                    open={sidebarOpen}
-                    onClose={toggleSidebar}
-                    className={classes.drawer}
-                >
-                    <div className="logo-box">
-                        <WordLogoSVG width="60px" />
-                    </div>
-                    <AppNavigation />
-                </Drawer>
+            <Drawer
+                anchor="right"
+                open={sidebarOpen}
+                onClose={toggleSidebar}
+                className={classes.drawer}
+            >
+                <div className="logo-box">
+                    <WordLogoSVG width="60px" />
+                </div>
+                <AppNavigation />
+            </Drawer>
 
-                <header className="mobile-header">
-                    {breadCrumbs.length >= 2
-                        ? (function () {
-                              const backBreadCrumb =
-                                  breadCrumbs[breadCrumbs.length - 2];
-                              if (!backBreadCrumb.href) return null;
-                              return (
-                                  <Link href={backBreadCrumb.href}>
-                                      <ArrowBackIosIcon color="inherit" />
-                                  </Link>
-                              );
-                          })()
-                        : null}
-                    <Breadcrumbs style={{ display: "inline" }}>
-                        {breadCrumbs.length >= 3 ? <span>...</span> : null}
-
-                        <Typography variant="h6">
-                            {breadCrumbs[breadCrumbs.length - 1].label}
-                        </Typography>
-                    </Breadcrumbs>
-                </header>
-            </div>
-
-            {children}
+            <main>{children}</main>
             <style jsx>{`
+                .root {
+                    background-color: var(--background-dark);
+                    height: 100vh;
+                    overflow: hidden;
+                }
+                .root > main {
+                    padding: 5vw;
+                    height: 100%;
+                    overflow: auto;
+                }
                 .logo-box {
                     display: flex;
                     justify-content: center;
@@ -88,7 +98,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                     padding: 0 40px;
                     max-width: 250px;
                 }
-                .mobile-header {
+                .mobile-navigation-header {
                     padding: 3vw 5vw 3vw;
                     background-color: var(--background-dark);
                     display: flex;
@@ -100,3 +110,53 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
 };
 
 export default MobileAppLayout;
+
+function paginateBreadcrumbs(breadCrumbs: IBreadCrumb[]) {
+    if (!breadCrumbs) return null;
+
+    let elements = [];
+
+    if (breadCrumbs.length >= 3) {
+        elements.push(<span key="dots">...</span>);
+    }
+
+    let element;
+    let elementKey;
+
+    // Top two breadcrumbs
+    const renderedBreadCrumbs = breadCrumbs.slice(
+        Math.max(breadCrumbs.length - 2, 0),
+        breadCrumbs.length
+    );
+
+    renderedBreadCrumbs.forEach(function (breadCrumb, index) {
+        elementKey = breadCrumb.label + breadCrumb.href;
+        element = (
+            <Typography
+                variant={breadCrumbs.length === 1 ? "h6" : "subtitle1"}
+                color={
+                    index === breadCrumbs.length - 1
+                        ? "textPrimary"
+                        : "textSecondary"
+                }
+                key={elementKey}
+                style={{ margin: "0" }}
+            >
+                <Box letterSpacing={0}>{breadCrumb.label}</Box>
+            </Typography>
+        );
+        if (breadCrumb.href)
+            element = (
+                <Link
+                    href={breadCrumb.href}
+                    as={breadCrumb.as}
+                    key={elementKey}
+                >
+                    {element}
+                </Link>
+            );
+
+        elements.push(element);
+    });
+    return <Breadcrumbs>{elements}</Breadcrumbs>;
+}
