@@ -1,9 +1,12 @@
 import { IMessage } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 import { useContext } from "react";
+import Card from "@material-ui/core/Card";
+import { Avatar } from "@material-ui/core";
 
 interface Props {
     message: IMessage;
+    avatarSrc?: string;
     onSetEdit?: (messageId: string) => any;
     onDelete?: (messageId: string) => any;
     onRestore?: (messageId: string) => any;
@@ -14,11 +17,13 @@ const ChatMessage: React.FC<Props> = ({
     onSetEdit,
     onDelete,
     onRestore,
+    avatarSrc,
 }) => {
     const { user } = useContext(AuthContext);
     const userIsMessageSender = user._id === message.meta.from;
     return (
-        <div>
+        <Card style={{ width: "100%" }}>
+            <Avatar src={avatarSrc} />
             {userIsMessageSender ? (
                 <>
                     <button
@@ -39,8 +44,8 @@ const ChatMessage: React.FC<Props> = ({
                     )}
                 </>
             ) : null}
-            <pre>{JSON.stringify(message, null, 2)}</pre>
-        </div>
+            {message.text}
+        </Card>
     );
 };
 

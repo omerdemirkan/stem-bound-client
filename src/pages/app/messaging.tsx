@@ -22,6 +22,8 @@ import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 import SplitScreen from "../../components/ui/SplitScreen";
+import List from "@material-ui/core/List";
+import ChatList from "../../components/ui/ChatList";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -36,7 +38,7 @@ const MessagingAppPage: React.FC = () => {
         userChatsFetcher(user._id)
     );
     const { data: messages, mutate: mutateMessages } = useSWR(
-        messagesFetcherKey,
+        chatId ? messagesFetcherKey : null,
         messagesFetcher(chatId as string),
         {
             initialData: chats?.find((chat) => chat._id === chatId)?.messages,
@@ -306,16 +308,11 @@ const MessagingAppPage: React.FC = () => {
             {!fetchChatsValidating && !chats?.length ? <h6>No chats</h6> : null}
             <SplitScreen
                 secondaryEl={
-                    <>
-                        {chats?.map((chat: IChat) => (
-                            <ChatCard
-                                chat={chat}
-                                handleInspect={handleInspectChat}
-                                key={chat._id}
-                                fullWidth
-                            />
-                        ))}
-                    </>
+                    <ChatList
+                        chats={chats}
+                        handleInspectChat={handleInspectChat}
+                        inspectedChatId={chatId as string}
+                    />
                 }
                 mainEl={
                     <>
