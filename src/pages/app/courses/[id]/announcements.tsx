@@ -18,6 +18,8 @@ import { clone } from "../../../../utils/helpers";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
 import InputButton from "../../../../components/ui/InputButton";
 import TextField from "@material-ui/core/TextField";
+import ActionBar from "../../../../components/ui/ActionBar";
+import Typography from "@material-ui/core/Typography";
 
 const AnnouncementsAppPage: React.FC = () => {
     const router = useRouter();
@@ -101,25 +103,34 @@ const AnnouncementsAppPage: React.FC = () => {
             <Head>
                 <title>STEM-bound - Announcements</title>
             </Head>
-            <h4>announcements</h4>
-            {user.role === EUserRoles.INSTRUCTOR ? (
-                <InputButton
-                    renderInput={(value, setValue) => (
-                        <TextField
-                            id="create-announcement"
-                            label="New Announcement"
-                            onChange={(e) => setValue(e.target.value)}
-                            value={value}
-                            multiline
-                            fullWidth
-                        />
-                    )}
-                    onSubmit={handleCreateAnnouncement}
-                    initialValue={""}
-                >
-                    CREATE
-                </InputButton>
-            ) : null}
+            <ActionBar
+                startEl={
+                    <Typography variant="h6">Recent Announcements</Typography>
+                }
+            >
+                {user.role === EUserRoles.INSTRUCTOR ? (
+                    <InputButton
+                        renderInput={(value, setValue) => (
+                            <TextField
+                                id="create-announcement"
+                                label="New Announcement"
+                                onChange={(e) => setValue(e.target.value)}
+                                value={value}
+                                multiline
+                                fullWidth
+                            />
+                        )}
+                        onSubmit={handleCreateAnnouncement}
+                        initialValue={""}
+                        ButtonProps={{
+                            color: "primary",
+                            variant: "contained",
+                        }}
+                    >
+                        CREATE
+                    </InputButton>
+                ) : null}
+            </ActionBar>
 
             {announcements?.map((announcement) => (
                 <CourseAnnouncement

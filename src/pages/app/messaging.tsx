@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
+import SplitScreen from "../../components/ui/SplitScreen";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -302,28 +303,38 @@ const MessagingAppPage: React.FC = () => {
             <Head>
                 <title>STEM-bound - Messaging</title>
             </Head>
-            <h4>messaging</h4>
             {!fetchChatsValidating && !chats?.length ? <h6>No chats</h6> : null}
-            {chats?.map((chat: IChat) => (
-                <ChatCard
-                    chat={chat}
-                    handleInspect={handleInspectChat}
-                    key={chat._id}
-                />
-            ))}
-            {messages ? (
-                <>
-                    {reverseMap(messages, (message) => (
-                        <ChatMessage
-                            message={message}
-                            key={message._id}
-                            onSetEdit={setEditedMessageId}
-                            onDelete={handleDeleteMessage}
-                            onRestore={handleRestoreMessage}
-                        />
-                    ))}
-                </>
-            ) : null}
+            <SplitScreen
+                secondaryEl={
+                    <>
+                        {chats?.map((chat: IChat) => (
+                            <ChatCard
+                                chat={chat}
+                                handleInspect={handleInspectChat}
+                                key={chat._id}
+                                fullWidth
+                            />
+                        ))}
+                    </>
+                }
+                mainEl={
+                    <>
+                        {messages ? (
+                            <>
+                                {reverseMap(messages, (message) => (
+                                    <ChatMessage
+                                        message={message}
+                                        key={message._id}
+                                        onSetEdit={setEditedMessageId}
+                                        onDelete={handleDeleteMessage}
+                                        onRestore={handleRestoreMessage}
+                                    />
+                                ))}
+                            </>
+                        ) : null}
+                    </>
+                }
+            />
 
             {typingUsers.map((user) => (
                 <div key={user._id}>{user.firstName} is typing...</div>

@@ -13,7 +13,7 @@ import Link from "next/link";
 import Typography from "@material-ui/core/Typography";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import { IBreadCrumb } from "../../utils/types";
-import { Box } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
     toolBar: {
@@ -36,7 +36,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
 
     return (
         <div className="root" ref={rootRef}>
-            <AppBar color="default" position="relative">
+            <AppBar color="default">
                 <Toolbar className={classes.toolBar}>
                     <header className="mobile-navigation-header">
                         {breadCrumbs.length >= 2
@@ -83,12 +83,11 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 .root {
                     background-color: var(--background-dark);
                     height: 100vh;
-                    overflow: hidden;
+                    padding-top: 60px;
                 }
                 .root > main {
                     padding: 5vw;
                     height: 100%;
-                    overflow: auto;
                 }
                 .logo-box {
                     display: flex;
@@ -151,6 +150,7 @@ function paginateBreadcrumbs(breadCrumbs: IBreadCrumb[]) {
                     href={breadCrumb.href}
                     as={breadCrumb.as}
                     key={elementKey}
+                    shallow={breadCrumb.shallow}
                 >
                     {element}
                 </Link>

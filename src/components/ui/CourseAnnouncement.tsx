@@ -5,7 +5,8 @@ import InputButton from "./InputButton";
 import TextField from "@material-ui/core/TextField";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
-import { format } from "date-fns";
+import format from "date-fns/format";
+import Button from "@material-ui/core/Button";
 
 interface Props {
     announcement: IAnnouncement;
@@ -25,7 +26,51 @@ const CourseAnnouncement: React.FC<Props> = ({
     const userIsAuthorizedToEdit = user._id === announcement.meta.from;
 
     return (
-        <Alert severity="info">
+        <Alert
+            severity="info"
+            action={
+                <>
+                    {userIsAuthorizedToEdit && onDeleteAnnouncement && (
+                        <Button
+                            onClick={() =>
+                                onDeleteAnnouncement(announcement._id)
+                            }
+                            color="secondary"
+                            variant="text"
+                            style={{ float: "right" }}
+                        >
+                            DELETE
+                        </Button>
+                    )}
+                    {userIsAuthorizedToEdit && onEditAnnouncement && (
+                        <InputButton
+                            onSubmit={(newAnnouncement) =>
+                                onEditAnnouncement(
+                                    announcement._id,
+                                    newAnnouncement
+                                )
+                            }
+                            initialValue={announcement.text}
+                            renderInput={(value, setValue) => (
+                                <TextField
+                                    id="edit-announcement"
+                                    onChange={(e) => setValue(e.target.value)}
+                                    value={value}
+                                    multiline
+                                    fullWidth
+                                />
+                            )}
+                            ButtonProps={{
+                                variant: "text",
+                                color: "primary",
+                            }}
+                        >
+                            EDIT
+                        </InputButton>
+                    )}
+                </>
+            }
+        >
             <AlertTitle>
                 Announcement -{" "}
                 {announcement?.createdAt &&
@@ -35,30 +80,6 @@ const CourseAnnouncement: React.FC<Props> = ({
                     )}
             </AlertTitle>
             {announcement.text}
-            {userIsAuthorizedToEdit && onDeleteAnnouncement && (
-                <button onClick={() => onDeleteAnnouncement(announcement._id)}>
-                    DELETE
-                </button>
-            )}
-            {userIsAuthorizedToEdit && onEditAnnouncement && (
-                <InputButton
-                    onSubmit={(newAnnouncement) =>
-                        onEditAnnouncement(announcement._id, newAnnouncement)
-                    }
-                    initialValue={announcement.text}
-                    renderInput={(value, setValue) => (
-                        <TextField
-                            id="edit-announcement"
-                            onChange={(e) => setValue(e.target.value)}
-                            value={value}
-                            multiline
-                            fullWidth
-                        />
-                    )}
-                >
-                    EDIT
-                </InputButton>
-            )}
         </Alert>
     );
 };
