@@ -59,11 +59,15 @@ export function configureAsyncActionOptions<T>(
     };
 }
 
-export function reverseMap<T>(arr: T[], mapFunc: (val: T) => any) {
+export function reverseMap<T>(
+    arr: T[],
+    mapFunc: (val: T, index?: number) => any
+) {
+    if (!arr) return null;
     const newArr = [];
     let i = arr.length;
     while (i--) {
-        newArr.push(mapFunc(arr[i]));
+        newArr.push(mapFunc(arr[i], i));
     }
     return newArr;
 }

@@ -32,7 +32,8 @@ const ChatList: React.FC<Props> = ({
     const now = new Date();
     return (
         <List>
-            {chats?.map(function (chat) {
+        <Divider />
+            {chats?.map(function (chat, index) {
                 const lastUpdated = new Date(chat.updatedAt);
                 return (
                     <>

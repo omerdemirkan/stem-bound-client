@@ -29,7 +29,6 @@ const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
             <Search
                 searchField={searchField}
                 searchData={searchData}
-                onContactUser={handleSendMessage}
             />
             <style jsx>{``}</style>
         </Layout>

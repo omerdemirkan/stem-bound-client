@@ -24,6 +24,7 @@ import Button from "@material-ui/core/Button";
 import SplitScreen from "../../components/ui/SplitScreen";
 import List from "@material-ui/core/List";
 import ChatList from "../../components/ui/ChatList";
+import ChatMessageList from "../../components/ui/ChatMessageList";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -315,27 +316,13 @@ const MessagingAppPage: React.FC = () => {
                     />
                 }
                 mainEl={
-                    <>
-                        {messages ? (
-                            <>
-                                {reverseMap(messages, (message) => (
-                                    <ChatMessage
-                                        message={message}
-                                        key={message._id}
-                                        onSetEdit={setEditedMessageId}
-                                        onDelete={handleDeleteMessage}
-                                        onRestore={handleRestoreMessage}
-                                    />
-                                ))}
-                            </>
-                        ) : null}
-                    </>
+                    <ChatMessageList 
+                        chatMessages={messages} 
+                        chatPictureUrl={inspectedChat?.pictureUrl} 
+                        isTyping={typingUsers.map(u => u.firstName)} 
+                    />
                 }
             />
-
-            {typingUsers.map((user) => (
-                <div key={user._id}>{user.firstName} is typing...</div>
-            ))}
             <style jsx>{``}</style>
         </AppLayout>
     );
