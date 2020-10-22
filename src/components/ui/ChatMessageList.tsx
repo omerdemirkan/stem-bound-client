@@ -51,7 +51,7 @@ const ChatMessageList: React.FC<Props> = ({ chatMessages, chatPictureUrl, isTypi
             const sentByCurrentUser = user._id === message.meta.from;
             const renderAvatar = index === chatMessages.length - 1 ? true : chatMessages[index + 1]?.meta.from !== message.meta.from;
             return <>
-            {renderAvatar && <br/>}
+                {renderAvatar && <br/>}
                 <div 
                     className={`${classes.messageWrapper} ${sentByCurrentUser ? classes.messageTextBoxCurrentUser : classes.messageTextBoxOtherUser}`} 
                     key={message._id}

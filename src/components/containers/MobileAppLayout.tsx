@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 const MobileAppLayout: React.FC<IAppLayoutProps> = ({
     children,
     breadCrumbs,
-    header,
+    footerEl
 }) => {
     const classes = useStyles();
     const rootRef = useRef<HTMLDivElement>();
@@ -78,7 +78,11 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 <AppNavigation />
             </Drawer>
 
-            <main>{children}</main>
+            <main>
+                {children}
+                {footerEl && <div className="main-footer">{footerEl}</div>}
+            </main>
+            
             <style jsx>{`
                 .root {
                     background-color: var(--background-dark);
@@ -102,6 +106,11 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                     background-color: var(--background-dark);
                     display: flex;
                     align-items: center;
+                }
+
+                .main-footer {
+                    padding: 2vw;
+                    z-index: 8;
                 }
             `}</style>
         </div>

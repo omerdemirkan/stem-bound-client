@@ -307,21 +307,15 @@ const MessagingAppPage: React.FC = () => {
                 <title>STEM-bound - Messaging</title>
             </Head>
             {!fetchChatsValidating && !chats?.length ? <h6>No chats</h6> : null}
-            <SplitScreen
-                secondaryEl={
-                    <ChatList
-                        chats={chats}
-                        handleInspectChat={handleInspectChat}
-                        inspectedChatId={chatId as string}
-                    />
-                }
-                mainEl={
-                    <ChatMessageList 
-                        chatMessages={messages} 
-                        chatPictureUrl={inspectedChat?.pictureUrl} 
-                        isTyping={typingUsers.map(u => u.firstName)} 
-                    />
-                }
+            <ChatList
+                chats={chats}
+                handleInspectChat={handleInspectChat}
+                inspectedChatId={chatId as string}
+            />
+            <ChatMessageList
+                chatMessages={messages}
+                chatPictureUrl={inspectedChat?.pictureUrl}
+                isTyping={typingUsers.map((u) => u.firstName)}
             />
             <style jsx>{``}</style>
         </AppLayout>
