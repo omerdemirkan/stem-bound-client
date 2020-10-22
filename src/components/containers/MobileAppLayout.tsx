@@ -4,7 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AppNavigation from "./AppNavigation";
 import Drawer from "@material-ui/core/Drawer";
 import WordLogoSVG from "../svg/icons/word-logo";
@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import { IBreadCrumb } from "../../utils/types";
 import Box from "@material-ui/core/Box";
+import useDimensions from "../hooks/useDimensions";
 
 const useStyles = makeStyles({
     toolBar: {
@@ -22,21 +23,47 @@ const useStyles = makeStyles({
         paddingLeft: "0",
     },
     drawer: {},
+    footerAppBar: {
+        top: "auto",
+        bottom: "0",
+        padding: "2vw 0",
+    },
 });
 
 const MobileAppLayout: React.FC<IAppLayoutProps> = ({
     children,
     breadCrumbs,
-    footerEl
+    footerEl,
 }) => {
     const classes = useStyles();
-    const rootRef = useRef<HTMLDivElement>();
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
     const toggleSidebar = () => setSidebarOpen((prev) => !prev);
 
+    const [headerAppbarRef, headerDimensions] = useDimensions();
+    const [footerAppbarRef, footerDimensions] = useDimensions();
+
+    console.log({
+        paddingTop: headerDimensions?.height
+            ? headerDimensions?.height + "px"
+            : undefined,
+        paddingBottom: footerDimensions?.height
+            ? footerDimensions?.height + "px"
+            : undefined,
+    });
+
     return (
-        <div className="root" ref={rootRef}>
-            <AppBar color="default">
+        <div
+            className="root"
+            style={{
+                paddingTop: headerDimensions?.height
+                    ? headerDimensions?.height + "px"
+                    : undefined,
+                paddingBottom: footerDimensions?.height
+                    ? footerDimensions?.height + "px"
+                    : undefined,
+            }}
+        >
+            <AppBar color="default" ref={headerAppbarRef}>
                 <Toolbar className={classes.toolBar}>
                     <header className="mobile-navigation-header">
                         {breadCrumbs.length >= 2
@@ -78,16 +105,21 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 <AppNavigation />
             </Drawer>
 
-            <main>
-                {children}
-                {footerEl && <div className="main-footer">{footerEl}</div>}
-            </main>
-            
+            <main>{children}</main>
+            {footerEl && (
+                <AppBar
+                    color="default"
+                    className={classes.footerAppBar}
+                    ref={footerAppbarRef}
+                >
+                    <Toolbar>{footerEl}</Toolbar>
+                </AppBar>
+            )}
+
             <style jsx>{`
                 .root {
                     background-color: var(--background-dark);
                     height: 100vh;
-                    padding-top: 60px;
                 }
                 .root > main {
                     padding: 5vw;
