@@ -32,11 +32,11 @@ const ChatList: React.FC<Props> = ({
     const now = new Date();
     return (
         <List>
-        <Divider />
+            <Divider />
             {chats?.map(function (chat, index) {
                 const lastUpdated = new Date(chat.updatedAt);
                 return (
-                    <>
+                    <div key={chat._id}>
                         <CardActionArea>
                             <ListItem
                                 onClick={() => handleInspectChat(chat._id)}
@@ -60,7 +60,7 @@ const ChatList: React.FC<Props> = ({
                             </ListItem>
                         </CardActionArea>
                         <Divider />
-                    </>
+                    </div>
                 );
             })}
         </List>

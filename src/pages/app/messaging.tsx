@@ -1,17 +1,14 @@
 import AppLayout from "../../components/containers/AppLayout";
 import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
-import ChatMessage from "../../components/ui/ChatMessage";
 import AuthContext from "../../components/contexts/AuthContext";
-import ChatCard from "../../components/ui/ChatCard";
 import useSWR from "swr";
 import useSocket from "../../components/hooks/useSocket";
 import useDebounce from "../../components/hooks/useDebounce";
 import {
-    IChat,
     ESocketEvents,
     IUser,
-    IMessage,
+    IChatMessage,
     IBreadCrumb,
 } from "../../utils/types";
 import { useEffect, useState, useContext } from "react";
@@ -21,10 +18,8 @@ import { useRouter } from "next/router";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
-import SplitScreen from "../../components/ui/SplitScreen";
-import List from "@material-ui/core/List";
 import ChatList from "../../components/ui/ChatList";
-import ChatMessageList from "../../components/ui/ChatMessageList";
+import ChatFeed from "../../components/ui/ChatFeed";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -217,7 +212,7 @@ const MessagingAppPage: React.FC = () => {
         );
     }
 
-    function handleMessageCreated(newMessage: IMessage) {
+    function handleMessageCreated(newMessage: IChatMessage) {
         mutateMessages(function (prevMessages) {
             const newMessages = clone(prevMessages || messages);
             newMessages.unshift(newMessage);
@@ -225,7 +220,7 @@ const MessagingAppPage: React.FC = () => {
         }, false);
     }
 
-    function handleMessageUpdated(updatedMessage: IMessage) {
+    function handleMessageUpdated(updatedMessage: IChatMessage) {
         mutateMessages(function (prevMessages) {
             const newMessages = clone(prevMessages || messages);
             const messageIndex = newMessages.findIndex(
@@ -312,12 +307,11 @@ const MessagingAppPage: React.FC = () => {
                 handleInspectChat={handleInspectChat}
                 inspectedChatId={chatId as string}
             />
-            <ChatMessageList
+            <ChatFeed
                 chatMessages={messages}
                 chatPictureUrl={inspectedChat?.pictureUrl}
                 isTyping={typingUsers.map((u) => u.firstName)}
             />
-            <style jsx>{``}</style>
         </AppLayout>
     );
 };

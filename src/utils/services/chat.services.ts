@@ -9,7 +9,7 @@ import {
     IApiResponse,
     IChat,
     IFetchMessageOptions,
-    IMessage,
+    IChatMessage,
     IFetchMessagesOptions,
     ICreateMessageOptions,
     IUpdateMessageOptions,
@@ -76,7 +76,7 @@ export function fetchMessagesByChatId({
     chatId,
     limit,
     skip,
-}: IFetchMessagesOptions): Promise<IApiResponse<IMessage[]>> {
+}: IFetchMessagesOptions): Promise<IApiResponse<IChatMessage[]>> {
     const path = appendQueriesToUrl(`/chats/${chatId}/messages`, {
         limit,
         skip,
@@ -87,7 +87,7 @@ export function fetchMessagesByChatId({
 export function fetchMessageById({
     chatId,
     messageId,
-}: IFetchMessageOptions): Promise<IApiResponse<IMessage>> {
+}: IFetchMessageOptions): Promise<IApiResponse<IChatMessage>> {
     return mapResponseData(
         apiClient.get(`/chats/${chatId}/messages/${messageId}`),
         mapChatData
@@ -97,7 +97,7 @@ export function fetchMessageById({
 export function createMessage({
     chatId,
     text,
-}: ICreateMessageOptions): Promise<IApiResponse<IMessage>> {
+}: ICreateMessageOptions): Promise<IApiResponse<IChatMessage>> {
     return mapResponseData(
         apiClient.post(`/chats/${chatId}/messages`, { text }),
         mapMessageData
@@ -108,7 +108,7 @@ export function updateMessage({
     chatId,
     messageId,
     text,
-}: IUpdateMessageOptions): Promise<IApiResponse<IMessage>> {
+}: IUpdateMessageOptions): Promise<IApiResponse<IChatMessage>> {
     return mapResponseData(
         apiClient.patch(`/chats/${chatId}/messages/${messageId}`, { text }),
         mapMessageData

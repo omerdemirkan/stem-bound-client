@@ -42,25 +42,16 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
     const [headerAppbarRef, headerDimensions] = useDimensions();
     const [footerAppbarRef, footerDimensions] = useDimensions();
 
-    console.log({
-        paddingTop: headerDimensions?.height
-            ? headerDimensions?.height + "px"
-            : undefined,
-        paddingBottom: footerDimensions?.height
-            ? footerDimensions?.height + "px"
-            : undefined,
-    });
-
     return (
         <div
             className="root"
             style={{
                 paddingTop: headerDimensions?.height
                     ? headerDimensions?.height + "px"
-                    : undefined,
+                    : "0",
                 paddingBottom: footerDimensions?.height
                     ? footerDimensions?.height + "px"
-                    : undefined,
+                    : "0",
             }}
         >
             <AppBar color="default" ref={headerAppbarRef}>
@@ -119,11 +110,10 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
             <style jsx>{`
                 .root {
                     background-color: var(--background-dark);
-                    height: 100vh;
+                    min-height: 100vh;
                 }
                 .root > main {
                     padding: 5vw;
-                    height: 100%;
                 }
                 .logo-box {
                     display: flex;

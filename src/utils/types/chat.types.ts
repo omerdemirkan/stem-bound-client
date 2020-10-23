@@ -1,4 +1,6 @@
-export interface IMessageOriginal {
+import { IUser } from "./user.types";
+
+export interface IChatMessageOriginal {
     text: string;
     meta: {
         from: string;
@@ -12,7 +14,7 @@ export interface IMessageOriginal {
 
 export interface IChatOriginal {
     _id: string;
-    messages: IMessageOriginal[];
+    messages: IChatMessageOriginal[];
     meta: {
         users: string[];
     };
@@ -23,7 +25,7 @@ export interface IChatOriginal {
     updatedAt?: string;
 }
 
-export interface IMessage {
+export interface IChatMessage {
     text: string;
     meta: {
         from: string;
@@ -38,7 +40,7 @@ export interface IMessage {
 
 export interface IChat {
     _id: string;
-    messages: IMessage[];
+    messages: IChatMessage[];
     meta: {
         users: string[];
     };
@@ -93,4 +95,9 @@ export interface IUpdateMessageOptions {
 export interface IDeleteMessageOptions {
     chatId: string;
     messageId: string;
+}
+
+export interface IChatMessageGroup {
+    sender: IUser;
+    messages: IChatMessage[];
 }
