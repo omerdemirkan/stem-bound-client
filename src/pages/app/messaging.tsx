@@ -20,6 +20,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 import ChatList from "../../components/ui/ChatList";
 import ChatFeed from "../../components/ui/ChatFeed";
+import SplitScreen from "../../components/ui/SplitScreen";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -302,15 +303,26 @@ const MessagingAppPage: React.FC = () => {
                 <title>STEM-bound - Messaging</title>
             </Head>
             {!fetchChatsValidating && !chats?.length ? <h6>No chats</h6> : null}
-            <ChatList
-                chats={chats}
-                handleInspectChat={handleInspectChat}
-                inspectedChatId={chatId as string}
-            />
-            <ChatFeed
-                chatMessages={messages}
-                chatPictureUrl={inspectedChat?.pictureUrl}
-                isTyping={typingUsers.map((u) => u.firstName)}
+
+            <SplitScreen
+                mainEl={
+                    <ChatFeed
+                        chatMessages={messages}
+                        chatPictureUrl={inspectedChat?.pictureUrl}
+                        isTyping={typingUsers.map((u) => u.firstName)}
+                    />
+                }
+                secondaryEl={
+                    <ChatList
+                        chats={chats}
+                        handleInspectChat={handleInspectChat}
+                        inspectedChatId={chatId as string}
+                    />
+                }
+                order="secondary-first"
+                MainContainerProps={{
+                    style: { paddingRight: "2vw" },
+                }}
             />
         </AppLayout>
     );
