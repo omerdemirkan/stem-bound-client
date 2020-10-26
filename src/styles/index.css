@@ -8,4 +8,6 @@
 @import "../../node_modules/react-image-crop/dist/ReactCrop.css";
 
 .test {
+  transition: background-color 0.2s ease;
+  border-top-right-radius: 5px;
 }

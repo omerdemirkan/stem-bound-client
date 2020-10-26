@@ -310,6 +310,11 @@ const MessagingAppPage: React.FC = () => {
                         chatMessages={messages}
                         chatPictureUrl={inspectedChat?.pictureUrl}
                         isTyping={typingUsers.map((u) => u.firstName)}
+                        onDeleteMessageClicked={handleDeleteMessage}
+                        onEditMessageClicked={(id) => setEditedMessageId(id)}
+                        onRestoreMessageClicked={handleRestoreMessage}
+                        editedMessageId={editedMessageId}
+                        editedMessageText={editedMessageText}
                     />
                 }
                 secondaryEl={

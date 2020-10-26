@@ -101,3 +101,9 @@ export interface IChatMessageGroup {
     senderId: string;
     messages: IChatMessage[];
 }
+
+export interface IChatMessageEventHandlers {
+    onDeleteMessageClicked?: (messageId: string) => any;
+    onEditMessageClicked?: (messageId: string) => any;
+    onRestoreMessageClicked?: (messageId: string) => any;
+}

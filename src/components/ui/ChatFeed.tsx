@@ -1,8 +1,8 @@
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { useContext } from "react";
-import { IChatMessage } from "../../utils/types";
+import { useContext, useEffect } from "react";
+import { IChatMessage, IChatMessageEventHandlers } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 import { reverseMap, getChatMessageGroups } from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
@@ -42,20 +42,34 @@ interface Props {
     chatMessages: IChatMessage[];
     chatPictureUrl?: string;
     isTyping?: string[];
+    editedMessageId?: string;
+    editedMessageText?: string;
 }
 
-const ChatFeed: React.FC<Props> = ({
+const ChatFeed: React.FC<Props & IChatMessageEventHandlers> = ({
     chatMessages,
     chatPictureUrl,
     isTyping,
+    editedMessageId,
+    editedMessageText,
+    ...chatMessageHandlers
 }) => {
     const chatMessageGroups = getChatMessageGroups(chatMessages);
+
+    useEffect(function () {
+        const element = document.getElementById("chat-feed");
+        element.scrollTop = element.scrollHeight;
+    }, []);
+
     return (
-        <div>
+        <div id="chat-feed">
             {reverseMap(chatMessageGroups, (chatMessageGroup) => (
                 <ChatMessageGroup
                     chatMessageGroup={chatMessageGroup}
                     key={chatMessageGroup.messages[0]._id}
+                    editedMessageId={editedMessageId}
+                    editedMessageText={editedMessageText}
+                    {...chatMessageHandlers}
                 />
             ))}
             {isTyping?.length ? (
