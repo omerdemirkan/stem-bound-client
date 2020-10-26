@@ -50,16 +50,19 @@ export function getChatMessageGroups(
                 (startDate = new Date(chatMessages[groupStartIndex].createdAt)),
                 (currentDate = new Date(chatMessages[i].createdAt))
             ) ||
-            differenceInMinutes(startDate, currentDate) > 20 ||
-            i === 0
+            differenceInMinutes(startDate, currentDate) > 20
         ) {
             chatMessageGroups.push({
                 messages: chatMessages.slice(i + 1, groupStartIndex + 1),
-                sender: userHashTable[chatMessages[groupStartIndex].meta.from],
+                senderId: chatMessages[groupStartIndex].meta.from,
             });
             groupStartIndex = i;
         }
     }
+    chatMessageGroups.push({
+        messages: chatMessages.slice(0, groupStartIndex + 1),
+        senderId: chatMessages[groupStartIndex].meta.from,
+    });
     chatMessageGroups.reverse();
     return chatMessageGroups;
 }

@@ -98,6 +98,6 @@ export interface IDeleteMessageOptions {
 }
 
 export interface IChatMessageGroup {
-    sender: IUser;
+    senderId: string;
     messages: IChatMessage[];
 }

@@ -1,4 +1,4 @@
-import { IChatMessage, IChatMessageGroup } from "../../utils/types";
+import { IChatMessageGroup } from "../../utils/types";
 import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext";
 import Avatar from "@material-ui/core/Avatar";
@@ -7,6 +7,7 @@ import Box from "@material-ui/core/Box";
 import format from "date-fns/format";
 import useSWR from "swr";
 import { userFetcher } from "../../utils/services";
+import { reverseMap } from "../../utils/helpers";
 
 interface Props {
     chatMessageGroup: IChatMessageGroup;
@@ -21,29 +22,52 @@ const ChatMessageGroup: React.FC<Props> = ({
     onDelete,
     onRestore,
 }) => {
-    const { user } = useContext(AuthContext);
     const { data: sender } = useSWR(
-        `/users/${user._id}`,
-        userFetcher(user._id)
+        `/users/${chatMessageGroup?.senderId}`,
+        userFetcher(chatMessageGroup?.senderId)
     );
+    const senderFullName = `${sender?.firstName} ${sender?.lastName}`;
 
     return (
-        <div className="chat-message-root">
+        <div className="chat-message-group-root">
             <span>
-                <Avatar src={sender?.profilePictureUrl} />
+                <Avatar src={sender?.profilePictureUrl} alt={senderFullName} />
             </span>
 
             <div>
-                <Typography paragraph>
-                    {`${sender?.firstName} ${sender?.lastName}`}
-                    <Box fontSize=".8rem">{format(new Date(), "h:ss")}</Box>
+                <Typography
+                    paragraph
+                    color="textSecondary"
+                    style={{ margin: "0" }}
+                >
+                    {senderFullName}
+                    <Box fontSize=".9rem" display="inline" marginLeft="20px">
+                        {format(
+                            new Date(
+                                chatMessageGroup?.messages[
+                                    chatMessageGroup.messages.length - 1
+                                ].createdAt
+                            ),
+                            "h:ss a, MM/dd/yyyy"
+                        )}
+                    </Box>
                 </Typography>
+                {reverseMap(chatMessageGroup.messages, (chatMessage) => (
+                    <Typography
+                        key={chatMessage._id}
+                        paragraph
+                        style={{ marginBottom: "3px" }}
+                    >
+                        {chatMessage.text}
+                    </Typography>
+                ))}
             </div>
 
             <style jsx>{`
-                .chat-message-root {
+                .chat-message-group-root {
                     display: grid;
-                    grid-column-template: 60px auto;
+                    grid-template-columns: 60px auto;
+                    margin: 15px 0;
                 }
                 .avatar-box {
                     width: 60px;

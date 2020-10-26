@@ -46,7 +46,7 @@ export const ThemeProvider: React.FC = ({ children }) => {
                 toggleTheme: () => setDarkMode((prev) => !prev),
             }}
         >
-            <MuiThemeProvider theme={theme}> {children}</MuiThemeProvider>
+            <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
         </ThemeContext.Provider>
     );
 };

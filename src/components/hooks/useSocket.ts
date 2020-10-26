@@ -69,9 +69,10 @@ export default function useSocket(
         }) {
             listenerRemovers.push(function () {
                 for (let i = startIndex; i <= endIndex; i++) {
-                    listenerRemovers.push(() =>
-                        socket.removeEventListener(event, listeners[i])
-                    );
+                    listenerRemovers.push(function () {
+                        console.log(listeners[i]);
+                        socket.removeEventListener(event, listeners[i]);
+                    });
                 }
             });
         });
@@ -83,9 +84,10 @@ export default function useSocket(
 
     function reinitializeListeners() {
         if (!initRef.current) return;
-        listenerRemoversRef.current.forEach((listenerRemover) =>
-            listenerRemover()
-        );
+
+        for (let i = 0; i < listenerRemoversRef.current.length; i++)
+            listenerRemoversRef.current[i]();
+
         initRef.current = false;
         initializeListeners();
     }

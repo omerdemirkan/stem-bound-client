@@ -6,6 +6,7 @@ import { IChatMessage } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 import { reverseMap, getChatMessageGroups } from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
     messageWrapper: {
@@ -48,13 +49,14 @@ const ChatFeed: React.FC<Props> = ({
     chatPictureUrl,
     isTyping,
 }) => {
-    const classes = useStyles();
-    const { user } = useContext(AuthContext);
     const chatMessageGroups = getChatMessageGroups(chatMessages);
     return (
         <div>
             {reverseMap(chatMessageGroups, (chatMessageGroup) => (
-                <ChatMessageGroup chatMessageGroup={chatMessageGroup} />
+                <ChatMessageGroup
+                    chatMessageGroup={chatMessageGroup}
+                    key={chatMessageGroup.messages[0]._id}
+                />
             ))}
             {isTyping?.length ? (
                 <Typography>

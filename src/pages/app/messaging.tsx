@@ -12,7 +12,7 @@ import {
     IBreadCrumb,
 } from "../../utils/types";
 import { useEffect, useState, useContext } from "react";
-import { clone, mapMessageData, reverseMap } from "../../utils/helpers";
+import { clone, mapMessageData } from "../../utils/helpers";
 import { userChatsFetcher, messagesFetcher } from "../../utils/services";
 import { useRouter } from "next/router";
 import TextField from "@material-ui/core/TextField";
