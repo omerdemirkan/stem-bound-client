@@ -7,6 +7,7 @@ export interface IChatMessageOriginal {
         readBy: string[];
     };
     isDeleted: boolean;
+    isEdited: boolean;
     _id?: string;
     createdAt?: string;
     updatedAt?: string;
@@ -32,6 +33,7 @@ export interface IChatMessage {
         readBy: string[];
     };
     isDeleted: boolean;
+    isEdited: boolean;
     _id?: string;
     createdAt?: string;
     updatedAt?: string;

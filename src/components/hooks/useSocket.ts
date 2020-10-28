@@ -70,7 +70,6 @@ export default function useSocket(
             listenerRemovers.push(function () {
                 for (let i = startIndex; i <= endIndex; i++) {
                     listenerRemovers.push(function () {
-                        console.log(listeners[i]);
                         socket.removeEventListener(event, listeners[i]);
                     });
                 }

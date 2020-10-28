@@ -2,7 +2,7 @@ import { IChatMessage } from "../../utils/types";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import AuthContext from "../contexts/AuthContext";
-import { useContext, useRef, useState } from "react";
+import { memo, useContext, useRef, useState } from "react";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
@@ -31,16 +31,36 @@ const ChatMessage: React.FC<Props> = ({
     const menuIconButtonRef = useRef();
     const { user } = useContext(AuthContext);
     const userIsSender = user._id === chatMessage.meta.from;
+
+    if (chatMessage.isDeleted && !userIsSender)
+        return (
+            <div className="chat-message-root">
+                <Typography color="textSecondary">
+                    <Box
+                        component="span"
+                        fontSize="0.8rem"
+                        color="primary"
+                        style={{ opacity: "0.5" }}
+                    >
+                        DELETED
+                    </Box>
+                </Typography>
+            </div>
+        );
     return (
         <div
             className={`chat-message-root ${
                 isBeingEdited ? "being-edited" : ""
             }`}
         >
-            <Typography>
-                {editValue || chatMessage.text}
-                {chatMessage.createdAt !== chatMessage.updatedAt &&
-                !isBeingEdited ? (
+            <Typography
+                color={chatMessage.isDeleted ? "textSecondary" : "textPrimary"}
+            >
+                {isBeingEdited ? editValue : chatMessage.text}
+
+                {chatMessage.isEdited &&
+                !isBeingEdited &&
+                !chatMessage.isDeleted ? (
                     <Box
                         component="span"
                         fontSize="0.7rem"
@@ -61,10 +81,22 @@ const ChatMessage: React.FC<Props> = ({
                         BEING EDITED
                     </Box>
                 ) : null}
+                {chatMessage.isDeleted ? (
+                    <Box
+                        component="span"
+                        fontSize="0.7rem"
+                        marginLeft="20px"
+                        color="primary"
+                        style={{ opacity: "0.5" }}
+                    >
+                        DELETED - ONLY VISIBLE TO YOU
+                    </Box>
+                ) : null}
             </Typography>
 
             <span className="options-container">
                 {userIsSender &&
+                    !isBeingEdited &&
                     (onDeleteMessageClicked || onEditMessageClicked) && (
                         <>
                             <IconButton
@@ -128,7 +160,7 @@ const ChatMessage: React.FC<Props> = ({
             <style jsx>{`
                 .chat-message-root {
                     display: grid;
-                    grid-template-columns: auto 30px;
+                    grid-template-columns: auto 40px;
                     align-items: center;
                     background-color: rgba(0, 0, 0, 0);
                     border-top-right-radius: 12px;
@@ -137,6 +169,8 @@ const ChatMessage: React.FC<Props> = ({
                     padding: 0 0 0 3px;
                 }
                 .options-container {
+                    text-align: end;
+                    opacity: 0.5;
                 }
                 .being-edited {
                     border: var(--accent-light) 2px solid;
@@ -148,7 +182,7 @@ const ChatMessage: React.FC<Props> = ({
                 .chat-message-root:hover {
                     background-color: rgba(0, 0, 0, var(--shadow-opacity));
                 }
-                .chat-message-root:hover .dropdown-icon-button {
+                .chat-message-root:hover .options-container {
                     opacity: 1;
                 }
             `}</style>
@@ -156,4 +190,4 @@ const ChatMessage: React.FC<Props> = ({
     );
 };
 
-export default ChatMessage;
+export default memo(ChatMessage);

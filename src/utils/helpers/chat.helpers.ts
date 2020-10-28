@@ -1,4 +1,4 @@
-import { differenceInHours, differenceInMinutes, isSameDay } from "date-fns";
+import { differenceInMinutes, isSameDay } from "date-fns";
 import {
     IChat,
     IChatOriginal,
@@ -14,6 +14,7 @@ export function mapMessageData(message: IChatMessageOriginal): IChatMessage {
         text: message.text,
         _id: message._id,
         isDeleted: message.isDeleted,
+        isEdited: message.isEdited,
         createdAt: message.createdAt,
         updatedAt: message.updatedAt,
         typing: [],

@@ -66,6 +66,7 @@ const ChatMessageGroup: React.FC<Props & IChatMessageEventHandlers> = ({
                             editedMessageId === chatMessage._id &&
                             editedMessageText
                         }
+                        key={chatMessage._id}
                         {...chatMessageHandlers}
                     />
                 ))}
