@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useContext } from "react";
 import useSWR from "swr";
 import { courseInstructorsFetcher, schoolFetcher } from "../../utils/services";
-import { EUserRoles, ICourse } from "../../utils/types";
+import { EUserRoles, ICourse, ISchoolOfficial } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 import Button from "@material-ui/core/Button";
 import Section from "./Section";
@@ -34,6 +34,7 @@ interface Props {
     fullWidth?: boolean;
     noMargin?: boolean;
     footerEl?: any;
+    onVerifyCourse?: (courseId: string) => any;
 }
 
 const CourseCard: React.FC<Props> = ({
@@ -42,6 +43,7 @@ const CourseCard: React.FC<Props> = ({
     fullWidth,
     noMargin,
     footerEl,
+    onVerifyCourse,
 }) => {
     const { data: courseInstructors } = useSWR(
         course?._id ? `/courses/${course?._id}/instructors` : null,
@@ -120,6 +122,19 @@ const CourseCard: React.FC<Props> = ({
                 {user?.role === EUserRoles.SCHOOL_OFFICIAL ? (
                     <Button variant="contained" color="primary">
                         Contact Instructor
+                    </Button>
+                ) : null}
+                {user?.role === EUserRoles.SCHOOL_OFFICIAL &&
+                !course?.verified &&
+                (user as ISchoolOfficial)?.meta.school ===
+                    course?.meta.school &&
+                onVerifyCourse ? (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => onVerifyCourse(course?._id)}
+                    >
+                        Verify Course
                     </Button>
                 ) : null}
                 {footerEl}

@@ -52,6 +52,7 @@ export function mapCourseData(course: ICourseOriginal): ICourse {
         },
         meetings: course.meetings.map(mapMeetingData),
         announcements: course.announcements.map(mapAnnouncementData),
+        verified: course.verified,
     };
 }
 

@@ -30,7 +30,7 @@ export function mapChatData(chat: IChatOriginal): IChat {
         name: chat?.name,
         pictureUrl: chat?.pictureUrl,
         createdAt: chat.createdAt,
-        updatedAt: chat.updatedAt,
+        lastMessageSentAt: chat.lastMessageSentAt,
     };
 }
 

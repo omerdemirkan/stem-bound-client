@@ -54,6 +54,7 @@ export interface ICourseOriginal {
     _id: string;
     createdAt: Date;
     title: string;
+    verified: boolean;
     shortDescription: string;
     longDescription: string;
     type: ECourseTypes;
@@ -70,6 +71,7 @@ export interface ICourse {
     _id: string;
     createdAt: Date;
     title: string;
+    verified: boolean;
     shortDescription: string;
     longDescription: string;
     type: ECourseTypes;
@@ -109,6 +111,10 @@ export interface ICreateMeetingsOptions {
 export interface IDeleteMeetingOptions {
     courseId: string;
     meetingId: string;
+}
+
+export interface IFetchSchoolCoursesOptions {
+    unverified: boolean;
 }
 
 export type IMeetingInput = IMeetingOriginal & { dateKey: string };

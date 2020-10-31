@@ -10,8 +10,14 @@ import {
     schoolStudentsFetcher,
     enrollByCourseId,
     dropByCourseId,
+    udpateCourseVerification,
 } from "../../utils/services";
-import { ENotificationTypes, EUserRoles, IStudent } from "../../utils/types";
+import {
+    ENotificationTypes,
+    EUserRoles,
+    ICourse,
+    IStudent,
+} from "../../utils/types";
 import { useContext } from "react";
 import Section from "../../components/ui/Section";
 import SplitScreen from "../../components/ui/SplitScreen";
@@ -34,6 +40,15 @@ const MySchoolAppPage: React.FC = () => {
     const { data: courses, revalidate: revalidateCourses } = useSWR(
         "/user/school/courses",
         schoolCoursesFetcher((user as IStudent).meta.school)
+    );
+    const {
+        data: unverifiedCourses,
+        revalidate: revalidateUnverifiedCourses,
+    } = useSWR(
+        "/user/school/courses?unverified=1",
+        schoolCoursesFetcher((user as IStudent).meta.school, {
+            unverified: true,
+        })
     );
     const { data: schoolOfficials } = useSWR(
         "/user/school/school-officials",
@@ -85,6 +100,47 @@ const MySchoolAppPage: React.FC = () => {
         });
     }
 
+    async function handleVerifyCourse(courseId: string) {
+        await udpateCourseVerification(courseId, true);
+        revalidateCourses();
+        revalidateUnverifiedCourses();
+    }
+
+    const paginateCourses = (courses: ICourse[]) => (
+        <Grid container spacing={3}>
+            {courses?.map((course) => (
+                <Grid item xs={12} xl={6}>
+                    <CourseCard
+                        course={course}
+                        key={course._id}
+                        fullWidth
+                        onVerifyCourse={handleVerifyCourse}
+                        footerEl={
+                            user?.role === EUserRoles.STUDENT &&
+                            (course?.meta.students.includes(user?._id) ? (
+                                <Button
+                                    color="secondary"
+                                    onClick={() => handleDropCourse(course._id)}
+                                >
+                                    Drop Course
+                                </Button>
+                            ) : (
+                                <Button
+                                    color="primary"
+                                    onClick={() =>
+                                        handleEnrollInCourse(course._id)
+                                    }
+                                >
+                                    Enroll
+                                </Button>
+                            ))
+                        }
+                    />
+                </Grid>
+            ))}
+        </Grid>
+    );
+
     return (
         <AppLayout header="My School">
             <Head>
@@ -98,49 +154,19 @@ const MySchoolAppPage: React.FC = () => {
                         </Typography>
                         <Typography>{school?.location.shortDisplay}</Typography>
                         <Section spacing={15}>
+                            {user?.role === EUserRoles.SCHOOL_OFFICIAL &&
+                            unverifiedCourses?.length ? (
+                                <>
+                                    <Typography variant="h5" gutterBottom>
+                                        Unverified Courses
+                                    </Typography>
+                                    {paginateCourses(unverifiedCourses)}
+                                </>
+                            ) : null}
                             <Typography variant="h5" gutterBottom>
                                 Courses
                             </Typography>
-                            <Grid container spacing={3}>
-                                {courses?.map((course) => (
-                                    <Grid item xs={12} xl={6}>
-                                        <CourseCard
-                                            course={course}
-                                            key={course._id}
-                                            fullWidth
-                                            footerEl={
-                                                user?.role ===
-                                                    EUserRoles.STUDENT &&
-                                                (course?.meta.students.includes(
-                                                    user?._id
-                                                ) ? (
-                                                    <Button
-                                                        color="secondary"
-                                                        onClick={() =>
-                                                            handleDropCourse(
-                                                                course._id
-                                                            )
-                                                        }
-                                                    >
-                                                        Drop Course
-                                                    </Button>
-                                                ) : (
-                                                    <Button
-                                                        color="primary"
-                                                        onClick={() =>
-                                                            handleEnrollInCourse(
-                                                                course._id
-                                                            )
-                                                        }
-                                                    >
-                                                        Enroll
-                                                    </Button>
-                                                ))
-                                            }
-                                        />
-                                    </Grid>
-                                ))}
-                            </Grid>
+                            {paginateCourses(courses)}
                         </Section>
                     </>
                 }

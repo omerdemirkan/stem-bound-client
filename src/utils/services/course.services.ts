@@ -10,6 +10,7 @@ import {
     ICourseOriginal,
     IAnnouncement,
     IAnnouncementOriginal,
+    IFetchSchoolCoursesOptions,
 } from "../types";
 import {
     apiClient,
@@ -30,10 +31,11 @@ export function fetchCoursesByUserId(
 }
 
 export function fetchCoursesBySchoolId(
-    id: string
+    id: string,
+    options?: IFetchSchoolCoursesOptions
 ): Promise<IApiResponse<ICourse[]>> {
     return mapResponseData(
-        apiClient.get(`/schools/${id}/courses`),
+        apiClient.get(appendQueriesToUrl(`/schools/${id}/courses`, options)),
         mapCourseData
     );
 }
@@ -68,6 +70,13 @@ export function createCourse(
         apiClient.post("/courses", courseData),
         mapCourseData
     );
+}
+
+export function udpateCourseVerification(
+    courseId: string,
+    verified: boolean
+): Promise<IApiResponse<ICourse>> {
+    return apiClient.put(`/courses/${courseId}/verified`, { verified });
 }
 
 export function updateCourseById(

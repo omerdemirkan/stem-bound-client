@@ -23,7 +23,7 @@ export interface IChatOriginal {
     name?: string;
     pictureUrl?: string;
     createdAt?: string;
-    updatedAt?: string;
+    lastMessageSentAt?: string;
 }
 
 export interface IChatMessage {
@@ -50,7 +50,7 @@ export interface IChat {
     name?: string;
     pictureUrl?: string;
     createdAt?: string;
-    updatedAt?: string;
+    lastMessageSentAt?: string;
 }
 
 // SERVICE TYPES

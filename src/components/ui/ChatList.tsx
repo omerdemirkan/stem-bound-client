@@ -34,7 +34,7 @@ const ChatList: React.FC<Props> = ({
         <List>
             <Divider />
             {chats?.map(function (chat, index) {
-                const lastUpdated = new Date(chat.updatedAt);
+                const lastUpdated = new Date(chat.lastMessageSentAt);
                 return (
                     <div key={chat._id}>
                         <CardActionArea>

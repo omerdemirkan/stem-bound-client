@@ -3,7 +3,7 @@ import { DetailedHTMLProps, HTMLAttributes } from "react";
 interface Props {
     mainEl: any;
     secondaryEl: any;
-    order: "main-first" | "secondary-first";
+    order?: "main-first" | "secondary-first";
     MainContainerProps?: DetailedHTMLProps<
         HTMLAttributes<HTMLDivElement>,
         HTMLDivElement
