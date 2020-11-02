@@ -59,12 +59,8 @@ const MeetingInput: React.FC<Props> = ({
         : FormCard;
 
     return (
-        <ModifiedFormCard {...CardProps}>
+        <ModifiedFormCard {...CardProps} header={headerText}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Typography variant="h5" align="center">
-                    {headerText}
-                </Typography>
-
                 <Controller
                     control={control}
                     name="start"

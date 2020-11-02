@@ -41,16 +41,13 @@ const LogInForm: React.FC<Props> = ({
         : FormCard;
 
     return (
-        <ModifiedFormCard {...CardProps}>
-            <Typography
-                variant="h4"
-                align="center"
-                color="textPrimary"
-                gutterBottom
-            >
+        <ModifiedFormCard
+            {...CardProps}
+            header="Log In"
+            iconEl={
                 <LockIcon style={{ marginRight: "20px" }} color="primary" />
-                Log In
-            </Typography>
+            }
+        >
             <form onSubmit={handleSubmit(onSubmit)}>
                 {errorMessage ? (
                     <Typography

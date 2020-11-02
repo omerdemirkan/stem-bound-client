@@ -40,7 +40,7 @@ const CoursesAppPage: React.FC = () => {
 
             {courses && (
                 <Section>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={2}>
                         {courses.map((course) => (
                             <Grid item xs={12} lg={6} xl={4} key={course._id}>
                                 <CourseCard

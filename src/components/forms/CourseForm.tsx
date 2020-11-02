@@ -2,11 +2,9 @@ import { ECourseTypes } from "../../utils/types";
 import { Controller, useForm } from "react-hook-form";
 import Button from "@material-ui/core/Button";
 import { CardProps } from "@material-ui/core/Card";
-import Divider from "@material-ui/core/Divider";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 import FormCard from "../ui/FormCard";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import {
@@ -45,21 +43,21 @@ const CourseForm: React.FC<Props> = ({
         : FormCard;
 
     return (
-        <ModifiedFormCard {...CardProps}>
+        <ModifiedFormCard
+            {...CardProps}
+            header="Create A New Course"
+            iconEl={
+                <LibraryBooksIcon
+                    color="primary"
+                    style={{
+                        marginRight: "20px",
+                        position: "relative",
+                        top: "4px",
+                    }}
+                />
+            }
+        >
             <form onSubmit={handleSubmit(onSubmitClicked)}>
-                <Typography variant="h5" align="center" gutterBottom>
-                    <LibraryBooksIcon
-                        color="primary"
-                        style={{
-                            marginRight: "20px",
-                            position: "relative",
-                            top: "4px",
-                        }}
-                    />
-                    Create A New Course
-                </Typography>
-
-                <Divider />
                 <TextField
                     inputRef={register({
                         required: "Required",

@@ -41,18 +41,24 @@ const InstructorSignUpForm: React.FC<Props> = ({
         ? ({ children }) => <div>{children}</div>
         : FormCard;
 
+    const handleSubmitButtonClicked = (event) =>
+        handleSubmit(function (values) {
+            values.meta = {
+                school: values.schoolId,
+            };
+            delete values.schoolId;
+            onSubmit(values);
+        });
+
     return (
-        <ModifiedFormCard>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Typography variant="h5" align="center" gutterBottom>
-                    <InfoIcon style={{ marginRight: "20px" }} color="primary" />
-                    Personal Details
-                </Typography>
-                <Typography paragraph color="textSecondary" gutterBottom>
-                    Just a few basic details to set up and you'll be on your
-                    way!
-                </Typography>
-                {errorMessage ? (
+        <ModifiedFormCard
+            header="Personal Details"
+            iconEl={
+                <InfoIcon style={{ marginRight: "20px" }} color="primary" />
+            }
+            subheader="Just a few basic details to set up and you'll be on your way!"
+            headerEl={
+                errorMessage ? (
                     <Typography
                         paragraph
                         gutterBottom
@@ -61,8 +67,10 @@ const InstructorSignUpForm: React.FC<Props> = ({
                     >
                         {errorMessage}
                     </Typography>
-                ) : null}
-                <Divider />
+                ) : undefined
+            }
+        >
+            <form onSubmit={handleSubmitButtonClicked}>
                 <TextField
                     inputRef={register({
                         required: "Required",
