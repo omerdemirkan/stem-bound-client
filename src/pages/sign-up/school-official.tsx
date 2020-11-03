@@ -10,7 +10,7 @@ import { EUserRoles } from "../../utils/types";
 
 const SchoolOfficialSignUpPage: React.FC = () => {
     const [error, setError] = useState<Error>();
-    const { accessToken, signup, authLoading } = useContext(AuthContext);
+    const { user, accessToken, signup, authLoading } = useContext(AuthContext);
 
     const router = useRouter();
 
@@ -33,7 +33,7 @@ const SchoolOfficialSignUpPage: React.FC = () => {
             <Head>
                 <title>STEM-bound - School Official Sign Up</title>
             </Head>
-            <Typography variant="h3" component="h1" align="center">
+            <Typography variant="h4" align="center" gutterBottom>
                 Sign Up
             </Typography>
             <SignUpStepper activeStep={1} />

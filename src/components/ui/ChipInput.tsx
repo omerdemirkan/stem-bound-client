@@ -40,11 +40,15 @@ const ChipInput: React.FC<Props> = ({
                 value={textField}
                 onChange={(e) => setTextField(e.target.value)}
                 onBlur={onBlur}
+                required={false}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment {...({} as any)}>
-                            <IconButton size="small">
-                                <CheckIcon onClick={handleCheckIconClicked} />
+                            <IconButton
+                                size="small"
+                                onClick={handleCheckIconClicked}
+                            >
+                                <CheckIcon />
                             </IconButton>
                         </InputAdornment>
                     ),

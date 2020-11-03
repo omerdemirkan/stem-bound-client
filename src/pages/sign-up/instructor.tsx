@@ -41,7 +41,7 @@ const InstructorSignUpPage: React.FC = () => {
             <Head>
                 <title>STEM-bound - Instructor Sign Up</title>
             </Head>
-            <Typography variant="h4" component="h3" align="center" gutterBottom>
+            <Typography variant="h4" align="center" gutterBottom>
                 Sign Up
             </Typography>
             <SignUpStepper activeStep={1} />

@@ -2,15 +2,14 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
 import { CardProps } from "@material-ui/core/Card";
 import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
-import ChipInput from "../../components/ui/ChipInput";
 import AsyncSelect from "../../components/ui/AsyncSelect";
-import { fetchLocationInputOptions } from "../../utils/helpers";
+import { fetchSchoolInputOptions } from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
+import ChipInput from "../ui/ChipInput";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -27,7 +26,7 @@ interface Props {
     withoutCard?: boolean;
 }
 
-const InstructorSignUpForm: React.FC<Props> = ({
+const StudentSignUpForm: React.FC<Props> = ({
     onSubmit,
     loading,
     success,
@@ -40,6 +39,14 @@ const InstructorSignUpForm: React.FC<Props> = ({
     const ModifiedFormCard = withoutCard
         ? ({ children }) => <div>{children}</div>
         : FormCard;
+
+    const handleSubmitButtonClicked = handleSubmit(function (values) {
+        values.meta = {
+            school: values.schoolId,
+        };
+        delete values.schoolId;
+        onSubmit(values);
+    });
 
     return (
         <ModifiedFormCard
@@ -61,7 +68,7 @@ const InstructorSignUpForm: React.FC<Props> = ({
                 ) : undefined
             }
         >
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmitButtonClicked}>
                 <TextField
                     inputRef={register({
                         required: "Required",
@@ -121,27 +128,6 @@ const InstructorSignUpForm: React.FC<Props> = ({
                     fullWidth
                     margin="normal"
                 />
-                <Controller
-                    name="zip"
-                    control={control}
-                    rules={{ required: "Required" }}
-                    defaultValue=""
-                    render={(params) => (
-                        <AsyncSelect
-                            {...params}
-                            fetchOptions={fetchLocationInputOptions}
-                            TextFieldProps={{
-                                fullWidth: true,
-                                label: "Location",
-                                placeholder: "e.g Northridge",
-                                margin: "normal",
-                                error: errors.zip,
-                                helperText: errors.zip?.message,
-                                required: true,
-                            }}
-                        />
-                    )}
-                />
                 <TextField
                     inputRef={register({
                         required: "Required",
@@ -149,7 +135,7 @@ const InstructorSignUpForm: React.FC<Props> = ({
                     required
                     name="shortDescription"
                     label="Short Description"
-                    placeholder="e.g 3'th year Computer Science Student at CSUN"
+                    placeholder="e.g A sophomore at Reseda High School"
                     error={errors.shortDescription}
                     helperText={errors.shortDescription?.message}
                     margin="normal"
@@ -160,18 +146,40 @@ const InstructorSignUpForm: React.FC<Props> = ({
                     inputRef={register}
                     name="longDescription"
                     label="Long Description (Optional)"
-                    placeholder="Tell us about yourself!"
+                    placeholder="Tell us about yourself, your school, or what you hope to find here!"
                     margin="normal"
                     fullWidth
                     multiline
                 />
                 <Controller
-                    name="specialties"
+                    name="schoolId"
+                    control={control}
+                    rules={{ required: "Required" }}
+                    defaultValue=""
+                    render={(params) => (
+                        <AsyncSelect
+                            {...params}
+                            fetchOptions={fetchSchoolInputOptions}
+                            TextFieldProps={{
+                                fullWidth: true,
+                                label: "School",
+                                placeholder: "e.g Reseda High School",
+                                margin: "normal",
+                                error: errors.schoolId,
+                                helperText: errors.schoolId?.message,
+                                required: true,
+                            }}
+                        />
+                    )}
+                />
+                <Controller
+                    name="interests"
                     control={control}
                     rules={{
                         validate: (values) =>
                             values.length > 0 ||
-                            "At least one specialty required",
+                            "At least one interest required",
+                        required: false,
                     }}
                     defaultValue={[]}
                     render={(params) => (
@@ -179,12 +187,11 @@ const InstructorSignUpForm: React.FC<Props> = ({
                             {...params}
                             TextFieldProps={{
                                 fullWidth: true,
-                                label: "Specialties",
-                                placeholder:
-                                    "What's are your areas of expertise?",
+                                label: "Interests",
+                                placeholder: "e.g Chemistry, Programming, etc.",
                                 margin: "normal",
-                                error: errors.specialties,
-                                helperText: errors.specialties?.message,
+                                error: errors.interests,
+                                helperText: errors.interests?.message,
                                 required: true,
                             }}
                         />
@@ -206,4 +213,4 @@ const InstructorSignUpForm: React.FC<Props> = ({
     );
 };
 
-export default InstructorSignUpForm;
+export default StudentSignUpForm;

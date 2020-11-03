@@ -2,13 +2,11 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
 import { CardProps } from "@material-ui/core/Card";
 import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
-import ChipInput from "../../components/ui/ChipInput";
 import AsyncSelect from "../../components/ui/AsyncSelect";
-import { fetchLocationInputOptions } from "../../utils/helpers";
+import { fetchSchoolInputOptions } from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
 
@@ -27,7 +25,7 @@ interface Props {
     withoutCard?: boolean;
 }
 
-const InstructorSignUpForm: React.FC<Props> = ({
+const SchoolOfficialSignUpForm: React.FC<Props> = ({
     onSubmit,
     loading,
     success,
@@ -40,6 +38,14 @@ const InstructorSignUpForm: React.FC<Props> = ({
     const ModifiedFormCard = withoutCard
         ? ({ children }) => <div>{children}</div>
         : FormCard;
+
+    const handleSubmitButtonClicked = handleSubmit(function (values) {
+        values.meta = {
+            school: values.schoolId,
+        };
+        delete values.schoolId;
+        onSubmit(values);
+    });
 
     return (
         <ModifiedFormCard
@@ -61,7 +67,7 @@ const InstructorSignUpForm: React.FC<Props> = ({
                 ) : undefined
             }
         >
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmitButtonClicked}>
                 <TextField
                     inputRef={register({
                         required: "Required",
@@ -121,7 +127,44 @@ const InstructorSignUpForm: React.FC<Props> = ({
                     fullWidth
                     margin="normal"
                 />
-                <Controller
+                <TextField
+                    inputRef={register({
+                        required: "Required",
+                    })}
+                    required
+                    name="shortDescription"
+                    label="Short Description"
+                    placeholder="e.g Vice Principal at Magnolia Science Academy"
+                    error={errors.shortDescription}
+                    helperText={errors.shortDescription?.message}
+                    margin="normal"
+                    fullWidth
+                    multiline
+                />
+                <TextField
+                    inputRef={register}
+                    name="longDescription"
+                    label="Long Description (Optional)"
+                    placeholder="Tell us about yourself, your school, or what you hope to find here!"
+                    margin="normal"
+                    fullWidth
+                    multiline
+                />
+                <TextField
+                    inputRef={register({
+                        required: "Required",
+                    })}
+                    required
+                    name="position"
+                    label="Position/Job Description"
+                    placeholder="e.g Guidance Counselor"
+                    error={errors.position}
+                    helperText={errors.position?.message}
+                    margin="normal"
+                    fullWidth
+                    multiline
+                />
+                {/* <Controller
                     name="zip"
                     control={control}
                     rules={{ required: "Required" }}
@@ -141,50 +184,23 @@ const InstructorSignUpForm: React.FC<Props> = ({
                             }}
                         />
                     )}
-                />
-                <TextField
-                    inputRef={register({
-                        required: "Required",
-                    })}
-                    required
-                    name="shortDescription"
-                    label="Short Description"
-                    placeholder="e.g 3'th year Computer Science Student at CSUN"
-                    error={errors.shortDescription}
-                    helperText={errors.shortDescription?.message}
-                    margin="normal"
-                    fullWidth
-                    multiline
-                />
-                <TextField
-                    inputRef={register}
-                    name="longDescription"
-                    label="Long Description (Optional)"
-                    placeholder="Tell us about yourself!"
-                    margin="normal"
-                    fullWidth
-                    multiline
-                />
+                /> */}
                 <Controller
-                    name="specialties"
+                    name="schoolId"
                     control={control}
-                    rules={{
-                        validate: (values) =>
-                            values.length > 0 ||
-                            "At least one specialty required",
-                    }}
-                    defaultValue={[]}
+                    rules={{ required: "Required" }}
+                    defaultValue=""
                     render={(params) => (
-                        <ChipInput
+                        <AsyncSelect
                             {...params}
+                            fetchOptions={fetchSchoolInputOptions}
                             TextFieldProps={{
                                 fullWidth: true,
-                                label: "Specialties",
-                                placeholder:
-                                    "What's are your areas of expertise?",
+                                label: "School",
+                                placeholder: "e.g Reseda High School",
                                 margin: "normal",
-                                error: errors.specialties,
-                                helperText: errors.specialties?.message,
+                                error: errors.schoolId,
+                                helperText: errors.schoolId?.message,
                                 required: true,
                             }}
                         />
@@ -206,4 +222,4 @@ const InstructorSignUpForm: React.FC<Props> = ({
     );
 };
 
-export default InstructorSignUpForm;
+export default SchoolOfficialSignUpForm;
