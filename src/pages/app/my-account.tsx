@@ -4,12 +4,16 @@ import Head from "next/head";
 import AppLayout from "../../components/containers/AppLayout";
 import PictureInput from "../../components/ui/PictureInput";
 import withAuth from "../../components/hoc/withAuth";
-import { fetchLocationInputOptions } from "../../utils/helpers";
+import {
+    capitalizeWords,
+    fetchLocationInputOptions,
+} from "../../utils/helpers";
 import {
     userFetcher,
     updateUserProfilePicture,
     updateUserById,
     updateUserLocation,
+    userCoursesFetcher,
 } from "../../utils/services";
 import { useContext, useEffect } from "react";
 import InputButton from "../../components/ui/InputButton";
@@ -22,6 +26,25 @@ import {
 import AsyncSelect from "../../components/ui/AsyncSelect";
 import TextField from "@material-ui/core/TextField";
 import ChipInput from "../../components/ui/ChipInput";
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
+import ActionBar from "../../components/ui/ActionBar";
+import SplitScreen from "../../components/ui/SplitScreen";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Section from "../../components/ui/Section";
+import Chip from "@material-ui/core/Chip";
+import CourseCard from "../../components/ui/CourseCard";
+
+const useStyles = makeStyles({
+    avatar: {
+        width: "100px",
+        height: "100px",
+    },
+    editButton: {
+        float: "right",
+        margin: "10px",
+    },
+});
 
 const MyAccountAppPage: React.FC = () => {
     const { user: storedUser, mutateUser: mutateAuthContextUser } = useContext(
@@ -31,7 +54,13 @@ const MyAccountAppPage: React.FC = () => {
         storedUser?._id ? `/user/${storedUser?._id}` : null,
         userFetcher(storedUser?._id)
     );
+    const { data: courses } = useSWR(
+        storedUser?._id ? `/user/courses` : null,
+        userCoursesFetcher(storedUser._id)
+    );
     const user = fetchedUser || storedUser;
+
+    const classes = useStyles();
 
     // Because this route has update user functionality,
     // this is to mutate the auth context user
@@ -53,6 +82,7 @@ const MyAccountAppPage: React.FC = () => {
     }
 
     async function handleUpdateUser(update: Partial<IUserOriginal>) {
+        console.log(update);
         const { data: updatedUser } = await updateUserById(user._id, update);
         console.log(updatedUser);
         mutateFetchedUser(updatedUser, false);
@@ -63,6 +93,7 @@ const MyAccountAppPage: React.FC = () => {
             zip,
         });
         mutateFetchedUser(updatedUser, false);
+        mutateAuthContextUser(fetchedUser);
     }
 
     return (
@@ -70,162 +101,261 @@ const MyAccountAppPage: React.FC = () => {
             <Head>
                 <title>STEM-bound - My Account</title>
             </Head>
-            <h3>My Account</h3>
-            <br />
-            <h3>{`${user.firstName} ${user.lastName}`}</h3>
 
-            <img
-                src={user.profilePictureUrl || "/default-profile-picture.svg"}
-                alt="profile-pic"
-                id="profile-pic"
-                className="profile-picture large"
-            />
-            <PictureInput
-                onFileCreated={handleProfilePictureCreated}
-                baseFileName={`${user._id}-profile-picture`}
-                buttonText={`${
-                    user.profilePictureUrl ? "UPDATE" : "ADD"
-                } PROFILE PICTURE`}
-                ButtonProps={{
-                    variant: "contained",
-                    color: "primary",
-                }}
-            />
-
-            <p>{`${user.location.city}, ${user.location.state}`}</p>
-            <InputButton
-                initialValue={user.location.zip}
-                onSubmit={handleUpdateUserLocationByZip}
-                renderInput={(value, setValue) => (
-                    <AsyncSelect
-                        TextFieldProps={{
-                            fullWidth: true,
-                            label: "Location",
-                            placeholder: "e.g Reseda",
-                            id: "location",
-                        }}
-                        delay={400}
-                        onChange={setValue}
-                        fetchOptions={fetchLocationInputOptions}
-                    />
-                )}
-                ButtonProps={{
-                    variant: "contained",
-                    color: "primary",
-                }}
-            >
-                UPDATE LOCATION
-            </InputButton>
-
-            <p>{user.shortDescription}</p>
-            <InputButton
-                initialValue={user.shortDescription}
-                onSubmit={(value) =>
-                    handleUpdateUser({ shortDescription: value })
-                }
-                renderInput={(value, setValue) => (
-                    <TextField
-                        id="short-description"
-                        value={value}
-                        onChange={setValue}
-                        fullWidth
-                        multiline
-                    />
-                )}
-                ButtonProps={{
-                    variant: "contained",
-                    color: "primary",
-                }}
-            >
-                UPDATE SHORT DESCRIPTION
-            </InputButton>
-
-            <p>{user.longDescription}</p>
-            <InputButton
-                initialValue={user.longDescription || ""}
-                onSubmit={(value) =>
-                    handleUpdateUser({ longDescription: value })
-                }
-                renderInput={(value, setValue) => (
-                    <TextField
-                        id="long-description"
-                        onChange={(e) => setValue(e.target.value)}
-                        value={value}
-                        multiline
-                        fullWidth
-                    />
-                )}
-                ButtonProps={{
-                    variant: "contained",
-                    color: "primary",
-                }}
-            >
-                {`${user.longDescription ? "UPDATE" : "ADD"} LONG DESCRIPTION`}
-            </InputButton>
-
-            {user.role === EUserRoles.STUDENT ? (
-                <>
-                    <p>Interests:</p>
-                    {(user as IStudent).interests.map((interest) => (
-                        <p key={interest}>{interest}</p>
-                    ))}
-
-                    <InputButton
-                        initialValue={(user as IStudent).interests}
-                        onSubmit={(interests) =>
-                            handleUpdateUser({ interests })
-                        }
-                        renderInput={(value, setValue) => (
-                            <ChipInput
-                                onChange={setValue}
-                                value={value}
-                                TextFieldProps={{
-                                    fullWidth: true,
-                                    id: "interests",
+            <SplitScreen
+                mainEl={
+                    <>
+                        <ActionBar
+                            startEl={
+                                <div className="my-accounts-header">
+                                    <Avatar
+                                        src={user.profilePictureUrl}
+                                        alt="Your Profile Picture"
+                                        className={classes.avatar}
+                                    />
+                                    <div>
+                                        <Typography variant="h5">{`${user.firstName} ${user.lastName}`}</Typography>
+                                        <Typography paragraph>{`${
+                                            user.displayRole
+                                        } - ${capitalizeWords(
+                                            user.location.city
+                                        )}, ${
+                                            user.location.state
+                                        }`}</Typography>
+                                    </div>
+                                </div>
+                            }
+                        >
+                            <InputButton
+                                initialValue={user.location.zip}
+                                onSubmit={handleUpdateUserLocationByZip}
+                                renderInput={(value, setValue) => (
+                                    <AsyncSelect
+                                        TextFieldProps={{
+                                            fullWidth: true,
+                                            label: "Location",
+                                            placeholder: "e.g Reseda",
+                                            id: "location",
+                                        }}
+                                        delay={400}
+                                        onChange={setValue}
+                                        fetchOptions={fetchLocationInputOptions}
+                                    />
+                                )}
+                                ButtonProps={{
+                                    variant: "text",
+                                    color: "primary",
+                                    className: classes.editButton,
+                                    size: "small",
+                                }}
+                            >
+                                UPDATE LOCATION
+                            </InputButton>
+                            <PictureInput
+                                onFileCreated={handleProfilePictureCreated}
+                                baseFileName={`${user._id}-profile-picture`}
+                                buttonText={`${
+                                    user.profilePictureUrl ? "UPDATE" : "ADD"
+                                } PROFILE PICTURE`}
+                                ButtonProps={{
+                                    variant: "text",
+                                    color: "primary",
+                                    className: classes.editButton,
+                                    size: "small",
                                 }}
                             />
-                        )}
-                        ButtonProps={{
-                            variant: "contained",
-                            color: "primary",
-                        }}
-                    >
-                        UPDATE INTERESTS
-                    </InputButton>
-                </>
-            ) : null}
+                        </ActionBar>
 
-            {user.role === EUserRoles.INSTRUCTOR ? (
-                <>
-                    <p>Specialties:</p>
-                    {(user as IInstructor).specialties.map((specialty) => (
-                        <p key={specialty}>{specialty}</p>
-                    ))}
+                        <Section
+                            title="Short Description"
+                            action={
+                                <InputButton
+                                    initialValue={user.shortDescription}
+                                    onSubmit={(value) =>
+                                        handleUpdateUser({
+                                            shortDescription: value,
+                                        })
+                                    }
+                                    renderInput={(value, setValue) => (
+                                        <TextField
+                                            id="short-description"
+                                            value={value}
+                                            onChange={setValue}
+                                            fullWidth
+                                            multiline
+                                        />
+                                    )}
+                                    ButtonProps={{
+                                        variant: "text",
+                                        color: "primary",
+                                        size: "small",
+                                        className: classes.editButton,
+                                    }}
+                                >
+                                    UPDATE SHORT DESCRIPTION
+                                </InputButton>
+                            }
+                        >
+                            <Typography variant="h5" gutterBottom>
+                                {user.shortDescription}
+                            </Typography>
+                        </Section>
 
-                    <InputButton
-                        initialValue={(user as IInstructor).specialties}
-                        onSubmit={(specialties) =>
-                            handleUpdateUser({ specialties })
-                        }
-                        renderInput={(value, setValue) => (
-                            <ChipInput
-                                onChange={setValue}
-                                value={value}
-                                TextFieldProps={{
-                                    fullWidth: true,
-                                    id: "specialties",
-                                }}
-                            />
-                        )}
-                        ButtonProps={{
-                            variant: "contained",
-                            color: "primary",
-                        }}
-                    >
-                        UPDATE SPECIALTIES
-                    </InputButton>
-                </>
-            ) : null}
+                        <Section
+                            title="Long Description"
+                            action={
+                                <InputButton
+                                    initialValue={user.longDescription || ""}
+                                    onSubmit={(value) =>
+                                        handleUpdateUser({
+                                            longDescription: value,
+                                        })
+                                    }
+                                    renderInput={(value, setValue) => (
+                                        <TextField
+                                            id="long-description"
+                                            onChange={(e) =>
+                                                setValue(e.target.value)
+                                            }
+                                            value={value}
+                                            multiline
+                                            fullWidth
+                                        />
+                                    )}
+                                    ButtonProps={{
+                                        variant: "text",
+                                        color: "primary",
+                                        size: "small",
+                                        className: classes.editButton,
+                                    }}
+                                >
+                                    {`${
+                                        user.longDescription ? "UPDATE" : "ADD"
+                                    } LONG DESCRIPTION`}
+                                </InputButton>
+                            }
+                        >
+                            <Typography paragraph>
+                                {user.longDescription}
+                            </Typography>
+                        </Section>
+
+                        {user.role === EUserRoles.STUDENT ? (
+                            <Section
+                                title="Interests"
+                                action={
+                                    <InputButton
+                                        initialValue={
+                                            (user as IStudent).interests
+                                        }
+                                        onSubmit={(interests) =>
+                                            handleUpdateUser({ interests })
+                                        }
+                                        renderInput={(value, setValue) => (
+                                            <ChipInput
+                                                onChange={setValue}
+                                                value={value}
+                                                TextFieldProps={{
+                                                    fullWidth: true,
+                                                    id: "interests",
+                                                }}
+                                            />
+                                        )}
+                                        ButtonProps={{
+                                            variant: "text",
+                                            color: "primary",
+                                            size: "small",
+                                            className: classes.editButton,
+                                        }}
+                                    >
+                                        UPDATE INTERESTS
+                                    </InputButton>
+                                }
+                            >
+                                {(user as IStudent).interests.map(
+                                    (interest) => (
+                                        <Chip
+                                            key={interest}
+                                            label={interest}
+                                            color="primary"
+                                        />
+                                    )
+                                )}
+                            </Section>
+                        ) : null}
+
+                        {user.role === EUserRoles.INSTRUCTOR ? (
+                            <Section
+                                title="Specialties"
+                                action={
+                                    <InputButton
+                                        initialValue={
+                                            (user as IInstructor).specialties
+                                        }
+                                        onSubmit={(specialties) =>
+                                            handleUpdateUser({ specialties })
+                                        }
+                                        renderInput={(value, setValue) => (
+                                            <ChipInput
+                                                onChange={setValue}
+                                                value={value}
+                                                TextFieldProps={{
+                                                    fullWidth: true,
+                                                    id: "interests",
+                                                }}
+                                            />
+                                        )}
+                                        ButtonProps={{
+                                            variant: "text",
+                                            color: "primary",
+                                            size: "small",
+                                            className: classes.editButton,
+                                        }}
+                                    >
+                                        UPDATE INTERESTS
+                                    </InputButton>
+                                }
+                            >
+                                {(user as IInstructor).specialties.map(
+                                    (specialty) => (
+                                        <Chip
+                                            key={specialty}
+                                            label={specialty}
+                                            color="primary"
+                                        />
+                                    )
+                                )}
+                            </Section>
+                        ) : null}
+                    </>
+                }
+                secondaryEl={
+                    <>
+                        {user.role === EUserRoles.INSTRUCTOR ||
+                        user.role === EUserRoles.STUDENT ? (
+                            <Section title="Courses">
+                                {courses?.map((course) => (
+                                    <CourseCard
+                                        course={course}
+                                        key={course?._id}
+                                        fullWidth
+                                    />
+                                ))}
+                            </Section>
+                        ) : null}
+                    </>
+                }
+            />
+
+            <style jsx>{`
+                .my-accounts-header {
+                    display: flex;
+                    justify-content: start;
+                    align-items: center;
+                    grid-gap: 40px;
+                    flex-wrap: wrap;
+                }
+            `}</style>
         </AppLayout>
     );
 };

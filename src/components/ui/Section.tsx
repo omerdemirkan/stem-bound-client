@@ -36,8 +36,10 @@ const Section: React.FC<Props> = ({
         >
             {title || action ? (
                 <>
-                    <Divider />
-                    <ListSubheader>
+                    <Divider light />
+                    <ListSubheader
+                        style={{ padding: "0", position: "relative" }}
+                    >
                         {title} <span style={{ float: "right" }}>{action}</span>
                     </ListSubheader>
                 </>

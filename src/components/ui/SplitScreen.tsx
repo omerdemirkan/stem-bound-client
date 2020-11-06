@@ -61,21 +61,25 @@ const SplitScreen: React.FC<Props> = ({
                         ? "400px auto"
                         : "auto 400px"};
                     grid-gap: 50px;
-                    overflow: hidden;
-                    height: 100%;
-                }
-                .main-container {
-                    height: 100%;
-                    overflow: auto;
-                }
-                .secondary-container {
-                    height: 100%;
-                    overflow: auto;
                 }
 
                 @media (max-width: 1200px) {
                     .root-container {
                         grid-template-columns: 100%;
+                    }
+                }
+                @media (min-width: 1201px) {
+                    .root-container {
+                        height: 100%;
+                        overflow: hidden;
+                    }
+                    .main-container {
+                        height: 100%;
+                        overflow: auto;
+                    }
+                    .secondary-container {
+                        height: 100%;
+                        overflow: auto;
                     }
                 }
             `}</style>

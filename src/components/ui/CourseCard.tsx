@@ -76,10 +76,8 @@ const CourseCard: React.FC<Props> = ({
                 </a>
             </Link>
 
-            <Divider />
-
             <CardContent>
-                <Section marginTop="0">
+                <Section marginTop="0" title="Description">
                     <Typography variant="h6" gutterBottom>
                         {course?.shortDescription}
                     </Typography>
