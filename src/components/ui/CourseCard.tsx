@@ -90,13 +90,7 @@ const CourseCard: React.FC<Props> = ({
                     )}
                 </Section>
 
-                <Divider className={classes.divider} light />
-
-                <Section marginBottom="0">
-                    <Typography variant="h6" gutterBottom>
-                        Taught by
-                    </Typography>
-
+                <Section marginBottom="0" title="Taught by">
                     {courseInstructors?.map((instructor) => (
                         <Chip
                             avatar={

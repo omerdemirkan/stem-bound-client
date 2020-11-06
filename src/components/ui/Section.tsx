@@ -1,6 +1,10 @@
+import ListSubheader from "@material-ui/core/ListSubheader";
+import Divider from "@material-ui/core/Divider";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 
 interface Props {
+    title?: string;
+    action?: any;
     marginLeft?: string;
     marginRight?: string;
     marginBottom?: string;
@@ -14,6 +18,8 @@ interface Props {
 }
 
 const Section: React.FC<Props> = ({
+    title,
+    action,
     children,
     divProps,
     spacing,
@@ -28,6 +34,14 @@ const Section: React.FC<Props> = ({
             }}
             {...divProps}
         >
+            {title || action ? (
+                <>
+                    <Divider />
+                    <ListSubheader>
+                        {title} <span style={{ float: "right" }}>{action}</span>
+                    </ListSubheader>
+                </>
+            ) : null}
             {children}
         </div>
     );

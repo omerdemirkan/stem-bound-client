@@ -95,10 +95,7 @@ const CourseAppPage: React.FC = () => {
                         </ActionBar>
 
                         {course?.announcements.length ? (
-                            <Section>
-                                <Typography variant="h5" gutterBottom>
-                                    Recent Announcements
-                                </Typography>
+                            <Section title="Recent Announcements">
                                 {course.announcements.map((announcement) => (
                                     <CourseAnnouncement
                                         announcement={announcement}
@@ -108,10 +105,7 @@ const CourseAppPage: React.FC = () => {
                             </Section>
                         ) : null}
 
-                        <Section spacing={10}>
-                            <Typography variant="h5" gutterBottom>
-                                Upcoming Meetings
-                            </Typography>
+                        <Section spacing={10} title="Upcoming Meetings">
                             {course?.meetings.map((meeting) => (
                                 <MeetingCard
                                     courseTitle={course?.title}
@@ -125,14 +119,7 @@ const CourseAppPage: React.FC = () => {
                 }
                 secondaryEl={
                     <>
-                        <Section spacing={8}>
-                            <Typography
-                                variant="h6"
-                                align="center"
-                                gutterBottom
-                            >
-                                Instructors
-                            </Typography>
+                        <Section spacing={8} title="Instructors">
                             {courseInstructors?.map((instructor) => (
                                 <UserCard
                                     user={instructor}
@@ -141,14 +128,7 @@ const CourseAppPage: React.FC = () => {
                             ))}
                         </Section>
 
-                        <Section spacing={8}>
-                            <Typography
-                                variant="h6"
-                                align="center"
-                                gutterBottom
-                            >
-                                Students
-                            </Typography>
+                        <Section spacing={8} title="Students">
                             {courseStudents?.map((instructor) => (
                                 <UserCard
                                     user={instructor}

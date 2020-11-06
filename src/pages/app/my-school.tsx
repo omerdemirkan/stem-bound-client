@@ -172,10 +172,7 @@ const MySchoolAppPage: React.FC = () => {
                 }
                 secondaryEl={
                     <>
-                        <Section>
-                            <Typography variant="h6" align="center">
-                                School Officials
-                            </Typography>
+                        <Section title="School Officials">
                             {schoolOfficials?.map((schoolOfficial) => (
                                 <UserCard
                                     user={schoolOfficial}
@@ -183,10 +180,7 @@ const MySchoolAppPage: React.FC = () => {
                                 />
                             ))}
                         </Section>
-                        <Section>
-                            <Typography variant="h6" align="center">
-                                Students
-                            </Typography>
+                        <Section title="Students">
                             {schoolStudents?.map((student) => (
                                 <UserCard user={student} key={student._id} />
                             ))}

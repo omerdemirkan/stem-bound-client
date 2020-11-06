@@ -9,7 +9,7 @@ import format from "date-fns/format";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import formatDistance from "date-fns/formatDistance";
-import { CardActionArea } from "@material-ui/core";
+import CardActionArea from "@material-ui/core/CardActionArea";
 
 const useStyles = makeStyles({
     listItem: {
