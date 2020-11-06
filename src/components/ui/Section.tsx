@@ -1,51 +1,54 @@
 import ListSubheader from "@material-ui/core/ListSubheader";
 import Divider from "@material-ui/core/Divider";
-import { DetailedHTMLProps, HTMLAttributes } from "react";
+import Box, { BoxProps } from "@material-ui/core/Box";
 
 interface Props {
     title?: string;
     action?: any;
-    marginLeft?: string;
-    marginRight?: string;
-    marginBottom?: string;
-    marginTop?: string;
-    margin?: string;
-    divProps?: DetailedHTMLProps<
-        HTMLAttributes<HTMLDivElement>,
-        HTMLDivElement
-    >;
     spacing?: number;
+    noDivider?: boolean;
 }
 
-const Section: React.FC<Props> = ({
+const Section: React.FC<Props & BoxProps> = ({
     title,
     action,
     children,
-    divProps,
     spacing,
-    ...marginProps
+    noDivider,
+    ...boxProps
 }) => {
-    spacing = spacing || 5;
+    spacing = typeof spacing === "number" ? spacing : 10;
     return (
-        <div
-            style={{
-                margin: `${spacing * 2}px 0 ${spacing * 2}px`,
-                ...marginProps,
-            }}
-            {...divProps}
+        <Box
+            padding={`${spacing}px 0 ${spacing}px`}
+            alignItems="center"
+            {...boxProps}
         >
             {title || action ? (
                 <>
-                    <Divider light />
-                    <ListSubheader
-                        style={{ padding: "0", position: "relative" }}
+                    {!noDivider && <Divider light />}
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                        }}
                     >
-                        {title} <span style={{ float: "right" }}>{action}</span>
-                    </ListSubheader>
+                        <ListSubheader
+                            style={{
+                                padding: "0",
+                                position: "relative",
+                                lineHeight: `${5 * spacing + 10}px`,
+                            }}
+                        >
+                            {title}
+                        </ListSubheader>
+                        <span>{action}</span>
+                    </div>
                 </>
             ) : null}
             {children}
-        </div>
+        </Box>
     );
 };
 

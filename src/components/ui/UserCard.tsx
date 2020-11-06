@@ -9,6 +9,7 @@ import { EUserRoles, IInstructor, IStudent, IUser } from "../../utils/types";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
+import Section from "./Section";
 
 export interface UserCardProps {
     user: IUser;
@@ -36,16 +37,18 @@ const UserCard: React.FC<UserCardProps> = ({
                 avatar={<Avatar src={user?.profilePictureUrl} alt={fullName} />}
             />
             <Divider />
-            <CardContent>
-                <Typography paragraph>
-                    <strong>{user?.shortDescription}</strong>
-                    {user?.longDescription ? " - " + user.longDescription : ""}
-                </Typography>
+            <CardContent style={{ paddingTop: "0", paddingBottom: "0" }}>
+                <Section title="About Me" noDivider spacing={5}>
+                    <Typography variant="h6" style={{ margin: "0 0 3px" }}>
+                        {user?.shortDescription}
+                    </Typography>
+                    <Typography paragraph style={{ margin: "0 0 3px" }}>
+                        {user?.longDescription}
+                    </Typography>
+                </Section>
+
                 {user?.role === EUserRoles.INSTRUCTOR ? (
-                    <>
-                        <Typography variant="h6" gutterBottom>
-                            Specialties
-                        </Typography>
+                    <Section title="My Specialties" spacing={5}>
                         {(user as IInstructor)?.specialties.map((specialty) => (
                             <Chip
                                 label={specialty}
@@ -53,13 +56,11 @@ const UserCard: React.FC<UserCardProps> = ({
                                 color="primary"
                             />
                         ))}
-                    </>
+                    </Section>
                 ) : null}
+
                 {user?.role === EUserRoles.STUDENT ? (
-                    <>
-                        <Typography variant="h6" gutterBottom>
-                            Interests
-                        </Typography>
+                    <Section title="My Interests" spacing={5}>
                         {(user as IStudent)?.interests.map((interest) => (
                             <Chip
                                 label={interest}
@@ -67,7 +68,7 @@ const UserCard: React.FC<UserCardProps> = ({
                                 color="primary"
                             />
                         ))}
-                    </>
+                    </Section>
                 ) : null}
             </CardContent>
             <CardActions>

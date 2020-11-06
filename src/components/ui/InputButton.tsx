@@ -14,6 +14,7 @@ interface Props {
         }
     ): any;
     renderButton?(props: { onClick(): any; disabled: boolean }): any;
+    renderActions?(actionHelpers: { close: (values: any) => void }): any;
     onSubmit: (value: any) => any;
     initialValue?: any;
     disabled?: boolean;
@@ -28,6 +29,7 @@ const InputButton: React.FC<Props> = ({
     initialValue,
     disabled,
     renderButton,
+    renderActions,
     ButtonProps,
     DialogProps,
 }) => {
@@ -80,21 +82,32 @@ const InputButton: React.FC<Props> = ({
                         })}
                     </DialogContent>
                     <DialogActions>
-                        <Button
-                            onClick={() => setModalOpen(false)}
-                            color="primary"
-                            variant="outlined"
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            onClick={handleSubmit}
-                            color="primary"
-                            variant="contained"
-                            autoFocus
-                        >
-                            Continue
-                        </Button>
+                        {renderActions ? (
+                            renderActions({
+                                close: function () {
+                                    setModalOpen(false);
+                                    return value;
+                                },
+                            })
+                        ) : (
+                            <>
+                                <Button
+                                    onClick={() => setModalOpen(false)}
+                                    color="primary"
+                                    variant="outlined"
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    onClick={handleSubmit}
+                                    color="primary"
+                                    variant="contained"
+                                    autoFocus
+                                >
+                                    Continue
+                                </Button>
+                            </>
+                        )}
                     </DialogActions>
                 </div>
             </Dialog>

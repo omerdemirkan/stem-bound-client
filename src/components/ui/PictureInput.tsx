@@ -64,8 +64,8 @@ const PictureInput: React.FC<Props> = ({
 
             reader.onload = () => onRawImageCreated(reader.result);
             reader.readAsDataURL(file);
-            setModalOpen(false);
         }
+        setModalOpen(false);
     }
 
     function handleCancelCrop() {

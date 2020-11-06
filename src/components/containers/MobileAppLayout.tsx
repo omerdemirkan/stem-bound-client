@@ -113,7 +113,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                     min-height: 100vh;
                 }
                 .root > main {
-                    padding: 5vw;
+                    padding: 5vw 2vw;
                 }
                 .logo-box {
                     display: flex;

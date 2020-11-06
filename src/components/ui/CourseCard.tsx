@@ -75,9 +75,10 @@ const CourseCard: React.FC<Props> = ({
                     />
                 </a>
             </Link>
+            <Divider />
 
-            <CardContent>
-                <Section marginTop="0" title="Description">
+            <CardContent style={{ paddingTop: "0", paddingBottom: "0" }}>
+                <Section spacing={5} title="Description" noDivider>
                     <Typography variant="h6" gutterBottom>
                         {course?.shortDescription}
                     </Typography>
@@ -88,7 +89,7 @@ const CourseCard: React.FC<Props> = ({
                     )}
                 </Section>
 
-                <Section marginBottom="0" title="Taught by">
+                <Section spacing={5} title="Taught by">
                     {courseInstructors?.map((instructor) => (
                         <Chip
                             avatar={

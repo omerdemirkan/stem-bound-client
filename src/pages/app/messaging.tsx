@@ -21,6 +21,7 @@ import Button from "@material-ui/core/Button";
 import ChatList from "../../components/ui/ChatList";
 import ChatFeed from "../../components/ui/ChatFeed";
 import SplitScreen from "../../components/ui/SplitScreen";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -50,6 +51,8 @@ const MessagingAppPage: React.FC = () => {
     const [typingUsers, setTypingUsers] = useState<IUser[]>([]);
 
     const debouncedTextField = useDebounce(textField, 3000);
+
+    const smallScreen = useMediaQuery("(max-width: 900px)");
 
     const userIsTyping = textField && debouncedTextField !== textField;
 
@@ -318,11 +321,13 @@ const MessagingAppPage: React.FC = () => {
                     />
                 }
                 secondaryEl={
-                    <ChatList
-                        chats={chats}
-                        handleInspectChat={handleInspectChat}
-                        inspectedChatId={chatId as string}
-                    />
+                    (!smallScreen || !chatId) && (
+                        <ChatList
+                            chats={chats}
+                            handleInspectChat={handleInspectChat}
+                            inspectedChatId={chatId as string}
+                        />
+                    )
                 }
                 order="secondary-first"
                 MainContainerProps={{

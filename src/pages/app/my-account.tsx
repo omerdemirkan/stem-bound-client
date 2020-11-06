@@ -42,7 +42,7 @@ const useStyles = makeStyles({
     },
     editButton: {
         float: "right",
-        margin: "10px",
+        margin: "0 10px",
     },
 });
 
