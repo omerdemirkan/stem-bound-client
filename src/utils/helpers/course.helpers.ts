@@ -13,6 +13,12 @@ import differenceInMinutes from "date-fns/differenceInMinutes";
 import format from "date-fns/format";
 
 export function mapMeetingData(meeting: IMeetingOriginal): IMeeting {
+    const startDate = new Date(meeting.start);
+    const endDate = new Date(meeting.end);
+    const durationInMinutes = differenceInMinutes(endDate, startDate);
+    const durationMinutes = durationInMinutes % 60;
+    const durationHours = Math.floor(durationInMinutes / 60);
+
     return {
         start: new Date(meeting.start),
         end: new Date(meeting.end),
@@ -22,6 +28,16 @@ export function mapMeetingData(meeting: IMeetingOriginal): IMeeting {
         _id: meeting._id,
         roomNum: meeting.roomNum,
         url: meeting.url,
+        dateString: format(new Date(meeting.start), "EEEE, MMMM do yyyy"),
+        startTimeString: format(startDate, "h:mm a"),
+        endTimeString: format(endDate, "h:mm a"),
+        durationString: `${
+            durationHours
+                ? durationHours + ` hour${durationHours > 1 ? "s" : ""}`
+                : ""
+        }${durationMinutes && durationHours ? " and" : ""}${
+            durationMinutes ? " " + durationMinutes + " minutes" : ""
+        }`,
     };
 }
 

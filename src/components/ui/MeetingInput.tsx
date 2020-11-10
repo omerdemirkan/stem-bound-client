@@ -1,17 +1,12 @@
 import {
     IMeetingOriginal,
     EMeetingTypes,
-    IMeetingDateDisplayData,
     ENotificationTypes,
     IAlertData,
     IMeetingInput,
     IMeeting,
 } from "../../utils/types";
-import {
-    clone,
-    getMeetingDateDisplayData,
-    getMeetingTypeDisplay,
-} from "../../utils/helpers";
+import { clone, getMeetingTypeDisplay } from "../../utils/helpers";
 import { TimePicker } from "@material-ui/pickers";
 import InputButton from "./InputButton";
 import { useContext, useRef } from "react";
@@ -45,7 +40,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-    meeting: IMeetingInput | IMeeting;
+    meeting: IMeeting;
     courseTitle: string;
     schoolName: string;
     onChange: (meeting: IMeetingOriginal) => any;
@@ -68,12 +63,12 @@ const MeetingInput: React.FC<Props> = ({
     availableMeetingTypes =
         availableMeetingTypes || Object.values(EMeetingTypes);
 
-    let { current: meetingDateDisplayData } = useRef<IMeetingDateDisplayData>();
-
     const { createAlert } = useContext(NotificationContext);
 
-    meetingDateDisplayData =
-        meetingDateDisplayData || getMeetingDateDisplayData(meeting);
+    // let { current: meeting } = useRef<Imeeting>();
+
+    // meeting =
+    //     meeting || getmeeting(meeting);
 
     const classes = useStyles();
 
@@ -92,7 +87,7 @@ const MeetingInput: React.FC<Props> = ({
                             createAlert({
                                 headerText:
                                     "Are you sure you want to delete this event?",
-                                bodyText: `This will not delete an existing meeting, but will require you to go back to step 2 to create a meeting on ${meetingDateDisplayData.dateString}.`,
+                                bodyText: `This will not delete an existing meeting, but will require you to go back to step 2 to create a meeting on ${meeting.dateString}.`,
                                 type: ENotificationTypes.DANGER,
                                 onOk: () =>
                                     onDelete(
@@ -125,7 +120,7 @@ const MeetingInput: React.FC<Props> = ({
                             return (
                                 <>
                                     <Typography variant="h5" align="center">
-                                        {meetingDateDisplayData.dateString}
+                                        {meeting.dateString}
                                     </Typography>
                                     <TimePicker
                                         onChange={(date) =>

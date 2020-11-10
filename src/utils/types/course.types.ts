@@ -27,6 +27,10 @@ export interface IMeeting {
     start: Date;
     end: Date;
     message: string;
+    dateString: string;
+    startTimeString: string;
+    endTimeString: string;
+    durationString: string;
     _id?: string;
 }
 
@@ -120,10 +124,10 @@ export interface IFetchSchoolCoursesOptions {
 export type IMeetingInput = IMeetingOriginal & { dateKey: string };
 
 export interface IMeetingDateDisplayData {
-    dateString;
-    startTimeString;
-    endTimeString;
-    durationString;
+    dateString: string;
+    startTimeString: string;
+    endTimeString: string;
+    durationString: string;
 }
 
 export interface IDefaultMeetingData {

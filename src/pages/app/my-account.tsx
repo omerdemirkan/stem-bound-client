@@ -180,7 +180,9 @@ const MyAccountAppPage: React.FC = () => {
                                         <TextField
                                             id="short-description"
                                             value={value}
-                                            onChange={setValue}
+                                            onChange={(e) =>
+                                                setValue(e.target.value)
+                                            }
                                             fullWidth
                                             multiline
                                         />

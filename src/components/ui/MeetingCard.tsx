@@ -1,14 +1,6 @@
-import { useContext, useRef } from "react";
-import {
-    getMeetingDateDisplayData,
-    getMeetingTypeDisplay,
-} from "../../utils/helpers";
-import {
-    IMeeting,
-    IMeetingDateDisplayData,
-    EMeetingTypes,
-    ENotificationTypes,
-} from "../../utils/types";
+import { useContext } from "react";
+import { getMeetingTypeDisplay } from "../../utils/helpers";
+import { IMeeting, EMeetingTypes, ENotificationTypes } from "../../utils/types";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import NotificationContext from "../contexts/NotificationContext";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -57,11 +49,6 @@ const MeetingCard: React.FC<Props> = ({
     renderActions,
     CardProps,
 }) => {
-    let { current: meetingDateDisplayData } = useRef<IMeetingDateDisplayData>();
-
-    meetingDateDisplayData =
-        meetingDateDisplayData || getMeetingDateDisplayData(meeting);
-
     const { createSnackbar } = useContext(NotificationContext);
 
     const classes = useStyles();
@@ -75,12 +62,12 @@ const MeetingCard: React.FC<Props> = ({
             {...CardProps}
         >
             <CardHeader
-                title={meetingDateDisplayData.dateString}
+                title={meeting.dateString}
                 subheader={`${
                     meeting.displayType || getMeetingTypeDisplay(meeting.type)
-                }, from ${meetingDateDisplayData.startTimeString} to ${
-                    meetingDateDisplayData.endTimeString
-                }, ${meetingDateDisplayData.durationString}`}
+                }, from ${meeting.startTimeString} to ${
+                    meeting.endTimeString
+                }, ${meeting.durationString}`}
             />
             <Divider orientation={smallScreen ? "horizontal" : "vertical"} />
 
