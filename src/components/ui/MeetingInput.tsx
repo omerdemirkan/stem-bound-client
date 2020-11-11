@@ -3,7 +3,6 @@ import {
     EMeetingTypes,
     ENotificationTypes,
     IAlertData,
-    IMeetingInput,
     IMeeting,
 } from "../../utils/types";
 import { clone, getMeetingTypeDisplay } from "../../utils/helpers";
@@ -64,11 +63,6 @@ const MeetingInput: React.FC<Props> = ({
         availableMeetingTypes || Object.values(EMeetingTypes);
 
     const { createAlert } = useContext(NotificationContext);
-
-    // let { current: meeting } = useRef<Imeeting>();
-
-    // meeting =
-    //     meeting || getmeeting(meeting);
 
     const classes = useStyles();
 

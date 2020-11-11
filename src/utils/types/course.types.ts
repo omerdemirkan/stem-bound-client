@@ -32,6 +32,7 @@ export interface IMeeting {
     endTimeString: string;
     durationString: string;
     _id?: string;
+    dateKey?: string;
 }
 
 export interface IAnnouncementOriginal {

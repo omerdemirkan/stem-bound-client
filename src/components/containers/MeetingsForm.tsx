@@ -1,11 +1,11 @@
 import MultipleDatesPicker from "@randex/material-ui-multiple-dates-picker";
 import MeetingInput from "../ui/MeetingInput";
 import { useState, useEffect, useContext } from "react";
-import { clone } from "../../utils/helpers";
+import { clone, mapMeetingData } from "../../utils/helpers";
 import {
     IMeetingOriginal,
     EMeetingTypes,
-    IMeetingInput,
+    IMeeting,
     ECourseTypes,
     IDefaultMeetingData,
     ENotificationTypes,
@@ -17,7 +17,6 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Stepper from "@material-ui/core/Stepper";
 import MeetingDefaultDataForm from "../forms/MeetingDefaultDataForm";
 import NotificationContext from "../contexts/NotificationContext";
-import Link from "next/link";
 import Section from "../ui/Section";
 
 const useStyles = makeStyles({
@@ -40,7 +39,7 @@ interface Props {
     courseType: ECourseTypes;
     courseTitle: string;
     schoolName: string;
-    initialMeetingInputs?: IMeetingInput[];
+    initialMeetingInputs?: IMeeting[];
     onChange?: (meetings: IMeetingOriginal[]) => any;
     onSubmit?: (meetings: IMeetingOriginal[]) => any;
     validateDate?: (dates: Date) => boolean;
@@ -56,7 +55,7 @@ const MeetingsForm: React.FC<Props> = ({
     schoolName,
     validateDate,
 }) => {
-    const [meetings, setMeetings] = useState<IMeetingInput[]>(
+    const [meetings, setMeetings] = useState<IMeeting[]>(
         initialMeetingInputs || []
     );
     const [step, setStep] = useState<number>(0);
@@ -86,7 +85,7 @@ const MeetingsForm: React.FC<Props> = ({
 
     const classes = useStyles();
 
-    function constructDefaultMeetingByDate(date: Date): IMeetingInput {
+    function constructDefaultMeetingByDate(date: Date): IMeeting {
         const dateKey = date.toString();
         let start = new Date(dateKey);
         let end = new Date(dateKey);
@@ -100,15 +99,17 @@ const MeetingsForm: React.FC<Props> = ({
             defaultMeetingData.end?.getMinutes()
         );
 
-        return {
+        // @ts-ignore
+        return mapMeetingData({
             start,
             end,
+            // @ts-ignore
             dateKey,
             message: "",
             type: defaultMeetingType,
             url: defaultMeetingData.url,
             roomNum: defaultMeetingData.roomNum,
-        };
+        });
     }
 
     function handleDefaultDataSelected(defaultData: IDefaultMeetingData) {
@@ -138,7 +139,7 @@ const MeetingsForm: React.FC<Props> = ({
         }
     }
 
-    function handleMeetingChanged(newMeeting: IMeetingInput) {
+    function handleMeetingChanged(newMeeting: IMeeting) {
         setMeetings((prev) => {
             const newMeetings = [...prev];
             newMeetings[
