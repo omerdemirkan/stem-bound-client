@@ -63,11 +63,16 @@ const MessagingAppPage: React.FC = () => {
                     socket.emit(ESocketEvents.JOIN_ROOM, chatId);
 
                     const routerChatId = chatId;
+                    const currentUser = user;
 
                     socket.on(
                         ESocketEvents.CHAT_USER_STARTED_TYPING,
                         function ({ user, chatId }) {
-                            if (chatId !== routerChatId) return;
+                            if (
+                                chatId !== routerChatId ||
+                                user._id === currentUser._id
+                            )
+                                return;
                             setTypingUsers((prev) => [...prev, user]);
                         }
                     );
@@ -75,7 +80,11 @@ const MessagingAppPage: React.FC = () => {
                     socket.on(
                         ESocketEvents.CHAT_USER_STOPPED_TYPING,
                         function ({ user, chatId }) {
-                            if (chatId !== routerChatId) return;
+                            if (
+                                chatId !== routerChatId ||
+                                user._id === currentUser._id
+                            )
+                                return;
                             setTypingUsers((prev) =>
                                 prev.filter((u) => u._id !== user._id)
                             );
@@ -228,7 +237,7 @@ const MessagingAppPage: React.FC = () => {
         mutateMessages(function (prevMessages) {
             const newMessages = clone(prevMessages || messages);
             const messageIndex = newMessages.findIndex(
-                (message) => message._id === updatedMessage._id
+                (message) => message?._id === updatedMessage?._id
             );
             newMessages[messageIndex] = updatedMessage;
             return newMessages;

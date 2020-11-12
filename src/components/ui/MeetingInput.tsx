@@ -8,7 +8,7 @@ import {
 import { clone, getMeetingTypeDisplay } from "../../utils/helpers";
 import { TimePicker } from "@material-ui/pickers";
 import InputButton from "./InputButton";
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 import NotificationContext from "../contexts/NotificationContext";
