@@ -31,6 +31,7 @@ export function mapChatData(chat: IChatOriginal): IChat {
         pictureUrl: chat?.pictureUrl,
         createdAt: chat.createdAt,
         lastMessageSentAt: chat.lastMessageSentAt,
+        typingUsers: [],
     };
 }
 

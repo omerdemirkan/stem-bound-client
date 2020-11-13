@@ -51,6 +51,7 @@ export interface IChat {
     pictureUrl?: string;
     createdAt?: string;
     lastMessageSentAt?: string;
+    typingUsers: IUser[];
 }
 
 // SERVICE TYPES
@@ -108,4 +109,17 @@ export interface IChatMessageEventHandlers {
     onDeleteMessageClicked?: (messageId: string) => any;
     onEditMessageClicked?: (messageId: string) => any;
     onRestoreMessageClicked?: (messageId: string) => any;
+}
+
+export interface IMessagingContextState {
+    chats: IChat[];
+    chatsLoading: boolean;
+    sendMessage(data: { text: string; chatId: string }): void;
+    updateMessage(data: {
+        text: string;
+        messageId: string;
+        chatId: string;
+    }): void;
+    deleteMessage(data: { chatId: string; messageId: string });
+    restoreMessage(data: { chatId: string; messageId: string });
 }
