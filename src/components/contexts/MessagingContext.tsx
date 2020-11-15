@@ -156,7 +156,6 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         updatedMessage: IChatMessage,
         chatId: string
     ) {
-        console.log({ messages, inspectedChatId });
         mutate(
             `/chats/${chatId}/messages`,
             function (prevMessages) {
@@ -164,7 +163,6 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 const messageIndex = newMessages.findIndex(
                     (message) => message?._id === updatedMessage?._id
                 );
-                console.log({ messageIndex, updatedMessage });
                 newMessages[messageIndex] = updatedMessage;
                 return newMessages;
             },
@@ -173,17 +171,20 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
     }
 
     function handleUserStartedTyping(typingUser: IUser, chatId: string) {
+        if (user._id === typingUser._id) return;
         setUsersTypingHashTable(function (prev) {
             const newTypingUsers = clone(prev);
-            newTypingUsers[chatId].push(typingUser);
+            if (!newTypingUsers[chatId]) newTypingUsers[chatId] = [];
+            newTypingUsers[chatId].push(typingUser.fullName);
             return newTypingUsers;
         });
     }
 
     function handleUserStoppedTyping(typingUser: IUser, chatId: string) {
+        if (user._id === typingUser._id) return;
         setUsersTypingHashTable(function (prev) {
             const newTypingUsers = clone(prev);
-            newTypingUsers[chatId] = newTypingUsers[chatId].filter(
+            newTypingUsers[chatId] = newTypingUsers[chatId]?.filter(
                 (fullName) => fullName !== typingUser.fullName
             );
             return newTypingUsers;
