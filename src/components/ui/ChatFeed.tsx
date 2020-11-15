@@ -1,8 +1,8 @@
 import Typography from "@material-ui/core/Typography";
-import { useEffect } from "react";
 import { IChatMessage, IChatMessageEventHandlers } from "../../utils/types";
 import { reverseMap, getChatMessageGroups } from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
+import InvertContainer from "./InvertContainer";
 
 interface Props {
     chatMessages: IChatMessage[];
@@ -22,14 +22,15 @@ const ChatFeed: React.FC<Props & IChatMessageEventHandlers> = ({
 }) => {
     const chatMessageGroups = getChatMessageGroups(chatMessages);
 
-    useEffect(function () {
-        const element = document.getElementById("chat-feed");
-        element.scrollTop = element.scrollHeight;
-    }, []);
-
     return (
-        <div id="chat-feed">
-            {reverseMap(chatMessageGroups, (chatMessageGroup) => (
+        <InvertContainer>
+            {isTyping?.length ? (
+                <Typography>
+                    {isTyping.join(", ")} {isTyping.length > 1 ? "are" : "is"}{" "}
+                    typing
+                </Typography>
+            ) : null}
+            {chatMessageGroups?.map((chatMessageGroup) => (
                 <ChatMessageGroup
                     chatMessageGroup={chatMessageGroup}
                     key={chatMessageGroup.messages[0]._id}
@@ -38,13 +39,7 @@ const ChatFeed: React.FC<Props & IChatMessageEventHandlers> = ({
                     {...chatMessageHandlers}
                 />
             ))}
-            {isTyping?.length ? (
-                <Typography>
-                    {isTyping.join(", ")} {isTyping.length > 1 ? "are" : "is"}{" "}
-                    typing
-                </Typography>
-            ) : null}
-        </div>
+        </InvertContainer>
     );
 };
 

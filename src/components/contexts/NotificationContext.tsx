@@ -61,6 +61,7 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
         enqueueSnackbar(snackbarData.text, {
             variant: snackbarData.type,
             onClick: snackbarData.onClick,
+            key: snackbarData.text,
         });
     }
 

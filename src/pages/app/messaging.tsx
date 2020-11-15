@@ -39,7 +39,7 @@ const MessagingAppPage: React.FC = () => {
 
     const debouncedTextField = useDebounce(textField, 3000);
 
-    const smallScreen = useMediaQuery("(max-width: 900px)");
+    const smallScreen = useMediaQuery("(max-width: 1400px)");
 
     const userIsTyping = textField && debouncedTextField !== textField;
 
@@ -89,6 +89,14 @@ const MessagingAppPage: React.FC = () => {
             text: editedMessageText,
         });
         setEditedMessageId(null);
+    }
+
+    function handleCreateMessage() {
+        sendMessage({
+            chatId,
+            text: textField,
+        });
+        setTextField("");
     }
 
     const breadCrumbs: IBreadCrumb[] = [
@@ -144,12 +152,7 @@ const MessagingAppPage: React.FC = () => {
                                         </>
                                     ) : (
                                         <Button
-                                            onClick={() =>
-                                                sendMessage({
-                                                    chatId,
-                                                    text: textField,
-                                                })
-                                            }
+                                            onClick={handleCreateMessage}
                                             variant="contained"
                                             color="primary"
                                         >
@@ -196,7 +199,12 @@ const MessagingAppPage: React.FC = () => {
                 }
                 order="secondary-first"
                 MainContainerProps={{
-                    style: { paddingRight: "2vw" },
+                    style: {
+                        paddingRight: "2vw",
+                        display: "flex",
+                        flexDirection: "column",
+                        overflow: "hidden",
+                    },
                 }}
             />
         </AppLayout>

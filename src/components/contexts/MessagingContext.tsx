@@ -10,6 +10,7 @@ import {
 } from "../../utils/types";
 import useSocket from "../hooks/useSocket";
 import AuthContext from "./AuthContext";
+import NotificationContext from "./NotificationContext";
 
 const messagingContextInitialState: IMessagingContextState = {
     chats: [],
@@ -34,6 +35,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
     const [userIsTyping, setUserIsTyping] = useState(false);
 
     const { user } = useContext(AuthContext);
+    const { createSnackbar } = useContext(NotificationContext);
 
     const { data: chats, isValidating: chatsLoading } = useSWR(
         user && `/chats`,
@@ -61,7 +63,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         [userIsTyping]
     );
 
-    const { socket, reinitializeListeners } = useSocket(
+    const { socket } = useSocket(
         chats?.length &&
             (() =>
                 function (socket: SocketIOClient.Socket) {

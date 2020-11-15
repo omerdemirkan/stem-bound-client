@@ -63,7 +63,7 @@ const SplitScreen: React.FC<Props> = ({
                     grid-gap: 50px;
                 }
 
-                @media (max-width: 1200px) {
+                @media (max-width: 1400px) {
                     .root-container {
                         grid-template-columns: 100%;
                     }
