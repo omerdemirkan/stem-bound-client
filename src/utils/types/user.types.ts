@@ -71,6 +71,7 @@ interface IBaseUser {
     location: IUserLocation;
     role: EUserRoles;
     displayRole: EUserDisplayRoles;
+    fullName: string;
 }
 
 export interface IStudent extends IBaseUser {

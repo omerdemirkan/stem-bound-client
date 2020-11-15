@@ -17,7 +17,6 @@ export function mapMessageData(message: IChatMessageOriginal): IChatMessage {
         isEdited: message.isEdited,
         createdAt: message.createdAt,
         updatedAt: message.updatedAt,
-        typing: [],
     };
 }
 
@@ -31,7 +30,6 @@ export function mapChatData(chat: IChatOriginal): IChat {
         pictureUrl: chat?.pictureUrl,
         createdAt: chat.createdAt,
         lastMessageSentAt: chat.lastMessageSentAt,
-        typingUsers: [],
     };
 }
 

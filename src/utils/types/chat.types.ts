@@ -37,7 +37,6 @@ export interface IChatMessage {
     _id?: string;
     createdAt?: string;
     updatedAt?: string;
-    typing?: string[];
 }
 
 export interface IChat {
@@ -51,7 +50,6 @@ export interface IChat {
     pictureUrl?: string;
     createdAt?: string;
     lastMessageSentAt?: string;
-    typingUsers: IUser[];
 }
 
 // SERVICE TYPES
@@ -113,7 +111,13 @@ export interface IChatMessageEventHandlers {
 
 export interface IMessagingContextState {
     chats: IChat[];
+    usersTypingHashTable: {
+        [chatId: string]: string[];
+    };
     chatsLoading: boolean;
+    messages: IChatMessage[];
+    setUserIsTyping(isTyping: boolean): void;
+    setInspectedChat(chatId: string): void;
     sendMessage(data: { text: string; chatId: string }): void;
     updateMessage(data: {
         text: string;

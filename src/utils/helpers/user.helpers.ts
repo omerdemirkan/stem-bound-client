@@ -14,6 +14,7 @@ export function mapUserData(user: IUserOriginal): IUser {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
+        fullName: `${user.firstName} ${user.lastName}`,
         profilePictureUrl: user.profilePictureUrl,
         location: {
             city: user.location.city,

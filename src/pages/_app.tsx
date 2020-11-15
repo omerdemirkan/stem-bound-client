@@ -4,6 +4,7 @@ import { SocketContextProvider } from "../components/contexts/SocketContext";
 import { NotificationContextProvider } from "../components/contexts/NotificationContext";
 import { ThemeProvider } from "../components/contexts/ThemeContext";
 import MuiPickersProvider from "../components/contexts/MuiPickersContext";
+import { MessagingContextProvider } from "../components/contexts/MessagingContext";
 
 const App: React.FC = function ({ Component, pageProps }: any) {
     return (
@@ -12,7 +13,9 @@ const App: React.FC = function ({ Component, pageProps }: any) {
                 <AuthContextProvider>
                     <SocketContextProvider>
                         <NotificationContextProvider>
-                            <Component {...pageProps} />
+                            <MessagingContextProvider>
+                                <Component {...pageProps} />
+                            </MessagingContextProvider>
                         </NotificationContextProvider>
                     </SocketContextProvider>
                 </AuthContextProvider>
