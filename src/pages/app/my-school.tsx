@@ -64,13 +64,13 @@ const MySchoolAppPage: React.FC = () => {
             await enrollByCourseId(courseId);
             createSnackbar({
                 text: "Successfully enrolled in course",
-                type: ENotificationTypes.SUCCESS,
+                type: "success",
             });
             await revalidateCourses();
         } catch (e) {
             createSnackbar({
                 text: "An error occured: Cannot enroll",
-                type: ENotificationTypes.INFO,
+                type: "info",
             });
         }
     }
@@ -87,13 +87,13 @@ const MySchoolAppPage: React.FC = () => {
                     await dropByCourseId(courseId);
                     createSnackbar({
                         text: "Course successfully dropped",
-                        type: ENotificationTypes.SUCCESS,
+                        type: "success",
                     });
                     await revalidateCourses();
                 } catch (e) {
                     createSnackbar({
                         text: "An error occured: Cannot drop course",
-                        type: ENotificationTypes.INFO,
+                        type: "info",
                     });
                 }
             },

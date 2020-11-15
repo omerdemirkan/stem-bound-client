@@ -42,7 +42,7 @@ const UpdateMeetingAppPage: React.FC = () => {
         await deleteMeetingById({ meetingId, courseId: course._id });
         createSnackbar({
             text: "Meeting successfully deleted",
-            type: ENotificationTypes.SUCCESS,
+            type: "success",
         });
         mutateMeetings((prev) =>
             prev.filter((meeting) => meeting._id !== meetingId)
@@ -57,7 +57,7 @@ const UpdateMeetingAppPage: React.FC = () => {
         });
         createSnackbar({
             text: "Meeting successfully updated",
-            type: ENotificationTypes.SUCCESS,
+            type: "success",
         });
         mutateMeetings(function (previousMeetings) {
             const newMeetings = clone(previousMeetings);

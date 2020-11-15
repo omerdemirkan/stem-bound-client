@@ -124,7 +124,7 @@ const MeetingsForm: React.FC<Props> = ({
                 text: filteredDates.length
                     ? "Some dates meeting dates were removed due to conflict."
                     : "All selected meetings conflict with previously created meetings.",
-                type: ENotificationTypes.INFO,
+                type: "info",
             });
         }
 

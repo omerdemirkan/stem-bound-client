@@ -1,3 +1,5 @@
+import { VariantType } from "notistack";
+
 export enum ENotificationTypes {
     INFO = "INFO",
     DANGER = "DANGER",
@@ -14,7 +16,7 @@ export interface IAlertData {
 }
 
 export interface ISnackbarData {
-    type: ENotificationTypes;
+    type: VariantType;
     text: string;
     imgsrc?: string;
     renderActions?: () => any;
@@ -22,8 +24,6 @@ export interface ISnackbarData {
 }
 
 export interface INotificationContextState {
-    alertQueue: IAlertData[];
-    snackbarQueue: ISnackbarData[];
     createAlert(alertData: IAlertData): void;
     createSnackbar(snackbarData: ISnackbarData): void;
 }

@@ -92,7 +92,7 @@ const MeetingCard: React.FC<Props> = ({
                         onCopy={() =>
                             createSnackbar({
                                 text: "Meeting URL Copied to Clipboard",
-                                type: ENotificationTypes.SUCCESS,
+                                type: "success",
                             })
                         }
                     >
