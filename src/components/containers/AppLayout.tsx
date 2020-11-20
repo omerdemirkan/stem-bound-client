@@ -2,12 +2,17 @@ import DesktopAppLayout from "./DesktopAppLayout";
 import { IBreadCrumb, ETheme } from "../../utils/types";
 import MobileAppLayout from "./MobileAppLayout";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { DetailedHTMLProps, HTMLAttributes } from "react";
 
 export interface IAppLayoutProps {
     header?: string;
     breadCrumbs?: IBreadCrumb[];
     footerEl?: any;
     theme?: ETheme;
+    mainContainerProps?: DetailedHTMLProps<
+        HTMLAttributes<HTMLDivElement>,
+        HTMLDivElement
+    >;
 }
 
 const AppLayout: React.FC<IAppLayoutProps> = ({ children, ...props }) => {

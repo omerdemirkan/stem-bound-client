@@ -46,16 +46,7 @@ const CourseForm: React.FC<Props> = ({
         <ModifiedFormCard
             {...CardProps}
             header="Create A New Course"
-            iconEl={
-                <LibraryBooksIcon
-                    color="primary"
-                    style={{
-                        marginRight: "20px",
-                        position: "relative",
-                        top: "4px",
-                    }}
-                />
-            }
+            Icon={LibraryBooksIcon}
         >
             <form onSubmit={handleSubmit(onSubmitClicked)}>
                 <TextField

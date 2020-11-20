@@ -3,13 +3,19 @@ import Card, { CardProps } from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import { OverridableComponent } from "@material-ui/core/OverridableComponent";
+import { SvgIconTypeMap } from "@material-ui/core/SvgIcon";
 
 const useStyles = makeStyles({
     formCard: {
         width: "100%",
         maxWidth: "500px",
         margin: "5vh auto",
+    },
+    header: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
     },
 });
 
@@ -18,6 +24,7 @@ type Props = CardProps & {
     headerEl?: any;
     subheader?: string;
     iconEl?: any;
+    Icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
 };
 
 const FormCard: React.FC<Props> = ({
@@ -26,6 +33,7 @@ const FormCard: React.FC<Props> = ({
     headerEl,
     subheader,
     iconEl,
+    Icon,
     ...CardProps
 }) => {
     const classes = useStyles();
@@ -38,9 +46,17 @@ const FormCard: React.FC<Props> = ({
                             variant="h5"
                             align="center"
                             color="textPrimary"
+                            className={classes.header}
                             gutterBottom
                         >
-                            {iconEl}
+                            {Icon ? (
+                                <Icon
+                                    color="primary"
+                                    style={{ marginRight: "10px" }}
+                                />
+                            ) : (
+                                iconEl
+                            )}
                             {header}
                         </Typography>
                         <Typography

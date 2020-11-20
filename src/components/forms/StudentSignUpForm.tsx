@@ -51,9 +51,7 @@ const StudentSignUpForm: React.FC<Props> = ({
     return (
         <ModifiedFormCard
             header="Personal Details"
-            iconEl={
-                <InfoIcon style={{ marginRight: "20px" }} color="primary" />
-            }
+            Icon={InfoIcon}
             subheader="Just a few basic details to set up and you'll be on your way!"
             headerEl={
                 errorMessage ? (

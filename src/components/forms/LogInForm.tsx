@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import { CardProps } from "@material-ui/core/Card";
 import LockIcon from "@material-ui/icons/Lock";
 import FormCard from "../ui/FormCard";
@@ -41,13 +40,7 @@ const LogInForm: React.FC<Props> = ({
         : FormCard;
 
     return (
-        <ModifiedFormCard
-            {...CardProps}
-            header="Log In"
-            iconEl={
-                <LockIcon style={{ marginRight: "20px" }} color="primary" />
-            }
-        >
+        <ModifiedFormCard {...CardProps} header="Log In" Icon={LockIcon}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {errorMessage ? (
                     <Typography
@@ -59,7 +52,6 @@ const LogInForm: React.FC<Props> = ({
                         {errorMessage}
                     </Typography>
                 ) : null}
-                <Divider />
                 <TextField
                     name="email"
                     inputRef={register({
