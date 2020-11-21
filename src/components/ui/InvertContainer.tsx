@@ -1,9 +1,16 @@
-import { DetailedHTMLProps, HTMLAttributes } from "react";
+import { DetailedHTMLProps, HTMLAttributes, useEffect } from "react";
 
 const InvertContainer: React.FC<DetailedHTMLProps<
     HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
 >> = ({ children, ...divProps }) => {
+    useEffect(
+        function () {
+            // update scroll
+        },
+        [children[1]]
+    );
+
     return (
         <div
             style={{

@@ -143,9 +143,17 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
     }
 
     function handleMessageCreated(newMessage: IChatMessage, chatId: string) {
+        console.log({ inspectedChatId, chatId });
+        if (newMessage.meta.from !== user._id && chatId !== inspectedChatId)
+            createSnackbar({
+                text: `New message: ${newMessage.text}`,
+                type: "info",
+            });
+
         mutate(
             `/chats/${chatId}/messages`,
-            function (prevMessages) {
+            (prevMessages) => {
+                console.log({ prevMessages, messages });
                 const newMessages = clone(prevMessages || messages);
                 newMessages.unshift(newMessage);
                 return newMessages;
@@ -158,9 +166,11 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         updatedMessage: IChatMessage,
         chatId: string
     ) {
+        console.log({ inspectedChatId, chatId });
         mutate(
             `/chats/${chatId}/messages`,
-            function (prevMessages) {
+            (prevMessages) => {
+                console.log({ prevMessages, messages });
                 const newMessages = clone(prevMessages || messages);
                 const messageIndex = newMessages.findIndex(
                     (message) => message?._id === updatedMessage?._id
@@ -192,6 +202,8 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
             return newTypingUsers;
         });
     }
+
+    console.log({ inspectedChatId });
 
     return (
         <MessagingContext.Provider

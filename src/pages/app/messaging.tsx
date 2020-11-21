@@ -3,7 +3,7 @@ import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
 import useDebounce from "../../components/hooks/useDebounce";
 import { IBreadCrumb } from "../../utils/types";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -12,7 +12,7 @@ import ChatList from "../../components/ui/ChatList";
 import ChatFeed from "../../components/ui/ChatFeed";
 import SplitScreen from "../../components/ui/SplitScreen";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import MessagingContext from "../../components/contexts/MessagingContext";
+import useMessaging from "../../components/hooks/useMessaging";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -25,11 +25,10 @@ const MessagingAppPage: React.FC = () => {
         deleteMessage,
         restoreMessage,
         sendMessage,
-        setInspectedChat,
         setUserIsTyping,
         chatsLoading,
         usersTypingHashTable,
-    } = useContext(MessagingContext);
+    } = useMessaging(chatId);
 
     const inspectedChat = chats?.find((chat) => chat._id === chatId);
 
@@ -69,7 +68,6 @@ const MessagingAppPage: React.FC = () => {
             setTextField("");
             setEditedMessageId(null);
             setEditedMessageText("");
-            setInspectedChat(chatId);
         },
         [chatId]
     );
@@ -145,7 +143,9 @@ const MessagingAppPage: React.FC = () => {
                                                 onClick={handleEditMessage}
                                                 variant="contained"
                                                 color="primary"
-                                                style={{ marginLeft: "10px" }}
+                                                style={{
+                                                    marginLeft: "10px",
+                                                }}
                                             >
                                                 Edit
                                             </Button>
@@ -200,7 +200,6 @@ const MessagingAppPage: React.FC = () => {
                 order="secondary-first"
                 MainContainerProps={{
                     style: {
-                        paddingRight: "2vw",
                         display: "flex",
                         flexDirection: "column",
                         overflow: "hidden",

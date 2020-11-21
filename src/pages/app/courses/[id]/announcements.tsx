@@ -82,7 +82,7 @@ const AnnouncementsAppPage: React.FC = () => {
             { courseId: queryCourseId as any }
         );
         mutateCourseAnnouncements(function (prevAnnouncements) {
-            const newAnnouncements = clone(prevAnnouncements);
+            const newAnnouncements = clone(prevAnnouncements) || [];
             newAnnouncements.unshift(newAnnouncement);
             return newAnnouncements;
         });

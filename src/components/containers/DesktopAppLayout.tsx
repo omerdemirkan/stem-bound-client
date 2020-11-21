@@ -25,6 +25,7 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
     header,
     breadCrumbs,
     footerEl,
+    mainContainerProps,
 }) => {
     const { theme } = useContext(ThemeContext);
 
@@ -85,7 +86,16 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                     </Breadcrumbs>
                     <Divider />
                 </div>
-                <div className="main-body">{children}</div>
+                <div
+                    {...mainContainerProps}
+                    className={
+                        mainContainerProps?.className
+                            ? `${mainContainerProps.className} main-body`
+                            : "main-body"
+                    }
+                >
+                    {children}
+                </div>
                 <div
                     className="main-footer"
                     style={footerEl ? undefined : { display: "none" }}

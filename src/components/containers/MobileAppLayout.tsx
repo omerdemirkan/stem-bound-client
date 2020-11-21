@@ -34,6 +34,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
     children,
     breadCrumbs,
     footerEl,
+    mainContainerProps,
 }) => {
     const classes = useStyles();
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
@@ -96,7 +97,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 <AppNavigation />
             </Drawer>
 
-            <main>{children}</main>
+            <main {...mainContainerProps}>{children}</main>
             {footerEl && (
                 <AppBar
                     color="default"
