@@ -56,22 +56,20 @@ const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
     searchField,
     UserCardProps,
 }) => {
-    if (Object.values(EUserRoles).includes(searchField as any)) {
-        return (
-            <Grid container spacing={2}>
-                {searchDataArray.map((searchData: IUser) => (
-                    <Grid item xs={12} lg={6} xl={4}>
-                        <UserCard
-                            user={searchData}
-                            key={searchData._id}
-                            {...UserCardProps}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
-        );
-    }
-    return null;
+    if (!Object.values(EUserRoles).includes(searchField as any)) return null;
+    return (
+        <Grid container spacing={2}>
+            {searchDataArray.map((searchData: IUser) => (
+                <Grid item xs={12} lg={6} xl={4}>
+                    <UserCard
+                        user={searchData}
+                        key={searchData._id}
+                        {...UserCardProps}
+                    />
+                </Grid>
+            ))}
+        </Grid>
+    );
 };
 
 export default Search;

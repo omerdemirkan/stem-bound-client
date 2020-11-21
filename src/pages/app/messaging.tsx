@@ -175,6 +175,7 @@ const MessagingAppPage: React.FC = () => {
                 mainEl={
                     <ChatFeed
                         chatMessages={messages}
+                        chatId={chatId}
                         chatPictureUrl={inspectedChat?.pictureUrl}
                         isTyping={usersTypingHashTable[chatId] || []}
                         onDeleteMessageClicked={(messageId) =>
@@ -198,13 +199,6 @@ const MessagingAppPage: React.FC = () => {
                     )
                 }
                 order="secondary-first"
-                MainContainerProps={{
-                    style: {
-                        display: "flex",
-                        flexDirection: "column",
-                        overflow: "hidden",
-                    },
-                }}
             />
         </AppLayout>
     );

@@ -4,7 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import AppNavigation from "./AppNavigation";
 import Drawer from "@material-ui/core/Drawer";
 import WordLogoSVG from "../svg/icons/word-logo";
@@ -115,6 +115,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 }
                 .root > main {
                     padding: 5vw 2vw;
+                    height: 100%;
                 }
                 .logo-box {
                     display: flex;

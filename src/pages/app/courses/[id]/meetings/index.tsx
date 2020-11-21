@@ -56,7 +56,11 @@ const MeetingsAppPage: React.FC = () => {
                         as={`/app/courses/${course?._id}/meetings/create`}
                     >
                         <a>
-                            <Button variant="contained" color="primary">
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className="spaced-horizontal"
+                            >
                                 CREATE MEETINGS
                             </Button>
                         </a>
@@ -67,7 +71,11 @@ const MeetingsAppPage: React.FC = () => {
                         shallow
                     >
                         <a>
-                            <Button variant="contained" color="primary">
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className="spaced-horizontal"
+                            >
                                 UPDATE MEETINGS
                             </Button>
                         </a>
