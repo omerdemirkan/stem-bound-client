@@ -1,6 +1,10 @@
 import { ESearchFields } from "../types/search.types";
 import { EUserRoles } from "../types";
-import { defaultSearchFields, searchFieldTypes } from "../constants";
+import {
+    defaultSearchFields,
+    searchFieldTypes,
+    searchFieldDisplayTable,
+} from "../constants";
 
 export function isSearchField(s: any): boolean {
     if (typeof s !== "string") return false;
@@ -28,4 +32,8 @@ export function SearchField(
 
 export function getDefaultSearchField(userRole: EUserRoles) {
     return defaultSearchFields[userRole] || ESearchFields.INSTRUCTOR;
+}
+
+export function getDisplaySearchField(searchField: ESearchFields) {
+    return searchFieldDisplayTable[searchField];
 }

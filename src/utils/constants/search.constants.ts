@@ -27,3 +27,9 @@ export const searchFieldTypes = {
     [ESearchFields.SCHOOL_OFFICIAL]: ESearchFieldTypes.USER,
     [ESearchFields.STUDENT]: ESearchFieldTypes.USER,
 };
+
+export const searchFieldDisplayTable = {
+    [ESearchFields.INSTRUCTOR]: "Instructors",
+    [ESearchFields.SCHOOL_OFFICIAL]: "School Officials",
+    [ESearchFields.STUDENT]: "Students",
+};
