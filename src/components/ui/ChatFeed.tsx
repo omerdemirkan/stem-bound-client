@@ -2,7 +2,6 @@ import Typography from "@material-ui/core/Typography";
 import { IChatMessage, IChatMessageEventHandlers } from "../../utils/types";
 import { reverseMap, getChatMessageGroups } from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
-import InvertContainer from "./InvertContainer";
 import InvertScroll from "./InvertScroll";
 
 interface Props {
