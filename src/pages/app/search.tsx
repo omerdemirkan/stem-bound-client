@@ -96,7 +96,21 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
             <Search
                 searchField={searchField}
                 searchData={searchData}
-                shallow
+                onSearchFieldChanged={(searchField) =>
+                    router.push(
+                        {
+                            pathname: `${router.pathname}`,
+                            query: { q: searchField },
+                        },
+                        {
+                            query: { q: searchField },
+                            pathname: `${router.pathname}`,
+                        },
+                        {
+                            shallow: true,
+                        }
+                    )
+                }
                 UserCardProps={{
                     contactUserEnabled: true,
                     onContactUser: handleContactUser,

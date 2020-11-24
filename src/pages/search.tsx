@@ -10,6 +10,7 @@ import {
     SearchField,
     deleteUndefined,
 } from "../utils/helpers";
+import { useRouter } from "next/router";
 
 interface Props {
     searchField: ESearchFields;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
+    const router = useRouter();
     function handleSendMessage() {
         console.log("U cant send a message B, you need to be logged in.");
     }
@@ -29,6 +31,12 @@ const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
             <Search
                 searchField={searchField}
                 searchData={searchData}
+                onSearchFieldChanged={(searchField) =>
+                    router.push({
+                        pathname: router.pathname,
+                        query: { q: searchField },
+                    })
+                }
             />
             <style jsx>{``}</style>
         </Layout>

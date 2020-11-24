@@ -137,17 +137,17 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                 }
 
                 .main-header {
-                    padding: 40px 60px 0;
+                    padding: 30px 45px 0;
                     z-index: 8;
                 }
 
                 .main-body {
                     overflow-y: auto;
-                    padding: 20px 60px;
+                    padding: 20px 45px;
                 }
 
                 .main-footer {
-                    padding: 20px 60px;
+                    padding: 20px 45px;
                     z-index: 8;
                     margin-top: auto;
                 }

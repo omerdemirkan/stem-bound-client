@@ -1,70 +1,54 @@
-import Link from "next/link";
 import UserCard, { UserCardProps } from "../ui/UserCard";
 import { ESearchFields, ISearchData } from "../../utils/types/search.types";
 import { searchFieldInputOptions } from "../../utils/constants";
-import { appendQueriesToUrl, getDisplaySearchField } from "../../utils/helpers";
-import { useRouter } from "next/router";
 import { EUserRoles, IUser } from "../../utils/types";
 import Grid from "@material-ui/core/Grid";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import ActionBar from "../ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import { a11yProps } from "../../utils/helpers";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-
-const useStyles = makeStyles({
-    tabs: {
-        width: "100%",
-    },
-});
+import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
 
 interface SearchProps {
     searchField: ESearchFields;
     searchData: ISearchData[];
-    shallow?: boolean;
+    onSearchFieldChanged(searchField: ESearchFields): void;
     UserCardProps?: Partial<UserCardProps>;
 }
 
 const Search: React.FC<SearchProps> = ({
     searchField,
     searchData,
-    shallow,
     UserCardProps,
+    onSearchFieldChanged,
 }) => {
-    const router = useRouter();
-    const classes = useStyles();
-
     return (
         <div>
-            <Tabs
-                aria-label="search field tabs"
-                indicatorColor="primary"
-                onChange={console.log}
-                value={searchField}
-                className={classes.tabs}
+            <ActionBar
+                startEl={
+                    <Typography>
+                        {getDisplaySearchField(searchField)}
+                    </Typography>
+                }
             >
-                {searchFieldInputOptions.map((option, index) => (
-                    <Tab
-                        label={option.display}
-                        value={option.searchField}
-                        onClick={() =>
-                            router.push(
-                                {
-                                    pathname: router.pathname,
-                                    query: { q: option.searchField },
-                                },
-                                {
-                                    pathname: router.pathname,
-                                    query: { q: option.searchField },
-                                },
-                                { shallow: true }
+                {isSearchField(searchField) && (
+                    <Select
+                        value={searchField}
+                        labelId="Search Fields"
+                        onChange={(e) =>
+                            onSearchFieldChanged(
+                                e.target.value as ESearchFields
                             )
                         }
-                        {...a11yProps("search-field-tab", index)}
-                    />
-                ))}
-            </Tabs>
+                    >
+                        {searchFieldInputOptions.map((option, index) => (
+                            <MenuItem value={option.searchField}>
+                                {option.display}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                )}
+            </ActionBar>
             <PaginatedSearchData
                 searchDataArray={searchData || []}
                 searchField={searchField}
