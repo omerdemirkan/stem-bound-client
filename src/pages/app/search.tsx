@@ -12,7 +12,11 @@ import {
 } from "../../utils/services";
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
-import { isSearchField, SearchField } from "../../utils/helpers";
+import {
+    isSearchField,
+    SearchField,
+    appendQueriesToUrl,
+} from "../../utils/helpers";
 import {
     ESearchFields,
     IWithUserCoordinatesProps,
@@ -28,12 +32,21 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     const searchFieldQuery = isSearchField(router.query.q)
         ? SearchField(router.query.q)
         : null;
+    const searchStringQuery = router.query.text as string;
 
     const { user } = useContext(AuthContext);
 
     const { data: searchData, revalidate } = useSWR(
-        searchFieldQuery ? `/search/${searchFieldQuery}` : null,
-        searchDataFetcher({ field: searchFieldQuery, exclude: [user._id] })
+        searchFieldQuery
+            ? `/search/${searchFieldQuery}${
+                  searchStringQuery ? `?text=${searchStringQuery}` : ""
+              }`
+            : null,
+        searchDataFetcher({
+            field: searchFieldQuery,
+            exclude: [user._id],
+            text: searchStringQuery,
+        })
     );
 
     const [searchField, setSearchField] = useState<ESearchFields>();
@@ -98,14 +111,23 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
                 searchData={searchData}
                 onSearchFieldChanged={(searchField) =>
                     router.push(
+                        appendQueriesToUrl(router.pathname, {
+                            ...router.query,
+                            q: searchField,
+                        }),
+                        undefined,
                         {
-                            pathname: `${router.pathname}`,
-                            query: { q: searchField },
-                        },
-                        {
-                            query: { q: searchField },
-                            pathname: `${router.pathname}`,
-                        },
+                            shallow: true,
+                        }
+                    )
+                }
+                onSearchStringChanged={(searchString) =>
+                    router.push(
+                        appendQueriesToUrl(router.pathname, {
+                            ...router.query,
+                            text: searchString,
+                        }),
+                        undefined,
                         {
                             shallow: true,
                         }

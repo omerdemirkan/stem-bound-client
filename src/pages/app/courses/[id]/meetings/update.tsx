@@ -38,7 +38,6 @@ const UpdateMeetingAppPage: React.FC = () => {
     const { createSnackbar } = useContext(NotificationContext);
 
     async function handleDeleteCourse(meetingId: string) {
-        console.log("inside handleDeleteCOurse");
         await deleteMeetingById({ meetingId, courseId: course._id });
         createSnackbar({
             text: "Meeting successfully deleted",

@@ -106,6 +106,7 @@ export interface IFetchUsersOptions {
     sortField?: string;
     sortDirection?: number;
     exclude: string[];
+    text: string;
 }
 
 export interface IValidateUserRoleOptions {

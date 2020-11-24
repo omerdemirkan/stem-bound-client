@@ -25,11 +25,13 @@ export function fetchUsers({
     sortDirection,
     sortField,
     exclude,
+    text,
 }: IFetchUsersOptions): Promise<IApiResponse<IUser[]>> {
     const url = appendQueriesToUrl("/users", {
         role,
         skip,
         limit,
+        text,
         sort_field: sortField,
         sort_direction: sortDirection,
         long: coordinates?.longitude,

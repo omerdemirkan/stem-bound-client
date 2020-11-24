@@ -34,7 +34,13 @@ const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
                 onSearchFieldChanged={(searchField) =>
                     router.push({
                         pathname: router.pathname,
-                        query: { q: searchField },
+                        query: { ...router.query, q: searchField },
+                    })
+                }
+                onSearchStringChanged={(searchString) =>
+                    router.push({
+                        pathname: router.pathname,
+                        query: { ...router.query, text: searchString },
                     })
                 }
             />

@@ -8,11 +8,15 @@ import MenuItem from "@material-ui/core/MenuItem";
 import ActionBar from "../ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
 import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
+import TextField from "@material-ui/core/TextField";
+import { useEffect, useState } from "react";
+import useDebounce from "../hooks/useDebounce";
 
 interface SearchProps {
     searchField: ESearchFields;
     searchData: ISearchData[];
     onSearchFieldChanged(searchField: ESearchFields): void;
+    onSearchStringChanged?(searchString: string): void;
     UserCardProps?: Partial<UserCardProps>;
 }
 
@@ -21,7 +25,20 @@ const Search: React.FC<SearchProps> = ({
     searchData,
     UserCardProps,
     onSearchFieldChanged,
+    onSearchStringChanged,
 }) => {
+    const [searchString, setSearchString] = useState<string>("");
+
+    const debouncedSearchString = useDebounce(searchString, 500);
+
+    useEffect(
+        function () {
+            onSearchStringChanged &&
+                onSearchStringChanged(debouncedSearchString);
+        },
+        [debouncedSearchString]
+    );
+
     return (
         <div>
             <ActionBar
@@ -47,6 +64,13 @@ const Search: React.FC<SearchProps> = ({
                             </MenuItem>
                         ))}
                     </Select>
+                )}
+
+                {onSearchStringChanged && (
+                    <TextField
+                        value={searchString}
+                        onChange={(e) => setSearchString(e.target.value)}
+                    />
                 )}
             </ActionBar>
             <PaginatedSearchData

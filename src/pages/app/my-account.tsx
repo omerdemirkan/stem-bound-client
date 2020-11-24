@@ -82,9 +82,7 @@ const MyAccountAppPage: React.FC = () => {
     }
 
     async function handleUpdateUser(update: Partial<IUserOriginal>) {
-        console.log(update);
         const { data: updatedUser } = await updateUserById(user._id, update);
-        console.log(updatedUser);
         mutateFetchedUser(updatedUser, false);
     }
 

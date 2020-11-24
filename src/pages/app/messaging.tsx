@@ -73,11 +73,9 @@ const MessagingAppPage: React.FC = () => {
     );
 
     function handleInspectChat(id: string) {
-        router.push(
-            { pathname: router.pathname, query: { id } },
-            { pathname: router.pathname, query: { id } },
-            { shallow: true }
-        );
+        router.push(`${router.pathname}?id=${id}`, undefined, {
+            shallow: true,
+        });
     }
 
     function handleEditMessage() {
