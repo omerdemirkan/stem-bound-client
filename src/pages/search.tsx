@@ -9,6 +9,7 @@ import {
     isSearchField,
     SearchField,
     deleteUndefined,
+    appendQueriesToUrl,
 } from "../utils/helpers";
 import { useRouter } from "next/router";
 
@@ -32,16 +33,20 @@ const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
                 searchField={searchField}
                 searchData={searchData}
                 onSearchFieldChanged={(searchField) =>
-                    router.push({
-                        pathname: router.pathname,
-                        query: { ...router.query, q: searchField },
-                    })
+                    router.push(
+                        appendQueriesToUrl(router.pathname, {
+                            ...router.query,
+                            q: searchField,
+                        })
+                    )
                 }
                 onSearchStringChanged={(searchString) =>
-                    router.push({
-                        pathname: router.pathname,
-                        query: { ...router.query, text: searchString },
-                    })
+                    router.push(
+                        appendQueriesToUrl(router.pathname, {
+                            ...router.query,
+                            text: searchString,
+                        })
+                    )
                 }
             />
             <style jsx>{``}</style>
@@ -52,10 +57,12 @@ const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
 export async function getServerSideProps(ctx: NextPageContext) {
     try {
         const searchField = ctx.query.q;
+        const text = ctx.query.text as string;
         if (!isSearchField(searchField)) throw new Error();
         let searchData = (
             await fetchSearchData({
                 field: SearchField(searchField),
+                text,
             })
         ).data;
         deleteUndefined(searchData);
