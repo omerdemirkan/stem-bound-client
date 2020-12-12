@@ -78,10 +78,9 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
 
         if (existingChat) {
             await createMessage({ chatId: existingChat, text: message });
-            router.push(`/app/messaging`, {
-                pathname: `/app/messaging`,
-                query: { id: existingChat },
-            });
+            router.push(
+                appendQueriesToUrl("/app/messaging", { id: existingChat })
+            );
         } else {
             const { data: chat } = await createChat(
                 {
@@ -95,9 +94,7 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
                 },
                 { duplicateFallback: true }
             );
-            router.push(`/app/messaging`, {
-                query: { id: chat._id },
-            });
+            router.push(appendQueriesToUrl("/app/messaging", { id: chat._id }));
         }
     }
 

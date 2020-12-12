@@ -44,11 +44,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
 
     const { data: messages, mutate: mutateMessages } = useSWR(
         inspectedChatId ? `/chats/${inspectedChatId}/messages` : null,
-        messagesFetcher(inspectedChatId as string),
-        {
-            initialData: chats?.find((chat) => chat._id === inspectedChatId)
-                ?.messages,
-        }
+        messagesFetcher(inspectedChatId as string)
     );
 
     useEffect(
@@ -62,6 +58,8 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         },
         [userIsTyping]
     );
+
+    useEffect(() => console.log(messages), [messages]);
 
     const { socket } = useSocket(
         chats?.length &&
@@ -160,10 +158,10 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 text: `New message: ${newMessage.text}`,
                 type: "info",
             });
-
         mutate(
             `/chats/${chatId}/messages`,
             (prevMessages) => {
+                console.log({ prevMessages, messages });
                 const newMessages = clone(prevMessages || messages);
                 newMessages.unshift(newMessage);
                 return newMessages;
@@ -176,9 +174,11 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         updatedMessage: IChatMessage,
         chatId: string
     ) {
+        console.log({ chatId, inspectedChatId });
         mutate(
             `/chats/${chatId}/messages`,
             (prevMessages) => {
+                console.log({ prevMessages, messages });
                 const newMessages = clone(prevMessages || messages);
                 const messageIndex = newMessages.findIndex(
                     (message) => message?._id === updatedMessage?._id

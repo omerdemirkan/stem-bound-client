@@ -28,6 +28,7 @@ const MessagingAppPage: React.FC = () => {
         setUserIsTyping,
         chatsLoading,
         usersTypingHashTable,
+        setInspectedChat,
     } = useMessaging(chatId);
 
     const inspectedChat = chats?.find((chat) => chat._id === chatId);
@@ -68,6 +69,7 @@ const MessagingAppPage: React.FC = () => {
             setTextField("");
             setEditedMessageId(null);
             setEditedMessageText("");
+            setInspectedChat(chatId);
         },
         [chatId]
     );
