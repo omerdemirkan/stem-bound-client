@@ -20,9 +20,6 @@ interface Props {
 
 const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
     const router = useRouter();
-    function handleSendMessage() {
-        console.log("U cant send a message B, you need to be logged in.");
-    }
     return (
         <Layout>
             <Head>

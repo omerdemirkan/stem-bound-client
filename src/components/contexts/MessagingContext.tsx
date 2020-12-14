@@ -59,8 +59,6 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         [userIsTyping]
     );
 
-    useEffect(() => console.log(messages), [messages]);
-
     const { socket } = useSocket(
         chats?.length &&
             (() =>
@@ -161,7 +159,6 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         mutate(
             `/chats/${chatId}/messages`,
             (prevMessages) => {
-                console.log({ prevMessages, messages });
                 const newMessages = clone(prevMessages || messages);
                 newMessages.unshift(newMessage);
                 return newMessages;
@@ -174,11 +171,9 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         updatedMessage: IChatMessage,
         chatId: string
     ) {
-        console.log({ chatId, inspectedChatId });
         mutate(
             `/chats/${chatId}/messages`,
             (prevMessages) => {
-                console.log({ prevMessages, messages });
                 const newMessages = clone(prevMessages || messages);
                 const messageIndex = newMessages.findIndex(
                     (message) => message?._id === updatedMessage?._id
