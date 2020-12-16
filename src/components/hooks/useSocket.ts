@@ -19,7 +19,7 @@ type InitializerCreator = () => Initializer;
 
 export default function useSocket(
     init: Initializer | InitializerCreator,
-    events?: ESocketEvents[]
+    events: ESocketEvents[] = Object.keys(ESocketEvents) as ESocketEvents[]
 ): ISocketContextState & { reinitializeListeners } {
     const context = useContext(SocketContext);
     const initRef = useRef<boolean>(false);
@@ -61,12 +61,15 @@ export default function useSocket(
             listenerHashTable[event].listeners = socket.listeners(event);
         });
 
+        listenerHashTable;
+
         Object.values(listenerHashTable).forEach(function ({
             event,
             endIndex,
             startIndex,
             listeners,
         }) {
+            if (endIndex === startIndex) return;
             listenerRemovers.push(function () {
                 for (let i = startIndex; i <= endIndex; i++) {
                     listenerRemovers.push(function () {
