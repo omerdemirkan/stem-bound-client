@@ -11,7 +11,6 @@ const InvertScroll: React.FC<
     useEffect(
         function () {
             divRef.current.scrollTop = divRef.current.scrollHeight;
-            // divRef.current.scrollTo(0, divRef.current.scrollHeight);
         },
         [children, key]
     );
@@ -23,4 +22,8 @@ const InvertScroll: React.FC<
     );
 };
 
-export default InvertScroll;
+const InvertScrollCss: React.FC = ({ children }) => {
+    return <div className="invert-container">{children}</div>;
+};
+
+export default InvertScrollCss;

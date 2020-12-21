@@ -19,10 +19,12 @@ const LogInPage: React.FC = () => {
         [accessToken]
     );
 
-    function onSubmit(values) {
-        login(values)
-            .then(() => router.push("/app/dashboard"))
-            .catch(({ error }) => setError(error));
+    async function onSubmit(values) {
+        try {
+            await login(values);
+        } catch (e) {
+            setError(e);
+        }
     }
 
     return (
