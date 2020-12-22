@@ -15,8 +15,8 @@ export function mapMessageData(message: IChatMessageOriginal): IChatMessage {
         _id: message._id,
         isDeleted: message.isDeleted,
         isEdited: message.isEdited,
-        createdAt: message.createdAt,
-        updatedAt: message.updatedAt,
+        createdAt: message.createdAt.toString(),
+        updatedAt: message.updatedAt.toString(),
     };
 }
 
@@ -25,11 +25,11 @@ export function mapChatData(chat: IChatOriginal): IChat {
         _id: chat._id,
         messages: chat.messages.map(mapMessageData),
         meta: chat.meta,
-        isGroupChat: chat.isGroupChat,
+        type: chat.type,
         name: chat?.name,
         pictureUrl: chat?.pictureUrl,
-        createdAt: chat.createdAt,
-        lastMessageSentAt: chat.lastMessageSentAt,
+        createdAt: chat.createdAt.toString(),
+        lastMessageSentAt: chat.lastMessageSentAt.toString(),
     };
 }
 

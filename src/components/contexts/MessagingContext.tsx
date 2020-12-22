@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { clone, mapMessageData, mapUserData } from "../../utils/helpers";
-import { messagesFetcher, userChatsFetcher } from "../../utils/services";
+import { messagesFetcher, chatsFetcher } from "../../utils/services";
 import {
     ESocketEvents,
     IChatMessage,
@@ -39,7 +39,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
 
     const { data: chats, isValidating: chatsLoading } = useSWR(
         user && `/chats`,
-        userChatsFetcher(user?._id)
+        chatsFetcher()
     );
 
     const { data: messages, mutate: mutateMessages } = useSWR(

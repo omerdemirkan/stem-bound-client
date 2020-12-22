@@ -34,13 +34,12 @@ export function createChat(
     );
 }
 
-export function fetchChatsByUserId(
-    id: string,
+export function fetchChats(
     options?: IFetchChatsOptions
 ): Promise<IApiResponse<IChat[]>> {
     return mapResponseData(
         apiClient.get(
-            appendQueriesToUrl(`/users/${id}/chats`, {
+            appendQueriesToUrl(`/chats`, {
                 include_unread_messages: options?.includeUnreadMessages,
                 limit: options?.limit,
                 skip: options?.skip,

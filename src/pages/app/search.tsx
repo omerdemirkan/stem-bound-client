@@ -23,6 +23,7 @@ import {
     IWithAuthProps,
     IUser,
 } from "../../utils/types";
+import Button from "@material-ui/core/Button";
 
 const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     coordinates,
@@ -67,35 +68,8 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
         [searchFieldQuery, coordinates]
     );
 
-    async function handleContactUser(contactedUser: IUser, message: string) {
-        const currentUserChatIdsHashTable = {};
-        (user.meta as any).chats.forEach(function (chatId) {
-            currentUserChatIdsHashTable[chatId] = true;
-        });
-        const existingChat = (contactedUser.meta as any).chats.find(
-            (chatId) => currentUserChatIdsHashTable[chatId]
-        );
-
-        if (existingChat) {
-            await createMessage({ chatId: existingChat, text: message });
-            router.push(
-                appendQueriesToUrl("/app/messaging", { id: existingChat })
-            );
-        } else {
-            const { data: chat } = await createChat(
-                {
-                    meta: { users: [contactedUser._id, user._id] },
-                    messages: [
-                        {
-                            text: message,
-                            meta: { from: user._id },
-                        } as any,
-                    ],
-                },
-                { duplicateFallback: true }
-            );
-            router.push(appendQueriesToUrl("/app/messaging", { id: chat._id }));
-        }
+    async function handleContactUser(contacted: IUser) {
+        await createChat({ meta: { users: [user._id, contacted._id] } });
     }
 
     return (
@@ -132,7 +106,11 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
                 }
                 UserCardProps={{
                     contactUserEnabled: true,
-                    onContactUser: handleContactUser,
+                    renderFooter: (user) => (
+                        <Button onClick={() => handleContactUser(user)}>
+                            Contact
+                        </Button>
+                    ),
                 }}
             />
             <style jsx>{``}</style>

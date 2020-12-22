@@ -54,7 +54,7 @@ const MyAccountAppPage: React.FC = () => {
         storedUser?._id ? `/user/${storedUser?._id}` : null,
         userFetcher(storedUser?._id)
     );
-    const { data: courses } = useSWR(
+    const { data: courses, isValidating: coursesLoading } = useSWR(
         storedUser?._id ? `/user/courses` : null,
         userCoursesFetcher(storedUser._id)
     );
@@ -124,31 +124,35 @@ const MyAccountAppPage: React.FC = () => {
                                 </div>
                             }
                         >
-                            <InputButton
-                                initialValue={user.location.zip}
-                                onSubmit={handleUpdateUserLocationByZip}
-                                renderInput={(value, setValue) => (
-                                    <AsyncSelect
-                                        TextFieldProps={{
-                                            fullWidth: true,
-                                            label: "Location",
-                                            placeholder: "e.g Reseda",
-                                            id: "location",
-                                        }}
-                                        delay={400}
-                                        onChange={setValue}
-                                        fetchOptions={fetchLocationInputOptions}
-                                    />
-                                )}
-                                ButtonProps={{
-                                    variant: "text",
-                                    color: "primary",
-                                    className: classes.editButton,
-                                    size: "small",
-                                }}
-                            >
-                                UPDATE LOCATION
-                            </InputButton>
+                            {user.role === EUserRoles.INSTRUCTOR && (
+                                <InputButton
+                                    initialValue={user.location.zip}
+                                    onSubmit={handleUpdateUserLocationByZip}
+                                    renderInput={(value, setValue) => (
+                                        <AsyncSelect
+                                            TextFieldProps={{
+                                                fullWidth: true,
+                                                label: "Location",
+                                                placeholder: "e.g Reseda",
+                                                id: "location",
+                                            }}
+                                            delay={400}
+                                            onChange={setValue}
+                                            fetchOptions={
+                                                fetchLocationInputOptions
+                                            }
+                                        />
+                                    )}
+                                    ButtonProps={{
+                                        variant: "text",
+                                        color: "primary",
+                                        className: classes.editButton,
+                                        size: "small",
+                                    }}
+                                >
+                                    UPDATE LOCATION
+                                </InputButton>
+                            )}
                             <PictureInput
                                 onFileCreated={handleProfilePictureCreated}
                                 baseFileName={`${user._id}-profile-picture`}
@@ -333,7 +337,13 @@ const MyAccountAppPage: React.FC = () => {
                     <>
                         {user.role === EUserRoles.INSTRUCTOR ||
                         user.role === EUserRoles.STUDENT ? (
-                            <Section title="Courses">
+                            <Section
+                                title={`${
+                                    !courses.length && !coursesLoading
+                                        ? "No "
+                                        : ""
+                                }Courses`}
+                            >
                                 {courses?.map((course) => (
                                     <CourseCard
                                         course={course}

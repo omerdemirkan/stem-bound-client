@@ -14,7 +14,7 @@ import {
 } from "../types";
 import { fetchSearchData } from "./search.services";
 import {
-    fetchChatsByUserId,
+    fetchChats,
     fetchChatById,
     fetchMessagesByChatId,
 } from "./chat.services";
@@ -48,8 +48,8 @@ export function searchDataFetcher(options: IFetchSearchDataOptions) {
     return async () => (await fetchSearchData(options)).data;
 }
 
-export function userChatsFetcher(id: string, options?: IFetchChatsOptions) {
-    return async () => (await fetchChatsByUserId(id, options)).data;
+export function chatsFetcher(options?: IFetchChatsOptions) {
+    return async () => (await fetchChats(options)).data;
 }
 
 export function chatFetcher(id: string) {

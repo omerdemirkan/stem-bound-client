@@ -1,7 +1,5 @@
 import CardHeader from "@material-ui/core/CardHeader";
 import Card, { CardProps } from "@material-ui/core/Card";
-import TextField from "@material-ui/core/TextField";
-import InputButton from "./InputButton";
 import Avatar from "@material-ui/core/Avatar";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
@@ -13,18 +11,18 @@ import Section from "./Section";
 
 export interface UserCardProps {
     user: IUser;
-    onContactUser?: (user: IUser, message: string) => void;
     contactUserEnabled?: boolean;
     footerEl?: any;
+    renderFooter?(user: IUser): any;
     CardProps?: CardProps;
     noMargin?: boolean;
 }
 
 const UserCard: React.FC<UserCardProps> = ({
     user,
-    onContactUser,
     contactUserEnabled,
     footerEl,
+    renderFooter,
     CardProps,
     noMargin,
 }) => {
@@ -73,21 +71,7 @@ const UserCard: React.FC<UserCardProps> = ({
             </CardContent>
             <CardActions>
                 {footerEl}
-                {contactUserEnabled ? (
-                    <InputButton
-                        onSubmit={(message) => onContactUser(user, message)}
-                        renderInput={(value, setValue) => (
-                            <TextField
-                                value={value}
-                                onChange={(e) => setValue(e.target.value)}
-                                fullWidth
-                                autoFocus
-                            />
-                        )}
-                    >
-                        Contact
-                    </InputButton>
-                ) : null}
+                {renderFooter && renderFooter(user)}
             </CardActions>
         </Card>
     );

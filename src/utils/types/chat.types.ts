@@ -1,29 +1,37 @@
 import { IUser } from "./user.types";
 
+export enum EChatTypes {
+    "PRIVATE",
+    "GROUP",
+}
+
 export interface IChatMessageOriginal {
     text: string;
     meta: {
         from: string;
         readBy: string[];
+        chat: string;
     };
     isDeleted: boolean;
     isEdited: boolean;
     _id?: string;
-    createdAt?: string;
-    updatedAt?: string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
 }
 
 export interface IChatOriginal {
-    _id: string;
-    messages: IChatMessageOriginal[];
+    type: EChatTypes;
     meta: {
         users: string[];
     };
-    isGroupChat: boolean;
     name?: string;
     pictureUrl?: string;
-    createdAt?: string;
-    lastMessageSentAt?: string;
+    lastMessageSentAt?: Date | string;
+    privateChatKey?: string;
+    _id?: string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    messages?: IChatMessageOriginal[];
 }
 
 export interface IChatMessage {
@@ -40,12 +48,12 @@ export interface IChatMessage {
 }
 
 export interface IChat {
+    type: EChatTypes;
     _id: string;
     messages: IChatMessage[];
     meta: {
         users: string[];
     };
-    isGroupChat: boolean;
     name?: string;
     pictureUrl?: string;
     createdAt?: string;
