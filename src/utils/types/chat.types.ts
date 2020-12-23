@@ -60,52 +60,6 @@ export interface IChat {
     lastMessageSentAt?: string;
 }
 
-// SERVICE TYPES
-
-export interface IFetchChatsOptions {
-    includeUnreadMessages?: boolean;
-    limit?: number;
-    skip?: number;
-    userIds?: string[];
-    exact?: number;
-}
-
-export interface IFetchChatOptions {
-    limit?: number;
-    skip?: number;
-}
-
-export interface ICreateChatOptions {
-    duplicateFallback?: boolean;
-}
-
-export interface IFetchMessagesOptions {
-    chatId: string;
-    limit?: number;
-    skip?: number;
-}
-
-export interface IFetchMessageOptions {
-    messageId: string;
-    chatId: string;
-}
-
-export interface ICreateMessageOptions {
-    chatId: string;
-    text: string;
-}
-
-export interface IUpdateMessageOptions {
-    chatId: string;
-    messageId: string;
-    text: string;
-}
-
-export interface IDeleteMessageOptions {
-    chatId: string;
-    messageId: string;
-}
-
 export interface IChatMessageGroup {
     senderId: string;
     messages: IChatMessage[];
@@ -135,4 +89,40 @@ export interface IMessagingContextState {
     deleteMessage(data: { chatId: string; messageId: string });
     restoreMessage(data: { chatId: string; messageId: string });
     refetchChats(): any;
+}
+
+// SERVICE TYPES
+
+export interface IFetchChatsOptions {
+    limit?: number;
+    skip?: number;
+    userIds?: string[];
+    exact?: number;
+}
+
+export interface IFetchMessagesOptions {
+    chatId: string;
+    limit?: number;
+    skip?: number;
+}
+
+export interface IFetchMessageOptions {
+    messageId: string;
+    chatId: string;
+}
+
+export interface ICreateMessageOptions {
+    chatId: string;
+    text: string;
+}
+
+export interface IUpdateMessageOptions {
+    chatId: string;
+    messageId: string;
+    text: string;
+}
+
+export interface IDeleteMessageOptions {
+    chatId: string;
+    messageId: string;
 }

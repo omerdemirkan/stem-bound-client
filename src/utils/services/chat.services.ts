@@ -16,22 +16,12 @@ import {
     IChatOriginal,
     IDeleteMessageOptions,
     IFetchChatsOptions,
-    ICreateChatOptions,
 } from "../types";
 
 export function createChat(
-    chatData: Partial<IChatOriginal>,
-    options?: ICreateChatOptions
+    chatData: Partial<IChatOriginal>
 ): Promise<IApiResponse<IChat>> {
-    return mapResponseData(
-        apiClient.post(
-            appendQueriesToUrl("/chats", {
-                duplicate_fallback: options?.duplicateFallback,
-            }),
-            chatData
-        ),
-        mapChatData
-    );
+    return mapResponseData(apiClient.post("/chats", chatData), mapChatData);
 }
 
 export function fetchChats(
@@ -40,7 +30,6 @@ export function fetchChats(
     return mapResponseData(
         apiClient.get(
             appendQueriesToUrl(`/chats`, {
-                include_unread_messages: options?.includeUnreadMessages,
                 limit: options?.limit,
                 skip: options?.skip,
                 user_ids: options?.userIds.join(","),

@@ -16,7 +16,17 @@ import Section from "../../../components/ui/Section";
 
 const CoursesAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
-    const { data: courses } = useSWR(`/courses`, userCoursesFetcher(user._id));
+    const { data: courses, isValidating: coursesLoading } = useSWR(
+        `/courses`,
+        userCoursesFetcher(user._id)
+    );
+    const {
+        data: unverifiedCourses,
+        isValidating: unverifiedCoursesLoading,
+    } = useSWR(
+        `/courses?unverified=true`,
+        userCoursesFetcher(user._id, { unverified: true })
+    );
 
     return (
         <AppLayout header="Courses">
@@ -25,7 +35,11 @@ const CoursesAppPage: React.FC = () => {
             </Head>
 
             <ActionBar
-                startEl={<Typography variant="h5">My Courses</Typography>}
+                startEl={
+                    <Typography variant="h6" color="textSecondary">
+                        My Courses
+                    </Typography>
+                }
             >
                 {user.role === EUserRoles.INSTRUCTOR ? (
                     <Link href="/app/courses/create">
@@ -39,9 +53,29 @@ const CoursesAppPage: React.FC = () => {
             </ActionBar>
 
             {courses && (
-                <Section>
+                <Section loading={coursesLoading} empty={!courses}>
                     <Grid container spacing={2}>
                         {courses.map((course) => (
+                            <Grid item xs={12} lg={6} xl={4} key={course._id}>
+                                <CourseCard
+                                    course={course}
+                                    fullWidth
+                                    noMargin
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Section>
+            )}
+
+            {unverifiedCourses && (
+                <Section
+                    loading={unverifiedCoursesLoading}
+                    empty={!unverifiedCourses}
+                    title="Unverified Courses"
+                >
+                    <Grid container spacing={2}>
+                        {unverifiedCourses?.map((course) => (
                             <Grid item xs={12} lg={6} xl={4} key={course._id}>
                                 <CourseCard
                                     course={course}

@@ -51,11 +51,11 @@ const CourseAppPage: React.FC = () => {
 
     let { data: meetings, isValidating: meetingsLoading } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}/meetings` : null,
-        courseMeetingsFetcher({ courseId: queryCourseId as string })
+        courseMeetingsFetcher(queryCourseId as string)
     );
 
-    announcements ||= course?.announcements;
-    meetings ||= course?.meetings;
+    announcements = announcements || course?.announcements;
+    meetings = meetings || course?.meetings;
 
     return (
         <AppLayout

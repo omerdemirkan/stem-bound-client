@@ -30,12 +30,6 @@ const Section: React.FC<Props & BoxProps> = ({
             alignItems="center"
             {...boxProps}
         >
-            {loading && <CircularProgress style={{ margin: "40px 0" }} />}
-            {!loading && empty && (
-                <Typography variant="h5" color="textSecondary">
-                    No {title} found.
-                </Typography>
-            )}
             {title || action ? (
                 <>
                     {!noDivider && <Divider light />}
@@ -54,12 +48,23 @@ const Section: React.FC<Props & BoxProps> = ({
                             }}
                         >
                             {title}
+                            {loading && (
+                                <CircularProgress
+                                    style={{ float: "right" }}
+                                    size="sm"
+                                />
+                            )}
                         </ListSubheader>
                         <span>{action}</span>
                     </div>
                 </>
             ) : null}
             {children}
+            {!loading && empty && (
+                <Typography variant="h5" color="textSecondary">
+                    No {title} found.
+                </Typography>
+            )}
         </Box>
     );
 };

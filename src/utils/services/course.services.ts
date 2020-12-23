@@ -11,6 +11,7 @@ import {
     IAnnouncement,
     IAnnouncementOriginal,
     IFetchSchoolCoursesOptions,
+    IFetchUserCoursesOptions,
 } from "../types";
 import {
     apiClient,
@@ -22,10 +23,17 @@ import {
 } from "../helpers";
 
 export function fetchCoursesByUserId(
-    userId: string
+    userId: string,
+    options?: IFetchUserCoursesOptions
 ): Promise<IApiResponse<ICourse[]>> {
     return mapResponseData(
-        apiClient.get(`/users/${userId}/courses`),
+        apiClient.get(
+            appendQueriesToUrl(`/users/${userId}/courses`, {
+                unverified: options?.unverified,
+                skip: options?.skip,
+                limit: options?.limit,
+            })
+        ),
         mapCourseData
     );
 }
@@ -95,11 +103,10 @@ export function deleteCourseById(id: string): Promise<IApiResponse<any>> {
 
 // MEETINGS
 
-export function fetchMeetingsByCourseId({
-    courseId,
-    limit,
-    skip,
-}: IFetchMeetingsOptions): Promise<IApiResponse<IMeeting[]>> {
+export function fetchMeetingsByCourseId(
+    courseId: string,
+    { limit, skip }: IFetchMeetingsOptions = {}
+): Promise<IApiResponse<IMeeting[]>> {
     const path = appendQueriesToUrl(`/courses/${courseId}/meetings`, {
         limit,
         skip,

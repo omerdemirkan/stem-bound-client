@@ -199,6 +199,8 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         });
     }
 
+    console.log(messages);
+
     return (
         <MessagingContext.Provider
             value={{

@@ -74,7 +74,11 @@ const CourseCard: React.FC<Props> = ({
                 <a>
                     <CardHeader
                         title={course.title}
-                        subheader={`${school?.name}, ${course?.meta.students.length} currently enrolled`}
+                        subheader={`${school?.name}, ${
+                            course?.meta.students.length
+                        } currently enrolled${
+                            course.verified ? "" : " - Unverified"
+                        }`}
                     />
                 </a>
             </Link>

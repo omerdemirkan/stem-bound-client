@@ -90,38 +90,6 @@ export interface ICourse {
     };
 }
 
-// COURSE SERVICE TYPES
-
-export interface IFetchMeetingsOptions {
-    courseId: string;
-    limit?: number;
-    skip?: number;
-}
-
-export interface IFetchMeetingOptions {
-    courseId: string;
-    meetingId: string;
-}
-
-export interface IUpdateMeetingOptions {
-    courseId: string;
-    meetingId: string;
-    meetingData: Partial<IMeetingOriginal>;
-}
-
-export interface ICreateMeetingsOptions {
-    courseId: string;
-}
-
-export interface IDeleteMeetingOptions {
-    courseId: string;
-    meetingId: string;
-}
-
-export interface IFetchSchoolCoursesOptions {
-    unverified: boolean;
-}
-
 export type IMeetingInput = IMeetingOriginal & { dateKey: string };
 
 export interface IMeetingDateDisplayData {
@@ -136,4 +104,44 @@ export interface IDefaultMeetingData {
     end: Date;
     url?: string;
     roomNum?: string;
+}
+
+// COURSE SERVICE TYPES
+
+export interface IFetchMeetingsOptions {
+    limit?: number;
+    skip?: number;
+}
+
+export interface IFetchMeetingOptions {
+    courseId?: string;
+    meetingId?: string;
+}
+
+export interface IUpdateMeetingOptions {
+    courseId?: string;
+    meetingId?: string;
+    meetingData?: Partial<IMeetingOriginal>;
+}
+
+export interface ICreateMeetingsOptions {
+    courseId?: string;
+}
+
+export interface IDeleteMeetingOptions {
+    courseId?: string;
+    meetingId?: string;
+}
+
+export interface IFetchSchoolCoursesOptions {
+    unverified?: boolean;
+    schoolId?: string;
+    skip?: number;
+    limit?: number;
+}
+
+export interface IFetchUserCoursesOptions {
+    unverified?: boolean;
+    skip?: number;
+    limit?: number;
 }
