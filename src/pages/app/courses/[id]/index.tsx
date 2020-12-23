@@ -11,8 +11,10 @@ import CourseAnnouncement from "../../../../components/ui/CourseAnnouncement";
 import MeetingCard from "../../../../components/ui/MeetingCard";
 import { useRouter } from "next/router";
 import {
+    announcementsFetcher,
     courseFetcher,
     courseInstructorsFetcher,
+    courseMeetingsFetcher,
     courseStudentsFetcher,
     schoolFetcher,
 } from "../../../../utils/services";
@@ -26,18 +28,34 @@ const CourseAppPage: React.FC = () => {
         queryCourseId ? `/courses/${queryCourseId}` : null,
         courseFetcher(queryCourseId as any)
     );
-    const { data: courseInstructors } = useSWR(
+    const {
+        data: courseInstructors,
+        isValidating: instructorsLoading,
+    } = useSWR(
         course?._id ? `/courses/${course?._id}/instructors` : null,
         courseInstructorsFetcher(course?._id)
     );
-    const { data: courseStudents } = useSWR(
+    const { data: courseStudents, isValidating: studentsLoading } = useSWR(
         course?._id ? `/courses/${course?._id}/students` : null,
         courseStudentsFetcher(course?._id)
     );
-    const { data: school } = useSWR(
+    const { data: school, isValidating: schoolLoading } = useSWR(
         course?.meta.school ? `/schools/${course?.meta.school}` : null,
         schoolFetcher(course?.meta.school)
     );
+
+    let { data: announcements, isValidating: announcementsLoading } = useSWR(
+        queryCourseId ? `/courses/${queryCourseId}/announcements` : null,
+        announcementsFetcher(queryCourseId as string)
+    );
+
+    let { data: meetings, isValidating: meetingsLoading } = useSWR(
+        queryCourseId ? `/courses/${queryCourseId}/meetings` : null,
+        courseMeetingsFetcher({ courseId: queryCourseId as string })
+    );
+
+    announcements ||= course?.announcements;
+    meetings ||= course?.meetings;
 
     return (
         <AppLayout
@@ -94,8 +112,12 @@ const CourseAppPage: React.FC = () => {
                             </Link>
                         </ActionBar>
 
-                        {course?.announcements.length ? (
-                            <Section title="Recent Announcements">
+                        {announcements?.length ? (
+                            <Section
+                                title="Recent Announcements"
+                                loading={announcementsLoading}
+                                empty={!announcements}
+                            >
                                 {course.announcements.map((announcement) => (
                                     <CourseAnnouncement
                                         announcement={announcement}
@@ -105,8 +127,13 @@ const CourseAppPage: React.FC = () => {
                             </Section>
                         ) : null}
 
-                        <Section spacing={10} title="Upcoming Meetings">
-                            {course?.meetings.map((meeting) => (
+                        <Section
+                            spacing={10}
+                            title="Upcoming Meetings"
+                            loading={meetingsLoading}
+                            empty={!meetings}
+                        >
+                            {meetings?.map((meeting) => (
                                 <MeetingCard
                                     courseTitle={course?.title}
                                     schoolName={school?.name}
@@ -119,7 +146,12 @@ const CourseAppPage: React.FC = () => {
                 }
                 secondaryEl={
                     <>
-                        <Section spacing={8} title="Instructors">
+                        <Section
+                            spacing={8}
+                            title="Instructors"
+                            loading={instructorsLoading}
+                            empty={!courseInstructors}
+                        >
                             {courseInstructors?.map((instructor) => (
                                 <UserCard
                                     user={instructor}
@@ -128,12 +160,14 @@ const CourseAppPage: React.FC = () => {
                             ))}
                         </Section>
 
-                        <Section spacing={8} title="Students">
-                            {courseStudents?.map((instructor) => (
-                                <UserCard
-                                    user={instructor}
-                                    key={instructor._id}
-                                />
+                        <Section
+                            spacing={8}
+                            title="Students"
+                            loading={studentsLoading}
+                            empty={!courseStudents}
+                        >
+                            {courseStudents?.map((student) => (
+                                <UserCard user={student} key={student._id} />
                             ))}
                         </Section>
                     </>

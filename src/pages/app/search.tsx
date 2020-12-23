@@ -22,14 +22,16 @@ import {
     IWithUserCoordinatesProps,
     IWithAuthProps,
     IUser,
+    EChatTypes,
 } from "../../utils/types";
 import Button from "@material-ui/core/Button";
+import useMessaging from "../../components/hooks/useMessaging";
 
 const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     coordinates,
 }) => {
     const router = useRouter();
-
+    const { refetchChats } = useMessaging();
     const searchFieldQuery = isSearchField(router.query.q)
         ? SearchField(router.query.q)
         : null;
@@ -68,8 +70,13 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
         [searchFieldQuery, coordinates]
     );
 
-    async function handleContactUser(contacted: IUser) {
-        await createChat({ meta: { users: [user._id, contacted._id] } });
+    async function handleContactUser(contactedUser: IUser) {
+        const { data: chat } = await createChat({
+            meta: { users: [user._id, contactedUser._id] },
+            type: EChatTypes.PRIVATE,
+        });
+        refetchChats();
+        router.push(`/app/messaging?id=${chat._id}`);
     }
 
     return (
@@ -107,7 +114,10 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
                 UserCardProps={{
                     contactUserEnabled: true,
                     renderFooter: (user) => (
-                        <Button onClick={() => handleContactUser(user)}>
+                        <Button
+                            onClick={() => handleContactUser(user)}
+                            color="primary"
+                        >
                             Contact
                         </Button>
                     ),

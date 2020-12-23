@@ -23,6 +23,7 @@ const messagingContextInitialState: IMessagingContextState = {
     deleteMessage: (...args) => undefined,
     restoreMessage: (...args) => undefined,
     setInspectedChat: (...args) => undefined,
+    refetchChats: () => undefined,
 };
 
 const MessagingContext = createContext(messagingContextInitialState);
@@ -37,7 +38,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
     const { user } = useContext(AuthContext);
     const { createSnackbar } = useContext(NotificationContext);
 
-    const { data: chats, isValidating: chatsLoading } = useSWR(
+    const { data: chats, isValidating: chatsLoading, revalidate } = useSWR(
         user && `/chats`,
         chatsFetcher()
     );
@@ -119,15 +120,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                             );
                         }
                     );
-                }),
-        [
-            ESocketEvents.CHAT_MESSAGE_CREATED,
-            ESocketEvents.CHAT_MESSAGE_DELETED,
-            ESocketEvents.CHAT_MESSAGE_RESTORED,
-            ESocketEvents.CHAT_MESSAGE_UPDATED,
-            ESocketEvents.CHAT_USER_STARTED_TYPING,
-            ESocketEvents.CHAT_USER_STOPPED_TYPING,
-        ]
+                })
     );
 
     function sendMessage(data: { text: string; chatId: string }) {
@@ -218,6 +211,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 usersTypingHashTable,
                 messages,
                 setUserIsTyping,
+                refetchChats: revalidate,
                 setInspectedChat: setInspectedChatId,
             }}
         >

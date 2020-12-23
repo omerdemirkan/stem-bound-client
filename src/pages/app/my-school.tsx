@@ -50,11 +50,17 @@ const MySchoolAppPage: React.FC = () => {
             unverified: true,
         })
     );
-    const { data: schoolOfficials } = useSWR(
+    const {
+        data: schoolOfficials,
+        isValidating: schoolOfficialsLoading,
+    } = useSWR(
         "/user/school/school-officials",
         schoolSchoolOfficialsFetcher((user as IStudent).meta.school)
     );
-    const { data: schoolStudents } = useSWR(
+    const {
+        data: schoolStudents,
+        isValidating: schoolStudentsLoading,
+    } = useSWR(
         "/user/school/students",
         schoolStudentsFetcher((user as IStudent).meta.school)
     );
@@ -172,7 +178,11 @@ const MySchoolAppPage: React.FC = () => {
                 }
                 secondaryEl={
                     <>
-                        <Section title="School Officials">
+                        <Section
+                            title="School Officials"
+                            loading={schoolOfficialsLoading}
+                            empty={!schoolOfficials}
+                        >
                             {schoolOfficials?.map((schoolOfficial) => (
                                 <UserCard
                                     user={schoolOfficial}
@@ -180,7 +190,11 @@ const MySchoolAppPage: React.FC = () => {
                                 />
                             ))}
                         </Section>
-                        <Section title="Students">
+                        <Section
+                            title="Students"
+                            loading={schoolStudentsLoading}
+                            empty={!schoolStudents}
+                        >
                             {schoolStudents?.map((student) => (
                                 <UserCard user={student} key={student._id} />
                             ))}

@@ -23,7 +23,7 @@ export function mapMessageData(message: IChatMessageOriginal): IChatMessage {
 export function mapChatData(chat: IChatOriginal): IChat {
     return {
         _id: chat._id,
-        messages: chat.messages.map(mapMessageData),
+        messages: chat.messages?.map(mapMessageData),
         meta: chat.meta,
         type: chat.type,
         name: chat?.name,
@@ -37,7 +37,7 @@ export function getChatMessageGroups(
     chatMessages: IChatMessage[],
     userHashTable: { [userId: string]: IUser } = {}
 ): IChatMessageGroup[] {
-    if (!chatMessages) return null;
+    if (!chatMessages?.length) return null;
     const chatMessageGroups: IChatMessageGroup[] = [];
     let i = chatMessages.length - 1;
     let groupStartIndex = i;

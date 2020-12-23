@@ -45,7 +45,10 @@ const CourseCard: React.FC<Props> = ({
     footerEl,
     onVerifyCourse,
 }) => {
-    const { data: courseInstructors } = useSWR(
+    const {
+        data: courseInstructors,
+        isValidating: courseInstructorsLoading,
+    } = useSWR(
         course?._id ? `/courses/${course?._id}/instructors` : null,
         courseInstructorsFetcher(course?._id)
     );
@@ -89,7 +92,12 @@ const CourseCard: React.FC<Props> = ({
                     )}
                 </Section>
 
-                <Section spacing={5} title="Taught by">
+                <Section
+                    spacing={5}
+                    title="Taught by"
+                    loading={courseInstructorsLoading}
+                    empty={!courseInstructors}
+                >
                     {courseInstructors?.map((instructor) => (
                         <Chip
                             avatar={

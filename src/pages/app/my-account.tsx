@@ -338,11 +338,9 @@ const MyAccountAppPage: React.FC = () => {
                         {user.role === EUserRoles.INSTRUCTOR ||
                         user.role === EUserRoles.STUDENT ? (
                             <Section
-                                title={`${
-                                    !courses.length && !coursesLoading
-                                        ? "No "
-                                        : ""
-                                }Courses`}
+                                title="Courses"
+                                loading={coursesLoading}
+                                empty={!courses}
                             >
                                 {courses?.map((course) => (
                                     <CourseCard

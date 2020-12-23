@@ -1,8 +1,8 @@
 import { IUser } from "./user.types";
 
 export enum EChatTypes {
-    "PRIVATE",
-    "GROUP",
+    PRIVATE = "PRIVATE",
+    GROUP = "GROUP",
 }
 
 export interface IChatMessageOriginal {
@@ -134,4 +134,5 @@ export interface IMessagingContextState {
     }): void;
     deleteMessage(data: { chatId: string; messageId: string });
     restoreMessage(data: { chatId: string; messageId: string });
+    refetchChats(): any;
 }

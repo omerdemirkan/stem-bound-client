@@ -1,12 +1,16 @@
 import ListSubheader from "@material-ui/core/ListSubheader";
 import Divider from "@material-ui/core/Divider";
 import Box, { BoxProps } from "@material-ui/core/Box";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
 
 interface Props {
     title?: string;
     action?: any;
     spacing?: number;
     noDivider?: boolean;
+    loading?: boolean;
+    empty?: boolean;
 }
 
 const Section: React.FC<Props & BoxProps> = ({
@@ -15,6 +19,8 @@ const Section: React.FC<Props & BoxProps> = ({
     children,
     spacing,
     noDivider,
+    loading,
+    empty,
     ...boxProps
 }) => {
     spacing = typeof spacing === "number" ? spacing : 10;
@@ -24,6 +30,12 @@ const Section: React.FC<Props & BoxProps> = ({
             alignItems="center"
             {...boxProps}
         >
+            {loading && <CircularProgress style={{ margin: "40px 0" }} />}
+            {!loading && empty && (
+                <Typography variant="h5" color="textSecondary">
+                    No {title} found.
+                </Typography>
+            )}
             {title || action ? (
                 <>
                     {!noDivider && <Divider light />}
