@@ -53,13 +53,15 @@ const MySchoolAppPage: React.FC = () => {
     const {
         data: schoolOfficials,
         isValidating: schoolOfficialsLoading,
+        error: schoolOfficialsError,
     } = useSWR(
         "/user/school/school-officials",
         schoolSchoolOfficialsFetcher((user as IStudent).meta.school)
     );
     const {
-        data: schoolStudents,
-        isValidating: schoolStudentsLoading,
+        data: students,
+        isValidating: studentsLoading,
+        error: studentsError,
     } = useSWR(
         "/user/school/students",
         schoolStudentsFetcher((user as IStudent).meta.school)
@@ -159,21 +161,14 @@ const MySchoolAppPage: React.FC = () => {
                             {school?.name}
                         </Typography>
                         <Typography>{school?.location.shortDisplay}</Typography>
-                        <Section spacing={15}>
-                            {user?.role === EUserRoles.SCHOOL_OFFICIAL &&
-                            unverifiedCourses?.length ? (
-                                <>
-                                    <Typography variant="h5" gutterBottom>
-                                        Unverified Courses
-                                    </Typography>
-                                    {paginateCourses(unverifiedCourses)}
-                                </>
-                            ) : null}
-                            <Typography variant="h5" gutterBottom>
-                                Courses
-                            </Typography>
+                        <Section title="Courses" spacing={10}>
                             {paginateCourses(courses)}
                         </Section>
+                        {unverifiedCourses && (
+                            <Section title="Unverified Courses" spacing={10}>
+                                {paginateCourses(unverifiedCourses)}
+                            </Section>
+                        )}
                     </>
                 }
                 secondaryEl={
@@ -181,7 +176,14 @@ const MySchoolAppPage: React.FC = () => {
                         <Section
                             title="School Officials"
                             loading={schoolOfficialsLoading}
-                            empty={!schoolOfficials}
+                            infoMessage={
+                                schoolOfficials?.length === 0 &&
+                                `No ${school.name} school officials have an account`
+                            }
+                            errorMessage={
+                                schoolOfficialsError &&
+                                "Couldn't load school officials, an error occured"
+                            }
                         >
                             {schoolOfficials?.map((schoolOfficial) => (
                                 <UserCard
@@ -192,10 +194,17 @@ const MySchoolAppPage: React.FC = () => {
                         </Section>
                         <Section
                             title="Students"
-                            loading={schoolStudentsLoading}
-                            empty={!schoolStudents}
+                            loading={studentsLoading}
+                            infoMessage={
+                                students?.length === 0 &&
+                                `No ${school.name} students have an account`
+                            }
+                            errorMessage={
+                                studentsError &&
+                                "Couldn't load students, an error occured"
+                            }
                         >
-                            {schoolStudents?.map((student) => (
+                            {students?.map((student) => (
                                 <UserCard user={student} key={student._id} />
                             ))}
                         </Section>

@@ -340,7 +340,14 @@ const MyAccountAppPage: React.FC = () => {
                             <Section
                                 title="Courses"
                                 loading={coursesLoading}
-                                empty={!courses}
+                                infoMessage={
+                                    courses?.length === 0 &&
+                                    `Looks like you haven't ${
+                                        user.role === EUserRoles.INSTRUCTOR
+                                            ? "created"
+                                            : "enrolled in"
+                                    } any courses`
+                                }
                             >
                                 {courses?.map((course) => (
                                     <CourseCard

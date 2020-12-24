@@ -16,10 +16,11 @@ import Section from "../../../components/ui/Section";
 
 const CoursesAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
-    const { data: courses, isValidating: coursesLoading } = useSWR(
-        `/courses`,
-        userCoursesFetcher(user._id)
-    );
+    const {
+        data: courses,
+        isValidating: coursesLoading,
+        error: coursesError,
+    } = useSWR(`/courses`, userCoursesFetcher(user._id));
     const {
         data: unverifiedCourses,
         isValidating: unverifiedCoursesLoading,
@@ -52,26 +53,25 @@ const CoursesAppPage: React.FC = () => {
                 ) : null}
             </ActionBar>
 
-            {courses && (
-                <Section loading={coursesLoading} empty={!courses}>
-                    <Grid container spacing={2}>
-                        {courses.map((course) => (
-                            <Grid item xs={12} lg={6} xl={4} key={course._id}>
-                                <CourseCard
-                                    course={course}
-                                    fullWidth
-                                    noMargin
-                                />
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Section>
-            )}
+            <Section
+                loading={coursesLoading}
+                infoMessage={courses?.length === 0 && "No courses found"}
+                errorMessage={
+                    coursesError && "Couldn't load courses, an error occured"
+                }
+            >
+                <Grid container spacing={2}>
+                    {courses?.map((course) => (
+                        <Grid item xs={12} lg={6} xl={4} key={course._id}>
+                            <CourseCard course={course} fullWidth noMargin />
+                        </Grid>
+                    ))}
+                </Grid>
+            </Section>
 
-            {unverifiedCourses && (
+            {unverifiedCourses?.length && (
                 <Section
                     loading={unverifiedCoursesLoading}
-                    empty={!unverifiedCourses}
                     title="Unverified Courses"
                 >
                     <Grid container spacing={2}>

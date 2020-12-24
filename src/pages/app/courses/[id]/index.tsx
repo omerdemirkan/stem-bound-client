@@ -29,17 +29,26 @@ const CourseAppPage: React.FC = () => {
         courseFetcher(queryCourseId as any)
     );
     const {
-        data: courseInstructors,
+        data: instructors,
         isValidating: instructorsLoading,
+        error: instructorsError,
     } = useSWR(
         course?._id ? `/courses/${course?._id}/instructors` : null,
         courseInstructorsFetcher(course?._id)
     );
-    const { data: courseStudents, isValidating: studentsLoading } = useSWR(
+    const {
+        data: students,
+        isValidating: studentsLoading,
+        error: studentsError,
+    } = useSWR(
         course?._id ? `/courses/${course?._id}/students` : null,
         courseStudentsFetcher(course?._id)
     );
-    const { data: school, isValidating: schoolLoading } = useSWR(
+    const {
+        data: school,
+        isValidating: schoolLoading,
+        error: schoolError,
+    } = useSWR(
         course?.meta.school ? `/schools/${course?.meta.school}` : null,
         schoolFetcher(course?.meta.school)
     );
@@ -49,13 +58,17 @@ const CourseAppPage: React.FC = () => {
         announcementsFetcher(queryCourseId as string)
     );
 
-    let { data: meetings, isValidating: meetingsLoading } = useSWR(
+    let {
+        data: upcomingMeetings,
+        isValidating: upcomingMeetingsLoading,
+        error: upcomingMeetingsError,
+    } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}/meetings` : null,
         courseMeetingsFetcher(queryCourseId as string)
     );
 
     announcements = announcements || course?.announcements;
-    meetings = meetings || course?.meetings;
+    upcomingMeetings = upcomingMeetings || course?.meetings;
 
     return (
         <AppLayout
@@ -116,9 +129,8 @@ const CourseAppPage: React.FC = () => {
                             <Section
                                 title="Recent Announcements"
                                 loading={announcementsLoading}
-                                empty={!announcements}
                             >
-                                {course.announcements.map((announcement) => (
+                                {announcements.map((announcement) => (
                                     <CourseAnnouncement
                                         announcement={announcement}
                                         key={announcement._id}
@@ -130,10 +142,17 @@ const CourseAppPage: React.FC = () => {
                         <Section
                             spacing={10}
                             title="Upcoming Meetings"
-                            loading={meetingsLoading}
-                            empty={!meetings}
+                            loading={upcomingMeetingsLoading}
+                            infoMessage={
+                                upcomingMeetings?.length === 0 &&
+                                "No upcoming meetings"
+                            }
+                            errorMessage={
+                                upcomingMeetingsError &&
+                                "Couldn't load upcoming meetings, an error occured"
+                            }
                         >
-                            {meetings?.map((meeting) => (
+                            {upcomingMeetings?.map((meeting) => (
                                 <MeetingCard
                                     courseTitle={course?.title}
                                     schoolName={school?.name}
@@ -150,9 +169,16 @@ const CourseAppPage: React.FC = () => {
                             spacing={8}
                             title="Instructors"
                             loading={instructorsLoading}
-                            empty={!courseInstructors}
+                            infoMessage={
+                                instructors?.length === 0 &&
+                                "No instructors for this course"
+                            }
+                            errorMessage={
+                                instructorsError &&
+                                "Couldn't load instructors, an error occured"
+                            }
                         >
-                            {courseInstructors?.map((instructor) => (
+                            {instructors?.map((instructor) => (
                                 <UserCard
                                     user={instructor}
                                     key={instructor._id}
@@ -164,9 +190,15 @@ const CourseAppPage: React.FC = () => {
                             spacing={8}
                             title="Students"
                             loading={studentsLoading}
-                            empty={!courseStudents}
+                            infoMessage={
+                                students?.length === 0 && "No students enrolled"
+                            }
+                            errorMessage={
+                                studentsError &&
+                                "Couldn't load students, an error occured"
+                            }
                         >
-                            {courseStudents?.map((student) => (
+                            {students?.map((student) => (
                                 <UserCard user={student} key={student._id} />
                             ))}
                         </Section>

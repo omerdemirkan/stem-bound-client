@@ -46,8 +46,9 @@ const CourseCard: React.FC<Props> = ({
     onVerifyCourse,
 }) => {
     const {
-        data: courseInstructors,
-        isValidating: courseInstructorsLoading,
+        data: instructors,
+        isValidating: instructorsLoading,
+        error: instructorsError,
     } = useSWR(
         course?._id ? `/courses/${course?._id}/instructors` : null,
         courseInstructorsFetcher(course?._id)
@@ -99,10 +100,13 @@ const CourseCard: React.FC<Props> = ({
                 <Section
                     spacing={5}
                     title="Taught by"
-                    loading={courseInstructorsLoading}
-                    empty={!courseInstructors}
+                    loading={instructorsLoading}
+                    errorMessage={
+                        instructorsError &&
+                        "Couldn't load instructor, an error occured"
+                    }
                 >
-                    {courseInstructors?.map((instructor) => (
+                    {instructors?.map((instructor) => (
                         <Chip
                             avatar={
                                 <Avatar

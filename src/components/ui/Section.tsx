@@ -10,7 +10,8 @@ interface Props {
     spacing?: number;
     noDivider?: boolean;
     loading?: boolean;
-    empty?: boolean;
+    infoMessage?: string;
+    errorMessage?: string;
 }
 
 const Section: React.FC<Props & BoxProps> = ({
@@ -20,7 +21,8 @@ const Section: React.FC<Props & BoxProps> = ({
     spacing,
     noDivider,
     loading,
-    empty,
+    infoMessage,
+    errorMessage,
     ...boxProps
 }) => {
     spacing = typeof spacing === "number" ? spacing : 10;
@@ -60,9 +62,14 @@ const Section: React.FC<Props & BoxProps> = ({
                 </>
             ) : null}
             {children}
-            {!loading && empty && (
-                <Typography variant="h5" color="textSecondary">
-                    No {title} found.
+            {infoMessage && (
+                <Typography paragraph color="textSecondary">
+                    {infoMessage}
+                </Typography>
+            )}
+            {errorMessage && (
+                <Typography paragraph color="secondary">
+                    {errorMessage}
                 </Typography>
             )}
         </Box>
