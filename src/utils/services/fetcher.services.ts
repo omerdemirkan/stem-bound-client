@@ -9,9 +9,10 @@ import {
 import {
     IFetchMeetingsOptions,
     IFetchSearchDataOptions,
-    IFetchChatsOptions,
+    IFetchChatArrayOptions,
     IFetchSchoolCoursesOptions,
     IFetchUserCoursesOptions,
+    IFetchMessageArrayOptions,
 } from "../types";
 import { fetchSearchData } from "./search.services";
 import {
@@ -55,16 +56,19 @@ export function searchDataFetcher(options: IFetchSearchDataOptions) {
     return async () => (await fetchSearchData(options)).data;
 }
 
-export function chatsFetcher(options?: IFetchChatsOptions) {
+export function chatsFetcher(options?: IFetchChatArrayOptions) {
     return async () => (await fetchChats(options)).data;
 }
 
-export function chatFetcher(id: string) {
-    return async () => (await fetchChatById(id)).data;
+export function chatFetcher(chatId: string) {
+    return async () => (await fetchChatById(chatId)).data;
 }
 
-export function messagesFetcher(chatId: string) {
-    return async () => (await fetchMessagesByChatId({ chatId })).data;
+export function messagesFetcher(
+    chatId: string,
+    options?: IFetchMessageArrayOptions
+) {
+    return async () => (await fetchMessagesByChatId(chatId, options)).data;
 }
 
 export function announcementsFetcher(courseId: string) {

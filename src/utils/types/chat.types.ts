@@ -1,3 +1,4 @@
+import { ECourseTypes } from "./course.types";
 import { IUser } from "./user.types";
 
 export enum EChatTypes {
@@ -93,36 +94,21 @@ export interface IMessagingContextState {
 
 // SERVICE TYPES
 
-export interface IFetchChatsOptions {
-    limit?: number;
-    skip?: number;
+export interface IFetchChatArrayOptions {
     userIds?: string[];
-    exact?: number;
-}
-
-export interface IFetchMessagesOptions {
-    chatId: string;
-    limit?: number;
+    exactMatch?: number;
+    type?: ECourseTypes;
     skip?: number;
+    limit?: number;
+    before?: Date;
+    after?: Date;
 }
 
-export interface IFetchMessageOptions {
-    messageId: string;
-    chatId: string;
-}
-
-export interface ICreateMessageOptions {
-    chatId: string;
-    text: string;
-}
-
-export interface IUpdateMessageOptions {
-    chatId: string;
-    messageId: string;
-    text: string;
-}
-
-export interface IDeleteMessageOptions {
-    chatId: string;
-    messageId: string;
+export interface IFetchMessageArrayOptions {
+    skip?: number;
+    limit?: number;
+    before?: Date;
+    after?: Date;
+    unread?: boolean;
+    text?: string;
 }
