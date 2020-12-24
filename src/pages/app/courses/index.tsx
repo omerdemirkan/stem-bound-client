@@ -20,13 +20,13 @@ const CoursesAppPage: React.FC = () => {
         data: courses,
         isValidating: coursesLoading,
         error: coursesError,
-    } = useSWR(`/courses`, userCoursesFetcher(user._id));
+    } = useSWR(`/courses`, userCoursesFetcher(user._id, user.role));
     const {
         data: unverifiedCourses,
         isValidating: unverifiedCoursesLoading,
     } = useSWR(
         `/courses?unverified=true`,
-        userCoursesFetcher(user._id, { unverified: true })
+        userCoursesFetcher(user._id, user.role, { unverified: true })
     );
 
     return (
@@ -69,7 +69,7 @@ const CoursesAppPage: React.FC = () => {
                 </Grid>
             </Section>
 
-            {unverifiedCourses?.length && (
+            {unverifiedCourses?.length !== 0 && (
                 <Section
                     loading={unverifiedCoursesLoading}
                     title="Unverified Courses"

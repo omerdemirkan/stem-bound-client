@@ -108,40 +108,34 @@ export interface IDefaultMeetingData {
 
 // COURSE SERVICE TYPES
 
-export interface IFetchMeetingsOptions {
-    limit?: number;
-    skip?: number;
-}
-
-export interface IFetchMeetingOptions {
-    courseId?: string;
-    meetingId?: string;
-}
-
-export interface IUpdateMeetingOptions {
-    courseId?: string;
-    meetingId?: string;
-    meetingData?: Partial<IMeetingOriginal>;
-}
-
-export interface ICreateMeetingsOptions {
-    courseId?: string;
-}
-
-export interface IDeleteMeetingOptions {
-    courseId?: string;
-    meetingId?: string;
-}
-
-export interface IFetchSchoolCoursesOptions {
+export interface IFetchCourseArrayOptions {
     unverified?: boolean;
     schoolId?: string;
     skip?: number;
     limit?: number;
 }
 
+export interface IFetchMeetingArrayOptions {
+    limit?: number;
+    skip?: number;
+    before?: Date;
+    after?: Date;
+    type?: EMeetingTypes;
+    roomNum?: string;
+}
+
+export interface IFetchAnnouncementArrayOptions {
+    limit?: number;
+    skip?: number;
+    before?: Date;
+    after?: Date;
+}
+
 export interface IFetchUserCoursesOptions {
-    unverified?: boolean;
     skip?: number;
     limit?: number;
+    unverified?: boolean;
+    schoolId?: string;
+    instructorId?: string;
+    studentId?: string;
 }

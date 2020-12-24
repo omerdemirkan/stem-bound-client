@@ -18,6 +18,7 @@ export interface IChatMessageOriginal {
     _id?: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    pictureUrl?: string;
 }
 
 export interface IChatOriginal {
@@ -46,6 +47,7 @@ export interface IChatMessage {
     _id?: string;
     createdAt?: string;
     updatedAt?: string;
+    pictureUrl?: string;
 }
 
 export interface IChat {

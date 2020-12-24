@@ -17,6 +17,7 @@ export function mapMessageData(message: IChatMessageOriginal): IChatMessage {
         isEdited: message.isEdited,
         createdAt: message.createdAt.toString(),
         updatedAt: message.updatedAt.toString(),
+        pictureUrl: message?.pictureUrl,
     };
 }
 

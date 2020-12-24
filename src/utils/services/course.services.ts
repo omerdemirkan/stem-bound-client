@@ -1,17 +1,16 @@
 import {
     ICourse,
     IApiResponse,
-    ISchool,
-    IFetchMeetingsOptions,
-    IFetchMeetingOptions,
+    IFetchMeetingArrayOptions,
     IMeeting,
-    ICreateMeetingsOptions,
-    IDeleteMeetingOptions,
     ICourseOriginal,
     IAnnouncement,
     IAnnouncementOriginal,
-    IFetchSchoolCoursesOptions,
+    IFetchCourseArrayOptions,
     IFetchUserCoursesOptions,
+    EUserRoles,
+    IMeetingOriginal,
+    IFetchAnnouncementArrayOptions,
 } from "../types";
 import {
     apiClient,
@@ -22,16 +21,18 @@ import {
     mapMeetingData,
 } from "../helpers";
 
-export function fetchCoursesByUserId(
-    userId: string,
-    options?: IFetchUserCoursesOptions
+export function fetchCourses(
+    options: IFetchUserCoursesOptions = {}
 ): Promise<IApiResponse<ICourse[]>> {
     return mapResponseData(
         apiClient.get(
-            appendQueriesToUrl(`/users/${userId}/courses`, {
-                unverified: options?.unverified,
-                skip: options?.skip,
-                limit: options?.limit,
+            appendQueriesToUrl(`/courses`, {
+                skip: options.skip,
+                limit: options.limit,
+                unverified: options.unverified,
+                school_id: options.schoolId,
+                instructor_id: options.instructorId,
+                student_id: options.studentId,
             })
         ),
         mapCourseData
@@ -39,13 +40,22 @@ export function fetchCoursesByUserId(
 }
 
 export function fetchCoursesBySchoolId(
-    id: string,
-    options?: IFetchSchoolCoursesOptions
+    schoolId: string,
+    options: IFetchCourseArrayOptions = {}
 ): Promise<IApiResponse<ICourse[]>> {
-    return mapResponseData(
-        apiClient.get(appendQueriesToUrl(`/schools/${id}/courses`, options)),
-        mapCourseData
-    );
+    return fetchCourses({ schoolId, ...options });
+}
+
+export function fetchCoursesByUserId(
+    userId: string,
+    role: EUserRoles,
+    options: IFetchCourseArrayOptions = {}
+) {
+    return fetchCourses({
+        instructorId: role === EUserRoles.INSTRUCTOR && userId,
+        studentId: role === EUserRoles.STUDENT && userId,
+        ...options,
+    });
 }
 
 export function fetchCourseById(
@@ -55,12 +65,6 @@ export function fetchCourseById(
         apiClient.get(`/courses/${courseId}`),
         mapCourseData
     );
-}
-
-export function fetchCourseByIdUnmapped(
-    courseId: string
-): Promise<IApiResponse<ICourseOriginal>> {
-    return apiClient.get(`/courses/${courseId}`);
 }
 
 export function enrollByCourseId(id: string): Promise<IApiResponse<any>> {
@@ -105,11 +109,15 @@ export function deleteCourseById(id: string): Promise<IApiResponse<any>> {
 
 export function fetchMeetingsByCourseId(
     courseId: string,
-    { limit, skip }: IFetchMeetingsOptions = {}
+    options: IFetchMeetingArrayOptions = {}
 ): Promise<IApiResponse<IMeeting[]>> {
     const path = appendQueriesToUrl(`/courses/${courseId}/meetings`, {
-        limit,
-        skip,
+        limit: options.limit,
+        skip: options.skip,
+        before: options.before?.toString(),
+        after: options.after?.toString(),
+        type: options.type,
+        roomNum: options.type,
     });
     return mapResponseData(apiClient.get(path), mapMeetingData);
 }
@@ -117,7 +125,10 @@ export function fetchMeetingsByCourseId(
 export function fetchMeetingById({
     meetingId,
     courseId,
-}: IFetchMeetingOptions): Promise<IApiResponse<IMeeting>> {
+}: {
+    meetingId: string;
+    courseId: string;
+}): Promise<IApiResponse<IMeeting>> {
     return mapResponseData(
         apiClient.get(`/courses/${courseId}/meetings/${meetingId}`),
         mapMeetingData
@@ -126,7 +137,7 @@ export function fetchMeetingById({
 
 export function createMeetings(
     meetingsData,
-    { courseId }: ICreateMeetingsOptions
+    { courseId }: { courseId: string }
 ): Promise<IApiResponse<IMeeting[]>> {
     return mapResponseData(
         apiClient.post(`/courses/${courseId}/meetings/`, {
@@ -136,11 +147,10 @@ export function createMeetings(
     );
 }
 
-export function updateMeetingById({
-    courseId,
-    meetingId,
-    meetingData,
-}): Promise<IApiResponse<IMeeting>> {
+export function updateMeetingById(
+    meetingData: Partial<IMeetingOriginal>,
+    { courseId, meetingId }: { courseId: string; meetingId: string }
+): Promise<IApiResponse<IMeeting>> {
     return mapResponseData(
         apiClient.patch(
             `/courses/${courseId}/meetings/${meetingId}`,
@@ -153,7 +163,10 @@ export function updateMeetingById({
 export function deleteMeetingById({
     courseId,
     meetingId,
-}: IDeleteMeetingOptions): Promise<IApiResponse<any>> {
+}: {
+    courseId: string;
+    meetingId: string;
+}): Promise<IApiResponse<any>> {
     return mapResponseData(
         apiClient.delete(`/courses/${courseId}/meetings/${meetingId}`),
         mapMeetingData
@@ -162,11 +175,16 @@ export function deleteMeetingById({
 
 export function fetchAnnouncementsByCourseId(
     courseId: string,
-    options?: { skip?: number; limit?: number }
+    options: IFetchAnnouncementArrayOptions = {}
 ): Promise<IApiResponse<IAnnouncement[]>> {
     return mapResponseData(
         apiClient.get(
-            appendQueriesToUrl(`/courses/${courseId}/announcements`, options)
+            appendQueriesToUrl(`/courses/${courseId}/announcements`, {
+                skip: options.skip,
+                limit: options.limit,
+                before: options.before?.toString(),
+                after: options.after?.toString(),
+            })
         ),
         mapAnnouncementData
     );
@@ -174,7 +192,7 @@ export function fetchAnnouncementsByCourseId(
 
 export function fetchAnnouncementById(
     { courseId, announcementId }: { courseId: string; announcementId: string },
-    options?: { skip?: number; limit?: number }
+    options: { skip?: number; limit?: number } = {}
 ): Promise<IApiResponse<IAnnouncement[]>> {
     return mapResponseData(
         apiClient.get(

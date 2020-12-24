@@ -1,18 +1,19 @@
 import {
     fetchCourseById,
     fetchMeetingsByCourseId,
-    fetchCoursesByUserId,
+    fetchCourses,
     fetchAnnouncementsByCourseId,
-    fetchCourseByIdUnmapped,
     fetchCoursesBySchoolId,
+    fetchCoursesByUserId,
 } from "./course.services";
 import {
-    IFetchMeetingsOptions,
+    IFetchMeetingArrayOptions,
     IFetchSearchDataOptions,
     IFetchChatArrayOptions,
-    IFetchSchoolCoursesOptions,
+    IFetchCourseArrayOptions,
     IFetchUserCoursesOptions,
     IFetchMessageArrayOptions,
+    EUserRoles,
 } from "../types";
 import { fetchSearchData } from "./search.services";
 import {
@@ -34,22 +35,23 @@ export function courseFetcher(id: string) {
     return async () => (await fetchCourseById(id))?.data;
 }
 
-export function courseFetcherUnmapped(id: string) {
-    return async () => (await fetchCourseByIdUnmapped(id))?.data;
-}
-
 export function courseMeetingsFetcher(
     courseId: string,
-    options?: IFetchMeetingsOptions
+    options?: IFetchMeetingArrayOptions
 ) {
     return async () => (await fetchMeetingsByCourseId(courseId, options))?.data;
 }
 
+export function coursesFetcher(options?: IFetchUserCoursesOptions) {
+    return async () => (await fetchCourses(options)).data;
+}
+
 export function userCoursesFetcher(
     userId: string,
-    options?: IFetchUserCoursesOptions
+    role: EUserRoles,
+    options?: IFetchCourseArrayOptions
 ) {
-    return async () => (await fetchCoursesByUserId(userId, options)).data;
+    return async () => (await fetchCoursesByUserId(userId, role, options)).data;
 }
 
 export function searchDataFetcher(options: IFetchSearchDataOptions) {
@@ -85,7 +87,7 @@ export function userSchoolFetcher(userId: string) {
 
 export function schoolCoursesFetcher(
     schoolId: string,
-    options?: IFetchSchoolCoursesOptions
+    options?: IFetchCourseArrayOptions
 ) {
     return async () => (await fetchCoursesBySchoolId(schoolId, options)).data;
 }

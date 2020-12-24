@@ -54,11 +54,11 @@ const MyAccountAppPage: React.FC = () => {
         storedUser?._id ? `/user/${storedUser?._id}` : null,
         userFetcher(storedUser?._id)
     );
+    const user = fetchedUser || storedUser;
     const { data: courses, isValidating: coursesLoading } = useSWR(
         storedUser?._id ? `/user/courses` : null,
-        userCoursesFetcher(storedUser._id)
+        userCoursesFetcher(user._id, user.role)
     );
-    const user = fetchedUser || storedUser;
 
     const classes = useStyles();
 
