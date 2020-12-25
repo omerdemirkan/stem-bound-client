@@ -28,7 +28,7 @@ const UpdateMeetingAppPage: React.FC = () => {
     );
     const { data: meetings, mutate: mutateMeetings } = useSWR(
         queryCourseId && `/courses/${queryCourseId}/meetings`,
-        courseMeetingsFetcher({ courseId: queryCourseId as any })
+        courseMeetingsFetcher(queryCourseId as string)
     );
     const { data: school } = useSWR(
         course?.meta.school && `/schools/${course?.meta.school}`,
@@ -49,10 +49,9 @@ const UpdateMeetingAppPage: React.FC = () => {
     }
 
     async function handleUpdateCourse(meetingData: IMeetingOriginal) {
-        const { data: updatedMeeting } = await updateMeetingById({
+        const { data: updatedMeeting } = await updateMeetingById(meetingData, {
             courseId: course._id,
             meetingId: meetingData._id,
-            meetingData: meetingData,
         });
         createSnackbar({
             text: "Meeting successfully updated",

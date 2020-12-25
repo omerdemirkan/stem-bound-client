@@ -7,10 +7,6 @@ export enum ESearchFields {
     "INSTRUCTOR" = EUserRoles.INSTRUCTOR,
 }
 
-export enum ESearchFieldTypes {
-    USER = "user",
-}
-
 export interface ISearchOption {
     display: string;
     searchField: ESearchFields;
@@ -18,9 +14,6 @@ export interface ISearchOption {
 
 export type ISearchData = IUser | ISchool;
 
-export type IFetchSearchDataOptions = (
+export type IFetchSearchDataOptions =
     | IFetchUserArrayOptions
-    | IFetchSchoolsOptions
-) & {
-    field: ESearchFields;
-};
+    | IFetchSchoolsOptions;

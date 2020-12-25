@@ -5,9 +5,9 @@ import withAuth from "../../../../../components/hoc/withAuth";
 import { useRouter } from "next/router";
 import {
     createMeetings,
-    courseFetcherUnmapped,
     schoolFetcher,
     courseMeetingsFetcher,
+    courseFetcher,
 } from "../../../../../utils/services";
 import {
     IMeetingOriginal,
@@ -27,12 +27,12 @@ const CreateMeetingAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
     const { data: course, error, mutate: mutateCourse } = useSWR(
-        queryCourseId ? `/courses/${queryCourseId}#unmapped` : null,
-        courseFetcherUnmapped(queryCourseId as any)
+        queryCourseId ? `/courses/${queryCourseId}` : null,
+        courseFetcher(queryCourseId as any)
     );
     const { data: meetings, mutate: mutateMeetings } = useSWR(
         queryCourseId && `/courses/${queryCourseId}/meetings`,
-        courseMeetingsFetcher({ courseId: queryCourseId as any })
+        courseMeetingsFetcher(queryCourseId as any)
     );
     const { data: school } = useSWR(
         course?.meta.school && `/schools/${course?.meta.school}`,

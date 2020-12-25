@@ -2,22 +2,25 @@ import {
     IFetchSearchDataOptions,
     ISearchData,
     IApiResponse,
-    ESearchFieldTypes,
+    ESearchFields,
+    EUserRoles,
+    IFetchUserArrayOptions,
 } from "../types";
-import { getSearchFieldType } from "../helpers";
 import { fetchUsers } from ".";
 
-export async function fetchSearchData({
-    field,
-    ...options
-}: IFetchSearchDataOptions): Promise<IApiResponse<ISearchData[]>> {
+export async function fetchSearchData(
+    searchField: ESearchFields,
+    options: IFetchSearchDataOptions
+): Promise<IApiResponse<ISearchData[]>> {
     try {
-        switch (getSearchFieldType(field)) {
-            case ESearchFieldTypes.USER:
-                return (await fetchUsers({
-                    role: field as any,
-                    ...(options as any),
-                })) as any;
+        switch (searchField) {
+            case ESearchFields.INSTRUCTOR:
+            case ESearchFields.SCHOOL_OFFICIAL:
+            case ESearchFields.STUDENT:
+                return (await fetchUsers(
+                    searchField as any,
+                    options as IFetchUserArrayOptions
+                )) as any;
             default:
                 throw new Error(
                     "Invalid search searchField passed to fetchSearchData"

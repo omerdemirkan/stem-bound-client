@@ -25,7 +25,7 @@ const MeetingsAppPage: React.FC = () => {
     );
     const { data: meetings, error: fetchCourseMeetingsError } = useSWR(
         queryCourseId && `/courses/${queryCourseId}/meetings`,
-        courseMeetingsFetcher({ courseId: queryCourseId as any })
+        courseMeetingsFetcher(queryCourseId as string)
     );
     const { data: school } = useSWR(
         course?.meta.school && `/schools/${course?.meta.school}`,

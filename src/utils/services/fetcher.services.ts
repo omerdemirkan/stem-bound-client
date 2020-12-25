@@ -15,6 +15,7 @@ import {
     IFetchMessageArrayOptions,
     EUserRoles,
     IFetchUserArrayOptions,
+    ESearchFields,
 } from "../types";
 import { fetchSearchData } from "./search.services";
 import {
@@ -56,8 +57,11 @@ export function userCoursesFetcher(
     return async () => (await fetchCoursesByUserId(userId, role, options)).data;
 }
 
-export function searchDataFetcher(options: IFetchSearchDataOptions) {
-    return async () => (await fetchSearchData(options)).data;
+export function searchDataFetcher(
+    searchField: ESearchFields,
+    options: IFetchSearchDataOptions
+) {
+    return async () => (await fetchSearchData(searchField, options)).data;
 }
 
 export function chatsFetcher(options?: IFetchChatArrayOptions) {
