@@ -1,8 +1,14 @@
+import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { clone, mapMessageData, mapUserData } from "../../utils/helpers";
-import { messagesFetcher, chatsFetcher } from "../../utils/services";
 import {
+    messagesFetcher,
+    chatsFetcher,
+    createChat,
+} from "../../utils/services";
+import {
+    EChatTypes,
     ESocketEvents,
     IChatMessage,
     IMessagingContextState,
@@ -23,7 +29,7 @@ const messagingContextInitialState: IMessagingContextState = {
     deleteMessage: (...args) => undefined,
     restoreMessage: (...args) => undefined,
     setInspectedChat: (...args) => undefined,
-    refetchChats: () => undefined,
+    contactUser: (...args) => undefined,
 };
 
 const MessagingContext = createContext(messagingContextInitialState);
@@ -37,6 +43,8 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
 
     const { user } = useContext(AuthContext);
     const { createSnackbar } = useContext(NotificationContext);
+
+    const router = useRouter();
 
     const {
         data: chats,
@@ -218,6 +226,15 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         });
     }
 
+    async function contactUser(userId: string) {
+        const { data: chat } = await createChat({
+            meta: { users: [user._id, userId] },
+            type: EChatTypes.PRIVATE,
+        });
+        refetchChats();
+        router.push(`/app/messaging?id=${chat._id}`);
+    }
+
     return (
         <MessagingContext.Provider
             value={{
@@ -230,7 +247,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 usersTypingHashTable,
                 messages,
                 setUserIsTyping,
-                refetchChats: refetchChats,
+                contactUser,
                 setInspectedChat: setInspectedChatId,
             }}
         >

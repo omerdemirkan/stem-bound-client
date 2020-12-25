@@ -34,7 +34,6 @@ interface Props {
     fullWidth?: boolean;
     noMargin?: boolean;
     footerEl?: any;
-    onVerifyCourse?: (courseId: string) => any;
 }
 
 const CourseCard: React.FC<Props> = ({
@@ -43,7 +42,6 @@ const CourseCard: React.FC<Props> = ({
     fullWidth,
     noMargin,
     footerEl,
-    onVerifyCourse,
 }) => {
     const {
         data: instructors,
@@ -127,27 +125,7 @@ const CourseCard: React.FC<Props> = ({
                     ))}
                 </Section>
             </CardContent>
-            <CardActions>
-                {user?.role === EUserRoles.SCHOOL_OFFICIAL ? (
-                    <Button variant="contained" color="primary">
-                        Contact Instructor
-                    </Button>
-                ) : null}
-                {user?.role === EUserRoles.SCHOOL_OFFICIAL &&
-                !course?.verified &&
-                (user as ISchoolOfficial)?.meta.school ===
-                    course?.meta.school &&
-                onVerifyCourse ? (
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => onVerifyCourse(course?._id)}
-                    >
-                        Verify Course
-                    </Button>
-                ) : null}
-                {footerEl}
-            </CardActions>
+            <CardActions>{footerEl}</CardActions>
         </Card>
     );
 };

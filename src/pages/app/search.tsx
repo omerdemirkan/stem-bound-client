@@ -31,7 +31,7 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     coordinates,
 }) => {
     const router = useRouter();
-    const { refetchChats } = useMessaging();
+    const { contactUser } = useMessaging();
     const searchFieldQuery = isSearchField(router.query.q)
         ? SearchField(router.query.q)
         : null;
@@ -69,15 +69,6 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
         [searchFieldQuery, coordinates]
     );
 
-    async function handleContactUser(contactedUser: IUser) {
-        const { data: chat } = await createChat({
-            meta: { users: [user._id, contactedUser._id] },
-            type: EChatTypes.PRIVATE,
-        });
-        refetchChats();
-        router.push(`/app/messaging?id=${chat._id}`);
-    }
-
     return (
         <AppLayout header="Search">
             <Head>
@@ -114,7 +105,7 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
                     contactUserEnabled: true,
                     renderFooter: (user) => (
                         <Button
-                            onClick={() => handleContactUser(user)}
+                            onClick={() => contactUser(user._id)}
                             color="primary"
                         >
                             Contact

@@ -91,7 +91,7 @@ export interface IMessagingContextState {
     }): void;
     deleteMessage(data: { chatId: string; messageId: string });
     restoreMessage(data: { chatId: string; messageId: string });
-    refetchChats(): any;
+    contactUser(userId: string): any;
 }
 
 // SERVICE TYPES

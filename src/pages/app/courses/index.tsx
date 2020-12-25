@@ -25,7 +25,10 @@ const CoursesAppPage: React.FC = () => {
         data: unverifiedCourses,
         isValidating: unverifiedCoursesLoading,
     } = useSWR(
-        `/courses?unverified=true`,
+        user.role === EUserRoles.INSTRUCTOR ||
+            user.role === EUserRoles.SCHOOL_OFFICIAL
+            ? `/courses?unverified=true`
+            : null,
         userCoursesFetcher(user._id, user.role, { unverified: true })
     );
 

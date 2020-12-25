@@ -11,12 +11,15 @@ import {
     enrollByCourseId,
     dropByCourseId,
     udpateCourseVerification,
+    createChat,
 } from "../../utils/services";
 import {
+    EChatTypes,
     ENotificationTypes,
     EUserRoles,
     ICourse,
     IStudent,
+    IUser,
 } from "../../utils/types";
 import { useContext } from "react";
 import Section from "../../components/ui/Section";
@@ -27,9 +30,13 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import NotificationContext from "../../components/contexts/NotificationContext";
+import MessagingContext from "../../components/contexts/MessagingContext";
+import { useRouter } from "next/router";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
+    const { contactUser } = useContext(MessagingContext);
+    const router = useRouter();
     const { data: school } = useSWR(
         "/user/school",
         userSchoolFetcher(user._id)
@@ -45,7 +52,10 @@ const MySchoolAppPage: React.FC = () => {
         data: unverifiedCourses,
         revalidate: revalidateUnverifiedCourses,
     } = useSWR(
-        "/user/school/courses?unverified=1",
+        user.role === EUserRoles.INSTRUCTOR ||
+            user.role === EUserRoles.SCHOOL_OFFICIAL
+            ? "/user/school/courses?unverified=1"
+            : null,
         schoolCoursesFetcher((user as IStudent).meta.school, {
             unverified: true,
         })
@@ -108,7 +118,10 @@ const MySchoolAppPage: React.FC = () => {
         });
     }
 
-    async function handleVerifyCourse(courseId: string) {
+    async function handleUpdateCourseVerification(
+        courseId: string,
+        verified: boolean
+    ) {
         await udpateCourseVerification(courseId, true);
         revalidateCourses();
         revalidateUnverifiedCourses();
@@ -122,26 +135,62 @@ const MySchoolAppPage: React.FC = () => {
                         course={course}
                         key={course._id}
                         fullWidth
-                        onVerifyCourse={handleVerifyCourse}
                         footerEl={
-                            user?.role === EUserRoles.STUDENT &&
-                            (course?.meta.students.includes(user?._id) ? (
-                                <Button
-                                    color="secondary"
-                                    onClick={() => handleDropCourse(course._id)}
-                                >
-                                    Drop Course
-                                </Button>
-                            ) : (
-                                <Button
-                                    color="primary"
-                                    onClick={() =>
-                                        handleEnrollInCourse(course._id)
-                                    }
-                                >
-                                    Enroll
-                                </Button>
-                            ))
+                            <>
+                                {user?.role === EUserRoles.STUDENT &&
+                                    (course?.meta.students.includes(
+                                        user?._id
+                                    ) ? (
+                                        <Button
+                                            color="secondary"
+                                            onClick={() =>
+                                                handleDropCourse(course._id)
+                                            }
+                                        >
+                                            Drop Course
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            color="primary"
+                                            onClick={() =>
+                                                handleEnrollInCourse(course._id)
+                                            }
+                                        >
+                                            Enroll
+                                        </Button>
+                                    ))}
+                                {user?.role === EUserRoles.SCHOOL_OFFICIAL && (
+                                    <>
+                                        <Button
+                                            color="primary"
+                                            onClick={() =>
+                                                contactUser(
+                                                    course.meta.instructors[0]
+                                                )
+                                            }
+                                        >
+                                            Contact Instructor
+                                        </Button>
+                                        <Button
+                                            color={
+                                                course.verified
+                                                    ? "secondary"
+                                                    : "primary"
+                                            }
+                                            onClick={() =>
+                                                handleUpdateCourseVerification(
+                                                    course?._id,
+                                                    !course.verified
+                                                )
+                                            }
+                                        >
+                                            {course.verified
+                                                ? "Revoke Course Verification"
+                                                : "Verify Course"}
+                                        </Button>
+                                    </>
+                                )}
+                            </>
                         }
                     />
                 </Grid>
