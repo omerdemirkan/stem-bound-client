@@ -19,10 +19,11 @@ import { IApiResponse } from "../types/api.types";
 import { API_BASE_URL } from "../../config";
 
 export function fetchUsers(
-    options: IFetchUserArrayOptions
+    role: EUserRoles,
+    options: IFetchUserArrayOptions = {}
 ): Promise<IApiResponse<IUser[]>> {
     const url = appendQueriesToUrl("/users", {
-        role: options.role,
+        role,
         skip: options.skip,
         limit: options.limit,
         text: options.text,
@@ -55,8 +56,7 @@ export function fetchSchoolOfficialsBySchoolId(
     schoolId: string,
     options?: IFetchUserArrayOptions
 ): Promise<IApiResponse<ISchoolOfficial[]>> {
-    return fetchUsers({
-        role: EUserRoles.SCHOOL_OFFICIAL,
+    return fetchUsers(EUserRoles.SCHOOL_OFFICIAL, {
         schoolId,
         ...options,
     }) as Promise<IApiResponse<ISchoolOfficial[]>>;
@@ -66,8 +66,7 @@ export function fetchStudentsBySchoolId(
     schoolId: string,
     options?: IFetchUserArrayOptions
 ): Promise<IApiResponse<IStudent[]>> {
-    return fetchUsers({
-        role: EUserRoles.STUDENT,
+    return fetchUsers(EUserRoles.STUDENT, {
         schoolId,
         ...options,
     }) as Promise<IApiResponse<IStudent[]>>;
@@ -77,8 +76,7 @@ export function fetchInstructorsByCourseId(
     courseId: string,
     options?: IFetchUserArrayOptions
 ): Promise<IApiResponse<IInstructor[]>> {
-    return fetchUsers({
-        role: EUserRoles.INSTRUCTOR,
+    return fetchUsers(EUserRoles.INSTRUCTOR, {
         courseId,
         ...options,
     }) as Promise<IApiResponse<IInstructor[]>>;
@@ -88,8 +86,7 @@ export function fetchStudentsByCourseId(
     courseId: string,
     options?: IFetchUserArrayOptions
 ): Promise<IApiResponse<IStudent[]>> {
-    return fetchUsers({
-        role: EUserRoles.STUDENT,
+    return fetchUsers(EUserRoles.STUDENT, {
         courseId,
         ...options,
     }) as Promise<IApiResponse<IStudent[]>>;

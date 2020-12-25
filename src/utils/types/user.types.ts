@@ -99,7 +99,6 @@ export interface ISchoolOfficial extends IBaseUser {
 export type IUser = ISchoolOfficial | IInstructor | IStudent;
 
 export interface IFetchUserArrayOptions {
-    role: EUserRoles;
     limit?: number;
     skip?: number;
     geoIp?: boolean;

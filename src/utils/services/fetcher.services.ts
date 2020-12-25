@@ -14,6 +14,7 @@ import {
     IFetchUserCoursesOptions,
     IFetchMessageArrayOptions,
     EUserRoles,
+    IFetchUserArrayOptions,
 } from "../types";
 import { fetchSearchData } from "./search.services";
 import {
@@ -28,8 +29,13 @@ import {
     fetchStudentsByCourseId,
     fetchSchoolOfficialsBySchoolId,
     fetchStudentsBySchoolId,
+    fetchUsers,
 } from "./user.services";
 import { fetchSchoolById } from "./school.services";
+
+export function coursesFetcher(options?: IFetchUserCoursesOptions) {
+    return async () => (await fetchCourses(options)).data;
+}
 
 export function courseFetcher(id: string) {
     return async () => (await fetchCourseById(id))?.data;
@@ -40,10 +46,6 @@ export function courseMeetingsFetcher(
     options?: IFetchMeetingArrayOptions
 ) {
     return async () => (await fetchMeetingsByCourseId(courseId, options))?.data;
-}
-
-export function coursesFetcher(options?: IFetchUserCoursesOptions) {
-    return async () => (await fetchCourses(options)).data;
 }
 
 export function userCoursesFetcher(
@@ -77,6 +79,13 @@ export function announcementsFetcher(courseId: string) {
     return async () => (await fetchAnnouncementsByCourseId(courseId)).data;
 }
 
+export function usersFetcher(
+    userRole: EUserRoles,
+    options?: IFetchUserArrayOptions
+) {
+    return async () => (await fetchUsers(userRole, options)).data;
+}
+
 export function userFetcher(userId: string) {
     return async () => (await fetchUserById(userId)).data;
 }
@@ -93,11 +102,11 @@ export function schoolCoursesFetcher(
 }
 
 export function schoolSchoolOfficialsFetcher(schoolId: string) {
-    return async () => (await fetchSchoolOfficialsBySchoolId(schoolId)).data;
+    return usersFetcher(EUserRoles.SCHOOL_OFFICIAL, { schoolId });
 }
 
 export function schoolStudentsFetcher(schoolId: string) {
-    return async () => (await fetchStudentsBySchoolId(schoolId)).data;
+    return usersFetcher(EUserRoles.STUDENT, { schoolId });
 }
 
 export function schoolFetcher(schoolId: string) {
@@ -105,9 +114,9 @@ export function schoolFetcher(schoolId: string) {
 }
 
 export function courseInstructorsFetcher(courseId: string) {
-    return async () => (await fetchInstructorsByCourseId(courseId)).data;
+    return usersFetcher(EUserRoles.INSTRUCTOR, { courseId });
 }
 
 export function courseStudentsFetcher(courseId: string) {
-    return async () => (await fetchStudentsByCourseId(courseId)).data;
+    return usersFetcher(EUserRoles.STUDENT, { courseId });
 }
