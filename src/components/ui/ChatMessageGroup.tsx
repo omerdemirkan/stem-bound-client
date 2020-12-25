@@ -10,6 +10,7 @@ import useSWR from "swr";
 import { userFetcher } from "../../utils/services";
 import { reverseMap } from "../../utils/helpers";
 import ChatMessage from "./ChatMessage";
+import { useFetchOnce } from "../hooks/useFetchOnce";
 
 interface Props {
     chatMessageGroup: IChatMessageGroup;
@@ -23,7 +24,7 @@ const ChatMessageGroup: React.FC<Props & IChatMessageEventHandlers> = ({
     editedMessageText,
     ...chatMessageHandlers
 }) => {
-    const { data: sender } = useSWR(
+    let { data: sender } = useFetchOnce(
         `/users/${chatMessageGroup?.senderId}`,
         userFetcher(chatMessageGroup?.senderId),
         // Avoiding pointless refreshing
