@@ -4,7 +4,7 @@ import { API_BASE_URL } from "../../config";
 import fetch from "isomorphic-unfetch";
 
 export function appendQueriesToUrl(url: string, queries: object = {}): string {
-    const keys = Object.keys(queries).filter((a) => queries[a]);
+    const keys = Object.keys(queries).filter((a) => queries[a] !== undefined);
     if (!keys.length) return url;
     keys.forEach((key: string, index) => {
         url += `${!index ? "?" : "&"}${key}=${queries[key]}`;

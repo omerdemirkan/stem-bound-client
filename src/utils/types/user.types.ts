@@ -98,15 +98,18 @@ export interface ISchoolOfficial extends IBaseUser {
 
 export type IUser = ISchoolOfficial | IInstructor | IStudent;
 
-export interface IFetchUsersOptions {
+export interface IFetchUserArrayOptions {
     role: EUserRoles;
-    coordinates: ICoordinates;
     limit?: number;
     skip?: number;
-    sortField?: string;
-    sortDirection?: number;
-    exclude: string[];
-    text: string;
+    geoIp?: boolean;
+    coordinates?: ICoordinates;
+    exclude?: string[];
+    userIds?: string[];
+    text?: string;
+    schoolId?: string;
+    courseId?: string;
+    chatId?: string;
 }
 
 export interface IValidateUserRoleOptions {

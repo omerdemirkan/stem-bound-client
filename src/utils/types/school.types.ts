@@ -90,8 +90,9 @@ export interface ISchool {
 
 export interface IFetchSchoolsOptions {
     coordinates?: ICoordinates;
-    text?: string;
     limit?: number;
     skip?: number;
-    withSchoolOfficials?: boolean;
+    text?: string;
+    geoIp?: string;
+    filterObj?: any;
 }

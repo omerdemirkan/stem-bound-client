@@ -1,4 +1,4 @@
-import { EUserRoles, IUser, IFetchUsersOptions } from "./user.types";
+import { EUserRoles, IUser, IFetchUserArrayOptions } from "./user.types";
 import { ISchool, IFetchSchoolsOptions } from "./school.types";
 
 export enum ESearchFields {
@@ -19,7 +19,7 @@ export interface ISearchOption {
 export type ISearchData = IUser | ISchool;
 
 export type IFetchSearchDataOptions = (
-    | IFetchUsersOptions
+    | IFetchUserArrayOptions
     | IFetchSchoolsOptions
 ) & {
     field: ESearchFields;

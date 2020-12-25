@@ -7,20 +7,17 @@ import {
 } from "../helpers";
 import { IApiResponse } from "../types/api.types";
 
-export function fetchSchools({
-    coordinates,
-    limit,
-    skip,
-    text,
-    withSchoolOfficials,
-}: IFetchSchoolsOptions): Promise<IApiResponse<ISchool[]>> {
+export function fetchSchools(
+    options: IFetchSchoolsOptions = {}
+): Promise<IApiResponse<ISchool[]>> {
     const path = appendQueriesToUrl("/schools", {
-        lat: coordinates?.latitude,
-        long: coordinates?.longitude,
-        limit,
-        skip,
-        text,
-        with_school_officials: withSchoolOfficials,
+        lat: options.coordinates?.latitude,
+        long: options.coordinates?.longitude,
+        limit: options.limit,
+        skip: options.skip,
+        text: options.text,
+        geo_ip: options.geoIp,
+        filter: options.filterObj,
     });
     return mapResponseData(apiClient.get(path), mapSchoolData);
 }

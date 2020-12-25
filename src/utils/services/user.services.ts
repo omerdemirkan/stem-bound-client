@@ -1,10 +1,11 @@
 import {
     IUserOriginal,
     ISchoolOfficial,
-    IFetchUsersOptions,
+    IFetchUserArrayOptions,
     IUser,
     IStudent,
     IInstructor,
+    EUserRoles,
 } from "../types/user.types";
 import { ISchool } from "../types";
 import {
@@ -17,74 +18,81 @@ import {
 import { IApiResponse } from "../types/api.types";
 import { API_BASE_URL } from "../../config";
 
-export function fetchUsers({
-    coordinates,
-    role,
-    limit,
-    skip,
-    sortDirection,
-    sortField,
-    exclude,
-    text,
-}: IFetchUsersOptions): Promise<IApiResponse<IUser[]>> {
+export function fetchUsers(
+    options: IFetchUserArrayOptions
+): Promise<IApiResponse<IUser[]>> {
     const url = appendQueriesToUrl("/users", {
-        role,
-        skip,
-        limit,
-        text,
-        sort_field: sortField,
-        sort_direction: sortDirection,
-        long: coordinates?.longitude,
-        lat: coordinates?.latitude,
-        exclude: exclude?.join(",") || undefined,
+        role: options.role,
+        skip: options.skip,
+        limit: options.limit,
+        text: options.text,
+        long: options.coordinates?.longitude,
+        lat: options.coordinates?.latitude,
+        exclude: options.exclude?.join(",") || undefined,
+        userIds: options.userIds?.join(",") || undefined,
+        geo_ip: options.geoIp,
+        chat_id: options.chatId,
+        course_id: options.courseId,
+        school_id: options.schoolId,
     });
     return mapResponseData(apiClient.get(url), mapUserData);
 }
 
-export function fetchUserById(id: string): Promise<IApiResponse<IUser>> {
-    return mapResponseData(apiClient.get(`/users/${id}`), mapUserData);
+export function fetchUserById(userId: string): Promise<IApiResponse<IUser>> {
+    return mapResponseData(apiClient.get(`/users/${userId}`), mapUserData);
 }
 
 export function fetchUserSchoolById(
-    id: string
+    userId: string
 ): Promise<IApiResponse<ISchool>> {
-    return mapResponseData(apiClient.get(`/users/${id}/school`), mapSchoolData);
+    return mapResponseData(
+        apiClient.get(`/users/${userId}/school`),
+        mapSchoolData
+    );
 }
 
 export function fetchSchoolOfficialsBySchoolId(
-    id: string
+    schoolId: string,
+    options?: IFetchUserArrayOptions
 ): Promise<IApiResponse<ISchoolOfficial[]>> {
-    return mapResponseData(
-        apiClient.get(`/schools/${id}/school-officials`),
-        mapUserData
-    );
+    return fetchUsers({
+        role: EUserRoles.SCHOOL_OFFICIAL,
+        schoolId,
+        ...options,
+    }) as Promise<IApiResponse<ISchoolOfficial[]>>;
 }
 
 export function fetchStudentsBySchoolId(
-    id: string
+    schoolId: string,
+    options?: IFetchUserArrayOptions
 ): Promise<IApiResponse<IStudent[]>> {
-    return mapResponseData(
-        apiClient.get(`/schools/${id}/students`),
-        mapUserData
-    );
+    return fetchUsers({
+        role: EUserRoles.STUDENT,
+        schoolId,
+        ...options,
+    }) as Promise<IApiResponse<IStudent[]>>;
 }
 
 export function fetchInstructorsByCourseId(
-    id: string
+    courseId: string,
+    options?: IFetchUserArrayOptions
 ): Promise<IApiResponse<IInstructor[]>> {
-    return mapResponseData(
-        apiClient.get(`/courses/${id}/instructors`),
-        mapUserData
-    );
+    return fetchUsers({
+        role: EUserRoles.INSTRUCTOR,
+        courseId,
+        ...options,
+    }) as Promise<IApiResponse<IInstructor[]>>;
 }
 
 export function fetchStudentsByCourseId(
-    id: string
+    courseId: string,
+    options?: IFetchUserArrayOptions
 ): Promise<IApiResponse<IStudent[]>> {
-    return mapResponseData(
-        apiClient.get(`/courses/${id}/students`),
-        mapUserData
-    );
+    return fetchUsers({
+        role: EUserRoles.STUDENT,
+        courseId,
+        ...options,
+    }) as Promise<IApiResponse<IStudent[]>>;
 }
 
 export function updateUserById(
