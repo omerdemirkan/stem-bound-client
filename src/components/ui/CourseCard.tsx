@@ -18,7 +18,7 @@ import Section from "./Section";
 
 const useStyles = makeStyles({
     card: {
-        margin: "20px 0",
+        margin: "10px 0",
     },
     cardContent: {
         paddingTop: "20px",

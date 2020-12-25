@@ -11,6 +11,7 @@ import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
 import TextField from "@material-ui/core/TextField";
 import { useEffect, useState } from "react";
 import useDebounce from "../hooks/useDebounce";
+import Button from "@material-ui/core/Button";
 
 interface SearchProps {
     searchField: ESearchFields;
@@ -18,6 +19,7 @@ interface SearchProps {
     onSearchFieldChanged(searchField: ESearchFields): void;
     onSearchStringChanged?(searchString: string): void;
     UserCardProps?: Partial<UserCardProps>;
+    loading?: boolean;
 }
 
 const Search: React.FC<SearchProps> = ({
@@ -26,6 +28,7 @@ const Search: React.FC<SearchProps> = ({
     UserCardProps,
     onSearchFieldChanged,
     onSearchStringChanged,
+    loading,
 }) => {
     const [searchString, setSearchString] = useState<string>("");
 
@@ -73,6 +76,8 @@ const Search: React.FC<SearchProps> = ({
                     <TextField
                         value={searchString}
                         onChange={(e) => setSearchString(e.target.value)}
+                        placeholder="Search"
+                        style={{ marginLeft: "30px" }}
                     />
                 )}
             </ActionBar>

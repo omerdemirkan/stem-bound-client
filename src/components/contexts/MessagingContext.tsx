@@ -38,10 +38,12 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
     const { user } = useContext(AuthContext);
     const { createSnackbar } = useContext(NotificationContext);
 
-    const { data: chats, isValidating: chatsLoading, revalidate } = useSWR(
-        user && `/chats`,
-        chatsFetcher()
-    );
+    const {
+        data: chats,
+        isValidating: chatsLoading,
+        revalidate: refetchChats,
+        mutate: mutateChats,
+    } = useSWR(user && `/chats`, chatsFetcher());
 
     const { data: messages, mutate: mutateMessages } = useSWR(
         inspectedChatId ? `/chats/${inspectedChatId}/messages` : null,
@@ -88,6 +90,23 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                                 mapMessageData(message),
                                 chatId
                             );
+                            mutateChats(function (prevChats) {
+                                let newChats = clone(prevChats || chats);
+                                const updatedChatIndex = newChats.findIndex(
+                                    (chat) => chat._id === chatId
+                                );
+                                newChats[
+                                    updatedChatIndex
+                                ].lastMessageSentAt = new Date().toString();
+                                newChats.sort(
+                                    (a, b) =>
+                                        new Date(
+                                            b.lastMessageSentAt
+                                        ).getTime() -
+                                        new Date(a.lastMessageSentAt).getTime()
+                                );
+                                return newChats;
+                            });
                         }
                     );
 
@@ -199,8 +218,6 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         });
     }
 
-    console.log(messages);
-
     return (
         <MessagingContext.Provider
             value={{
@@ -213,7 +230,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 usersTypingHashTable,
                 messages,
                 setUserIsTyping,
-                refetchChats: revalidate,
+                refetchChats: refetchChats,
                 setInspectedChat: setInspectedChatId,
             }}
         >

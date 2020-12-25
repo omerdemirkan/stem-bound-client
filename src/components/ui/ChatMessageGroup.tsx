@@ -25,7 +25,15 @@ const ChatMessageGroup: React.FC<Props & IChatMessageEventHandlers> = ({
 }) => {
     const { data: sender } = useSWR(
         `/users/${chatMessageGroup?.senderId}`,
-        userFetcher(chatMessageGroup?.senderId)
+        userFetcher(chatMessageGroup?.senderId),
+        // Avoiding pointless refreshing
+        {
+            refreshInterval: 99999999,
+            refreshWhenHidden: false,
+            refreshWhenOffline: false,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false,
+        }
     );
     const senderFullName = `${sender?.firstName} ${sender?.lastName}`;
 
