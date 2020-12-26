@@ -4,12 +4,10 @@ import withAuth from "../../components/hoc/withAuth";
 import Search from "../../components/containers/Search";
 import withUserCoordinates from "../../components/hoc/withUserCoordinates";
 import AuthContext from "../../components/contexts/AuthContext";
+import Button from "@material-ui/core/Button";
+import useMessaging from "../../components/hooks/useMessaging";
 import useSWR from "swr";
-import {
-    searchDataFetcher,
-    createChat,
-    createMessage,
-} from "../../utils/services";
+import { searchDataFetcher } from "../../utils/services";
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import {
@@ -21,11 +19,7 @@ import {
     ESearchFields,
     IWithUserCoordinatesProps,
     IWithAuthProps,
-    IUser,
-    EChatTypes,
 } from "../../utils/types";
-import Button from "@material-ui/core/Button";
-import useMessaging from "../../components/hooks/useMessaging";
 
 const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     coordinates,
@@ -113,7 +107,6 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
                     ),
                 }}
             />
-            <style jsx>{``}</style>
         </AppLayout>
     );
 };

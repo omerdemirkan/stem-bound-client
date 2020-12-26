@@ -14,6 +14,7 @@ export interface INavigationDataButton {
         | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
     iconPath?: string;
     path: string;
+    completion: EPageCompletion;
 }
 
 export interface IBreadCrumb {
@@ -21,4 +22,9 @@ export interface IBreadCrumb {
     href?: string;
     as?: string;
     shallow?: boolean;
+}
+
+export enum EPageCompletion {
+    UNDER_CONSTRUCTION = "UNDER_CONSTRUCTION",
+    COMPLETE = "COMPLETE",
 }

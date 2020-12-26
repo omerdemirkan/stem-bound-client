@@ -1,4 +1,4 @@
-import { INavigationData, EUserRoles } from "../types";
+import { INavigationData, EUserRoles, EPageCompletion } from "../types";
 
 import { ESearchFields } from "../types/search.types";
 
@@ -18,31 +18,37 @@ export const instructorNavigationData: INavigationData = {
             text: "DASHBOARD",
             Icon: HomeIcon,
             path: "/app/dashboard",
+            completion: EPageCompletion.UNDER_CONSTRUCTION,
         },
         {
             text: "SEARCH",
             Icon: SearchIcon,
             path: `/app/search?q=${ESearchFields.SCHOOL_OFFICIAL}`,
+            completion: EPageCompletion.COMPLETE,
         },
         {
             text: "SCHEDULE",
             Icon: CalendarTodayIcon,
             path: "/app/schedule",
+            completion: EPageCompletion.UNDER_CONSTRUCTION,
         },
         {
             text: "MESSAGING",
             Icon: MailIcon,
             path: "/app/messaging",
+            completion: EPageCompletion.COMPLETE,
         },
         {
             text: "MY COURSES",
             Icon: LibraryBooksIcon,
             path: "/app/courses",
+            completion: EPageCompletion.COMPLETE,
         },
         {
             text: "NOTIFICATIONS",
             Icon: InfoIcon,
             path: "/app/notifications",
+            completion: EPageCompletion.UNDER_CONSTRUCTION,
         },
     ],
 };
@@ -54,36 +60,43 @@ export const studentNavigationData: INavigationData = {
             text: "DASHBOARD",
             Icon: HomeIcon,
             path: "/app/dashboard",
+            completion: EPageCompletion.UNDER_CONSTRUCTION,
         },
         {
             text: "SEARCH",
             Icon: SearchIcon,
             path: `/app/search?q=${ESearchFields.INSTRUCTOR}`,
+            completion: EPageCompletion.COMPLETE,
         },
         {
             text: "SCHEDULE",
             Icon: CalendarTodayIcon,
             path: "/app/schedule",
+            completion: EPageCompletion.UNDER_CONSTRUCTION,
         },
         {
             text: "MESSAGING",
             Icon: MailIcon,
             path: "/app/messaging",
+            completion: EPageCompletion.COMPLETE,
         },
         {
             text: "MY COURSES",
             Icon: LibraryBooksIcon,
             path: "/app/courses",
+            completion: EPageCompletion.COMPLETE,
         },
         {
             text: "NOTIFICATIONS",
             Icon: InfoIcon,
             path: "/app/notifications",
+            completion: EPageCompletion.UNDER_CONSTRUCTION,
         },
         {
             text: "MY SCHOOL",
             Icon: SchoolIcon,
             path: "/app/my-school",
+            completion: EPageCompletion.COMPLETE,
         },
     ],
 };
@@ -95,26 +108,31 @@ export const schoolOfficialNavigationData: INavigationData = {
             text: "DASHBOARD",
             Icon: HomeIcon,
             path: "/app/dashboard",
+            completion: EPageCompletion.UNDER_CONSTRUCTION,
         },
         {
             text: "SEARCH",
             Icon: SearchIcon,
             path: `/app/search?q=${ESearchFields.INSTRUCTOR}`,
+            completion: EPageCompletion.COMPLETE,
         },
         {
             text: "MESSAGING",
             Icon: MailIcon,
             path: "/app/messaging",
+            completion: EPageCompletion.COMPLETE,
         },
         {
             text: "NOTIFICATIONS",
             Icon: InfoIcon,
             path: "/app/notifications",
+            completion: EPageCompletion.UNDER_CONSTRUCTION,
         },
         {
             text: "MY SCHOOL",
             Icon: SchoolIcon,
             path: "/app/my-school",
+            completion: EPageCompletion.COMPLETE,
         },
     ],
 };

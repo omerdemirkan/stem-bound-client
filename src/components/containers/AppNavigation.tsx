@@ -5,7 +5,11 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import useNavigationData from "../hooks/useNavigationData";
 import { useRouter } from "next/router";
-import { ENotificationTypes, INavigationDataButton } from "../../utils/types";
+import {
+    ENotificationTypes,
+    INavigationDataButton,
+    EPageCompletion,
+} from "../../utils/types";
 import Link from "next/link";
 import Button from "@material-ui/core/Button";
 import { useContext, useRef, useState } from "react";
@@ -16,6 +20,8 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import NotificationContext from "../contexts/NotificationContext";
 import Divider from "@material-ui/core/Divider";
+import Badge from "@material-ui/core/Badge";
+import BuildIcon from "@material-ui/icons/Build";
 
 const useStyles = makeStyles({
     listItem: {
@@ -101,6 +107,7 @@ const AppNavigation: React.FC = () => {
                     path,
                     Icon,
                     text,
+                    completion,
                 }: INavigationDataButton) {
                     const selected = path.includes(router.pathname);
                     return (
@@ -124,6 +131,15 @@ const AppNavigation: React.FC = () => {
                                             selected ? "primary" : "secondary"
                                         }
                                     />
+                                    {completion ===
+                                    EPageCompletion.UNDER_CONSTRUCTION ? (
+                                        <BuildIcon
+                                            style={{
+                                                width: "12px",
+                                            }}
+                                            color="disabled"
+                                        />
+                                    ) : null}
                                 </ListItem>
                             </a>
                         </Link>

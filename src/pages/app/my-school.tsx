@@ -3,25 +3,6 @@ import withAuth from "../../components/hoc/withAuth";
 import useSWR from "swr";
 import Head from "next/head";
 import AuthContext from "../../components/contexts/AuthContext";
-import {
-    userSchoolFetcher,
-    schoolCoursesFetcher,
-    schoolSchoolOfficialsFetcher,
-    schoolStudentsFetcher,
-    enrollByCourseId,
-    dropByCourseId,
-    udpateCourseVerification,
-    createChat,
-} from "../../utils/services";
-import {
-    EChatTypes,
-    ENotificationTypes,
-    EUserRoles,
-    ICourse,
-    IStudent,
-    IUser,
-} from "../../utils/types";
-import { useContext } from "react";
 import Section from "../../components/ui/Section";
 import SplitScreen from "../../components/ui/SplitScreen";
 import CourseCard from "../../components/ui/CourseCard";
@@ -31,12 +12,26 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import NotificationContext from "../../components/contexts/NotificationContext";
 import MessagingContext from "../../components/contexts/MessagingContext";
-import { useRouter } from "next/router";
+import { useContext } from "react";
+import {
+    userSchoolFetcher,
+    schoolCoursesFetcher,
+    schoolSchoolOfficialsFetcher,
+    schoolStudentsFetcher,
+    enrollByCourseId,
+    dropByCourseId,
+    udpateCourseVerification,
+} from "../../utils/services";
+import {
+    ENotificationTypes,
+    EUserRoles,
+    ICourse,
+    IStudent,
+} from "../../utils/types";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
     const { contactUser } = useContext(MessagingContext);
-    const router = useRouter();
     const { data: school } = useSWR(
         "/user/school",
         userSchoolFetcher(user._id)
@@ -44,13 +39,13 @@ const MySchoolAppPage: React.FC = () => {
 
     const { createAlert, createSnackbar } = useContext(NotificationContext);
 
-    const { data: courses, revalidate: revalidateCourses } = useSWR(
+    const { data: courses, revalidate: refetchCourses } = useSWR(
         "/user/school/courses",
         schoolCoursesFetcher((user as IStudent).meta.school)
     );
     const {
         data: unverifiedCourses,
-        revalidate: revalidateUnverifiedCourses,
+        revalidate: refetchUnverifiedCourses,
     } = useSWR(
         user.role === EUserRoles.INSTRUCTOR ||
             user.role === EUserRoles.SCHOOL_OFFICIAL
@@ -84,7 +79,7 @@ const MySchoolAppPage: React.FC = () => {
                 text: "Successfully enrolled in course",
                 type: "success",
             });
-            await revalidateCourses();
+            await refetchCourses();
         } catch (e) {
             createSnackbar({
                 text: "An error occured: Cannot enroll",
@@ -107,7 +102,7 @@ const MySchoolAppPage: React.FC = () => {
                         text: "Course successfully dropped",
                         type: "success",
                     });
-                    await revalidateCourses();
+                    await refetchCourses();
                 } catch (e) {
                     createSnackbar({
                         text: "An error occured: Cannot drop course",
@@ -122,15 +117,15 @@ const MySchoolAppPage: React.FC = () => {
         courseId: string,
         verified: boolean
     ) {
-        await udpateCourseVerification(courseId, true);
-        revalidateCourses();
-        revalidateUnverifiedCourses();
+        await udpateCourseVerification(courseId, verified);
+        refetchCourses();
+        refetchUnverifiedCourses();
     }
 
     const paginateCourses = (courses: ICourse[]) => (
         <Grid container spacing={2} style={{ maxWidth: "100%" }}>
             {courses?.map((course) => (
-                <Grid item xs={12} xl={6}>
+                <Grid item xs={12} xl={6} key={course._id}>
                     <CourseCard
                         course={course}
                         key={course._id}
