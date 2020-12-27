@@ -42,6 +42,7 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
         searchDataFetcher(searchFieldQuery, {
             exclude: [user._id],
             text: searchStringQuery,
+            coordinates,
         })
     );
 
