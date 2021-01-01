@@ -1,23 +1,20 @@
 import UserCard, { UserCardProps } from "../ui/UserCard";
 import { ESearchFields, ISearchData } from "../../utils/types/search.types";
-import { searchFieldInputOptions } from "../../utils/constants";
 import { EUserRoles, IUser } from "../../utils/types";
 import Grid from "@material-ui/core/Grid";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import ActionBar from "../ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
 import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
 import TextField from "@material-ui/core/TextField";
 import { useEffect, useState } from "react";
 import useDebounce from "../hooks/useDebounce";
-import Button from "@material-ui/core/Button";
+import SearchForm from "../forms/SearchForm";
 
 interface SearchProps {
     searchField: ESearchFields;
     searchData: ISearchData[];
     onSearchFieldChanged(searchField: ESearchFields): void;
-    onSearchStringChanged?(searchString: string): void;
+    onSearchStringChanged(searchString: string): void;
     UserCardProps?: Partial<UserCardProps>;
     loading?: boolean;
 }
@@ -30,18 +27,6 @@ const Search: React.FC<SearchProps> = ({
     onSearchStringChanged,
     loading,
 }) => {
-    const [searchString, setSearchString] = useState<string>("");
-
-    const debouncedSearchString = useDebounce(searchString, 500);
-
-    useEffect(
-        function () {
-            onSearchStringChanged &&
-                onSearchStringChanged(debouncedSearchString);
-        },
-        [debouncedSearchString]
-    );
-
     return (
         <div>
             <ActionBar
@@ -52,32 +37,10 @@ const Search: React.FC<SearchProps> = ({
                 }
             >
                 {isSearchField(searchField) && (
-                    <Select
-                        value={searchField}
-                        labelId="Search Fields"
-                        onChange={(e) =>
-                            onSearchFieldChanged(
-                                e.target.value as ESearchFields
-                            )
-                        }
-                    >
-                        {searchFieldInputOptions.map((option, index) => (
-                            <MenuItem
-                                value={option.searchField}
-                                key={option.searchField}
-                            >
-                                {option.display}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                )}
-
-                {onSearchStringChanged && (
-                    <TextField
-                        value={searchString}
-                        onChange={(e) => setSearchString(e.target.value)}
-                        placeholder="Search"
-                        style={{ marginLeft: "30px" }}
+                    <SearchForm
+                        searchField={searchField}
+                        onSearchFieldChanged={onSearchFieldChanged}
+                        onSearchStringChanged={onSearchStringChanged}
                     />
                 )}
             </ActionBar>
