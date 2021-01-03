@@ -1,38 +1,65 @@
 import { searchFieldInputOptions } from "../../utils/constants";
-import { ESearchFields } from "../../utils/types";
+import {
+    ESearchFields,
+    ISearchQuery,
+    IWithUserCoordinatesProps,
+} from "../../utils/types";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useDebounce from "../hooks/useDebounce";
+import AuthContext from "../contexts/AuthContext";
+import withUserCoordinates from "../hoc/withUserCoordinates";
 
 interface Props {
     searchField: ESearchFields;
-    onSearchFieldChanged: (searchField: ESearchFields) => any;
-    onSearchStringChanged: (searchString: string) => any;
+    onSearchQueryChanged: (query: ISearchQuery) => any;
 }
 
-const SearchForm: React.FC<Props> = ({
+const SearchForm: React.FC<Props & Partial<IWithUserCoordinatesProps>> = ({
     searchField,
-    onSearchFieldChanged,
-    onSearchStringChanged,
+    onSearchQueryChanged,
+    coordinates,
 }) => {
+    const { user } = useContext(AuthContext);
+
+    const [searchQuery, setSearchQuery] = useState<ISearchQuery>({
+        searchField,
+        exclude: [user._id],
+        coordinates,
+    });
+
+    const updateSearchQuery = (updates: Partial<ISearchQuery>) =>
+        setSearchQuery((prev) => ({ ...prev, ...updates }));
+
     const [searchString, setSearchString] = useState<string>("");
     const debouncedSearchString = useDebounce(searchString, 500);
+
     useEffect(
         function () {
-            onSearchStringChanged(debouncedSearchString);
+            updateSearchQuery({ text: searchString });
         },
         [debouncedSearchString]
     );
+
+    useEffect(
+        function () {
+            onSearchQueryChanged(searchQuery);
+        },
+        [searchQuery]
+    );
+
     return (
         <div>
             <Select
                 value={searchField}
                 labelId="Search Fields"
                 onChange={(e) =>
-                    onSearchFieldChanged(e.target.value as ESearchFields)
+                    updateSearchQuery({
+                        searchField: e.target.value as ESearchFields,
+                    })
                 }
             >
                 {searchFieldInputOptions.map((option, index) => (
@@ -54,4 +81,4 @@ const SearchForm: React.FC<Props> = ({
     );
 };
 
-export default SearchForm;
+export default withUserCoordinates(SearchForm);

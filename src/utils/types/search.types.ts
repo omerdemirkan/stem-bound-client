@@ -17,3 +17,7 @@ export type ISearchData = IUser | ISchool;
 export type IFetchSearchDataOptions =
     | IFetchUserArrayOptions
     | IFetchSchoolsOptions;
+
+export interface ISearchQuery extends IFetchUserArrayOptions {
+    searchField: ESearchFields;
+}

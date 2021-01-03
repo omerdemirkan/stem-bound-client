@@ -2,66 +2,43 @@ import AppLayout from "../../components/containers/AppLayout";
 import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
 import Search from "../../components/containers/Search";
-import withUserCoordinates from "../../components/hoc/withUserCoordinates";
-import AuthContext from "../../components/contexts/AuthContext";
 import Button from "@material-ui/core/Button";
 import useMessaging from "../../components/hooks/useMessaging";
 import useSWR from "swr";
 import { searchDataFetcher } from "../../utils/services";
-import { useEffect, useState, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import {
-    isSearchField,
-    SearchField,
-    appendQueriesToUrl,
-} from "../../utils/helpers";
-import {
-    ESearchFields,
-    IWithUserCoordinatesProps,
-    IWithAuthProps,
-} from "../../utils/types";
+import { getDefaultSearchField, isSearchField } from "../../utils/helpers";
+import { ISearchQuery, IWithAuthProps } from "../../utils/types";
+import AuthContext from "../../components/contexts/AuthContext";
 
-const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
-    coordinates,
-}) => {
+const SearchAppPage: React.FC<IWithAuthProps> = () => {
     const router = useRouter();
-    const { contactUser } = useMessaging();
-    const searchFieldQuery = isSearchField(router.query.q)
-        ? SearchField(router.query.q)
-        : null;
-    const searchStringQuery = router.query.text as string;
-
     const { user } = useContext(AuthContext);
+    const { contactUser } = useMessaging();
 
-    const { data: searchData, revalidate } = useSWR(
-        searchFieldQuery
-            ? `/search/${searchFieldQuery}${
-                  searchStringQuery ? `?text=${searchStringQuery}` : ""
-              }`
+    const [searchQuery, setSearchQuery] = useState<ISearchQuery>({
+        searchField: getDefaultSearchField(user.role),
+    });
+
+    const { data: searchData } = useSWR(
+        isSearchField(searchQuery?.searchField)
+            ? `/search/${searchQuery.searchField}?query=${JSON.stringify(
+                  searchQuery
+              )}`
             : null,
-        searchDataFetcher(searchFieldQuery, {
-            exclude: [user._id],
-            text: searchStringQuery,
-            coordinates,
-        })
+        searchDataFetcher(searchQuery?.searchField as any, searchQuery)
     );
-
-    const [searchField, setSearchField] = useState<ESearchFields>();
 
     useEffect(
         function () {
             if (
-                coordinates &&
-                searchFieldQuery &&
-                searchFieldQuery !== (searchField as any)
-            ) {
-                revalidate();
-                setSearchField(searchFieldQuery as any);
-            } else if (!searchFieldQuery) {
+                searchQuery.searchField &&
+                !isSearchField(searchQuery.searchField)
+            )
                 router.push("/app/dashboard");
-            }
         },
-        [searchFieldQuery, coordinates]
+        [searchQuery]
     );
 
     return (
@@ -70,32 +47,10 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
                 <title>STEM-bound - Search</title>
             </Head>
             <Search
-                searchField={searchField}
+                searchField={searchQuery.searchField}
                 searchData={searchData}
-                onSearchFieldChanged={(searchField) =>
-                    router.push(
-                        appendQueriesToUrl(router.pathname, {
-                            ...router.query,
-                            q: searchField,
-                        }),
-                        undefined,
-                        {
-                            shallow: true,
-                        }
-                    )
-                }
-                onSearchStringChanged={(searchString) =>
-                    router.push(
-                        appendQueriesToUrl(router.pathname, {
-                            ...router.query,
-                            text: searchString,
-                        }),
-                        undefined,
-                        {
-                            shallow: true,
-                        }
-                    )
-                }
+                query={searchQuery}
+                onSearchQueryChanged={setSearchQuery}
                 UserCardProps={{
                     contactUserEnabled: true,
                     renderFooter: (user) => (
@@ -112,4 +67,4 @@ const SearchAppPage: React.FC<IWithUserCoordinatesProps & IWithAuthProps> = ({
     );
 };
 
-export default withAuth(withUserCoordinates(SearchAppPage));
+export default withAuth(SearchAppPage);

@@ -1,31 +1,32 @@
 import UserCard, { UserCardProps } from "../ui/UserCard";
-import { ESearchFields, ISearchData } from "../../utils/types/search.types";
+import {
+    ESearchFields,
+    ISearchData,
+    ISearchQuery,
+} from "../../utils/types/search.types";
 import { EUserRoles, IUser } from "../../utils/types";
 import Grid from "@material-ui/core/Grid";
 import ActionBar from "../ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
 import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
-import TextField from "@material-ui/core/TextField";
-import { useEffect, useState } from "react";
-import useDebounce from "../hooks/useDebounce";
 import SearchForm from "../forms/SearchForm";
 
 interface SearchProps {
     searchField: ESearchFields;
     searchData: ISearchData[];
-    onSearchFieldChanged(searchField: ESearchFields): void;
-    onSearchStringChanged(searchString: string): void;
+    onSearchQueryChanged(query: ISearchQuery): void;
     UserCardProps?: Partial<UserCardProps>;
     loading?: boolean;
+    query?: ISearchQuery;
 }
 
 const Search: React.FC<SearchProps> = ({
     searchField,
     searchData,
     UserCardProps,
-    onSearchFieldChanged,
-    onSearchStringChanged,
+    onSearchQueryChanged,
     loading,
+    query,
 }) => {
     return (
         <div>
@@ -38,9 +39,8 @@ const Search: React.FC<SearchProps> = ({
             >
                 {isSearchField(searchField) && (
                     <SearchForm
-                        searchField={searchField}
-                        onSearchFieldChanged={onSearchFieldChanged}
-                        onSearchStringChanged={onSearchStringChanged}
+                        searchField={searchField as ESearchFields}
+                        onSearchQueryChanged={onSearchQueryChanged}
                     />
                 )}
             </ActionBar>

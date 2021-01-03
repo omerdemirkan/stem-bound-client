@@ -3,10 +3,10 @@ import { IWithAuthOptions } from "../../utils/types";
 import { useRouter } from "next/router";
 import { useEffect, useContext } from "react";
 
-export default function withAuth(
-    Component: React.ComponentType<any> | React.FC<any>,
+export default function withAuth<T>(
+    Component: React.ComponentType<T> | React.FC<T>,
     options?: IWithAuthOptions
-): React.FC {
+): React.FC<T> {
     return (props) => {
         const router = useRouter();
         const { accessToken, authAttempted, user, authLoading } = useContext(

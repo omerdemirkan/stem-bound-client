@@ -4,11 +4,14 @@ import { useState, useEffect, useContext } from "react";
 import { ICoordinates, ENotificationTypes } from "../../utils/types";
 import { getCurrentLocation } from "../../utils/helpers";
 
-export default function withUserCoordinates(Component): React.FC {
+export default function withUserCoordinates<T>(
+    Component: React.ComponentType<T> | React.FC<T>
+): React.FC<T> {
     return function (props) {
-        const [permissionStatus, setPermissionStatus] = useState<
-            PermissionState
-        >();
+        const [
+            permissionStatus,
+            setPermissionStatus,
+        ] = useState<PermissionState>();
         const [coordinates, setCoordinates] = useState<ICoordinates>();
 
         const { user } = useContext(AuthContext);
@@ -43,9 +46,7 @@ export default function withUserCoordinates(Component): React.FC {
             }
         }
 
-        async function getGeolocationPermissionStatus(): Promise<
-            PermissionState
-        > {
+        async function getGeolocationPermissionStatus(): Promise<PermissionState> {
             const status = (
                 await navigator.permissions.query({
                     name: "geolocation",
