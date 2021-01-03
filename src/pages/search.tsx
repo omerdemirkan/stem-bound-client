@@ -3,7 +3,7 @@ import Head from "next/head";
 import Search from "../components/containers/Search";
 import { NextPageContext } from "next";
 import { fetchSearchData } from "../utils/services";
-import { ESearchFields, ISearchData } from "../utils/types";
+import { ESearchFields, ISearchData, ISearchQuery } from "../utils/types";
 import {
     serverRedirect,
     isSearchField,
@@ -14,11 +14,11 @@ import {
 import { useRouter } from "next/router";
 
 interface Props {
-    searchField: ESearchFields;
+    query: ISearchQuery;
     searchData: ISearchData[];
 }
 
-const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
+const SearchPage: React.FC<Props> = ({ query, searchData }) => {
     const router = useRouter();
     return (
         <Layout>
@@ -27,23 +27,10 @@ const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
             </Head>
             <h1>Search</h1>
             <Search
-                searchField={searchField}
                 searchData={searchData}
-                onSearchFieldChanged={(searchField) =>
-                    router.push(
-                        appendQueriesToUrl(router.pathname, {
-                            ...router.query,
-                            q: searchField,
-                        })
-                    )
-                }
-                onSearchStringChanged={(searchString) =>
-                    router.push(
-                        appendQueriesToUrl(router.pathname, {
-                            ...router.query,
-                            text: searchString,
-                        })
-                    )
+                query={query}
+                onSearchQueryChanged={(query) =>
+                    router.push(appendQueriesToUrl(router.pathname, query))
                 }
             />
             <style jsx>{``}</style>
@@ -53,19 +40,19 @@ const SearchPage: React.FC<Props> = ({ searchField, searchData }) => {
 
 export async function getServerSideProps(ctx: NextPageContext) {
     try {
-        const searchField = ctx.query.q;
-        const text = ctx.query.text as string;
-        if (!isSearchField(searchField)) throw new Error();
+        const query = ctx.query as any;
+        if (!isSearchField(query.searchField)) throw new Error();
         let searchData = (
-            await fetchSearchData({
-                field: SearchField(searchField),
-                text,
-            })
+            await fetchSearchData(SearchField(query.searchField), query)
         ).data;
         deleteUndefined(searchData);
-        return { props: { searchField, searchData } };
+        const props: Props = { query, searchData };
+        return { props };
     } catch (e) {
-        return serverRedirect(ctx, `search?q=${ESearchFields.INSTRUCTOR}`);
+        return serverRedirect(
+            ctx,
+            `search?searchField=${ESearchFields.INSTRUCTOR}`
+        );
     }
 }
 

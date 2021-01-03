@@ -27,7 +27,7 @@ const SearchForm: React.FC<Props & Partial<IWithUserCoordinatesProps>> = ({
 
     const [searchQuery, setSearchQuery] = useState<ISearchQuery>({
         searchField,
-        exclude: [user._id],
+        exclude: user ? [user._id] : null,
         coordinates,
     });
 

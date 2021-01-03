@@ -12,16 +12,14 @@ import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
 import SearchForm from "../forms/SearchForm";
 
 interface SearchProps {
-    searchField: ESearchFields;
+    query: ISearchQuery;
     searchData: ISearchData[];
     onSearchQueryChanged(query: ISearchQuery): void;
     UserCardProps?: Partial<UserCardProps>;
     loading?: boolean;
-    query?: ISearchQuery;
 }
 
 const Search: React.FC<SearchProps> = ({
-    searchField,
     searchData,
     UserCardProps,
     onSearchQueryChanged,
@@ -33,20 +31,20 @@ const Search: React.FC<SearchProps> = ({
             <ActionBar
                 startEl={
                     <Typography>
-                        {getDisplaySearchField(searchField)}
+                        {getDisplaySearchField(query.searchField)}
                     </Typography>
                 }
             >
-                {isSearchField(searchField) && (
+                {isSearchField(query.searchField) && (
                     <SearchForm
-                        searchField={searchField as ESearchFields}
+                        searchField={query.searchField}
                         onSearchQueryChanged={onSearchQueryChanged}
                     />
                 )}
             </ActionBar>
             <PaginatedSearchData
                 searchDataArray={searchData || []}
-                searchField={searchField}
+                searchField={query.searchField}
                 UserCardProps={UserCardProps}
             />
         </div>

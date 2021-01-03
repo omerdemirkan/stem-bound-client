@@ -47,7 +47,6 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
                 <title>STEM-bound - Search</title>
             </Head>
             <Search
-                searchField={searchQuery.searchField}
                 searchData={searchData}
                 query={searchQuery}
                 onSearchQueryChanged={setSearchQuery}
