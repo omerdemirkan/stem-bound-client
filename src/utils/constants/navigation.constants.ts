@@ -23,7 +23,7 @@ export const instructorNavigationData: INavigationData = {
         {
             text: "SEARCH",
             Icon: SearchIcon,
-            path: `/app/search?q=${ESearchFields.SCHOOL_OFFICIAL}`,
+            path: `/app/search`,
             completion: EPageCompletion.COMPLETE,
         },
         {
@@ -65,7 +65,7 @@ export const studentNavigationData: INavigationData = {
         {
             text: "SEARCH",
             Icon: SearchIcon,
-            path: `/app/search?q=${ESearchFields.INSTRUCTOR}`,
+            path: `/app/search`,
             completion: EPageCompletion.COMPLETE,
         },
         {
@@ -113,7 +113,7 @@ export const schoolOfficialNavigationData: INavigationData = {
         {
             text: "SEARCH",
             Icon: SearchIcon,
-            path: `/app/search?q=${ESearchFields.INSTRUCTOR}`,
+            path: `/app/search`,
             completion: EPageCompletion.COMPLETE,
         },
         {
