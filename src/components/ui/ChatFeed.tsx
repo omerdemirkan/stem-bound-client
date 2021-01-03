@@ -4,7 +4,7 @@ import {
     IChatMessageEventHandlers,
     IChatMessageGroup,
 } from "../../utils/types";
-import { reverseMap, getChatMessageGroups } from "../../utils/helpers";
+import { getChatMessageGroups } from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
 import InvertScroll from "./InvertScroll";
 import { useEffect, useState } from "react";
@@ -16,6 +16,8 @@ interface Props {
     isTyping?: string[];
     editedMessageId?: string;
     editedMessageText?: string;
+    loading?: boolean;
+    errorMessage?: string;
 }
 
 const ChatFeed: React.FC<Props & IChatMessageEventHandlers> = ({
@@ -25,6 +27,8 @@ const ChatFeed: React.FC<Props & IChatMessageEventHandlers> = ({
     isTyping,
     editedMessageId,
     editedMessageText,
+    loading,
+    errorMessage,
     ...chatMessageHandlers
 }) => {
     const [chatMessageGroups, setChatMessageGroups] = useState<

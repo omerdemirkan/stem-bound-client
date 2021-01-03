@@ -28,6 +28,8 @@ import {
     ICourse,
     IStudent,
 } from "../../utils/types";
+import PictureMessage from "../../components/ui/PictureMessage";
+import NoResultsSVG from "../../components/svg/illustrations/no-results";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -39,7 +41,12 @@ const MySchoolAppPage: React.FC = () => {
 
     const { createAlert, createSnackbar } = useContext(NotificationContext);
 
-    const { data: courses, revalidate: refetchCourses } = useSWR(
+    const {
+        data: courses,
+        revalidate: refetchCourses,
+        isValidating: coursesLoading,
+        error: coursesError,
+    } = useSWR(
         "/user/school/courses",
         schoolCoursesFetcher((user as IStudent).meta.school)
     );
@@ -205,7 +212,19 @@ const MySchoolAppPage: React.FC = () => {
                             {school?.name}
                         </Typography>
                         <Typography>{school?.location.shortDisplay}</Typography>
-                        <Section title="Courses" spacing={10}>
+                        <Section
+                            title="Courses"
+                            spacing={10}
+                            infoMessage={
+                                !coursesLoading &&
+                                !courses?.length &&
+                                "No courses found"
+                            }
+                            errorMessage={
+                                coursesError &&
+                                "Couldn't load courses, an error occured"
+                            }
+                        >
                             {paginateCourses(courses)}
                         </Section>
                         {unverifiedCourses && (

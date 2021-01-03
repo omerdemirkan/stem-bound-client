@@ -20,11 +20,17 @@ import InputButton from "../../../../components/ui/InputButton";
 import TextField from "@material-ui/core/TextField";
 import ActionBar from "../../../../components/ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
+import PictureMessage from "../../../../components/ui/PictureMessage";
+import NoResultsSVG from "../../../../components/svg/illustrations/no-results";
 
 const AnnouncementsAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
-    const { data: course, error: fetchCourseError } = useSWR(
+    const {
+        data: course,
+        error: fetchCourseError,
+        isValidating: courseLoading,
+    } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}` : null,
         courseFetcher(queryCourseId as any)
     );
@@ -32,6 +38,7 @@ const AnnouncementsAppPage: React.FC = () => {
         data: announcements,
         error: fetchAnnouncementsError,
         mutate: mutateCourseAnnouncements,
+        isValidating: announcementsLoading,
     } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}/announcements` : null,
         announcementsFetcher(queryCourseId as any),
@@ -131,6 +138,13 @@ const AnnouncementsAppPage: React.FC = () => {
                     </InputButton>
                 ) : null}
             </ActionBar>
+            {!announcementsLoading && !announcements?.length && (
+                <PictureMessage
+                    Svg={NoResultsSVG}
+                    size="small"
+                    message="No announcements found"
+                />
+            )}
 
             {announcements?.map((announcement) => (
                 <CourseAnnouncement

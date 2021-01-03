@@ -20,7 +20,6 @@ import NotificationContext from "./NotificationContext";
 
 const messagingContextInitialState: IMessagingContextState = {
     chats: [],
-    chatsLoading: false,
     usersTypingHashTable: {},
     messages: [],
     setUserIsTyping: (...args) => undefined,
@@ -30,6 +29,10 @@ const messagingContextInitialState: IMessagingContextState = {
     restoreMessage: (...args) => undefined,
     setInspectedChat: (...args) => undefined,
     contactUser: (...args) => undefined,
+    chatsLoading: false,
+    messagesLoading: false,
+    chatsError: null,
+    messagesError: null,
 };
 
 const MessagingContext = createContext(messagingContextInitialState);
@@ -51,9 +54,15 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         isValidating: chatsLoading,
         revalidate: refetchChats,
         mutate: mutateChats,
+        error: chatsError,
     } = useSWR(user && `/chats`, chatsFetcher());
 
-    const { data: messages, mutate: mutateMessages } = useSWR(
+    const {
+        data: messages,
+        mutate: mutateMessages,
+        isValidating: messagesLoading,
+        error: messagesError,
+    } = useSWR(
         inspectedChatId ? `/chats/${inspectedChatId}/messages` : null,
         messagesFetcher(inspectedChatId as string)
     );
@@ -248,6 +257,9 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 messages,
                 setUserIsTyping,
                 contactUser,
+                messagesLoading,
+                chatsError,
+                messagesError,
                 setInspectedChat: setInspectedChatId,
             }}
         >

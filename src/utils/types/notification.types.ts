@@ -21,6 +21,7 @@ export interface ISnackbarData {
     imgsrc?: string;
     renderActions?: () => any;
     onClick?: () => any;
+    onClose?: () => any;
 }
 
 export interface INotificationContextState {

@@ -29,6 +29,9 @@ const MessagingAppPage: React.FC = () => {
         chatsLoading,
         usersTypingHashTable,
         setInspectedChat,
+        messagesLoading,
+        chatsError,
+        messagesError,
     } = useMessaging(chatId);
 
     const inspectedChat = chats?.find((chat) => chat._id === chatId);
@@ -175,6 +178,11 @@ const MessagingAppPage: React.FC = () => {
                 mainEl={
                     <ChatFeed
                         chatMessages={messages}
+                        loading={messagesLoading}
+                        errorMessage={
+                            chatsError &&
+                            "Couldn't load chats, an error occured"
+                        }
                         chatId={chatId}
                         chatPictureUrl={inspectedChat?.pictureUrl}
                         isTyping={usersTypingHashTable[chatId] || []}
@@ -195,6 +203,11 @@ const MessagingAppPage: React.FC = () => {
                             chats={chats}
                             handleInspectChat={handleInspectChat}
                             inspectedChatId={chatId as string}
+                            loading={chatsLoading}
+                            errorMessage={
+                                chatsError &&
+                                "Couldn't load messages, an error occured"
+                            }
                         />
                     )
                 }

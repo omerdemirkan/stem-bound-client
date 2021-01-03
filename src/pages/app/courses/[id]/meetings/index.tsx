@@ -15,6 +15,9 @@ import {
 import MeetingCard from "../../../../../components/ui/MeetingCard";
 import ActionBar from "../../../../../components/ui/ActionBar";
 import Section from "../../../../../components/ui/Section";
+import PictureMessage from "../../../../../components/ui/PictureMessage";
+import NoResultsSVG from "../../../../../components/svg/illustrations/no-results";
+import Typography from "@material-ui/core/Typography";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -23,7 +26,11 @@ const MeetingsAppPage: React.FC = () => {
         queryCourseId && `/courses/${queryCourseId}`,
         courseFetcher(queryCourseId as any)
     );
-    const { data: meetings, error: fetchCourseMeetingsError } = useSWR(
+    const {
+        data: meetings,
+        error: fetchCourseMeetingsError,
+        isValidating: meetingsLoading,
+    } = useSWR(
         queryCourseId && `/courses/${queryCourseId}/meetings`,
         courseMeetingsFetcher(queryCourseId as string)
     );
@@ -50,7 +57,11 @@ const MeetingsAppPage: React.FC = () => {
             </Head>
 
             {course?.meta.instructors.includes(user._id) ? (
-                <ActionBar>
+                <ActionBar
+                    startEl={
+                        <Typography variant="h6">Recent meetings</Typography>
+                    }
+                >
                     <Link
                         href="/app/courses/[id]/meetings/create"
                         as={`/app/courses/${course?._id}/meetings/create`}
@@ -84,6 +95,12 @@ const MeetingsAppPage: React.FC = () => {
             ) : null}
 
             <Section>
+                {!meetingsLoading && !meetings?.length && (
+                    <PictureMessage
+                        Svg={NoResultsSVG}
+                        message="No meetings found"
+                    />
+                )}
                 {meetings?.map((meeting) => (
                     <MeetingCard
                         meeting={meeting}

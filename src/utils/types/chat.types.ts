@@ -79,7 +79,6 @@ export interface IMessagingContextState {
     usersTypingHashTable: {
         [chatId: string]: string[];
     };
-    chatsLoading: boolean;
     messages: IChatMessage[];
     setUserIsTyping(isTyping: boolean): void;
     setInspectedChat(chatId: string): void;
@@ -92,6 +91,10 @@ export interface IMessagingContextState {
     deleteMessage(data: { chatId: string; messageId: string });
     restoreMessage(data: { chatId: string; messageId: string });
     contactUser(userId: string): any;
+    chatsLoading: boolean;
+    messagesLoading: boolean;
+    chatsError: Error | null;
+    messagesError: Error | null;
 }
 
 // SERVICE TYPES

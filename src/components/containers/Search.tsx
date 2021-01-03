@@ -10,6 +10,8 @@ import ActionBar from "../ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
 import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
 import SearchForm from "../forms/SearchForm";
+import PictureMessage from "../ui/PictureMessage";
+import NoResultsSVG from "../svg/illustrations/no-results";
 
 interface SearchProps {
     query: ISearchQuery;
@@ -47,6 +49,13 @@ const Search: React.FC<SearchProps> = ({
                 searchField={query.searchField}
                 UserCardProps={UserCardProps}
             />
+            {!loading && !searchData?.length && (
+                <PictureMessage
+                    Svg={NoResultsSVG}
+                    size="small"
+                    message="No results found"
+                />
+            )}
         </div>
     );
 };

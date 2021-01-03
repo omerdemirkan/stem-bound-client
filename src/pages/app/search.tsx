@@ -21,7 +21,7 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
         searchField: getDefaultSearchField(user.role),
     });
 
-    const { data: searchData } = useSWR(
+    const { data: searchData, isValidating: loading } = useSWR(
         isSearchField(searchQuery?.searchField)
             ? `/search/${searchQuery.searchField}?query=${JSON.stringify(
                   searchQuery
@@ -50,6 +50,7 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
                 searchData={searchData}
                 query={searchQuery}
                 onSearchQueryChanged={setSearchQuery}
+                loading={loading}
                 UserCardProps={{
                     contactUserEnabled: true,
                     renderFooter: (user) => (

@@ -62,6 +62,7 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
             variant: snackbarData.type,
             onClick: snackbarData.onClick,
             key: snackbarData.text,
+            onClose: snackbarData.onClose,
         });
     }
 
