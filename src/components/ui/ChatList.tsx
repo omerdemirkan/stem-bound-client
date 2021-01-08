@@ -41,6 +41,11 @@ const ChatList: React.FC<Props> = ({
                 title="My Inbox"
                 loading={loading}
                 errorMessage={errorMessage}
+                infoMessage={
+                    !loading &&
+                    !chats?.length &&
+                    "You haven't started any conversations"
+                }
             >
                 {chats?.map(function (chat, index) {
                     const lastUpdated = new Date(chat.lastMessageSentAt);

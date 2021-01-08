@@ -8,6 +8,7 @@ import { getChatMessageGroups } from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
 import InvertScroll from "./InvertScroll";
 import { useEffect, useState } from "react";
+import useCompute from "../hooks/useCompute";
 
 interface Props {
     chatMessages: IChatMessage[];
@@ -31,13 +32,8 @@ const ChatFeed: React.FC<Props & IChatMessageEventHandlers> = ({
     errorMessage,
     ...chatMessageHandlers
 }) => {
-    const [chatMessageGroups, setChatMessageGroups] = useState<
-        IChatMessageGroup[]
-    >();
-    useEffect(
-        function () {
-            setChatMessageGroups(getChatMessageGroups(chatMessages));
-        },
+    const chatMessageGroups = useCompute(
+        () => getChatMessageGroups(chatMessages),
         [chatMessages]
     );
 
