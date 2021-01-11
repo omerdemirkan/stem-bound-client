@@ -5,6 +5,7 @@ type Size = "large" | "medium" | "small";
 interface Props {
     Svg: React.FC<React.SVGProps<SVGSVGElement>>;
     message: string;
+    subMessage?: string;
     size?: Size;
     footer?: any;
 }
@@ -35,13 +36,29 @@ function mapSizeToMargin(size: Size): string {
     }
 }
 
-const PictureMessage: React.FC<Props> = ({ Svg, message, size, footer }) => {
+const PictureMessage: React.FC<Props> = ({
+    Svg,
+    message,
+    size,
+    footer,
+    subMessage,
+}) => {
     return (
         <div className="root">
             <Svg width="100%" />
-            <Typography variant="h6" color="textSecondary" align="center">
+            <Typography
+                variant="h6"
+                color="textPrimary"
+                align="center"
+                gutterBottom
+            >
                 {message}
             </Typography>
+            {subMessage ? (
+                <Typography paragraph color="textSecondary" align="center">
+                    {subMessage}
+                </Typography>
+            ) : null}
             {footer ? <div>{footer}</div> : null}
             <style jsx>{`
                 div.root {
