@@ -27,6 +27,7 @@ export function mapChatData(chat: IChatOriginal): IChat {
         messages: chat.messages?.map(mapMessageData),
         meta: chat.meta,
         type: chat.type,
+        numMessages: chat.numMessages,
         name: chat?.name,
         pictureUrl: chat?.pictureUrl,
         createdAt: chat.createdAt.toString(),

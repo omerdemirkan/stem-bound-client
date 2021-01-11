@@ -32,7 +32,7 @@ import {
     fetchStudentsBySchoolId,
     fetchUsers,
 } from "./user.services";
-import { fetchSchoolById } from "./school.services";
+import { fetchSchoolByNcesId } from "./school.services";
 
 export function coursesFetcher(options?: IFetchUserCoursesOptions) {
     return async () => (await fetchCourses(options)).data;
@@ -113,8 +113,8 @@ export function schoolStudentsFetcher(schoolId: string) {
     return usersFetcher(EUserRoles.STUDENT, { schoolId });
 }
 
-export function schoolFetcher(schoolId: string) {
-    return async () => (await fetchSchoolById(schoolId)).data;
+export function schoolFetcher(ncesid: string) {
+    return async () => (await fetchSchoolByNcesId(ncesid)).data;
 }
 
 export function courseInstructorsFetcher(courseId: string) {

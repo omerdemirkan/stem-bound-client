@@ -7,11 +7,10 @@ export function mapResponseData<T>(
     return new Promise(function (resolve, reject) {
         fetchPromise
             .then(function (res) {
-                try {
+                if (Array.isArray(res.data))
                     res.data = (res.data as any).map(mapFunction);
-                } catch (e) {
-                    res.data = mapFunction(res.data);
-                }
+                else res.data = mapFunction(res.data);
+
                 resolve(res);
             })
             .catch(reject);

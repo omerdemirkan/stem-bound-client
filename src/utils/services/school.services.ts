@@ -22,21 +22,8 @@ export function fetchSchools(
     return mapResponseData(apiClient.get(path), mapSchoolData);
 }
 
-export function fetchSchoolById(id: string): Promise<IApiResponse<ISchool>> {
-    return mapResponseData(apiClient.get(`/schools/${id}`), mapSchoolData);
-}
-
-export function fetchSchoolByUserId(
-    id: string
+export function fetchSchoolByNcesId(
+    ncesid: string
 ): Promise<IApiResponse<ISchool>> {
-    return mapResponseData(apiClient.get(`/users/${id}/school`), mapSchoolData);
-}
-
-export function fetchSchoolByCourseId(
-    id: string
-): Promise<IApiResponse<ISchool>> {
-    return mapResponseData(
-        apiClient.get(`/courses/${id}/school`),
-        mapSchoolData
-    );
+    return mapResponseData(apiClient.get(`/schools/${ncesid}`), mapSchoolData);
 }

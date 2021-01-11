@@ -1,5 +1,4 @@
 import { IChat } from "../../utils/types";
-import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import ListItem from "@material-ui/core/ListItem";

@@ -26,6 +26,7 @@ export interface IChatOriginal {
     meta: {
         users: string[];
     };
+    numMessages: number;
     name?: string;
     pictureUrl?: string;
     lastMessageSentAt?: Date | string;
@@ -53,10 +54,11 @@ export interface IChatMessage {
 export interface IChat {
     type: EChatTypes;
     _id: string;
-    messages: IChatMessage[];
     meta: {
         users: string[];
     };
+    numMessages: number;
+    messages?: IChatMessage[];
     name?: string;
     pictureUrl?: string;
     createdAt?: string;
