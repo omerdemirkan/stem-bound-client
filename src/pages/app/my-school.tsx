@@ -132,7 +132,7 @@ const MySchoolAppPage: React.FC = () => {
     const paginateCourses = (courses: ICourse[]) => (
         <Grid container spacing={2} style={{ maxWidth: "100%" }}>
             {courses?.map((course) => (
-                <Grid item xs={12} xl={6} key={course._id}>
+                <Grid item sm={12} md={6} lg={4} key={course._id}>
                     <CourseCard
                         course={course}
                         key={course._id}

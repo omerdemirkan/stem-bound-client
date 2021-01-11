@@ -65,7 +65,7 @@ const CoursesAppPage: React.FC = () => {
             >
                 <Grid container spacing={2}>
                     {courses?.map((course) => (
-                        <Grid item xs={12} lg={6} xl={4} key={course._id}>
+                        <Grid item sm={12} md={6} lg={4} key={course._id}>
                             <CourseCard course={course} fullWidth noMargin />
                         </Grid>
                     ))}
@@ -79,7 +79,7 @@ const CoursesAppPage: React.FC = () => {
                 >
                     <Grid container spacing={2}>
                         {unverifiedCourses?.map((course) => (
-                            <Grid item xs={12} lg={6} xl={4} key={course._id}>
+                            <Grid item sm={12} md={6} lg={4} key={course._id}>
                                 <CourseCard
                                     course={course}
                                     fullWidth

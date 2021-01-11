@@ -75,7 +75,7 @@ const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
     return (
         <Grid container spacing={2}>
             {searchDataArray.map((searchData: IUser) => (
-                <Grid item xs={12} lg={6} xl={4} key={searchData._id}>
+                <Grid item sm={12} md={6} lg={4} key={searchData._id}>
                     <UserCard
                         user={searchData}
                         key={searchData._id}

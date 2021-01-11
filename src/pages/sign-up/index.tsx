@@ -65,7 +65,7 @@ const SignUpPage: React.FC = () => {
                     textAlign: "center",
                 }}
             >
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item sm={12} md={6} lg={4}>
                     <Link href="/sign-up/instructor">
                         <a>
                             <Card className={classes.card}>
@@ -81,7 +81,7 @@ const SignUpPage: React.FC = () => {
                         </a>
                     </Link>
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item sm={12} md={6} lg={4}>
                     <Link href="/sign-up/school-official">
                         <a>
                             <Card className={classes.card}>
@@ -97,7 +97,7 @@ const SignUpPage: React.FC = () => {
                         </a>
                     </Link>
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item sm={12} md={6} lg={4}>
                     <Link href="/sign-up/student">
                         <a>
                             <Card className={classes.card}>
