@@ -9,13 +9,13 @@ export async function fetchSchoolInputOptions(
     const { data: schools } = await fetchSchools({ text: s });
     return schools.map((school) => ({
         display: capitalizeWords(school.name),
-        value: school._id,
+        value: school.ncesid,
     }));
 }
 
 export function mapSchoolData(school: ISchoolOriginal): ISchool {
     return {
-        _id: school._id,
+        ncesid: school.ncesid,
         name: capitalizeWords(school.name),
         distance: {
             // conversion from meters

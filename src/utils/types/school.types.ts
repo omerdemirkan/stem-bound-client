@@ -45,7 +45,7 @@ export interface ISchool {
     // this is to decouple the client from
     // the db so that if the shape of the data
     // changes we can update one place.
-    _id: string;
+    ncesid: string;
     name: string;
     distance?: {
         miles: number;

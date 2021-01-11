@@ -162,27 +162,6 @@ const SchoolOfficialSignUpForm: React.FC<Props> = ({
                     fullWidth
                     multiline
                 />
-                {/* <Controller
-                    name="zip"
-                    control={control}
-                    rules={{ required: "Required" }}
-                    defaultValue=""
-                    render={(params) => (
-                        <AsyncSelect
-                            {...params}
-                            fetchOptions={fetchLocationInputOptions}
-                            TextFieldProps={{
-                                fullWidth: true,
-                                label: "Location",
-                                placeholder: "e.g Northridge",
-                                margin: "normal",
-                                error: errors.zip,
-                                helperText: errors.zip?.message,
-                                required: true,
-                            }}
-                        />
-                    )}
-                /> */}
                 <Controller
                     name="schoolId"
                     control={control}

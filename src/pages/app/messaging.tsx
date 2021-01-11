@@ -172,7 +172,6 @@ const MessagingAppPage: React.FC = () => {
             <Head>
                 <title>STEM-bound - Messaging</title>
             </Head>
-            {!chatsLoading && !chats?.length ? <h6>No chats</h6> : null}
 
             <SplitScreen
                 mainEl={
