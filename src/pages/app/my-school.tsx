@@ -21,6 +21,7 @@ import {
     enrollByCourseId,
     dropByCourseId,
     udpateCourseVerification,
+    schoolFetcher,
 } from "../../utils/services";
 import {
     ENotificationTypes,
@@ -28,28 +29,27 @@ import {
     ICourse,
     IStudent,
 } from "../../utils/types";
-import PictureMessage from "../../components/ui/PictureMessage";
-import NoResultsSVG from "../../components/svg/illustrations/no-results";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
     const { contactUser } = useContext(MessagingContext);
-    const { data: school } = useSWR(
-        "/user/school",
-        userSchoolFetcher(user._id)
-    );
 
     const { createAlert, createSnackbar } = useContext(NotificationContext);
+
+    const schoolId = (user as IStudent).meta.school;
+
+    const { data: school } = useSWR(
+        schoolId && "/user/school",
+        schoolFetcher(schoolId)
+    );
 
     const {
         data: courses,
         revalidate: refetchCourses,
         isValidating: coursesLoading,
         error: coursesError,
-    } = useSWR(
-        "/user/school/courses",
-        schoolCoursesFetcher((user as IStudent).meta.school)
-    );
+    } = useSWR("/user/school/courses", schoolCoursesFetcher(schoolId));
+
     const {
         data: unverifiedCourses,
         revalidate: refetchUnverifiedCourses,
@@ -58,26 +58,25 @@ const MySchoolAppPage: React.FC = () => {
             user.role === EUserRoles.SCHOOL_OFFICIAL
             ? "/user/school/courses?unverified=1"
             : null,
-        schoolCoursesFetcher((user as IStudent).meta.school, {
+        schoolCoursesFetcher(schoolId, {
             unverified: true,
         })
     );
+
     const {
         data: schoolOfficials,
         isValidating: schoolOfficialsLoading,
         error: schoolOfficialsError,
     } = useSWR(
         "/user/school/school-officials",
-        schoolSchoolOfficialsFetcher((user as IStudent).meta.school)
+        schoolSchoolOfficialsFetcher(schoolId)
     );
+
     const {
         data: students,
         isValidating: studentsLoading,
         error: studentsError,
-    } = useSWR(
-        "/user/school/students",
-        schoolStudentsFetcher((user as IStudent).meta.school)
-    );
+    } = useSWR("/user/school/students", schoolStudentsFetcher(schoolId));
 
     async function handleEnrollInCourse(courseId: string) {
         try {

@@ -1,27 +1,24 @@
 import Typography from "@material-ui/core/Typography";
-import {
-    IChatMessage,
-    IChatMessageEventHandlers,
-    IChatMessageGroup,
-} from "../../utils/types";
+import { IChatMessage, IChatMessageEventHandlers } from "../../utils/types";
 import { getChatMessageGroups } from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
 import InvertScroll from "./InvertScroll";
-import { useEffect, useState } from "react";
 import useCompute from "../hooks/useCompute";
+import PictureMessage from "./PictureMessage";
+import EmptyInboxSVG from "../svg/illustrations/empty-inbox";
 
 interface Props {
     chatMessages: IChatMessage[];
     chatId: string;
+    loading: boolean;
     chatPictureUrl?: string;
     isTyping?: string[];
     editedMessageId?: string;
     editedMessageText?: string;
-    loading?: boolean;
     errorMessage?: string;
 }
 
-const ChatFeed: React.FC<Props & IChatMessageEventHandlers> = ({
+const ChatMessageFeed: React.FC<Props & IChatMessageEventHandlers> = ({
     chatMessages,
     chatId,
     chatPictureUrl,
@@ -54,8 +51,16 @@ const ChatFeed: React.FC<Props & IChatMessageEventHandlers> = ({
                     {...chatMessageHandlers}
                 />
             ))}
+            {!loading && !chatMessages?.length && (
+                <PictureMessage
+                    Svg={EmptyInboxSVG}
+                    message="No messages exchanged"
+                    subMessage="Say Hi, don't be shy!"
+                    size="small"
+                />
+            )}
         </InvertScroll>
     );
 };
 
-export default ChatFeed;
+export default ChatMessageFeed;

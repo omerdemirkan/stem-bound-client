@@ -9,7 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 import ChatList from "../../components/ui/ChatList";
-import ChatFeed from "../../components/ui/ChatFeed";
+import ChatMessageFeed from "../../components/ui/ChatMessageFeed";
 import SplitScreen from "../../components/ui/SplitScreen";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useMessaging from "../../components/hooks/useMessaging";
@@ -18,6 +18,7 @@ import EmptyInboxSVG from "../../components/svg/illustrations/empty-inbox";
 import { getDefaultSearchField, getUserDisplayRole } from "../../utils/helpers";
 import AuthContext from "../../components/contexts/AuthContext";
 import Link from "next/link";
+import Typography from "@material-ui/core/Typography";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
@@ -201,28 +202,34 @@ const MessagingAppPage: React.FC = () => {
             ) : (
                 <SplitScreen
                     mainEl={
-                        <ChatFeed
-                            chatMessages={messages}
-                            loading={messagesLoading}
-                            errorMessage={
-                                chatsError &&
-                                "Couldn't load chats, an error occured"
-                            }
-                            chatId={chatId}
-                            chatPictureUrl={inspectedChat?.pictureUrl}
-                            isTyping={usersTypingHashTable[chatId] || []}
-                            onDeleteMessageClicked={(messageId) =>
-                                deleteMessage({ chatId, messageId })
-                            }
-                            onEditMessageClicked={(id) =>
-                                setEditedMessageId(id)
-                            }
-                            onRestoreMessageClicked={(messageId) =>
-                                restoreMessage({ chatId, messageId })
-                            }
-                            editedMessageId={editedMessageId}
-                            editedMessageText={editedMessageText}
-                        />
+                        <>
+                            {!!chatId && (
+                                <ChatMessageFeed
+                                    chatMessages={messages}
+                                    loading={messagesLoading}
+                                    errorMessage={
+                                        chatsError &&
+                                        "Couldn't load chats, an error occured"
+                                    }
+                                    chatId={chatId}
+                                    chatPictureUrl={inspectedChat?.pictureUrl}
+                                    isTyping={
+                                        usersTypingHashTable[chatId] || []
+                                    }
+                                    onDeleteMessageClicked={(messageId) =>
+                                        deleteMessage({ chatId, messageId })
+                                    }
+                                    onEditMessageClicked={(id) =>
+                                        setEditedMessageId(id)
+                                    }
+                                    onRestoreMessageClicked={(messageId) =>
+                                        restoreMessage({ chatId, messageId })
+                                    }
+                                    editedMessageId={editedMessageId}
+                                    editedMessageText={editedMessageText}
+                                />
+                            )}
+                        </>
                     }
                     secondaryEl={
                         (!smallScreen || !chatId) && (

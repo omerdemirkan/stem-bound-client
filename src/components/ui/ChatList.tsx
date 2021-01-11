@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import formatDistance from "date-fns/formatDistance";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import Section from "./Section";
+import ChatCard from "./ChatCard";
 
 const useStyles = makeStyles({
     listItem: {
@@ -47,39 +48,16 @@ const ChatList: React.FC<Props> = ({
                     "You haven't started any conversations"
                 }
             >
-                {chats?.map(function (chat, index) {
-                    const lastUpdated = new Date(chat.lastMessageSentAt);
-                    return (
-                        <div key={chat._id}>
-                            <CardActionArea>
-                                <ListItem
-                                    onClick={() => handleInspectChat(chat._id)}
-                                    selected={inspectedChatId === chat._id}
-                                    className={classes.listItem}
-                                >
-                                    <ListItemIcon>
-                                        <Avatar
-                                            src={chat.pictureUrl}
-                                            alt="chat picture"
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText>{chat.name}</ListItemText>
-                                    <Typography
-                                        color="textSecondary"
-                                        align="right"
-                                    >
-                                        {formatDistance(lastUpdated, now, {
-                                            addSuffix: true,
-                                        })}
-                                        <br />
-                                        {format(lastUpdated, "H:mm a")}
-                                    </Typography>
-                                </ListItem>
-                            </CardActionArea>
-                            <Divider />
-                        </div>
-                    );
-                })}
+                {chats?.map((chat, index) => (
+                    <div key={chat._id}>
+                        <ChatCard
+                            chat={chat}
+                            handleInspect={handleInspectChat}
+                            isSelected={inspectedChatId === chat._id}
+                        />
+                        {index !== chats.length - 1 && <Divider light />}
+                    </div>
+                ))}
             </Section>
         </List>
     );
