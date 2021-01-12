@@ -68,20 +68,6 @@ const SplitScreen: React.FC<Props> = ({
                         grid-template-columns: 100%;
                     }
                 }
-                @media (min-width: 1201px) {
-                    .root-container {
-                        height: 100%;
-                        overflow: hidden;
-                    }
-                    .main-container {
-                        height: 100%;
-                        overflow: auto;
-                    }
-                    .secondary-container {
-                        height: 100%;
-                        overflow: auto;
-                    }
-                }
             `}</style>
         </div>
     );

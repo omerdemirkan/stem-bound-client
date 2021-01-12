@@ -128,8 +128,8 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                 .main {
                     margin: 20px 0;
                     background-color: var(--background-dark);
-                    border-top-left-radius: 20px;
-                    border-bottom-left-radius: 20px;
+                    border-top-left-radius: 10px;
+                    border-bottom-left-radius: 10px;
 
                     display: flex;
                     flex-direction: column;

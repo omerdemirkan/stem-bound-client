@@ -32,6 +32,24 @@ const CoursesAppPage: React.FC = () => {
         userCoursesFetcher(user._id, user.role, { unverified: true })
     );
 
+    let courseMessage: string;
+    if (courses && courses.length === 0) {
+        switch (user.role) {
+            case EUserRoles.INSTRUCTOR:
+                courseMessage = unverifiedCourses?.length
+                    ? `Looks like your ${
+                          unverifiedCourses.length > 1
+                              ? "courses haven't"
+                              : "course hasn't"
+                      } been verified. You may contact a school official regarding your course's verification.`
+                    : "Looks like you haven't created a course yet. You may create a course and submit it for verification by a school official.";
+                break;
+            case EUserRoles.STUDENT:
+                courseMessage =
+                    "Looks like you haven't enrolled in any courses. You may find courses in the My School page.";
+        }
+    }
+
     return (
         <AppLayout header="Courses">
             <Head>
@@ -58,7 +76,7 @@ const CoursesAppPage: React.FC = () => {
 
             <Section
                 loading={coursesLoading}
-                infoMessage={courses?.length === 0 && "No courses found"}
+                infoMessage={courseMessage}
                 errorMessage={
                     coursesError && "Couldn't load courses, an error occured"
                 }

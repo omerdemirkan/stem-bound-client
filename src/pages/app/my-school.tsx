@@ -52,6 +52,7 @@ const MySchoolAppPage: React.FC = () => {
 
     const {
         data: unverifiedCourses,
+        isValidating: unverifiedCoursesLoading,
         revalidate: refetchUnverifiedCourses,
     } = useSWR(
         user.role === EUserRoles.INSTRUCTOR ||
@@ -126,6 +127,20 @@ const MySchoolAppPage: React.FC = () => {
         await udpateCourseVerification(courseId, verified);
         refetchCourses();
         refetchUnverifiedCourses();
+    }
+
+    let courseMessage: string;
+    if (courses && courses.length === 0) {
+        switch (user.role) {
+            case EUserRoles.STUDENT:
+                courseMessage =
+                    "Looks like there aren't any courses ready for enrollment.";
+                break;
+            case EUserRoles.SCHOOL_OFFICIAL:
+                courseMessage = unverifiedCourses?.length
+                    ? `Looks like you haven't verified any courses. You may either verify an existing course or contact an instructor through the search page to set one up.`
+                    : "Looks like an instructor hasn't submitted a course for verification. You may contact instructors through the search page to set up a course.";
+        }
     }
 
     const paginateCourses = (courses: ICourse[]) => (
