@@ -30,6 +30,7 @@ import {
     ICourse,
     IStudent,
 } from "../../utils/types";
+import FlexBox from "../../components/ui/FlexBox";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -157,83 +158,79 @@ const MySchoolAppPage: React.FC = () => {
     }
 
     const paginateCourses = (courses: ICourse[]) => (
-        <Grid container spacing={2} style={{ maxWidth: "100%" }}>
+        <FlexBox>
             {courses?.map((course) => (
-                <Grid item sm={12} md={6} lg={4} key={course._id}>
-                    <CourseCard
-                        course={course}
-                        key={course._id}
-                        fullWidth
-                        footerEl={
-                            <>
-                                {user?.role === EUserRoles.STUDENT &&
-                                    (course?.meta.students.includes(
-                                        user?._id
-                                    ) ? (
+                <CourseCard
+                    course={course}
+                    key={course._id}
+                    fullWidth
+                    footerEl={
+                        <>
+                            {user?.role === EUserRoles.STUDENT &&
+                                (course?.meta.students.includes(user?._id) ? (
+                                    <Button
+                                        color="secondary"
+                                        onClick={() =>
+                                            handleDropCourse(course._id)
+                                        }
+                                    >
+                                        Drop Course
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        color="primary"
+                                        onClick={() =>
+                                            handleEnrollInCourse(course._id)
+                                        }
+                                    >
+                                        Enroll
+                                    </Button>
+                                ))}
+                            {user?.role === EUserRoles.SCHOOL_OFFICIAL && (
+                                <>
+                                    <Button
+                                        color="primary"
+                                        onClick={() =>
+                                            contactUser(
+                                                course.meta.instructors[0]
+                                            )
+                                        }
+                                    >
+                                        Contact Instructor
+                                    </Button>
+                                    {course.verificationStatus ===
+                                    ECourseVerificationStatus.VERIFIED ? (
                                         <Button
                                             color="secondary"
                                             onClick={() =>
-                                                handleDropCourse(course._id)
-                                            }
-                                        >
-                                            Drop Course
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            color="primary"
-                                            onClick={() =>
-                                                handleEnrollInCourse(course._id)
-                                            }
-                                        >
-                                            Enroll
-                                        </Button>
-                                    ))}
-                                {user?.role === EUserRoles.SCHOOL_OFFICIAL && (
-                                    <>
-                                        <Button
-                                            color="primary"
-                                            onClick={() =>
-                                                contactUser(
-                                                    course.meta.instructors[0]
+                                                handleUpdateCourseVerification(
+                                                    course?._id,
+                                                    ECourseVerificationStatus.DISMISSED
                                                 )
                                             }
                                         >
-                                            Contact Instructor
+                                            Revoke Verification
                                         </Button>
-                                        {course.verificationStatus ===
-                                        ECourseVerificationStatus.VERIFIED ? (
-                                            <Button
-                                                color="secondary"
-                                                onClick={() =>
-                                                    handleUpdateCourseVerification(
-                                                        course?._id,
-                                                        ECourseVerificationStatus.DISMISSED
-                                                    )
-                                                }
-                                            >
-                                                Revoke Verification
-                                            </Button>
-                                        ) : (
-                                            <Button
-                                                color="secondary"
-                                                onClick={() =>
-                                                    handleUpdateCourseVerification(
-                                                        course?._id,
-                                                        ECourseVerificationStatus.VERIFIED
-                                                    )
-                                                }
-                                            >
-                                                Verify Course
-                                            </Button>
-                                        )}
-                                    </>
-                                )}
-                            </>
-                        }
-                    />
-                </Grid>
+                                    ) : (
+                                        <Button
+                                            color="secondary"
+                                            onClick={() =>
+                                                handleUpdateCourseVerification(
+                                                    course?._id,
+                                                    ECourseVerificationStatus.VERIFIED
+                                                )
+                                            }
+                                        >
+                                            Verify Course
+                                        </Button>
+                                    )}
+                                </>
+                            )}
+                        </>
+                    }
+                />
             ))}
-        </Grid>
+        </FlexBox>
     );
 
     return (
@@ -261,7 +258,13 @@ const MySchoolAppPage: React.FC = () => {
                                 "Couldn't load courses, an error occured"
                             }
                         >
-                            {paginateCourses(courses)}
+                            {courses?.length
+                                ? paginateCourses([
+                                      ...courses,
+                                      ...courses,
+                                      ...courses,
+                                  ])
+                                : null}
                         </Section>
                         {coursesPendingVerification?.length ? (
                             <Section title="Unverified Courses" spacing={10}>
