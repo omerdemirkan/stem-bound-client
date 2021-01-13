@@ -9,11 +9,7 @@ import {
     deleteMeetingById,
     updateMeetingById,
 } from "../../../../../utils/services";
-import {
-    ENotificationTypes,
-    EUserRoles,
-    IMeetingOriginal,
-} from "../../../../../utils/types";
+import { EUserRoles, IMeetingOriginal } from "../../../../../utils/types";
 import MeetingInput from "../../../../../components/ui/MeetingInput";
 import { useContext } from "react";
 import NotificationContext from "../../../../../components/contexts/NotificationContext";

@@ -11,10 +11,16 @@ import Link from "next/link";
 import { useContext } from "react";
 import useSWR from "swr";
 import { courseInstructorsFetcher, schoolFetcher } from "../../utils/services";
-import { EUserRoles, ICourse, ISchoolOfficial } from "../../utils/types";
+import {
+    ECourseVerificationStatus,
+    EUserRoles,
+    ICourse,
+    ISchoolOfficial,
+} from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 import Button from "@material-ui/core/Button";
 import Section from "./Section";
+import { getCourseVerificationStatusDisplay } from "../../utils/helpers";
 
 const useStyles = makeStyles({
     card: {
@@ -76,7 +82,12 @@ const CourseCard: React.FC<Props> = ({
                         subheader={`${school?.name}, ${
                             course?.meta.students.length
                         } currently enrolled${
-                            course.verified ? "" : " - Unverified"
+                            course.verificationStatus !==
+                            ECourseVerificationStatus.VERIFIED
+                                ? ""
+                                : ` - ${getCourseVerificationStatusDisplay(
+                                      course.verificationStatus
+                                  )}`
                         }`}
                     />
                 </a>

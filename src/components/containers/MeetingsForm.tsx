@@ -8,7 +8,6 @@ import {
     IMeeting,
     ECourseTypes,
     IDefaultMeetingData,
-    ENotificationTypes,
 } from "../../utils/types";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -60,9 +59,10 @@ const MeetingsForm: React.FC<Props> = ({
     );
     const [step, setStep] = useState<number>(0);
     const [dates, setDates] = useState<Date[]>([]);
-    const [defaultMeetingData, setDefaultMeetingData] = useState<
-        IDefaultMeetingData
-    >();
+    const [
+        defaultMeetingData,
+        setDefaultMeetingData,
+    ] = useState<IDefaultMeetingData>();
 
     const { createSnackbar } = useContext(NotificationContext);
 

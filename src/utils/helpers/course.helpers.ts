@@ -7,8 +7,13 @@ import {
     IAnnouncementOriginal,
     IMeetingDateDisplayData,
     IMeetingInput,
+    ECourseVerificationStatus,
 } from "../types";
-import { meetingTypes, courseTypes } from "../constants";
+import {
+    meetingTypes,
+    courseTypes,
+    courseVerificationStatuses,
+} from "../constants";
 import differenceInMinutes from "date-fns/differenceInMinutes";
 import format from "date-fns/format";
 
@@ -68,7 +73,8 @@ export function mapCourseData(course: ICourseOriginal): ICourse {
         },
         meetings: course.meetings.map(mapMeetingData),
         announcements: course.announcements.map(mapAnnouncementData),
-        verified: course.verified,
+        verificationHistory: course.verificationHistory,
+        verificationStatus: course.verificationStatus,
     };
 }
 
@@ -78,6 +84,12 @@ export function getMeetingTypeDisplay(type: string) {
 
 export function getCourseTypeDisplay(type: string) {
     return courseTypes[type];
+}
+
+export function getCourseVerificationStatusDisplay(
+    courseVerificationStatus: string
+) {
+    return courseVerificationStatuses[courseVerificationStatus];
 }
 
 export const minimumMeetingDurationMiliseconds = 1000 * 60 * 20;

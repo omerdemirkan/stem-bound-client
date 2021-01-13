@@ -55,11 +55,24 @@ export interface IAnnouncement {
     createdAt?: Date;
 }
 
+export enum ECourseVerificationStatus {
+    PENDING_VERIFICATION = "PENDING_VERIFICATION",
+    DISMISSED = "DISMISSED",
+    VERIFIED = "VERIFIED",
+}
+
+export interface ICourseVerificationStatusUpdate {
+    meta: { from: string };
+    status: ECourseVerificationStatus;
+    createdAt?: Date;
+}
+
 export interface ICourseOriginal {
     _id: string;
     createdAt: Date;
     title: string;
-    verified: boolean;
+    verificationStatus: ECourseVerificationStatus;
+    verificationHistory: ICourseVerificationStatusUpdate[];
     shortDescription: string;
     longDescription: string;
     type: ECourseTypes;
@@ -76,7 +89,8 @@ export interface ICourse {
     _id: string;
     createdAt: Date;
     title: string;
-    verified: boolean;
+    verificationStatus: ECourseVerificationStatus;
+    verificationHistory: ICourseVerificationStatusUpdate[];
     shortDescription: string;
     longDescription: string;
     type: ECourseTypes;

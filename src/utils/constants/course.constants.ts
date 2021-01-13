@@ -1,4 +1,8 @@
-import { ISelectInputOption, ECourseTypes } from "../types";
+import {
+    ISelectInputOption,
+    ECourseTypes,
+    ECourseVerificationStatus,
+} from "../types";
 
 export const meetingTypes = {
     IN_PERSON: "In Person",
@@ -25,3 +29,9 @@ export const courseTypesInputOptions: ISelectInputOption[] = [
         value: ECourseTypes.HYBRID,
     },
 ];
+
+export const courseVerificationStatuses = {
+    [ECourseVerificationStatus.DISMISSED]: "Dismissed",
+    [ECourseVerificationStatus.VERIFIED]: "Verified",
+    [ECourseVerificationStatus.PENDING_VERIFICATION]: "Pending verification",
+};
