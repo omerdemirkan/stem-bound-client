@@ -123,10 +123,13 @@ export interface IDefaultMeetingData {
 // COURSE SERVICE TYPES
 
 export interface IFetchCourseArrayOptions {
-    unverified?: boolean;
-    schoolId?: string;
     skip?: number;
     limit?: number;
+    unverified?: boolean;
+    verificationStatus?: ECourseVerificationStatus;
+    schoolId?: string;
+    instructorId?: string;
+    studentId?: string;
 }
 
 export interface IFetchMeetingArrayOptions {
@@ -143,13 +146,4 @@ export interface IFetchAnnouncementArrayOptions {
     skip?: number;
     before?: Date;
     after?: Date;
-}
-
-export interface IFetchUserCoursesOptions {
-    skip?: number;
-    limit?: number;
-    unverified?: boolean;
-    schoolId?: string;
-    instructorId?: string;
-    studentId?: string;
 }

@@ -11,7 +11,6 @@ import {
     IFetchSearchDataOptions,
     IFetchChatArrayOptions,
     IFetchCourseArrayOptions,
-    IFetchUserCoursesOptions,
     IFetchMessageArrayOptions,
     EUserRoles,
     IFetchUserArrayOptions,
@@ -34,7 +33,7 @@ import {
 } from "./user.services";
 import { fetchSchoolByNcesId } from "./school.services";
 
-export function coursesFetcher(options?: IFetchUserCoursesOptions) {
+export function coursesFetcher(options?: IFetchCourseArrayOptions) {
     return async () => (await fetchCourses(options)).data;
 }
 

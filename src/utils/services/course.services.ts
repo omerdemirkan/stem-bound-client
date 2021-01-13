@@ -7,10 +7,11 @@ import {
     IAnnouncement,
     IAnnouncementOriginal,
     IFetchCourseArrayOptions,
-    IFetchUserCoursesOptions,
     EUserRoles,
     IMeetingOriginal,
     IFetchAnnouncementArrayOptions,
+    ECourseVerificationStatus,
+    ICourseVerificationStatusUpdate,
 } from "../types";
 import {
     apiClient,
@@ -22,7 +23,7 @@ import {
 } from "../helpers";
 
 export function fetchCourses(
-    options: IFetchUserCoursesOptions = {}
+    options: IFetchCourseArrayOptions = {}
 ): Promise<IApiResponse<ICourse[]>> {
     return mapResponseData(
         apiClient.get(
@@ -30,6 +31,7 @@ export function fetchCourses(
                 skip: options.skip,
                 limit: options.limit,
                 unverified: options.unverified,
+                verification_status: options.verificationStatus,
                 school_id: options.schoolId,
                 instructor_id: options.instructorId,
                 student_id: options.studentId,
@@ -86,9 +88,15 @@ export function createCourse(
 
 export function udpateCourseVerification(
     courseId: string,
-    verified: boolean
+    verificationStatus: ECourseVerificationStatus
 ): Promise<IApiResponse<ICourse>> {
-    return apiClient.put(`/courses/${courseId}/verified`, { verified });
+    const courseVerificationStatusUpdate: Partial<ICourseVerificationStatusUpdate> = {
+        status: verificationStatus,
+    };
+    return apiClient.patch(
+        `/courses/${courseId}/verification-status`,
+        courseVerificationStatusUpdate
+    );
 }
 
 export function updateCourseById(

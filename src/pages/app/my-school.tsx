@@ -24,6 +24,7 @@ import {
     schoolFetcher,
 } from "../../utils/services";
 import {
+    ECourseVerificationStatus,
     ENotificationTypes,
     EUserRoles,
     ICourse,
@@ -51,16 +52,28 @@ const MySchoolAppPage: React.FC = () => {
     } = useSWR("/user/school/courses", schoolCoursesFetcher(schoolId));
 
     const {
-        data: unverifiedCourses,
-        isValidating: unverifiedCoursesLoading,
-        revalidate: refetchUnverifiedCourses,
+        data: coursesPendingVerification,
+        isValidating: coursesPendingVerificationLoading,
+        revalidate: refetchCoursesPendingVerification,
     } = useSWR(
-        user.role === EUserRoles.INSTRUCTOR ||
-            user.role === EUserRoles.SCHOOL_OFFICIAL
-            ? "/user/school/courses?unverified=1"
+        user.role === EUserRoles.SCHOOL_OFFICIAL
+            ? `/user/school/courses?verification_status=${ECourseVerificationStatus.PENDING_VERIFICATION}`
             : null,
         schoolCoursesFetcher(schoolId, {
-            unverified: true,
+            verificationStatus: ECourseVerificationStatus.PENDING_VERIFICATION,
+        })
+    );
+
+    const {
+        data: dismissedCourses,
+        isValidating: dismissedCoursesLoading,
+        revalidate: refetchDismissedCourses,
+    } = useSWR(
+        user.role === EUserRoles.SCHOOL_OFFICIAL
+            ? `/user/school/courses?verification_status=${ECourseVerificationStatus.DISMISSED}`
+            : null,
+        schoolCoursesFetcher(schoolId, {
+            verificationStatus: ECourseVerificationStatus.DISMISSED,
         })
     );
 
@@ -122,11 +135,11 @@ const MySchoolAppPage: React.FC = () => {
 
     async function handleUpdateCourseVerification(
         courseId: string,
-        verified: boolean
+        verificationStatus: ECourseVerificationStatus
     ) {
-        await udpateCourseVerification(courseId, verified);
+        await udpateCourseVerification(courseId, verificationStatus);
         refetchCourses();
-        refetchUnverifiedCourses();
+        refetchCoursesPendingVerification();
     }
 
     let courseMessage: string;
@@ -137,7 +150,7 @@ const MySchoolAppPage: React.FC = () => {
                     "Looks like there aren't any courses ready for enrollment.";
                 break;
             case EUserRoles.SCHOOL_OFFICIAL:
-                courseMessage = unverifiedCourses?.length
+                courseMessage = coursesPendingVerification?.length
                     ? `Looks like you haven't verified any courses. You may either verify an existing course or contact an instructor through the search page to set one up.`
                     : "Looks like an instructor hasn't submitted a course for verification. You may contact instructors through the search page to set up a course.";
         }
@@ -187,23 +200,32 @@ const MySchoolAppPage: React.FC = () => {
                                         >
                                             Contact Instructor
                                         </Button>
-                                        <Button
-                                            color={
-                                                course.verified
-                                                    ? "secondary"
-                                                    : "primary"
-                                            }
-                                            onClick={() =>
-                                                handleUpdateCourseVerification(
-                                                    course?._id,
-                                                    !course.verified
-                                                )
-                                            }
-                                        >
-                                            {course.verified
-                                                ? "Revoke Course Verification"
-                                                : "Verify Course"}
-                                        </Button>
+                                        {course.verificationStatus ===
+                                        ECourseVerificationStatus.VERIFIED ? (
+                                            <Button
+                                                color="secondary"
+                                                onClick={() =>
+                                                    handleUpdateCourseVerification(
+                                                        course?._id,
+                                                        ECourseVerificationStatus.DISMISSED
+                                                    )
+                                                }
+                                            >
+                                                Revoke Verification
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                color="secondary"
+                                                onClick={() =>
+                                                    handleUpdateCourseVerification(
+                                                        course?._id,
+                                                        ECourseVerificationStatus.VERIFIED
+                                                    )
+                                                }
+                                            >
+                                                Verify Course
+                                            </Button>
+                                        )}
                                     </>
                                 )}
                             </>
@@ -241,11 +263,16 @@ const MySchoolAppPage: React.FC = () => {
                         >
                             {paginateCourses(courses)}
                         </Section>
-                        {unverifiedCourses && (
+                        {coursesPendingVerification?.length ? (
                             <Section title="Unverified Courses" spacing={10}>
-                                {paginateCourses(unverifiedCourses)}
+                                {paginateCourses(coursesPendingVerification)}
                             </Section>
-                        )}
+                        ) : null}
+                        {dismissedCourses?.length ? (
+                            <Section title="Dismissed Courses" spacing={10}>
+                                {paginateCourses(dismissedCourses)}
+                            </Section>
+                        ) : null}
                     </>
                 }
                 secondaryEl={
@@ -255,7 +282,9 @@ const MySchoolAppPage: React.FC = () => {
                             loading={schoolOfficialsLoading}
                             infoMessage={
                                 schoolOfficials?.length === 0 &&
-                                `No ${school.name} school officials have an account`
+                                `No${
+                                    school ? " " + school.name : null
+                                } school officials have an account`
                             }
                             errorMessage={
                                 schoolOfficialsError &&
@@ -274,7 +303,9 @@ const MySchoolAppPage: React.FC = () => {
                             loading={studentsLoading}
                             infoMessage={
                                 students?.length === 0 &&
-                                `No ${school.name} students have an account`
+                                `No${
+                                    school ? " " + school.name : null
+                                } students have an account`
                             }
                             errorMessage={
                                 studentsError &&
