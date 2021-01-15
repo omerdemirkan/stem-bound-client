@@ -21,10 +21,15 @@ import {
 import Section from "../../../../components/ui/Section";
 import SplitScreen from "../../../../components/ui/SplitScreen";
 import { ECourseVerificationStatus } from "../../../../utils/types";
+import Alert from "@material-ui/lab/Alert";
+import AlertTitle from "@material-ui/lab/AlertTitle";
+import useMessaging from "../../../../components/hooks/useMessaging";
+import { useEffect } from "react";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
+    const { contactUser } = useMessaging();
     const { data: course } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}` : null,
         courseFetcher(queryCourseId as any)
@@ -54,12 +59,12 @@ const CourseAppPage: React.FC = () => {
         schoolFetcher(course?.meta.school)
     );
 
-    let { data: announcements, isValidating: announcementsLoading } = useSWR(
+    const { data: announcements, isValidating: announcementsLoading } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}/announcements` : null,
         announcementsFetcher(queryCourseId as string)
     );
 
-    let {
+    const {
         data: upcomingMeetings,
         isValidating: upcomingMeetingsLoading,
         error: upcomingMeetingsError,
@@ -67,9 +72,6 @@ const CourseAppPage: React.FC = () => {
         queryCourseId ? `/courses/${queryCourseId}/meetings` : null,
         courseMeetingsFetcher(queryCourseId as string)
     );
-
-    announcements = announcements || course?.announcements;
-    upcomingMeetings = upcomingMeetings || course?.meetings;
 
     return (
         <AppLayout
@@ -125,6 +127,43 @@ const CourseAppPage: React.FC = () => {
                                 </a>
                             </Link>
                         </ActionBar>
+
+                        {course?.verificationStatus ===
+                        ECourseVerificationStatus.PENDING_VERIFICATION ? (
+                            <Alert severity="info">
+                                <AlertTitle>
+                                    This course is pending verification from a
+                                    {school?.name ? ` ${school?.name} ` : " "}
+                                    school official
+                                </AlertTitle>
+                            </Alert>
+                        ) : null}
+
+                        {course?.verificationStatus ===
+                        ECourseVerificationStatus.DISMISSED ? (
+                            <Alert
+                                severity="warning"
+                                action={
+                                    <Button
+                                        onClick={() =>
+                                            contactUser(
+                                                course.verificationHistory[0]
+                                                    .meta.from
+                                            )
+                                        }
+                                        color="primary"
+                                    >
+                                        Contact School official
+                                    </Button>
+                                }
+                            >
+                                <AlertTitle>
+                                    This course has been dismissed by a
+                                    {school?.name ? ` ${school?.name} ` : " "}
+                                    school official
+                                </AlertTitle>
+                            </Alert>
+                        ) : null}
 
                         {announcements?.length ? (
                             <Section
