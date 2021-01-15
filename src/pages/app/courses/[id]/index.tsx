@@ -24,7 +24,7 @@ import { ECourseVerificationStatus } from "../../../../utils/types";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import useMessaging from "../../../../components/hooks/useMessaging";
-import { useEffect } from "react";
+import { getFormalDateAndTime } from "../../../../utils/helpers";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
@@ -160,7 +160,10 @@ const CourseAppPage: React.FC = () => {
                                 <AlertTitle>
                                     This course has been dismissed by a
                                     {school?.name ? ` ${school?.name} ` : " "}
-                                    school official
+                                    school official at{" "}
+                                    {getFormalDateAndTime(
+                                        course.verificationHistory[0].createdAt
+                                    )}
                                 </AlertTitle>
                             </Alert>
                         ) : null}

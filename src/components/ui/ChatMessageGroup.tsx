@@ -5,9 +5,8 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import format from "date-fns/format";
 import { userFetcher } from "../../utils/services";
-import { reverseMap } from "../../utils/helpers";
+import { reverseMap, getFormalDateAndTime } from "../../utils/helpers";
 import ChatMessage from "./ChatMessage";
 import { useFetchOnce } from "../hooks/useFetchOnce";
 
@@ -48,13 +47,8 @@ const ChatMessageGroup: React.FC<Props & IChatMessageEventHandlers> = ({
                         marginLeft="20px"
                         component="span"
                     >
-                        {format(
-                            new Date(
-                                chatMessageGroup?.messages[
-                                    chatMessageGroup.messages.length - 1
-                                ].createdAt
-                            ),
-                            "h:ss a, MM/dd/yyyy"
+                        {getFormalDateAndTime(
+                            chatMessageGroup.messages[0].createdAt
                         )}
                     </Box>
                 </Typography>

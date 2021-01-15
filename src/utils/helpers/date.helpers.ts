@@ -1,3 +1,4 @@
+import format from "date-fns/format";
 import { ITimeRange } from "../types";
 
 export function getTimeStringValues(
@@ -43,4 +44,9 @@ export function validateTimeRange({ start, end }: ITimeRange): boolean {
         end.getHours() * 60 + end.getMinutes() >
         start.getHours() * 60 + start.getMinutes()
     );
+}
+
+export function getFormalDateAndTime(d: string | Date) {
+    const date = typeof d === "string" ? new Date(d) : d;
+    return format(date, "h:ss a, MM/dd/yyyy");
 }
