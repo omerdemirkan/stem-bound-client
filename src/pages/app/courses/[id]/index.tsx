@@ -20,6 +20,7 @@ import {
 } from "../../../../utils/services";
 import Section from "../../../../components/ui/Section";
 import SplitScreen from "../../../../components/ui/SplitScreen";
+import { ECourseVerificationStatus } from "../../../../utils/types";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();

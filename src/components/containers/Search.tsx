@@ -5,13 +5,13 @@ import {
     ISearchQuery,
 } from "../../utils/types/search.types";
 import { EUserRoles, IUser } from "../../utils/types";
-import Grid from "@material-ui/core/Grid";
 import ActionBar from "../ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
 import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
 import SearchForm from "../forms/SearchForm";
 import PictureMessage from "../ui/PictureMessage";
 import NoResultsSVG from "../svg/illustrations/no-results";
+import FlexBox from "../ui/FlexBox";
 
 interface SearchProps {
     query: ISearchQuery;
@@ -73,17 +73,15 @@ const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
 }) => {
     if (!Object.values(EUserRoles).includes(searchField as any)) return null;
     return (
-        <Grid container spacing={2}>
+        <FlexBox>
             {searchDataArray.map((searchData: IUser) => (
-                <Grid item sm={12} md={6} lg={4} key={searchData._id}>
-                    <UserCard
-                        user={searchData}
-                        key={searchData._id}
-                        {...UserCardProps}
-                    />
-                </Grid>
+                <UserCard
+                    key={searchData._id}
+                    user={searchData}
+                    {...UserCardProps}
+                />
             ))}
-        </Grid>
+        </FlexBox>
     );
 };
 

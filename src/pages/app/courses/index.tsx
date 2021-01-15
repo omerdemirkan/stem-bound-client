@@ -13,6 +13,7 @@ import Grid from "@material-ui/core/Grid";
 import ActionBar from "../../../components/ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
 import Section from "../../../components/ui/Section";
+import FlexBox from "../../../components/ui/FlexBox";
 
 const CoursesAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -81,13 +82,16 @@ const CoursesAppPage: React.FC = () => {
                     coursesError && "Couldn't load courses, an error occured"
                 }
             >
-                <Grid container spacing={2}>
+                <FlexBox>
                     {courses?.map((course) => (
-                        <Grid item sm={12} md={6} lg={4} key={course._id}>
-                            <CourseCard course={course} fullWidth noMargin />
-                        </Grid>
+                        <CourseCard
+                            course={course}
+                            key={course._id}
+                            fullWidth
+                            noMargin
+                        />
                     ))}
-                </Grid>
+                </FlexBox>
             </Section>
 
             {unverifiedCourses?.length !== 0 && (
@@ -95,17 +99,16 @@ const CoursesAppPage: React.FC = () => {
                     loading={unverifiedCoursesLoading}
                     title="Unverified Courses"
                 >
-                    <Grid container spacing={2}>
+                    <FlexBox>
                         {unverifiedCourses?.map((course) => (
-                            <Grid item sm={12} md={6} lg={4} key={course._id}>
-                                <CourseCard
-                                    course={course}
-                                    fullWidth
-                                    noMargin
-                                />
-                            </Grid>
+                            <CourseCard
+                                key={course._id}
+                                course={course}
+                                fullWidth
+                                noMargin
+                            />
                         ))}
-                    </Grid>
+                    </FlexBox>
                 </Section>
             )}
 

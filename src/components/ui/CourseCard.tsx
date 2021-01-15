@@ -76,7 +76,7 @@ const CourseCard: React.FC<Props> = ({
                         subheader={`${school?.name}, ${
                             course?.meta.students.length
                         } currently enrolled${
-                            course.verificationStatus !==
+                            course.verificationStatus ===
                             ECourseVerificationStatus.VERIFIED
                                 ? ""
                                 : ` - ${getCourseVerificationStatusDisplay(

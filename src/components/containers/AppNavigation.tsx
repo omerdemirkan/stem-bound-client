@@ -75,6 +75,7 @@ const AppNavigation: React.FC = () => {
             >
                 <Avatar
                     src={user.profilePictureUrl}
+                    alt="me"
                     style={{ marginRight: "20px" }}
                 />
                 {`${user.firstName} ${user.lastName}`}

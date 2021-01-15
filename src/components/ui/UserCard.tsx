@@ -8,6 +8,16 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
 import Section from "./Section";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+const useStyles = makeStyles({
+    card: {
+        margin: "10px 0",
+        width: "100%",
+        maxWidth: "500px",
+        minWidth: "400px",
+    },
+});
 
 export interface UserCardProps {
     user: IUser;
@@ -26,13 +36,24 @@ const UserCard: React.FC<UserCardProps> = ({
     CardProps,
     noMargin,
 }) => {
-    const fullName = `${user?.firstName} ${user?.lastName}`;
+    const classes = useStyles();
     return (
-        <Card style={{ margin: noMargin ? "0" : "10px 0" }} {...CardProps}>
+        <Card
+            style={{ margin: noMargin ? "0" : "10px 0" }}
+            {...CardProps}
+            className={`${CardProps?.className ? CardProps.className : ""}${
+                classes.card
+            }`}
+        >
             <CardHeader
-                title={fullName}
+                title={user?.fullName}
                 subheader={user?.displayRole}
-                avatar={<Avatar src={user?.profilePictureUrl} alt={fullName} />}
+                avatar={
+                    <Avatar
+                        src={user?.profilePictureUrl}
+                        alt={user?.fullName}
+                    />
+                }
             />
             <Divider />
             <CardContent style={{ paddingTop: "0", paddingBottom: "0" }}>

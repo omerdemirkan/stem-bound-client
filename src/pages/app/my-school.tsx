@@ -141,6 +141,7 @@ const MySchoolAppPage: React.FC = () => {
         await udpateCourseVerification(courseId, verificationStatus);
         refetchCourses();
         refetchCoursesPendingVerification();
+        refetchDismissedCourses();
     }
 
     let courseMessage: string;
@@ -258,13 +259,7 @@ const MySchoolAppPage: React.FC = () => {
                                 "Couldn't load courses, an error occured"
                             }
                         >
-                            {courses?.length
-                                ? paginateCourses([
-                                      ...courses,
-                                      ...courses,
-                                      ...courses,
-                                  ])
-                                : null}
+                            {courses?.length ? paginateCourses(courses) : null}
                         </Section>
                         {coursesPendingVerification?.length ? (
                             <Section title="Unverified Courses" spacing={10}>

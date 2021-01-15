@@ -6,7 +6,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import format from "date-fns/format";
-import useSWR from "swr";
 import { userFetcher } from "../../utils/services";
 import { reverseMap } from "../../utils/helpers";
 import ChatMessage from "./ChatMessage";
