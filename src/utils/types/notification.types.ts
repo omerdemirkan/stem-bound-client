@@ -10,7 +10,7 @@ export interface IAlertData {
     type: ENotificationTypes;
     headerText: string;
     bodyText: string;
-    renderFooter?: () => any;
+    renderFooter?: (helpers?: { closeAlert(): any }) => any;
     onOk?: () => any;
     onCancel?: () => any;
 }

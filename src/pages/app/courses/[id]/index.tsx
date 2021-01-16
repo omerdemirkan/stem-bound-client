@@ -157,14 +157,12 @@ const CourseAppPage: React.FC = () => {
                                     </Button>
                                 }
                             >
-                                <AlertTitle>
-                                    This course has been dismissed by a
-                                    {school?.name ? ` ${school?.name} ` : " "}
-                                    school official at{" "}
-                                    {getFormalDateAndTime(
-                                        course.verificationHistory[0].createdAt
-                                    )}
-                                </AlertTitle>
+                                This course has been dismissed by a
+                                {school?.name ? ` ${school?.name} ` : " "}
+                                school official at{" "}
+                                {getFormalDateAndTime(
+                                    course.verificationHistory[0].createdAt
+                                )}
                             </Alert>
                         ) : null}
 

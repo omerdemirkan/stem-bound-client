@@ -8,13 +8,11 @@ import SplitScreen from "../../components/ui/SplitScreen";
 import CourseCard from "../../components/ui/CourseCard";
 import UserCard from "../../components/ui/UserCard";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import NotificationContext from "../../components/contexts/NotificationContext";
 import MessagingContext from "../../components/contexts/MessagingContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
-    userSchoolFetcher,
     schoolCoursesFetcher,
     schoolSchoolOfficialsFetcher,
     schoolStudentsFetcher,
@@ -31,6 +29,8 @@ import {
     IStudent,
 } from "../../utils/types";
 import FlexBox from "../../components/ui/FlexBox";
+import Link from "next/link";
+import LinkNewTab from "../../components/util/LinkNewTab";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -92,6 +92,43 @@ const MySchoolAppPage: React.FC = () => {
         isValidating: studentsLoading,
         error: studentsError,
     } = useSWR("/user/school/students", schoolStudentsFetcher(schoolId));
+
+    useEffect(
+        function () {
+            if (
+                coursesPendingVerification?.length &&
+                user.role === EUserRoles.SCHOOL_OFFICIAL
+            ) {
+                const course = coursesPendingVerification[0];
+                createAlert({
+                    headerText: "A new course is pending verification",
+                    bodyText:
+                        "You may choose to either verify or dismiss this course. Before deciding, you are encouraged to inspect the course and message the instructor directly.",
+                    type: ENotificationTypes.INFO,
+                    renderFooter: () => (
+                        <>
+                            <LinkNewTab
+                                href="/app/courses/[id]"
+                                as={`/app/courses/${course._id}`}
+                            >
+                                <Button color="primary" variant="contained">
+                                    Inspect Course
+                                </Button>
+                            </LinkNewTab>
+                            <LinkNewTab
+                                href={`/app/messaging?contact=${course.meta.instructors[0]}`}
+                            >
+                                <Button color="primary">
+                                    Contact Instructor
+                                </Button>
+                            </LinkNewTab>
+                        </>
+                    ),
+                });
+            }
+        },
+        [coursesPendingVerification]
+    );
 
     async function handleEnrollInCourse(courseId: string) {
         try {

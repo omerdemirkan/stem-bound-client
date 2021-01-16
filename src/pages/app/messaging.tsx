@@ -23,6 +23,7 @@ import Typography from "@material-ui/core/Typography";
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
     const chatId = router.query.id as string;
+    const contactUserId = router.query.contact as string;
 
     const { user } = useContext(AuthContext);
 
@@ -39,7 +40,7 @@ const MessagingAppPage: React.FC = () => {
         setInspectedChat,
         messagesLoading,
         chatsError,
-        messagesError,
+        contactUser,
     } = useMessaging(chatId);
 
     const inspectedChat = chats?.find((chat) => chat._id === chatId);
@@ -59,6 +60,13 @@ const MessagingAppPage: React.FC = () => {
             setUserIsTyping(userIsTyping);
         },
         [userIsTyping]
+    );
+
+    useEffect(
+        function () {
+            if (contactUserId) contactUser(contactUserId);
+        },
+        [contactUserId]
     );
 
     useEffect(
