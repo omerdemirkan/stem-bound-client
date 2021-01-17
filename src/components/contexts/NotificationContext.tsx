@@ -1,17 +1,19 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import {
     INotificationContextState,
     IAlertData,
     ISnackbarData,
 } from "../../utils/types";
 import { clone } from "../../utils/helpers";
+import { ProviderContext, SnackbarProvider } from "notistack";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
-import { useSnackbar } from "notistack";
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
 
 const initialState: INotificationContextState = {
     createAlert: () => {},
@@ -27,7 +29,7 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
 
     const [lastAlert, setLastAlert] = useState<IAlertData>();
 
-    const { enqueueSnackbar } = useSnackbar();
+    const notistackRef = useRef<ProviderContext>();
 
     const alertModalOpen = !!alertQueue.length;
     const alert = alertQueue[0] || lastAlert;
@@ -58,65 +60,81 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
     }
 
     function createSnackbar(snackbarData: ISnackbarData) {
-        enqueueSnackbar(snackbarData.text, {
+        notistackRef.current.enqueueSnackbar(snackbarData.text, {
             variant: snackbarData.type,
             onClick: snackbarData.onClick,
             key: snackbarData.text,
-            onClose: snackbarData.onClose,
         });
     }
 
-    return (
-        <NotificationContext.Provider
-            value={{
-                createAlert,
-                createSnackbar,
-            }}
-        >
-            {children}
+    useEffect(function () {
+        createSnackbar({ text: "Yoo", type: "info" });
+    }, []);
 
-            <Dialog
-                open={!!alertModalOpen}
-                onClose={handleAlertCancelButtonClicked}
+    return (
+        <SnackbarProvider
+            ref={notistackRef as any}
+            action={(key) => (
+                <IconButton
+                    onClick={() => notistackRef.current.closeSnackbar(key)}
+                    size="small"
+                    color="inherit"
+                >
+                    <CloseIcon />
+                </IconButton>
+            )}
+        >
+            <NotificationContext.Provider
+                value={{
+                    createAlert,
+                    createSnackbar,
+                }}
             >
-                <DialogTitle>{alert?.headerText}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {alert?.bodyText}
-                    </DialogContentText>
-                    {alert?.renderContent
-                        ? alert?.renderContent({
-                              closeAlert: handleAlertOkButtonClicked,
-                          })
-                        : null}
-                </DialogContent>
-                <DialogActions>
-                    {alert?.onCancel && (
-                        <Button
-                            onClick={handleAlertCancelButtonClicked}
-                            color="primary"
-                            variant="outlined"
-                        >
-                            Cancel
-                        </Button>
-                    )}
-                    {alert?.onOk && (
-                        <Button
-                            onClick={handleAlertOkButtonClicked}
-                            color="primary"
-                            variant="contained"
-                            autoFocus
-                        >
-                            Ok
-                        </Button>
-                    )}
-                    {alert?.renderFooter
-                        ? alert?.renderFooter({
-                              closeAlert: handleAlertOkButtonClicked,
-                          })
-                        : null}
-                </DialogActions>
-            </Dialog>
-        </NotificationContext.Provider>
+                {children}
+
+                <Dialog
+                    open={!!alertModalOpen}
+                    onClose={handleAlertCancelButtonClicked}
+                >
+                    <DialogTitle>{alert?.headerText}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {alert?.bodyText}
+                        </DialogContentText>
+                        {alert?.renderContent
+                            ? alert?.renderContent({
+                                  closeAlert: handleAlertOkButtonClicked,
+                              })
+                            : null}
+                    </DialogContent>
+                    <DialogActions>
+                        {alert?.onCancel && (
+                            <Button
+                                onClick={handleAlertCancelButtonClicked}
+                                color="primary"
+                                variant="outlined"
+                            >
+                                Cancel
+                            </Button>
+                        )}
+                        {alert?.onOk && (
+                            <Button
+                                onClick={handleAlertOkButtonClicked}
+                                color="primary"
+                                variant="contained"
+                                autoFocus
+                            >
+                                Ok
+                            </Button>
+                        )}
+                        {alert?.renderFooter
+                            ? alert?.renderFooter({
+                                  closeAlert: handleAlertOkButtonClicked,
+                              })
+                            : null}
+                    </DialogActions>
+                </Dialog>
+            </NotificationContext.Provider>
+        </SnackbarProvider>
     );
 };
