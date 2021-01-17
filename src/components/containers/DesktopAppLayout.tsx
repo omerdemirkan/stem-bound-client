@@ -95,8 +95,7 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                     background-color: var(--background-dark);
                     border-top-left-radius: 10px;
                     border-bottom-left-radius: 10px;
-                    padding: 35px;
-
+                    padding: 25px 35px;
                     display: flex;
                     flex-direction: column;
                     overflow: hidden;
@@ -106,12 +105,13 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                     z-index: 8;
                     display: flex;
                     justify-content: space-between;
+                    align-items: center;
                     flex-wrap: wrap;
                 }
 
                 .main .body {
                     overflow-y: auto;
-                    padding: 20px 0;
+                    padding: 12px 0;
                 }
 
                 .main .footer {

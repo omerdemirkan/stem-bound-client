@@ -84,6 +84,47 @@ const CourseAppPage: React.FC = () => {
                 { label: "Courses", href: "/app/courses" },
                 { label: course?.title },
             ]}
+            actionEl={
+                <>
+                    <Link
+                        href="/app/courses/[id]/meetings"
+                        as={`/app/courses/${course?._id}/meetings`}
+                    >
+                        <a>
+                            <Button
+                                color="primary"
+                                className="spaced-horizontal"
+                            >
+                                MEETINGS
+                            </Button>
+                        </a>
+                    </Link>
+                    <Link
+                        href="/app/courses/[id]/announcements"
+                        as={`/app/courses/${course?._id}/announcements`}
+                    >
+                        <a>
+                            <Button
+                                color="primary"
+                                className="spaced-horizontal"
+                            >
+                                ANNOUNCEMENTS
+                            </Button>
+                        </a>
+                    </Link>
+
+                    {user.role === EUserRoles.INSTRUCTOR && (
+                        <Link
+                            href="/app/courses/[id]/settings"
+                            as={`/app/courses/${course?._id}/settings`}
+                        >
+                            <IconButton color="primary" aria-label="Settings">
+                                <SettingsIcon />
+                            </IconButton>
+                        </Link>
+                    )}
+                </>
+            }
         >
             <Head>
                 <title>STEM-bound - {course?.title || "Course"}</title>
@@ -92,59 +133,6 @@ const CourseAppPage: React.FC = () => {
             <SplitScreen
                 mainEl={
                     <>
-                        <ActionBar
-                            startEl={
-                                <Typography
-                                    variant="h5"
-                                    gutterBottom
-                                    align="center"
-                                >
-                                    {course?.title}
-                                </Typography>
-                            }
-                        >
-                            <Link
-                                href="/app/courses/[id]/meetings"
-                                as={`/app/courses/${course?._id}/meetings`}
-                            >
-                                <a>
-                                    <Button
-                                        color="primary"
-                                        className="spaced-horizontal"
-                                    >
-                                        MEETINGS
-                                    </Button>
-                                </a>
-                            </Link>
-                            <Link
-                                href="/app/courses/[id]/announcements"
-                                as={`/app/courses/${course?._id}/announcements`}
-                            >
-                                <a>
-                                    <Button
-                                        color="primary"
-                                        className="spaced-horizontal"
-                                    >
-                                        ANNOUNCEMENTS
-                                    </Button>
-                                </a>
-                            </Link>
-
-                            {user.role === EUserRoles.INSTRUCTOR && (
-                                <Link
-                                    href="/app/courses/[id]/settings"
-                                    as={`/app/courses/${course?._id}/settings`}
-                                >
-                                    <IconButton
-                                        color="primary"
-                                        aria-label="Settings"
-                                    >
-                                        <SettingsIcon />
-                                    </IconButton>
-                                </Link>
-                            )}
-                        </ActionBar>
-
                         {course?.verificationStatus ===
                         ECourseVerificationStatus.PENDING_VERIFICATION ? (
                             <Alert severity="info">

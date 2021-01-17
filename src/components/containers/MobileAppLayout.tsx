@@ -32,6 +32,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
     breadCrumbs,
     footerEl,
     mainContainerProps,
+    actionEl,
 }) => {
     const classes = useStyles();
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
@@ -55,28 +56,6 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
             <AppBar color="default" ref={headerAppbarRef}>
                 <Toolbar className={classes.toolBar}>
                     <header className="mobile-navigation-header">
-                        {breadCrumbs.length >= 2
-                            ? (function () {
-                                  const backBreadCrumb =
-                                      breadCrumbs[breadCrumbs.length - 2];
-                                  if (!backBreadCrumb.href) return null;
-                                  return (
-                                      <Link
-                                          href={backBreadCrumb.href}
-                                          as={backBreadCrumb.as}
-                                      >
-                                          <a>
-                                              <IconButton
-                                                  size="small"
-                                                  aria-label="Back"
-                                              >
-                                                  <ArrowBackIosIcon color="inherit" />
-                                              </IconButton>
-                                          </a>
-                                      </Link>
-                                  );
-                              })()
-                            : null}
                         {paginateBreadcrumbsMinified(breadCrumbs)}
                     </header>
                     <IconButton
@@ -100,6 +79,8 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 </div>
                 <AppNavigation />
             </Drawer>
+
+            <div className="action">{actionEl}</div>
 
             <main {...mainContainerProps}>{children}</main>
             {footerEl && (
@@ -134,6 +115,14 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                     background-color: var(--background-dark);
                     display: flex;
                     align-items: center;
+                }
+
+                .action {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    padding-top: 20px;
                 }
 
                 .main-footer {

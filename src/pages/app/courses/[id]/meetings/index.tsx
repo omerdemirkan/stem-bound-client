@@ -51,48 +51,45 @@ const MeetingsAppPage: React.FC = () => {
                 },
                 { label: "Meetings" },
             ]}
+            actionEl={
+                course?.meta.instructors.includes(user._id) ? (
+                    <>
+                        <Link
+                            href="/app/courses/[id]/meetings/create"
+                            as={`/app/courses/${course?._id}/meetings/create`}
+                        >
+                            <a>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className="spaced-horizontal"
+                                >
+                                    CREATE MEETINGS
+                                </Button>
+                            </a>
+                        </Link>
+                        <Link
+                            href="/app/courses/[id]/meetings/update"
+                            as={`/app/courses/${course?._id}/meetings/update`}
+                            shallow
+                        >
+                            <a>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className="spaced-horizontal"
+                                >
+                                    UPDATE MEETINGS
+                                </Button>
+                            </a>
+                        </Link>
+                    </>
+                ) : null
+            }
         >
             <Head>
                 <title>STEM-bound - {course?.title || "Course"}</title>
             </Head>
-
-            {course?.meta.instructors.includes(user._id) ? (
-                <ActionBar
-                    startEl={
-                        <Typography variant="h6">Recent meetings</Typography>
-                    }
-                >
-                    <Link
-                        href="/app/courses/[id]/meetings/create"
-                        as={`/app/courses/${course?._id}/meetings/create`}
-                    >
-                        <a>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                className="spaced-horizontal"
-                            >
-                                CREATE MEETINGS
-                            </Button>
-                        </a>
-                    </Link>
-                    <Link
-                        href="/app/courses/[id]/meetings/update"
-                        as={`/app/courses/${course?._id}/meetings/update`}
-                        shallow
-                    >
-                        <a>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                className="spaced-horizontal"
-                            >
-                                UPDATE MEETINGS
-                            </Button>
-                        </a>
-                    </Link>
-                </ActionBar>
-            ) : null}
 
             <Section>
                 {!meetingsLoading && !meetings?.length && (

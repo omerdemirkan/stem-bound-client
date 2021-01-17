@@ -106,38 +106,36 @@ const AnnouncementsAppPage: React.FC = () => {
                 },
                 { label: "Announcements" },
             ]}
+            actionEl={
+                <>
+                    {user.role === EUserRoles.INSTRUCTOR ? (
+                        <InputButton
+                            renderInput={(value, setValue) => (
+                                <TextField
+                                    id="create-announcement"
+                                    label="New Announcement"
+                                    onChange={(e) => setValue(e.target.value)}
+                                    value={value}
+                                    multiline
+                                    fullWidth
+                                />
+                            )}
+                            onSubmit={handleCreateAnnouncement}
+                            initialValue={""}
+                            ButtonProps={{
+                                color: "primary",
+                                variant: "contained",
+                            }}
+                        >
+                            CREATE
+                        </InputButton>
+                    ) : null}
+                </>
+            }
         >
             <Head>
                 <title>STEM-bound - Announcements</title>
             </Head>
-            <ActionBar
-                startEl={
-                    <Typography variant="h6">Recent Announcements</Typography>
-                }
-            >
-                {user.role === EUserRoles.INSTRUCTOR ? (
-                    <InputButton
-                        renderInput={(value, setValue) => (
-                            <TextField
-                                id="create-announcement"
-                                label="New Announcement"
-                                onChange={(e) => setValue(e.target.value)}
-                                value={value}
-                                multiline
-                                fullWidth
-                            />
-                        )}
-                        onSubmit={handleCreateAnnouncement}
-                        initialValue={""}
-                        ButtonProps={{
-                            color: "primary",
-                            variant: "contained",
-                        }}
-                    >
-                        CREATE
-                    </InputButton>
-                ) : null}
-            </ActionBar>
             {!announcementsLoading && !announcements?.length && (
                 <PictureMessage
                     Svg={NoResultsSVG}

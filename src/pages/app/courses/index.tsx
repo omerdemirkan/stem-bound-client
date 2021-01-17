@@ -52,28 +52,25 @@ const CoursesAppPage: React.FC = () => {
     }
 
     return (
-        <AppLayout header="Courses">
+        <AppLayout
+            header="My Courses"
+            actionEl={
+                <>
+                    {user.role === EUserRoles.INSTRUCTOR ? (
+                        <Link href="/app/courses/create">
+                            <a>
+                                <Button variant="contained" color="primary">
+                                    CREATE COURSE
+                                </Button>
+                            </a>
+                        </Link>
+                    ) : null}
+                </>
+            }
+        >
             <Head>
                 <title>STEM-bound - My Courses</title>
             </Head>
-
-            <ActionBar
-                startEl={
-                    <Typography variant="h6" color="textSecondary">
-                        My Courses
-                    </Typography>
-                }
-            >
-                {user.role === EUserRoles.INSTRUCTOR ? (
-                    <Link href="/app/courses/create">
-                        <a>
-                            <Button variant="contained" color="primary">
-                                CREATE COURSE
-                            </Button>
-                        </a>
-                    </Link>
-                ) : null}
-            </ActionBar>
 
             <Section
                 loading={coursesLoading}
