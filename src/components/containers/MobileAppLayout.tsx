@@ -69,7 +69,10 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                                           as={backBreadCrumb.as}
                                       >
                                           <a>
-                                              <IconButton size="small">
+                                              <IconButton
+                                                  size="small"
+                                                  aria-label="Back"
+                                              >
                                                   <ArrowBackIosIcon color="inherit" />
                                               </IconButton>
                                           </a>
@@ -79,7 +82,11 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                             : null}
                         {paginateBreadcrumbs(breadCrumbs)}
                     </header>
-                    <IconButton color="inherit" onClick={toggleSidebar}>
+                    <IconButton
+                        color="inherit"
+                        aria-label="Menu"
+                        onClick={toggleSidebar}
+                    >
                         <MenuIcon />
                     </IconButton>
                 </Toolbar>

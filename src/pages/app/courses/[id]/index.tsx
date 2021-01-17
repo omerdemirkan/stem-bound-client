@@ -20,15 +20,20 @@ import {
 } from "../../../../utils/services";
 import Section from "../../../../components/ui/Section";
 import SplitScreen from "../../../../components/ui/SplitScreen";
-import { ECourseVerificationStatus } from "../../../../utils/types";
+import { ECourseVerificationStatus, EUserRoles } from "../../../../utils/types";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import useMessaging from "../../../../components/hooks/useMessaging";
 import { getFormalDateAndTime } from "../../../../utils/helpers";
+import { useContext } from "react";
+import AuthContext from "../../../../components/contexts/AuthContext";
+import SettingsIcon from "@material-ui/icons/Settings";
+import IconButton from "@material-ui/core/IconButton";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
+    const { user } = useContext(AuthContext);
     const { contactUser } = useMessaging();
     const { data: course } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}` : null,
@@ -104,7 +109,6 @@ const CourseAppPage: React.FC = () => {
                             >
                                 <a>
                                     <Button
-                                        variant="contained"
                                         color="primary"
                                         className="spaced-horizontal"
                                     >
@@ -118,7 +122,6 @@ const CourseAppPage: React.FC = () => {
                             >
                                 <a>
                                     <Button
-                                        variant="contained"
                                         color="primary"
                                         className="spaced-horizontal"
                                     >
@@ -126,6 +129,20 @@ const CourseAppPage: React.FC = () => {
                                     </Button>
                                 </a>
                             </Link>
+
+                            {user.role === EUserRoles.INSTRUCTOR && (
+                                <Link
+                                    href="/app/courses/[id]/settings"
+                                    as={`/app/courses/${course?._id}/settings`}
+                                >
+                                    <IconButton
+                                        color="primary"
+                                        aria-label="Settings"
+                                    >
+                                        <SettingsIcon />
+                                    </IconButton>
+                                </Link>
+                            )}
                         </ActionBar>
 
                         {course?.verificationStatus ===

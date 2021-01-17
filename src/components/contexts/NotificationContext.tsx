@@ -1,4 +1,4 @@
-import { createContext, useEffect, useRef, useState } from "react";
+import { createContext, useRef, useState } from "react";
 import {
     INotificationContextState,
     IAlertData,
@@ -67,10 +67,6 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
         });
     }
 
-    useEffect(function () {
-        createSnackbar({ text: "Yoo", type: "info" });
-    }, []);
-
     return (
         <SnackbarProvider
             ref={notistackRef as any}
@@ -79,6 +75,7 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
                     onClick={() => notistackRef.current.closeSnackbar(key)}
                     size="small"
                     color="inherit"
+                    aria-label="Close Alert"
                 >
                     <CloseIcon />
                 </IconButton>

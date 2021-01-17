@@ -62,8 +62,6 @@ const ChipInput: React.FC<Props> = ({
                     onDelete={() => onChange(value.filter((s) => s !== chip))}
                 />
             ))}
-
-            {}
         </>
     );
 };

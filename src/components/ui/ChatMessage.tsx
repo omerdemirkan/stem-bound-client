@@ -103,6 +103,7 @@ const ChatMessage: React.FC<Props> = ({
                                 size="small"
                                 className="dropdown-icon-button"
                                 color="primary"
+                                aria-label="Message Actions"
                                 ref={menuIconButtonRef}
                                 onClick={toggleMenu}
                             >
