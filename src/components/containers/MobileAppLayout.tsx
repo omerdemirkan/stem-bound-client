@@ -10,11 +10,8 @@ import Drawer from "@material-ui/core/Drawer";
 import WordLogoSVG from "../svg/icons/word-logo";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Link from "next/link";
-import Typography from "@material-ui/core/Typography";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-import { IBreadCrumb } from "../../utils/types";
-import Box from "@material-ui/core/Box";
 import useDimensions from "../hooks/useDimensions";
+import { paginateBreadcrumbsMinified } from "../util/paginateBreadCrumbs";
 
 const useStyles = makeStyles({
     toolBar: {
@@ -80,7 +77,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                                   );
                               })()
                             : null}
-                        {paginateBreadcrumbs(breadCrumbs)}
+                        {paginateBreadcrumbsMinified(breadCrumbs)}
                     </header>
                     <IconButton
                         color="inherit"
@@ -149,54 +146,3 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
 };
 
 export default MobileAppLayout;
-
-function paginateBreadcrumbs(breadCrumbs: IBreadCrumb[]) {
-    if (!breadCrumbs) return null;
-
-    let elements = [];
-
-    if (breadCrumbs.length >= 3) {
-        elements.push(<span key="dots">...</span>);
-    }
-
-    let element;
-    let elementKey;
-
-    // Top two breadcrumbs
-    const renderedBreadCrumbs = breadCrumbs.slice(
-        Math.max(breadCrumbs.length - 2, 0),
-        breadCrumbs.length
-    );
-
-    renderedBreadCrumbs.forEach(function (breadCrumb, index) {
-        elementKey = breadCrumb.label + breadCrumb.href;
-        element = (
-            <Typography
-                variant={breadCrumbs.length === 1 ? "h6" : "subtitle1"}
-                color={
-                    index === breadCrumbs.length - 1
-                        ? "textPrimary"
-                        : "textSecondary"
-                }
-                key={elementKey}
-                style={{ margin: "0" }}
-            >
-                <Box letterSpacing={0}>{breadCrumb.label}</Box>
-            </Typography>
-        );
-        if (breadCrumb.href)
-            element = (
-                <Link
-                    href={breadCrumb.href}
-                    as={breadCrumb.as}
-                    key={elementKey}
-                    shallow={breadCrumb.shallow}
-                >
-                    {element}
-                </Link>
-            );
-
-        elements.push(element);
-    });
-    return <Breadcrumbs>{elements}</Breadcrumbs>;
-}

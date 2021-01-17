@@ -3,12 +3,11 @@ import { useContext } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-import Link from "next/link";
 import WordLogoSVG from "../svg/icons/word-logo";
 import AppNavigation from "./AppNavigation";
 import { IAppLayoutProps } from "./AppLayout";
 import ThemeContext from "../contexts/ThemeContext";
+import { paginateBreadCrumbs } from "../util/paginateBreadCrumbs";
 
 const useStyles = makeStyles({
     finePrint: {
@@ -24,8 +23,9 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
     children,
     header,
     breadCrumbs,
-    footerEl,
     mainContainerProps,
+    actionEl,
+    footerEl,
 }) => {
     const { theme } = useContext(ThemeContext);
 
@@ -50,54 +50,19 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
             </aside>
 
             <main className="main">
-                <div className="main-header">
-                    <Breadcrumbs>
-                        {breadCrumbs?.map(function (
-                            { label, href, shallow, as },
-                            index
-                        ) {
-                            const isLast = index === breadCrumbs.length - 1;
-                            let bc = (
-                                <Typography
-                                    key={label + href}
-                                    variant="h6"
-                                    color={
-                                        isLast ? "textPrimary" : "textSecondary"
-                                    }
-                                    gutterBottom
-                                >
-                                    {label}
-                                </Typography>
-                            );
-                            if (href) {
-                                bc = (
-                                    <Link
-                                        href={href}
-                                        as={as}
-                                        shallow={shallow}
-                                        key={label + href}
-                                    >
-                                        <a>{bc}</a>
-                                    </Link>
-                                );
-                            }
-                            return bc;
-                        })}
-                    </Breadcrumbs>
-                    <Divider />
+                <div className="header">
+                    {paginateBreadCrumbs(breadCrumbs)}
+                    <div className="action">{actionEl}</div>
                 </div>
+                <Divider />
                 <div
                     {...mainContainerProps}
-                    className={
-                        mainContainerProps?.className
-                            ? `${mainContainerProps.className} main-body`
-                            : "main-body"
-                    }
+                    className={`body ${mainContainerProps?.className || ""}`}
                 >
                     {children}
                 </div>
                 <div
-                    className="main-footer"
+                    className="footer"
                     style={footerEl ? undefined : { display: "none" }}
                 >
                     {footerEl}
@@ -130,24 +95,27 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                     background-color: var(--background-dark);
                     border-top-left-radius: 10px;
                     border-bottom-left-radius: 10px;
+                    padding: 35px;
 
                     display: flex;
                     flex-direction: column;
                     overflow: hidden;
                 }
 
-                .main-header {
-                    padding: 30px 45px 0;
+                .main .header {
                     z-index: 8;
+                    display: flex;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
                 }
 
-                .main-body {
+                .main .body {
                     overflow-y: auto;
-                    padding: 20px 45px;
+                    padding: 20px 0;
                 }
 
-                .main-footer {
-                    padding: 20px 45px;
+                .main .footer {
+                    padding-top: 20px;
                     z-index: 8;
                     margin-top: auto;
                 }

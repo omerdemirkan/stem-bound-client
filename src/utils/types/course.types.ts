@@ -56,6 +56,7 @@ export interface IAnnouncement {
 }
 
 export enum ECourseVerificationStatus {
+    UNPUBLISHED = "UNPUBLISHED",
     PENDING_VERIFICATION = "PENDING_VERIFICATION",
     DISMISSED = "DISMISSED",
     VERIFIED = "VERIFIED",

@@ -144,7 +144,6 @@ const MyAccountAppPage: React.FC = () => {
                                         />
                                     )}
                                     ButtonProps={{
-                                        variant: "text",
                                         color: "primary",
                                         className: classes.editButton,
                                         size: "small",
@@ -160,7 +159,6 @@ const MyAccountAppPage: React.FC = () => {
                                     user.profilePictureUrl ? "UPDATE" : "ADD"
                                 } PROFILE PICTURE`}
                                 ButtonProps={{
-                                    variant: "text",
                                     color: "primary",
                                     className: classes.editButton,
                                     size: "small",
@@ -190,7 +188,6 @@ const MyAccountAppPage: React.FC = () => {
                                         />
                                     )}
                                     ButtonProps={{
-                                        variant: "text",
                                         color: "primary",
                                         size: "small",
                                         className: classes.editButton,
@@ -227,7 +224,6 @@ const MyAccountAppPage: React.FC = () => {
                                         />
                                     )}
                                     ButtonProps={{
-                                        variant: "text",
                                         color: "primary",
                                         size: "small",
                                         className: classes.editButton,
@@ -266,7 +262,6 @@ const MyAccountAppPage: React.FC = () => {
                                             />
                                         )}
                                         ButtonProps={{
-                                            variant: "text",
                                             color: "primary",
                                             size: "small",
                                             className: classes.editButton,
@@ -310,7 +305,6 @@ const MyAccountAppPage: React.FC = () => {
                                             />
                                         )}
                                         ButtonProps={{
-                                            variant: "text",
                                             color: "primary",
                                             size: "small",
                                             className: classes.editButton,

@@ -83,7 +83,6 @@ const PictureInput: React.FC<Props> = ({
                 style={{ display: "none" }}
             />
             <Button
-                variant="contained"
                 color="primary"
                 onClick={() => inputRef.current.click()}
                 {...ButtonProps}

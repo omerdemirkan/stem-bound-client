@@ -8,6 +8,7 @@ export interface IAppLayoutProps {
     header?: string;
     breadCrumbs?: IBreadCrumb[];
     footerEl?: any;
+    actionEl?: any;
     theme?: ETheme;
     mainContainerProps?: DetailedHTMLProps<
         HTMLAttributes<HTMLDivElement>,
