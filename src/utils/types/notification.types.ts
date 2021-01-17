@@ -11,6 +11,7 @@ export interface IAlertData {
     headerText: string;
     bodyText: string;
     renderFooter?: (helpers?: { closeAlert(): any }) => any;
+    renderContent?: (helpers?: { closeAlert(): any }) => any;
     onOk?: () => any;
     onCancel?: () => any;
 }

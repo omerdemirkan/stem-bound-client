@@ -101,27 +101,57 @@ const MySchoolAppPage: React.FC = () => {
             ) {
                 const course = coursesPendingVerification[0];
                 createAlert({
-                    headerText: "A new course is pending verification",
+                    headerText: `A new course, "${course.title}" , is pending verification`,
                     bodyText:
                         "You may choose to either verify or dismiss this course. Before deciding, you are encouraged to inspect the course and message the instructor directly.",
                     type: ENotificationTypes.INFO,
-                    renderFooter: () => (
+                    renderContent: () => (
                         <>
                             <LinkNewTab
                                 href="/app/courses/[id]"
                                 as={`/app/courses/${course._id}`}
                             >
-                                <Button color="primary" variant="contained">
+                                <Button color="primary" size="small">
                                     Inspect Course
                                 </Button>
                             </LinkNewTab>
                             <LinkNewTab
                                 href={`/app/messaging?contact=${course.meta.instructors[0]}`}
                             >
-                                <Button color="primary">
+                                <Button color="primary" size="small">
                                     Contact Instructor
                                 </Button>
                             </LinkNewTab>
+                        </>
+                    ),
+                    renderFooter: ({ closeAlert }) => (
+                        <>
+                            <Button
+                                onClick={() => {
+                                    handleUpdateCourseVerification(
+                                        course._id,
+                                        ECourseVerificationStatus.DISMISSED
+                                    );
+                                    closeAlert();
+                                }}
+                                color="secondary"
+                                variant="contained"
+                            >
+                                Dismiss
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    handleUpdateCourseVerification(
+                                        course._id,
+                                        ECourseVerificationStatus.VERIFIED
+                                    );
+                                    closeAlert();
+                                }}
+                                color="primary"
+                                variant="contained"
+                            >
+                                Verify
+                            </Button>
                         </>
                     ),
                 });
