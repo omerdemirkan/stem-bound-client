@@ -118,9 +118,14 @@ const CourseAppPage: React.FC = () => {
                             href="/app/courses/[id]/settings"
                             as={`/app/courses/${course?._id}/settings`}
                         >
-                            <IconButton color="primary" aria-label="Settings">
-                                <SettingsIcon />
-                            </IconButton>
+                            <a>
+                                <IconButton
+                                    color="primary"
+                                    aria-label="Settings"
+                                >
+                                    <SettingsIcon />
+                                </IconButton>
+                            </a>
                         </Link>
                     )}
                 </>

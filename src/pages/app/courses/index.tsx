@@ -55,17 +55,15 @@ const CoursesAppPage: React.FC = () => {
         <AppLayout
             header="My Courses"
             actionEl={
-                <>
-                    {user.role === EUserRoles.INSTRUCTOR ? (
-                        <Link href="/app/courses/create">
-                            <a>
-                                <Button variant="contained" color="primary">
-                                    CREATE COURSE
-                                </Button>
-                            </a>
-                        </Link>
-                    ) : null}
-                </>
+                user.role === EUserRoles.INSTRUCTOR ? (
+                    <Link href="/app/courses/create">
+                        <a>
+                            <Button variant="contained" color="primary">
+                                CREATE COURSE
+                            </Button>
+                        </a>
+                    </Link>
+                ) : null
             }
         >
             <Head>

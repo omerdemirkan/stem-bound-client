@@ -119,7 +119,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
 
                 .action {
                     display: flex;
-                    justify-content: center;
+                    justify-content: flex-end;
                     align-items: center;
                     flex-wrap: wrap;
                     padding-top: 20px;

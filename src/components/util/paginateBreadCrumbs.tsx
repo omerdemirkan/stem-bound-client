@@ -79,7 +79,7 @@ export function paginateBreadcrumbsMinified(breadCrumbs: IBreadCrumb[]) {
                     key={elementKey}
                     shallow={breadCrumb.shallow}
                 >
-                    {element}
+                    <a>{element}</a>
                 </Link>
             );
 

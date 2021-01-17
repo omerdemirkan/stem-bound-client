@@ -103,6 +103,7 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
 
                 .main .header {
                     z-index: 8;
+                    padding-bottom: 8px;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
@@ -111,7 +112,7 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
 
                 .main .body {
                     overflow-y: auto;
-                    padding: 12px 0;
+                    padding: 16px 0;
                 }
 
                 .main .footer {

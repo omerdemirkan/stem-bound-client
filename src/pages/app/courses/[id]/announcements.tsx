@@ -107,30 +107,28 @@ const AnnouncementsAppPage: React.FC = () => {
                 { label: "Announcements" },
             ]}
             actionEl={
-                <>
-                    {user.role === EUserRoles.INSTRUCTOR ? (
-                        <InputButton
-                            renderInput={(value, setValue) => (
-                                <TextField
-                                    id="create-announcement"
-                                    label="New Announcement"
-                                    onChange={(e) => setValue(e.target.value)}
-                                    value={value}
-                                    multiline
-                                    fullWidth
-                                />
-                            )}
-                            onSubmit={handleCreateAnnouncement}
-                            initialValue={""}
-                            ButtonProps={{
-                                color: "primary",
-                                variant: "contained",
-                            }}
-                        >
-                            CREATE
-                        </InputButton>
-                    ) : null}
-                </>
+                user.role === EUserRoles.INSTRUCTOR ? (
+                    <InputButton
+                        renderInput={(value, setValue) => (
+                            <TextField
+                                id="create-announcement"
+                                label="New Announcement"
+                                onChange={(e) => setValue(e.target.value)}
+                                value={value}
+                                multiline
+                                fullWidth
+                            />
+                        )}
+                        onSubmit={handleCreateAnnouncement}
+                        initialValue={""}
+                        ButtonProps={{
+                            color: "primary",
+                            variant: "contained",
+                        }}
+                    >
+                        CREATE
+                    </InputButton>
+                ) : null
             }
         >
             <Head>

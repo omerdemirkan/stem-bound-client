@@ -201,9 +201,11 @@ const MessagingAppPage: React.FC = () => {
                     size="large"
                     footer={
                         <Link href="/app/search">
-                            <Button color="primary" fullWidth>
-                                Go to Search Page
-                            </Button>
+                            <a>
+                                <Button color="primary" fullWidth>
+                                    Go to Search Page
+                                </Button>
+                            </a>
                         </Link>
                     }
                 />
