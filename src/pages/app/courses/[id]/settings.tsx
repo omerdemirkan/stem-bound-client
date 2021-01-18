@@ -1,17 +1,17 @@
 import useSWR from "swr";
 import AppLayout from "../../../../components/containers/AppLayout";
-import AuthContext from "../../../../components/contexts/AuthContext";
 import withAuth from "../../../../components/hoc/withAuth";
-import ActionBar from "../../../../components/ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
 import { courseFetcher, updateCourseById } from "../../../../utils/services";
 import { EUserRoles, ICourseOriginal } from "../../../../utils/types";
 import { useRouter } from "next/router";
-import { useContext } from "react";
 import Section from "../../../../components/ui/Section";
 import InputButton from "../../../../components/ui/InputButton";
 import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import SplitScreen from "../../../../components/ui/SplitScreen";
+import { useContext } from "react";
+import AuthContext from "../../../../components/contexts/AuthContext";
 
 const useStyles = makeStyles({
     avatar: {
@@ -31,6 +31,7 @@ const CourseSettingsAppPage: React.FC = () => {
         courseId ? `/courses/${courseId}` : null,
         courseFetcher(courseId)
     );
+    const { user } = useContext(AuthContext);
 
     const classes = useStyles();
 
@@ -51,32 +52,80 @@ const CourseSettingsAppPage: React.FC = () => {
                 { label: "Settings" },
             ]}
         >
-            <Section
-                title="Course Title"
-                noDivider
-                action={
-                    <InputButton
-                        initialValue={course?.title}
-                        renderInput={(value, setValue) => (
-                            <TextField
-                                value={value}
-                                onChange={(e) => setValue(e.target.value)}
-                                fullWidth
-                            />
-                        )}
-                        onSubmit={(title) => handleCourseUpdate({ title })}
-                        ButtonProps={{
-                            color: "primary",
-                            size: "small",
-                            className: classes.editButton,
-                        }}
-                    >
-                        Edit Course Title
-                    </InputButton>
+            <SplitScreen
+                mainEl={
+                    <>
+                        <Section
+                            title="Title"
+                            noDivider
+                            spacing="sm"
+                            paddingTop="0"
+                            action={
+                                <InputButton
+                                    initialValue={course?.title}
+                                    renderInput={(value, setValue) => (
+                                        <TextField
+                                            value={value}
+                                            onChange={(e) =>
+                                                setValue(e.target.value)
+                                            }
+                                            fullWidth
+                                        />
+                                    )}
+                                    onSubmit={(title) =>
+                                        handleCourseUpdate({ title })
+                                    }
+                                    ButtonProps={{
+                                        color: "primary",
+                                        size: "small",
+                                        className: classes.editButton,
+                                    }}
+                                >
+                                    Edit Title
+                                </InputButton>
+                            }
+                        >
+                            <Typography variant="h5">
+                                {course?.title}
+                            </Typography>
+                        </Section>
+                        <Section
+                            title="Short description"
+                            spacing="sm"
+                            action={
+                                <InputButton
+                                    initialValue={course?.shortDescription}
+                                    renderInput={(value, setValue) => (
+                                        <TextField
+                                            value={value}
+                                            onChange={(e) =>
+                                                setValue(e.target.value)
+                                            }
+                                            fullWidth
+                                            multiline
+                                        />
+                                    )}
+                                    onSubmit={(shortDescription) =>
+                                        handleCourseUpdate({ shortDescription })
+                                    }
+                                    ButtonProps={{
+                                        color: "primary",
+                                        size: "small",
+                                        className: classes.editButton,
+                                    }}
+                                >
+                                    Edit Short Description
+                                </InputButton>
+                            }
+                        >
+                            <Typography paragraph>
+                                {course?.shortDescription}
+                            </Typography>
+                        </Section>
+                    </>
                 }
-            >
-                <Typography variant="h5">{course?.title}</Typography>
-            </Section>
+                secondaryEl={<></>}
+            />
         </AppLayout>
     );
 };

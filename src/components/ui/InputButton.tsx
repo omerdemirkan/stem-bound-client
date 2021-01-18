@@ -4,16 +4,23 @@ import Dialog, { DialogProps } from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 
+export type IInputRenderFunction = (
+    value: any,
+    setValue: Dispatch<any>,
+    options?: {
+        updateFields(value: any): void;
+        handleChange(event: ChangeEvent<any>): void;
+    }
+) => any;
+
+export type IButtonRenderFunction = (props: {
+    onClick(): any;
+    disabled: boolean;
+}) => any;
+
 interface Props {
-    renderInput(
-        value: any,
-        setValue: Dispatch<any>,
-        options?: {
-            updateFields(value: any): void;
-            handleChange(event: ChangeEvent<any>): void;
-        }
-    ): any;
-    renderButton?(props: { onClick(): any; disabled: boolean }): any;
+    renderInput?: IInputRenderFunction;
+    renderButton?: IButtonRenderFunction;
     renderActions?(actionHelpers: { close: (values: any) => void }): any;
     onSubmit: (value: any) => any;
     initialValue?: any;
