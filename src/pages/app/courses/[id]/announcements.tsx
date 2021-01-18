@@ -123,7 +123,6 @@ const AnnouncementsAppPage: React.FC = () => {
                         initialValue={""}
                         ButtonProps={{
                             color: "primary",
-                            variant: "contained",
                         }}
                     >
                         CREATE

@@ -138,8 +138,9 @@ const CourseAppPage: React.FC = () => {
             <SplitScreen
                 mainEl={
                     <>
-                        {course?.verificationStatus ===
-                        ECourseVerificationStatus.PENDING_VERIFICATION ? (
+                        {user.role === EUserRoles.INSTRUCTOR &&
+                        course?.verificationStatus ===
+                            ECourseVerificationStatus.PENDING_VERIFICATION ? (
                             <Alert severity="info">
                                 <AlertTitle>
                                     This course is pending verification from a
@@ -149,8 +150,9 @@ const CourseAppPage: React.FC = () => {
                             </Alert>
                         ) : null}
 
-                        {course?.verificationStatus ===
-                        ECourseVerificationStatus.DISMISSED ? (
+                        {user.role === EUserRoles.INSTRUCTOR &&
+                        course?.verificationStatus ===
+                            ECourseVerificationStatus.DISMISSED ? (
                             <Alert
                                 severity="warning"
                                 action={

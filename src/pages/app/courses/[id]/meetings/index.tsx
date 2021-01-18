@@ -55,31 +55,30 @@ const MeetingsAppPage: React.FC = () => {
                 course?.meta.instructors.includes(user._id) ? (
                     <>
                         <Link
-                            href="/app/courses/[id]/meetings/create"
-                            as={`/app/courses/${course?._id}/meetings/create`}
-                        >
-                            <a>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className="spaced-horizontal"
-                                >
-                                    CREATE MEETINGS
-                                </Button>
-                            </a>
-                        </Link>
-                        <Link
                             href="/app/courses/[id]/meetings/update"
                             as={`/app/courses/${course?._id}/meetings/update`}
                             shallow
                         >
                             <a>
                                 <Button
-                                    variant="contained"
                                     color="primary"
                                     className="spaced-horizontal"
                                 >
                                     UPDATE MEETINGS
+                                </Button>
+                            </a>
+                        </Link>
+                        <Link
+                            href="/app/courses/[id]/meetings/create"
+                            as={`/app/courses/${course?._id}/meetings/create`}
+                        >
+                            <a>
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    className="spaced-horizontal"
+                                >
+                                    CREATE MEETINGS
                                 </Button>
                             </a>
                         </Link>

@@ -80,9 +80,10 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 <AppNavigation />
             </Drawer>
 
-            <div className="action">{actionEl}</div>
-
-            <main {...mainContainerProps}>{children}</main>
+            <main {...mainContainerProps}>
+                <div className="action">{actionEl}</div>
+                {children}
+            </main>
             {footerEl && (
                 <AppBar
                     color="default"

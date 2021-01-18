@@ -58,9 +58,7 @@ const CoursesAppPage: React.FC = () => {
                 user.role === EUserRoles.INSTRUCTOR ? (
                     <Link href="/app/courses/create">
                         <a>
-                            <Button variant="contained" color="primary">
-                                CREATE COURSE
-                            </Button>
+                            <Button color="primary">CREATE COURSE</Button>
                         </a>
                     </Link>
                 ) : null
