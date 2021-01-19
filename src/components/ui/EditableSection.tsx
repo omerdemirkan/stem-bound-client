@@ -1,6 +1,9 @@
-import { TextField } from "@material-ui/core";
+import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import Typography, { TypographyProps } from "@material-ui/core/Typography";
-import InputButton, { IInputRenderFunction } from "./InputButton";
+import InputButton, {
+    IInputRenderFunction,
+    IInputButtonProps,
+} from "./InputButton";
 import Section, { ISectionProps } from "./Section";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
@@ -19,16 +22,22 @@ interface Props extends ISectionProps {
     value: any;
     onEdit(value: any): any;
     content?: any;
-    TypographyProps: TypographyProps;
+    buttonText?: string;
     renderInput?: IInputRenderFunction;
+    TypographyProps?: TypographyProps;
+    TextFieldProps?: TextFieldProps;
+    InputButtonProps?: IInputButtonProps;
 }
 
 const EditableSection: React.FC<Props> = ({
     value,
     onEdit,
-    TypographyProps,
     renderInput,
+    buttonText,
     content,
+    TextFieldProps,
+    TypographyProps,
+    InputButtonProps,
     ...sectionProps
 }) => {
     const classes = useStyles();
@@ -45,6 +54,7 @@ const EditableSection: React.FC<Props> = ({
                                 value={value}
                                 onChange={(e) => setValue(e.target.value)}
                                 fullWidth
+                                {...TextFieldProps}
                             />
                         ))
                     }
@@ -54,8 +64,9 @@ const EditableSection: React.FC<Props> = ({
                         size: "small",
                         className: classes.editButton,
                     }}
+                    {...InputButtonProps}
                 >
-                    Edit {sectionProps.title}
+                    {buttonText || `Edit ${sectionProps.title}`}
                 </InputButton>
             }
         >

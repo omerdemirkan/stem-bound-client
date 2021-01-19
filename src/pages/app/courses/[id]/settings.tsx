@@ -12,6 +12,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import SplitScreen from "../../../../components/ui/SplitScreen";
 import { useContext } from "react";
 import AuthContext from "../../../../components/contexts/AuthContext";
+import EditableSection from "../../../../components/ui/EditableSection";
 
 const useStyles = makeStyles({
     avatar: {
@@ -55,73 +56,23 @@ const CourseSettingsAppPage: React.FC = () => {
             <SplitScreen
                 mainEl={
                     <>
-                        <Section
+                        <EditableSection
                             title="Title"
                             noDivider
                             spacing="sm"
                             paddingTop="0"
-                            action={
-                                <InputButton
-                                    initialValue={course?.title}
-                                    renderInput={(value, setValue) => (
-                                        <TextField
-                                            value={value}
-                                            onChange={(e) =>
-                                                setValue(e.target.value)
-                                            }
-                                            fullWidth
-                                        />
-                                    )}
-                                    onSubmit={(title) =>
-                                        handleCourseUpdate({ title })
-                                    }
-                                    ButtonProps={{
-                                        color: "primary",
-                                        size: "small",
-                                        className: classes.editButton,
-                                    }}
-                                >
-                                    Edit Title
-                                </InputButton>
-                            }
-                        >
-                            <Typography variant="h5">
-                                {course?.title}
-                            </Typography>
-                        </Section>
-                        <Section
-                            title="Short description"
+                            onEdit={(title) => handleCourseUpdate({ title })}
+                            value={course?.title}
+                            TypographyProps={{ variant: "h5" }}
+                        />
+                        <EditableSection
+                            title="Short Description"
                             spacing="sm"
-                            action={
-                                <InputButton
-                                    initialValue={course?.shortDescription}
-                                    renderInput={(value, setValue) => (
-                                        <TextField
-                                            value={value}
-                                            onChange={(e) =>
-                                                setValue(e.target.value)
-                                            }
-                                            fullWidth
-                                            multiline
-                                        />
-                                    )}
-                                    onSubmit={(shortDescription) =>
-                                        handleCourseUpdate({ shortDescription })
-                                    }
-                                    ButtonProps={{
-                                        color: "primary",
-                                        size: "small",
-                                        className: classes.editButton,
-                                    }}
-                                >
-                                    Edit Short Description
-                                </InputButton>
+                            onEdit={(shortDescription) =>
+                                handleCourseUpdate({ shortDescription })
                             }
-                        >
-                            <Typography paragraph>
-                                {course?.shortDescription}
-                            </Typography>
-                        </Section>
+                            value={course?.shortDescription}
+                        />
                     </>
                 }
                 secondaryEl={<></>}

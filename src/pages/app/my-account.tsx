@@ -34,6 +34,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Section from "../../components/ui/Section";
 import Chip from "@material-ui/core/Chip";
 import CourseCard from "../../components/ui/CourseCard";
+import EditableSection from "../../components/ui/EditableSection";
 
 const useStyles = makeStyles({
     avatar: {
@@ -166,79 +167,29 @@ const MyAccountAppPage: React.FC = () => {
                             />
                         </ActionBar>
 
-                        <Section
+                        <EditableSection
                             title="Short Description"
-                            action={
-                                <InputButton
-                                    initialValue={user.shortDescription}
-                                    onSubmit={(value) =>
-                                        handleUpdateUser({
-                                            shortDescription: value,
-                                        })
-                                    }
-                                    renderInput={(value, setValue) => (
-                                        <TextField
-                                            id="short-description"
-                                            value={value}
-                                            onChange={(e) =>
-                                                setValue(e.target.value)
-                                            }
-                                            fullWidth
-                                            multiline
-                                        />
-                                    )}
-                                    ButtonProps={{
-                                        color: "primary",
-                                        size: "small",
-                                        className: classes.editButton,
-                                    }}
-                                >
-                                    UPDATE SHORT DESCRIPTION
-                                </InputButton>
+                            onEdit={(value) =>
+                                handleUpdateUser({
+                                    shortDescription: value,
+                                })
                             }
-                        >
-                            <Typography variant="h5" gutterBottom>
-                                {user.shortDescription}
-                            </Typography>
-                        </Section>
+                            value={user.shortDescription}
+                            TypographyProps={{ variant: "h5" }}
+                        />
 
-                        <Section
+                        <EditableSection
                             title="Long Description"
-                            action={
-                                <InputButton
-                                    initialValue={user.longDescription || ""}
-                                    onSubmit={(value) =>
-                                        handleUpdateUser({
-                                            longDescription: value,
-                                        })
-                                    }
-                                    renderInput={(value, setValue) => (
-                                        <TextField
-                                            id="long-description"
-                                            onChange={(e) =>
-                                                setValue(e.target.value)
-                                            }
-                                            value={value}
-                                            multiline
-                                            fullWidth
-                                        />
-                                    )}
-                                    ButtonProps={{
-                                        color: "primary",
-                                        size: "small",
-                                        className: classes.editButton,
-                                    }}
-                                >
-                                    {`${
-                                        user.longDescription ? "UPDATE" : "ADD"
-                                    } LONG DESCRIPTION`}
-                                </InputButton>
+                            value={user.longDescription || ""}
+                            onEdit={(value) =>
+                                handleUpdateUser({
+                                    longDescription: value,
+                                })
                             }
-                        >
-                            <Typography paragraph>
-                                {user.longDescription}
-                            </Typography>
-                        </Section>
+                            buttonText={`${
+                                user.longDescription ? "UPDATE" : "ADD"
+                            } LONG DESCRIPTION`}
+                        />
 
                         {user.role === EUserRoles.STUDENT ? (
                             <Section

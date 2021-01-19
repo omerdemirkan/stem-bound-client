@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 
 type Spacing = number | "xs" | "sm" | "md" | "lg" | "xl";
 
-export interface ISectionProps {
+export interface ISectionProps extends BoxProps {
     title?: string;
     action?: any;
     spacing?: Spacing;
@@ -33,7 +33,7 @@ function getSpacingValue(spacing: Spacing) {
     }
 }
 
-const Section: React.FC<ISectionProps & BoxProps> = ({
+const Section: React.FC<ISectionProps> = ({
     title,
     action,
     children,

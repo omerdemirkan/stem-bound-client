@@ -18,7 +18,7 @@ export type IButtonRenderFunction = (props: {
     disabled: boolean;
 }) => any;
 
-interface Props {
+export interface IInputButtonProps {
     renderInput?: IInputRenderFunction;
     renderButton?: IButtonRenderFunction;
     renderActions?(actionHelpers: { close: (values: any) => void }): any;
@@ -29,7 +29,7 @@ interface Props {
     DialogProps?: DialogProps;
 }
 
-const InputButton: React.FC<Props> = ({
+const InputButton: React.FC<IInputButtonProps> = ({
     children,
     onSubmit,
     renderInput,
