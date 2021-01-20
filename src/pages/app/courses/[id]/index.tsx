@@ -181,6 +181,7 @@ const CourseAppPage: React.FC = () => {
                         {announcements?.length ? (
                             <Section
                                 title="Recent Announcements"
+                                noDivider
                                 loading={announcementsLoading}
                             >
                                 {announcements.map((announcement) => (
@@ -193,8 +194,8 @@ const CourseAppPage: React.FC = () => {
                         ) : null}
 
                         <Section
-                            spacing={10}
                             title="Upcoming Meetings"
+                            noDivider={!announcements?.length}
                             loading={upcomingMeetingsLoading}
                             infoMessage={
                                 upcomingMeetings?.length === 0 &&
@@ -219,8 +220,8 @@ const CourseAppPage: React.FC = () => {
                 secondaryEl={
                     <>
                         <Section
-                            spacing={8}
                             title="Instructors"
+                            noDivider
                             loading={instructorsLoading}
                             infoMessage={
                                 instructors?.length === 0 &&
@@ -240,7 +241,6 @@ const CourseAppPage: React.FC = () => {
                         </Section>
 
                         <Section
-                            spacing={8}
                             title="Students"
                             loading={studentsLoading}
                             infoMessage={

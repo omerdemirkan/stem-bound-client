@@ -194,7 +194,7 @@ const MeetingsForm: React.FC<Props> = ({
                 </Stepper>
             </Section>
 
-            <Section spacing={10}>
+            <Section>
                 {step < 2 ? (
                     <MeetingDefaultDataForm
                         onSubmit={handleDefaultDataSelected}

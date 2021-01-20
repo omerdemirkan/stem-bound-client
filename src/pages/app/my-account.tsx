@@ -284,6 +284,7 @@ const MyAccountAppPage: React.FC = () => {
                         user.role === EUserRoles.STUDENT ? (
                             <Section
                                 title="Courses"
+                                noDivider
                                 loading={coursesLoading}
                                 infoMessage={
                                     courses?.length === 0 &&

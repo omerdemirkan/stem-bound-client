@@ -57,7 +57,6 @@ const SignUpPage: React.FC = () => {
                 alignContent="center"
                 alignItems="stretch"
                 wrap="wrap"
-                spacing={2}
                 style={{
                     width: "90%",
                     maxWidth: "1300px",

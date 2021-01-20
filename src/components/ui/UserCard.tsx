@@ -57,7 +57,7 @@ const UserCard: React.FC<UserCardProps> = ({
             />
             <Divider />
             <CardContent style={{ paddingTop: "0", paddingBottom: "0" }}>
-                <Section title="About Me" noDivider spacing={5}>
+                <Section title="About Me" noDivider spacing="xs">
                     <Typography variant="h6" style={{ margin: "0 0 3px" }}>
                         {user?.shortDescription}
                     </Typography>
@@ -67,7 +67,7 @@ const UserCard: React.FC<UserCardProps> = ({
                 </Section>
 
                 {user?.role === EUserRoles.INSTRUCTOR ? (
-                    <Section title="My Specialties" spacing={5}>
+                    <Section title="My Specialties" spacing="xs">
                         {(user as IInstructor)?.specialties.map((specialty) => (
                             <Chip
                                 label={specialty}
@@ -79,7 +79,7 @@ const UserCard: React.FC<UserCardProps> = ({
                 ) : null}
 
                 {user?.role === EUserRoles.STUDENT ? (
-                    <Section title="My Interests" spacing={5}>
+                    <Section title="My Interests" spacing="xs">
                         {(user as IStudent)?.interests.map((interest) => (
                             <Chip
                                 label={interest}

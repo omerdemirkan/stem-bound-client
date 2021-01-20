@@ -90,7 +90,7 @@ const MeetingsAppPage: React.FC = () => {
                 <title>STEM-bound - {course?.title || "Course"}</title>
             </Head>
 
-            <Section>
+            <Section noDivider>
                 {!meetingsLoading && !meetings?.length && (
                     <PictureMessage
                         Svg={NoResultsSVG}

@@ -74,6 +74,7 @@ const CoursesAppPage: React.FC = () => {
                 errorMessage={
                     coursesError && "Couldn't load courses, an error occured"
                 }
+                noDivider
             >
                 <FlexBox>
                     {courses?.map((course) => (

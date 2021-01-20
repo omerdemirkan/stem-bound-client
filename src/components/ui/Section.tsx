@@ -2,9 +2,10 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import Divider from "@material-ui/core/Divider";
 import Box, { BoxProps } from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Typography from "@material-ui/core/Typography";
+import Alert from "@material-ui/lab/Alert";
+import AlertTitle from "@material-ui/lab/AlertTitle";
 
-type Spacing = number | "xs" | "sm" | "md" | "lg" | "xl";
+type Spacing = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface ISectionProps extends BoxProps {
     title?: string;
@@ -13,23 +14,44 @@ export interface ISectionProps extends BoxProps {
     noDivider?: boolean;
     loading?: boolean;
     infoMessage?: string;
+    infoHeader?: string;
+    infoAction?: any;
     errorMessage?: string;
+    errorHeader?: string;
+    errorAction?: any;
 }
 
-function getSpacingValue(spacing: Spacing) {
+function getBoxPadding(
+    spacing: Spacing,
+    options: { noDivider?: boolean } = {}
+) {
     if (!spacing) return 12;
-    if (typeof spacing === "number") return spacing;
     switch (spacing) {
         case "xs":
-            return 5;
+            return `${!options.noDivider ? 5 : 0}px 0 ${5}px`;
         case "sm":
-            return 8;
+            return `${!options.noDivider ? 8 : 0}px 0 ${8}px`;
         case "md":
-            return 12;
+            return `${!options.noDivider ? 12 : 0}px 0 ${12}px`;
         case "lg":
-            return 16;
+            return `${!options.noDivider ? 16 : 0}px 0 ${16}px`;
         case "xl":
-            return 22;
+            return `${!options.noDivider ? 22 : 0}px 0 ${22}px`;
+    }
+}
+
+function getListSubheaderLineHeight(spacing: Spacing) {
+    switch (spacing) {
+        case "xs":
+            return `35px`;
+        case "sm":
+            return `45px`;
+        case "md":
+            return `55px`;
+        case "lg":
+            return `65px`;
+        case "xl":
+            return `75px`;
     }
 }
 
@@ -40,14 +62,18 @@ const Section: React.FC<ISectionProps> = ({
     spacing,
     noDivider,
     loading,
+    infoHeader,
     infoMessage,
+    infoAction,
     errorMessage,
+    errorAction,
+    errorHeader,
     ...boxProps
 }) => {
-    const spacingValue = getSpacingValue(spacing);
+    spacing = spacing || "md";
     return (
         <Box
-            padding={`${spacingValue}px 0 ${spacingValue}px`}
+            padding={getBoxPadding(spacing, { noDivider })}
             alignItems="center"
             {...boxProps}
         >
@@ -65,7 +91,7 @@ const Section: React.FC<ISectionProps> = ({
                             style={{
                                 padding: "0",
                                 position: "relative",
-                                lineHeight: `${5 * spacingValue + 10}px`,
+                                lineHeight: getListSubheaderLineHeight(spacing),
                             }}
                         >
                             {title}
@@ -81,15 +107,19 @@ const Section: React.FC<ISectionProps> = ({
                 </>
             ) : null}
             {children}
-            {infoMessage && (
-                <Typography paragraph color="textSecondary">
+            {(infoMessage || infoHeader) && (
+                <Alert severity="info" action={infoAction}>
+                    {infoHeader ? <AlertTitle>{infoHeader}</AlertTitle> : null}
                     {infoMessage}
-                </Typography>
+                </Alert>
             )}
-            {errorMessage && (
-                <Typography paragraph color="secondary">
+            {(errorMessage || errorHeader) && (
+                <Alert severity="info" action={errorAction}>
+                    {errorHeader ? (
+                        <AlertTitle>{errorHeader}</AlertTitle>
+                    ) : null}
                     {errorMessage}
-                </Typography>
+                </Alert>
             )}
         </Box>
     );

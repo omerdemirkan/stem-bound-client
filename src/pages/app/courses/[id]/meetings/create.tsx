@@ -77,7 +77,7 @@ const CreateMeetingAppPage: React.FC = () => {
             ]}
         >
             {course ? (
-                <Section spacing={8}>
+                <Section noDivider>
                     <MeetingsForm
                         defaultMeetingType={
                             course.type === ECourseTypes.REMOTE

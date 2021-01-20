@@ -1,15 +1,7 @@
 import { IChat } from "../../utils/types";
-import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import Avatar from "@material-ui/core/Avatar";
-import ListItemText from "@material-ui/core/ListItemText";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import format from "date-fns/format";
 import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
-import formatDistance from "date-fns/formatDistance";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import Section from "./Section";
 import ChatCard from "./ChatCard";
 
@@ -34,12 +26,11 @@ const ChatList: React.FC<Props> = ({
     loading,
     errorMessage,
 }) => {
-    const classes = useStyles();
-    const now = new Date();
     return (
         <List>
             <Section
                 title="My Inbox"
+                noDivider
                 loading={loading}
                 errorMessage={errorMessage}
                 infoMessage={

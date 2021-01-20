@@ -315,7 +315,7 @@ const MySchoolAppPage: React.FC = () => {
                         <Typography>{school?.location.shortDisplay}</Typography>
                         <Section
                             title="Courses"
-                            spacing={10}
+                            noDivider
                             infoMessage={
                                 !coursesLoading &&
                                 !courses?.length &&
@@ -329,12 +329,12 @@ const MySchoolAppPage: React.FC = () => {
                             {courses?.length ? paginateCourses(courses) : null}
                         </Section>
                         {coursesPendingVerification?.length ? (
-                            <Section title="Unverified Courses" spacing={10}>
+                            <Section title="Unverified Courses">
                                 {paginateCourses(coursesPendingVerification)}
                             </Section>
                         ) : null}
                         {dismissedCourses?.length ? (
-                            <Section title="Dismissed Courses" spacing={10}>
+                            <Section title="Dismissed Courses">
                                 {paginateCourses(dismissedCourses)}
                             </Section>
                         ) : null}
@@ -344,6 +344,7 @@ const MySchoolAppPage: React.FC = () => {
                     <>
                         <Section
                             title="School Officials"
+                            noDivider
                             loading={schoolOfficialsLoading}
                             infoMessage={
                                 schoolOfficials?.length === 0 &&

@@ -89,7 +89,7 @@ const CourseCard: React.FC<Props> = ({
             <Divider />
 
             <CardContent style={{ paddingTop: "0", paddingBottom: "0" }}>
-                <Section spacing={5} title="Description" noDivider>
+                <Section spacing="xs" title="Description" noDivider>
                     <Typography variant="h6" gutterBottom>
                         {course?.shortDescription}
                     </Typography>
@@ -101,7 +101,7 @@ const CourseCard: React.FC<Props> = ({
                 </Section>
 
                 <Section
-                    spacing={5}
+                    spacing="xs"
                     title="Taught by"
                     loading={instructorsLoading}
                     errorMessage={
