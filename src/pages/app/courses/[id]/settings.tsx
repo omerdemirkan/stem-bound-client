@@ -1,18 +1,21 @@
 import useSWR from "swr";
 import AppLayout from "../../../../components/containers/AppLayout";
 import withAuth from "../../../../components/hoc/withAuth";
-import Typography from "@material-ui/core/Typography";
 import { courseFetcher, updateCourseById } from "../../../../utils/services";
-import { EUserRoles, ICourseOriginal } from "../../../../utils/types";
+import {
+    ECourseVerificationStatus,
+    EUserRoles,
+    ICourseOriginal,
+} from "../../../../utils/types";
 import { useRouter } from "next/router";
-import Section from "../../../../components/ui/Section";
-import InputButton from "../../../../components/ui/InputButton";
-import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import SplitScreen from "../../../../components/ui/SplitScreen";
 import { useContext } from "react";
 import AuthContext from "../../../../components/contexts/AuthContext";
 import EditableSection from "../../../../components/ui/EditableSection";
+import Alert from "@material-ui/lab/Alert";
+import Button from "@material-ui/core/Button";
+import AlertTitle from "@material-ui/lab/AlertTitle";
 
 const useStyles = makeStyles({
     avatar: {
@@ -72,6 +75,17 @@ const CourseSettingsAppPage: React.FC = () => {
                                 handleCourseUpdate({ shortDescription })
                             }
                             value={course?.shortDescription}
+                            TextFieldProps={{ multiline: true }}
+                        />
+                        <EditableSection
+                            title="Long Description"
+                            spacing="sm"
+                            onEdit={(longDescription) =>
+                                handleCourseUpdate({ longDescription })
+                            }
+                            value={course?.longDescription}
+                            TextFieldProps={{ multiline: true }}
+                            buttonText="Edit long description"
                         />
                     </>
                 }

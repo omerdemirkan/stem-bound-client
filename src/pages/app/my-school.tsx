@@ -18,7 +18,7 @@ import {
     schoolStudentsFetcher,
     enrollByCourseId,
     dropByCourseId,
-    udpateCourseVerification,
+    updateCourseVerification,
     schoolFetcher,
 } from "../../utils/services";
 import {
@@ -205,7 +205,7 @@ const MySchoolAppPage: React.FC = () => {
         courseId: string,
         verificationStatus: ECourseVerificationStatus
     ) {
-        await udpateCourseVerification(courseId, verificationStatus);
+        await updateCourseVerification(courseId, verificationStatus);
         refetchCourses();
         refetchCoursesPendingVerification();
         refetchDismissedCourses();

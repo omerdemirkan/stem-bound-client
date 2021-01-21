@@ -4,8 +4,6 @@ import Link from "next/link";
 import useSWR from "swr";
 import withAuth from "../../../../components/hoc/withAuth";
 import Button from "@material-ui/core/Button";
-import ActionBar from "../../../../components/ui/ActionBar";
-import Typography from "@material-ui/core/Typography";
 import UserCard from "../../../../components/ui/UserCard";
 import CourseAnnouncement from "../../../../components/ui/CourseAnnouncement";
 import MeetingCard from "../../../../components/ui/MeetingCard";
@@ -17,10 +15,15 @@ import {
     courseMeetingsFetcher,
     courseStudentsFetcher,
     schoolFetcher,
+    updateCourseVerification,
 } from "../../../../utils/services";
 import Section from "../../../../components/ui/Section";
 import SplitScreen from "../../../../components/ui/SplitScreen";
-import { ECourseVerificationStatus, EUserRoles } from "../../../../utils/types";
+import {
+    ECourseVerificationStatus,
+    ENotificationTypes,
+    EUserRoles,
+} from "../../../../utils/types";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import useMessaging from "../../../../components/hooks/useMessaging";
@@ -29,13 +32,15 @@ import { useContext } from "react";
 import AuthContext from "../../../../components/contexts/AuthContext";
 import SettingsIcon from "@material-ui/icons/Settings";
 import IconButton from "@material-ui/core/IconButton";
+import NotificationContext from "../../../../components/contexts/NotificationContext";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
+    const { createAlert } = useContext(NotificationContext);
     const { user } = useContext(AuthContext);
     const { contactUser } = useMessaging();
-    const { data: course } = useSWR(
+    const { data: course, revalidate: refetchCourse } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}` : null,
         courseFetcher(queryCourseId as any)
     );
@@ -77,6 +82,49 @@ const CourseAppPage: React.FC = () => {
         queryCourseId ? `/courses/${queryCourseId}/meetings` : null,
         courseMeetingsFetcher(queryCourseId as string)
     );
+
+    async function handleUpdateCourseVerificationStatus(
+        courseVerificationStatus: ECourseVerificationStatus
+    ) {
+        createAlert({
+            headerText: `Are you sure you want to ${
+                (courseVerificationStatus ===
+                    ECourseVerificationStatus.PENDING_VERIFICATION &&
+                    "publish") ||
+                (courseVerificationStatus ===
+                    ECourseVerificationStatus.UNPUBLISHED &&
+                    "unpublish") ||
+                (courseVerificationStatus ===
+                    ECourseVerificationStatus.VERIFIED &&
+                    "verify") ||
+                (courseVerificationStatus ===
+                    ECourseVerificationStatus.DISMISSED &&
+                    "dismiss")
+            } "${course.title}"?`,
+            bodyText:
+                (courseVerificationStatus ===
+                    ECourseVerificationStatus.PENDING_VERIFICATION &&
+                    `This will notify school officials to either verify or dismiss this course.`) ||
+                (courseVerificationStatus ===
+                    ECourseVerificationStatus.UNPUBLISHED &&
+                    `${school.name} school officials have already been notified that this course is published.`) ||
+                (courseVerificationStatus ===
+                    ECourseVerificationStatus.VERIFIED &&
+                    `${school.name} students will be able to enroll once this course has been verified.`) ||
+                (courseVerificationStatus ===
+                    ECourseVerificationStatus.DISMISSED &&
+                    `${school.name} students are not able to access dismissed courses.`),
+            type: ENotificationTypes.INFO,
+            onOk: async function () {
+                await updateCourseVerification(
+                    course?._id,
+                    courseVerificationStatus
+                );
+                refetchCourse();
+            },
+            onCancel: () => {},
+        });
+    }
 
     return (
         <AppLayout
@@ -121,6 +169,7 @@ const CourseAppPage: React.FC = () => {
                             <a>
                                 <IconButton
                                     color="primary"
+                                    size="small"
                                     aria-label="Settings"
                                 >
                                     <SettingsIcon />
@@ -141,12 +190,28 @@ const CourseAppPage: React.FC = () => {
                         {user.role === EUserRoles.INSTRUCTOR &&
                         course?.verificationStatus ===
                             ECourseVerificationStatus.PENDING_VERIFICATION ? (
-                            <Alert severity="info">
+                            <Alert
+                                severity="info"
+                                action={
+                                    <Button
+                                        color="primary"
+                                        onClick={() =>
+                                            handleUpdateCourseVerificationStatus(
+                                                ECourseVerificationStatus.UNPUBLISHED
+                                            )
+                                        }
+                                    >
+                                        Undo
+                                    </Button>
+                                }
+                            >
                                 <AlertTitle>
-                                    This course is pending verification from a
-                                    {school?.name ? ` ${school?.name} ` : " "}
-                                    school official
+                                    This course has been published
                                 </AlertTitle>
+                                "{course.title}" is published and pending
+                                verification from a
+                                {school?.name ? ` ${school?.name} ` : " "}
+                                school official
                             </Alert>
                         ) : null}
 
@@ -169,7 +234,10 @@ const CourseAppPage: React.FC = () => {
                                     </Button>
                                 }
                             >
-                                This course has been dismissed by a
+                                <AlertTitle>
+                                    This course has been dismissed
+                                </AlertTitle>
+                                "{course.title}" was dismissed by a
                                 {school?.name ? ` ${school?.name} ` : " "}
                                 school official at{" "}
                                 {getFormalDateAndTime(
@@ -177,6 +245,38 @@ const CourseAppPage: React.FC = () => {
                                 )}
                             </Alert>
                         ) : null}
+
+                        {user.role === EUserRoles.INSTRUCTOR &&
+                            course?.verificationStatus ===
+                                ECourseVerificationStatus.UNPUBLISHED && (
+                                <Alert
+                                    severity="info"
+                                    action={
+                                        <Button
+                                            color="primary"
+                                            onClick={() =>
+                                                handleUpdateCourseVerificationStatus(
+                                                    ECourseVerificationStatus.PENDING_VERIFICATION
+                                                )
+                                            }
+                                        >
+                                            Publish course
+                                        </Button>
+                                    }
+                                >
+                                    <AlertTitle>
+                                        This course is not published
+                                    </AlertTitle>
+                                    Publish "{course.title}" to be verified by a{" "}
+                                    {school?.name} school official
+                                </Alert>
+                            )}
+
+                        {user.role === EUserRoles.SCHOOL_OFFICIAL &&
+                            course?.verificationStatus ===
+                                ECourseVerificationStatus.UNPUBLISHED && (
+                                <Alert></Alert>
+                            )}
 
                         {announcements?.length ? (
                             <Section
@@ -201,6 +301,7 @@ const CourseAppPage: React.FC = () => {
                                 upcomingMeetings?.length === 0 &&
                                 "No upcoming meetings"
                             }
+                            infoAction={<Button></Button>}
                             errorMessage={
                                 upcomingMeetingsError &&
                                 "Couldn't load upcoming meetings, an error occured"

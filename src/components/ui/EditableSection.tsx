@@ -54,6 +54,7 @@ const EditableSection: React.FC<Props> = ({
                                 value={value}
                                 onChange={(e) => setValue(e.target.value)}
                                 fullWidth
+                                autoFocus
                                 {...TextFieldProps}
                             />
                         ))
@@ -66,7 +67,8 @@ const EditableSection: React.FC<Props> = ({
                     }}
                     {...InputButtonProps}
                 >
-                    {buttonText || `Edit ${sectionProps.title}`}
+                    {buttonText ||
+                        `${value ? "Edit" : "Add"} ${sectionProps.title}`}
                 </InputButton>
             }
         >

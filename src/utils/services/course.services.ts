@@ -86,7 +86,7 @@ export function createCourse(
     );
 }
 
-export function udpateCourseVerification(
+export function updateCourseVerification(
     courseId: string,
     verificationStatus: ECourseVerificationStatus
 ): Promise<IApiResponse<ICourse>> {

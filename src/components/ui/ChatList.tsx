@@ -1,15 +1,8 @@
 import { IChat } from "../../utils/types";
 import List from "@material-ui/core/List";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import Divider from "@material-ui/core/Divider";
 import Section from "./Section";
 import ChatCard from "./ChatCard";
-
-const useStyles = makeStyles({
-    listItem: {
-        cursor: "pointer",
-    },
-});
 
 interface Props {
     chats: IChat[];
@@ -31,6 +24,7 @@ const ChatList: React.FC<Props> = ({
             <Section
                 title="My Inbox"
                 noDivider
+                spacing="sm"
                 loading={loading}
                 errorMessage={errorMessage}
                 infoMessage={
