@@ -1,6 +1,6 @@
 import { ETheme } from "../../utils/types";
 import { useContext } from "react";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { makeStyles } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import WordLogoSVG from "../svg/icons/word-logo";

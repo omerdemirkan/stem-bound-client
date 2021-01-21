@@ -29,7 +29,7 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import ActionBar from "../../components/ui/ActionBar";
 import SplitScreen from "../../components/ui/SplitScreen";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { makeStyles } from "@material-ui/core";
 import Section from "../../components/ui/Section";
 import Chip from "@material-ui/core/Chip";
 import CourseCard from "../../components/ui/CourseCard";

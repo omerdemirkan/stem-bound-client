@@ -3,7 +3,7 @@ import { getMeetingTypeDisplay } from "../../utils/helpers";
 import { TimePicker } from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
 import { CardProps } from "@material-ui/core/Card";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { makeStyles } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";

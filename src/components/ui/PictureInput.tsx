@@ -3,7 +3,7 @@ import { getCroppedImg } from "../../utils/helpers";
 import { ChangeEvent, useState, useRef } from "react";
 import Button, { ButtonProps } from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
     button: {

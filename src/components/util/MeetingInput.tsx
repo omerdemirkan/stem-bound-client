@@ -15,7 +15,7 @@ import NotificationContext from "../contexts/NotificationContext";
 import MeetingCard from "../ui/MeetingCard";
 import { CardProps } from "@material-ui/core/Card";
 import IconButton from "@material-ui/core/IconButton";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { makeStyles } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";

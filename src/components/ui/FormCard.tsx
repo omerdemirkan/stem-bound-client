@@ -1,7 +1,7 @@
 import Divider from "@material-ui/core/Divider";
 import Card, { CardProps } from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import { SvgIconTypeMap } from "@material-ui/core/SvgIcon";

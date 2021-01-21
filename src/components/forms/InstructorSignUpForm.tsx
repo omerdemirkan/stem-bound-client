@@ -1,6 +1,6 @@
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import { CardProps } from "@material-ui/core/Card";

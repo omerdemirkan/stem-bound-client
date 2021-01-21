@@ -5,7 +5,7 @@ import InputButton, {
     IInputButtonProps,
 } from "../util/InputButton";
 import Section, { ISectionProps } from "./Section";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
     avatar: {
