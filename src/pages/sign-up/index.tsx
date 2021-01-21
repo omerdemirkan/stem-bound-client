@@ -1,4 +1,4 @@
-import Layout from "../../components/ui/Layout";
+import StaticLayout from "../../components/ui/Layout";
 import Head from "next/head";
 import AuthContext from "../../components/contexts/AuthContext";
 import InstructorSVG from "../../components/svg/illustrations/instructor";
@@ -42,7 +42,7 @@ const SignUpPage: React.FC = () => {
     );
 
     return (
-        <Layout>
+        <StaticLayout>
             <Head>
                 <title>STEM-bound - Sign Up</title>
             </Head>
@@ -120,7 +120,7 @@ const SignUpPage: React.FC = () => {
                     align-items: center;
                 }
             `}</style>
-        </Layout>
+        </StaticLayout>
     );
 };
 

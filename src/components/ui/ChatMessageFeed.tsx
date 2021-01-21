@@ -2,7 +2,7 @@ import Typography from "@material-ui/core/Typography";
 import { IChatMessage, IChatMessageEventHandlers } from "../../utils/types";
 import { getChatMessageGroups } from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
-import InvertScroll from "./InvertScroll";
+import InvertScroll from "../util/InvertScroll";
 import useCompute from "../hooks/useCompute";
 import PictureMessage from "./PictureMessage";
 import EmptyInboxSVG from "../svg/illustrations/empty-inbox";

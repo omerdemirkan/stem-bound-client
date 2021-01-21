@@ -37,7 +37,7 @@ import NotificationContext from "../../../../components/contexts/NotificationCon
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
-    const { createAlert } = useContext(NotificationContext);
+    const { createAlert, createSnackbar } = useContext(NotificationContext);
     const { user } = useContext(AuthContext);
     const { contactUser } = useMessaging();
     const { data: course, revalidate: refetchCourse } = useSWR(
@@ -84,46 +84,86 @@ const CourseAppPage: React.FC = () => {
     );
 
     async function handleUpdateCourseVerificationStatus(
-        courseVerificationStatus: ECourseVerificationStatus
+        newCourseVerificationStatus: ECourseVerificationStatus
     ) {
-        createAlert({
-            headerText: `Are you sure you want to ${
-                (courseVerificationStatus ===
-                    ECourseVerificationStatus.PENDING_VERIFICATION &&
-                    "publish") ||
-                (courseVerificationStatus ===
-                    ECourseVerificationStatus.UNPUBLISHED &&
-                    "unpublish") ||
-                (courseVerificationStatus ===
-                    ECourseVerificationStatus.VERIFIED &&
-                    "verify") ||
-                (courseVerificationStatus ===
-                    ECourseVerificationStatus.DISMISSED &&
-                    "dismiss")
-            } "${course.title}"?`,
-            bodyText:
-                (courseVerificationStatus ===
-                    ECourseVerificationStatus.PENDING_VERIFICATION &&
-                    `This will notify school officials to either verify or dismiss this course.`) ||
-                (courseVerificationStatus ===
-                    ECourseVerificationStatus.UNPUBLISHED &&
-                    `${school.name} school officials have already been notified that this course is published.`) ||
-                (courseVerificationStatus ===
-                    ECourseVerificationStatus.VERIFIED &&
-                    `${school.name} students will be able to enroll once this course has been verified.`) ||
-                (courseVerificationStatus ===
-                    ECourseVerificationStatus.DISMISSED &&
-                    `${school.name} students are not able to access dismissed courses.`),
-            type: ENotificationTypes.INFO,
-            onOk: async function () {
-                await updateCourseVerification(
-                    course?._id,
-                    courseVerificationStatus
-                );
-                refetchCourse();
-            },
-            onCancel: () => {},
-        });
+        switch (newCourseVerificationStatus) {
+            case ECourseVerificationStatus.PENDING_VERIFICATION:
+                createAlert({
+                    headerText: `Are you sure you want to publish "${course.title}"?`,
+                    bodyText: `This will notify school officials to either verify or dismiss this course.`,
+                    type: ENotificationTypes.INFO,
+                    onOk: async function () {
+                        await updateCourseVerification(
+                            course?._id,
+                            newCourseVerificationStatus
+                        );
+                        refetchCourse();
+                        createSnackbar({
+                            type: "info",
+                            text: `This course was successfully published`,
+                        });
+                    },
+                    onCancel: () => {},
+                });
+                break;
+            case ECourseVerificationStatus.UNPUBLISHED:
+                createAlert({
+                    headerText: `Are you sure you want to unpublish "${course.title}"?`,
+                    bodyText: `${school.name} school officials have already been notified that this course is published.`,
+                    type: ENotificationTypes.INFO,
+                    onOk: async function () {
+                        await updateCourseVerification(
+                            course?._id,
+                            newCourseVerificationStatus
+                        );
+                        refetchCourse();
+                        createSnackbar({
+                            type: "info",
+                            text: `This course was successfully published`,
+                        });
+                    },
+                    onCancel: () => {},
+                });
+                break;
+            case ECourseVerificationStatus.VERIFIED:
+                createAlert({
+                    headerText: `Are you sure you want to publish "${course.title}"?`,
+                    bodyText: `${school.name} students will be able to enroll once this course has been verified.`,
+                    type: ENotificationTypes.INFO,
+                    onOk: async function () {
+                        await updateCourseVerification(
+                            course?._id,
+                            newCourseVerificationStatus
+                        );
+                        refetchCourse();
+                        createSnackbar({
+                            type: "info",
+                            text: `This course was successfully verify`,
+                        });
+                    },
+                    onCancel: () => {},
+                });
+                break;
+            case ECourseVerificationStatus.DISMISSED:
+                createAlert({
+                    headerText: `Are you sure you want to dismiss "${course.title}"?`,
+                    bodyText: `${school.name} students will not be able to access this course.`,
+                    type: ENotificationTypes.INFO,
+                    onOk: async function () {
+                        await updateCourseVerification(
+                            course?._id,
+                            newCourseVerificationStatus
+                        );
+                        refetchCourse();
+                        createSnackbar({
+                            type: "info",
+                            text: `This course was successfully dismiss`,
+                        });
+                    },
+                    onCancel: () => {},
+                });
+                break;
+        }
     }
 
     return (
@@ -274,8 +314,40 @@ const CourseAppPage: React.FC = () => {
 
                         {user.role === EUserRoles.SCHOOL_OFFICIAL &&
                             course?.verificationStatus ===
-                                ECourseVerificationStatus.UNPUBLISHED && (
-                                <Alert></Alert>
+                                ECourseVerificationStatus.PENDING_VERIFICATION && (
+                                <Alert
+                                    severity="info"
+                                    action={
+                                        <>
+                                            <Button
+                                                color="secondary"
+                                                onClick={() =>
+                                                    handleUpdateCourseVerificationStatus(
+                                                        ECourseVerificationStatus.DISMISSED
+                                                    )
+                                                }
+                                            >
+                                                Dismiss
+                                            </Button>
+                                            <Button
+                                                color="primary"
+                                                onClick={() =>
+                                                    handleUpdateCourseVerificationStatus(
+                                                        ECourseVerificationStatus.VERIFIED
+                                                    )
+                                                }
+                                            >
+                                                Verify
+                                            </Button>
+                                        </>
+                                    }
+                                >
+                                    <AlertTitle>
+                                        This course is pending verification
+                                    </AlertTitle>
+                                    You may choose to either verify or dismiss
+                                    this course.
+                                </Alert>
                             )}
 
                         {announcements?.length ? (

@@ -16,10 +16,8 @@ import { useContext } from "react";
 import { EUserRoles, ENotificationTypes } from "../../../../utils/types";
 import { clone } from "../../../../utils/helpers";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
-import InputButton from "../../../../components/ui/InputButton";
+import InputButton from "../../../../components/util/InputButton";
 import TextField from "@material-ui/core/TextField";
-import ActionBar from "../../../../components/ui/ActionBar";
-import Typography from "@material-ui/core/Typography";
 import PictureMessage from "../../../../components/ui/PictureMessage";
 import NoResultsSVG from "../../../../components/svg/illustrations/no-results";
 

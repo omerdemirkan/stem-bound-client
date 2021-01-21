@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { EUserRoles } from "../../utils/types";
 
-const Layout: React.FC = ({ children }) => {
+const StaticLayout: React.FC = ({ children }) => {
     return (
         <>
             <div className="main">
@@ -37,4 +37,4 @@ const Layout: React.FC = ({ children }) => {
     );
 };
 
-export default Layout;
+export default StaticLayout;

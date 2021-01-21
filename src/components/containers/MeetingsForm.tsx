@@ -1,5 +1,5 @@
 import MultipleDatesPicker from "@randex/material-ui-multiple-dates-picker";
-import MeetingInput from "../ui/MeetingInput";
+import MeetingInput from "../util/MeetingInput";
 import { useState, useEffect, useContext } from "react";
 import { clone, mapMeetingData } from "../../utils/helpers";
 import {

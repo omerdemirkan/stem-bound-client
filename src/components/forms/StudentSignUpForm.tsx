@@ -5,11 +5,11 @@ import Button from "@material-ui/core/Button";
 import { CardProps } from "@material-ui/core/Card";
 import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
-import AsyncSelect from "../../components/ui/AsyncSelect";
+import AsyncSelect from "../util/AsyncSelect";
 import { fetchSchoolInputOptions } from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
-import ChipInput from "../ui/ChipInput";
+import ChipInput from "../util/ChipInput";
 
 const useStyles = makeStyles({
     submitButton: {

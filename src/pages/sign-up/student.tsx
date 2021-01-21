@@ -1,4 +1,4 @@
-import Layout from "../../components/ui/Layout";
+import StaticLayout from "../../components/ui/Layout";
 import Head from "next/head";
 import { SignUpStepper } from ".";
 import Typography from "@material-ui/core/Typography";
@@ -29,7 +29,7 @@ const StudentSignUpPage: React.FC = () => {
             .catch(setError);
     }
     return (
-        <Layout>
+        <StaticLayout>
             <Head>
                 <title>STEM-bound - Student Sign Up</title>
             </Head>
@@ -43,7 +43,7 @@ const StudentSignUpPage: React.FC = () => {
                 success={!!accessToken}
                 errorMessage={error?.message}
             />
-        </Layout>
+        </StaticLayout>
     );
 };
 

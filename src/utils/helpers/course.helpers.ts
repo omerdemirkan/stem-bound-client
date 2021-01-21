@@ -8,6 +8,9 @@ import {
     IMeetingDateDisplayData,
     IMeetingInput,
     ECourseVerificationStatus,
+    EUserRoles,
+    ISchool,
+    ENotificationTypes,
 } from "../types";
 import {
     meetingTypes,
@@ -16,6 +19,7 @@ import {
 } from "../constants";
 import differenceInMinutes from "date-fns/differenceInMinutes";
 import format from "date-fns/format";
+import { updateCourseVerification } from "../services";
 
 export function mapMeetingData(meeting: IMeetingOriginal): IMeeting {
     const startDate = new Date(meeting.start);

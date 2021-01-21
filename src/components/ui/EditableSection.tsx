@@ -3,7 +3,7 @@ import Typography, { TypographyProps } from "@material-ui/core/Typography";
 import InputButton, {
     IInputRenderFunction,
     IInputButtonProps,
-} from "./InputButton";
+} from "../util/InputButton";
 import Section, { ISectionProps } from "./Section";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
@@ -68,7 +68,7 @@ const EditableSection: React.FC<Props> = ({
                     {...InputButtonProps}
                 >
                     {buttonText ||
-                        `${value ? "Edit" : "Add"} ${sectionProps.title}`}
+                        `${!!value ? "Edit" : "Add"} ${sectionProps.title}`}
                 </InputButton>
             }
         >

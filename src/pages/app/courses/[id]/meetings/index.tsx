@@ -13,11 +13,9 @@ import {
     schoolFetcher,
 } from "../../../../../utils/services";
 import MeetingCard from "../../../../../components/ui/MeetingCard";
-import ActionBar from "../../../../../components/ui/ActionBar";
 import Section from "../../../../../components/ui/Section";
 import PictureMessage from "../../../../../components/ui/PictureMessage";
 import NoResultsSVG from "../../../../../components/svg/illustrations/no-results";
-import Typography from "@material-ui/core/Typography";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -54,20 +52,22 @@ const MeetingsAppPage: React.FC = () => {
             actionEl={
                 course?.meta.instructors.includes(user._id) ? (
                     <>
-                        <Link
-                            href="/app/courses/[id]/meetings/update"
-                            as={`/app/courses/${course?._id}/meetings/update`}
-                            shallow
-                        >
-                            <a>
-                                <Button
-                                    color="primary"
-                                    className="spaced-horizontal"
-                                >
-                                    UPDATE MEETINGS
-                                </Button>
-                            </a>
-                        </Link>
+                        {meetings?.length > 1 && (
+                            <Link
+                                href="/app/courses/[id]/meetings/update"
+                                as={`/app/courses/${course?._id}/meetings/update`}
+                                shallow
+                            >
+                                <a>
+                                    <Button
+                                        color="primary"
+                                        className="spaced-horizontal"
+                                    >
+                                        UPDATE MEETINGS
+                                    </Button>
+                                </a>
+                            </Link>
+                        )}
                         <Link
                             href="/app/courses/[id]/meetings/create"
                             as={`/app/courses/${course?._id}/meetings/create`}

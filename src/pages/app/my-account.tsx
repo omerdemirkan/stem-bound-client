@@ -16,16 +16,15 @@ import {
     userCoursesFetcher,
 } from "../../utils/services";
 import { useContext, useEffect } from "react";
-import InputButton from "../../components/ui/InputButton";
+import InputButton from "../../components/util/InputButton";
 import {
     IUserOriginal,
     IStudent,
     EUserRoles,
     IInstructor,
 } from "../../utils/types";
-import AsyncSelect from "../../components/ui/AsyncSelect";
-import TextField from "@material-ui/core/TextField";
-import ChipInput from "../../components/ui/ChipInput";
+import AsyncSelect from "../../components/util/AsyncSelect";
+import ChipInput from "../../components/util/ChipInput";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import ActionBar from "../../components/ui/ActionBar";

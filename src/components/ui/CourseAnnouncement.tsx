@@ -1,7 +1,7 @@
 import { IAnnouncement } from "../../utils/types";
 import AuthContext from "../contexts/AuthContext";
 import { useContext } from "react";
-import InputButton from "./InputButton";
+import InputButton from "../util/InputButton";
 import TextField from "@material-ui/core/TextField";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";

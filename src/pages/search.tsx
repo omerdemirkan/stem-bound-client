@@ -1,4 +1,4 @@
-import Layout from "../components/ui/Layout";
+import StaticLayout from "../components/ui/Layout";
 import Head from "next/head";
 import Search from "../components/containers/Search";
 import { NextPageContext } from "next";
@@ -21,7 +21,7 @@ interface Props {
 const SearchPage: React.FC<Props> = ({ query, searchData }) => {
     const router = useRouter();
     return (
-        <Layout>
+        <StaticLayout>
             <Head>
                 <title>STEM-bound - Search</title>
             </Head>
@@ -34,7 +34,7 @@ const SearchPage: React.FC<Props> = ({ query, searchData }) => {
                 }
             />
             <style jsx>{``}</style>
-        </Layout>
+        </StaticLayout>
     );
 };
 

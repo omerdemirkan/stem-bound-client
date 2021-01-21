@@ -10,10 +10,12 @@ import {
     updateMeetingById,
 } from "../../../../../utils/services";
 import { EUserRoles, IMeetingOriginal } from "../../../../../utils/types";
-import MeetingInput from "../../../../../components/ui/MeetingInput";
+import MeetingInput from "../../../../../components/util/MeetingInput";
 import { useContext } from "react";
 import NotificationContext from "../../../../../components/contexts/NotificationContext";
 import { clone } from "../../../../../utils/helpers";
+import PictureMessage from "../../../../../components/ui/PictureMessage";
+import NoResultsSVG from "../../../../../components/svg/illustrations/no-results";
 
 const UpdateMeetingAppPage: React.FC = () => {
     const router = useRouter();
@@ -22,7 +24,11 @@ const UpdateMeetingAppPage: React.FC = () => {
         queryCourseId ? `/courses/${queryCourseId}` : null,
         courseFetcher(queryCourseId as string)
     );
-    const { data: meetings, mutate: mutateMeetings } = useSWR(
+    const {
+        data: meetings,
+        mutate: mutateMeetings,
+        isValidating: meetingsLoading,
+    } = useSWR(
         queryCourseId && `/courses/${queryCourseId}/meetings`,
         courseMeetingsFetcher(queryCourseId as string)
     );
@@ -81,6 +87,12 @@ const UpdateMeetingAppPage: React.FC = () => {
                 { label: "Update" },
             ]}
         >
+            {!meetingsLoading && !meetings?.length && (
+                <PictureMessage
+                    Svg={NoResultsSVG}
+                    message="No meetings found"
+                />
+            )}
             {meetings?.map((meeting) => (
                 <MeetingInput
                     key={meeting._id}

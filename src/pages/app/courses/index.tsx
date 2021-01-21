@@ -9,9 +9,6 @@ import { EUserRoles } from "../../../utils/types";
 import { useContext } from "react";
 import AuthContext from "../../../components/contexts/AuthContext";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import ActionBar from "../../../components/ui/ActionBar";
-import Typography from "@material-ui/core/Typography";
 import Section from "../../../components/ui/Section";
 import FlexBox from "../../../components/ui/FlexBox";
 

@@ -1,4 +1,4 @@
-import Layout from "../components/ui/Layout";
+import StaticLayout from "../components/ui/Layout";
 import Head from "next/head";
 import LogInForm from "../components/forms/LogInForm";
 import AuthContext from "../components/contexts/AuthContext";
@@ -28,7 +28,7 @@ const LogInPage: React.FC = () => {
     }
 
     return (
-        <Layout>
+        <StaticLayout>
             <Head>
                 <title>STEM-bound - Log In</title>
             </Head>
@@ -42,7 +42,7 @@ const LogInPage: React.FC = () => {
             />
 
             <style jsx>{``}</style>
-        </Layout>
+        </StaticLayout>
     );
 };
 

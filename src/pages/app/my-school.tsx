@@ -29,7 +29,6 @@ import {
     IStudent,
 } from "../../utils/types";
 import FlexBox from "../../components/ui/FlexBox";
-import Link from "next/link";
 import LinkNewTab from "../../components/util/LinkNewTab";
 
 const MySchoolAppPage: React.FC = () => {

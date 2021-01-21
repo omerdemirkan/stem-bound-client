@@ -2,7 +2,7 @@ import AppLayout from "../../components/containers/AppLayout";
 import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
 import useDebounce from "../../components/hooks/useDebounce";
-import { ESearchFields, IBreadCrumb } from "../../utils/types";
+import { IBreadCrumb } from "../../utils/types";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TextField from "@material-ui/core/TextField";
@@ -18,7 +18,6 @@ import EmptyInboxSVG from "../../components/svg/illustrations/empty-inbox";
 import { getDefaultSearchField, getUserDisplayRole } from "../../utils/helpers";
 import AuthContext from "../../components/contexts/AuthContext";
 import Link from "next/link";
-import Typography from "@material-ui/core/Typography";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();

@@ -11,7 +11,7 @@ import {
     deleteEmptyStrings,
     fetchSchoolInputOptions,
 } from "../../utils/helpers";
-import AsyncSelect from "../ui/AsyncSelect";
+import AsyncSelect from "../util/AsyncSelect";
 
 interface Props {
     onSubmit(values: any): void;

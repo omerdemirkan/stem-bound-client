@@ -1,4 +1,4 @@
-import Layout from "../../components/ui/Layout";
+import StaticLayout from "../../components/ui/Layout";
 import Head from "next/head";
 import { SignUpStepper } from ".";
 import AuthContext from "../../components/contexts/AuthContext";
@@ -37,7 +37,7 @@ const InstructorSignUpPage: React.FC = () => {
     }
 
     return (
-        <Layout>
+        <StaticLayout>
             <Head>
                 <title>STEM-bound - Instructor Sign Up</title>
             </Head>
@@ -52,7 +52,7 @@ const InstructorSignUpPage: React.FC = () => {
                 success={!!accessToken}
                 errorMessage={error?.message}
             />
-        </Layout>
+        </StaticLayout>
     );
 };
 

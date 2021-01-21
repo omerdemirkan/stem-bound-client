@@ -2,31 +2,10 @@ import useSWR from "swr";
 import AppLayout from "../../../../components/containers/AppLayout";
 import withAuth from "../../../../components/hoc/withAuth";
 import { courseFetcher, updateCourseById } from "../../../../utils/services";
-import {
-    ECourseVerificationStatus,
-    EUserRoles,
-    ICourseOriginal,
-} from "../../../../utils/types";
+import { EUserRoles, ICourseOriginal } from "../../../../utils/types";
 import { useRouter } from "next/router";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import SplitScreen from "../../../../components/ui/SplitScreen";
-import { useContext } from "react";
-import AuthContext from "../../../../components/contexts/AuthContext";
 import EditableSection from "../../../../components/ui/EditableSection";
-import Alert from "@material-ui/lab/Alert";
-import Button from "@material-ui/core/Button";
-import AlertTitle from "@material-ui/lab/AlertTitle";
-
-const useStyles = makeStyles({
-    avatar: {
-        width: "100px",
-        height: "100px",
-    },
-    editButton: {
-        float: "right",
-        margin: "0 10px",
-    },
-});
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -35,9 +14,6 @@ const CourseSettingsAppPage: React.FC = () => {
         courseId ? `/courses/${courseId}` : null,
         courseFetcher(courseId)
     );
-    const { user } = useContext(AuthContext);
-
-    const classes = useStyles();
 
     async function handleCourseUpdate(courseUpdates: Partial<ICourseOriginal>) {
         await updateCourseById(courseId, courseUpdates);
