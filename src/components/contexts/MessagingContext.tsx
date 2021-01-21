@@ -241,7 +241,10 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
             type: EChatTypes.PRIVATE,
         });
         refetchChats();
-        router.push(`/app/messaging?id=${chat._id}`);
+        // replace is the same as push, only it doesn't place the url
+        // on the history stack. This makes it so that the back button
+        // redirects to where this function was called, not to the contact user url below.
+        router.replace(`/app/messaging?id=${chat._id}`);
     }
 
     return (

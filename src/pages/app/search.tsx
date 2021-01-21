@@ -11,6 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getDefaultSearchField, isSearchField } from "../../utils/helpers";
 import { ISearchQuery, IWithAuthProps } from "../../utils/types";
+import ContactUserButton from "../../components/util/ContactUserButton";
 
 const SearchAppPage: React.FC<IWithAuthProps> = () => {
     const router = useRouter();
@@ -53,12 +54,9 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
                 loading={loading}
                 UserCardProps={{
                     renderFooter: (user) => (
-                        <Button
-                            onClick={() => contactUser(user._id)}
-                            color="primary"
-                        >
+                        <ContactUserButton userId={user._id} color="primary">
                             Contact
-                        </Button>
+                        </ContactUserButton>
                     ),
                 }}
             />

@@ -12,7 +12,6 @@ import Typography from "@material-ui/core/Typography";
 import NotificationContext from "../../components/contexts/NotificationContext";
 import FlexBox from "../../components/ui/FlexBox";
 import LinkNewTab from "../../components/util/LinkNewTab";
-import Link from "next/link";
 import { useContext, useEffect } from "react";
 import {
     schoolCoursesFetcher,
