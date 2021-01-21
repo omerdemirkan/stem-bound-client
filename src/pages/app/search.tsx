@@ -52,7 +52,6 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
                 onSearchQueryChanged={setSearchQuery}
                 loading={loading}
                 UserCardProps={{
-                    contactUserEnabled: true,
                     renderFooter: (user) => (
                         <Button
                             onClick={() => contactUser(user._id)}

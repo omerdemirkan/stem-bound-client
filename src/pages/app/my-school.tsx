@@ -10,7 +10,9 @@ import UserCard from "../../components/ui/UserCard";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import NotificationContext from "../../components/contexts/NotificationContext";
-import MessagingContext from "../../components/contexts/MessagingContext";
+import FlexBox from "../../components/ui/FlexBox";
+import LinkNewTab from "../../components/util/LinkNewTab";
+import Link from "next/link";
 import { useContext, useEffect } from "react";
 import {
     schoolCoursesFetcher,
@@ -28,12 +30,10 @@ import {
     ICourse,
     IStudent,
 } from "../../utils/types";
-import FlexBox from "../../components/ui/FlexBox";
-import LinkNewTab from "../../components/util/LinkNewTab";
+import ContactUserButton from "../../components/util/ContactUserButton";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
-    const { contactUser } = useContext(MessagingContext);
 
     const { createAlert, createSnackbar } = useContext(NotificationContext);
 
@@ -255,16 +255,13 @@ const MySchoolAppPage: React.FC = () => {
                                 ))}
                             {user?.role === EUserRoles.SCHOOL_OFFICIAL && (
                                 <>
-                                    <Button
+                                    <ContactUserButton
+                                        userId={course.meta.instructors[0]}
                                         color="primary"
-                                        onClick={() =>
-                                            contactUser(
-                                                course.meta.instructors[0]
-                                            )
-                                        }
                                     >
                                         Contact Instructor
-                                    </Button>
+                                    </ContactUserButton>
+
                                     {course.verificationStatus ===
                                     ECourseVerificationStatus.VERIFIED ? (
                                         <Button

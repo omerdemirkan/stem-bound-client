@@ -26,20 +26,19 @@ import {
 } from "../../../../utils/types";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
-import useMessaging from "../../../../components/hooks/useMessaging";
 import { getFormalDateAndTime } from "../../../../utils/helpers";
 import { useContext } from "react";
 import AuthContext from "../../../../components/contexts/AuthContext";
 import SettingsIcon from "@material-ui/icons/Settings";
 import IconButton from "@material-ui/core/IconButton";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
+import ContactUserButton from "../../../../components/util/ContactUserButton";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
     const { createAlert, createSnackbar } = useContext(NotificationContext);
     const { user } = useContext(AuthContext);
-    const { contactUser } = useMessaging();
     const { data: course, revalidate: refetchCourse } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}` : null,
         courseFetcher(queryCourseId as any)
@@ -261,17 +260,15 @@ const CourseAppPage: React.FC = () => {
                             <Alert
                                 severity="warning"
                                 action={
-                                    <Button
-                                        onClick={() =>
-                                            contactUser(
-                                                course.verificationHistory[0]
-                                                    .meta.from
-                                            )
+                                    <ContactUserButton
+                                        userId={
+                                            course.verificationHistory[0].meta
+                                                .from
                                         }
                                         color="primary"
                                     >
                                         Contact School official
-                                    </Button>
+                                    </ContactUserButton>
                                 }
                             >
                                 <AlertTitle>

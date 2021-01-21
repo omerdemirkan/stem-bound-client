@@ -21,7 +21,6 @@ const useStyles = makeStyles({
 
 export interface UserCardProps {
     user: IUser;
-    contactUserEnabled?: boolean;
     footerEl?: any;
     renderFooter?(user: IUser): any;
     CardProps?: CardProps;
@@ -30,7 +29,6 @@ export interface UserCardProps {
 
 const UserCard: React.FC<UserCardProps> = ({
     user,
-    contactUserEnabled,
     footerEl,
     renderFooter,
     CardProps,
