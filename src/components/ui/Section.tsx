@@ -106,7 +106,9 @@ const Section: React.FC<ISectionProps> = ({
                     </div>
                 </>
             ) : null}
+
             {children}
+
             {(infoMessage || infoHeader) && (
                 <Alert severity="info" action={infoAction}>
                     {infoHeader ? <AlertTitle>{infoHeader}</AlertTitle> : null}

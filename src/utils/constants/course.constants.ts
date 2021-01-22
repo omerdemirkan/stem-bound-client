@@ -34,4 +34,5 @@ export const courseVerificationStatuses = {
     [ECourseVerificationStatus.DISMISSED]: "Dismissed",
     [ECourseVerificationStatus.VERIFIED]: "Verified",
     [ECourseVerificationStatus.PENDING_VERIFICATION]: "Pending verification",
+    [ECourseVerificationStatus.UNPUBLISHED]: "Unpublished",
 };

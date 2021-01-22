@@ -1,5 +1,4 @@
 import rfdc from "rfdc";
-import { IStoreArrayOptions, IAsyncActionOptions } from "../types";
 
 export const clone = rfdc({ proto: false, circles: false });
 
@@ -16,47 +15,6 @@ export function filterByUniqueKey<T>(arr: T[], key: string): T[] {
         }
     }
     return Object.values(hashMap);
-}
-
-export function configureArrayState<T>(
-    prevArray: T[],
-    newArray: T[],
-    options: IStoreArrayOptions
-): T[] {
-    if (!Object.values(options).length) return newArray;
-    let copy = clone(newArray);
-
-    if (options.concat) {
-        copy = prevArray.concat(copy);
-    }
-
-    if (options.sort) {
-        copy.sort(options.sort);
-    }
-
-    if (options.filter) {
-        copy = copy.filter(options.filter);
-    }
-
-    if (options.uniqueKey) {
-        copy = filterByUniqueKey(copy, options.uniqueKey);
-    }
-    return copy;
-}
-
-export function configureAsyncActionOptions<T>(
-    options: IAsyncActionOptions<T>
-): IAsyncActionOptions<T> {
-    return {
-        onSuccess:
-            typeof options.onSuccess === "function"
-                ? options.onSuccess
-                : function () {},
-        onFailure:
-            typeof options.onFailure === "function"
-                ? options.onFailure
-                : console.error,
-    };
 }
 
 export function reverseMap<T>(

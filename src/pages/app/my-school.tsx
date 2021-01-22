@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import NotificationContext from "../../components/contexts/NotificationContext";
 import FlexBox from "../../components/ui/FlexBox";
-import LinkNewTab from "../../components/util/LinkNewTab";
+import Link from "next/link";
 import { useContext, useEffect } from "react";
 import {
     schoolCoursesFetcher,
@@ -32,6 +32,7 @@ import {
 } from "../../utils/types";
 import ContactUserButton from "../../components/util/ContactUserButton";
 import { IMenuItemDTO } from "../../components/util/MenuWrapper";
+import HidableSection from "../../components/util/HidableSection";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -105,54 +106,15 @@ const MySchoolAppPage: React.FC = () => {
                     bodyText:
                         "You may choose to either verify or dismiss this course. Before deciding, you are encouraged to inspect the course and message the instructor directly.",
                     type: ENotificationTypes.INFO,
-                    renderContent: () => (
-                        <>
-                            <LinkNewTab
-                                href="/app/courses/[id]"
-                                as={`/app/courses/${course._id}`}
-                            >
-                                <Button color="primary" size="small">
-                                    Inspect Course
-                                </Button>
-                            </LinkNewTab>
-                            <LinkNewTab
-                                href={`/app/messaging?contact=${course.meta.instructors[0]}`}
-                            >
-                                <Button color="primary" size="small">
-                                    Contact Instructor
-                                </Button>
-                            </LinkNewTab>
-                        </>
-                    ),
                     renderFooter: ({ closeAlert }) => (
-                        <>
-                            <Button
-                                onClick={() => {
-                                    handleUpdateCourseVerificationClicked(
-                                        course._id,
-                                        ECourseVerificationStatus.DISMISSED
-                                    );
-                                    closeAlert();
-                                }}
-                                color="secondary"
-                                variant="contained"
-                            >
-                                Dismiss
+                        <Link
+                            href="/app/courses/[id]"
+                            as={`/app/courses/${course._id}`}
+                        >
+                            <Button color="primary" onClick={closeAlert}>
+                                Inspect Course
                             </Button>
-                            <Button
-                                onClick={() => {
-                                    handleUpdateCourseVerificationClicked(
-                                        course._id,
-                                        ECourseVerificationStatus.VERIFIED
-                                    );
-                                    closeAlert();
-                                }}
-                                color="primary"
-                                variant="contained"
-                            >
-                                Verify
-                            </Button>
-                        </>
+                        </Link>
                     ),
                 });
             }
@@ -301,9 +263,12 @@ const MySchoolAppPage: React.FC = () => {
                             </Section>
                         ) : null}
                         {dismissedCourses?.length ? (
-                            <Section title="Dismissed Courses">
+                            <HidableSection
+                                initial="hidden"
+                                title="Dismissed Courses"
+                            >
                                 {paginateCourses(dismissedCourses)}
-                            </Section>
+                            </HidableSection>
                         ) : null}
                     </>
                 }
@@ -356,7 +321,9 @@ const MySchoolAppPage: React.FC = () => {
     );
 };
 
-export default withAuth(MySchoolAppPage);
+export default withAuth(MySchoolAppPage, {
+    allowedUserRoles: [EUserRoles.STUDENT, EUserRoles.SCHOOL_OFFICIAL],
+});
 
 function paginateCourse(
     course: ICourse,
