@@ -1,10 +1,10 @@
 import Card, { CardProps } from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
+import CardHeader, { CardHeaderProps } from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider";
-import CardContent from "@material-ui/core/CardContent";
+import CardContent, { CardContentProps } from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
-import CardActions from "@material-ui/core/CardActions";
+import CardActions, { CardActionsProps } from "@material-ui/core/CardActions";
 import { makeStyles } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 import Link from "next/link";
@@ -14,6 +14,8 @@ import { ECourseVerificationStatus, ICourse } from "../../utils/types";
 import Section from "./Section";
 import { getCourseVerificationStatusDisplay } from "../../utils/helpers";
 import { useFetchOnce } from "../hooks/useFetchOnce";
+import MenuWrapper, { IMenuItemDTO } from "../util/MenuWrapper";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 const useStyles = makeStyles({
     card: {
@@ -30,20 +32,30 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
+export interface ICourseCardProps {
     course: ICourse;
-    CardProps?: CardProps;
     fullWidth?: boolean;
     noMargin?: boolean;
     footerEl?: any;
+    actionEl?: any;
+    menuItems?: IMenuItemDTO[];
+    CardProps?: CardProps;
+    CardHeaderProps?: CardHeaderProps;
+    CardContentProps?: CardContentProps;
+    CardActionsProps?: CardActionsProps;
 }
 
-const CourseCard: React.FC<Props> = ({
+const CourseCard: React.FC<ICourseCardProps> = ({
     course,
     CardProps,
     fullWidth,
     noMargin,
     footerEl,
+    actionEl,
+    menuItems,
+    CardHeaderProps,
+    CardContentProps,
+    CardActionsProps,
 }) => {
     const {
         data: instructors,
@@ -69,26 +81,41 @@ const CourseCard: React.FC<Props> = ({
             }}
             {...CardProps}
         >
-            <Link href="/app/courses/[id]" as={`/app/courses/${course._id}`}>
-                <a>
-                    <CardHeader
-                        title={course.title}
-                        subheader={`${school?.name}, ${
-                            course?.meta.students.length
-                        } currently enrolled${
-                            course.verificationStatus ===
-                            ECourseVerificationStatus.VERIFIED
-                                ? ""
-                                : ` - ${getCourseVerificationStatusDisplay(
-                                      course.verificationStatus
-                                  )}`
-                        }`}
-                    />
-                </a>
-            </Link>
+            <CardHeader
+                title={
+                    <Link
+                        href="/app/courses/[id]"
+                        as={`/app/courses/${course._id}`}
+                    >
+                        <a>{course.title}</a>
+                    </Link>
+                }
+                subheader={`${school?.name}, ${
+                    course?.meta.students.length
+                } currently enrolled${
+                    course.verificationStatus ===
+                    ECourseVerificationStatus.VERIFIED
+                        ? ""
+                        : ` - ${getCourseVerificationStatusDisplay(
+                              course.verificationStatus
+                          )}`
+                }`}
+                action={
+                    actionEl ||
+                    (!!menuItems?.length && (
+                        <MenuWrapper menuItems={menuItems}>
+                            <MoreHorizIcon />
+                        </MenuWrapper>
+                    ))
+                }
+                {...CardHeaderProps}
+            />
             <Divider />
 
-            <CardContent style={{ paddingTop: "0", paddingBottom: "0" }}>
+            <CardContent
+                style={{ paddingTop: "0", paddingBottom: "0" }}
+                {...CardContentProps}
+            >
                 <Section spacing="xs" title="Description" noDivider>
                     <Typography variant="h6" gutterBottom>
                         {course?.shortDescription}
@@ -130,7 +157,7 @@ const CourseCard: React.FC<Props> = ({
                     ))}
                 </Section>
             </CardContent>
-            <CardActions>{footerEl}</CardActions>
+            <CardActions {...CardActionsProps}>{footerEl}</CardActions>
         </Card>
     );
 };

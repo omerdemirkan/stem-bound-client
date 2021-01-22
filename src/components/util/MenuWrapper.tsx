@@ -1,19 +1,14 @@
-import { makeStyles } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem, { MenuItemProps } from "@material-ui/core/MenuItem";
 import { useRef, useState } from "react";
 import Link from "next/link";
 
-const useStyles = makeStyles({
-    menu: {
-        justifyContent: "flex-end",
-    },
-});
-
 export interface IMenuItemDTO {
     display: string;
     href?: string;
     as?: string;
+    onClick?(): any;
+    MenuItemProps?: MenuItemProps;
 }
 
 interface Props {
@@ -28,18 +23,19 @@ const MenuWrapper: React.FC<Props> = ({
 }) => {
     const divRef = useRef<HTMLDivElement>();
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const classes = useStyles();
     const toggleIsOpen = () => setIsOpen((prev) => !prev);
+    const close = () => setIsOpen(false);
+    const open = () => setIsOpen(true);
     return (
         <>
-            <div ref={divRef} onClick={toggleIsOpen}>
+            <div ref={divRef} onClick={open} style={{ cursor: "pointer" }}>
                 {children}
             </div>
             <Menu
                 open={isOpen}
-                onClose={toggleIsOpen}
+                onClose={close}
+                onClick={close}
                 anchorEl={divRef.current}
-                className={classes.menu}
             >
                 {menuItems &&
                     menuItems.map((item) =>
@@ -63,7 +59,13 @@ function paginateMenuItem(
         );
     const menuItem = (
         // @ts-ignore
-        <MenuItem {...options?.MenuItemProps}>{menuItemContent}</MenuItem>
+        <MenuItem
+            onClick={menuItemData.onClick}
+            {...options?.MenuItemProps}
+            {...menuItemData.MenuItemProps}
+        >
+            {menuItemContent}
+        </MenuItem>
     );
     return menuItem;
 }

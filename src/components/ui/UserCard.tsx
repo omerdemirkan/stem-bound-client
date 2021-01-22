@@ -1,8 +1,8 @@
-import CardHeader from "@material-ui/core/CardHeader";
+import CardHeader, { CardHeaderProps } from "@material-ui/core/CardHeader";
 import Card, { CardProps } from "@material-ui/core/Card";
 import Avatar from "@material-ui/core/Avatar";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
+import CardContent, { CardContentProps } from "@material-ui/core/CardContent";
+import CardActions, { CardActionsProps } from "@material-ui/core/CardActions";
 import { EUserRoles, IInstructor, IStudent, IUser } from "../../utils/types";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -24,6 +24,9 @@ export interface UserCardProps {
     footerEl?: any;
     renderFooter?(user: IUser): any;
     CardProps?: CardProps;
+    CardHeaderProps?: CardHeaderProps;
+    CardContentProps?: CardContentProps;
+    CardActionsProps?: CardActionsProps;
     noMargin?: boolean;
 }
 
@@ -31,8 +34,11 @@ const UserCard: React.FC<UserCardProps> = ({
     user,
     footerEl,
     renderFooter,
-    CardProps,
     noMargin,
+    CardProps,
+    CardHeaderProps,
+    CardContentProps,
+    CardActionsProps,
 }) => {
     const classes = useStyles();
     return (
@@ -42,6 +48,7 @@ const UserCard: React.FC<UserCardProps> = ({
             className={`${CardProps?.className ? CardProps.className : ""}${
                 classes.card
             }`}
+            {...CardHeaderProps}
         >
             <CardHeader
                 title={user?.fullName}
@@ -52,6 +59,7 @@ const UserCard: React.FC<UserCardProps> = ({
                         alt={user?.fullName}
                     />
                 }
+                {...CardContentProps}
             />
             <Divider />
             <CardContent style={{ paddingTop: "0", paddingBottom: "0" }}>
@@ -88,7 +96,7 @@ const UserCard: React.FC<UserCardProps> = ({
                     </Section>
                 ) : null}
             </CardContent>
-            <CardActions>
+            <CardActions {...CardActionsProps}>
                 {footerEl}
                 {renderFooter && renderFooter(user)}
             </CardActions>

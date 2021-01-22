@@ -5,7 +5,7 @@ import Head from "next/head";
 import AuthContext from "../../components/contexts/AuthContext";
 import Section from "../../components/ui/Section";
 import SplitScreen from "../../components/ui/SplitScreen";
-import CourseCard from "../../components/ui/CourseCard";
+import CourseCard, { ICourseCardProps } from "../../components/ui/CourseCard";
 import UserCard from "../../components/ui/UserCard";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -28,8 +28,10 @@ import {
     EUserRoles,
     ICourse,
     IStudent,
+    IUser,
 } from "../../utils/types";
 import ContactUserButton from "../../components/util/ContactUserButton";
+import { IMenuItemDTO } from "../../components/util/MenuWrapper";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -126,7 +128,7 @@ const MySchoolAppPage: React.FC = () => {
                         <>
                             <Button
                                 onClick={() => {
-                                    handleUpdateCourseVerification(
+                                    handleUpdateCourseVerificationClicked(
                                         course._id,
                                         ECourseVerificationStatus.DISMISSED
                                     );
@@ -139,7 +141,7 @@ const MySchoolAppPage: React.FC = () => {
                             </Button>
                             <Button
                                 onClick={() => {
-                                    handleUpdateCourseVerification(
+                                    handleUpdateCourseVerificationClicked(
                                         course._id,
                                         ECourseVerificationStatus.VERIFIED
                                     );
@@ -209,6 +211,27 @@ const MySchoolAppPage: React.FC = () => {
         refetchDismissedCourses();
     }
 
+    async function handleUpdateCourseVerificationClicked(
+        courseId: string,
+        verificationStatus: ECourseVerificationStatus
+    ) {
+        createAlert({
+            headerText: `Are you sure you want to ${
+                verificationStatus === ECourseVerificationStatus.DISMISSED
+                    ? "dismiss"
+                    : "verify"
+            } this course?`,
+            bodyText:
+                verificationStatus === ECourseVerificationStatus.DISMISSED
+                    ? "Students will not be able to access this course"
+                    : "Students will be able to enroll in this course",
+            type: ENotificationTypes.INFO,
+            onOk: () =>
+                handleUpdateCourseVerification(courseId, verificationStatus),
+            onCancel: () => {},
+        });
+    }
+
     let courseMessage: string;
     if (courses && courses.length === 0) {
         switch (user.role) {
@@ -225,74 +248,23 @@ const MySchoolAppPage: React.FC = () => {
 
     const paginateCourses = (courses: ICourse[]) => (
         <FlexBox>
-            {courses?.map((course) => (
-                <CourseCard
-                    course={course}
-                    key={course._id}
-                    fullWidth
-                    footerEl={
-                        <>
-                            {user?.role === EUserRoles.STUDENT &&
-                                (course?.meta.students.includes(user?._id) ? (
-                                    <Button
-                                        color="secondary"
-                                        onClick={() =>
-                                            handleDropCourse(course._id)
-                                        }
-                                    >
-                                        Drop Course
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        color="primary"
-                                        onClick={() =>
-                                            handleEnrollInCourse(course._id)
-                                        }
-                                    >
-                                        Enroll
-                                    </Button>
-                                ))}
-                            {user?.role === EUserRoles.SCHOOL_OFFICIAL && (
-                                <>
-                                    <ContactUserButton
-                                        userId={course.meta.instructors[0]}
-                                        color="primary"
-                                    >
-                                        Contact Instructor
-                                    </ContactUserButton>
-
-                                    {course.verificationStatus ===
-                                    ECourseVerificationStatus.VERIFIED ? (
-                                        <Button
-                                            color="secondary"
-                                            onClick={() =>
-                                                handleUpdateCourseVerification(
-                                                    course?._id,
-                                                    ECourseVerificationStatus.DISMISSED
-                                                )
-                                            }
-                                        >
-                                            Revoke Verification
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            color="secondary"
-                                            onClick={() =>
-                                                handleUpdateCourseVerification(
-                                                    course?._id,
-                                                    ECourseVerificationStatus.VERIFIED
-                                                )
-                                            }
-                                        >
-                                            Verify Course
-                                        </Button>
-                                    )}
-                                </>
-                            )}
-                        </>
-                    }
-                />
-            ))}
+            {courses?.map((course) =>
+                paginateCourse(course, {
+                    user,
+                    onVerifyCourseClicked: () =>
+                        handleUpdateCourseVerificationClicked(
+                            course._id,
+                            ECourseVerificationStatus.VERIFIED
+                        ),
+                    onDismissCourseClicked: () =>
+                        handleUpdateCourseVerificationClicked(
+                            course._id,
+                            ECourseVerificationStatus.DISMISSED
+                        ),
+                    onDropClicked: () => handleDropCourse(course._id),
+                    onEnrollClicked: () => handleEnrollInCourse(course._id),
+                })
+            )}
         </FlexBox>
     );
 
@@ -385,3 +357,89 @@ const MySchoolAppPage: React.FC = () => {
 };
 
 export default withAuth(MySchoolAppPage);
+
+function paginateCourse(
+    course: ICourse,
+    {
+        user,
+        onDropClicked,
+        onEnrollClicked,
+        onDismissCourseClicked,
+        onVerifyCourseClicked,
+    }: {
+        user: IUser;
+        onDropClicked(): any;
+        onEnrollClicked(): any;
+        onDismissCourseClicked(): any;
+        onVerifyCourseClicked(): any;
+    },
+    CourseProps?: ICourseCardProps
+) {
+    let menuItems: IMenuItemDTO[] = [];
+    if (
+        user.role === EUserRoles.SCHOOL_OFFICIAL &&
+        course.verificationStatus === ECourseVerificationStatus.VERIFIED
+    )
+        menuItems.push({
+            display: "Revoke Verification",
+            onClick: onDismissCourseClicked,
+        });
+    if (
+        user.role === EUserRoles.SCHOOL_OFFICIAL &&
+        course.verificationStatus === ECourseVerificationStatus.DISMISSED
+    )
+        menuItems.push({
+            display: "Reinstate Verification",
+            onClick: onVerifyCourseClicked,
+        });
+
+    return (
+        <CourseCard
+            course={course}
+            key={course._id}
+            fullWidth
+            menuItems={menuItems}
+            footerEl={
+                <>
+                    {user?.role === EUserRoles.SCHOOL_OFFICIAL &&
+                        course.verificationStatus ===
+                            ECourseVerificationStatus.PENDING_VERIFICATION && (
+                            <>
+                                <Button
+                                    color="secondary"
+                                    onClick={onDismissCourseClicked}
+                                >
+                                    Dismiss Course
+                                </Button>
+                                <Button
+                                    color="primary"
+                                    onClick={onVerifyCourseClicked}
+                                >
+                                    Verify Course
+                                </Button>
+                            </>
+                        )}
+                    {user?.role === EUserRoles.STUDENT &&
+                        (course?.meta.students.includes(user?._id) ? (
+                            <Button color="secondary" onClick={onDropClicked}>
+                                Drop Course
+                            </Button>
+                        ) : (
+                            <Button color="primary" onClick={onEnrollClicked}>
+                                Enroll
+                            </Button>
+                        ))}
+                    {user?.role !== EUserRoles.INSTRUCTOR && (
+                        <ContactUserButton
+                            userId={course.meta.instructors[0]}
+                            color="primary"
+                        >
+                            Contact Instructor
+                        </ContactUserButton>
+                    )}
+                </>
+            }
+            {...CourseProps}
+        />
+    );
+}
