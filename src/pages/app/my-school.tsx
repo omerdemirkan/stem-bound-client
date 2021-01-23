@@ -33,6 +33,10 @@ import {
 import ContactUserButton from "../../components/util/ContactUserButton";
 import { IMenuItemDTO } from "../../components/util/MenuWrapper";
 import HidableSection from "../../components/util/HidableSection";
+import {
+    configureCourseVerificationUpdateAlertDTO,
+    configureCourseEnrollmentUpdateAlertDTO,
+} from "../../utils/helpers";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -122,44 +126,34 @@ const MySchoolAppPage: React.FC = () => {
         [coursesPendingVerification]
     );
 
-    async function handleEnrollInCourse(courseId: string) {
-        try {
-            await enrollByCourseId(courseId);
-            createSnackbar({
-                text: "Successfully enrolled in course",
-                type: "success",
-            });
-            await refetchCourses();
-        } catch (e) {
-            createSnackbar({
-                text: "An error occured: Cannot enroll",
-                type: "info",
-            });
-        }
-    }
-
-    function handleDropCourse(courseId: string) {
+    async function handleEnrollmentUpdate(
+        status: "enroll" | "drop",
+        course: ICourse
+    ) {
         createAlert({
-            headerText: "Are you sure you want to drop this course?",
-            bodyText:
-                "If you choose to re-enroll some information may be lost.",
-            type: ENotificationTypes.DANGER,
-            onCancel: () => {},
-            onOk: async () => {
+            ...configureCourseEnrollmentUpdateAlertDTO(status, course),
+            async onOk() {
                 try {
-                    await dropByCourseId(courseId);
+                    await (status === "enroll"
+                        ? enrollByCourseId(course._id)
+                        : dropByCourseId(course._id));
+                    refetchCourses();
                     createSnackbar({
-                        text: "Course successfully dropped",
-                        type: "success",
+                        text: `Successfully ${
+                            status === "enroll" ? "enrolled in" : "dropped"
+                        } "${course.title}"`,
+                        type: "info",
                     });
-                    await refetchCourses();
                 } catch (e) {
                     createSnackbar({
-                        text: "An error occured: Cannot drop course",
-                        type: "info",
+                        text: `Couldn't ${
+                            status === "enroll" ? "enroll" : "drop"
+                        } course, try again later.`,
+                        type: "error",
                     });
                 }
             },
+            onCancel: () => {},
         });
     }
 
@@ -174,22 +168,17 @@ const MySchoolAppPage: React.FC = () => {
     }
 
     async function handleUpdateCourseVerificationClicked(
-        courseId: string,
+        course: ICourse,
         verificationStatus: ECourseVerificationStatus
     ) {
         createAlert({
-            headerText: `Are you sure you want to ${
-                verificationStatus === ECourseVerificationStatus.DISMISSED
-                    ? "dismiss"
-                    : "verify"
-            } this course?`,
-            bodyText:
-                verificationStatus === ECourseVerificationStatus.DISMISSED
-                    ? "Students will not be able to access this course"
-                    : "Students will be able to enroll in this course",
+            ...configureCourseVerificationUpdateAlertDTO(verificationStatus, {
+                course,
+                schoolName: school.name,
+            }),
             type: ENotificationTypes.INFO,
             onOk: () =>
-                handleUpdateCourseVerification(courseId, verificationStatus),
+                handleUpdateCourseVerification(course._id, verificationStatus),
             onCancel: () => {},
         });
     }
@@ -215,16 +204,17 @@ const MySchoolAppPage: React.FC = () => {
                     user,
                     onVerifyCourseClicked: () =>
                         handleUpdateCourseVerificationClicked(
-                            course._id,
+                            course,
                             ECourseVerificationStatus.VERIFIED
                         ),
                     onDismissCourseClicked: () =>
                         handleUpdateCourseVerificationClicked(
-                            course._id,
+                            course,
                             ECourseVerificationStatus.DISMISSED
                         ),
-                    onDropClicked: () => handleDropCourse(course._id),
-                    onEnrollClicked: () => handleEnrollInCourse(course._id),
+                    onDropClicked: () => handleEnrollmentUpdate("drop", course),
+                    onEnrollClicked: () =>
+                        handleEnrollmentUpdate("enroll", course),
                 })
             )}
         </FlexBox>

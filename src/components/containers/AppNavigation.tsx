@@ -56,7 +56,7 @@ const AppNavigation: React.FC = () => {
         setUserMenuOpen(false);
         createAlert({
             headerText: "Are you sure you want to log out?",
-            bodyText: "",
+            bodyText: "This will not log you out of other devices.",
             type: ENotificationTypes.DANGER,
             onOk: logoutHandler,
             onCancel: () => {},

@@ -11,6 +11,8 @@ import {
     EUserRoles,
     ISchool,
     ENotificationTypes,
+    IAlertData,
+    IUser,
 } from "../types";
 import {
     meetingTypes,
@@ -134,4 +136,60 @@ export function getMeetingDateDisplayData(
             durationMinutes ? " " + durationMinutes + " minutes" : ""
         }`,
     };
+}
+
+export function configureCourseVerificationUpdateAlertDTO(
+    courseVerificationStatus: ECourseVerificationStatus,
+    { course, schoolName }: { course: ICourse; schoolName: string }
+): IAlertData {
+    // @ts-ignore
+    let alert: IAlertData = { type: ENotificationTypes.INFO };
+    switch (courseVerificationStatus) {
+        case ECourseVerificationStatus.PENDING_VERIFICATION:
+            alert.headerText = "Are you sure you want to publish this course?";
+            alert.bodyText = `"${course.title}" will be pending verification and ${schoolName} school officials will be notified to verify or dismiss this course.`;
+            break;
+        case ECourseVerificationStatus.UNPUBLISHED:
+            alert.headerText =
+                "Are you sure you want to unpublish this course?";
+            alert.bodyText = `"${course.title}" cannot be verified by a ${schoolName} school official until it is published again.`;
+            break;
+        case ECourseVerificationStatus.VERIFIED:
+            alert.headerText = `Are you sure you want to ${
+                course.verificationStatus ===
+                ECourseVerificationStatus.DISMISSED
+                    ? "re-"
+                    : ""
+            }verify this course?`;
+            alert.bodyText = `This will notify the instructor${
+                course.meta.instructors.length > 1 ? "s" : ""
+            } and ${schoolName} students with a STEM-bound account.`;
+            break;
+        case ECourseVerificationStatus.DISMISSED:
+            alert.headerText = `Are you sure you want to ${
+                course.verificationStatus ===
+                ECourseVerificationStatus.PENDING_VERIFICATION
+                    ? "dismiss this course"
+                    : "revoke this course's verification"
+            }?`;
+            alert.bodyText = `${schoolName} students will not have access to "${course.title}"`;
+            break;
+    }
+    return alert;
+}
+
+export function configureCourseEnrollmentUpdateAlertDTO(
+    action: "enroll" | "drop",
+    course: ICourse
+): IAlertData {
+    // @ts-ignore
+    let alert: IAlertData = { type: ENotificationTypes.INFO };
+    if (action === "enroll") {
+        alert.headerText = "Are you sure you want to enroll in this course?";
+        alert.bodyText = `You may choose to drop "${course.title}" in the future.`;
+    } else {
+        alert.headerText = "Are you sure you want to drop this course?";
+        alert.bodyText = `You may choose to re-enroll in "${course.title}" in the future; however, some information may be lost.`;
+    }
+    return alert;
 }

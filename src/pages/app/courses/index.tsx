@@ -85,7 +85,7 @@ const CoursesAppPage: React.FC = () => {
                 </FlexBox>
             </Section>
 
-            {unverifiedCourses?.length !== 0 && (
+            {unverifiedCourses?.length ? (
                 <Section
                     loading={unverifiedCoursesLoading}
                     title="Unverified Courses"
@@ -101,7 +101,7 @@ const CoursesAppPage: React.FC = () => {
                         ))}
                     </FlexBox>
                 </Section>
-            )}
+            ) : null}
 
             <style jsx>{``}</style>
         </AppLayout>
