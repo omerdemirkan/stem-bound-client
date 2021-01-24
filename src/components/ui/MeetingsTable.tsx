@@ -7,11 +7,11 @@ import TableRow from "@material-ui/core/TableRow";
 import { IMeeting } from "../../utils/types";
 import { getMeetingTypeDisplay } from "../../utils/helpers";
 
-interface Props {
+export interface IMeetingsTableProps {
     meetings: IMeeting[];
 }
 
-const MeetingsTable: React.FC<Props> = ({ meetings }) => {
+const MeetingsTable: React.FC<IMeetingsTableProps> = ({ meetings }) => {
     return (
         <div>
             <TableContainer component={Paper}>

@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
+export interface IPictureInputProps {
     baseFileName?: string;
     onRawImageCreated?: (rawImage: string | ArrayBuffer) => any;
     onFileCreated?: (blob: Blob) => any;
@@ -20,7 +20,7 @@ interface Props {
     ButtonProps?: ButtonProps;
 }
 
-const PictureInput: React.FC<Props> = ({
+const PictureInput: React.FC<IPictureInputProps> = ({
     onRawImageCreated,
     onFileCreated,
     baseFileName,

@@ -10,13 +10,13 @@ import { reverseMap, getFormalDateAndTime } from "../../utils/helpers";
 import ChatMessage from "./ChatMessage";
 import { useFetchOnce } from "../hooks/useFetchOnce";
 
-interface Props {
+export interface Props extends IChatMessageEventHandlers {
     chatMessageGroup: IChatMessageGroup;
     editedMessageId?: string;
     editedMessageText?: string;
 }
 
-const ChatMessageGroup: React.FC<Props & IChatMessageEventHandlers> = ({
+const ChatMessageGroup: React.FC<Props> = ({
     chatMessageGroup,
     editedMessageId,
     editedMessageText,

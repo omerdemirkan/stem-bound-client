@@ -19,15 +19,15 @@ const useStyles = makeStyles({
     },
 });
 
-type Props = CardProps & {
+interface IFormCardProps extends CardProps {
     header?: string;
     headerEl?: any;
     subheader?: string;
     iconEl?: any;
     Icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
-};
+}
 
-const FormCard: React.FC<Props> = ({
+const FormCard: React.FC<IFormCardProps> = ({
     children,
     header,
     headerEl,

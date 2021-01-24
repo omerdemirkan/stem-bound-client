@@ -8,7 +8,7 @@ import AlertTitle from "@material-ui/lab/AlertTitle";
 import format from "date-fns/format";
 import Button from "@material-ui/core/Button";
 
-interface Props {
+export interface ICourseAnnouncementProps {
     announcement: IAnnouncement;
     onEditAnnouncement?: (
         announcementId: string,
@@ -17,7 +17,7 @@ interface Props {
     onDeleteAnnouncement?: (announcementId: string) => any;
 }
 
-const CourseAnnouncement: React.FC<Props> = ({
+const CourseAnnouncement: React.FC<ICourseAnnouncementProps> = ({
     announcement,
     onDeleteAnnouncement,
     onEditAnnouncement,

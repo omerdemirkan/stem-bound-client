@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
+export interface IMeetingInputProps {
     onSubmit(meeting: Partial<IMeetingOriginal>): void;
     headerText?: string;
     availableMeetingTypes?: EMeetingTypes[];
@@ -37,7 +37,7 @@ interface Props {
     defaultValues?: Partial<IMeetingOriginal>;
 }
 
-const MeetingInput: React.FC<Props> = ({
+const MeetingInput: React.FC<IMeetingInputProps> = ({
     onSubmit,
     availableMeetingTypes,
     CardProps,

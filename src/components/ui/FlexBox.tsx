@@ -1,6 +1,8 @@
 import Box, { BoxProps } from "@material-ui/core/Box";
 
-const FlexBox: React.FC<BoxProps> = ({ children, ...boxProps }) => {
+export type IFlexBoxProps = BoxProps;
+
+const FlexBox: React.FC<IFlexBoxProps> = ({ children, ...boxProps }) => {
     return (
         <Box
             display="flex"

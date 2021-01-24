@@ -1,4 +1,4 @@
-import UserCard, { UserCardProps } from "../ui/UserCard";
+import UserCard, { IUserCardProps } from "../ui/UserCard";
 import {
     ESearchFields,
     ISearchData,
@@ -13,15 +13,15 @@ import PictureMessage from "../ui/PictureMessage";
 import NoResultsSVG from "../svg/illustrations/no-results";
 import FlexBox from "../ui/FlexBox";
 
-interface SearchProps {
+export interface ISearchProps {
     query: ISearchQuery;
     searchData: ISearchData[];
     onSearchQueryChanged(query: ISearchQuery): void;
-    UserCardProps?: Partial<UserCardProps>;
+    UserCardProps?: Partial<IUserCardProps>;
     loading?: boolean;
 }
 
-const Search: React.FC<SearchProps> = ({
+const Search: React.FC<ISearchProps> = ({
     searchData,
     UserCardProps,
     onSearchQueryChanged,
@@ -63,7 +63,7 @@ const Search: React.FC<SearchProps> = ({
 interface PaginatedSearchDataProps {
     searchDataArray: ISearchData[];
     searchField: ESearchFields;
-    UserCardProps?: Partial<UserCardProps>;
+    UserCardProps?: Partial<IUserCardProps>;
 }
 
 const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({

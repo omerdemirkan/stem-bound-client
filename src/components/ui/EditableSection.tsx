@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props extends ISectionProps {
+export interface IEditableSectionProps extends ISectionProps {
     value: any;
     onEdit(value: any): any;
     buttonText?: string;
@@ -28,7 +28,7 @@ interface Props extends ISectionProps {
     InputButtonProps?: Partial<IInputButtonProps>;
 }
 
-const EditableSection: React.FC<Props> = ({
+const EditableSection: React.FC<IEditableSectionProps> = ({
     value,
     onEdit,
     renderInput,

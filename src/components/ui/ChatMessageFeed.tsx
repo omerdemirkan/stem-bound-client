@@ -7,7 +7,7 @@ import useCompute from "../hooks/useCompute";
 import PictureMessage from "./PictureMessage";
 import EmptyInboxSVG from "../svg/illustrations/empty-inbox";
 
-interface Props {
+export interface IChatMessageFeedProps {
     chatMessages: IChatMessage[];
     chatId: string;
     loading: boolean;
@@ -18,7 +18,9 @@ interface Props {
     errorMessage?: string;
 }
 
-const ChatMessageFeed: React.FC<Props & IChatMessageEventHandlers> = ({
+const ChatMessageFeed: React.FC<
+    IChatMessageFeedProps & IChatMessageEventHandlers
+> = ({
     chatMessages,
     chatId,
     chatPictureUrl,

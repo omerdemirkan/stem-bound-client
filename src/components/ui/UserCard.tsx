@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     },
 });
 
-export interface UserCardProps {
+export interface IUserCardProps {
     user: IUser;
     footerEl?: any;
     renderFooter?(user: IUser): any;
@@ -30,7 +30,7 @@ export interface UserCardProps {
     noMargin?: boolean;
 }
 
-const UserCard: React.FC<UserCardProps> = ({
+const UserCard: React.FC<IUserCardProps> = ({
     user,
     footerEl,
     renderFooter,

@@ -2,7 +2,7 @@ import { useState } from "react";
 import Section, { ISectionProps } from "../ui/Section";
 import Button from "@material-ui/core/Button";
 
-interface Props extends ISectionProps {
+export interface Props extends ISectionProps {
     initial: "hidden" | "visible";
 }
 

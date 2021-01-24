@@ -4,7 +4,7 @@ import Divider from "@material-ui/core/Divider";
 import Section from "./Section";
 import ChatCard from "./ChatCard";
 
-interface Props {
+export interface IChatListProps {
     chats: IChat[];
     handleInspectChat: (chatId: string) => void;
     inspectedChatId?: string;
@@ -12,7 +12,7 @@ interface Props {
     errorMessage?: string;
 }
 
-const ChatList: React.FC<Props> = ({
+const ChatList: React.FC<IChatListProps> = ({
     chats,
     handleInspectChat,
     inspectedChatId,

@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Button, { ButtonProps } from "@material-ui/core/Button";
 
-interface Props extends ButtonProps {
+export interface IContactUserButtonProps extends ButtonProps {
     userId: string;
 }
 
-const ContactUserButton: React.FC<Props> = ({
+const ContactUserButton: React.FC<IContactUserButtonProps> = ({
     children,
     userId,
     ...ButtonProps

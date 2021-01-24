@@ -2,11 +2,11 @@ import Avatar, { AvatarProps } from "@material-ui/core/Avatar";
 import { userFetcher } from "../../utils/services";
 import { useFetchOnce } from "../hooks/useFetchOnce";
 
-interface Props extends AvatarProps {
+export interface IUserAvatarProps extends AvatarProps {
     userId: string;
 }
 
-const UserAvatar: React.FC<Props> = ({ userId, ...avatarProps }) => {
+const UserAvatar: React.FC<IUserAvatarProps> = ({ userId, ...avatarProps }) => {
     const { data: user } = useFetchOnce(
         userId ? `/users/${userId}` : null,
         userFetcher(userId)

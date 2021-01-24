@@ -13,16 +13,14 @@ import useDebounce from "../hooks/useDebounce";
 import AuthContext from "../contexts/AuthContext";
 import withUserCoordinates from "../hoc/withUserCoordinates";
 
-interface Props {
+export interface ISearchFormProps {
     searchField: ESearchFields;
     onSearchQueryChanged: (query: ISearchQuery) => any;
 }
 
-const SearchForm: React.FC<Props & Partial<IWithUserCoordinatesProps>> = ({
-    searchField,
-    onSearchQueryChanged,
-    coordinates,
-}) => {
+const SearchForm: React.FC<
+    ISearchFormProps & Partial<IWithUserCoordinatesProps>
+> = ({ searchField, onSearchQueryChanged, coordinates }) => {
     const { user } = useContext(AuthContext);
 
     const [searchQuery, setSearchQuery] = useState<ISearchQuery>({

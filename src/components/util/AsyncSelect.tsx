@@ -5,7 +5,7 @@ import useDebounce from "../hooks/useDebounce";
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-interface Props {
+export interface IAsyncSelectProps {
     fetchOptions: (s: string) => Promise<ISelectInputOption[]>;
     TextFieldProps?: TextFieldProps;
     delay?: number;
@@ -14,7 +14,7 @@ interface Props {
     id?: string;
 }
 
-const AsyncSelect: React.FC<Props> = ({
+const AsyncSelect: React.FC<IAsyncSelectProps> = ({
     delay,
     fetchOptions,
     TextFieldProps,

@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
+export interface IInstructorSignUpFormProps {
     onSubmit(values: any): void;
     errorMessage?: string;
     loading?: boolean;
@@ -27,7 +27,7 @@ interface Props {
     withoutCard?: boolean;
 }
 
-const InstructorSignUpForm: React.FC<Props> = ({
+const InstructorSignUpForm: React.FC<IInstructorSignUpFormProps> = ({
     onSubmit,
     loading,
     success,

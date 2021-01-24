@@ -11,12 +11,12 @@ export interface IMenuItemDTO {
     MenuItemProps?: MenuItemProps;
 }
 
-interface Props {
+export interface IMenuWrapperProps {
     menuItems: IMenuItemDTO[];
     MenuItemProps?: MenuItemProps;
 }
 
-const MenuWrapper: React.FC<Props> = ({
+const MenuWrapper: React.FC<IMenuWrapperProps> = ({
     children,
     menuItems,
     MenuItemProps,

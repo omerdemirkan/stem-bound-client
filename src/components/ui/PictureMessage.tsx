@@ -2,7 +2,7 @@ import Typography from "@material-ui/core/Typography";
 
 type Size = "large" | "medium" | "small";
 
-interface Props {
+export interface IPictureMessageProps {
     Svg: React.FC<React.SVGProps<SVGSVGElement>>;
     message: string;
     subMessage?: string;
@@ -36,7 +36,7 @@ function mapSizeToMargin(size: Size): string {
     }
 }
 
-const PictureMessage: React.FC<Props> = ({
+const PictureMessage: React.FC<IPictureMessageProps> = ({
     Svg,
     message,
     size,

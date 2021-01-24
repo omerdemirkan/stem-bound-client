@@ -16,14 +16,18 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
+export interface IChatCardProps {
     chat: IChat;
     handleInspect: (chatId: string) => any;
     fullWidth?: boolean;
     isSelected?: boolean;
 }
 
-const ChatCard: React.FC<Props> = ({ chat, handleInspect, isSelected }) => {
+const ChatCard: React.FC<IChatCardProps> = ({
+    chat,
+    handleInspect,
+    isSelected,
+}) => {
     const classes = useStyles();
     const lastUpdated = useCompute(() => new Date(chat.lastMessageSentAt), [
         chat,

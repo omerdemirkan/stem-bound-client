@@ -23,14 +23,14 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
+export interface IMeetingDefaultDataFormProps {
     requiredFields: string[];
     onSubmit(values: IDefaultMeetingData): any;
     CardProps?: CardProps;
     withoutCard?: boolean;
 }
 
-const MeetingDefaultDataForm: React.FC<Props> = ({
+const MeetingDefaultDataForm: React.FC<IMeetingDefaultDataFormProps> = ({
     requiredFields,
     CardProps,
     onSubmit,

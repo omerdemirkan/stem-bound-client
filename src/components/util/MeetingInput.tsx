@@ -38,7 +38,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
+export interface IMeetingInputProps {
     meeting: IMeeting;
     courseTitle: string;
     schoolName: string;
@@ -49,7 +49,7 @@ interface Props {
     DeleteAlertData?: Partial<IAlertData>;
 }
 
-const MeetingInput: React.FC<Props> = ({
+const MeetingInput: React.FC<IMeetingInputProps> = ({
     meeting,
     courseTitle,
     schoolName,

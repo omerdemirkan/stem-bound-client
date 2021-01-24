@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 
-interface Props {
+export interface ISplitScreenProps {
     mainEl: any;
     secondaryEl: any;
     order?: "main-first" | "secondary-first";
@@ -18,7 +18,7 @@ interface Props {
     >;
 }
 
-const SplitScreen: React.FC<Props> = ({
+const SplitScreen: React.FC<ISplitScreenProps> = ({
     mainEl,
     secondaryEl,
     order,

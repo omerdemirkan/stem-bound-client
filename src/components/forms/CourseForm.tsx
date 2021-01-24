@@ -13,14 +13,14 @@ import {
 } from "../../utils/helpers";
 import AsyncSelect from "../util/AsyncSelect";
 
-interface Props {
+export interface ICourseFormProps {
     onSubmit(values: any): void;
     userId: string;
     CardProps?: CardProps;
     withoutCard?: boolean;
 }
 
-const CourseForm: React.FC<Props> = ({
+const CourseForm: React.FC<ICourseFormProps> = ({
     onSubmit,
     userId,
     withoutCard,

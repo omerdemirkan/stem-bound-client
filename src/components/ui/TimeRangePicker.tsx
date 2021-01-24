@@ -2,13 +2,17 @@ import { TimePicker } from "@material-ui/pickers";
 import { validateTimeRange } from "../../utils/helpers";
 import { ITimeRange } from "../../utils/types";
 
-interface Props {
+export interface ITimeRangePickerProps {
     onChange: (timeStringRange: ITimeRange) => any;
     value: ITimeRange;
     label?: string;
 }
 
-const TimeRangePicker: React.FC<Props> = ({ value, onChange, label }) => {
+const TimeRangePicker: React.FC<ITimeRangePickerProps> = ({
+    value,
+    onChange,
+    label,
+}) => {
     return (
         <div>
             <label>{label}</label>

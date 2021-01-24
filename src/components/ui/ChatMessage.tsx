@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
-interface Props {
+export interface IChatMessageProps {
     chatMessage: IChatMessage;
     onDeleteMessageClicked?: (messageId: string) => any;
     onEditMessageClicked?: (messageId: string) => any;
@@ -17,7 +17,7 @@ interface Props {
     editValue?: string;
 }
 
-const ChatMessage: React.FC<Props> = ({
+const ChatMessage: React.FC<IChatMessageProps> = ({
     chatMessage,
     onDeleteMessageClicked,
     onEditMessageClicked,

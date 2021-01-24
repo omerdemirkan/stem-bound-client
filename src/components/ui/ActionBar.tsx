@@ -1,9 +1,9 @@
-interface Props {
+export interface IActionBarProps {
     float?: "left" | "right";
     startEl?: any;
 }
 
-const ActionBar: React.FC<Props> = ({ children, float, startEl }) => {
+const ActionBar: React.FC<IActionBarProps> = ({ children, float, startEl }) => {
     return (
         <>
             <div className="root">

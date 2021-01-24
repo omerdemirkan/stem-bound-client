@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
+export interface LogInFormProps {
     onSubmit(values: any): void;
     errorMessage?: string;
     loading?: boolean;
@@ -23,7 +23,7 @@ interface Props {
     withoutCard?: boolean;
 }
 
-const LogInForm: React.FC<Props> = ({
+const LogInForm: React.FC<LogInFormProps> = ({
     onSubmit,
     errorMessage,
     loading,

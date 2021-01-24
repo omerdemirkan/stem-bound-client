@@ -1,5 +1,5 @@
 import Head from "next/head";
-import StaticLayout from "../components/ui/Layout";
+import StaticLayout from "../components/ui/StaticLayout";
 
 const HomePage: React.FC = function () {
     return (

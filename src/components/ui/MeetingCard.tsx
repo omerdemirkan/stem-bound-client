@@ -34,7 +34,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
+export interface IMeetingCardProps {
     meeting: IMeeting;
     courseTitle: string;
     schoolName: string;
@@ -42,7 +42,7 @@ interface Props {
     renderActions?(): any;
 }
 
-const MeetingCard: React.FC<Props> = ({
+const MeetingCard: React.FC<IMeetingCardProps> = ({
     meeting,
     schoolName,
     courseTitle,

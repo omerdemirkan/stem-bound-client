@@ -5,7 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
-type Props = {
+interface IChipInputProps {
     value: string[];
     onChange(chips: string[]): void;
     TextFieldProps?: TextFieldProps;
@@ -14,9 +14,9 @@ type Props = {
     initialValues?: string[];
     name?: string;
     ref?: LegacyRef<HTMLInputElement>;
-};
+}
 
-const ChipInput: React.FC<Props> = ({
+const ChipInput: React.FC<IChipInputProps> = ({
     value,
     onChange,
     onBlur,

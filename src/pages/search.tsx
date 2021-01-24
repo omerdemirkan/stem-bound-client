@@ -1,4 +1,4 @@
-import StaticLayout from "../components/ui/Layout";
+import StaticLayout from "../components/ui/StaticLayout";
 import Head from "next/head";
 import Search from "../components/containers/Search";
 import { NextPageContext } from "next";

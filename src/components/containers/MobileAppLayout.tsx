@@ -8,8 +8,6 @@ import { useState } from "react";
 import AppNavigation from "./AppNavigation";
 import Drawer from "@material-ui/core/Drawer";
 import WordLogoSVG from "../svg/icons/word-logo";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import Link from "next/link";
 import useDimensions from "../hooks/useDimensions";
 import { paginateBreadcrumbsMinified } from "../util/paginateBreadCrumbs";
 

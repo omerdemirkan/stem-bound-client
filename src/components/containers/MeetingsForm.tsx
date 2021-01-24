@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface Props {
+export interface IMeetingsFormProps {
     defaultMeetingType: EMeetingTypes;
     courseType: ECourseTypes;
     courseTitle: string;
@@ -44,7 +44,7 @@ interface Props {
     validateDate?: (dates: Date) => boolean;
 }
 
-const MeetingsForm: React.FC<Props> = ({
+const MeetingsForm: React.FC<IMeetingsFormProps> = ({
     onChange,
     onSubmit,
     defaultMeetingType,
