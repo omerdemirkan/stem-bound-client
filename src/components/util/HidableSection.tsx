@@ -9,16 +9,16 @@ interface Props extends ISectionProps {
 const HidableSection: React.FC<Props> = ({
     initial,
     children,
-    action,
+    actionEl,
     ...SectionProps
 }) => {
     const [isHidden, setIsHidden] = useState<boolean>(initial === "hidden");
     return (
         <Section
             {...SectionProps}
-            action={
+            actionEl={
                 <>
-                    {action}
+                    {actionEl}
                     <Button
                         onClick={() => setIsHidden((prev) => !prev)}
                         size="small"

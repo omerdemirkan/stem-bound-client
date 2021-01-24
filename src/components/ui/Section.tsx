@@ -9,7 +9,7 @@ type Spacing = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface ISectionProps extends BoxProps {
     title?: string;
-    action?: any;
+    actionEl?: any;
     spacing?: Spacing;
     noDivider?: boolean;
     loading?: boolean;
@@ -57,7 +57,7 @@ function getListSubheaderLineHeight(spacing: Spacing) {
 
 const Section: React.FC<ISectionProps> = ({
     title,
-    action,
+    actionEl,
     children,
     spacing,
     noDivider,
@@ -77,7 +77,7 @@ const Section: React.FC<ISectionProps> = ({
             alignItems="center"
             {...boxProps}
         >
-            {title || action ? (
+            {title || actionEl ? (
                 <>
                     {!noDivider && <Divider light />}
                     <div
@@ -102,7 +102,7 @@ const Section: React.FC<ISectionProps> = ({
                                 />
                             )}
                         </ListSubheader>
-                        <span>{action}</span>
+                        <span>{actionEl}</span>
                     </div>
                 </>
             ) : null}
@@ -116,7 +116,7 @@ const Section: React.FC<ISectionProps> = ({
                 </Alert>
             )}
             {(errorMessage || errorHeader) && (
-                <Alert severity="info" action={errorAction}>
+                <Alert severity="error" action={errorAction}>
                     {errorHeader ? (
                         <AlertTitle>{errorHeader}</AlertTitle>
                     ) : null}

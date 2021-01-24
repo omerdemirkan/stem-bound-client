@@ -26,7 +26,10 @@ import {
 } from "../../../../utils/types";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
-import { getFormalDateAndTime } from "../../../../utils/helpers";
+import {
+    configureCourseVerificationUpdateAlertDTO,
+    getFormalDateAndTime,
+} from "../../../../utils/helpers";
 import { useContext } from "react";
 import AuthContext from "../../../../components/contexts/AuthContext";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -36,7 +39,7 @@ import ContactUserButton from "../../../../components/util/ContactUserButton";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
-    const queryCourseId = router.query.id;
+    const queryCourseId = router.query.id as string;
     const { createAlert, createSnackbar } = useContext(NotificationContext);
     const { user } = useContext(AuthContext);
     const { data: course, revalidate: refetchCourse } = useSWR(
@@ -82,87 +85,25 @@ const CourseAppPage: React.FC = () => {
         courseMeetingsFetcher(queryCourseId as string)
     );
 
-    async function handleUpdateCourseVerificationStatus(
-        newCourseVerificationStatus: ECourseVerificationStatus
+    async function handleUpdateCourseVerification(
+        verificationStatus: ECourseVerificationStatus
     ) {
-        switch (newCourseVerificationStatus) {
-            case ECourseVerificationStatus.PENDING_VERIFICATION:
-                createAlert({
-                    headerText: `Are you sure you want to publish "${course.title}"?`,
-                    bodyText: `This will notify school officials to either verify or dismiss this course.`,
-                    type: ENotificationTypes.INFO,
-                    onOk: async function () {
-                        await updateCourseVerification(
-                            course?._id,
-                            newCourseVerificationStatus
-                        );
-                        refetchCourse();
-                        createSnackbar({
-                            type: "info",
-                            text: `This course was successfully published`,
-                        });
-                    },
-                    onCancel: () => {},
-                });
-                break;
-            case ECourseVerificationStatus.UNPUBLISHED:
-                createAlert({
-                    headerText: `Are you sure you want to unpublish "${course.title}"?`,
-                    bodyText: `${school.name} school officials have already been notified that this course is published.`,
-                    type: ENotificationTypes.INFO,
-                    onOk: async function () {
-                        await updateCourseVerification(
-                            course?._id,
-                            newCourseVerificationStatus
-                        );
-                        refetchCourse();
-                        createSnackbar({
-                            type: "info",
-                            text: `This course was successfully published`,
-                        });
-                    },
-                    onCancel: () => {},
-                });
-                break;
-            case ECourseVerificationStatus.VERIFIED:
-                createAlert({
-                    headerText: `Are you sure you want to publish "${course.title}"?`,
-                    bodyText: `${school.name} students will be able to enroll once this course has been verified.`,
-                    type: ENotificationTypes.INFO,
-                    onOk: async function () {
-                        await updateCourseVerification(
-                            course?._id,
-                            newCourseVerificationStatus
-                        );
-                        refetchCourse();
-                        createSnackbar({
-                            type: "info",
-                            text: `This course was successfully verify`,
-                        });
-                    },
-                    onCancel: () => {},
-                });
-                break;
-            case ECourseVerificationStatus.DISMISSED:
-                createAlert({
-                    headerText: `Are you sure you want to dismiss "${course.title}"?`,
-                    bodyText: `${school.name} students will not be able to access this course.`,
-                    type: ENotificationTypes.INFO,
-                    onOk: async function () {
-                        await updateCourseVerification(
-                            course?._id,
-                            newCourseVerificationStatus
-                        );
-                        refetchCourse();
-                        createSnackbar({
-                            type: "info",
-                            text: `This course was successfully dismiss`,
-                        });
-                    },
-                    onCancel: () => {},
-                });
-                break;
-        }
+        await updateCourseVerification(queryCourseId, verificationStatus);
+        refetchCourse();
+    }
+
+    async function handleUpdateCourseVerificationClicked(
+        verificationStatus: ECourseVerificationStatus
+    ) {
+        createAlert({
+            ...configureCourseVerificationUpdateAlertDTO(verificationStatus, {
+                course,
+                schoolName: school.name,
+            }),
+            type: ENotificationTypes.INFO,
+            onOk: () => handleUpdateCourseVerification(verificationStatus),
+            onCancel: () => {},
+        });
     }
 
     return (
@@ -235,7 +176,7 @@ const CourseAppPage: React.FC = () => {
                                     <Button
                                         color="primary"
                                         onClick={() =>
-                                            handleUpdateCourseVerificationStatus(
+                                            handleUpdateCourseVerificationClicked(
                                                 ECourseVerificationStatus.UNPUBLISHED
                                             )
                                         }
@@ -292,7 +233,7 @@ const CourseAppPage: React.FC = () => {
                                         <Button
                                             color="primary"
                                             onClick={() =>
-                                                handleUpdateCourseVerificationStatus(
+                                                handleUpdateCourseVerificationClicked(
                                                     ECourseVerificationStatus.PENDING_VERIFICATION
                                                 )
                                             }
@@ -319,7 +260,7 @@ const CourseAppPage: React.FC = () => {
                                             <Button
                                                 color="secondary"
                                                 onClick={() =>
-                                                    handleUpdateCourseVerificationStatus(
+                                                    handleUpdateCourseVerificationClicked(
                                                         ECourseVerificationStatus.DISMISSED
                                                     )
                                                 }
@@ -329,7 +270,7 @@ const CourseAppPage: React.FC = () => {
                                             <Button
                                                 color="primary"
                                                 onClick={() =>
-                                                    handleUpdateCourseVerificationStatus(
+                                                    handleUpdateCourseVerificationClicked(
                                                         ECourseVerificationStatus.VERIFIED
                                                     )
                                                 }

@@ -21,12 +21,11 @@ const useStyles = makeStyles({
 interface Props extends ISectionProps {
     value: any;
     onEdit(value: any): any;
-    content?: any;
     buttonText?: string;
     renderInput?: IInputRenderFunction;
     TypographyProps?: TypographyProps;
     TextFieldProps?: TextFieldProps;
-    InputButtonProps?: IInputButtonProps;
+    InputButtonProps?: Partial<IInputButtonProps>;
 }
 
 const EditableSection: React.FC<Props> = ({
@@ -34,17 +33,17 @@ const EditableSection: React.FC<Props> = ({
     onEdit,
     renderInput,
     buttonText,
-    content,
     TextFieldProps,
     TypographyProps,
     InputButtonProps,
+    children,
     ...sectionProps
 }) => {
     const classes = useStyles();
     return (
         <Section
             {...sectionProps}
-            action={
+            actionEl={
                 <InputButton
                     initialValue={value}
                     renderInput={
@@ -72,7 +71,14 @@ const EditableSection: React.FC<Props> = ({
                 </InputButton>
             }
         >
-            {content || <Typography {...TypographyProps}>{value}</Typography>}
+            {children || (
+                <Typography
+                    {...TypographyProps}
+                    color={value ? "textPrimary" : "textSecondary"}
+                >
+                    {value || `No ${sectionProps.title}`}
+                </Typography>
+            )}
         </Section>
     );
 };

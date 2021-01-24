@@ -191,35 +191,24 @@ const MyAccountAppPage: React.FC = () => {
                         />
 
                         {user.role === EUserRoles.STUDENT ? (
-                            <Section
+                            <EditableSection
                                 title="Interests"
-                                action={
-                                    <InputButton
-                                        initialValue={
-                                            (user as IStudent).interests
-                                        }
-                                        onSubmit={(interests) =>
-                                            handleUpdateUser({ interests })
-                                        }
-                                        renderInput={(value, setValue) => (
-                                            <ChipInput
-                                                onChange={setValue}
-                                                value={value}
-                                                TextFieldProps={{
-                                                    fullWidth: true,
-                                                    id: "interests",
-                                                }}
-                                            />
-                                        )}
-                                        ButtonProps={{
-                                            color: "primary",
-                                            size: "small",
-                                            className: classes.editButton,
-                                        }}
-                                    >
-                                        UPDATE INTERESTS
-                                    </InputButton>
+                                value={(user as IStudent).interests}
+                                onEdit={(interests) =>
+                                    handleUpdateUser({ interests })
                                 }
+                                InputButtonProps={{
+                                    renderInput: (value, setValue) => (
+                                        <ChipInput
+                                            onChange={setValue}
+                                            value={value}
+                                            TextFieldProps={{
+                                                fullWidth: true,
+                                                id: "interests",
+                                            }}
+                                        />
+                                    ),
+                                }}
                             >
                                 {(user as IStudent).interests.map(
                                     (interest) => (
@@ -230,39 +219,28 @@ const MyAccountAppPage: React.FC = () => {
                                         />
                                     )
                                 )}
-                            </Section>
+                            </EditableSection>
                         ) : null}
 
                         {user.role === EUserRoles.INSTRUCTOR ? (
-                            <Section
+                            <EditableSection
                                 title="Specialties"
-                                action={
-                                    <InputButton
-                                        initialValue={
-                                            (user as IInstructor).specialties
-                                        }
-                                        onSubmit={(specialties) =>
-                                            handleUpdateUser({ specialties })
-                                        }
-                                        renderInput={(value, setValue) => (
-                                            <ChipInput
-                                                onChange={setValue}
-                                                value={value}
-                                                TextFieldProps={{
-                                                    fullWidth: true,
-                                                    id: "interests",
-                                                }}
-                                            />
-                                        )}
-                                        ButtonProps={{
-                                            color: "primary",
-                                            size: "small",
-                                            className: classes.editButton,
-                                        }}
-                                    >
-                                        UPDATE INTERESTS
-                                    </InputButton>
+                                value={(user as IInstructor).specialties}
+                                onEdit={(specialties) =>
+                                    handleUpdateUser({ specialties })
                                 }
+                                InputButtonProps={{
+                                    renderInput: (value, setValue) => (
+                                        <ChipInput
+                                            onChange={setValue}
+                                            value={value}
+                                            TextFieldProps={{
+                                                fullWidth: true,
+                                                id: "specialties",
+                                            }}
+                                        />
+                                    ),
+                                }}
                             >
                                 {(user as IInstructor).specialties.map(
                                     (specialty) => (
@@ -273,7 +251,7 @@ const MyAccountAppPage: React.FC = () => {
                                         />
                                     )
                                 )}
-                            </Section>
+                            </EditableSection>
                         ) : null}
                     </>
                 }
