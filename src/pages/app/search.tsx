@@ -1,10 +1,8 @@
 import AppLayout from "../../components/containers/AppLayout";
-import useMessaging from "../../components/hooks/useMessaging";
 import AuthContext from "../../components/contexts/AuthContext";
 import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
 import Search from "../../components/containers/Search";
-import Button from "@material-ui/core/Button";
 import useSWR from "swr";
 import { searchDataFetcher } from "../../utils/services";
 import { useContext, useEffect, useState } from "react";
@@ -16,7 +14,6 @@ import ContactUserButton from "../../components/util/ContactUserButton";
 const SearchAppPage: React.FC<IWithAuthProps> = () => {
     const router = useRouter();
     const { user } = useContext(AuthContext);
-    const { contactUser } = useMessaging();
 
     const [searchQuery, setSearchQuery] = useState<ISearchQuery>({
         searchField: getDefaultSearchField(user.role),

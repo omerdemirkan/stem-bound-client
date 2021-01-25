@@ -19,15 +19,16 @@ import NoResultsSVG from "../../../../../components/svg/illustrations/no-results
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import useRouterQueryState from "../../../../../components/hooks/useRouterQueryState";
+import useQueryState from "../../../../../components/hooks/useQueryState";
+import { capitalizeWords } from "../../../../../utils/helpers";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id as string;
-    const [queryType, setQueryType] = useRouterQueryState<"upcoming" | "past">({
-        initialValue: "upcoming",
-        field: "type",
-    });
+    const [queryType, setQueryType] = useQueryState<"upcoming" | "past">(
+        "type",
+        "upcoming"
+    );
     const { data: course, error: fetchCourseError } = useSWR(
         queryCourseId && `/courses/${queryCourseId}`,
         courseFetcher(queryCourseId as any)
@@ -112,7 +113,7 @@ const MeetingsAppPage: React.FC = () => {
                 <title>STEM-bound - {course?.title || "Course"}</title>
             </Head>
 
-            <Section noDivider>
+            <Section noDivider title={`${capitalizeWords(queryType)} Meetings`}>
                 {!meetingsLoading && !meetings?.length && (
                     <PictureMessage
                         Svg={NoResultsSVG}

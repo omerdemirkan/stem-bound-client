@@ -18,10 +18,11 @@ import EmptyInboxSVG from "../../components/svg/illustrations/empty-inbox";
 import { getDefaultSearchField, getUserDisplayRole } from "../../utils/helpers";
 import AuthContext from "../../components/contexts/AuthContext";
 import Link from "next/link";
+import useQueryState from "../../components/hooks/useQueryState";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
-    const chatId = router.query.id as string;
+    const [chatId, setChatId] = useQueryState<string>("id");
     const contactUserId = router.query.contact as string;
 
     const { user } = useContext(AuthContext);
@@ -91,12 +92,6 @@ const MessagingAppPage: React.FC = () => {
         },
         [chatId]
     );
-
-    function handleInspectChat(id: string) {
-        router.push(`${router.pathname}?id=${id}`, undefined, {
-            shallow: true,
-        });
-    }
 
     function handleEditMessage() {
         updateMessage({
@@ -244,7 +239,7 @@ const MessagingAppPage: React.FC = () => {
                         (!smallScreen || !chatId) && (
                             <ChatList
                                 chats={chats}
-                                handleInspectChat={handleInspectChat}
+                                handleInspectChat={setChatId}
                                 inspectedChatId={chatId as string}
                                 loading={chatsLoading}
                                 errorMessage={
