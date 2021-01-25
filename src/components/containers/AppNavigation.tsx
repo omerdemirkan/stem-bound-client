@@ -21,13 +21,20 @@ import MenuItem from "@material-ui/core/MenuItem";
 import NotificationContext from "../contexts/NotificationContext";
 import Divider from "@material-ui/core/Divider";
 import BuildIcon from "@material-ui/icons/Build";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
     listItem: {
-        paddingLeft: "40px",
+        paddingLeft: "22px",
     },
     userMenuButton: {
-        marginBottom: "20px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "5px 10px",
+        marginBottom: "12px",
+        borderRadius: "2px",
     },
     userMenu: {
         justifyContent: "flex-end",
@@ -65,25 +72,31 @@ const AppNavigation: React.FC = () => {
 
     return (
         <>
-            <Button
+            <ListItem
+                button
                 onClick={toggleUserMenu}
-                variant="text"
                 color="inherit"
                 className={classes.userMenuButton}
-                fullWidth
             >
                 <Avatar
                     src={user.profilePictureUrl}
                     alt="me"
                     style={{ marginRight: "20px" }}
                 />
-                {`${user.firstName} ${user.lastName}`}
+                <Typography component="span" color="textPrimary">
+                    <Box fontSize="0.88rem" fontWeight="500">
+                        {(user.fullName?.length > 14
+                            ? user.firstName
+                            : user.fullName
+                        ).toUpperCase()}
+                    </Box>
+                </Typography>
                 <ArrowDropDownIcon
                     style={{ marginLeft: "10px" }}
                     color="primary"
                     ref={userMenuButtonRef}
                 />
-            </Button>
+            </ListItem>
             <Menu
                 open={userMenuOpen}
                 onClose={toggleUserMenu}
@@ -126,9 +139,19 @@ const AppNavigation: React.FC = () => {
                                         />
                                     </ListItemIcon>
                                     <ListItemText
-                                        primary={text}
-                                        color={
-                                            selected ? "primary" : "secondary"
+                                        primary={
+                                            <Typography color="textPrimary">
+                                                <Box
+                                                    fontSize="0.9rem"
+                                                    color={
+                                                        selected
+                                                            ? "primary"
+                                                            : undefined
+                                                    }
+                                                >
+                                                    {text}
+                                                </Box>
+                                            </Typography>
                                         }
                                     />
                                     {completion ===

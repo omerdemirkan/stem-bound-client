@@ -15,7 +15,8 @@ const useStyles = makeStyles({
         bottom: "0",
         left: "0",
         textAlign: "center",
-        width: "280px",
+        width: "260px",
+        fontSize: "0.9rem",
     },
 });
 
@@ -43,6 +44,7 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                     paragraph
                     gutterBottom
                     color="textSecondary"
+                    component="span"
                     className={classes.finePrint}
                 >
                     STEM-BOUND EDUCATION™
@@ -72,14 +74,14 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                 .root {
                     display: grid;
                     height: 100vh;
-                    grid-template-columns: 280px auto;
+                    grid-template-columns: 260px auto;
                     position: relative;
                     overflow: hidden;
                     background-color: var(--background-light);
                 }
 
                 .sidebar {
-                    padding: 0 15px;
+                    padding: 0 12px;
                 }
 
                 .logo-box {
@@ -87,7 +89,7 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                     justify-content: center;
                     align-items: center;
                     height: 120px;
-                    padding: 0 40px;
+                    padding: 0 30px;
                 }
 
                 .main {
