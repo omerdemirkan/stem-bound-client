@@ -11,7 +11,6 @@ import {
     EPageCompletion,
 } from "../../utils/types";
 import Link from "next/link";
-import Button from "@material-ui/core/Button";
 import { useContext, useRef, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -23,6 +22,7 @@ import Divider from "@material-ui/core/Divider";
 import BuildIcon from "@material-ui/icons/Build";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
+import ThemeContext from "../contexts/ThemeContext";
 
 const useStyles = makeStyles({
     listItem: {
@@ -140,18 +140,16 @@ const AppNavigation: React.FC = () => {
                                     </ListItemIcon>
                                     <ListItemText
                                         primary={
-                                            <Typography color="textPrimary">
-                                                <Box
-                                                    fontSize="0.9rem"
-                                                    color={
-                                                        selected
-                                                            ? "primary"
-                                                            : undefined
-                                                    }
-                                                >
-                                                    {text}
-                                                </Box>
-                                            </Typography>
+                                            <Box
+                                                fontSize="0.9rem"
+                                                color={
+                                                    selected
+                                                        ? "primary"
+                                                        : undefined
+                                                }
+                                            >
+                                                {text}
+                                            </Box>
                                         }
                                     />
                                     {completion ===

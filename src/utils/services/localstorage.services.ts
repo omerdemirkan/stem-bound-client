@@ -14,7 +14,10 @@ export function deleteSavedPassword() {
 
 export function getTheme() {
     try {
-        return localStorage.getItem("theme");
+        const theme = localStorage.getItem("theme");
+        // Since localstorage is slow, to not needlessly delay first contentful paint.
+        if (!theme) (async () => localStorage.setItem("theme", "LIGHT"))();
+        return theme || "LIGHT";
     } catch {
         return ETheme.LIGHT;
     }

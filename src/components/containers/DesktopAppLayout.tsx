@@ -8,6 +8,7 @@ import AppNavigation from "./AppNavigation";
 import { IAppLayoutProps } from "./AppLayout";
 import ThemeContext from "../contexts/ThemeContext";
 import { paginateBreadCrumbs } from "../util/paginateBreadCrumbs";
+import WordLogoDarkModeSVG from "../svg/icons/word-logo-dark-mode";
 
 const useStyles = makeStyles({
     finePrint: {
@@ -36,7 +37,11 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
         <div className={`root ${theme === ETheme.DARK ? "dark-theme" : null}`}>
             <aside className="sidebar">
                 <div className="logo-box">
-                    <WordLogoSVG width="60px" />
+                    {theme === ETheme.DARK ? (
+                        <WordLogoDarkModeSVG />
+                    ) : (
+                        <WordLogoSVG />
+                    )}
                 </div>
 
                 <AppNavigation />

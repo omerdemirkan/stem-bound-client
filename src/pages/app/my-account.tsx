@@ -112,8 +112,14 @@ const MyAccountAppPage: React.FC = () => {
                                         className={classes.avatar}
                                     />
                                     <div>
-                                        <Typography variant="h5">{`${user.firstName} ${user.lastName}`}</Typography>
-                                        <Typography paragraph>{`${
+                                        <Typography
+                                            variant="h5"
+                                            color="textPrimary"
+                                        >{`${user.firstName} ${user.lastName}`}</Typography>
+                                        <Typography
+                                            paragraph
+                                            color="textPrimary"
+                                        >{`${
                                             user.displayRole
                                         } - ${capitalizeWords(
                                             user.location.city
