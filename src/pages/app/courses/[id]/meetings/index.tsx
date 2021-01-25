@@ -16,10 +16,18 @@ import MeetingCard from "../../../../../components/ui/MeetingCard";
 import Section from "../../../../../components/ui/Section";
 import PictureMessage from "../../../../../components/ui/PictureMessage";
 import NoResultsSVG from "../../../../../components/svg/illustrations/no-results";
+import Paper from "@material-ui/core/Paper";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import useRouterQueryState from "../../../../../components/hooks/useRouterQueryState";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
-    const queryCourseId = router.query.id;
+    const queryCourseId = router.query.id as string;
+    const [queryType, setQueryType] = useRouterQueryState<"upcoming" | "past">({
+        initialValue: "upcoming",
+        field: "type",
+    });
     const { data: course, error: fetchCourseError } = useSWR(
         queryCourseId && `/courses/${queryCourseId}`,
         courseFetcher(queryCourseId as any)
@@ -86,6 +94,20 @@ const MeetingsAppPage: React.FC = () => {
                 ) : null
             }
         >
+            <Paper>
+                <Tabs
+                    value={queryType === "past" ? 1 : 0}
+                    onChange={(e, index) =>
+                        setQueryType(!!index ? "past" : "upcoming")
+                    }
+                    indicatorColor="primary"
+                    textColor="primary"
+                    centered
+                >
+                    <Tab label="Upcoming Meetings" key="upcoming" />
+                    <Tab label="Past Meetings" key="past" />
+                </Tabs>
+            </Paper>
             <Head>
                 <title>STEM-bound - {course?.title || "Course"}</title>
             </Head>

@@ -81,8 +81,10 @@ const CourseAppPage: React.FC = () => {
         isValidating: upcomingMeetingsLoading,
         error: upcomingMeetingsError,
     } = useSWR(
-        queryCourseId ? `/courses/${queryCourseId}/meetings` : null,
-        courseMeetingsFetcher(queryCourseId as string)
+        queryCourseId ? `/courses/${queryCourseId}/meetings?upcoming` : null,
+        courseMeetingsFetcher(queryCourseId as string, {
+            after: new Date(),
+        })
     );
 
     async function handleUpdateCourseVerification(

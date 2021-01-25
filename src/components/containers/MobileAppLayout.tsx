@@ -121,7 +121,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                     justify-content: flex-end;
                     align-items: center;
                     flex-wrap: wrap;
-                    padding-top: 20px;
+                    padding: 12px 0 20px;
                 }
 
                 .main-footer {
