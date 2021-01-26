@@ -11,7 +11,7 @@ import {
 } from "../../../../../utils/services";
 import { EUserRoles, IMeetingOriginal } from "../../../../../utils/types";
 import MeetingInput from "../../../../../components/util/MeetingInput";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import NotificationContext from "../../../../../components/contexts/NotificationContext";
 import { clone } from "../../../../../utils/helpers";
 import PictureMessage from "../../../../../components/ui/PictureMessage";
@@ -20,6 +20,8 @@ import NoResultsSVG from "../../../../../components/svg/illustrations/no-results
 const UpdateMeetingAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id;
+    const nowRef = useRef<Date>();
+    nowRef.current = nowRef.current || new Date();
     const { data: course } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}` : null,
         courseFetcher(queryCourseId as string)
@@ -29,8 +31,10 @@ const UpdateMeetingAppPage: React.FC = () => {
         mutate: mutateMeetings,
         isValidating: meetingsLoading,
     } = useSWR(
-        queryCourseId && `/courses/${queryCourseId}/meetings`,
-        courseMeetingsFetcher(queryCourseId as string)
+        queryCourseId && `/courses/${queryCourseId}/meetings?type=upcoming`,
+        courseMeetingsFetcher(queryCourseId as string, {
+            after: nowRef.current,
+        })
     );
     const { data: school } = useSWR(
         course?.meta.school && `/schools/${course?.meta.school}`,

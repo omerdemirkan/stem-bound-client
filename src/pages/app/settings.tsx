@@ -10,7 +10,7 @@ const SettingsAppPage: React.FC = () => {
     const { theme, setTheme } = useContext(ThemeContext);
     return (
         <AppLayout header="Settings">
-            <Section title="Dark theme (experimental)" noDivider>
+            <Section title="Dark theme (experimental)" noDivider spacing="sm">
                 <Switch
                     checked={theme === ETheme.DARK}
                     onChange={(e, value) =>

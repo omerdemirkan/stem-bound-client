@@ -6,7 +6,7 @@ import AuthContext from "../../../../../components/contexts/AuthContext";
 import Link from "next/link";
 import Button from "@material-ui/core/Button";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import {
     courseFetcher,
     courseMeetingsFetcher,
@@ -24,6 +24,9 @@ import { capitalizeWords } from "../../../../../utils/helpers";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
+    const nowRef = useRef<Date>();
+    nowRef.current = nowRef.current || new Date();
+
     const queryCourseId = router.query.id as string;
     const [queryType, setQueryType] = useQueryState<"upcoming" | "past">(
         "type",
@@ -38,8 +41,11 @@ const MeetingsAppPage: React.FC = () => {
         error: fetchCourseMeetingsError,
         isValidating: meetingsLoading,
     } = useSWR(
-        queryCourseId && `/courses/${queryCourseId}/meetings`,
-        courseMeetingsFetcher(queryCourseId as string)
+        queryCourseId && `/courses/${queryCourseId}/meetings?type=${queryType}`,
+        courseMeetingsFetcher(queryCourseId, {
+            after: queryType === "upcoming" ? nowRef.current : undefined,
+            before: queryType === "past" ? nowRef.current : undefined,
+        })
     );
     const { data: school } = useSWR(
         course?.meta.school && `/schools/${course?.meta.school}`,

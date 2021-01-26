@@ -25,10 +25,6 @@ import {
 import {
     fetchUserById,
     fetchUserSchoolById,
-    fetchInstructorsByCourseId,
-    fetchStudentsByCourseId,
-    fetchSchoolOfficialsBySchoolId,
-    fetchStudentsBySchoolId,
     fetchUsers,
 } from "./user.services";
 import { fetchSchoolByNcesId } from "./school.services";

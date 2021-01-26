@@ -8,8 +8,8 @@ import { MessagingContextProvider } from "../components/contexts/MessagingContex
 
 const App: React.FC = function ({ Component, pageProps }: any) {
     return (
-        <MuiPickersProvider>
-            <ThemeProvider>
+        <ThemeProvider>
+            <MuiPickersProvider>
                 <AuthContextProvider>
                     <SocketContextProvider>
                         <NotificationContextProvider>
@@ -19,8 +19,8 @@ const App: React.FC = function ({ Component, pageProps }: any) {
                         </NotificationContextProvider>
                     </SocketContextProvider>
                 </AuthContextProvider>
-            </ThemeProvider>
-        </MuiPickersProvider>
+            </MuiPickersProvider>
+        </ThemeProvider>
     );
 };
 

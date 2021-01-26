@@ -12,15 +12,24 @@ import { useContext, useEffect, useState } from "react";
 import useDebounce from "../hooks/useDebounce";
 import AuthContext from "../contexts/AuthContext";
 import withUserCoordinates from "../hoc/withUserCoordinates";
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+    paper: {
+        padding: "8px 16px",
+    },
+});
 
 export interface ISearchFormProps {
     searchField: ESearchFields;
     onSearchQueryChanged: (query: ISearchQuery) => any;
+    noPaper?: boolean;
 }
 
 const SearchForm: React.FC<
     ISearchFormProps & Partial<IWithUserCoordinatesProps>
-> = ({ searchField, onSearchQueryChanged, coordinates }) => {
+> = ({ searchField, onSearchQueryChanged, coordinates, noPaper }) => {
     const { user } = useContext(AuthContext);
 
     const [searchQuery, setSearchQuery] = useState<ISearchQuery>({
@@ -49,8 +58,12 @@ const SearchForm: React.FC<
         [searchQuery]
     );
 
+    const classes = useStyles();
+
+    const Wrapper = noPaper ? ({ children }) => <div>{children}</div> : Paper;
+
     return (
-        <div>
+        <Wrapper className={classes.paper}>
             <Select
                 value={searchField}
                 labelId="Search Fields"
@@ -75,7 +88,7 @@ const SearchForm: React.FC<
                 placeholder="Search"
                 style={{ marginLeft: "30px" }}
             />
-        </div>
+        </Wrapper>
     );
 };
 
