@@ -39,7 +39,7 @@ export interface IMeetingCardProps {
     courseTitle: string;
     schoolName: string;
     CardProps?: CardProps;
-    renderActions?(): any;
+    renderActions?(meeting: IMeeting): any;
 }
 
 const MeetingCard: React.FC<IMeetingCardProps> = ({
@@ -108,7 +108,7 @@ const MeetingCard: React.FC<IMeetingCardProps> = ({
             </CardContent>
 
             <CardActions className={classes.cardActions}>
-                {renderActions && renderActions()}
+                {renderActions && renderActions(meeting)}
             </CardActions>
         </Card>
     );

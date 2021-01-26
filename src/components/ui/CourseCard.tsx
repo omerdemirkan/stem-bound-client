@@ -21,8 +21,7 @@ const useStyles = makeStyles({
     card: {
         margin: "10px 0",
         width: "100%",
-        maxWidth: "500px",
-        minWidth: "400px",
+        maxWidth: "450px",
     },
     cardContent: {
         paddingTop: "20px",

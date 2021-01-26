@@ -60,12 +60,13 @@ const SplitScreen: React.FC<ISplitScreenProps> = ({
                     grid-template-columns: ${order === "secondary-first"
                         ? "400px auto"
                         : "auto 400px"};
-                    grid-gap: 50px;
+                    grid-gap: 40px;
                 }
 
                 @media (max-width: 1400px) {
                     .root-container {
                         grid-template-columns: 100%;
+                        grid-gap: 20px;
                     }
                 }
             `}</style>

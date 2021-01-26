@@ -22,7 +22,6 @@ import Divider from "@material-ui/core/Divider";
 import BuildIcon from "@material-ui/icons/Build";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import ThemeContext from "../contexts/ThemeContext";
 
 const useStyles = makeStyles({
     listItem: {
