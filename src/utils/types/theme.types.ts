@@ -5,5 +5,5 @@ export enum ETheme {
 
 export interface IThemeContextState {
     theme: ETheme;
-    toggleTheme: () => void;
+    setTheme(theme: ETheme): void;
 }

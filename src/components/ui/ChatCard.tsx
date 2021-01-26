@@ -42,7 +42,10 @@ const ChatCard: React.FC<IChatCardProps> = ({
                 <ListItemIcon>
                     <Avatar src={chat.pictureUrl} alt="chat picture" />
                 </ListItemIcon>
-                <ListItemText>{chat.name}</ListItemText>
+                <ListItemText>
+                    {" "}
+                    <Typography color="textPrimary">{chat.name}</Typography>
+                </ListItemText>
                 {lastUpdated ? (
                     <Typography color="textSecondary" align="right">
                         {formatDistance(lastUpdated, new Date(), {

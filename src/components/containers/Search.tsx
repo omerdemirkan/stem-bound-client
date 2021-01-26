@@ -32,7 +32,7 @@ const Search: React.FC<ISearchProps> = ({
         <div>
             <ActionBar
                 startEl={
-                    <Typography>
+                    <Typography color="textPrimary" variant="h6">
                         {getDisplaySearchField(query.searchField)}
                     </Typography>
                 }

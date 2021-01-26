@@ -108,7 +108,11 @@ const AppNavigation: React.FC = () => {
                         <a>My Account</a>
                     </Link>
                 </MenuItem>
-                <MenuItem onClick={toggleUserMenu}>Settings</MenuItem>
+                <MenuItem onClick={toggleUserMenu}>
+                    <Link href="/app/settings">
+                        <a>Settings</a>
+                    </Link>
+                </MenuItem>
                 <MenuItem onClick={handleOpenLogoutModal} color="primary">
                     Logout
                 </MenuItem>
@@ -140,16 +144,21 @@ const AppNavigation: React.FC = () => {
                                     </ListItemIcon>
                                     <ListItemText
                                         primary={
-                                            <Box
-                                                fontSize="0.9rem"
-                                                color={
-                                                    selected
-                                                        ? "primary"
-                                                        : undefined
-                                                }
+                                            <Typography
+                                                component="span"
+                                                color="textPrimary"
                                             >
-                                                {text}
-                                            </Box>
+                                                <Box
+                                                    fontSize="0.9rem"
+                                                    color={
+                                                        selected
+                                                            ? "primary"
+                                                            : undefined
+                                                    }
+                                                >
+                                                    {text}
+                                                </Box>
+                                            </Typography>
                                         }
                                     />
                                     {completion ===

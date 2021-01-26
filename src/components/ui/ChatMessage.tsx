@@ -163,8 +163,8 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
                     grid-template-columns: auto 40px;
                     align-items: center;
                     background-color: rgba(0, 0, 0, 0);
-                    border-top-right-radius: 12px;
-                    border-bottom-right-radius: 12px;
+                    border-top-right-radius: 15px;
+                    border-bottom-right-radius: 15px;
                     transition: background-color 0.2s ease;
                     padding: 0 0 0 3px;
                 }

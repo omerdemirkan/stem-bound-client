@@ -12,12 +12,13 @@ export function deleteSavedPassword() {
     localStorage.removeItem("saved-password");
 }
 
-export function getTheme() {
+export function getTheme(): ETheme {
     try {
-        const theme = localStorage.getItem("theme");
+        const theme = localStorage.getItem("theme") as ETheme;
+
         // Since localstorage is slow, to not needlessly delay first contentful paint.
         if (!theme) (async () => localStorage.setItem("theme", "LIGHT"))();
-        return theme || "LIGHT";
+        return theme || ETheme.LIGHT;
     } catch {
         return ETheme.LIGHT;
     }
