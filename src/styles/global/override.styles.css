@@ -5,3 +5,7 @@
 .MuiChip-root {
   margin: 3px 5px;
 }
+
+.dark-theme .MuiAlert-standardInfo {
+  background-color: var(--background-light) !important;
+}
