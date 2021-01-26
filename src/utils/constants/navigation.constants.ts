@@ -8,8 +8,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import MailIcon from "@material-ui/icons/Mail";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
-import InfoIcon from "@material-ui/icons/Info";
 import SchoolIcon from "@material-ui/icons/School";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 
 export const instructorNavigationData: INavigationData = {
     userRole: EUserRoles.INSTRUCTOR,
@@ -46,7 +46,7 @@ export const instructorNavigationData: INavigationData = {
         },
         {
             text: "NOTIFICATIONS",
-            Icon: InfoIcon,
+            Icon: NotificationsIcon,
             path: "/app/notifications",
             completion: EPageCompletion.UNDER_CONSTRUCTION,
         },
@@ -88,7 +88,7 @@ export const studentNavigationData: INavigationData = {
         },
         {
             text: "NOTIFICATIONS",
-            Icon: InfoIcon,
+            Icon: NotificationsIcon,
             path: "/app/notifications",
             completion: EPageCompletion.UNDER_CONSTRUCTION,
         },
@@ -124,7 +124,7 @@ export const schoolOfficialNavigationData: INavigationData = {
         },
         {
             text: "NOTIFICATIONS",
-            Icon: InfoIcon,
+            Icon: NotificationsIcon,
             path: "/app/notifications",
             completion: EPageCompletion.UNDER_CONSTRUCTION,
         },

@@ -7,6 +7,7 @@ import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import format from "date-fns/format";
 import Button from "@material-ui/core/Button";
+import AnnouncementIcon from "@material-ui/icons/Announcement";
 
 export interface ICourseAnnouncementProps {
     announcement: IAnnouncement;
@@ -28,6 +29,7 @@ const CourseAnnouncement: React.FC<ICourseAnnouncementProps> = ({
     return (
         <Alert
             severity="info"
+            icon={<AnnouncementIcon />}
             action={
                 <>
                     {userIsAuthorizedToEdit && onDeleteAnnouncement && (
