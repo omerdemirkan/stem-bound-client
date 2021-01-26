@@ -4,12 +4,15 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import AppNavigation from "./AppNavigation";
 import Drawer from "@material-ui/core/Drawer";
 import WordLogoSVG from "../svg/icons/word-logo";
 import useDimensions from "../hooks/useDimensions";
 import { paginateBreadcrumbsMinified } from "../util/paginateBreadCrumbs";
+import ThemeContext from "../contexts/ThemeContext";
+import { ETheme } from "../../utils/types";
+import WordLogoDarkModeSVG from "../svg/icons/word-logo-dark-mode";
 
 const useStyles = makeStyles({
     toolBar: {
@@ -17,7 +20,9 @@ const useStyles = makeStyles({
         justifyContent: "space-between",
         paddingLeft: "0",
     },
-    drawer: {},
+    drawer: {
+        padding: "0 5px",
+    },
     footerAppBar: {
         top: "auto",
         bottom: "0",
@@ -38,10 +43,11 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
 
     const [headerAppbarRef, headerDimensions] = useDimensions();
     const [footerAppbarRef, footerDimensions] = useDimensions();
+    const { theme } = useContext(ThemeContext);
 
     return (
         <div
-            className="root"
+            className={`root ${theme === ETheme.DARK ? "dark-theme" : null}`}
             style={{
                 paddingTop: headerDimensions?.height
                     ? headerDimensions?.height + "px"
@@ -72,14 +78,20 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 onClose={toggleSidebar}
                 className={classes.drawer}
             >
-                <div className="logo-box">
-                    <WordLogoSVG width="60px" />
+                <div className="navigation-wrapper">
+                    <div className="logo-box">
+                        {theme === ETheme.DARK ? (
+                            <WordLogoDarkModeSVG />
+                        ) : (
+                            <WordLogoSVG />
+                        )}
+                    </div>
+                    <AppNavigation />
                 </div>
-                <AppNavigation />
             </Drawer>
 
             <main {...mainContainerProps}>
-                <div className="action">{actionEl}</div>
+                {actionEl ? <div className="action">{actionEl}</div> : null}
                 {children}
             </main>
             {footerEl && (
@@ -111,7 +123,6 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 }
                 .mobile-navigation-header {
                     padding: 3vw 5vw 3vw;
-                    background-color: var(--background-dark);
                     display: flex;
                     align-items: center;
                 }
@@ -127,6 +138,10 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 .main-footer {
                     padding: 2vw;
                     z-index: 8;
+                }
+
+                .navigation-wrapper {
+                    padding: 0 8px;
                 }
             `}</style>
         </div>
