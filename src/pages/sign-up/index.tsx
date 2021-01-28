@@ -24,6 +24,12 @@ const useStyles = makeStyles({
         height: "100%",
         padding: "40px 0 60px",
     },
+    stepper: {
+        width: "90%",
+        maxWidth: "1300px",
+        margin: "auto",
+        textAlign: "center",
+    },
 });
 
 const SignUpPage: React.FC = () => {
@@ -126,21 +132,16 @@ const SignUpPage: React.FC = () => {
 
 export default SignUpPage;
 
-interface SignUpStepperProps {
+interface ISignUpStepperProps {
     activeStep: number;
 }
 
-export const SignUpStepper: React.FC<SignUpStepperProps> = ({ activeStep }) => {
+export const SignUpStepper: React.FC<ISignUpStepperProps> = ({
+    activeStep,
+}) => {
+    const classes = useStyles();
     return (
-        <Stepper
-            activeStep={activeStep}
-            style={{
-                width: "90%",
-                maxWidth: "1300px",
-                margin: "auto",
-                textAlign: "center",
-            }}
-        >
+        <Stepper activeStep={activeStep} className={classes.stepper}>
             <Step>
                 <StepLabel>Choose User Type</StepLabel>
             </Step>
@@ -148,7 +149,7 @@ export const SignUpStepper: React.FC<SignUpStepperProps> = ({ activeStep }) => {
                 <StepLabel>Personal Information</StepLabel>
             </Step>
             <Step>
-                <StepLabel>Add Profile Picture</StepLabel>
+                <StepLabel>Verify Email</StepLabel>
             </Step>
         </Stepper>
     );

@@ -25,7 +25,7 @@ const StudentSignUpPage: React.FC = () => {
 
     function onSubmit(values) {
         signup({ ...values, role: EUserRoles.STUDENT })
-            .then(() => router.push("/app/dashboard"))
+            .then(() => router.push("/sign-up/send-email"))
             .catch(setError);
     }
     return (

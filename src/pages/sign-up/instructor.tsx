@@ -32,7 +32,7 @@ const InstructorSignUpPage: React.FC = () => {
 
     function onSubmit(values) {
         signup({ ...values, role: EUserRoles.INSTRUCTOR })
-            .then(() => router.push("/app/dashboard"))
+            .then(() => router.push("/sign-up/send-email"))
             .catch(setError);
     }
 

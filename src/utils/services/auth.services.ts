@@ -1,6 +1,6 @@
-import { apiClient } from "../helpers";
+import { apiClient, appendQueriesToUrl } from "../helpers";
 import { IApiResponse } from "../types/api.types";
-import { IApiAuthResponse } from "../types/auth.types";
+import { IApiAuthResponse, ISignUpOptions } from "../types/auth.types";
 import { IUserOriginal } from "../types";
 
 export function logIn({
@@ -18,8 +18,17 @@ export function logIn({
 
 export function signUp(
     userData: Partial<IUserOriginal>
-): Promise<IApiAuthResponse> {
+): Promise<{ message: string }> {
     return apiClient.post("/auth/sign-up", userData);
+}
+
+export function verifyEmail(signUpToken: string): Promise<IApiAuthResponse> {
+    return apiClient.post(
+        appendQueriesToUrl("/auth/sign-up", {
+            sign_up_token: signUpToken,
+        }),
+        {}
+    );
 }
 
 export function me(accessToken: string): Promise<IApiAuthResponse> {
@@ -31,4 +40,12 @@ export function me(accessToken: string): Promise<IApiAuthResponse> {
             authorization: `Bearer ${accessToken}`,
         },
     });
+}
+
+export function setSignUpEmailRecipient(email: string): void {
+    localStorage.setItem("sign-up-email-recipient", email);
+}
+
+export function getSignUpEmailRecipient(): string | null {
+    return localStorage.getItem("sign-up-email-recipient");
 }

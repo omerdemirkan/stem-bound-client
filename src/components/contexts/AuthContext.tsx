@@ -3,8 +3,15 @@ import {
     IAuthContextState,
     IUser,
     IAuthHelperResponse,
+    IUserOriginal,
 } from "../../utils/types";
-import { me, logIn, signUp } from "../../utils/services";
+import {
+    me,
+    logIn,
+    signUp,
+    verifyEmail,
+    setSignUpEmailRecipient,
+} from "../../utils/services";
 import { apiClient, mapUserData } from "../../utils/helpers";
 
 export const initialAuthContextState: IAuthContextState = {
@@ -19,6 +26,7 @@ export const initialAuthContextState: IAuthContextState = {
     signup: async (options: { email: string; password: string }) => ({
         ok: true,
     }),
+    verifyemail: async (...args) => ({ ok: true }),
     authenticateToken: async (token: string) => ({ ok: true }),
     mutateUser: (user: IUser) => {},
 };
@@ -88,7 +96,29 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         }
     }
 
-    async function signup(userData): Promise<IAuthHelperResponse> {
+    async function signup(
+        userData: Partial<IUserOriginal>
+    ): Promise<IAuthHelperResponse> {
+        updateAuthState({
+            authLoading: true,
+        });
+
+        try {
+            const { message } = await signUp(userData);
+            setSignUpEmailRecipient(userData.email);
+            updateAuthState({
+                authLoading: false,
+            });
+            return { ok: true, message };
+        } catch (error) {
+            handleAuthFailure();
+            return { ok: false, error, message: error.message };
+        }
+    }
+
+    async function verifyemail(
+        signUpToken: string
+    ): Promise<IAuthHelperResponse> {
         updateAuthState({
             authLoading: true,
         });
@@ -96,7 +126,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         try {
             const {
                 data: { accessToken, user },
-            } = await signUp(userData);
+            } = await verifyEmail(signUpToken);
             handleAuthSuccess({ user: mapUserData(user), accessToken });
             return { ok: true };
         } catch (e) {
@@ -151,6 +181,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
                 signup,
                 authenticateToken,
                 mutateUser,
+                verifyemail,
             }}
         >
             {children}
