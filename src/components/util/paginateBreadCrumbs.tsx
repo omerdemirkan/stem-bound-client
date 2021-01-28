@@ -12,7 +12,8 @@ export function paginateBreadCrumbs(breadCrumbs: IBreadCrumb[]) {
                 let bc = (
                     <Typography
                         key={label + href}
-                        variant="h6"
+                        variant="body1"
+                        component="p"
                         color={isLast ? "textPrimary" : "textSecondary"}
                         gutterBottom
                     >
@@ -59,7 +60,8 @@ export function paginateBreadcrumbsMinified(breadCrumbs: IBreadCrumb[]) {
         elementKey = breadCrumb.label + breadCrumb.href;
         element = (
             <Typography
-                variant={breadCrumbs.length === 1 ? "h6" : "subtitle1"}
+                variant="body1"
+                component="p"
                 color={
                     index === breadCrumbs.length - 1
                         ? "textPrimary"

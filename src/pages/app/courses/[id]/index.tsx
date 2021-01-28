@@ -40,7 +40,7 @@ import ContactUserButton from "../../../../components/util/ContactUserButton";
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
     const queryCourseId = router.query.id as string;
-    const { createAlert, createSnackbar } = useContext(NotificationContext);
+    const { createAlert } = useContext(NotificationContext);
     const { user } = useContext(AuthContext);
     const { data: course, revalidate: refetchCourse } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}` : null,
@@ -62,11 +62,7 @@ const CourseAppPage: React.FC = () => {
         course?._id ? `/courses/${course?._id}/students` : null,
         courseStudentsFetcher(course?._id)
     );
-    const {
-        data: school,
-        isValidating: schoolLoading,
-        error: schoolError,
-    } = useSWR(
+    const { data: school } = useSWR(
         course?.meta.school ? `/schools/${course?.meta.school}` : null,
         schoolFetcher(course?.meta.school)
     );
@@ -311,6 +307,7 @@ const CourseAppPage: React.FC = () => {
                             loading={upcomingMeetingsLoading}
                             infoMessage={
                                 upcomingMeetings?.length === 0 &&
+                                !upcomingMeetingsError &&
                                 "No upcoming meetings"
                             }
                             infoAction={<Button></Button>}

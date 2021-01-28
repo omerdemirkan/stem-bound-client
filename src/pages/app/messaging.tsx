@@ -211,34 +211,30 @@ const MessagingAppPage: React.FC = () => {
             ) : (
                 <SplitScreen
                     mainEl={
-                        <>
-                            {!!chatId && (
-                                <ChatMessageFeed
-                                    chatMessages={messages}
-                                    loading={messagesLoading}
-                                    errorMessage={
-                                        chatsError &&
-                                        "Couldn't load chats, an error occured"
-                                    }
-                                    chatId={chatId}
-                                    chatPictureUrl={inspectedChat?.pictureUrl}
-                                    isTyping={
-                                        usersTypingHashTable[chatId] || []
-                                    }
-                                    onDeleteMessageClicked={(messageId) =>
-                                        deleteMessage({ chatId, messageId })
-                                    }
-                                    onEditMessageClicked={(id) =>
-                                        setEditedMessageId(id)
-                                    }
-                                    onRestoreMessageClicked={(messageId) =>
-                                        restoreMessage({ chatId, messageId })
-                                    }
-                                    editedMessageId={editedMessageId}
-                                    editedMessageText={editedMessageText}
-                                />
-                            )}
-                        </>
+                        !!chatId && (
+                            <ChatMessageFeed
+                                chatMessages={messages}
+                                loading={messagesLoading}
+                                errorMessage={
+                                    chatsError &&
+                                    "Couldn't load chats, an error occured"
+                                }
+                                chatId={chatId}
+                                chatPictureUrl={inspectedChat?.pictureUrl}
+                                isTyping={usersTypingHashTable[chatId] || []}
+                                onDeleteMessageClicked={(messageId) =>
+                                    deleteMessage({ chatId, messageId })
+                                }
+                                onEditMessageClicked={(id) =>
+                                    setEditedMessageId(id)
+                                }
+                                onRestoreMessageClicked={(messageId) =>
+                                    restoreMessage({ chatId, messageId })
+                                }
+                                editedMessageId={editedMessageId}
+                                editedMessageText={editedMessageText}
+                            />
+                        )
                     }
                     secondaryEl={
                         (!smallScreen || !chatId) && (

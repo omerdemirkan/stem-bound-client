@@ -6,6 +6,8 @@
   margin: 3px 5px;
 }
 
-.dark-theme .MuiAlert-standardInfo {
+.dark-theme .MuiAlert-standardInfo,
+.dark-theme .MuiAlert-standardWarning,
+.dark-theme .MuiAlert-standardError {
   background-color: var(--background-light) !important;
 }

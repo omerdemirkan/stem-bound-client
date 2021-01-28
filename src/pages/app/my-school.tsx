@@ -56,7 +56,6 @@ const MySchoolAppPage: React.FC = () => {
 
     const {
         data: coursesPendingVerification,
-        isValidating: coursesPendingVerificationLoading,
         revalidate: refetchCoursesPendingVerification,
     } = useSWR(
         user.role === EUserRoles.SCHOOL_OFFICIAL
@@ -69,7 +68,6 @@ const MySchoolAppPage: React.FC = () => {
 
     const {
         data: dismissedCourses,
-        isValidating: dismissedCoursesLoading,
         revalidate: refetchDismissedCourses,
     } = useSWR(
         user.role === EUserRoles.SCHOOL_OFFICIAL
@@ -225,16 +223,23 @@ const MySchoolAppPage: React.FC = () => {
             <SplitScreen
                 mainEl={
                     <>
-                        <Typography variant="h5" gutterBottom>
+                        <Typography
+                            variant="h5"
+                            color="textPrimary"
+                            gutterBottom
+                        >
                             {school?.name}
                         </Typography>
-                        <Typography>{school?.location.shortDisplay}</Typography>
+                        <Typography paragraph color="textPrimary">
+                            {school?.location.shortDisplay}
+                        </Typography>
                         <Section
                             title="Courses"
                             noDivider
                             infoMessage={
                                 !coursesLoading &&
                                 !courses?.length &&
+                                !coursesError &&
                                 "No courses found"
                             }
                             errorMessage={
@@ -267,6 +272,7 @@ const MySchoolAppPage: React.FC = () => {
                             loading={schoolOfficialsLoading}
                             infoMessage={
                                 schoolOfficials?.length === 0 &&
+                                !schoolOfficialsError &&
                                 `No${
                                     school ? " " + school.name : null
                                 } school officials have an account`
@@ -288,6 +294,7 @@ const MySchoolAppPage: React.FC = () => {
                             loading={studentsLoading}
                             infoMessage={
                                 students?.length === 0 &&
+                                !studentsError &&
                                 `No${
                                     school ? " " + school.name : null
                                 } students have an account`

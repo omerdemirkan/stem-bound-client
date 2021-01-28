@@ -20,6 +20,7 @@ import InputButton from "../../../../components/util/InputButton";
 import TextField from "@material-ui/core/TextField";
 import PictureMessage from "../../../../components/ui/PictureMessage";
 import NoResultsSVG from "../../../../components/svg/illustrations/no-results";
+import Section from "../../../../components/ui/Section";
 
 const AnnouncementsAppPage: React.FC = () => {
     const router = useRouter();
@@ -34,7 +35,7 @@ const AnnouncementsAppPage: React.FC = () => {
     );
     const {
         data: announcements,
-        error: fetchAnnouncementsError,
+        error: announcementsError,
         mutate: mutateCourseAnnouncements,
         isValidating: announcementsLoading,
     } = useSWR(
@@ -139,24 +140,38 @@ const AnnouncementsAppPage: React.FC = () => {
                 />
             )}
 
-            {announcements?.map((announcement) => (
-                <CourseAnnouncement
-                    key={announcement._id}
-                    announcement={announcement}
-                    onDeleteAnnouncement={() =>
-                        createAlert({
-                            headerText:
-                                "Are you sure you want to delete this announcement?",
-                            bodyText: "You cannot undo a deletion.",
-                            type: ENotificationTypes.DANGER,
-                            onOk: () =>
-                                handleDeleteAnnouncement(announcement._id),
-                            onCancel: () => {},
-                        })
-                    }
-                    onEditAnnouncement={handleEditAnnouncement}
-                />
-            ))}
+            <Section
+                title="Published announcements"
+                loading={announcementsLoading}
+                infoMessage={
+                    announcements?.length === 0 &&
+                    !announcementsError &&
+                    "No announcements published"
+                }
+                errorMessage={
+                    !!announcementsError &&
+                    "Couldn't fetch published announcements, an error occured"
+                }
+            >
+                {announcements?.map((announcement) => (
+                    <CourseAnnouncement
+                        key={announcement._id}
+                        announcement={announcement}
+                        onDeleteAnnouncement={() =>
+                            createAlert({
+                                headerText:
+                                    "Are you sure you want to delete this announcement?",
+                                bodyText: "You cannot undo a deletion.",
+                                type: ENotificationTypes.DANGER,
+                                onOk: () =>
+                                    handleDeleteAnnouncement(announcement._id),
+                                onCancel: () => {},
+                            })
+                        }
+                        onEditAnnouncement={handleEditAnnouncement}
+                    />
+                ))}
+            </Section>
         </AppLayout>
     );
 };
