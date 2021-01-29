@@ -2,8 +2,6 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
-import { CardProps } from "@material-ui/core/Card";
 import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
 import ChipInput from "../util/ChipInput";
@@ -11,6 +9,7 @@ import AsyncSelect from "../util/AsyncSelect";
 import { fetchLocationInputOptions } from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
+import { ISignUpFormProps } from "./SignUpForm";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -18,16 +17,7 @@ const useStyles = makeStyles({
     },
 });
 
-export interface IInstructorSignUpFormProps {
-    onSubmit(values: any): void;
-    errorMessage?: string;
-    loading?: boolean;
-    success?: boolean;
-    CardProps?: CardProps;
-    withoutCard?: boolean;
-}
-
-const InstructorSignUpForm: React.FC<IInstructorSignUpFormProps> = ({
+const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
     onSubmit,
     loading,
     success,

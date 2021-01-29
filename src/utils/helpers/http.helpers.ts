@@ -27,7 +27,11 @@ export function getQueryParamsByString(query: string): any {
 }
 
 export function getClientQueryParams() {
-    return getQueryParamsByString(window.location.search);
+    try {
+        return getQueryParamsByString(window.location.search);
+    } catch (e) {
+        return {};
+    }
 }
 
 export class HttpClient {

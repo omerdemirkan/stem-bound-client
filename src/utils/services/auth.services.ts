@@ -1,6 +1,5 @@
 import { apiClient, appendQueriesToUrl } from "../helpers";
-import { IApiResponse } from "../types/api.types";
-import { IApiAuthResponse, ISignUpOptions } from "../types/auth.types";
+import { IApiAuthResponse } from "../types/auth.types";
 import { IUserOriginal } from "../types";
 
 export function logIn({
@@ -16,13 +15,13 @@ export function logIn({
     });
 }
 
-export function signUp(
+export function sendVerificationEmail(
     userData: Partial<IUserOriginal>
 ): Promise<{ message: string }> {
-    return apiClient.post("/auth/sign-up", userData);
+    return apiClient.post("/auth/send-verification-email", userData);
 }
 
-export function verifyEmail(signUpToken: string): Promise<IApiAuthResponse> {
+export function signUp(signUpToken: string): Promise<IApiAuthResponse> {
     return apiClient.post(
         appendQueriesToUrl("/auth/sign-up", {
             sign_up_token: signUpToken,
@@ -47,5 +46,9 @@ export function setSignUpEmailRecipient(email: string): void {
 }
 
 export function getSignUpEmailRecipient(): string | null {
-    return localStorage.getItem("sign-up-email-recipient");
+    try {
+        return localStorage.getItem("sign-up-email-recipient");
+    } catch (e) {
+        return null;
+    }
 }

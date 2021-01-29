@@ -7,7 +7,7 @@ import { useEffect, useContext, useState } from "react";
 
 const LogInPage: React.FC = () => {
     const router = useRouter();
-    const { authLoading, accessToken, login } = useContext(AuthContext);
+    const { authLoading, accessToken, logIn } = useContext(AuthContext);
     const [error, setError] = useState<Error>();
 
     useEffect(
@@ -21,7 +21,7 @@ const LogInPage: React.FC = () => {
 
     async function onSubmit(values) {
         try {
-            await login(values);
+            await logIn(values);
         } catch (e) {
             setError(e);
         }

@@ -9,6 +9,7 @@ import AsyncSelect from "../util/AsyncSelect";
 import { fetchSchoolInputOptions } from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
+import { ISignUpFormProps } from "./SignUpForm";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -16,16 +17,7 @@ const useStyles = makeStyles({
     },
 });
 
-export interface ISchoolOfficialSignUpFormProps {
-    onSubmit(values: any): void;
-    errorMessage?: string;
-    loading?: boolean;
-    success?: boolean;
-    CardProps?: CardProps;
-    withoutCard?: boolean;
-}
-
-const SchoolOfficialSignUpForm: React.FC<ISchoolOfficialSignUpFormProps> = ({
+const SchoolOfficialSignUpForm: React.FC<ISignUpFormProps> = ({
     onSubmit,
     loading,
     success,

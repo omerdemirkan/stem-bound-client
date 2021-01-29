@@ -9,8 +9,8 @@ import {
     me,
     logIn,
     signUp,
-    verifyEmail,
     setSignUpEmailRecipient,
+    sendVerificationEmail,
 } from "../../utils/services";
 import { apiClient, mapUserData } from "../../utils/helpers";
 
@@ -19,14 +19,12 @@ export const initialAuthContextState: IAuthContextState = {
     accessToken: null,
     user: null,
     authAttempted: false,
-    login: async (options: { email: string; password: string }) => ({
+    logIn: async (options: { email: string; password: string }) => ({
         ok: true,
     }),
     logout: () => {},
-    signup: async (options: { email: string; password: string }) => ({
-        ok: true,
-    }),
-    verifyemail: async (...args) => ({ ok: true }),
+    signUp: async (...args) => ({ ok: true }),
+    sendVerificationEmail: async (...args) => ({ ok: true }),
     authenticateToken: async (token: string) => ({ ok: true }),
     mutateUser: (user: IUser) => {},
 };
@@ -72,7 +70,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         }
     }
 
-    async function login({
+    async function handleLogIn({
         email,
         password,
     }: {
@@ -96,43 +94,33 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         }
     }
 
-    async function signup(
+    async function handleSendVerificationEmail(
         userData: Partial<IUserOriginal>
     ): Promise<IAuthHelperResponse> {
         updateAuthState({
             authLoading: true,
         });
 
-        try {
-            const { message } = await signUp(userData);
-            setSignUpEmailRecipient(userData.email);
-            updateAuthState({
-                authLoading: false,
-            });
-            return { ok: true, message };
-        } catch (error) {
-            handleAuthFailure();
-            return { ok: false, error, message: error.message };
-        }
+        const { message } = await sendVerificationEmail(userData);
+        setSignUpEmailRecipient(userData.email);
+        updateAuthState({
+            authLoading: false,
+        });
+        return { ok: true, message };
     }
 
-    async function verifyemail(
+    async function handleSignUp(
         signUpToken: string
     ): Promise<IAuthHelperResponse> {
         updateAuthState({
             authLoading: true,
         });
 
-        try {
-            const {
-                data: { accessToken, user },
-            } = await verifyEmail(signUpToken);
-            handleAuthSuccess({ user: mapUserData(user), accessToken });
-            return { ok: true };
-        } catch (e) {
-            handleAuthFailure();
-            return Promise.reject(e.error);
-        }
+        const {
+            data: { accessToken, user },
+        } = await signUp(signUpToken);
+        handleAuthSuccess({ user: mapUserData(user), accessToken });
+        return { ok: true };
     }
 
     function logout() {
@@ -176,12 +164,12 @@ export const AuthContextProvider: React.FC = ({ children }) => {
                 authAttempted,
                 user,
                 authLoading,
-                login,
                 logout,
-                signup,
                 authenticateToken,
                 mutateUser,
-                verifyemail,
+                logIn: handleLogIn,
+                sendVerificationEmail: handleSendVerificationEmail,
+                signUp: handleSignUp,
             }}
         >
             {children}

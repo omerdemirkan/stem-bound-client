@@ -8,7 +8,6 @@ export type IApiAuthResponse = IApiResponse<{
 
 export type IAuthHelperResponse = {
     ok: boolean;
-    error?: Error;
     message?: string;
 };
 
@@ -17,14 +16,16 @@ export interface IAuthContextState {
     accessToken: null | string;
     authLoading: boolean;
     authAttempted: boolean;
-    login(options: {
+    logIn(options: {
         email: string;
         password: string;
     }): Promise<IAuthHelperResponse>;
     logout: () => any;
-    signup(userData: Partial<IUser>): Promise<IAuthHelperResponse>;
     authenticateToken(token: string): Promise<IAuthHelperResponse>;
-    verifyemail(signUpToken: string): Promise<IAuthHelperResponse>;
+    sendVerificationEmail(
+        userData: Partial<IUser>
+    ): Promise<IAuthHelperResponse>;
+    signUp(signUpToken: string): Promise<IAuthHelperResponse>;
     mutateUser: (user: IUser) => any;
 }
 
