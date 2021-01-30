@@ -5,10 +5,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
-import useCompute from "../hooks/useCompute";
 import formatDistance from "date-fns/formatDistance";
 import format from "date-fns/format";
 import CardActionArea from "@material-ui/core/CardActionArea";
+import { useMemo } from "react";
 
 const useStyles = makeStyles({
     listItem: {
@@ -29,9 +29,7 @@ const ChatCard: React.FC<IChatCardProps> = ({
     isSelected,
 }) => {
     const classes = useStyles();
-    const lastUpdated = useCompute(() => new Date(chat.lastMessageSentAt), [
-        chat,
-    ]);
+    const lastUpdated = useMemo(() => new Date(chat.lastMessageSentAt), [chat]);
     return (
         <CardActionArea>
             <ListItem

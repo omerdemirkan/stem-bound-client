@@ -3,9 +3,9 @@ import { IChatMessage, IChatMessageEventHandlers } from "../../utils/types";
 import { getChatMessageGroups } from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
 import InvertScroll from "../util/InvertScroll";
-import useCompute from "../hooks/useCompute";
 import PictureMessage from "./PictureMessage";
 import EmptyInboxSVG from "../svg/illustrations/empty-inbox";
+import { useMemo } from "react";
 
 export interface IChatMessageFeedProps {
     chatMessages: IChatMessage[];
@@ -31,7 +31,7 @@ const ChatMessageFeed: React.FC<
     errorMessage,
     ...chatMessageHandlers
 }) => {
-    const chatMessageGroups = useCompute(
+    const chatMessageGroups = useMemo(
         () => getChatMessageGroups(chatMessages),
         [chatMessages]
     );
