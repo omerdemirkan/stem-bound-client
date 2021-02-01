@@ -3,103 +3,55 @@ import { useContext, useEffect, useRef } from "react";
 import { ISocketContextState, ESocketEvents } from "../../utils/types";
 
 interface IListenerHashTable {
-    [key: string]: {
-        event: string;
-        startIndex: number;
-        endIndex: number;
-        listeners: Function[];
-    };
+    [key: string]: number;
 }
 
-type IListenerRemovers = (() => void)[];
+interface IListener {
+    event: string;
+    listener: Function;
+}
 
 type Initializer = (socket: SocketIOClient.Socket) => any;
 
-type InitializerCreator = () => Initializer;
+const events = Object.keys(ESocketEvents);
 
 export default function useSocket(
-    init: Initializer | InitializerCreator,
-    events: ESocketEvents[] = Object.keys(ESocketEvents) as ESocketEvents[]
-): ISocketContextState & { reinitializeListeners } {
+    init: Initializer,
+    deps: any[] = []
+): ISocketContextState & { configureListeners } {
     const context = useContext(SocketContext);
-    const initRef = useRef<boolean>(false);
-    const listenerRemoversRef = useRef<IListenerRemovers>();
+    const listenersRef = useRef<IListener[]>([]);
 
     const { socket } = context;
 
-    function initializeListeners(): () => void {
-        if (!socket?.connected || initRef.current) return;
+    function initializeListeners() {
+        if (!socket?.connected) return;
+        removeListeners();
 
         let cleanup = () => null;
+        const listenerStartIndices: IListenerHashTable = {};
 
-        const listenerHashTable: IListenerHashTable = {};
-        const listenerRemovers: IListenerRemovers = [];
+        for (let event of events)
+            listenerStartIndices[event] = socket.listeners(event).length;
 
-        events?.forEach(function (event) {
-            listenerHashTable[event] = {
-                event,
-                listeners: [],
-                startIndex: socket.listeners(event).length,
-                endIndex: 0,
-            };
+        if (socket?.connected && init) cleanup = init(socket) || cleanup;
+
+        events.forEach(function (event) {
+            const listeners = socket.listeners(event);
+            for (let i = listenerStartIndices[event]; i < listeners.length; i++)
+                listenersRef.current.push({ event, listener: listeners[i] });
         });
-
-        if (socket?.connected && init) {
-            try {
-                // If user passed initializer creator:
-                // @ts-ignore
-                cleanup = init()(socket) || cleanup;
-            } catch {
-                cleanup = init(socket) || cleanup;
-            }
-            initRef.current = true;
-        }
-
-        events?.forEach(function (event) {
-            listenerHashTable[event].endIndex =
-                socket.listeners(event).length - 1;
-            listenerHashTable[event].listeners = socket.listeners(event);
-        });
-
-        listenerHashTable;
-
-        Object.values(listenerHashTable).forEach(function ({
-            event,
-            endIndex,
-            startIndex,
-            listeners,
-        }) {
-            if (endIndex === startIndex) return;
-            listenerRemovers.push(function () {
-                for (let i = startIndex; i <= endIndex; i++) {
-                    listenerRemovers.push(function () {
-                        socket.removeEventListener(event, listeners[i]);
-                    });
-                }
-            });
-        });
-
-        listenerRemoversRef.current = listenerRemovers;
 
         return cleanup;
     }
 
-    function reinitializeListeners() {
-        if (!initRef.current) return;
-
-        for (let i = 0; i < listenerRemoversRef.current.length; i++)
-            listenerRemoversRef.current[i]();
-
-        initRef.current = false;
-        initializeListeners();
+    function removeListeners() {
+        for (let { event, listener } of listenersRef.current)
+            socket.removeListener(event, listener);
+        listenersRef.current = [];
     }
 
-    useEffect(
-        function () {
-            return initializeListeners();
-        },
-        [socket?.connected, init]
-    );
+    useEffect(initializeListeners, [socket?.connected, ...deps]);
 
-    return { ...context, reinitializeListeners };
+    return { ...context, configureListeners: initializeListeners };
 }

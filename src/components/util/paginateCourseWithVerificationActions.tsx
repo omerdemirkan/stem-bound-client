@@ -24,7 +24,7 @@ export default function paginateCourseWithVerificationActions(
         onDismissCourseClicked(): any;
         onVerifyCourseClicked(): any;
     },
-    CourseProps?: ICourseCardProps
+    CourseCardProps?: ICourseCardProps
 ) {
     let menuItems: IMenuItemDTO[] = [];
     if (
@@ -48,8 +48,11 @@ export default function paginateCourseWithVerificationActions(
         <CourseCard
             course={course}
             key={course._id}
-            fullWidth
-            menuItems={menuItems}
+            menuItems={
+                CourseCardProps?.menuItems
+                    ? menuItems.concat(CourseCardProps.menuItems)
+                    : menuItems
+            }
             footerEl={
                 <>
                     {user?.role === EUserRoles.SCHOOL_OFFICIAL &&
@@ -88,9 +91,10 @@ export default function paginateCourseWithVerificationActions(
                             Contact Instructor
                         </ContactUserButton>
                     )}
+                    {CourseCardProps?.footerEl}
                 </>
             }
-            {...CourseProps}
+            {...CourseCardProps}
         />
     );
 }

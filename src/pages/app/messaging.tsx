@@ -35,7 +35,7 @@ const MessagingAppPage: React.FC = () => {
         sendMessage,
         setUserIsTyping,
         chatsLoading,
-        usersTypingHashTable,
+        usersTyping,
         setInspectedChat,
         messagesLoading,
         chatsError,
@@ -221,7 +221,7 @@ const MessagingAppPage: React.FC = () => {
                                 }
                                 chatId={chatId}
                                 chatPictureUrl={inspectedChat?.pictureUrl}
-                                isTyping={usersTypingHashTable[chatId] || []}
+                                isTyping={usersTyping[chatId] || []}
                                 onDeleteMessageClicked={(messageId) =>
                                     deleteMessage({ chatId, messageId })
                                 }

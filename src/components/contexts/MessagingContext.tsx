@@ -20,7 +20,7 @@ import NotificationContext from "./NotificationContext";
 
 const messagingContextInitialState: IMessagingContextState = {
     chats: [],
-    usersTypingHashTable: {},
+    usersTyping: [],
     messages: [],
     setUserIsTyping: (...args) => undefined,
     sendMessage: (...args) => undefined,
@@ -40,7 +40,7 @@ const MessagingContext = createContext(messagingContextInitialState);
 export default MessagingContext;
 
 export const MessagingContextProvider: React.FC = ({ children }) => {
-    const [usersTypingHashTable, setUsersTypingHashTable] = useState({});
+    const [usersTyping, setUsersTyping] = useState<string[]>([]);
     const [inspectedChatId, setInspectedChatId] = useState(null);
     const [userIsTyping, setUserIsTyping] = useState(false);
 
@@ -67,6 +67,72 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         messagesFetcher(inspectedChatId as string)
     );
 
+    const { socket } = useSocket(
+        function (socket: SocketIOClient.Socket) {
+            console.log("Inside initializer");
+            chats.forEach(function (chat) {
+                socket.emit(ESocketEvents.JOIN_ROOM, chat._id);
+            });
+            socket.on(
+                ESocketEvents.CHAT_USER_STARTED_TYPING,
+                function ({ user, chatId }) {
+                    handleUserStartedTyping(mapUserData(user), chatId);
+                }
+            );
+
+            socket.on(
+                ESocketEvents.CHAT_USER_STOPPED_TYPING,
+                function ({ user, chatId }) {
+                    handleUserStoppedTyping(mapUserData(user), chatId);
+                }
+            );
+
+            socket.on(
+                ESocketEvents.CHAT_MESSAGE_CREATED,
+                function ({ message, chatId }) {
+                    handleMessageCreated(mapMessageData(message), chatId);
+                    mutateChats(function (prevChats) {
+                        let newChats = clone(prevChats || chats);
+                        const updatedChatIndex = newChats.findIndex(
+                            (chat) => chat._id === chatId
+                        );
+                        newChats[
+                            updatedChatIndex
+                        ].lastMessageSentAt = new Date().toString();
+                        newChats.sort(
+                            (a, b) =>
+                                new Date(b.lastMessageSentAt).getTime() -
+                                new Date(a.lastMessageSentAt).getTime()
+                        );
+                        return newChats;
+                    });
+                }
+            );
+
+            socket.on(
+                ESocketEvents.CHAT_MESSAGE_UPDATED,
+                function ({ message, chatId }) {
+                    handleMessageUpdated(mapMessageData(message), chatId);
+                }
+            );
+
+            socket.on(
+                ESocketEvents.CHAT_MESSAGE_DELETED,
+                function ({ message, chatId }) {
+                    handleMessageUpdated(mapMessageData(message), chatId);
+                }
+            );
+
+            socket.on(
+                ESocketEvents.CHAT_MESSAGE_RESTORED,
+                function ({ message, chatId }) {
+                    handleMessageUpdated(mapMessageData(message), chatId);
+                }
+            );
+        },
+        [inspectedChatId]
+    );
+
     useEffect(
         function () {
             socket?.emit(
@@ -77,86 +143,6 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
             );
         },
         [userIsTyping]
-    );
-
-    const { socket } = useSocket(
-        chats?.length &&
-            (() =>
-                function (socket: SocketIOClient.Socket) {
-                    chats.forEach(function (chat) {
-                        socket.emit(ESocketEvents.JOIN_ROOM, chat._id);
-                    });
-                    socket.on(
-                        ESocketEvents.CHAT_USER_STARTED_TYPING,
-                        function ({ user, chatId }) {
-                            handleUserStartedTyping(mapUserData(user), chatId);
-                        }
-                    );
-
-                    socket.on(
-                        ESocketEvents.CHAT_USER_STOPPED_TYPING,
-                        function ({ user, chatId }) {
-                            handleUserStoppedTyping(mapUserData(user), chatId);
-                        }
-                    );
-
-                    socket.on(
-                        ESocketEvents.CHAT_MESSAGE_CREATED,
-                        function ({ message, chatId }) {
-                            handleMessageCreated(
-                                mapMessageData(message),
-                                chatId
-                            );
-                            mutateChats(function (prevChats) {
-                                let newChats = clone(prevChats || chats);
-                                const updatedChatIndex = newChats.findIndex(
-                                    (chat) => chat._id === chatId
-                                );
-                                newChats[
-                                    updatedChatIndex
-                                ].lastMessageSentAt = new Date().toString();
-                                newChats.sort(
-                                    (a, b) =>
-                                        new Date(
-                                            b.lastMessageSentAt
-                                        ).getTime() -
-                                        new Date(a.lastMessageSentAt).getTime()
-                                );
-                                return newChats;
-                            });
-                        }
-                    );
-
-                    socket.on(
-                        ESocketEvents.CHAT_MESSAGE_UPDATED,
-                        function ({ message, chatId }) {
-                            handleMessageUpdated(
-                                mapMessageData(message),
-                                chatId
-                            );
-                        }
-                    );
-
-                    socket.on(
-                        ESocketEvents.CHAT_MESSAGE_DELETED,
-                        function ({ message, chatId }) {
-                            handleMessageUpdated(
-                                mapMessageData(message),
-                                chatId
-                            );
-                        }
-                    );
-
-                    socket.on(
-                        ESocketEvents.CHAT_MESSAGE_RESTORED,
-                        function ({ message, chatId }) {
-                            handleMessageUpdated(
-                                mapMessageData(message),
-                                chatId
-                            );
-                        }
-                    );
-                })
     );
 
     function sendMessage(data: { text: string; chatId: string }) {
@@ -216,7 +202,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
 
     function handleUserStartedTyping(typingUser: IUser, chatId: string) {
         if (user._id === typingUser._id) return;
-        setUsersTypingHashTable(function (prev) {
+        setUsersTyping(function (prev) {
             const newTypingUsers = clone(prev);
             if (!newTypingUsers[chatId]) newTypingUsers[chatId] = [];
             newTypingUsers[chatId].push(typingUser.fullName);
@@ -226,7 +212,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
 
     function handleUserStoppedTyping(typingUser: IUser, chatId: string) {
         if (user._id === typingUser._id) return;
-        setUsersTypingHashTable(function (prev) {
+        setUsersTyping(function (prev) {
             const newTypingUsers = clone(prev);
             newTypingUsers[chatId] = newTypingUsers[chatId]?.filter(
                 (fullName) => fullName !== typingUser.fullName
@@ -256,7 +242,6 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 deleteMessage,
                 restoreMessage,
                 updateMessage,
-                usersTypingHashTable,
                 messages,
                 setUserIsTyping,
                 contactUser,
@@ -264,6 +249,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 chatsError,
                 messagesError,
                 setInspectedChat: setInspectedChatId,
+                usersTyping,
             }}
         >
             {children}
