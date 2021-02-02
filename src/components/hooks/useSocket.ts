@@ -2,10 +2,6 @@ import SocketContext from "../contexts/SocketContext";
 import { useContext, useEffect, useRef } from "react";
 import { ISocketContextState, ESocketEvents } from "../../utils/types";
 
-interface IListenerHashTable {
-    [key: string]: number;
-}
-
 interface IListener {
     event: string;
     listener: Function;
@@ -29,7 +25,7 @@ export default function useSocket(
         removeListeners();
 
         let cleanup = () => null;
-        const listenerStartIndices: IListenerHashTable = {};
+        const listenerStartIndices: { [key: string]: number } = {};
 
         for (let event of events)
             listenerStartIndices[event] = socket.listeners(event).length;
@@ -46,12 +42,13 @@ export default function useSocket(
     }
 
     function removeListeners() {
-        for (let { event, listener } of listenersRef.current)
+        while (listenersRef.current.length) {
+            const { event, listener } = listenersRef.current.pop();
             socket.removeListener(event, listener);
-        listenersRef.current = [];
+        }
     }
 
-    useEffect(initializeListeners, [socket?.connected, ...deps]);
+    useEffect(initializeListeners, [socket?.connected === true, ...deps]);
 
     return { ...context, configureListeners: initializeListeners };
 }

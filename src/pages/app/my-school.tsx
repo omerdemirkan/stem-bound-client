@@ -33,7 +33,7 @@ import {
     configureCourseVerificationUpdateAlertDTO,
     configureCourseEnrollmentUpdateAlertDTO,
 } from "../../utils/helpers";
-import paginateCourseWithVerificationActions from "../../components/util/paginateCourseWithVerificationActions";
+import CourseCard from "../../components/ui/CourseCard";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -194,24 +194,28 @@ const MySchoolAppPage: React.FC = () => {
 
     const paginateCourses = (courses: ICourse[]) => (
         <FlexBox>
-            {courses?.map((course) =>
-                paginateCourseWithVerificationActions(course, {
-                    user,
-                    onVerifyCourseClicked: () =>
+            {courses.map((course) => (
+                <CourseCard
+                    course={course}
+                    key={course._id}
+                    onVerifyCourseClicked={() =>
                         handleUpdateCourseVerificationClicked(
                             course,
                             ECourseVerificationStatus.VERIFIED
-                        ),
-                    onDismissCourseClicked: () =>
+                        )
+                    }
+                    onDismissCourseClicked={() =>
                         handleUpdateCourseVerificationClicked(
                             course,
                             ECourseVerificationStatus.DISMISSED
-                        ),
-                    onDropClicked: () => handleEnrollmentUpdate("drop", course),
-                    onEnrollClicked: () =>
-                        handleEnrollmentUpdate("enroll", course),
-                })
-            )}
+                        )
+                    }
+                    onDropClicked={() => handleEnrollmentUpdate("drop", course)}
+                    onEnrollClicked={() =>
+                        handleEnrollmentUpdate("enroll", course)
+                    }
+                />
+            ))}
         </FlexBox>
     );
 
