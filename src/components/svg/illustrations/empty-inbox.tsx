@@ -7,7 +7,7 @@ const EmptyInboxSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         xmlns="http://www.w3.org/2000/svg"
         {...props}
     >
-        <g clip-path="url(#clip0)">
+        <g clipPath="url(#clip0)">
             <path
                 opacity="0.24"
                 d="M295.853 187.083C295.702 188.678 295.418 190.257 295.004 191.805C294.053 195.381 292.614 198.81 290.729 201.997C279.812 220.992 258.434 231.993 236.921 236.481C215.407 240.969 193.197 239.992 171.249 240.996C141.603 242.337 112.033 247.297 82.3877 245.674C68.3334 244.895 54.4003 242.644 40.8184 238.956C-24.6577 238.956 7.35417 139.194 11.1184 101.373C12.7502 85.0916 14.6432 68.0016 23.9612 54.5207C34.9872 38.5813 54.5099 30.6414 73.6082 27.1681C92.7066 23.6947 112.36 23.9118 131.355 19.912C162.36 13.3995 192.381 -4.11378 223.686 0.879162C254.393 5.76356 279.311 34.9451 279.295 65.9719C279.295 87.7509 269.389 109.389 275.074 131.097C280.018 149.924 297.757 166.596 295.853 187.083Z"
@@ -77,8 +77,8 @@ const EmptyInboxSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="111.234"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="#010101" stop-opacity="0" />
-                <stop offset="0.95" stop-color="#010101" />
+                <stop stopColor="#010101" stopOpacity="0" />
+                <stop offset="0.95" stopColor="#010101" />
             </linearGradient>
             <linearGradient
                 id="paint1_linear"
@@ -88,8 +88,8 @@ const EmptyInboxSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="10491.6"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="#010101" stop-opacity="0" />
-                <stop offset="0.95" stop-color="#010101" />
+                <stop stopColor="#010101" stopOpacity="0" />
+                <stop offset="0.95" stopColor="#010101" />
             </linearGradient>
             <linearGradient
                 id="paint2_linear"
@@ -99,8 +99,8 @@ const EmptyInboxSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="18633.1"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="#010101" stop-opacity="0" />
-                <stop offset="0.95" stop-color="#010101" />
+                <stop stopColor="#010101" stopOpacity="0" />
+                <stop offset="0.95" stopColor="#010101" />
             </linearGradient>
             <linearGradient
                 id="paint3_linear"
@@ -110,8 +110,8 @@ const EmptyInboxSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="1452.22"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="#010101" stop-opacity="0" />
-                <stop offset="0.95" stop-color="#010101" />
+                <stop stopColor="#010101" stopOpacity="0" />
+                <stop offset="0.95" stopColor="#010101" />
             </linearGradient>
             <clipPath id="clip0">
                 <rect width="296" height="246" fill="white" />

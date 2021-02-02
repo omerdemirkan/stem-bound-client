@@ -7,7 +7,7 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         xmlns="http://www.w3.org/2000/svg"
         {...props}
     >
-        <g clip-path="url(#clip0)">
+        <g clipPath="url(#clip0)">
             <path
                 opacity="0.18"
                 d="M204.748 162.47C204.325 169.552 207.27 176.445 207.391 183.539C207.588 193.737 201.394 203.78 192.198 208.185C176.464 215.72 138.886 212.876 131.575 214.813C109.16 220.755 72.9536 216.12 50.1652 216.702C45.0327 216.834 41.7093 217.389 39.1298 216.642C36.5541 215.886 34.7187 213.843 32.566 208.766C28.7024 199.629 28.7327 187.641 30.3453 178.066C31.3159 172.309 32.9512 165.952 29.8845 160.986C27.8187 157.647 24.0911 155.803 20.8206 153.628C9.11291 145.851 2.01656 132.155 0.400152 118.164C-1.21626 104.174 2.19784 89.9566 8.10454 77.1748C10.1779 72.6989 12.5874 68.3098 15.9487 64.7102C21.3984 58.8557 28.9026 55.4638 35.7308 51.309C44.6771 45.8625 52.65 38.9584 59.3198 30.8822C64.6336 24.4611 69.1391 17.2581 75.3404 11.6831C93.7969 -4.87965 123.848 -2.7229 144.366 11.2034C157.766 20.2874 168.295 33.6698 183.028 40.378C198.641 47.5092 218.321 46.9124 230.387 59.1239C236.57 65.375 239.648 74.1531 240.641 82.8858C242.363 98.788 237.82 114.735 227.978 127.343C219.099 138.587 205.605 148.158 204.748 162.47Z"
@@ -171,8 +171,8 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="129.106"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="#183866" />
-                <stop offset="1" stop-color="#1A7FC1" />
+                <stop stopColor="#183866" />
+                <stop offset="1" stopColor="#1A7FC1" />
             </linearGradient>
             <linearGradient
                 id="paint1_linear"
@@ -182,16 +182,16 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="60.1623"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="white" stop-opacity="0" />
-                <stop offset="0.06" stop-color="white" stop-opacity="0.13" />
-                <stop offset="0.16" stop-color="white" stop-opacity="0.33" />
-                <stop offset="0.26" stop-color="white" stop-opacity="0.51" />
-                <stop offset="0.37" stop-color="white" stop-opacity="0.66" />
-                <stop offset="0.48" stop-color="white" stop-opacity="0.79" />
-                <stop offset="0.59" stop-color="white" stop-opacity="0.88" />
-                <stop offset="0.71" stop-color="white" stop-opacity="0.95" />
-                <stop offset="0.84" stop-color="white" stop-opacity="0.99" />
-                <stop offset="1" stop-color="white" />
+                <stop stopColor="white" stopOpacity="0" />
+                <stop offset="0.06" stopColor="white" stopOpacity="0.13" />
+                <stop offset="0.16" stopColor="white" stopOpacity="0.33" />
+                <stop offset="0.26" stopColor="white" stopOpacity="0.51" />
+                <stop offset="0.37" stopColor="white" stopOpacity="0.66" />
+                <stop offset="0.48" stopColor="white" stopOpacity="0.79" />
+                <stop offset="0.59" stopColor="white" stopOpacity="0.88" />
+                <stop offset="0.71" stopColor="white" stopOpacity="0.95" />
+                <stop offset="0.84" stopColor="white" stopOpacity="0.99" />
+                <stop offset="1" stopColor="white" />
             </linearGradient>
             <linearGradient
                 id="paint2_linear"
@@ -201,9 +201,9 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="108.823"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="#ECC4D7" />
-                <stop offset="0.42" stop-color="#EFD4D1" />
-                <stop offset="1" stop-color="#F2EAC9" />
+                <stop stopColor="#ECC4D7" />
+                <stop offset="0.42" stopColor="#EFD4D1" />
+                <stop offset="1" stopColor="#F2EAC9" />
             </linearGradient>
             <linearGradient
                 id="paint3_linear"
@@ -213,16 +213,16 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="13019"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="white" stop-opacity="0" />
-                <stop offset="0.06" stop-color="white" stop-opacity="0.13" />
-                <stop offset="0.16" stop-color="white" stop-opacity="0.33" />
-                <stop offset="0.26" stop-color="white" stop-opacity="0.51" />
-                <stop offset="0.37" stop-color="white" stop-opacity="0.66" />
-                <stop offset="0.48" stop-color="white" stop-opacity="0.79" />
-                <stop offset="0.59" stop-color="white" stop-opacity="0.88" />
-                <stop offset="0.71" stop-color="white" stop-opacity="0.95" />
-                <stop offset="0.84" stop-color="white" stop-opacity="0.99" />
-                <stop offset="1" stop-color="white" />
+                <stop stopColor="white" stopOpacity="0" />
+                <stop offset="0.06" stopColor="white" stopOpacity="0.13" />
+                <stop offset="0.16" stopColor="white" stopOpacity="0.33" />
+                <stop offset="0.26" stopColor="white" stopOpacity="0.51" />
+                <stop offset="0.37" stopColor="white" stopOpacity="0.66" />
+                <stop offset="0.48" stopColor="white" stopOpacity="0.79" />
+                <stop offset="0.59" stopColor="white" stopOpacity="0.88" />
+                <stop offset="0.71" stopColor="white" stopOpacity="0.95" />
+                <stop offset="0.84" stopColor="white" stopOpacity="0.99" />
+                <stop offset="1" stopColor="white" />
             </linearGradient>
             <linearGradient
                 id="paint4_linear"
@@ -232,9 +232,9 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="6120.7"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="#ECC4D7" />
-                <stop offset="0.42" stop-color="#EFD4D1" />
-                <stop offset="1" stop-color="#F2EAC9" />
+                <stop stopColor="#ECC4D7" />
+                <stop offset="0.42" stopColor="#EFD4D1" />
+                <stop offset="1" stopColor="#F2EAC9" />
             </linearGradient>
             <linearGradient
                 id="paint5_linear"
@@ -244,9 +244,9 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="5321.85"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="#ECC4D7" />
-                <stop offset="0.42" stop-color="#EFD4D1" />
-                <stop offset="1" stop-color="#F2EAC9" />
+                <stop stopColor="#ECC4D7" />
+                <stop offset="0.42" stopColor="#EFD4D1" />
+                <stop offset="1" stopColor="#F2EAC9" />
             </linearGradient>
             <linearGradient
                 id="paint6_linear"
@@ -256,8 +256,8 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="260.044"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-opacity="0" />
-                <stop offset="0.08" stop-opacity="0.19" />
+                <stop stopOpacity="0" />
+                <stop offset="0.08" stopOpacity="0.19" />
                 <stop offset="0.99" />
             </linearGradient>
             <linearGradient
@@ -268,8 +268,8 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="-386.674"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-opacity="0" />
-                <stop offset="0.08" stop-opacity="0.19" />
+                <stop stopOpacity="0" />
+                <stop offset="0.08" stopOpacity="0.19" />
                 <stop offset="0.99" />
             </linearGradient>
             <linearGradient
@@ -280,16 +280,16 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="-2107.93"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="white" stop-opacity="0" />
-                <stop offset="0.06" stop-color="white" stop-opacity="0.13" />
-                <stop offset="0.16" stop-color="white" stop-opacity="0.33" />
-                <stop offset="0.26" stop-color="white" stop-opacity="0.51" />
-                <stop offset="0.37" stop-color="white" stop-opacity="0.66" />
-                <stop offset="0.48" stop-color="white" stop-opacity="0.79" />
-                <stop offset="0.59" stop-color="white" stop-opacity="0.88" />
-                <stop offset="0.71" stop-color="white" stop-opacity="0.95" />
-                <stop offset="0.84" stop-color="white" stop-opacity="0.99" />
-                <stop offset="1" stop-color="white" />
+                <stop stopColor="white" stopOpacity="0" />
+                <stop offset="0.06" stopColor="white" stopOpacity="0.13" />
+                <stop offset="0.16" stopColor="white" stopOpacity="0.33" />
+                <stop offset="0.26" stopColor="white" stopOpacity="0.51" />
+                <stop offset="0.37" stopColor="white" stopOpacity="0.66" />
+                <stop offset="0.48" stopColor="white" stopOpacity="0.79" />
+                <stop offset="0.59" stopColor="white" stopOpacity="0.88" />
+                <stop offset="0.71" stopColor="white" stopOpacity="0.95" />
+                <stop offset="0.84" stopColor="white" stopOpacity="0.99" />
+                <stop offset="1" stopColor="white" />
             </linearGradient>
             <linearGradient
                 id="paint9_linear"
@@ -299,16 +299,16 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="-2109.85"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="white" stop-opacity="0" />
-                <stop offset="0.06" stop-color="white" stop-opacity="0.13" />
-                <stop offset="0.16" stop-color="white" stop-opacity="0.33" />
-                <stop offset="0.26" stop-color="white" stop-opacity="0.51" />
-                <stop offset="0.37" stop-color="white" stop-opacity="0.66" />
-                <stop offset="0.48" stop-color="white" stop-opacity="0.79" />
-                <stop offset="0.59" stop-color="white" stop-opacity="0.88" />
-                <stop offset="0.71" stop-color="white" stop-opacity="0.95" />
-                <stop offset="0.84" stop-color="white" stop-opacity="0.99" />
-                <stop offset="1" stop-color="white" />
+                <stop stopColor="white" stopOpacity="0" />
+                <stop offset="0.06" stopColor="white" stopOpacity="0.13" />
+                <stop offset="0.16" stopColor="white" stopOpacity="0.33" />
+                <stop offset="0.26" stopColor="white" stopOpacity="0.51" />
+                <stop offset="0.37" stopColor="white" stopOpacity="0.66" />
+                <stop offset="0.48" stopColor="white" stopOpacity="0.79" />
+                <stop offset="0.59" stopColor="white" stopOpacity="0.88" />
+                <stop offset="0.71" stopColor="white" stopOpacity="0.95" />
+                <stop offset="0.84" stopColor="white" stopOpacity="0.99" />
+                <stop offset="1" stopColor="white" />
             </linearGradient>
             <linearGradient
                 id="paint10_linear"
@@ -318,16 +318,16 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="-2111.77"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-color="white" stop-opacity="0" />
-                <stop offset="0.06" stop-color="white" stop-opacity="0.13" />
-                <stop offset="0.16" stop-color="white" stop-opacity="0.33" />
-                <stop offset="0.26" stop-color="white" stop-opacity="0.51" />
-                <stop offset="0.37" stop-color="white" stop-opacity="0.66" />
-                <stop offset="0.48" stop-color="white" stop-opacity="0.79" />
-                <stop offset="0.59" stop-color="white" stop-opacity="0.88" />
-                <stop offset="0.71" stop-color="white" stop-opacity="0.95" />
-                <stop offset="0.84" stop-color="white" stop-opacity="0.99" />
-                <stop offset="1" stop-color="white" />
+                <stop stopColor="white" stopOpacity="0" />
+                <stop offset="0.06" stopColor="white" stopOpacity="0.13" />
+                <stop offset="0.16" stopColor="white" stopOpacity="0.33" />
+                <stop offset="0.26" stopColor="white" stopOpacity="0.51" />
+                <stop offset="0.37" stopColor="white" stopOpacity="0.66" />
+                <stop offset="0.48" stopColor="white" stopOpacity="0.79" />
+                <stop offset="0.59" stopColor="white" stopOpacity="0.88" />
+                <stop offset="0.71" stopColor="white" stopOpacity="0.95" />
+                <stop offset="0.84" stopColor="white" stopOpacity="0.99" />
+                <stop offset="1" stopColor="white" />
             </linearGradient>
             <linearGradient
                 id="paint11_linear"
@@ -337,8 +337,8 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="-404.32"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-opacity="0" />
-                <stop offset="0.08" stop-opacity="0.19" />
+                <stop stopOpacity="0" />
+                <stop offset="0.08" stopOpacity="0.19" />
                 <stop offset="0.99" />
             </linearGradient>
             <linearGradient
@@ -349,8 +349,8 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 y2="-390.052"
                 gradientUnits="userSpaceOnUse"
             >
-                <stop stop-opacity="0" />
-                <stop offset="0.08" stop-opacity="0.19" />
+                <stop stopOpacity="0" />
+                <stop offset="0.08" stopOpacity="0.19" />
                 <stop offset="0.99" />
             </linearGradient>
             <clipPath id="clip0">
