@@ -69,7 +69,6 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
 
     const { socket } = useSocket(
         function (socket: SocketIOClient.Socket) {
-            console.log("Inside initializer");
             chats.forEach(function (chat) {
                 socket.emit(ESocketEvents.JOIN_ROOM, chat._id);
             });

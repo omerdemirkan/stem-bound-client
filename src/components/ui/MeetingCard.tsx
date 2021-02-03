@@ -17,7 +17,7 @@ const useStyles = makeStyles({
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "space-between",
-        margin: "15px 0",
+        margin: "10px 5px",
     },
 
     cardContent: {

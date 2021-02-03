@@ -16,7 +16,7 @@ const DefaultProfilePicture: React.FC<React.SVGProps<SVGSVGElement>> = (
             rx="19"
             fill="#F8F8F8"
             stroke="#424242"
-            stroke-width="2"
+            strokeWidth="2"
         />
         <g clipPath="url(#clip0)">
             <path

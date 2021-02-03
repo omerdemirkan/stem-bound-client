@@ -34,68 +34,68 @@ const NoResultsSVG: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
             <path
                 d="M135.718 32.9856H88.7855V56.6531H135.718V32.9856Z"
                 stroke="white"
-                stroke-width="3.87"
-                stroke-miterlimit="10"
+                strokeWidth="3.87"
+                strokeMiterlimit="10"
             />
             <path
                 d="M75.7938 60.0828H35.2098V83.7503H75.7938V60.0828Z"
                 stroke="white"
-                stroke-width="3.87"
-                stroke-miterlimit="10"
+                strokeWidth="3.87"
+                strokeMiterlimit="10"
             />
             <path
                 d="M209.62 39.5693H169.036V63.2369H209.62V39.5693Z"
                 stroke="white"
-                stroke-width="3.87"
-                stroke-miterlimit="10"
+                strokeWidth="3.87"
+                strokeMiterlimit="10"
             />
             <path
                 d="M147.029 99.3499H96.6334V125.65H147.029V99.3499Z"
                 stroke="white"
-                stroke-width="3.87"
-                stroke-miterlimit="10"
+                strokeWidth="3.87"
+                strokeMiterlimit="10"
             />
             <path
                 d="M208.079 83.9543H168.416V110.255H208.079V83.9543Z"
                 stroke="white"
-                stroke-width="3.87"
-                stroke-miterlimit="10"
+                strokeWidth="3.87"
+                strokeMiterlimit="10"
             />
             <path
                 d="M159.198 66.5115H101.022V84.7059H159.198V66.5115Z"
                 stroke="white"
-                stroke-width="3.87"
-                stroke-miterlimit="10"
+                strokeWidth="3.87"
+                strokeMiterlimit="10"
             />
             <path
                 d="M111.336 56.657L118.84 66.9006"
                 stroke="white"
-                stroke-width="3.87"
-                stroke-miterlimit="10"
+                strokeWidth="3.87"
+                strokeMiterlimit="10"
             />
             <path
                 d="M75.7938 73.0195H101.022"
                 stroke="white"
-                stroke-width="3.87"
-                stroke-miterlimit="10"
+                strokeWidth="3.87"
+                strokeMiterlimit="10"
             />
             <path
                 d="M168.416 50.387L145.458 66.5115"
                 stroke="white"
-                stroke-width="3.87"
-                stroke-miterlimit="10"
+                strokeWidth="3.87"
+                strokeMiterlimit="10"
             />
             <path
                 d="M167.767 97.1064L148.336 84.7061"
                 stroke="white"
-                stroke-width="3.87"
-                stroke-miterlimit="10"
+                strokeWidth="3.87"
+                strokeMiterlimit="10"
             />
             <path
                 d="M124.641 84.7061L118.496 99.35"
                 stroke="white"
-                stroke-width="3.87"
-                stroke-miterlimit="10"
+                strokeWidth="3.87"
+                strokeMiterlimit="10"
             />
             <path
                 d="M80.0651 102.255C80.4137 104.179 80.6307 106.125 80.7147 108.079C80.7892 108.809 80.7459 109.546 80.5863 110.262C80.504 110.62 80.3412 110.955 80.1102 111.241C79.8792 111.527 79.5861 111.757 79.2532 111.913C78.8415 112.079 78.3656 112.09 77.9993 112.336C77.7044 112.554 77.4947 112.867 77.4064 113.223C77.2893 113.899 77.2893 114.591 77.4064 115.267C77.5112 115.95 77.3607 116.648 76.9834 117.227C76.6451 117.598 76.205 117.861 75.7182 117.982C74.5709 118.342 73.3489 118.393 72.1757 118.13C71.9883 118.101 71.8106 118.027 71.6583 117.914C71.4968 117.756 71.3819 117.556 71.3259 117.337C70.8984 116.027 70.5528 114.693 70.2911 113.34C69.8795 111.452 69.4527 109.522 69.415 107.573C69.3772 105.624 69.7662 103.614 70.8614 102.005C71.9567 100.396 73.845 99.2479 75.7711 99.3612C76.8531 99.4923 77.9037 99.8119 78.8755 100.306C79.6875 100.676 79.8763 101.378 80.0651 102.255Z"

@@ -94,15 +94,15 @@ const UnderConstructionSVG: React.FC<React.SVGProps<SVGSVGElement>> = (
                 d="M195.39 138.12H119.17C116.143 138.12 113.69 140.574 113.69 143.6V182.23C113.69 185.257 116.143 187.71 119.17 187.71H195.39C198.416 187.71 200.87 185.257 200.87 182.23V143.6C200.87 140.574 198.416 138.12 195.39 138.12Z"
                 fill="white"
                 stroke="#826EFD"
-                stroke-width="0.76"
-                stroke-miterlimit="10"
+                strokeWidth="0.76"
+                strokeMiterlimit="10"
             />
             <path
                 d="M296.3 150.66H220.08C217.053 150.66 214.6 153.113 214.6 156.14V194.77C214.6 197.796 217.053 200.25 220.08 200.25H296.3C299.326 200.25 301.78 197.796 301.78 194.77V156.14C301.78 153.113 299.326 150.66 296.3 150.66Z"
                 fill="white"
                 stroke="#826EFD"
-                stroke-width="0.76"
-                stroke-miterlimit="10"
+                strokeWidth="0.76"
+                strokeMiterlimit="10"
             />
             <path
                 opacity="0.24"

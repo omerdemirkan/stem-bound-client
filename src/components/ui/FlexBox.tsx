@@ -6,7 +6,7 @@ const FlexBox: React.FC<IFlexBoxProps> = ({ children, ...boxProps }) => {
     return (
         <Box
             display="flex"
-            justifyContent="space-between"
+            justifyContent="flex-start"
             flexWrap="wrap"
             {...boxProps}
         >

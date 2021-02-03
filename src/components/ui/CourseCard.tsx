@@ -27,7 +27,7 @@ import ContactUserButton from "../util/ContactUserButton";
 
 const useStyles = makeStyles({
     card: {
-        margin: "10px 0",
+        margin: "10px 5px",
         width: "100%",
         maxWidth: "450px",
     },
