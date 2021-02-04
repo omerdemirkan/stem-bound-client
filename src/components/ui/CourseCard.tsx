@@ -50,10 +50,10 @@ export interface ICourseCardProps {
     CardHeaderProps?: CardHeaderProps;
     CardContentProps?: CardContentProps;
     CardActionsProps?: CardActionsProps;
-    onDropClicked(): any;
-    onEnrollClicked(): any;
-    onDismissCourseClicked(): any;
-    onVerifyCourseClicked(): any;
+    onDropClicked?(): any;
+    onEnrollClicked?(): any;
+    onDismissCourseClicked?(): any;
+    onVerifyCourseClicked?(): any;
 }
 
 const CourseCard: React.FC<ICourseCardProps> = ({
@@ -88,6 +88,7 @@ const CourseCard: React.FC<ICourseCardProps> = ({
 
     const classes = useStyles();
 
+    menuItems = menuItems || [];
     if (
         onDismissCourseClicked &&
         user.role === EUserRoles.SCHOOL_OFFICIAL &&
@@ -111,7 +112,7 @@ const CourseCard: React.FC<ICourseCardProps> = ({
         <Card
             className={classes.card}
             style={{
-                maxWidth: fullWidth ? undefined : "500px",
+                maxWidth: !fullWidth ? "500px" : "none",
                 margin: noMargin ? "0" : undefined,
             }}
             {...CardProps}

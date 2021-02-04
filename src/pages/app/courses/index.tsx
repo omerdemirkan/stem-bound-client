@@ -11,6 +11,7 @@ import AuthContext from "../../../components/contexts/AuthContext";
 import Button from "@material-ui/core/Button";
 import Section from "../../../components/ui/Section";
 import FlexBox from "../../../components/ui/FlexBox";
+import RelativeGrid from "../../../components/ui/RelativeGrid";
 
 const CoursesAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -71,7 +72,7 @@ const CoursesAppPage: React.FC = () => {
                 }
                 noDivider
             >
-                <FlexBox>
+                <RelativeGrid minWidthInPixels={450}>
                     {courses?.map((course) => (
                         <CourseCard
                             course={course}
@@ -80,7 +81,7 @@ const CoursesAppPage: React.FC = () => {
                             noMargin
                         />
                     ))}
-                </FlexBox>
+                </RelativeGrid>
             </Section>
 
             {unverifiedCourses?.length ? (
@@ -88,7 +89,7 @@ const CoursesAppPage: React.FC = () => {
                     loading={unverifiedCoursesLoading}
                     title="Unverified Courses"
                 >
-                    <FlexBox>
+                    <RelativeGrid minWidthInPixels={450}>
                         {unverifiedCourses?.map((course) => (
                             <CourseCard
                                 key={course._id}
@@ -97,7 +98,7 @@ const CoursesAppPage: React.FC = () => {
                                 noMargin
                             />
                         ))}
-                    </FlexBox>
+                    </RelativeGrid>
                 </Section>
             ) : null}
 

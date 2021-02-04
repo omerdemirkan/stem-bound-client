@@ -12,6 +12,7 @@ import SearchForm from "../forms/SearchForm";
 import PictureMessage from "../ui/PictureMessage";
 import NoResultsSVG from "../svg/illustrations/no-results";
 import FlexBox from "../ui/FlexBox";
+import RelativeGrid from "../ui/RelativeGrid";
 
 export interface ISearchProps {
     query: ISearchQuery;
@@ -73,15 +74,16 @@ const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
 }) => {
     if (!Object.values(EUserRoles).includes(searchField as any)) return null;
     return (
-        <FlexBox>
+        <RelativeGrid minWidthInPixels={400}>
             {searchDataArray.map((searchData: IUser) => (
                 <UserCard
                     key={searchData._id}
                     user={searchData}
+                    fullWidth
                     {...UserCardProps}
                 />
             ))}
-        </FlexBox>
+        </RelativeGrid>
     );
 };
 

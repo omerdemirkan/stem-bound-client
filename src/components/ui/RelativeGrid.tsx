@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import useDimensions from "../hooks/useDimensions";
 
 interface IRelativeGridProps extends BoxProps {
-    minWidth: number;
+    minWidthInPixels: number;
 }
 
 const RelativeGrid: React.FC<IRelativeGridProps> = ({
     children,
-    minWidth,
+    minWidthInPixels,
     ...boxProps
 }) => {
     const [boxRef, boxDimensions] = useDimensions();
@@ -19,8 +19,8 @@ const RelativeGrid: React.FC<IRelativeGridProps> = ({
             if (!boxDimensions?.width) return;
 
             const newNumColumns =
-                boxDimensions.width > minWidth
-                    ? Math.floor(boxDimensions.width / minWidth)
+                boxDimensions.width > minWidthInPixels
+                    ? Math.floor(boxDimensions.width / minWidthInPixels)
                     : 1;
             if (newNumColumns !== numColumns) setNumColumns(newNumColumns);
         },
@@ -29,11 +29,12 @@ const RelativeGrid: React.FC<IRelativeGridProps> = ({
 
     return (
         <Box
+            gridGap="10px"
             {...boxProps}
             // @ts-ignore
             ref={boxRef}
             display="grid"
-            gridTemplateColumns={new Array(numColumns).fill("auto").join(" ")}
+            gridTemplateColumns={`repeat(${numColumns}, minmax(0, 1fr))`}
         >
             {children}
         </Box>

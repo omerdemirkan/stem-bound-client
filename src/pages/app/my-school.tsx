@@ -34,6 +34,7 @@ import {
     configureCourseEnrollmentUpdateAlertDTO,
 } from "../../utils/helpers";
 import CourseCard from "../../components/ui/CourseCard";
+import RelativeGrid from "../../components/ui/RelativeGrid";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -193,7 +194,7 @@ const MySchoolAppPage: React.FC = () => {
     }
 
     const paginateCourses = (courses: ICourse[]) => (
-        <FlexBox>
+        <RelativeGrid minWidthInPixels={450}>
             {courses.map((course) => (
                 <CourseCard
                     course={course}
@@ -214,9 +215,11 @@ const MySchoolAppPage: React.FC = () => {
                     onEnrollClicked={() =>
                         handleEnrollmentUpdate("enroll", course)
                     }
+                    fullWidth
+                    noMargin
                 />
             ))}
-        </FlexBox>
+        </RelativeGrid>
     );
 
     return (
@@ -286,12 +289,16 @@ const MySchoolAppPage: React.FC = () => {
                                 "Couldn't load school officials, an error occured"
                             }
                         >
-                            {schoolOfficials?.map((schoolOfficial) => (
-                                <UserCard
-                                    user={schoolOfficial}
-                                    key={schoolOfficial._id}
-                                />
-                            ))}
+                            <RelativeGrid minWidthInPixels={400}>
+                                {schoolOfficials?.map((schoolOfficial) => (
+                                    <UserCard
+                                        user={schoolOfficial}
+                                        key={schoolOfficial._id}
+                                        noMargin
+                                        fullWidth
+                                    />
+                                ))}
+                            </RelativeGrid>
                         </Section>
                         <Section
                             title="Students"
@@ -308,9 +315,16 @@ const MySchoolAppPage: React.FC = () => {
                                 "Couldn't load students, an error occured"
                             }
                         >
-                            {students?.map((student) => (
-                                <UserCard user={student} key={student._id} />
-                            ))}
+                            <RelativeGrid minWidthInPixels={400}>
+                                {students?.map((student) => (
+                                    <UserCard
+                                        user={student}
+                                        key={student._id}
+                                        noMargin
+                                        fullWidth
+                                    />
+                                ))}
+                            </RelativeGrid>
                         </Section>
                     </>
                 }

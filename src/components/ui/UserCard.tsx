@@ -27,6 +27,7 @@ export interface IUserCardProps {
     CardContentProps?: CardContentProps;
     CardActionsProps?: CardActionsProps;
     noMargin?: boolean;
+    fullWidth?: boolean;
 }
 
 const UserCard: React.FC<IUserCardProps> = ({
@@ -38,11 +39,15 @@ const UserCard: React.FC<IUserCardProps> = ({
     CardHeaderProps,
     CardContentProps,
     CardActionsProps,
+    fullWidth,
 }) => {
     const classes = useStyles();
     return (
         <Card
-            style={{ margin: noMargin ? "0" : "10px 0" }}
+            style={{
+                margin: noMargin ? "0" : undefined,
+                maxWidth: !fullWidth ? "450px" : "none",
+            }}
             {...CardProps}
             className={`${CardProps?.className ? CardProps.className : ""}${
                 classes.card
