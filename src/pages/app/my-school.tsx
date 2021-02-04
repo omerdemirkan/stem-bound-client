@@ -9,7 +9,6 @@ import UserCard from "../../components/ui/UserCard";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import NotificationContext from "../../components/contexts/NotificationContext";
-import FlexBox from "../../components/ui/FlexBox";
 import Link from "next/link";
 import { useContext, useEffect } from "react";
 import {

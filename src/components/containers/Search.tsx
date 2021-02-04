@@ -11,7 +11,6 @@ import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
 import SearchForm from "../forms/SearchForm";
 import PictureMessage from "../ui/PictureMessage";
 import NoResultsSVG from "../svg/illustrations/no-results";
-import FlexBox from "../ui/FlexBox";
 import RelativeGrid from "../ui/RelativeGrid";
 
 export interface ISearchProps {

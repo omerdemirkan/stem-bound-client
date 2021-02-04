@@ -310,7 +310,6 @@ const CourseAppPage: React.FC = () => {
                                 !upcomingMeetingsError &&
                                 "No upcoming meetings"
                             }
-                            infoAction={<Button></Button>}
                             errorMessage={
                                 upcomingMeetingsError &&
                                 "Couldn't load upcoming meetings, an error occured"
@@ -346,6 +345,8 @@ const CourseAppPage: React.FC = () => {
                                 <UserCard
                                     user={instructor}
                                     key={instructor._id}
+                                    fullWidth
+                                    noMargin
                                 />
                             ))}
                         </Section>
@@ -362,7 +363,12 @@ const CourseAppPage: React.FC = () => {
                             }
                         >
                             {students?.map((student) => (
-                                <UserCard user={student} key={student._id} />
+                                <UserCard
+                                    user={student}
+                                    key={student._id}
+                                    fullWidth
+                                    noMargin
+                                />
                             ))}
                         </Section>
                     </>

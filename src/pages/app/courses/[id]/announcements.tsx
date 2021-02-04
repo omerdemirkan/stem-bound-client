@@ -152,6 +152,7 @@ const AnnouncementsAppPage: React.FC = () => {
                     !!announcementsError &&
                     "Couldn't fetch published announcements, an error occured"
                 }
+                noDivider
             >
                 {announcements?.map((announcement) => (
                     <CourseAnnouncement

@@ -10,7 +10,6 @@ import { useContext } from "react";
 import AuthContext from "../../../components/contexts/AuthContext";
 import Button from "@material-ui/core/Button";
 import Section from "../../../components/ui/Section";
-import FlexBox from "../../../components/ui/FlexBox";
 import RelativeGrid from "../../../components/ui/RelativeGrid";
 
 const CoursesAppPage: React.FC = () => {
@@ -101,8 +100,6 @@ const CoursesAppPage: React.FC = () => {
                     </RelativeGrid>
                 </Section>
             ) : null}
-
-            <style jsx>{``}</style>
         </AppLayout>
     );
 };

@@ -63,6 +63,22 @@ const SplitScreen: React.FC<ISplitScreenProps> = ({
                     grid-gap: 40px;
                 }
 
+                @media (min-width: 1401px) {
+                    .main-container {
+                        position: relative;
+                        overflow-y: auto;
+                    }
+                    .secondary-container {
+                        position: relative;
+                        overflow-y: auto;
+                    }
+                    .root-container {
+                        position: relative;
+                        overflow: hidden;
+                        height: 100%;
+                    }
+                }
+
                 @media (max-width: 1400px) {
                     .root-container {
                         grid-template-columns: 100%;

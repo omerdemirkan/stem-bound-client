@@ -16,6 +16,7 @@ import NotificationContext from "../../../../../components/contexts/Notification
 import { clone } from "../../../../../utils/helpers";
 import PictureMessage from "../../../../../components/ui/PictureMessage";
 import NoResultsSVG from "../../../../../components/svg/illustrations/no-results";
+import Section from "../../../../../components/ui/Section";
 
 const UpdateMeetingAppPage: React.FC = () => {
     const router = useRouter();
@@ -91,27 +92,29 @@ const UpdateMeetingAppPage: React.FC = () => {
                 { label: "Update" },
             ]}
         >
+            <Section title="Update Upcoming Meetings" noDivider>
+                {meetings?.map((meeting) => (
+                    <MeetingInput
+                        key={meeting._id}
+                        meeting={meeting}
+                        courseTitle={course?.title}
+                        onChange={handleUpdateCourse}
+                        schoolName={school?.name}
+                        onDelete={handleDeleteCourse}
+                        DeleteAlertData={{
+                            headerText:
+                                "Are you sure you want to delete this meeting?",
+                            bodyText: "This cannot be undone.",
+                        }}
+                    />
+                ))}
+            </Section>
             {!meetingsLoading && !meetings?.length && (
                 <PictureMessage
                     Svg={NoResultsSVG}
                     message="No meetings found"
                 />
             )}
-            {meetings?.map((meeting) => (
-                <MeetingInput
-                    key={meeting._id}
-                    meeting={meeting}
-                    courseTitle={course?.title}
-                    onChange={handleUpdateCourse}
-                    schoolName={school?.name}
-                    onDelete={handleDeleteCourse}
-                    DeleteAlertData={{
-                        headerText:
-                            "Are you sure you want to delete this meeting?",
-                        bodyText: "This cannot be undone.",
-                    }}
-                />
-            ))}
         </AppLayout>
     );
 };
