@@ -79,6 +79,7 @@ const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
                     key={searchData._id}
                     user={searchData}
                     fullWidth
+                    noMargin
                     {...UserCardProps}
                 />
             ))}
