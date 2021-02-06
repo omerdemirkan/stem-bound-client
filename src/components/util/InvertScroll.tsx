@@ -1,29 +1,44 @@
 import { DetailedHTMLProps, HTMLAttributes, useEffect, useRef } from "react";
 
-interface Props {
-    key?: string;
+interface IInverseScrollProps
+    extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+    pageKey?: string;
 }
 
-const InvertScroll: React.FC<
-    Props & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
-> = ({ children, key, ...divProps }) => {
+const InvertScroll: React.FC<IInverseScrollProps> = ({
+    children,
+    pageKey,
+    ...divProps
+}) => {
     const divRef = useRef<HTMLDivElement>();
     useEffect(
         function () {
-            divRef.current.scrollTop = divRef.current.scrollHeight;
+            divRef.current.scrollTop = 9;
+            console.log("Scrolling to bottom");
         },
-        [children, key]
+        [pageKey]
     );
-
     return (
-        <div {...divProps} ref={divRef}>
-            {children}
+        <div className="outer">
+            <div className="inner" ref={divRef}>
+                {children}
+            </div>
+            <style jsx>{`
+                .outer {
+                    position: relative;
+                    overflow: hidden;
+                    height: 100%;
+                }
+                .inner {
+                    display: flex;
+                    flex-direction: column-reverse;
+                    position: relative;
+                    overflow-y: auto;
+                    height: 100%;
+                }
+            `}</style>
         </div>
     );
 };
 
-const InvertScrollCss: React.FC = ({ children }) => {
-    return <div className="invert-container">{children}</div>;
-};
-
-export default InvertScrollCss;
+export default InvertScroll;

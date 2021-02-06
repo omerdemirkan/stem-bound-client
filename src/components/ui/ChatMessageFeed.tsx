@@ -7,7 +7,7 @@ import PictureMessage from "./PictureMessage";
 import EmptyInboxSVG from "../svg/illustrations/empty-inbox";
 import { useMemo } from "react";
 
-export interface IChatMessageFeedProps {
+export interface IChatMessageFeedProps extends IChatMessageEventHandlers {
     chatMessages: IChatMessage[];
     chatId: string;
     loading: boolean;
@@ -18,9 +18,7 @@ export interface IChatMessageFeedProps {
     errorMessage?: string;
 }
 
-const ChatMessageFeed: React.FC<
-    IChatMessageFeedProps & IChatMessageEventHandlers
-> = ({
+const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
     chatMessages,
     chatId,
     chatPictureUrl,
@@ -37,7 +35,7 @@ const ChatMessageFeed: React.FC<
     );
 
     return (
-        <InvertScroll key={chatId}>
+        <InvertScroll pageKey={chatId}>
             {isTyping?.length ? (
                 <Typography>
                     {isTyping.join(", ")} {isTyping.length > 1 ? "are" : "is"}{" "}

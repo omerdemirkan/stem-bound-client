@@ -1,5 +1,10 @@
 .invert-container {
-  overflow: auto;
+  overflow-anchor: none;
   display: flex;
   flex-direction: column-reverse;
+}
+
+.invert-container-anchor {
+  overflow-anchor: auto;
+  height: 1px;
 }

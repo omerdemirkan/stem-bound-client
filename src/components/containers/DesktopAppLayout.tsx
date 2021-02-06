@@ -120,6 +120,7 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
                 .main .body {
                     overflow-y: auto;
                     padding: 16px 0;
+                    height: 100%;
                 }
 
                 .main .footer {
