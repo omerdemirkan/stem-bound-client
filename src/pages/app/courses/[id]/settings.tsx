@@ -29,6 +29,7 @@ import { Chip } from "@material-ui/core";
 import { useContext } from "react";
 import AuthContext from "../../../../components/contexts/AuthContext";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
+import RelativeGrid from "../../../../components/ui/RelativeGrid";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -201,9 +202,15 @@ const CourseSettingsAppPage: React.FC = () => {
                             }
                             loading={instructorsLoading}
                         >
-                            {instructors?.map((instructor) => (
-                                <UserCard user={instructor} />
-                            ))}
+                            <RelativeGrid minWidthInPixels={400}>
+                                {instructors?.map((instructor) => (
+                                    <UserCard
+                                        user={instructor}
+                                        noMargin
+                                        fullWidth
+                                    />
+                                ))}
+                            </RelativeGrid>
                         </Section>
                         <Section
                             title="Students"
@@ -218,9 +225,15 @@ const CourseSettingsAppPage: React.FC = () => {
                             }
                             loading={studentsLoading}
                         >
-                            {students?.map((student) => (
-                                <UserCard user={student} />
-                            ))}
+                            <RelativeGrid minWidthInPixels={400}>
+                                {students?.map((student) => (
+                                    <UserCard
+                                        user={student}
+                                        fullWidth
+                                        noMargin
+                                    />
+                                ))}
+                            </RelativeGrid>
                         </Section>
                     </>
                 }

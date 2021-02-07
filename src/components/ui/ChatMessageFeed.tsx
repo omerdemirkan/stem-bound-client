@@ -16,6 +16,7 @@ export interface IChatMessageFeedProps extends IChatMessageEventHandlers {
     editedMessageId?: string;
     editedMessageText?: string;
     errorMessage?: string;
+    hasMore?: boolean;
 }
 
 const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
@@ -27,6 +28,7 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
     editedMessageText,
     loading,
     errorMessage,
+    hasMore,
     ...chatMessageHandlers
 }) => {
     const chatMessageGroups = useMemo(
@@ -56,6 +58,13 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
                     Svg={EmptyInboxSVG}
                     message="No messages exchanged"
                     subMessage="Say Hi, don't be shy!"
+                    size="small"
+                />
+            )}
+            {hasMore === false && (
+                <PictureMessage
+                    Svg={EmptyInboxSVG}
+                    message="This is the start of your conversation"
                     size="small"
                 />
             )}

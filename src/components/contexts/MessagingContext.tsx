@@ -69,9 +69,6 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
 
     const { socket } = useSocket(
         function (socket: SocketIOClient.Socket) {
-            chats.forEach(function (chat) {
-                socket.emit(ESocketEvents.JOIN_ROOM, chat._id);
-            });
             socket.on(
                 ESocketEvents.CHAT_USER_STARTED_TYPING,
                 function ({ user, chatId }) {
@@ -130,6 +127,14 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
             );
         },
         [inspectedChatId]
+    );
+    useEffect(
+        function () {
+            chats?.forEach(function (chat) {
+                socket.emit(ESocketEvents.JOIN_ROOM, chat._id);
+            });
+        },
+        [!!chats]
     );
 
     useEffect(

@@ -13,7 +13,7 @@ const InvertScroll: React.FC<IInverseScrollProps> = ({
     const divRef = useRef<HTMLDivElement>();
     useEffect(
         function () {
-            divRef.current.scrollTop = 9;
+            divRef.current.scrollTop = 100;
             console.log("Scrolling to bottom");
         },
         [pageKey]
