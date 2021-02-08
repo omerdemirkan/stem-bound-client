@@ -81,7 +81,7 @@ export interface IMessagingContextState {
     usersTyping: string[];
     messages: IChatMessage[];
     setUserIsTyping(isTyping: boolean): void;
-    setInspectedChat(chatId: string): void;
+    setInspectedChatId(chatId: string): void;
     sendMessage(data: { text: string; chatId: string }): void;
     updateMessage(data: {
         text: string;
@@ -91,6 +91,8 @@ export interface IMessagingContextState {
     deleteMessage(data: { chatId: string; messageId: string });
     restoreMessage(data: { chatId: string; messageId: string });
     contactUser(userId: string): any;
+    loadMoreChats(): void;
+    loadMoreMessages(): void;
     chatsLoading: boolean;
     messagesLoading: boolean;
     chatsError: Error | null;

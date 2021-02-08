@@ -36,7 +36,7 @@ const MessagingAppPage: React.FC = () => {
         setUserIsTyping,
         chatsLoading,
         usersTyping,
-        setInspectedChat,
+        setInspectedChatId,
         messagesLoading,
         chatsError,
         contactUser,
@@ -87,7 +87,7 @@ const MessagingAppPage: React.FC = () => {
             setTextField("");
             setEditedMessageId(null);
             setEditedMessageText("");
-            setInspectedChat(chatId);
+            setInspectedChatId(chatId);
         },
         [chatId]
     );

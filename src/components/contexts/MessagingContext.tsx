@@ -1,19 +1,29 @@
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
-import useSWR, { mutate } from "swr";
-import { clone, mapMessageData, mapUserData } from "../../utils/helpers";
+import useSWR, { mutate, useSWRInfinite } from "swr";
+import { API_BASE_URL } from "../../config";
+import {
+    clone,
+    mapChatData,
+    mapMessageData,
+    mapUserData,
+} from "../../utils/helpers";
 import {
     messagesFetcher,
     chatsFetcher,
     createChat,
+    infiniteFetcher,
+    chatsFetcherInfinite,
 } from "../../utils/services";
 import {
     EChatTypes,
     ESocketEvents,
+    IChat,
     IChatMessage,
     IMessagingContextState,
     IUser,
 } from "../../utils/types";
+import useInfiniteFetch from "../hooks/useInfiniteFetch";
 import useSocket from "../hooks/useSocket";
 import AuthContext from "./AuthContext";
 import NotificationContext from "./NotificationContext";
@@ -27,8 +37,10 @@ const messagingContextInitialState: IMessagingContextState = {
     updateMessage: (...args) => undefined,
     deleteMessage: (...args) => undefined,
     restoreMessage: (...args) => undefined,
-    setInspectedChat: (...args) => undefined,
+    setInspectedChatId: (...args) => undefined,
     contactUser: (...args) => undefined,
+    loadMoreMessages: (...args) => undefined,
+    loadMoreChats: (...args) => undefined,
     chatsLoading: false,
     messagesLoading: false,
     chatsError: null,
@@ -55,14 +67,16 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         revalidate: refetchChats,
         mutate: mutateChats,
         error: chatsError,
-    } = useSWR(user && `/chats`, chatsFetcher());
+        loadMore: loadMoreChats,
+    } = useInfiniteFetch("/chats", chatsFetcherInfinite());
 
     const {
         data: messages,
         mutate: mutateMessages,
         isValidating: messagesLoading,
         error: messagesError,
-    } = useSWR(
+        loadMore: loadMoreMessages,
+    } = useInfiniteFetch(
         inspectedChatId ? `/chats/${inspectedChatId}/messages` : null,
         messagesFetcher(inspectedChatId as string)
     );
@@ -130,11 +144,12 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
     );
     useEffect(
         function () {
-            chats?.forEach(function (chat) {
-                socket.emit(ESocketEvents.JOIN_ROOM, chat._id);
-            });
+            if (socket && socket.connected)
+                chats?.forEach(function (chat) {
+                    socket.emit(ESocketEvents.JOIN_ROOM, chat._id);
+                });
         },
-        [!!chats]
+        [!!chats, socket?.connected]
     );
 
     useEffect(
@@ -252,8 +267,10 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 messagesLoading,
                 chatsError,
                 messagesError,
-                setInspectedChat: setInspectedChatId,
+                setInspectedChatId,
                 usersTyping,
+                loadMoreChats,
+                loadMoreMessages,
             }}
         >
             {children}

@@ -21,18 +21,19 @@ export function createChat(
 }
 
 export function fetchChats(
-    options?: IFetchChatArrayOptions
+    options: IFetchChatArrayOptions = {}
 ): Promise<IApiResponse<IChat[]>> {
+    console.log(options);
     return mapResponseData(
         apiClient.get(
             appendQueriesToUrl(`/chats`, {
-                user_ids: options?.userIds.join(","),
-                exact_match: options?.exactMatch,
-                type: options?.type,
-                skip: options?.skip,
-                limit: options?.limit,
-                before: options?.before.toString(),
-                after: options?.after.toString(),
+                user_ids: options.userIds?.join(","),
+                exact_match: options.exactMatch,
+                type: options.type,
+                skip: options.skip,
+                limit: options.limit,
+                before: options.before?.toString(),
+                after: options.after?.toString(),
             })
         ),
         mapChatData

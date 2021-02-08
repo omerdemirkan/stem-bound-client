@@ -1,24 +1,45 @@
+import { useEffect, useState } from "react";
 import useSWR, { responseInterface } from "swr";
 
 export type InfiniteFetcher<T> = (currentData: T) => Promise<T>;
 
 interface IUserInfiniteFetchResponse<T> extends responseInterface<T, Error> {
     loadMore(): void;
+    hasMore: boolean;
+    isLoadingMore: boolean;
 }
 
-export default function useInfiniteScroll<T>(
+export default function useInfiniteFetch<T>(
     key: string,
     fetcher: InfiniteFetcher<T[]>
 ): IUserInfiniteFetchResponse<T[]> {
     const swrResponse = useSWR<T[]>(key);
+    const [hasMore, setHasMore] = useState<boolean>(true);
+    const [isLoadingMore, setIsLoadingMore] = useState<boolean>(true);
+    useEffect(
+        function () {
+            if (!swrResponse.data && key) loadMore();
+        },
+        [key]
+    );
 
-    async function handleLoadMore() {
-        const newData = await fetcher(swrResponse.data);
-        swrResponse.mutate(swrResponse.data.concat(newData));
+    async function loadMore() {
+        if (isLoadingMore || !hasMore) return;
+        try {
+            setIsLoadingMore(true);
+            const newData = await fetcher(swrResponse.data || []);
+            setIsLoadingMore(false);
+            if (newData.length === 0) setHasMore(false);
+            else swrResponse.mutate((swrResponse.data || []).concat(newData));
+        } catch (e) {
+            await loadMore();
+        }
     }
 
     return {
         ...swrResponse,
-        loadMore: handleLoadMore,
+        loadMore,
+        hasMore,
+        isLoadingMore,
     };
 }

@@ -8,9 +8,9 @@ export default function useMessaging(
     const messagingContextState = useContext(MessagingContext);
     useEffect(
         function () {
-            messagingContextState.setInspectedChat(chatId);
+            messagingContextState.setInspectedChatId(chatId);
 
-            return () => messagingContextState.setInspectedChat(null);
+            return () => messagingContextState.setInspectedChatId(null);
         },
         [chatId]
     );

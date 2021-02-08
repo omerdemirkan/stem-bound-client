@@ -15,6 +15,7 @@ import {
     EUserRoles,
     IFetchUserArrayOptions,
     ESearchFields,
+    IChat,
 } from "../types";
 import { fetchSearchData } from "./search.services";
 import {
@@ -28,6 +29,8 @@ import {
     fetchUsers,
 } from "./user.services";
 import { fetchSchoolByNcesId } from "./school.services";
+import { apiClient, mapResponseData } from "../helpers";
+import { InfiniteFetcher } from "../../components/hooks/useInfiniteFetch";
 
 export function coursesFetcher(options?: IFetchCourseArrayOptions) {
     return async () => (await fetchCourses(options)).data;
@@ -61,6 +64,18 @@ export function searchDataFetcher(
 
 export function chatsFetcher(options?: IFetchChatArrayOptions) {
     return async () => (await fetchChats(options)).data;
+}
+
+export function chatsFetcherInfinite(
+    options: IFetchChatArrayOptions = {}
+): InfiniteFetcher<IChat[]> {
+    return (prevChats) =>
+        chatsFetcher({
+            ...options,
+            before: prevChats?.length
+                ? new Date(prevChats[prevChats.length - 1].lastMessageSentAt)
+                : null,
+        })();
 }
 
 export function chatFetcher(chatId: string) {
@@ -118,4 +133,12 @@ export function courseInstructorsFetcher(courseId: string) {
 
 export function courseStudentsFetcher(courseId: string) {
     return usersFetcher(EUserRoles.STUDENT, { courseId });
+}
+
+export async function infiniteFetcher<T>(
+    url: string,
+    mapFunc: (res: any) => T
+): Promise<T[]> {
+    const path = url.split("/api/v1")[1];
+    return (await mapResponseData(apiClient.get(path), mapFunc)).data as T[];
 }
