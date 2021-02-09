@@ -15,7 +15,7 @@ export default function useInfiniteFetch<T>(
 ): IUserInfiniteFetchResponse<T[]> {
     const swrResponse = useSWR<T[]>(key);
     const [hasMore, setHasMore] = useState<boolean>(true);
-    const [isLoadingMore, setIsLoadingMore] = useState<boolean>(true);
+    const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
     useEffect(
         function () {
             if (!swrResponse.data && key) loadMore();
@@ -28,9 +28,9 @@ export default function useInfiniteFetch<T>(
         try {
             setIsLoadingMore(true);
             const newData = await fetcher(swrResponse.data || []);
-            setIsLoadingMore(false);
             if (newData.length === 0) setHasMore(false);
             else swrResponse.mutate((swrResponse.data || []).concat(newData));
+            setIsLoadingMore(false);
         } catch (e) {
             await loadMore();
         }
