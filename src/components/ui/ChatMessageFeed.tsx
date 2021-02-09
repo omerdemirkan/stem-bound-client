@@ -13,8 +13,6 @@ export interface IChatMessageFeedProps extends IChatMessageEventHandlers {
     loading: boolean;
     chatPictureUrl?: string;
     isTyping?: string[];
-    editedMessageId?: string;
-    editedMessageText?: string;
     errorMessage?: string;
     hasMore?: boolean;
 }
@@ -24,8 +22,6 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
     chatId,
     chatPictureUrl,
     isTyping,
-    editedMessageId,
-    editedMessageText,
     loading,
     errorMessage,
     hasMore,
@@ -48,8 +44,6 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
                 <ChatMessageGroup
                     chatMessageGroup={chatMessageGroup}
                     key={chatMessageGroup.messages[0]._id}
-                    editedMessageId={editedMessageId}
-                    editedMessageText={editedMessageText}
                     {...chatMessageHandlers}
                 />
             ))}

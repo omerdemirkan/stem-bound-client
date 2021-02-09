@@ -2,7 +2,7 @@ import AppLayout from "../../components/containers/AppLayout";
 import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
 import useDebounce from "../../components/hooks/useDebounce";
-import { IBreadCrumb } from "../../utils/types";
+import { IBreadCrumb, IChatMessage } from "../../utils/types";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TextField from "@material-ui/core/TextField";
@@ -43,9 +43,6 @@ const MessagingAppPage: React.FC = () => {
     } = useMessaging(chatId);
 
     const inspectedChat = chats?.find((chat) => chat._id === chatId);
-
-    const [editedMessageId, setEditedMessageId] = useState<null | string>(null);
-    const [editedMessageText, setEditedMessageText] = useState<string>("");
     const [textField, setTextField] = useState<string>("");
 
     const debouncedTextField = useDebounce(textField, 3000);
@@ -70,23 +67,7 @@ const MessagingAppPage: React.FC = () => {
 
     useEffect(
         function () {
-            if (editedMessageId) {
-                setEditedMessageText(
-                    messages.find((message) => message._id === editedMessageId)
-                        .text
-                );
-            } else {
-                setEditedMessageText("");
-            }
-        },
-        [editedMessageId]
-    );
-
-    useEffect(
-        function () {
             setTextField("");
-            setEditedMessageId(null);
-            setEditedMessageText("");
             setInspectedChatId(chatId);
         },
         [chatId]
@@ -98,13 +79,12 @@ const MessagingAppPage: React.FC = () => {
         });
     }
 
-    function handleEditMessage() {
+    function handleEditMessage(updatedMessage: IChatMessage) {
         updateMessage({
             chatId,
-            messageId: editedMessageId,
-            text: editedMessageText,
+            messageId: updatedMessage._id,
+            text: updatedMessage.text,
         });
-        setEditedMessageId(null);
     }
 
     function handleCreateMessage() {
@@ -135,48 +115,19 @@ const MessagingAppPage: React.FC = () => {
                         autoFocus
                         fullWidth
                         multiline
-                        helperText={editedMessageId && "Editing"}
                         placeholder={`Message ${inspectedChat?.name}`}
-                        value={editedMessageId ? editedMessageText : textField}
-                        onChange={(e) =>
-                            (editedMessageId
-                                ? setEditedMessageText
-                                : setTextField)(e.target.value)
-                        }
+                        value={textField}
+                        onChange={(e) => setTextField(e.target.value)}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
-                                    {editedMessageId ? (
-                                        <>
-                                            <Button
-                                                onClick={() =>
-                                                    setEditedMessageId(null)
-                                                }
-                                                variant="outlined"
-                                                color="primary"
-                                            >
-                                                Cancel
-                                            </Button>
-                                            <Button
-                                                onClick={handleEditMessage}
-                                                variant="contained"
-                                                color="primary"
-                                                style={{
-                                                    marginLeft: "10px",
-                                                }}
-                                            >
-                                                Edit
-                                            </Button>
-                                        </>
-                                    ) : (
-                                        <Button
-                                            onClick={handleCreateMessage}
-                                            variant="contained"
-                                            color="primary"
-                                        >
-                                            Send
-                                        </Button>
-                                    )}
+                                    <Button
+                                        onClick={handleCreateMessage}
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        Send
+                                    </Button>
                                 </InputAdornment>
                             ),
                         }}
@@ -222,17 +173,13 @@ const MessagingAppPage: React.FC = () => {
                                 chatId={chatId}
                                 chatPictureUrl={inspectedChat?.pictureUrl}
                                 isTyping={usersTyping[chatId] || []}
-                                onDeleteMessageClicked={(messageId) =>
+                                onDeleteClicked={(messageId) =>
                                     deleteMessage({ chatId, messageId })
                                 }
-                                onEditMessageClicked={(id) =>
-                                    setEditedMessageId(id)
-                                }
-                                onRestoreMessageClicked={(messageId) =>
+                                onEdit={handleEditMessage}
+                                onRestoreClicked={(messageId) =>
                                     restoreMessage({ chatId, messageId })
                                 }
-                                editedMessageId={editedMessageId}
-                                editedMessageText={editedMessageText}
                             />
                         )
                     }

@@ -9,6 +9,7 @@ export interface IMenuItemDTO {
     as?: string;
     onClick?(): any;
     MenuItemProps?: MenuItemProps;
+    visible?: boolean;
 }
 
 export interface IMenuWrapperProps {
@@ -23,7 +24,6 @@ const MenuWrapper: React.FC<IMenuWrapperProps> = ({
 }) => {
     const divRef = useRef<HTMLDivElement>();
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const toggleIsOpen = () => setIsOpen((prev) => !prev);
     const close = () => setIsOpen(false);
     const open = () => setIsOpen(true);
     return (
@@ -38,9 +38,11 @@ const MenuWrapper: React.FC<IMenuWrapperProps> = ({
                 anchorEl={divRef.current}
             >
                 {menuItems &&
-                    menuItems.map((item) =>
-                        paginateMenuItem(item, { MenuItemProps })
-                    )}
+                    menuItems
+                        .filter((item) => item.visible !== false)
+                        .map((item) =>
+                            paginateMenuItem(item, { MenuItemProps })
+                        )}
             </Menu>
         </>
     );

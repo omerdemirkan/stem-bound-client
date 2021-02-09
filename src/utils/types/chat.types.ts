@@ -71,9 +71,9 @@ export interface IChatMessageGroup {
 }
 
 export interface IChatMessageEventHandlers {
-    onDeleteMessageClicked?: (messageId: string) => any;
-    onEditMessageClicked?: (messageId: string) => any;
-    onRestoreMessageClicked?: (messageId: string) => any;
+    onDeleteClicked?: (messageId: string) => any;
+    onRestoreClicked?: (messageId: string) => any;
+    onEdit?: (updatedMessage: IChatMessage) => any;
 }
 
 export interface IMessagingContextState {

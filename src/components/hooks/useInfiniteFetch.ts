@@ -25,13 +25,14 @@ export default function useInfiniteFetch<T>(
 
     async function loadMore() {
         if (isLoadingMore || !hasMore) return;
+        setIsLoadingMore(true);
         try {
-            setIsLoadingMore(true);
             const newData = await fetcher(swrResponse.data || []);
             if (newData.length === 0) setHasMore(false);
             else swrResponse.mutate((swrResponse.data || []).concat(newData));
             setIsLoadingMore(false);
         } catch (e) {
+            setIsLoadingMore(false);
             await loadMore();
         }
     }

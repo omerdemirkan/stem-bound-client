@@ -1,33 +1,30 @@
-import { IChatMessage } from "../../utils/types";
+import { IChatMessage, IChatMessageEventHandlers } from "../../utils/types";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import AuthContext from "../contexts/AuthContext";
-import { memo, useContext, useRef, useState } from "react";
+import { memo, useContext, useState } from "react";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import MenuWrapper from "../util/MenuWrapper";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
+import Tooltip from "@material-ui/core/Tooltip";
 
-export interface IChatMessageProps {
+export interface IChatMessageProps extends IChatMessageEventHandlers {
     chatMessage: IChatMessage;
-    onDeleteMessageClicked?: (messageId: string) => any;
-    onEditMessageClicked?: (messageId: string) => any;
-    onRestoreMessageClicked?: (messageId: string) => any;
-    isBeingEdited?: boolean;
-    editValue?: string;
 }
 
 const ChatMessage: React.FC<IChatMessageProps> = ({
     chatMessage,
-    onDeleteMessageClicked,
-    onEditMessageClicked,
-    onRestoreMessageClicked,
-    isBeingEdited,
-    editValue,
+    onDeleteClicked,
+    onRestoreClicked,
+    onEdit,
 }) => {
-    const [menuOpen, setMenuOpen] = useState<boolean>(false);
-    const toggleMenu = () => setMenuOpen((prev) => !prev);
-    const menuIconButtonRef = useRef();
+    const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false);
+    const [editValue, setEditValue] = useState<string>(chatMessage.text);
+
     const { user } = useContext(AuthContext);
     const userIsSender = user._id === chatMessage.meta.from;
 
@@ -46,17 +43,46 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
                 </Typography>
             </div>
         );
-    return (
-        <div
-            className={`chat-message-root ${
-                isBeingEdited ? "being-edited" : ""
-            }`}
-        >
-            <Typography
-                color={chatMessage.isDeleted ? "textSecondary" : "textPrimary"}
-            >
-                {isBeingEdited ? editValue : chatMessage.text}
 
+    if (isBeingEdited)
+        return (
+            <OutlinedInput
+                value={editValue}
+                onChange={(e) => setEditValue(e.target.value)}
+                endAdornment={
+                    <InputAdornment position="end" component="div">
+                        <Tooltip
+                            title="Cancel message edit"
+                            onClick={() => setIsBeingEdited(false)}
+                        >
+                            <IconButton size="small" color="secondary">
+                                <ClearIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Edit message">
+                            <IconButton
+                                size="small"
+                                color="primary"
+                                onClick={function () {
+                                    onEdit({ ...chatMessage, text: editValue });
+                                    setIsBeingEdited(false);
+                                }}
+                            >
+                                <CheckIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </InputAdornment>
+                }
+                autoFocus
+                type="text"
+                fullWidth
+            />
+        );
+
+    return (
+        <div className="chat-message-root">
+            <Typography color="textPrimary">
+                {chatMessage.text}
                 {chatMessage.isEdited &&
                 !isBeingEdited &&
                 !chatMessage.isDeleted ? (
@@ -67,17 +93,6 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
                         style={{ opacity: "0.5" }}
                     >
                         EDITED
-                    </Box>
-                ) : null}
-                {isBeingEdited ? (
-                    <Box
-                        component="span"
-                        fontSize="0.7rem"
-                        marginLeft="20px"
-                        color="primary"
-                        style={{ opacity: "0.5" }}
-                    >
-                        BEING EDITED
                     </Box>
                 ) : null}
                 {chatMessage.isDeleted ? (
@@ -94,67 +109,38 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
             </Typography>
 
             <span className="options-container">
-                {userIsSender &&
-                    !isBeingEdited &&
-                    (onDeleteMessageClicked || onEditMessageClicked) && (
-                        <>
-                            <IconButton
-                                size="small"
-                                className="dropdown-icon-button"
-                                color="primary"
-                                aria-label="Message Actions"
-                                ref={menuIconButtonRef}
-                                onClick={toggleMenu}
-                            >
-                                <MoreHorizIcon />
-                            </IconButton>
-                            <Menu
-                                open={menuOpen}
-                                anchorEl={menuIconButtonRef.current}
-                                onClose={toggleMenu}
-                            >
-                                {onDeleteMessageClicked &&
-                                    !chatMessage.isDeleted && (
-                                        <MenuItem
-                                            onClick={() => {
-                                                onDeleteMessageClicked(
-                                                    chatMessage._id
-                                                );
-                                                toggleMenu();
-                                            }}
-                                        >
-                                            DELETE
-                                        </MenuItem>
-                                    )}
-                                {onEditMessageClicked &&
-                                    !chatMessage.isDeleted && (
-                                        <MenuItem
-                                            onClick={() => {
-                                                onEditMessageClicked(
-                                                    chatMessage._id
-                                                );
-                                                toggleMenu();
-                                            }}
-                                        >
-                                            EDIT
-                                        </MenuItem>
-                                    )}
-                                {onRestoreMessageClicked &&
-                                    chatMessage.isDeleted && (
-                                        <MenuItem
-                                            onClick={() => {
-                                                onRestoreMessageClicked(
-                                                    chatMessage._id
-                                                );
-                                                toggleMenu();
-                                            }}
-                                        >
-                                            RESTORE
-                                        </MenuItem>
-                                    )}
-                            </Menu>
-                        </>
-                    )}
+                {userIsSender && (
+                    <MenuWrapper
+                        menuItems={[
+                            {
+                                display: "DELETE",
+                                onClick: () => onDeleteClicked(chatMessage._id),
+                                visible:
+                                    onDeleteClicked && !chatMessage.isDeleted,
+                            },
+                            {
+                                display: "EDIT",
+                                onClick: () => setIsBeingEdited(true),
+                                visible: onEdit && !chatMessage.isDeleted,
+                            },
+                            {
+                                display: "RESTORE",
+                                onClick: () =>
+                                    onRestoreClicked(chatMessage._id),
+                                visible:
+                                    onRestoreClicked && chatMessage.isDeleted,
+                            },
+                        ]}
+                    >
+                        <IconButton
+                            size="small"
+                            color="primary"
+                            aria-label="Message Actions"
+                        >
+                            <MoreHorizIcon />
+                        </IconButton>
+                    </MenuWrapper>
+                )}
             </span>
 
             <style jsx>{`
@@ -163,27 +149,23 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
                     grid-template-columns: auto 40px;
                     align-items: center;
                     background-color: rgba(0, 0, 0, 0);
-                    border-top-right-radius: 15px;
-                    border-bottom-right-radius: 15px;
                     transition: background-color 0.2s ease;
                     padding: 0 0 0 3px;
+                    border-radius: 4px;
                 }
+                ${userIsSender
+                    ? `
+                    .chat-message-root:hover {
+                        background-color: rgba(0, 0, 0, var(--shadow-opacity));
+                    }
+                    .chat-message-root:hover .options-container {
+                        opacity: 1;
+                    }
+                `
+                    : null}
                 .options-container {
                     text-align: end;
                     opacity: 0.5;
-                }
-                .being-edited {
-                    border: var(--accent-light) 2px solid;
-                }
-                .dropdown-icon-button {
-                    opacity: 0;
-                    transition: opacity 0.1s ease;
-                }
-                .chat-message-root:hover {
-                    background-color: rgba(0, 0, 0, var(--shadow-opacity));
-                }
-                .chat-message-root:hover .options-container {
-                    opacity: 1;
                 }
             `}</style>
         </div>
