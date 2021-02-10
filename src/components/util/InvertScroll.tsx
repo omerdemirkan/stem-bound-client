@@ -3,11 +3,13 @@ import { DetailedHTMLProps, HTMLAttributes, useEffect, useRef } from "react";
 interface IInverseScrollProps
     extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     pageKey?: string;
+    onScrollToTop?(): any;
 }
 
 const InvertScroll: React.FC<IInverseScrollProps> = ({
     children,
     pageKey,
+    onScrollToTop,
     ...divProps
 }) => {
     const divRef = useRef<HTMLDivElement>();
@@ -19,17 +21,28 @@ const InvertScroll: React.FC<IInverseScrollProps> = ({
         [pageKey]
     );
     return (
-        <div className="outer">
-            <div className="inner" ref={divRef}>
+        <div className="invert-scroll-outer">
+            <div
+                className="invert-scroll-inner"
+                ref={divRef}
+                onScroll={
+                    onScrollToTop &&
+                    divRef.current.scrollTop +
+                        divRef.current.scrollHeight -
+                        divRef.current.clientHeight <=
+                        1 &&
+                    onScrollToTop()
+                }
+            >
                 {children}
             </div>
             <style jsx>{`
-                .outer {
+                .invert-scroll-outer {
                     position: relative;
                     overflow: hidden;
                     height: 100%;
                 }
-                .inner {
+                .invert-scroll-inner {
                     display: flex;
                     flex-direction: column-reverse;
                     position: relative;

@@ -55,7 +55,11 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
                             title="Cancel message edit"
                             onClick={() => setIsBeingEdited(false)}
                         >
-                            <IconButton size="small" color="secondary">
+                            <IconButton
+                                size="small"
+                                color="secondary"
+                                style={{ marginRight: "10px" }}
+                            >
                                 <ClearIcon />
                             </IconButton>
                         </Tooltip>
