@@ -1,24 +1,16 @@
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
-import useSWR, { mutate, useSWRInfinite } from "swr";
-import { API_BASE_URL } from "../../config";
-import {
-    clone,
-    mapChatData,
-    mapMessageData,
-    mapUserData,
-} from "../../utils/helpers";
+import { mutate } from "swr";
+import { clone, mapMessageData, mapUserData } from "../../utils/helpers";
 import {
     messagesFetcher,
-    chatsFetcher,
     createChat,
-    infiniteFetcher,
     chatsFetcherInfinite,
+    messagesFetcherInfinite,
 } from "../../utils/services";
 import {
     EChatTypes,
     ESocketEvents,
-    IChat,
     IChatMessage,
     IMessagingContextState,
     IUser,
@@ -45,6 +37,8 @@ const messagingContextInitialState: IMessagingContextState = {
     messagesLoading: false,
     chatsError: null,
     messagesError: null,
+    hasMoreChats: true,
+    hasMoreMessages: true,
 };
 
 const MessagingContext = createContext(messagingContextInitialState);
@@ -63,22 +57,24 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
 
     const {
         data: chats,
-        isValidating: chatsLoading,
+        isLoadingMore: chatsLoading,
         revalidate: refetchChats,
         mutate: mutateChats,
         error: chatsError,
         loadMore: loadMoreChats,
-    } = useInfiniteFetch("/chats", chatsFetcherInfinite());
+        hasMore: hasMoreChats,
+    } = useInfiniteFetch(user && "/chats", chatsFetcherInfinite());
 
     const {
         data: messages,
         mutate: mutateMessages,
-        isValidating: messagesLoading,
+        isLoadingMore: messagesLoading,
         error: messagesError,
         loadMore: loadMoreMessages,
+        hasMore: hasMoreMessages,
     } = useInfiniteFetch(
-        inspectedChatId ? `/chats/${inspectedChatId}/messages` : null,
-        messagesFetcher(inspectedChatId as string)
+        user && inspectedChatId ? `/chats/${inspectedChatId}/messages` : null,
+        messagesFetcherInfinite(inspectedChatId as string)
     );
 
     const { socket } = useSocket(
@@ -271,6 +267,8 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 usersTyping,
                 loadMoreChats,
                 loadMoreMessages,
+                hasMoreMessages,
+                hasMoreChats,
             }}
         >
             {children}

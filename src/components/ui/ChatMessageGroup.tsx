@@ -55,11 +55,6 @@ const ChatMessageGroup: React.FC<Props> = ({
                 {reverseMap(chatMessageGroup.messages, (chatMessage) => (
                     <ChatMessage
                         chatMessage={chatMessage}
-                        isBeingEdited={editedMessageId === chatMessage._id}
-                        editValue={
-                            editedMessageId === chatMessage._id &&
-                            editedMessageText
-                        }
                         key={chatMessage._id}
                         {...chatMessageHandlers}
                     />

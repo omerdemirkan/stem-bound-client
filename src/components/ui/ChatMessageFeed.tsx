@@ -15,6 +15,7 @@ export interface IChatMessageFeedProps extends IChatMessageEventHandlers {
     isTyping?: string[];
     errorMessage?: string;
     hasMore?: boolean;
+    onLoadMore?(): any;
 }
 
 const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
@@ -25,6 +26,7 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
     loading,
     errorMessage,
     hasMore,
+    onLoadMore,
     ...chatMessageHandlers
 }) => {
     const chatMessageGroups = useMemo(
@@ -33,7 +35,10 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
     );
 
     return (
-        <InvertScroll pageKey={chatId}>
+        <InvertScroll
+            pageKey={chatId}
+            onScrollToTop={hasMore ? onLoadMore : null}
+        >
             {isTyping?.length ? (
                 <Typography>
                     {isTyping.join(", ")} {isTyping.length > 1 ? "are" : "is"}{" "}

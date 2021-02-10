@@ -23,7 +23,6 @@ export function createChat(
 export function fetchChats(
     options: IFetchChatArrayOptions = {}
 ): Promise<IApiResponse<IChat[]>> {
-    console.log(options);
     return mapResponseData(
         apiClient.get(
             appendQueriesToUrl(`/chats`, {
@@ -67,8 +66,8 @@ export function fetchMessagesByChatId(
     const path = appendQueriesToUrl(`/chats/${chatId}/messages`, {
         skip: options?.skip,
         limit: options?.limit,
-        before: options?.before.toString(),
-        after: options?.after.toString(),
+        before: options?.before?.toString(),
+        after: options?.after?.toString(),
         unread: options?.unread,
         text: options?.text,
     });

@@ -18,28 +18,36 @@ export default function useInfiniteFetch<T>(
     const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
     useEffect(
         function () {
-            if (!swrResponse.data && key) loadMore();
+            if (!swrResponse.data && key) {
+                setIsLoadingMore(false);
+                setHasMore(true);
+                handleLoadMore();
+            }
         },
         [key]
     );
 
-    async function loadMore() {
-        if (isLoadingMore || !hasMore) return;
+    async function handleLoadMore() {
         setIsLoadingMore(true);
-        try {
-            const newData = await fetcher(swrResponse.data || []);
-            if (newData.length === 0) setHasMore(false);
-            else swrResponse.mutate((swrResponse.data || []).concat(newData));
-            setIsLoadingMore(false);
-        } catch (e) {
-            setIsLoadingMore(false);
-            await loadMore();
+        for (let i = 0; i < 3; i++) {
+            try {
+                const newData = await fetcher(swrResponse.data || []);
+                if (newData.length === 0) setHasMore(false);
+                else
+                    swrResponse.mutate(
+                        (swrResponse.data || []).concat(newData)
+                    );
+                setIsLoadingMore(false);
+                break;
+            } catch (e) {}
         }
     }
 
     return {
         ...swrResponse,
-        loadMore,
+        async loadMore() {
+            if (!isLoadingMore && hasMore) handleLoadMore();
+        },
         hasMore,
         isLoadingMore,
     };

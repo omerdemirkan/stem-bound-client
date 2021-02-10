@@ -16,6 +16,7 @@ import {
     IFetchUserArrayOptions,
     ESearchFields,
     IChat,
+    IChatMessage,
 } from "../types";
 import { fetchSearchData } from "./search.services";
 import {
@@ -69,13 +70,15 @@ export function chatsFetcher(options?: IFetchChatArrayOptions) {
 export function chatsFetcherInfinite(
     options: IFetchChatArrayOptions = {}
 ): InfiniteFetcher<IChat[]> {
-    return (prevChats) =>
-        chatsFetcher({
+    return function (prevChats) {
+        console.log({ prevChats });
+        return chatsFetcher({
             ...options,
             before: prevChats?.length
                 ? new Date(prevChats[prevChats.length - 1].lastMessageSentAt)
                 : null,
         })();
+    };
 }
 
 export function chatFetcher(chatId: string) {
@@ -87,6 +90,21 @@ export function messagesFetcher(
     options?: IFetchMessageArrayOptions
 ) {
     return async () => (await fetchMessagesByChatId(chatId, options)).data;
+}
+
+export function messagesFetcherInfinite(
+    chatId: string,
+    options?: IFetchMessageArrayOptions
+): InfiniteFetcher<IChatMessage[]> {
+    return async (prevMessages) =>
+        (
+            await fetchMessagesByChatId(chatId, {
+                ...options,
+                before: prevMessages?.length
+                    ? new Date(prevMessages[prevMessages.length - 1].createdAt)
+                    : null,
+            })
+        ).data;
 }
 
 export function announcementsFetcher(courseId: string) {
@@ -133,12 +151,4 @@ export function courseInstructorsFetcher(courseId: string) {
 
 export function courseStudentsFetcher(courseId: string) {
     return usersFetcher(EUserRoles.STUDENT, { courseId });
-}
-
-export async function infiniteFetcher<T>(
-    url: string,
-    mapFunc: (res: any) => T
-): Promise<T[]> {
-    const path = url.split("/api/v1")[1];
-    return (await mapResponseData(apiClient.get(path), mapFunc)).data as T[];
 }

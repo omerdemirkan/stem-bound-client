@@ -97,6 +97,8 @@ export interface IMessagingContextState {
     messagesLoading: boolean;
     chatsError: Error | null;
     messagesError: Error | null;
+    hasMoreChats: boolean;
+    hasMoreMessages: boolean;
 }
 
 // SERVICE TYPES

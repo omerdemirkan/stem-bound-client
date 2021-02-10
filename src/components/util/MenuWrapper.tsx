@@ -63,6 +63,7 @@ function paginateMenuItem(
         // @ts-ignore
         <MenuItem
             onClick={menuItemData.onClick}
+            key={menuItemData.display}
             {...options?.MenuItemProps}
             {...menuItemData.MenuItemProps}
         >

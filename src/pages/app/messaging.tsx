@@ -40,6 +40,10 @@ const MessagingAppPage: React.FC = () => {
         messagesLoading,
         chatsError,
         contactUser,
+        loadMoreChats,
+        loadMoreMessages,
+        hasMoreChats,
+        hasMoreMessages,
     } = useMessaging(chatId);
 
     const inspectedChat = chats?.find((chat) => chat._id === chatId);
@@ -105,6 +109,38 @@ const MessagingAppPage: React.FC = () => {
         });
     }
 
+    const chatFeed = !!chatId && (
+        <ChatMessageFeed
+            chatMessages={messages}
+            loading={messagesLoading}
+            errorMessage={chatsError && "Couldn't load chats, an error occured"}
+            chatId={chatId}
+            hasMore={hasMoreMessages}
+            onLoadMore={loadMoreMessages}
+            chatPictureUrl={inspectedChat?.pictureUrl}
+            isTyping={usersTyping[chatId] || []}
+            onDeleteClicked={(messageId) =>
+                deleteMessage({ chatId, messageId })
+            }
+            onEdit={handleEditMessage}
+            onRestoreClicked={(messageId) =>
+                restoreMessage({ chatId, messageId })
+            }
+        />
+    );
+
+    const chatList = (!smallScreen || !chatId) && (
+        <ChatList
+            chats={chats}
+            handleInspectChat={handleInspectChat}
+            inspectedChatId={chatId as string}
+            loading={chatsLoading}
+            errorMessage={
+                chatsError && "Couldn't load messages, an error occured"
+            }
+        />
+    );
+
     return (
         <AppLayout
             breadCrumbs={breadCrumbs}
@@ -139,7 +175,7 @@ const MessagingAppPage: React.FC = () => {
                 <title>STEM-bound - Messaging</title>
             </Head>
 
-            {!chats?.length && !chatsLoading ? (
+            {!chats?.length && !chatsLoading && (
                 <PictureMessage
                     Svg={EmptyInboxSVG}
                     message="Looks like you haven't contacted anyone"
@@ -159,44 +195,18 @@ const MessagingAppPage: React.FC = () => {
                         </Link>
                     }
                 />
+            )}
+
+            {smallScreen ? (
+                chatId ? (
+                    chatFeed
+                ) : (
+                    chatList
+                )
             ) : (
                 <SplitScreen
-                    mainEl={
-                        !!chatId && (
-                            <ChatMessageFeed
-                                chatMessages={messages}
-                                loading={messagesLoading}
-                                errorMessage={
-                                    chatsError &&
-                                    "Couldn't load chats, an error occured"
-                                }
-                                chatId={chatId}
-                                chatPictureUrl={inspectedChat?.pictureUrl}
-                                isTyping={usersTyping[chatId] || []}
-                                onDeleteClicked={(messageId) =>
-                                    deleteMessage({ chatId, messageId })
-                                }
-                                onEdit={handleEditMessage}
-                                onRestoreClicked={(messageId) =>
-                                    restoreMessage({ chatId, messageId })
-                                }
-                            />
-                        )
-                    }
-                    secondaryEl={
-                        (!smallScreen || !chatId) && (
-                            <ChatList
-                                chats={chats}
-                                handleInspectChat={handleInspectChat}
-                                inspectedChatId={chatId as string}
-                                loading={chatsLoading}
-                                errorMessage={
-                                    chatsError &&
-                                    "Couldn't load messages, an error occured"
-                                }
-                            />
-                        )
-                    }
+                    mainEl={chatFeed}
+                    secondaryEl={chatList}
                     order="secondary-first"
                 />
             )}
