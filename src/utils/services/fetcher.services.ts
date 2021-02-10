@@ -70,14 +70,13 @@ export function chatsFetcher(options?: IFetchChatArrayOptions) {
 export function chatsFetcherInfinite(
     options: IFetchChatArrayOptions = {}
 ): InfiniteFetcher<IChat[]> {
-    return function (prevChats) {
-        console.log({ prevChats });
-        return chatsFetcher({
-            ...options,
-            before: prevChats?.length
-                ? new Date(prevChats[prevChats.length - 1].lastMessageSentAt)
-                : null,
-        })();
+    return async function (prevChats) {
+        if (prevChats?.length)
+            options.before = new Date(
+                prevChats[prevChats.length - 1].lastMessageSentAt
+            );
+        const { data, hasMore } = await fetchChats(options);
+        return { data, hasMore };
     };
 }
 
@@ -96,15 +95,15 @@ export function messagesFetcherInfinite(
     chatId: string,
     options?: IFetchMessageArrayOptions
 ): InfiniteFetcher<IChatMessage[]> {
-    return async (prevMessages) =>
-        (
-            await fetchMessagesByChatId(chatId, {
-                ...options,
-                before: prevMessages?.length
-                    ? new Date(prevMessages[prevMessages.length - 1].createdAt)
-                    : null,
-            })
-        ).data;
+    return async function (prevMessages) {
+        const { data, hasMore } = await fetchMessagesByChatId(chatId, {
+            ...options,
+            before: prevMessages?.length
+                ? new Date(prevMessages[prevMessages.length - 1].createdAt)
+                : null,
+        });
+        return { data, hasMore };
+    };
 }
 
 export function announcementsFetcher(courseId: string) {

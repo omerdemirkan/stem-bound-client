@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import useSWR, { responseInterface } from "swr";
 
-export type InfiniteFetcher<T> = (currentData: T) => Promise<T>;
+export type InfiniteFetcher<T> = (
+    currentData: T
+) => Promise<{ data: T; hasMore: boolean }>;
 
 interface IUserInfiniteFetchResponse<T> extends responseInterface<T, Error> {
     loadMore(): void;
@@ -31,12 +33,10 @@ export default function useInfiniteFetch<T>(
         setIsLoadingMore(true);
         for (let i = 0; i < 3; i++) {
             try {
-                const newData = await fetcher(swrResponse.data || []);
-                if (newData.length === 0) setHasMore(false);
-                else
-                    swrResponse.mutate(
-                        (swrResponse.data || []).concat(newData)
-                    );
+                const { data, hasMore } = await fetcher(swrResponse.data || []);
+                if (data.length > 0)
+                    swrResponse.mutate((swrResponse.data || []).concat(data));
+                setHasMore(hasMore);
                 setIsLoadingMore(false);
                 break;
             } catch (e) {}
