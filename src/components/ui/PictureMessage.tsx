@@ -1,6 +1,6 @@
 import Typography from "@material-ui/core/Typography";
 
-type Size = "large" | "medium" | "small";
+type Size = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface IPictureMessageProps {
     Svg: React.FC<React.SVGProps<SVGSVGElement>>;
@@ -12,25 +12,33 @@ export interface IPictureMessageProps {
 
 function mapSizeToWidth(size: Size): string {
     switch (size) {
-        case "large":
-            return "450px";
-        case "medium":
-            return "350px";
-        case "small":
-            return "300px";
+        case "xs":
+            return "200px";
+        case "sm":
+            return "280px";
+        case "md":
+            return "360px";
+        case "lg":
+            return "440px";
+        case "xl":
+            return "520px";
         default:
-            return "350px";
+            return "360px";
     }
 }
 
 function mapSizeToMargin(size: Size): string {
     switch (size) {
-        case "large":
-            return "15vh auto";
-        case "medium":
-            return "12vh auto";
-        case "small":
-            return "8vh auto";
+        case "xs":
+            return "4vh auto";
+        case "sm":
+            return "6vh auto";
+        case "md":
+            return "10vh auto";
+        case "lg":
+            return "14vh auto";
+        case "xl":
+            return "18vh auto";
         default:
             return "10vh auto";
     }

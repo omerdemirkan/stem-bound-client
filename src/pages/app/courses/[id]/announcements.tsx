@@ -135,7 +135,7 @@ const AnnouncementsAppPage: React.FC = () => {
             {!announcementsLoading && !announcements?.length && (
                 <PictureMessage
                     Svg={NoResultsSVG}
-                    size="small"
+                    size="sm"
                     message="No announcements found"
                 />
             )}

@@ -57,14 +57,14 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
                     Svg={EmptyInboxSVG}
                     message="No messages exchanged"
                     subMessage="Say Hi, don't be shy!"
-                    size="small"
+                    size="sm"
                 />
             )}
             {hasMore === false && (
                 <PictureMessage
                     Svg={EmptyInboxSVG}
                     message="This is the start of your conversation"
-                    size="small"
+                    size="xs"
                 />
             )}
         </InvertScroll>

@@ -184,7 +184,7 @@ const MessagingAppPage: React.FC = () => {
                     ).toLowerCase()}s or other ${getUserDisplayRole(
                         user.role
                     ).toLowerCase()}s on the search page.`}
-                    size="large"
+                    size="lg"
                     footer={
                         <Link href="/app/search">
                             <a>

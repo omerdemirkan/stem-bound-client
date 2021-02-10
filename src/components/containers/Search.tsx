@@ -52,7 +52,7 @@ const Search: React.FC<ISearchProps> = ({
             {!loading && !searchData?.length && (
                 <PictureMessage
                     Svg={NoResultsSVG}
-                    size="small"
+                    size="sm"
                     message="No results found"
                 />
             )}
