@@ -4,7 +4,7 @@ type Size = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface IPictureMessageProps {
     Svg: React.FC<React.SVGProps<SVGSVGElement>>;
-    message: string;
+    message?: string;
     subMessage?: string;
     size?: Size;
     footer?: any;

@@ -69,8 +69,8 @@ export const darkTheme = createMuiTheme({
             secondary: "#CACACA",
         },
         background: {
-            default: "#333333",
-            paper: "#424242",
+            default: "#2d2d2d",
+            paper: "#383838",
         },
     },
 });

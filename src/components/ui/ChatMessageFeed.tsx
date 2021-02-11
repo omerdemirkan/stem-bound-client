@@ -64,7 +64,7 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
             {hasMore === false && (
                 <PictureMessage
                     Svg={EmptyInboxSVG}
-                    message="This is the start of your conversation"
+                    subMessage="This is the start of your conversation"
                     size="xs"
                 />
             )}
