@@ -6,6 +6,7 @@ import InvertScroll from "../util/InvertScroll";
 import PictureMessage from "./PictureMessage";
 import EmptyInboxSVG from "../svg/illustrations/empty-inbox";
 import { useMemo } from "react";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 export interface IChatMessageFeedProps extends IChatMessageEventHandlers {
     chatMessages: IChatMessage[];
@@ -67,6 +68,7 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
                     size="xs"
                 />
             )}
+            {loading && <LinearProgress color="primary" />}
         </InvertScroll>
     );
 };
