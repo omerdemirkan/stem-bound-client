@@ -68,7 +68,11 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
                                 size="small"
                                 color="primary"
                                 onClick={function () {
-                                    onEdit({ ...chatMessage, text: editValue });
+                                    if (editValue !== chatMessage.text)
+                                        onEdit({
+                                            ...chatMessage,
+                                            text: editValue,
+                                        });
                                     setIsBeingEdited(false);
                                 }}
                             >

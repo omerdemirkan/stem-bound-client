@@ -58,7 +58,11 @@ const SearchForm: React.FC<
                         </Select>
                     )}
                 />
-                <TextField ref={register} name="text" placeholder="Search" />
+                <TextField
+                    inputRef={register}
+                    name="text"
+                    placeholder="Search"
+                />
                 <Button type="submit" variant="contained" color="primary">
                     SEARCH
                 </Button>
