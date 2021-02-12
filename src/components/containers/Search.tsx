@@ -5,9 +5,9 @@ import {
     ISearchQuery,
 } from "../../utils/types/search.types";
 import { EUserRoles, IUser } from "../../utils/types";
+import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
 import ActionBar from "../ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
-import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
 import SearchQueryInput from "./SearchQueryInput";
 import PictureMessage from "../ui/PictureMessage";
 import NoResultsSVG from "../svg/illustrations/no-results";

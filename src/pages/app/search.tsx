@@ -25,7 +25,10 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
                   searchQuery
               )}`
             : null,
-        searchDataFetcher(searchQuery?.searchField as any, searchQuery)
+        searchDataFetcher(searchQuery?.searchField as any, {
+            ...searchQuery,
+            exclude: [user._id],
+        })
     );
 
     useEffect(

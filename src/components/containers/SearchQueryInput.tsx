@@ -1,20 +1,15 @@
 import { searchFieldInputOptions } from "../../utils/constants";
-import {
-    ESearchFields,
-    ISearchQuery,
-    IWithUserCoordinatesProps,
-} from "../../utils/types";
-
+import { ISearchQuery, IWithUserCoordinatesProps } from "../../utils/types";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import withUserCoordinates from "../hoc/withUserCoordinates";
 import Paper from "@material-ui/core/Paper";
-import { Controller, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useDebounce from "../hooks/useDebounce";
+import AuthContext from "../contexts/AuthContext";
 
 const useStyles = makeStyles({
     paper: {
@@ -38,7 +33,6 @@ const SearchQueryInput: React.FC<
         searchText,
         searchTextDebounceMs || 800
     );
-
     const updateSearchQuery = (updates) =>
         onSearchQueryChanged({ ...value, ...updates });
 
