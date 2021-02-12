@@ -8,7 +8,7 @@ import { EUserRoles, IUser } from "../../utils/types";
 import ActionBar from "../ui/ActionBar";
 import Typography from "@material-ui/core/Typography";
 import { getDisplaySearchField, isSearchField } from "../../utils/helpers";
-import SearchForm from "../forms/SearchForm";
+import SearchQueryInput from "./SearchQueryInput";
 import PictureMessage from "../ui/PictureMessage";
 import NoResultsSVG from "../svg/illustrations/no-results";
 import RelativeGrid from "../ui/RelativeGrid";
@@ -38,8 +38,8 @@ const Search: React.FC<ISearchProps> = ({
                 }
             >
                 {isSearchField(query.searchField) && (
-                    <SearchForm
-                        searchField={query.searchField}
+                    <SearchQueryInput
+                        value={query}
                         onSearchQueryChanged={onSearchQueryChanged}
                     />
                 )}
