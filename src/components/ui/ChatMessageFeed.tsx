@@ -1,12 +1,21 @@
 import Typography from "@material-ui/core/Typography";
-import { IChatMessage, IChatMessageEventHandlers } from "../../utils/types";
-import { getChatMessageGroups } from "../../utils/helpers";
+import {
+    IChatMessage,
+    IChatMessageEventHandlers,
+    IChatMessageGroup,
+} from "../../utils/types";
+import {
+    getChatMessageGroups,
+    getFormalDateAndTime,
+} from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
 import InvertScroll from "../util/InvertScroll";
 import PictureMessage from "./PictureMessage";
 import EmptyInboxSVG from "../svg/illustrations/empty-inbox";
 import { useMemo } from "react";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { isSameDay } from "date-fns";
+import { SectionHeader } from "./SectionHeader";
 
 export interface IChatMessageFeedProps extends IChatMessageEventHandlers {
     chatMessages: IChatMessage[];
@@ -46,12 +55,34 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
                     typing
                 </Typography>
             ) : null}
-            {chatMessageGroups?.map((chatMessageGroup) => (
-                <ChatMessageGroup
-                    chatMessageGroup={chatMessageGroup}
-                    key={chatMessageGroup.messages[0]._id}
-                    {...chatMessageHandlers}
-                />
+            {chatMessageGroups?.map((chatMessageGroup, index) => (
+                <>
+                    <ChatMessageGroup
+                        chatMessageGroup={chatMessageGroup}
+                        key={chatMessageGroup.messages[0]._id}
+                        {...chatMessageHandlers}
+                    />
+                    {(index < chatMessageGroups.length - 1 &&
+                        !isSameDay(
+                            new Date(chatMessageGroup.messages[0].createdAt),
+                            new Date(
+                                chatMessageGroups[
+                                    index + 1
+                                ].messages[0].createdAt
+                            )
+                        )) ||
+                    index === chatMessageGroups.length - 1 ? (
+                        <div style={{ marginTop: "20px" }}>
+                            <SectionHeader
+                                title={getFormalDateAndTime(
+                                    new Date(
+                                        chatMessageGroup.messages[0].createdAt
+                                    )
+                                )}
+                            />
+                        </div>
+                    ) : null}
+                </>
             ))}
             {!loading && !chatMessages?.length && (
                 <PictureMessage

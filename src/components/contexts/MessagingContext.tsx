@@ -189,7 +189,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         mutate(
             `/chats/${chatId}/messages`,
             (prevMessages) => {
-                const newMessages = clone(prevMessages || messages);
+                const newMessages = clone(prevMessages || messages) || [];
                 newMessages.unshift(newMessage);
                 return newMessages;
             },
@@ -204,7 +204,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         mutate(
             `/chats/${chatId}/messages`,
             (prevMessages) => {
-                const newMessages = clone(prevMessages || messages);
+                const newMessages = clone(prevMessages || messages) || [];
                 const messageIndex = newMessages.findIndex(
                     (message) => message?._id === updatedMessage?._id
                 );
