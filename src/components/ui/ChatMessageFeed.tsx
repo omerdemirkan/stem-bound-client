@@ -6,6 +6,7 @@ import {
 } from "../../utils/types";
 import {
     getChatMessageGroups,
+    getFormalDate,
     getFormalDateAndTime,
 } from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
@@ -72,12 +73,10 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
                             )
                         )) ||
                     index === chatMessageGroups.length - 1 ? (
-                        <div style={{ marginTop: "20px" }}>
+                        <div style={{ marginTop: "10px" }}>
                             <SectionHeader
-                                title={getFormalDateAndTime(
-                                    new Date(
-                                        chatMessageGroup.messages[0].createdAt
-                                    )
+                                title={getFormalDate(
+                                    chatMessageGroup.messages[0].createdAt
                                 )}
                             />
                         </div>

@@ -1,35 +1,6 @@
 import format from "date-fns/format";
 import { ITimeRange } from "../types";
 
-export function getTimeStringValues(
-    timeString: string,
-    defaultTimeString?: string
-): { hours: number; minutes: number } {
-    const [hours, minutes] = (timeString || defaultTimeString)
-        .split(":")
-        .map((t) => +t);
-    return { hours, minutes };
-}
-
-export function getTimeStringFromDate(date: Date | string): string {
-    date = typeof date === "object" ? date : new Date(date);
-    return `${addZeroPadding(date.getHours(), 2)}:${addZeroPadding(
-        date.getMinutes(),
-        2
-    )}`;
-}
-
-export function configureDateByTimeString(
-    date: Date,
-    timeString: string
-): Date {
-    const newDate = new Date(date);
-    const { hours, minutes } = getTimeStringValues(timeString);
-    newDate.setHours(hours);
-    newDate.setMinutes(minutes);
-    return newDate;
-}
-
 export function addZeroPadding(num, size): string {
     var s = num + "";
     while (s.length < size) s = "0" + s;
@@ -49,4 +20,9 @@ export function validateTimeRange({ start, end }: ITimeRange): boolean {
 export function getFormalDateAndTime(d: string | Date) {
     const date = typeof d === "string" ? new Date(d) : d;
     return format(date, "h:ss a, MM/dd/yyyy");
+}
+
+export function getFormalDate(d: string | Date) {
+    const date = typeof d === "string" ? new Date(d) : d;
+    return format(date, "MM/dd/yyyy");
 }

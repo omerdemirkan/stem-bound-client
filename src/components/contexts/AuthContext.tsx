@@ -13,6 +13,7 @@ import {
     sendVerificationEmail,
 } from "../../utils/services";
 import { apiClient, mapUserData } from "../../utils/helpers";
+import { cache } from "swr";
 
 export const initialAuthContextState: IAuthContextState = {
     authLoading: false,
@@ -127,6 +128,8 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         apiClient.deleteAuthHeader();
         localStorage.removeItem("accessToken");
         setAuthState(initialAuthContextState);
+        // clears swr cache so previously logged-in user's data isn't shown
+        cache.clear();
     }
 
     function handleAuthSuccess({
