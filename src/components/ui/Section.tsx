@@ -5,6 +5,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import { Size } from "../../utils/types";
+import { SectionHeader } from "./SectionHeader";
 
 export interface ISectionProps extends BoxProps {
     title?: string;
@@ -73,35 +74,11 @@ const Section: React.FC<ISectionProps> = ({
             alignItems="center"
             {...boxProps}
         >
-            {title || actionEl ? (
-                <>
-                    {!noDivider && <Divider light />}
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                        }}
-                    >
-                        <ListSubheader
-                            style={{
-                                padding: "0",
-                                position: "relative",
-                                lineHeight: getListSubheaderLineHeight(spacing),
-                            }}
-                        >
-                            {title}
-                            {loading && (
-                                <CircularProgress
-                                    style={{ float: "right" }}
-                                    size="sm"
-                                />
-                            )}
-                        </ListSubheader>
-                        <span>{actionEl}</span>
-                    </div>
-                </>
-            ) : null}
+            <SectionHeader
+                title={title}
+                actionEl={actionEl}
+                noDivider={noDivider}
+            />
 
             {children}
 
