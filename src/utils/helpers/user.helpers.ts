@@ -39,16 +39,9 @@ export function mapUserData(user: IUserOriginal): IUser {
     switch (user.role) {
         case EUserRoles.STUDENT:
             (mappedUser as IStudent).interests = (user as IStudentOriginal).interests;
-            const initialSchoolYear = (user as IStudentOriginal)
-                .initialSchoolYear;
-            const currentSchoolYear = getCurrentSchoolYear();
-            const schoolYearsSinceAccountCreated =
-                +currentSchoolYear.split("-")[0] -
-                +initialSchoolYear.split("-")[0];
-            let initialGradeLevel = (user as IStudentOriginal)
-                .initialGradeLevel;
-            (mappedUser as IStudent).gradeLevel =
-                initialGradeLevel + schoolYearsSinceAccountCreated;
+            (mappedUser as IStudent).gradeLevel = getStudentCurrentGradeLevel(
+                user as IStudentOriginal
+            );
             break;
         case EUserRoles.INSTRUCTOR:
             (mappedUser as IInstructor).specialties = (user as IInstructorOriginal).specialties;
@@ -83,4 +76,12 @@ export function getCurrentSchoolYear() {
     let startYear = now.getFullYear();
     if (currentMonth <= 6) startYear -= 1;
     return `${startYear}-${startYear + 1}`;
+}
+
+export function getStudentCurrentGradeLevel(student: IStudentOriginal) {
+    const initialSchoolYear = student.initialSchoolYear;
+    const currentSchoolYear = getCurrentSchoolYear();
+    const schoolYearsSinceAccountCreated =
+        +currentSchoolYear.split("-")[0] - +initialSchoolYear.split("-")[0];
+    return student.initialGradeLevel + schoolYearsSinceAccountCreated;
 }

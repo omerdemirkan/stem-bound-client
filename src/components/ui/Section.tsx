@@ -4,13 +4,12 @@ import Box, { BoxProps } from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
-
-type Spacing = "xs" | "sm" | "md" | "lg" | "xl";
+import { Size } from "../../utils/types";
 
 export interface ISectionProps extends BoxProps {
     title?: string;
     actionEl?: any;
-    spacing?: Spacing;
+    spacing?: Size;
     noDivider?: boolean;
     loading?: boolean;
     infoMessage?: string;
@@ -21,10 +20,7 @@ export interface ISectionProps extends BoxProps {
     errorAction?: any;
 }
 
-function getBoxPadding(
-    spacing: Spacing,
-    options: { noDivider?: boolean } = {}
-) {
+function getBoxPadding(spacing: Size, options: { noDivider?: boolean } = {}) {
     if (!spacing) return 12;
     switch (spacing) {
         case "xs":
@@ -40,7 +36,7 @@ function getBoxPadding(
     }
 }
 
-function getListSubheaderLineHeight(spacing: Spacing) {
+function getListSubheaderLineHeight(spacing: Size) {
     switch (spacing) {
         case "xs":
             return `35px`;

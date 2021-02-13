@@ -1,6 +1,5 @@
 import Typography from "@material-ui/core/Typography";
-
-type Size = "xs" | "sm" | "md" | "lg" | "xl";
+import { Size } from "../../utils/types";
 
 export interface IPictureMessageProps {
     Svg: React.FC<React.SVGProps<SVGSVGElement>>;
