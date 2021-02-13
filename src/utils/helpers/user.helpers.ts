@@ -49,3 +49,11 @@ const userRoleDisplayTable = {
 export function getUserDisplayRole(userRole: EUserRoles): EUserDisplayRoles {
     return userRoleDisplayTable[userRole];
 }
+
+export function getCurrentSchoolYear() {
+    const now = new Date(),
+        currentMonth = now.getMonth();
+    let startYear = now.getFullYear();
+    if (currentMonth <= 6) startYear -= 1;
+    return `${startYear}-${startYear + 1}`;
+}
