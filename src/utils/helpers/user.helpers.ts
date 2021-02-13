@@ -4,10 +4,15 @@ import {
     IValidateUserRoleOptions,
     EUserRoles,
     EUserDisplayRoles,
+    ISchoolOfficialOriginal,
+    IStudentOriginal,
+    IInstructor,
+    IInstructorOriginal,
+    IStudent,
 } from "../types";
 
 export function mapUserData(user: IUserOriginal): IUser {
-    return {
+    let mappedUser: IUser = {
         _id: user._id,
         role: user.role,
         displayRole: getUserDisplayRole(user.role),
@@ -31,6 +36,28 @@ export function mapUserData(user: IUserOriginal): IUser {
         interests: (user as any).interests || undefined,
         specialties: (user as any).specialties || undefined,
     };
+    switch (user.role) {
+        case EUserRoles.STUDENT:
+            (mappedUser as IStudent).interests = (user as IStudentOriginal).interests;
+            const initialSchoolYear = (user as IStudentOriginal)
+                .initialSchoolYear;
+            const currentSchoolYear = getCurrentSchoolYear();
+            const schoolYearsSinceAccountCreated =
+                +currentSchoolYear.split("-")[0] -
+                +initialSchoolYear.split("-")[0];
+            let initialGradeLevel = (user as IStudentOriginal)
+                .initialGradeLevel;
+            (mappedUser as IStudent).gradeLevel =
+                initialGradeLevel + schoolYearsSinceAccountCreated;
+            break;
+        case EUserRoles.INSTRUCTOR:
+            (mappedUser as IInstructor).specialties = (user as IInstructorOriginal).specialties;
+            break;
+        case EUserRoles.SCHOOL_OFFICIAL:
+            (mappedUser as IInstructor).position = (user as ISchoolOfficialOriginal).position;
+            break;
+    }
+    return mappedUser;
 }
 
 export function validateUserRole({

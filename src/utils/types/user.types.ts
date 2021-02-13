@@ -21,6 +21,8 @@ export interface IStudentOriginal extends IBaseUserOriginal {
         courses: string;
         chats: string[];
     };
+    initialGradeLevel: number;
+    initialSchoolYear: string;
 }
 
 export interface IInstructorOriginal extends IBaseUserOriginal {
@@ -80,6 +82,7 @@ export interface IStudent extends IBaseUser {
         school: string;
         courses: string;
     };
+    gradeLevel: number;
 }
 
 export interface IInstructor extends IBaseUser {
@@ -87,6 +90,7 @@ export interface IInstructor extends IBaseUser {
     meta: {
         courses: string[];
     };
+    position: string;
 }
 
 export interface ISchoolOfficial extends IBaseUser {

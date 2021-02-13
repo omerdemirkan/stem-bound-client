@@ -43,15 +43,16 @@ const StudentSignUpForm: React.FC<ISignUpFormProps> = ({
         ? ({ children }) => <div>{children}</div>
         : FormCard;
 
+    const currentSchoolYear = getCurrentSchoolYear();
+
     const handleSubmitButtonClicked = handleSubmit(function (values) {
         values.meta = {
             school: values.schoolId,
         };
+        values.initialSchoolYear = currentSchoolYear;
         delete values.schoolId;
         onSubmit(values);
     });
-
-    const currentSchoolYear = getCurrentSchoolYear();
 
     return (
         <ModifiedFormCard
