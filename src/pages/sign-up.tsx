@@ -12,7 +12,7 @@ import { EUserRoles, IUserOriginal } from "../utils/types";
 import UserRoleInput from "../components/util/UserRoleInput";
 import HidableDiv from "../components/ui/HidableDiv";
 import SignUpForm from "../components/forms/SignUpForm";
-import useQueryState from "../components/hooks/useQueryState";
+import useQueryState from "../hooks/useQueryState";
 import Section from "../components/ui/Section";
 import Button from "@material-ui/core/Button";
 import Center from "../components/ui/Center";

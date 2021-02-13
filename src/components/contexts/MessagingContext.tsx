@@ -15,8 +15,8 @@ import {
     IMessagingContextState,
     IUser,
 } from "../../utils/types";
-import useInfiniteFetch from "../hooks/useInfiniteFetch";
-import useSocket from "../hooks/useSocket";
+import useInfiniteFetch from "../../hooks/useInfiniteFetch";
+import useSocket from "../../hooks/useSocket";
 import AuthContext from "./AuthContext";
 import NotificationContext from "./NotificationContext";
 
@@ -237,6 +237,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
     }
 
     async function contactUser(userId: string) {
+        console.log("contacting user");
         const { data: chat } = await createChat({
             meta: { users: [user._id, userId] },
             type: EChatTypes.PRIVATE,

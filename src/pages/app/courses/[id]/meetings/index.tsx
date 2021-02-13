@@ -19,7 +19,7 @@ import NoResultsSVG from "../../../../../components/svg/illustrations/no-results
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import useQueryState from "../../../../../components/hooks/useQueryState";
+import useQueryState from "../../../../../hooks/useQueryState";
 import { capitalizeWords } from "../../../../../utils/helpers";
 
 const MeetingsAppPage: React.FC = () => {

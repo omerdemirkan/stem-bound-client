@@ -8,7 +8,7 @@ import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { useContext, useEffect, useState } from "react";
-import useDebounce from "../hooks/useDebounce";
+import useDebounce from "../../hooks/useDebounce";
 import AuthContext from "../contexts/AuthContext";
 
 const useStyles = makeStyles({

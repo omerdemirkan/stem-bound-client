@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
-import { IMessagingContextState } from "../../utils/types";
-import MessagingContext from "../contexts/MessagingContext";
+import { IMessagingContextState } from "../utils/types";
+import MessagingContext from "../components/contexts/MessagingContext";
 
 export default function useMessaging(
     chatId: string = null

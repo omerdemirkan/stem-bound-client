@@ -1,7 +1,7 @@
 import AppLayout from "../../components/containers/AppLayout";
 import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
-import useDebounce from "../../components/hooks/useDebounce";
+import useDebounce from "../../hooks/useDebounce";
 import { IBreadCrumb, IChatMessage } from "../../utils/types";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -12,7 +12,7 @@ import ChatList from "../../components/ui/ChatList";
 import ChatMessageFeed from "../../components/ui/ChatMessageFeed";
 import SplitScreen from "../../components/ui/SplitScreen";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import useMessaging from "../../components/hooks/useMessaging";
+import useMessaging from "../../hooks/useMessaging";
 import PictureMessage from "../../components/ui/PictureMessage";
 import EmptyInboxSVG from "../../components/svg/illustrations/empty-inbox";
 import { getDefaultSearchField, getUserDisplayRole } from "../../utils/helpers";

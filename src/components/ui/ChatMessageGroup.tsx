@@ -8,7 +8,7 @@ import Box from "@material-ui/core/Box";
 import { userFetcher } from "../../utils/services";
 import { reverseMap, getFormalDateAndTime } from "../../utils/helpers";
 import ChatMessage from "./ChatMessage";
-import { useFetchOnce } from "../hooks/useFetchOnce";
+import { useFetchOnce } from "../../hooks/useFetchOnce";
 
 export interface Props extends IChatMessageEventHandlers {
     chatMessageGroup: IChatMessageGroup;

@@ -31,7 +31,7 @@ import {
 } from "./user.services";
 import { fetchSchoolByNcesId } from "./school.services";
 import { apiClient, mapResponseData } from "../helpers";
-import { InfiniteFetcher } from "../../components/hooks/useInfiniteFetch";
+import { InfiniteFetcher } from "../../hooks/useInfiniteFetch";
 
 export function coursesFetcher(options?: IFetchCourseArrayOptions) {
     return async () => (await fetchCourses(options)).data;

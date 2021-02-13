@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
-import { getNavigationDataByUserRole } from "../../utils/helpers";
-import { INavigationData } from "../../utils/types";
-import AuthContext from "../contexts/AuthContext";
+import { getNavigationDataByUserRole } from "../utils/helpers";
+import { INavigationData } from "../utils/types";
+import AuthContext from "../components/contexts/AuthContext";
 
 export default function useNavigationData(): INavigationData {
     const { user } = useContext(AuthContext);

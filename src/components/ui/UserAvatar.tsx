@@ -1,6 +1,6 @@
 import Avatar, { AvatarProps } from "@material-ui/core/Avatar";
 import { userFetcher } from "../../utils/services";
-import { useFetchOnce } from "../hooks/useFetchOnce";
+import { useFetchOnce } from "../../hooks/useFetchOnce";
 
 export interface IUserAvatarProps extends AvatarProps {
     userId: string;

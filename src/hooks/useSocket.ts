@@ -1,6 +1,6 @@
-import SocketContext from "../contexts/SocketContext";
+import SocketContext from "../components/contexts/SocketContext";
 import { useContext, useEffect, useRef } from "react";
-import { ISocketContextState, ESocketEvents } from "../../utils/types";
+import { ISocketContextState, ESocketEvents } from "../utils/types";
 
 interface IListener {
     event: string;

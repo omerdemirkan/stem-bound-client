@@ -8,7 +8,7 @@ import { useContext, useState } from "react";
 import AppNavigation from "./AppNavigation";
 import Drawer from "@material-ui/core/Drawer";
 import WordLogoSVG from "../svg/icons/word-logo";
-import useDimensions from "../hooks/useDimensions";
+import useDimensions from "../../hooks/useDimensions";
 import { paginateBreadcrumbsMinified } from "../util/paginateBreadCrumbs";
 import ThemeContext from "../contexts/ThemeContext";
 import { ETheme } from "../../utils/types";

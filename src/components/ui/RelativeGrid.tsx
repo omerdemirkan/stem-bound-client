@@ -1,6 +1,6 @@
 import Box, { BoxProps } from "@material-ui/core/Box";
 import { useEffect, useState } from "react";
-import useDimensions from "../hooks/useDimensions";
+import useDimensions from "../../hooks/useDimensions";
 
 interface IRelativeGridProps extends BoxProps {
     minWidthInPixels: number;

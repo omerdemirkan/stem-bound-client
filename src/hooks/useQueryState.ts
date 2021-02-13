@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { appendQueriesToUrl, getClientQueryParams } from "../../utils/helpers";
+import { appendQueriesToUrl, getClientQueryParams } from "../utils/helpers";
 
 export default function useQueryState<T>(
     field: string,

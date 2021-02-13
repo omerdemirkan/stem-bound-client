@@ -16,7 +16,7 @@ import {
 } from "../../utils/types";
 import Section from "./Section";
 import { getCourseVerificationStatusDisplay } from "../../utils/helpers";
-import { useFetchOnce } from "../hooks/useFetchOnce";
+import { useFetchOnce } from "../../hooks/useFetchOnce";
 import MenuWrapper, { IMenuItemDTO } from "../util/MenuWrapper";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import AuthContext from "../contexts/AuthContext";
