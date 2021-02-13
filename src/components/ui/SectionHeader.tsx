@@ -37,7 +37,7 @@ export const SectionHeader: React.FC<ISectionHeaderProps> = ({
 }) => {
     return (
         <>
-            {noDivider !== false && <Divider light {...DividerProps} />}
+            {noDivider !== true && <Divider light {...DividerProps} />}
             <div
                 className="title-wrapper"
                 style={{ margin: getTitleMargin(spacing) }}

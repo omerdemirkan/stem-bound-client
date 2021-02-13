@@ -61,13 +61,15 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
                     size="sm"
                 />
             )}
-            {hasMore === false && (
-                <PictureMessage
-                    Svg={EmptyInboxSVG}
-                    subMessage="This is the start of your conversation"
-                    size="xs"
-                />
-            )}
+            {hasMore === false &&
+                typeof chatMessages?.length === "number" &&
+                chatMessages.length > 0 && (
+                    <PictureMessage
+                        Svg={EmptyInboxSVG}
+                        subMessage="This is the start of your conversation"
+                        size="xs"
+                    />
+                )}
             {loading && <LinearProgress color="primary" />}
         </InvertScroll>
     );
