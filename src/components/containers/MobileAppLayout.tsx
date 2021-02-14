@@ -107,7 +107,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
             <style jsx>{`
                 .root {
                     background-color: var(--background-dark);
-                    min-height: 100vh;
+                    height: 100vh;
                 }
                 .root > main {
                     padding: 5vw 2vw;
