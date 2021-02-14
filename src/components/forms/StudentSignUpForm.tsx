@@ -2,26 +2,18 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { useForm, Controller } from "react-hook-form";
-import {
-    passwordRegex,
-    emailRegex,
-    validStudentGradeLevels,
-} from "../../utils/constants";
+import { passwordRegex, emailRegex } from "../../utils/constants";
 import AsyncSelect from "../util/AsyncSelect";
 import {
     fetchSchoolInputOptions,
     getCurrentSchoolYear,
-    reverseMap,
 } from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
 import ChipInput from "../util/ChipInput";
 import { ISignUpFormProps } from "./SignUpForm";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
 import { makeStyles } from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl";
+import GradeLevelInput from "../util/GradeLevelInput";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -136,30 +128,7 @@ const StudentSignUpForm: React.FC<ISignUpFormProps> = ({
                     name="initialGradeLevel"
                     control={control}
                     rules={{ required: "Required" }}
-                    render={(props) => (
-                        <FormControl fullWidth margin="normal">
-                            <InputLabel id="grade-level-label">
-                                Grade Level{" "}
-                                <em>({currentSchoolYear} School Year)</em>
-                            </InputLabel>
-                            <Select
-                                labelId="grade-level-label"
-                                id="grade-level"
-                                label="Grade Level"
-                                fullWidth
-                                {...props}
-                            >
-                                {reverseMap(
-                                    validStudentGradeLevels,
-                                    (gradeLevel) => (
-                                        <MenuItem value={gradeLevel}>
-                                            {gradeLevel}
-                                        </MenuItem>
-                                    )
-                                )}
-                            </Select>
-                        </FormControl>
-                    )}
+                    render={(props) => <GradeLevelInput {...props} />}
                 />
                 <TextField
                     inputRef={register({

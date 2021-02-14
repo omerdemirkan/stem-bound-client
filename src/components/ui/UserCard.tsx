@@ -56,7 +56,12 @@ const UserCard: React.FC<IUserCardProps> = ({
         >
             <CardHeader
                 title={user?.fullName}
-                subheader={user?.displayRole}
+                subheader={
+                    user?.displayRole +
+                    (user.role === EUserRoles.STUDENT
+                        ? `${(user as IStudent).gradeLevel}th grade`
+                        : "")
+                }
                 avatar={
                     <Avatar
                         src={user?.profilePictureUrl}
