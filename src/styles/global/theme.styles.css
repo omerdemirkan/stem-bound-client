@@ -1,8 +1,8 @@
 :root {
   --background-light: #ffffff;
   --background-dark: #f8f8f8;
-  --contrast-light: #424242;
-  --contrast-dark: #333333;
+  --contrast-light: #282828;
+  --contrast-dark: #191919;
   --accent-light: #826efd;
   --accent-dark: #6c57eb;
   --shadow-opacity: 0.05;
@@ -10,8 +10,8 @@
 }
 
 .dark-theme {
-  --background-light: #383838;
-  --background-dark: #2d2d2d;
+  --background-light: #282828;
+  --background-dark: #191919;
   --contrast-light: #ffffff;
   --contrast-dark: #f8f8f8;
   --accent-light: #826efd;

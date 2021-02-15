@@ -1,6 +1,6 @@
 import Select, { SelectProps } from "@material-ui/core/Select";
 import FormControl, { FormControlProps } from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
+import InputLabel, { InputLabelProps } from "@material-ui/core/InputLabel";
 import { getCurrentSchoolYear, reverseMap } from "../../utils/helpers";
 import { validStudentGradeLevels } from "../../utils/constants";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -8,17 +8,19 @@ import MenuItem from "@material-ui/core/MenuItem";
 export interface IGradeLevelInputProps extends SelectProps {
     value: number;
     FormControlProps?: FormControlProps;
+    InputLabelProps?: InputLabelProps;
 }
 
 const GradeLevelInput: React.FC<IGradeLevelInputProps> = ({
     value,
     FormControlProps,
+    InputLabelProps,
     ...selectProps
 }) => {
     const currentSchoolYear = getCurrentSchoolYear();
     return (
         <FormControl fullWidth margin="normal" {...FormControlProps}>
-            <InputLabel id="grade-level-label">
+            <InputLabel id="grade-level-label" {...InputLabelProps}>
                 Grade Level <em>({currentSchoolYear} School Year)</em>
             </InputLabel>
             <Select

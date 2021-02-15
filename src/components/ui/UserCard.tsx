@@ -59,7 +59,7 @@ const UserCard: React.FC<IUserCardProps> = ({
                 subheader={
                     user?.displayRole +
                     (user.role === EUserRoles.STUDENT
-                        ? `${(user as IStudent).gradeLevel}th grade`
+                        ? ` - ${(user as IStudent).gradeLevel}th grade`
                         : "")
                 }
                 avatar={

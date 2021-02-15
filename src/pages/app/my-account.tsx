@@ -7,6 +7,8 @@ import withAuth from "../../components/hoc/withAuth";
 import {
     capitalizeWords,
     fetchLocationInputOptions,
+    getCurrentSchoolYear,
+    reverseMap,
 } from "../../utils/helpers";
 import {
     userFetcher,
@@ -29,11 +31,12 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import ActionBar from "../../components/ui/ActionBar";
 import SplitScreen from "../../components/ui/SplitScreen";
-import { makeStyles } from "@material-ui/core";
+import { FormControl, InputLabel, makeStyles } from "@material-ui/core";
 import Section from "../../components/ui/Section";
 import Chip from "@material-ui/core/Chip";
 import CourseCard from "../../components/ui/CourseCard";
 import EditableSection from "../../components/ui/EditableSection";
+import GradeLevelInput from "../../components/util/GradeLevelInput";
 
 const useStyles = makeStyles({
     avatar: {
@@ -82,6 +85,7 @@ const MyAccountAppPage: React.FC = () => {
     }
 
     async function handleUpdateUser(update: Partial<IUserOriginal>) {
+        console.log(update);
         const { data: updatedUser } = await updateUserById(user._id, update);
         mutateFetchedUser(updatedUser, false);
     }
@@ -93,6 +97,9 @@ const MyAccountAppPage: React.FC = () => {
         mutateFetchedUser(updatedUser, false);
         mutateAuthContextUser(fetchedUser);
     }
+
+    const currentSchoolYear =
+        user.role === EUserRoles.STUDENT ? getCurrentSchoolYear() : null;
 
     return (
         <AppLayout header="My Account">
@@ -197,35 +204,57 @@ const MyAccountAppPage: React.FC = () => {
                         />
 
                         {user.role === EUserRoles.STUDENT ? (
-                            <EditableSection
-                                title="Interests"
-                                value={(user as IStudent).interests}
-                                onEdit={(interests) =>
-                                    handleUpdateUser({ interests })
-                                }
-                                InputButtonProps={{
-                                    renderInput: (value, setValue) => (
-                                        <ChipInput
-                                            onChange={setValue}
-                                            value={value}
-                                            TextFieldProps={{
-                                                fullWidth: true,
-                                                id: "interests",
-                                            }}
-                                        />
-                                    ),
-                                }}
-                            >
-                                {(user as IStudent).interests.map(
-                                    (interest) => (
-                                        <Chip
-                                            key={interest}
-                                            label={interest}
-                                            color="primary"
-                                        />
-                                    )
-                                )}
-                            </EditableSection>
+                            <>
+                                <EditableSection
+                                    title="Interests"
+                                    value={(user as IStudent).interests}
+                                    onEdit={(interests) =>
+                                        handleUpdateUser({ interests })
+                                    }
+                                    InputButtonProps={{
+                                        renderInput: (value, setValue) => (
+                                            <ChipInput
+                                                onChange={setValue}
+                                                value={value}
+                                                TextFieldProps={{
+                                                    fullWidth: true,
+                                                    id: "interests",
+                                                }}
+                                            />
+                                        ),
+                                    }}
+                                >
+                                    {(user as IStudent).interests.map(
+                                        (interest) => (
+                                            <Chip
+                                                key={interest}
+                                                label={interest}
+                                                color="primary"
+                                            />
+                                        )
+                                    )}
+                                </EditableSection>
+                                <EditableSection
+                                    title="Grade Level"
+                                    value={(user as IStudent).gradeLevel}
+                                    onEdit={(gradeLevel: number) =>
+                                        handleUpdateUser({
+                                            initialGradeLevel: gradeLevel,
+                                            initialSchoolYear: currentSchoolYear,
+                                        })
+                                    }
+                                    InputButtonProps={{
+                                        renderInput: (value, setValue) => (
+                                            <GradeLevelInput
+                                                value={value}
+                                                onChange={(e) =>
+                                                    setValue(e.target.value)
+                                                }
+                                            />
+                                        ),
+                                    }}
+                                ></EditableSection>
+                            </>
                         ) : null}
 
                         {user.role === EUserRoles.INSTRUCTOR ? (
