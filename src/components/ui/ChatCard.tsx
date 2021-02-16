@@ -1,4 +1,4 @@
-import { IChat } from "../../utils/types";
+import { EChatTypes, IChat } from "../../utils/types";
 import Avatar from "@material-ui/core/Avatar";
 import { makeStyles } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
@@ -8,7 +8,10 @@ import Typography from "@material-ui/core/Typography";
 import formatDistance from "date-fns/formatDistance";
 import format from "date-fns/format";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import { useMemo } from "react";
+import { useFetchOnce } from "../../hooks/useFetchOnce";
+import { useContext } from "react";
+import AuthContext from "../contexts/AuthContext";
+import { userFetcher } from "../../utils/services";
 
 const useStyles = makeStyles({
     listItem: {
@@ -29,7 +32,22 @@ const ChatCard: React.FC<IChatCardProps> = ({
     isSelected,
 }) => {
     const classes = useStyles();
-    const lastUpdated = useMemo(() => new Date(chat.lastMessageSentAt), [chat]);
+    const lastUpdated = new Date(chat.lastMessageSentAt);
+    const { user } = useContext(AuthContext);
+
+    const otherUserId =
+        chat.type === EChatTypes.PRIVATE &&
+        chat.meta.users[
+            chat.meta.users.findIndex((userId) => userId !== user._id)
+        ];
+
+    const { data: contactedUser } = useFetchOnce(
+        otherUserId ? `/user/${otherUserId}` : null,
+        userFetcher(otherUserId)
+    );
+
+    const pictureUrl = contactedUser?.profilePictureUrl || chat.pictureUrl;
+
     return (
         <CardActionArea>
             <ListItem
@@ -38,7 +56,7 @@ const ChatCard: React.FC<IChatCardProps> = ({
                 className={classes.listItem}
             >
                 <ListItemIcon>
-                    <Avatar src={chat.pictureUrl} alt="chat picture" />
+                    <Avatar src={pictureUrl} alt="chat picture" />
                 </ListItemIcon>
                 <ListItemText>
                     {" "}
