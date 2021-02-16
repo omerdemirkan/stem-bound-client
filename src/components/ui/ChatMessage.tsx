@@ -44,6 +44,20 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
             </div>
         );
 
+    function handleConfirmEditClicked() {
+        if (editValue !== chatMessage.text)
+            onEdit({
+                ...chatMessage,
+                text: editValue,
+            });
+        setIsBeingEdited(false);
+    }
+
+    function handleCancelEditClicked() {
+        setEditValue(chatMessage.text);
+        setIsBeingEdited(false);
+    }
+
     if (isBeingEdited)
         return (
             <OutlinedInput
@@ -53,7 +67,7 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
                     <InputAdornment position="end" component="div">
                         <Tooltip
                             title="Cancel message edit"
-                            onClick={() => setIsBeingEdited(false)}
+                            onClick={handleCancelEditClicked}
                         >
                             <IconButton
                                 size="small"
@@ -67,14 +81,7 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
                             <IconButton
                                 size="small"
                                 color="primary"
-                                onClick={function () {
-                                    if (editValue !== chatMessage.text)
-                                        onEdit({
-                                            ...chatMessage,
-                                            text: editValue,
-                                        });
-                                    setIsBeingEdited(false);
-                                }}
+                                onClick={handleConfirmEditClicked}
                             >
                                 <CheckIcon />
                             </IconButton>

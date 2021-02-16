@@ -3,6 +3,7 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import Section from "./Section";
 import ChatCard from "./ChatCard";
+import { Fragment } from "react";
 
 export interface IChatListProps {
     chats: IChat[];
@@ -34,14 +35,14 @@ const ChatList: React.FC<IChatListProps> = ({
                 }
             >
                 {chats?.map((chat, index) => (
-                    <div key={chat._id}>
+                    <Fragment key={chat._id}>
                         <ChatCard
                             chat={chat}
                             handleInspect={handleInspectChat}
                             isSelected={inspectedChatId === chat._id}
                         />
                         {index !== chats.length - 1 && <Divider light />}
-                    </div>
+                    </Fragment>
                 ))}
             </Section>
         </List>

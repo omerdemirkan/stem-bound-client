@@ -13,7 +13,7 @@ import ChatMessageGroup from "./ChatMessageGroup";
 import InvertScroll from "../util/InvertScroll";
 import PictureMessage from "./PictureMessage";
 import EmptyInboxSVG from "../svg/illustrations/empty-inbox";
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { isSameDay } from "date-fns";
 import { SectionHeader } from "./SectionHeader";
@@ -57,10 +57,9 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
                 </Typography>
             ) : null}
             {chatMessageGroups?.map((chatMessageGroup, index) => (
-                <>
+                <Fragment key={chatMessageGroup.messages[0]._id}>
                     <ChatMessageGroup
                         chatMessageGroup={chatMessageGroup}
-                        key={chatMessageGroup.messages[0]._id}
                         {...chatMessageHandlers}
                     />
                     {(index < chatMessageGroups.length - 1 &&
@@ -81,7 +80,7 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
                             />
                         </div>
                     ) : null}
-                </>
+                </Fragment>
             ))}
             {!loading && !chatMessages?.length && (
                 <PictureMessage

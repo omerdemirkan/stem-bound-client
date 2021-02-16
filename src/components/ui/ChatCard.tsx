@@ -42,11 +42,12 @@ const ChatCard: React.FC<IChatCardProps> = ({
         ];
 
     const { data: contactedUser } = useFetchOnce(
-        otherUserId ? `/user/${otherUserId}` : null,
+        otherUserId && !chat.pictureUrl ? `/user/${otherUserId}` : null,
         userFetcher(otherUserId)
     );
 
-    const pictureUrl = contactedUser?.profilePictureUrl || chat.pictureUrl;
+    const chatPictureUrl = chat.pictureUrl || contactedUser?.profilePictureUrl,
+        chatName = chat.name || contactedUser?.fullName;
 
     return (
         <CardActionArea>
@@ -56,11 +57,11 @@ const ChatCard: React.FC<IChatCardProps> = ({
                 className={classes.listItem}
             >
                 <ListItemIcon>
-                    <Avatar src={pictureUrl} alt="chat picture" />
+                    <Avatar src={chatPictureUrl} alt="chat picture" />
                 </ListItemIcon>
                 <ListItemText>
                     {" "}
-                    <Typography color="textPrimary">{chat.name}</Typography>
+                    <Typography color="textPrimary">{chatName}</Typography>
                 </ListItemText>
                 {lastUpdated ? (
                     <Typography color="textSecondary" align="right">
