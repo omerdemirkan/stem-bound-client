@@ -13,20 +13,31 @@ const ActionBar: React.FC<IActionBarProps> = ({ children, float, startEl }) => {
 
             <style jsx>{`
                 .root {
-                    display: flex;
-                    justify-content: ${float === "left"
-                        ? "flex-start"
-                        : "space-between"};
-                    align-items: center;
                     padding: 10px 0 15px;
-                    flex-wrap: wrap;
                 }
-                .main-container > * {
-                    margin: 0 10px !important;
-                    text-align: end;
+                @media (min-width: 901px) {
+                    .root {
+                        display: flex;
+                        justify-content: ${float === "left"
+                            ? "flex-start"
+                            : "space-between"};
+                        align-items: center;
+                        flex-wrap: wrap;
+                    }
+                    .main-container > * {
+                        margin: 0 10px !important;
+                        text-align: end;
+                    }
+                    .start-container > * {
+                        margin-right: 10px !important;
+                    }
                 }
-                .start-container > * {
-                    margin-right: 10px !important;
+                @media (max-width: 900px) {
+                    .root {
+                        display: grid;
+                        grid-template-columns: 100%;
+                        grid-gap: 15px;
+                    }
                 }
             `}</style>
         </>

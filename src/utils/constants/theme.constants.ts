@@ -31,7 +31,7 @@ export const lightTheme = createMuiTheme({
             dark: "#B0B200",
         },
         text: {
-            primary: "#191919",
+            primary: "#212121",
             secondary: "#282828",
         },
     },
@@ -69,7 +69,7 @@ export const darkTheme = createMuiTheme({
             secondary: "#CACACA",
         },
         background: {
-            default: "#191919",
+            default: "#212121",
             paper: "#282828",
         },
     },

@@ -5,11 +5,9 @@ import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import withUserCoordinates from "../hoc/withUserCoordinates";
 import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import { useContext, useEffect, useState } from "react";
+import { makeStyles, useMediaQuery } from "@material-ui/core";
+import { useEffect, useState } from "react";
 import useDebounce from "../../hooks/useDebounce";
-import AuthContext from "../contexts/AuthContext";
 
 const useStyles = makeStyles({
     paper: {
@@ -29,6 +27,7 @@ const SearchQueryInput: React.FC<
 > = ({ value, onSearchQueryChanged, noPaper, searchTextDebounceMs }) => {
     const classes = useStyles();
     const [searchText, setSearchText] = useState<string>("");
+    const smallScreen = useMediaQuery("(max-width: 900px)");
     const debouncedSearchText = useDebounce(
         searchText,
         searchTextDebounceMs || 800
@@ -51,6 +50,7 @@ const SearchQueryInput: React.FC<
             <Select
                 labelId="Search Fields"
                 value={value.searchField}
+                fullWidth={smallScreen}
                 onChange={(e) =>
                     // @ts-ignore
                     onSearchQueryChanged({ searchField: e.target.value })
@@ -67,6 +67,8 @@ const SearchQueryInput: React.FC<
             </Select>
             <TextField
                 value={searchText}
+                fullWidth={smallScreen}
+                margin={smallScreen ? "normal" : undefined}
                 onChange={(e) => setSearchText(e.target.value)}
                 name="text"
                 placeholder="Search"
