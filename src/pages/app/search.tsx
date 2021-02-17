@@ -7,16 +7,26 @@ import useSWR from "swr";
 import { searchDataFetcher } from "../../utils/services";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { getDefaultSearchField, isSearchField } from "../../utils/helpers";
-import { ISearchQuery, IWithAuthProps } from "../../utils/types";
+import {
+    getClientQueryParams,
+    getDefaultSearchField,
+    isSearchField,
+} from "../../utils/helpers";
+import { ESearchFields, ISearchQuery, IWithAuthProps } from "../../utils/types";
 import ContactUserButton from "../../components/util/ContactUserButton";
+import useQueryState from "../../hooks/useQueryState";
 
 const SearchAppPage: React.FC<IWithAuthProps> = () => {
     const router = useRouter();
     const { user } = useContext(AuthContext);
+    const [searchField, setSearchField] = useQueryState<ESearchFields>(
+        "search-field",
+        getClientQueryParams()["search-field"] ||
+            getDefaultSearchField(user.role)
+    );
 
     const [searchQuery, setSearchQuery] = useState<ISearchQuery>({
-        searchField: getDefaultSearchField(user.role),
+        searchField,
     });
 
     const { data: searchData, isValidating: loading } = useSWR(
@@ -38,8 +48,13 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
                 !isSearchField(searchQuery.searchField)
             )
                 router.push("/app/dashboard");
+            else if (
+                isSearchField(searchQuery.searchField) &&
+                searchField !== searchQuery.searchField
+            )
+                setSearchField(searchQuery.searchField);
         },
-        [searchQuery]
+        [searchQuery.searchField]
     );
 
     return (
