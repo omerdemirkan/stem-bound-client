@@ -1,7 +1,4 @@
-import ListSubheader from "@material-ui/core/ListSubheader";
-import Divider from "@material-ui/core/Divider";
 import Box, { BoxProps } from "@material-ui/core/Box";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import { Size } from "../../utils/types";
@@ -25,30 +22,15 @@ function getBoxPadding(spacing: Size, options: { noDivider?: boolean } = {}) {
     if (!spacing) return 12;
     switch (spacing) {
         case "xs":
-            return `${!options.noDivider ? 5 : 0}px 0 ${5}px`;
+            return `2px 0`;
         case "sm":
-            return `${!options.noDivider ? 8 : 0}px 0 ${8}px`;
+            return `6px 0`;
         case "md":
-            return `${!options.noDivider ? 12 : 0}px 0 ${12}px`;
+            return `10px 0`;
         case "lg":
-            return `${!options.noDivider ? 16 : 0}px 0 ${16}px`;
+            return `14px 0`;
         case "xl":
-            return `${!options.noDivider ? 22 : 0}px 0 ${22}px`;
-    }
-}
-
-function getListSubheaderLineHeight(spacing: Size) {
-    switch (spacing) {
-        case "xs":
-            return `35px`;
-        case "sm":
-            return `45px`;
-        case "md":
-            return `55px`;
-        case "lg":
-            return `65px`;
-        case "xl":
-            return `75px`;
+            return `20px 0`;
     }
 }
 
@@ -69,11 +51,7 @@ const Section: React.FC<ISectionProps> = ({
 }) => {
     spacing = spacing || "md";
     return (
-        <Box
-            padding={getBoxPadding(spacing, { noDivider })}
-            alignItems="center"
-            {...boxProps}
-        >
+        <Box alignItems="center" padding={getBoxPadding(spacing)} {...boxProps}>
             <SectionHeader
                 title={title}
                 actionEl={actionEl}

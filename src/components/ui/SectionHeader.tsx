@@ -14,17 +14,17 @@ interface ISectionHeaderProps {
 function getTitleMargin(spacing: Size) {
     switch (spacing) {
         case "xs":
-            return `6px 0 4px`;
+            return `4px 0`;
         case "sm":
-            return `8px 0 6px`;
+            return `9px 0`;
         case "md":
-            return `10px 0 8px`;
+            return `12px 0`;
         case "lg":
-            return `12px 0 10px`;
+            return `15px 0`;
         case "xl":
-            return `15px 0 12px`;
+            return `18px 0`;
         default:
-            return `10px 0 8px`;
+            return `12px 0`;
     }
 }
 

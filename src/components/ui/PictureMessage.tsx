@@ -50,9 +50,10 @@ const PictureMessage: React.FC<IPictureMessageProps> = ({
     footerEl,
     subMessage,
 }) => {
+    const pxLimit = mapSizeToWidth(size);
     return (
         <div className="root">
-            <Svg width="100%" height="100%" />
+            <Svg width={pxLimit} height={pxLimit} />
             <Typography
                 variant="h6"
                 color="textPrimary"
@@ -70,8 +71,9 @@ const PictureMessage: React.FC<IPictureMessageProps> = ({
             <style jsx>{`
                 div.root {
                     width: 95%;
-                    max-width: ${mapSizeToWidth(size)};
-                    margin: ${mapSizeToMargin(size)};
+                    max-width: 400px;
+                    margin: 25px auto;
+                    text-align: center;
                 }
             `}</style>
         </div>
