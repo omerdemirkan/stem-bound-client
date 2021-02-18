@@ -24,13 +24,11 @@ import { capitalizeWords } from "../../../../../utils/helpers";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
-    const nowRef = useRef<Date>();
-    nowRef.current = nowRef.current || new Date();
 
     const queryCourseId = router.query.id as string;
     const [queryType, setQueryType] = useQueryState<"upcoming" | "past">(
         "type",
-        "upcoming"
+        { defaultValue: "upcoming" }
     );
     const { data: course, error: fetchCourseError } = useSWR(
         queryCourseId && `/courses/${queryCourseId}`,
@@ -43,8 +41,8 @@ const MeetingsAppPage: React.FC = () => {
     } = useSWR(
         queryCourseId && `/courses/${queryCourseId}/meetings?type=${queryType}`,
         courseMeetingsFetcher(queryCourseId, {
-            after: queryType === "upcoming" ? nowRef.current : undefined,
-            before: queryType === "past" ? nowRef.current : undefined,
+            after: queryType === "upcoming" ? new Date() : undefined,
+            before: queryType === "past" ? new Date() : undefined,
         })
     );
     const { data: school } = useSWR(
@@ -67,7 +65,7 @@ const MeetingsAppPage: React.FC = () => {
             actionEl={
                 course?.meta.instructors.includes(user._id) ? (
                     <>
-                        {meetings?.length > 1 && (
+                        {meetings?.length > 0 && (
                             <Link
                                 href="/app/courses/[id]/meetings/update"
                                 as={`/app/courses/${course?._id}/meetings/update`}
@@ -119,7 +117,12 @@ const MeetingsAppPage: React.FC = () => {
                 <title>STEM-bound - {course?.title || "Course"}</title>
             </Head>
 
-            <Section noDivider title={`${capitalizeWords(queryType)} Meetings`}>
+            <Section
+                noDivider
+                title={`${
+                    queryType ? capitalizeWords(queryType) : ""
+                } Meetings`}
+            >
                 {!meetingsLoading && !meetings?.length && (
                     <PictureMessage
                         Svg={NoResultsSVG}

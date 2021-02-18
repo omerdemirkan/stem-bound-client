@@ -12,7 +12,9 @@ export function appendQueriesToUrl(url: string, queries: object = {}): string {
     return url;
 }
 
-export function getQueryParamsByString(query: string): any {
+export function getQueryParamsByString(
+    query: string
+): { [key: string]: string } {
     return query
         ? (/^[?#]/.test(query) ? query.slice(1) : query)
               .split("&")

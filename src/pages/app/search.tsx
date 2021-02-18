@@ -21,8 +21,11 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
     const { user } = useContext(AuthContext);
     const [searchField, setSearchField] = useQueryState<ESearchFields>(
         "search-field",
-        getClientQueryParams()["search-field"] ||
-            getDefaultSearchField(user.role)
+        {
+            defaultValue:
+                getClientQueryParams()["search-field"] ||
+                getDefaultSearchField(user.role),
+        }
     );
 
     const [searchQuery, setSearchQuery] = useState<ISearchQuery>({
