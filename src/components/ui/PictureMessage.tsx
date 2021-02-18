@@ -6,23 +6,23 @@ export interface IPictureMessageProps {
     message?: string;
     subMessage?: string;
     size?: Size;
-    footer?: any;
+    footerEl?: any;
 }
 
 function mapSizeToWidth(size: Size): string {
     switch (size) {
         case "xs":
-            return "200px";
+            return "100px";
         case "sm":
-            return "280px";
+            return "180px";
         case "md":
-            return "360px";
+            return "260px";
         case "lg":
-            return "440px";
+            return "340px";
         case "xl":
-            return "520px";
+            return "420px";
         default:
-            return "360px";
+            return "260px";
     }
 }
 
@@ -47,12 +47,12 @@ const PictureMessage: React.FC<IPictureMessageProps> = ({
     Svg,
     message,
     size,
-    footer,
+    footerEl,
     subMessage,
 }) => {
     return (
         <div className="root">
-            <Svg width="100%" />
+            <Svg width="100%" height="100%" />
             <Typography
                 variant="h6"
                 color="textPrimary"
@@ -66,7 +66,7 @@ const PictureMessage: React.FC<IPictureMessageProps> = ({
                     {subMessage}
                 </Typography>
             ) : null}
-            {footer ? <div>{footer}</div> : null}
+            {footerEl ? <div>{footerEl}</div> : null}
             <style jsx>{`
                 div.root {
                     width: 95%;
