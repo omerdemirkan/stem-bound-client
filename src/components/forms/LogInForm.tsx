@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { CardProps } from "@material-ui/core/Card";
 import LockIcon from "@material-ui/icons/Lock";
 import FormCard from "../ui/FormCard";
+import HidableTextField from "../util/HidableTextField";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -68,7 +69,7 @@ const LogInForm: React.FC<LogInFormProps> = ({
                     fullWidth
                     margin="normal"
                 />
-                <TextField
+                <HidableTextField
                     name="password"
                     type="password"
                     label="Password"

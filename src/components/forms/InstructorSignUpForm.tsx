@@ -10,6 +10,7 @@ import { fetchLocationInputOptions } from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
 import { ISignUpFormProps } from "./SignUpForm";
+import HidableTextField from "../util/HidableTextField";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -91,7 +92,7 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                     fullWidth
                     margin="normal"
                 />
-                <TextField
+                <HidableTextField
                     name="password"
                     type="password"
                     label="Password"

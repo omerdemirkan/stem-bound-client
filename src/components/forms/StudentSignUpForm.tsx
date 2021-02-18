@@ -14,6 +14,7 @@ import ChipInput from "../util/ChipInput";
 import { ISignUpFormProps } from "./SignUpForm";
 import { makeStyles } from "@material-ui/core";
 import GradeLevelInput from "../util/GradeLevelInput";
+import HidableTextField from "../util/HidableTextField";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -106,7 +107,7 @@ const StudentSignUpForm: React.FC<ISignUpFormProps> = ({
                     fullWidth
                     margin="normal"
                 />
-                <TextField
+                <HidableTextField
                     name="password"
                     type="password"
                     label="Password"
