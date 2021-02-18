@@ -15,7 +15,12 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useMessaging from "../../hooks/useMessaging";
 import PictureMessage from "../../components/ui/PictureMessage";
 import EmptyInboxSVG from "../../components/svg/illustrations/empty-inbox";
-import { getDefaultSearchField, getUserDisplayRole } from "../../utils/helpers";
+import {
+    getDefaultSearchField,
+    getUserDisplayRole,
+    setLastInspectedChatId,
+    getLastInspectedChatId,
+} from "../../utils/helpers";
 import AuthContext from "../../components/contexts/AuthContext";
 import Link from "next/link";
 import useQueryState from "../../hooks/useQueryState";
@@ -57,6 +62,12 @@ const MessagingAppPage: React.FC = () => {
 
     const userIsTyping = textField && debouncedTextField !== textField;
 
+    useEffect(function () {
+        const lastInspectedChatId = getLastInspectedChatId();
+        if (!smallScreen && lastInspectedChatId && !chatId)
+            handleInspectChat(lastInspectedChatId);
+    }, []);
+
     useEffect(
         function () {
             setUserIsTyping(userIsTyping);
@@ -75,6 +86,7 @@ const MessagingAppPage: React.FC = () => {
         setInspectedChatId(id);
         setChatId(id);
         setTextField("");
+        setLastInspectedChatId(id);
     }
 
     function handleEditMessage(updatedMessage: IChatMessage) {
@@ -179,7 +191,7 @@ const MessagingAppPage: React.FC = () => {
                         user.role
                     ).toLowerCase()}s on the search page.`}
                     size="lg"
-                    footer={
+                    footerEl={
                         <Link href="/app/search">
                             <a>
                                 <Button color="primary" fullWidth>

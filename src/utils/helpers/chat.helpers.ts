@@ -68,3 +68,17 @@ export function getChatMessageGroups(
     chatMessageGroups.reverse();
     return chatMessageGroups;
 }
+
+export function setLastInspectedChatId(chatId: string) {
+    try {
+        localStorage.setItem("last-inspected-chat", chatId);
+    } catch (e) {}
+}
+
+export function getLastInspectedChatId() {
+    try {
+        return localStorage.getItem("last-inspected-chat");
+    } catch (e) {
+        return null;
+    }
+}
