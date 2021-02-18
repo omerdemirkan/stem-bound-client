@@ -94,7 +94,7 @@ export default function useQueryState<T>(
     return [
         configureStateValue(
             router?.query[field] || getClientQueryParams()[field]
-        ),
+        ) || defaultValue,
         handleUpdateQuery,
     ];
 }
