@@ -14,7 +14,7 @@ const useStyles = makeStyles({
         textAlign: "end",
         opacity: 0.6,
         position: "relative",
-        bottom: "6px",
+        bottom: "8px",
     },
 });
 

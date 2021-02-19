@@ -3,12 +3,11 @@ import { useContext } from "react";
 import { makeStyles } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-import WordLogoSVG from "../svg/icons/word-logo";
 import AppNavigation from "./AppNavigation";
 import { IAppLayoutProps } from "./AppLayout";
 import ThemeContext from "../contexts/ThemeContext";
 import { paginateBreadCrumbs } from "../util/paginateBreadCrumbs";
-import WordLogoDarkModeSVG from "../svg/icons/word-logo-dark-mode";
+import Logo from "../ui/Logo";
 
 const useStyles = makeStyles({
     finePrint: {
@@ -36,13 +35,7 @@ const DesktopAppLayout: React.FC<IAppLayoutProps> = ({
     return (
         <div className={`root ${theme === ETheme.DARK ? "dark-theme" : null}`}>
             <aside className="sidebar">
-                <div className="logo-box">
-                    {theme === ETheme.DARK ? (
-                        <WordLogoDarkModeSVG />
-                    ) : (
-                        <WordLogoSVG />
-                    )}
-                </div>
+                <Logo theme={theme} type="word" beta padding="30px" />
 
                 <AppNavigation />
                 <Typography

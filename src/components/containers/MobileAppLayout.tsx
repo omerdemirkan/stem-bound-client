@@ -7,12 +7,11 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { useContext, useState } from "react";
 import AppNavigation from "./AppNavigation";
 import Drawer from "@material-ui/core/Drawer";
-import WordLogoSVG from "../svg/icons/word-logo";
 import useDimensions from "../../hooks/useDimensions";
 import { paginateBreadcrumbsMinified } from "../util/paginateBreadCrumbs";
 import ThemeContext from "../contexts/ThemeContext";
 import { ETheme } from "../../utils/types";
-import WordLogoDarkModeSVG from "../svg/icons/word-logo-dark-mode";
+import Logo from "../ui/Logo";
 
 const useStyles = makeStyles({
     toolBar: {
@@ -79,13 +78,13 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 className={classes.drawer}
             >
                 <div className="navigation-wrapper">
-                    <div className="logo-box">
-                        {theme === ETheme.DARK ? (
-                            <WordLogoDarkModeSVG />
-                        ) : (
-                            <WordLogoSVG />
-                        )}
-                    </div>
+                    <Logo
+                        theme={theme}
+                        type="word"
+                        width="180px"
+                        margin="auto"
+                        padding="20px 0"
+                    />
                     <AppNavigation />
                 </div>
             </Drawer>
@@ -112,14 +111,6 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 .root > main {
                     padding: 5vw 2vw;
                     height: 100%;
-                }
-                .logo-box {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 90px;
-                    padding: 0 40px;
-                    max-width: 250px;
                 }
                 .mobile-navigation-header {
                     padding: 3vw 5vw 3vw;
