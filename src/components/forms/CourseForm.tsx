@@ -52,6 +52,7 @@ const CourseForm: React.FC<ICourseFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
+                        minLength: { value: 4, message: "Too short!" },
                     })}
                     required
                     name="title"
@@ -61,10 +62,14 @@ const CourseForm: React.FC<ICourseFormProps> = ({
                     fullWidth
                     error={!!errors.title}
                     helperText={errors.title?.message}
+                    inputProps={{
+                        maxLength: 40,
+                    }}
                 />
                 <TextField
                     inputRef={register({
                         required: "Required",
+                        minLength: { value: 4, message: "Too short!" },
                     })}
                     required
                     name="shortDescription"
@@ -74,9 +79,14 @@ const CourseForm: React.FC<ICourseFormProps> = ({
                     fullWidth
                     error={!!errors.shortDescription}
                     helperText={errors.shortDescription?.message}
+                    inputProps={{
+                        maxLength: 100,
+                    }}
                 />
                 <TextField
-                    inputRef={register}
+                    inputRef={register({
+                        minLength: { value: 4, message: "Too short!" },
+                    })}
                     name="longDescription"
                     label="Long Description"
                     placeholder="In depth description (you can add this later)"
@@ -84,6 +94,9 @@ const CourseForm: React.FC<ICourseFormProps> = ({
                     fullWidth
                     error={!!errors.longDescription}
                     helperText={errors.longDescription?.message}
+                    inputProps={{
+                        maxLength: 2000,
+                    }}
                 />
 
                 <Controller

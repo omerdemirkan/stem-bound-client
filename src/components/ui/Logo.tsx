@@ -42,7 +42,11 @@ const Logo: React.FC<ILogoProps> = ({
     return (
         <Box component="div" {...boxProps}>
             <SvgComponent width="100%" height="auto" {...SvgProps} />
-            {beta && <Typography className={classes.beta}>BETA</Typography>}
+            {beta && (
+                <Typography color="textPrimary" className={classes.beta}>
+                    BETA
+                </Typography>
+            )}
         </Box>
     );
 };
