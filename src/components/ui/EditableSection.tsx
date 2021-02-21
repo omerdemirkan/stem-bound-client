@@ -48,12 +48,14 @@ const EditableSection: React.FC<IEditableSectionProps> = ({
                     initialValue={value}
                     renderInput={
                         renderInput ||
-                        ((value, setValue) => (
+                        ((value, setValue, { errorMessage }) => (
                             <TextField
                                 value={value}
                                 onChange={(e) => setValue(e.target.value)}
                                 fullWidth
                                 autoFocus
+                                error={!!errorMessage}
+                                helperText={errorMessage}
                                 {...TextFieldProps}
                             />
                         ))

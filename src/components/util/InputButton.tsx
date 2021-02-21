@@ -62,12 +62,14 @@ const InputButton: React.FC<IInputButtonProps> = ({
     const [errorMessage, setErrorMessage] = useState<string | null>();
 
     function handleSubmit() {
-        validators = validators || [];
-        if (minLength) validators.push(configureMinLengthValidator(minLength));
-        if (maxLength) validators.push(configureMaxLengthValidator(maxLength));
+        let submitValidators = validators || [];
+        if (minLength)
+            submitValidators.push(configureMinLengthValidator(minLength));
+        if (maxLength)
+            submitValidators.push(configureMaxLengthValidator(maxLength));
         const errorMessage = configureErrorMessageFromValidators(
             value,
-            validators
+            submitValidators
         );
         if (!errorMessage) {
             onSubmit(value);

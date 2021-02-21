@@ -63,7 +63,7 @@ const CourseForm: React.FC<ICourseFormProps> = ({
                     error={!!errors.title}
                     helperText={errors.title?.message}
                     inputProps={{
-                        maxLength: 40,
+                        maxLength: 50,
                     }}
                 />
                 <TextField

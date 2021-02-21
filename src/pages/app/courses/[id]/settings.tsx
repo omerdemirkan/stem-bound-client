@@ -114,6 +114,13 @@ const CourseSettingsAppPage: React.FC = () => {
                             onEdit={(title) => handleCourseUpdate({ title })}
                             value={course?.title}
                             TypographyProps={{ variant: "h5" }}
+                            InputButtonProps={{
+                                validators: [(title) => title.length],
+                                minLength: [4, "Too short!"],
+                            }}
+                            TextFieldProps={{
+                                inputProps: { maxLength: 50 },
+                            }}
                         />
                         <EditableSection
                             title="Short Description"

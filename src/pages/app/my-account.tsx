@@ -37,6 +37,7 @@ import Chip from "@material-ui/core/Chip";
 import CourseCard from "../../components/ui/CourseCard";
 import EditableSection from "../../components/ui/EditableSection";
 import GradeLevelInput from "../../components/util/GradeLevelInput";
+import RelativeGrid from "../../components/ui/RelativeGrid";
 
 const useStyles = makeStyles({
     avatar: {
@@ -307,13 +308,16 @@ const MyAccountAppPage: React.FC = () => {
                                     } any courses`
                                 }
                             >
-                                {courses?.map((course) => (
-                                    <CourseCard
-                                        course={course}
-                                        key={course?._id}
-                                        fullWidth
-                                    />
-                                ))}
+                                <RelativeGrid minWidthInPixels={400}>
+                                    {courses?.map((course) => (
+                                        <CourseCard
+                                            course={course}
+                                            key={course?._id}
+                                            fullWidth
+                                            noMargin
+                                        />
+                                    ))}
+                                </RelativeGrid>
                             </Section>
                         ) : null}
                     </>
