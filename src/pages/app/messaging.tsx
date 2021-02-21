@@ -24,6 +24,7 @@ import {
 import AuthContext from "../../components/contexts/AuthContext";
 import Link from "next/link";
 import useQueryState from "../../hooks/useQueryState";
+import ChatMessageInput from "../../components/util/ChatMessageInput";
 
 const MessagingAppPage: React.FC = () => {
     const [chatId, setChatId] = useQueryState<string>("id");
@@ -40,7 +41,6 @@ const MessagingAppPage: React.FC = () => {
         deleteMessage,
         restoreMessage,
         sendMessage,
-        setUserIsTyping,
         chatsLoading,
         usersTyping,
         setInspectedChatId,
@@ -54,26 +54,13 @@ const MessagingAppPage: React.FC = () => {
     } = useMessaging(chatId);
 
     const inspectedChat = chats?.find((chat) => chat._id === chatId);
-    const [textField, setTextField] = useState<string>("");
-
-    const debouncedTextField = useDebounce(textField, 3000);
 
     const smallScreen = useMediaQuery("(max-width: 1400px)");
 
-    const userIsTyping = textField && debouncedTextField !== textField;
-
     useEffect(function () {
-        const lastInspectedChatId = getLastInspectedChatId();
-        if (!smallScreen && lastInspectedChatId && !chatId)
-            handleInspectChat(lastInspectedChatId);
+        let initialChatId = chatId || getLastInspectedChatId();
+        if (!smallScreen && initialChatId) setChatId(initialChatId);
     }, []);
-
-    useEffect(
-        function () {
-            setUserIsTyping(userIsTyping);
-        },
-        [userIsTyping]
-    );
 
     useEffect(
         function () {
@@ -82,12 +69,13 @@ const MessagingAppPage: React.FC = () => {
         [contactUserId]
     );
 
-    function handleInspectChat(id: string) {
-        setInspectedChatId(id);
-        setChatId(id);
-        setTextField("");
-        setLastInspectedChatId(id);
-    }
+    useEffect(
+        function () {
+            if (!chatId) return;
+            setLastInspectedChatId(chatId);
+        },
+        [chatId]
+    );
 
     function handleEditMessage(updatedMessage: IChatMessage) {
         updateMessage({
@@ -95,14 +83,6 @@ const MessagingAppPage: React.FC = () => {
             messageId: updatedMessage._id,
             text: updatedMessage.text,
         });
-    }
-
-    function handleCreateMessage() {
-        sendMessage({
-            chatId,
-            text: textField,
-        });
-        setTextField("");
     }
 
     const breadCrumbs: IBreadCrumb[] = [
@@ -138,7 +118,7 @@ const MessagingAppPage: React.FC = () => {
     const chatList = (!smallScreen || !chatId) && (
         <ChatList
             chats={chats}
-            handleInspectChat={handleInspectChat}
+            handleInspectChat={setChatId}
             inspectedChatId={chatId as string}
             loading={chatsLoading}
             errorMessage={
@@ -151,28 +131,16 @@ const MessagingAppPage: React.FC = () => {
         <AppLayout
             breadCrumbs={breadCrumbs}
             footerEl={
-                chatId && (
-                    <TextField
-                        variant="outlined"
-                        autoFocus
-                        fullWidth
-                        multiline
-                        placeholder={`Message ${inspectedChat?.name}`}
-                        value={textField}
-                        onChange={(e) => setTextField(e.target.value)}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <Button
-                                        onClick={handleCreateMessage}
-                                        variant="contained"
-                                        color="primary"
-                                    >
-                                        Send
-                                    </Button>
-                                </InputAdornment>
-                            ),
-                        }}
+                inspectedChat && (
+                    <ChatMessageInput
+                        chatId={chatId}
+                        chatName={inspectedChat.name}
+                        onSendMessage={(text) =>
+                            sendMessage({
+                                chatId,
+                                text,
+                            })
+                        }
                     />
                 )
             }

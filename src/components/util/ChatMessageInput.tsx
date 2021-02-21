@@ -11,19 +11,21 @@ import useMessaging from "../../hooks/useMessaging";
 
 export type IChatMessageInput = TextFieldProps & {
     initialValue?: string;
-    chat: IChat;
+    chatId: string;
+    chatName: string;
     onSendMessage(value: string): any;
 };
 
 export const ChatMessageInput: React.FC<IChatMessageInput> = ({
     initialValue,
-    chat,
+    chatId,
     onSendMessage,
+    chatName,
     ...textFieldProps
 }) => {
     const chatsCache = useCalculateOnce(getChatsCache);
     const [textField, setTextField] = useState<string>(
-        chatsCache[chat._id].textField || ""
+        chatsCache[chatId]?.textField || ""
     );
     const { setUserIsTyping } = useMessaging();
 
@@ -38,21 +40,30 @@ export const ChatMessageInput: React.FC<IChatMessageInput> = ({
 
     useEffect(
         function () {
+            setTextField(chatsCache[chatId]?.textField || "");
+        },
+        [chatId]
+    );
+
+    useEffect(
+        function () {
             setUserIsTyping(userIsTyping);
         },
         [userIsTyping]
     );
 
     function handleSendClicked() {
-        onSendMessage(textField);
-        handleUpdateTextField("");
+        if (textField.length > 0) {
+            onSendMessage(textField);
+            handleUpdateTextField("");
+        }
     }
 
     function handleUpdateTextField(e: any) {
         let value: string = typeof e === "string" ? e : e.target.value;
         setTextField(value);
-        if (chatsCache[chat._id]) chatsCache[chat._id].textField = value;
-        else chatsCache[chat._id] = { textField: value };
+        if (chatsCache[chatId]) chatsCache[chatId].textField = value;
+        else chatsCache[chatId] = { textField: value };
     }
 
     return (
@@ -61,12 +72,18 @@ export const ChatMessageInput: React.FC<IChatMessageInput> = ({
             autoFocus
             fullWidth
             multiline
-            placeholder={`Message ${chat?.name}`}
+            placeholder={`Send a message to ${chatName}`}
             InputProps={{
                 endAdornment: (
                     <InputAdornment position="end" onClick={handleSendClicked}>
-                        <IconButton>
-                            <SendIcon color="primary" />
+                        <IconButton disabled={textField.length === 0}>
+                            <SendIcon
+                                color={
+                                    textField.length === 0
+                                        ? "disabled"
+                                        : "primary"
+                                }
+                            />
                         </IconButton>
                     </InputAdornment>
                 ),

@@ -121,3 +121,11 @@ export interface IFetchMessageArrayOptions {
     unread?: boolean;
     text?: string;
 }
+
+export interface IChatsCache {
+    [chatId: string]: IChatCache;
+}
+
+export interface IChatCache {
+    textField: string;
+}

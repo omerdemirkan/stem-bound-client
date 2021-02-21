@@ -115,7 +115,6 @@ const CourseSettingsAppPage: React.FC = () => {
                             value={course?.title}
                             TypographyProps={{ variant: "h5" }}
                             InputButtonProps={{
-                                validators: [(title) => title.length],
                                 minLength: [4, "Too short!"],
                             }}
                             TextFieldProps={{
@@ -129,7 +128,13 @@ const CourseSettingsAppPage: React.FC = () => {
                                 handleCourseUpdate({ shortDescription })
                             }
                             value={course?.shortDescription}
-                            TextFieldProps={{ multiline: true }}
+                            InputButtonProps={{
+                                minLength: [4, "Too short!"],
+                            }}
+                            TextFieldProps={{
+                                multiline: true,
+                                inputProps: { maxLength: 100 },
+                            }}
                         />
                         <EditableSection
                             title="Long Description"
@@ -138,7 +143,13 @@ const CourseSettingsAppPage: React.FC = () => {
                                 handleCourseUpdate({ longDescription })
                             }
                             value={course?.longDescription}
-                            TextFieldProps={{ multiline: true }}
+                            InputButtonProps={{
+                                minLength: [4, "Too short!"],
+                            }}
+                            TextFieldProps={{
+                                multiline: true,
+                                inputProps: { maxLength: 2000 },
+                            }}
                         />
                         <Section
                             title="Verification Status"

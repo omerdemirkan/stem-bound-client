@@ -7,11 +7,11 @@ import {
     IValidationAmount,
     IValidatorFunction,
 } from "../../utils/types/validation.types";
-import { defaultInputErrorMessage } from "../../utils/constants";
 import {
     configureErrorMessageFromValidators,
     configureMaxLengthValidator,
     configureMinLengthValidator,
+    configureValidationAmountDTO,
 } from "../../utils/helpers";
 
 export type IInputRenderFunction = (
@@ -61,7 +61,7 @@ const InputButton: React.FC<IInputButtonProps> = ({
     const [value, setValue] = useState<any>(initialValue);
     const [errorMessage, setErrorMessage] = useState<string | null>();
 
-    function handleSubmit() {
+    function handleSubmitClicked() {
         let submitValidators = validators || [];
         if (minLength)
             submitValidators.push(configureMinLengthValidator(minLength));
@@ -74,13 +74,15 @@ const InputButton: React.FC<IInputButtonProps> = ({
         if (!errorMessage) {
             onSubmit(value);
             setModalOpen(false);
+            setErrorMessage(null);
         } else {
             setErrorMessage(errorMessage);
         }
     }
 
-    function handleError(message?: string) {
-        setErrorMessage(message || defaultInputErrorMessage);
+    function handleCancelClicked() {
+        setModalOpen(false);
+        setErrorMessage(null);
     }
 
     function handleButtonClicked() {
@@ -135,14 +137,14 @@ const InputButton: React.FC<IInputButtonProps> = ({
                         ) : (
                             <>
                                 <Button
-                                    onClick={() => setModalOpen(false)}
+                                    onClick={handleCancelClicked}
                                     color="primary"
                                     variant="outlined"
                                 >
                                     Cancel
                                 </Button>
                                 <Button
-                                    onClick={handleSubmit}
+                                    onClick={handleSubmitClicked}
                                     color="primary"
                                     variant="contained"
                                     autoFocus

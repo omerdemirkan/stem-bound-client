@@ -6,6 +6,8 @@ import {
     IChatMessage,
     IChatMessageGroup,
     IUser,
+    IChatCache,
+    IChatsCache,
 } from "../types";
 
 export function mapMessageData(message: IChatMessageOriginal): IChatMessage {
@@ -81,4 +83,24 @@ export function getLastInspectedChatId() {
     } catch (e) {
         return null;
     }
+}
+
+export function getChatsCache(): IChatsCache {
+    try {
+        let json = localStorage.getItem("chat-cache");
+        if (json) {
+            return JSON.parse(localStorage.getItem("chat-cache"));
+        } else {
+            localStorage.setItem("chat-cache", "{}");
+            return {};
+        }
+    } catch (e) {
+        return null;
+    }
+}
+
+export function setChatsCache(chatsCache: IChatsCache) {
+    try {
+        localStorage.setItem("chat-cache", JSON.stringify(chatsCache));
+    } catch (e) {}
 }

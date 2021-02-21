@@ -4,7 +4,7 @@ import {
     IValidatorFunction,
 } from "../types/validation.types";
 
-function configureValidationAmount<T>(
+export function configureValidationAmountDTO<T>(
     validationAmount: IValidationAmount<T>
 ): { amount: T; message: string } {
     return Array.isArray(validationAmount)
@@ -21,29 +21,27 @@ function configureValidationAmount<T>(
 export function configureMinValidator<T>(
     validationAmount: IValidationAmount<T>
 ): IValidatorFunction<T> {
-    const { amount, message } = configureValidationAmount(validationAmount);
+    const { amount, message } = configureValidationAmountDTO(validationAmount);
     return (data: T) => (data < amount ? message : true);
 }
 
 export function configureMinLengthValidator<T>(
     validationAmount: IValidationAmount<T>
 ): IValidatorFunction<T> {
-    // @ts-ignore
-    return (data: T) => configureMinValidator(validationAmount)(data.length);
+    return (data: any) => configureMinValidator(validationAmount)(data.length);
 }
 
 export function configureMaxValidator<T>(
     validationAmount: IValidationAmount<T>
 ): IValidatorFunction<T> {
-    const { amount, message } = configureValidationAmount(validationAmount);
+    const { amount, message } = configureValidationAmountDTO(validationAmount);
     return (data: T) => (data > amount ? message : true);
 }
 
 export function configureMaxLengthValidator<T>(
     validationAmount: IValidationAmount<T>
 ): IValidatorFunction<T> {
-    // @ts-ignore
-    return (data: T) => configureMaxValidator(validationAmount)(data.length);
+    return (data: any) => configureMaxValidator(validationAmount)(data.length);
 }
 
 export function configureErrorMessageFromValidators<T>(
