@@ -3,6 +3,16 @@ import Button, { ButtonProps } from "@material-ui/core/Button";
 import Dialog, { DialogProps } from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
+import {
+    IValidationAmount,
+    IValidatorFunction,
+} from "../../utils/types/validation.types";
+import { defaultInputErrorMessage } from "../../utils/constants";
+import {
+    configureErrorMessageFromValidators,
+    configureMaxLengthValidator,
+    configureMinLengthValidator,
+} from "../../utils/helpers";
 
 export type IInputRenderFunction = (
     value: any,
@@ -10,6 +20,7 @@ export type IInputRenderFunction = (
     options?: {
         updateFields(value: any): void;
         handleChange(event: ChangeEvent<any>): void;
+        errorMessage: string;
     }
 ) => any;
 
@@ -27,6 +38,9 @@ export interface IInputButtonProps {
     disabled?: boolean;
     ButtonProps?: ButtonProps;
     DialogProps?: DialogProps;
+    validators?: IValidatorFunction<any>[];
+    minLength?: IValidationAmount<number>;
+    maxLength?: IValidationAmount<number>;
 }
 
 const InputButton: React.FC<IInputButtonProps> = ({
@@ -39,13 +53,32 @@ const InputButton: React.FC<IInputButtonProps> = ({
     renderActions,
     ButtonProps,
     DialogProps,
+    validators,
+    minLength,
+    maxLength,
 }) => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [value, setValue] = useState<any>(initialValue);
+    const [errorMessage, setErrorMessage] = useState<string | null>();
 
     function handleSubmit() {
-        onSubmit(value);
-        setModalOpen(false);
+        validators = validators || [];
+        if (minLength) validators.push(configureMinLengthValidator(minLength));
+        if (maxLength) validators.push(configureMaxLengthValidator(maxLength));
+        const errorMessage = configureErrorMessageFromValidators(
+            value,
+            validators
+        );
+        if (!errorMessage) {
+            onSubmit(value);
+            setModalOpen(false);
+        } else {
+            setErrorMessage(errorMessage);
+        }
+    }
+
+    function handleError(message?: string) {
+        setErrorMessage(message || defaultInputErrorMessage);
     }
 
     function handleButtonClicked() {
@@ -86,6 +119,7 @@ const InputButton: React.FC<IInputButtonProps> = ({
                         {renderInput(value, setValue, {
                             updateFields,
                             handleChange,
+                            errorMessage,
                         })}
                     </DialogContent>
                     <DialogActions>

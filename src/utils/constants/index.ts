@@ -5,6 +5,7 @@ export * from "./navigation.constants";
 export * from "./search.constants";
 export * from "./theme.constants";
 export * from "./user.constants";
+export * from "./validation.constants";
 
 // For build version:
 // export const API_BASE_URL = "https://stem-bound.uc.r.appspot.com/api"
