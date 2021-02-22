@@ -22,6 +22,7 @@ import NotificationContext from "./NotificationContext";
 
 const messagingContextInitialState: IMessagingContextState = {
     chats: [],
+    inspectedChat: null,
     usersTyping: [],
     messages: [],
     setUserIsTyping: (...args) => undefined,
@@ -81,71 +82,51 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         function (socket: SocketIOClient.Socket) {
             socket.on(
                 ESocketEvents.CHAT_USER_STARTED_TYPING,
-                function ({ user, chatId }) {
-                    handleUserStartedTyping(mapUserData(user), chatId);
-                }
+                ({ user, chatId }) =>
+                    handleUserStartedTyping(mapUserData(user), chatId)
             );
 
             socket.on(
                 ESocketEvents.CHAT_USER_STOPPED_TYPING,
-                function ({ user, chatId }) {
-                    handleUserStoppedTyping(mapUserData(user), chatId);
-                }
+                ({ user, chatId }) =>
+                    handleUserStoppedTyping(mapUserData(user), chatId)
             );
 
             socket.on(
                 ESocketEvents.CHAT_MESSAGE_CREATED,
-                function ({ message, chatId }) {
-                    handleMessageCreated(mapMessageData(message), chatId);
-                    mutateChats(function (prevChats) {
-                        let newChats = clone(prevChats || chats);
-                        const updatedChatIndex = newChats.findIndex(
-                            (chat) => chat._id === chatId
-                        );
-                        newChats[
-                            updatedChatIndex
-                        ].lastMessageSentAt = new Date().toString();
-                        newChats.sort(
-                            (a, b) =>
-                                new Date(b.lastMessageSentAt).getTime() -
-                                new Date(a.lastMessageSentAt).getTime()
-                        );
-                        return newChats;
-                    });
-                }
+                ({ message, chatId }) =>
+                    handleMessageCreated(mapMessageData(message), chatId)
             );
 
             socket.on(
                 ESocketEvents.CHAT_MESSAGE_UPDATED,
-                function ({ message, chatId }) {
-                    handleMessageUpdated(mapMessageData(message), chatId);
-                }
+                ({ message, chatId }) =>
+                    handleMessageUpdated(mapMessageData(message), chatId)
             );
 
             socket.on(
                 ESocketEvents.CHAT_MESSAGE_DELETED,
-                function ({ message, chatId }) {
-                    handleMessageUpdated(mapMessageData(message), chatId);
-                }
+                ({ message, chatId }) =>
+                    handleMessageUpdated(mapMessageData(message), chatId)
             );
 
             socket.on(
                 ESocketEvents.CHAT_MESSAGE_RESTORED,
-                function ({ message, chatId }) {
-                    handleMessageUpdated(mapMessageData(message), chatId);
-                }
+                ({ message, chatId }) =>
+                    handleMessageUpdated(mapMessageData(message), chatId)
             );
         },
         [inspectedChatId]
     );
+
     useEffect(
         function () {
-            if (socket && socket.connected)
+            if (chats?.length && socket?.connected)
                 chats?.forEach(function (chat) {
                     socket.emit(ESocketEvents.JOIN_ROOM, chat._id);
                 });
         },
-        [!!chats, socket?.connected]
+        [chats?.length && socket?.connected]
     );
 
     useEffect(
@@ -188,13 +169,24 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
             });
         mutate(
             `/chats/${chatId}/messages`,
-            (prevMessages) => {
-                const newMessages = clone(prevMessages || messages) || [];
-                newMessages.unshift(newMessage);
-                return newMessages;
-            },
+            (prevMessages) => [newMessage, ...prevMessages],
             false
         );
+        mutateChats(function (prevChats) {
+            let newChats = clone(prevChats || chats);
+            const updatedChatIndex = newChats.findIndex(
+                (chat) => chat._id === chatId
+            );
+            newChats[
+                updatedChatIndex
+            ].lastMessageSentAt = new Date().toString();
+            newChats.sort(
+                (a, b) =>
+                    new Date(b.lastMessageSentAt).getTime() -
+                    new Date(a.lastMessageSentAt).getTime()
+            );
+            return newChats;
+        });
     }
 
     function handleMessageUpdated(
@@ -217,27 +209,17 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
 
     function handleUserStartedTyping(typingUser: IUser, chatId: string) {
         if (user._id === typingUser._id) return;
-        setUsersTyping(function (prev) {
-            const newTypingUsers = clone(prev);
-            if (!newTypingUsers[chatId]) newTypingUsers[chatId] = [];
-            newTypingUsers[chatId].push(typingUser.fullName);
-            return newTypingUsers;
-        });
+        setUsersTyping((prev) => [...prev, typingUser.fullName]);
     }
 
     function handleUserStoppedTyping(typingUser: IUser, chatId: string) {
         if (user._id === typingUser._id) return;
-        setUsersTyping(function (prev) {
-            const newTypingUsers = clone(prev);
-            newTypingUsers[chatId] = newTypingUsers[chatId]?.filter(
-                (fullName) => fullName !== typingUser.fullName
-            );
-            return newTypingUsers;
-        });
+        setUsersTyping((prev) =>
+            prev.filter((fullName) => typingUser.fullName !== fullName)
+        );
     }
 
     async function contactUser(userId: string) {
-        console.log("contacting user");
         const { data: chat } = await createChat({
             meta: { users: [user._id, userId] },
             type: EChatTypes.PRIVATE,
@@ -270,6 +252,9 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 loadMoreMessages,
                 hasMoreMessages,
                 hasMoreChats,
+                inspectedChat: chats?.find(
+                    (chat) => chat._id === inspectedChatId
+                ),
             }}
         >
             {children}

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { IChat } from "../../utils/types";
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";

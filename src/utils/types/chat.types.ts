@@ -78,6 +78,7 @@ export interface IChatMessageEventHandlers {
 
 export interface IMessagingContextState {
     chats: IChat[];
+    inspectedChat: IChat;
     usersTyping: string[];
     messages: IChatMessage[];
     setUserIsTyping(isTyping: boolean): void;
