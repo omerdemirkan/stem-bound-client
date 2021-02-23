@@ -8,7 +8,11 @@ const HomePage: React.FC = function () {
                 <title>STEM-bound - Home</title>
             </Head>
             <h1>Home</h1>
-            <style jsx>{``}</style>
+            <style jsx>{`
+                h1 {
+                    color:red
+                }
+                `}</style>
         </StaticLayout>
     );
 };
