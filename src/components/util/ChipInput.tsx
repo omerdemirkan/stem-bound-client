@@ -1,6 +1,6 @@
 import { useState, LegacyRef } from "react";
 import CheckIcon from "@material-ui/icons/Check";
-import Chip, { ChipTypeMap } from "@material-ui/core/Chip";
+import Chip, { ChipProps } from "@material-ui/core/Chip";
 import IconButton from "@material-ui/core/IconButton";
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -9,26 +9,24 @@ interface IChipInputProps {
     value: string[];
     onChange(chips: string[]): void;
     TextFieldProps?: TextFieldProps;
-    ChipProps?: ChipTypeMap<{}, "div">;
     onBlur?(): void;
-    initialValues?: string[];
-    name?: string;
-    ref?: LegacyRef<HTMLInputElement>;
+    ChipProps?: ChipProps;
+    max?: number;
 }
 
 const ChipInput: React.FC<IChipInputProps> = ({
     value,
     onChange,
     onBlur,
-    name,
-    ref,
-    initialValues,
     TextFieldProps,
+    ChipProps,
+    max,
 }) => {
     const [textField, setTextField] = useState<string>("");
-
+    const canAddMore = typeof max === "number" && value.length === max;
     function handleCheckIconClicked() {
-        if (!textField.length || value.includes(textField)) return;
+        if (!textField.length || value.includes(textField) || !canAddMore)
+            return;
         onChange([...value, textField]);
         setTextField("");
     }
@@ -53,6 +51,7 @@ const ChipInput: React.FC<IChipInputProps> = ({
                         </InputAdornment>
                     ),
                 }}
+                disabled={!canAddMore}
             />
             {value?.map((chip, index) => (
                 <Chip
@@ -60,6 +59,7 @@ const ChipInput: React.FC<IChipInputProps> = ({
                     key={chip}
                     color="primary"
                     onDelete={() => onChange(value.filter((s) => s !== chip))}
+                    {...ChipProps}
                 />
             ))}
         </>
