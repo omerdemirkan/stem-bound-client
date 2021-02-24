@@ -16,7 +16,6 @@ const LocationInput: React.FC<ILocationInputProps> = ({
                 label: "Location",
                 placeholder: "e.g Northridge",
                 margin: "normal",
-                required: true,
                 ...asyncSelectProps?.TextFieldProps,
             }}
         />

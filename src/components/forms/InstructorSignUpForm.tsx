@@ -126,6 +126,7 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                             TextFieldProps={{
                                 error: errors.zip,
                                 helperText: errors.zip?.message,
+                                required: true,
                             }}
                         />
                     )}

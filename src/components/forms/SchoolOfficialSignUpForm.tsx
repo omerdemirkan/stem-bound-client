@@ -11,6 +11,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
 import { ISignUpFormProps } from "./SignUpForm";
 import HidableTextField from "../util/HidableTextField";
+import SchoolInput from "../util/SchoolInput";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -170,14 +171,9 @@ const SchoolOfficialSignUpForm: React.FC<ISignUpFormProps> = ({
                     rules={{ required: "Required" }}
                     defaultValue=""
                     render={(params) => (
-                        <AsyncSelect
+                        <SchoolInput
                             {...params}
-                            fetchOptions={fetchSchoolInputOptions}
                             TextFieldProps={{
-                                fullWidth: true,
-                                label: "School",
-                                placeholder: "e.g Reseda High School",
-                                margin: "normal",
                                 error: errors.schoolId,
                                 helperText: errors.schoolId?.message,
                                 required: true,
