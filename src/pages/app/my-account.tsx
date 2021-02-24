@@ -38,6 +38,7 @@ import CourseCard from "../../components/ui/CourseCard";
 import EditableSection from "../../components/ui/EditableSection";
 import GradeLevelInput from "../../components/util/GradeLevelInput";
 import RelativeGrid from "../../components/ui/RelativeGrid";
+import LocationInput from "../../components/util/LocationInput";
 
 const useStyles = makeStyles({
     avatar: {
@@ -143,19 +144,7 @@ const MyAccountAppPage: React.FC = () => {
                                     initialValue={user.location.zip}
                                     onSubmit={handleUpdateUserLocationByZip}
                                     renderInput={(value, setValue) => (
-                                        <AsyncSelect
-                                            TextFieldProps={{
-                                                fullWidth: true,
-                                                label: "Location",
-                                                placeholder: "e.g Reseda",
-                                                id: "location",
-                                            }}
-                                            delay={400}
-                                            onChange={setValue}
-                                            fetchOptions={
-                                                fetchLocationInputOptions
-                                            }
-                                        />
+                                        <LocationInput onChange={setValue} />
                                     )}
                                     ButtonProps={{
                                         color: "primary",

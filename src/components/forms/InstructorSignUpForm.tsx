@@ -11,6 +11,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
 import { ISignUpFormProps } from "./SignUpForm";
 import HidableTextField from "../util/HidableTextField";
+import LocationInput from "../util/LocationInput";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -54,7 +55,9 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
+                        minLength: 2,
                     })}
+                    inputProps={{ maxLength: 20 }}
                     required
                     name="firstName"
                     label="First Name"
@@ -67,7 +70,9 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
+                        minLength: 2,
                     })}
+                    inputProps={{ maxLength: 20 }}
                     required
                     name="lastName"
                     label="Last Name"
@@ -116,17 +121,11 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                     rules={{ required: "Required" }}
                     defaultValue=""
                     render={(params) => (
-                        <AsyncSelect
+                        <LocationInput
                             {...params}
-                            fetchOptions={fetchLocationInputOptions}
                             TextFieldProps={{
-                                fullWidth: true,
-                                label: "Location",
-                                placeholder: "e.g Northridge",
-                                margin: "normal",
                                 error: errors.zip,
                                 helperText: errors.zip?.message,
-                                required: true,
                             }}
                         />
                     )}
@@ -134,7 +133,9 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
+                        minLength: 4,
                     })}
+                    inputProps={{ maxLength: 60 }}
                     required
                     name="shortDescription"
                     label="Short Description"
@@ -146,7 +147,10 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                     multiline
                 />
                 <TextField
-                    inputRef={register}
+                    inputRef={register({
+                        minLength: 4,
+                    })}
+                    inputProps={{ maxLength: 2000 }}
                     name="longDescription"
                     label="Long Description (Optional)"
                     placeholder="Tell us about yourself!"

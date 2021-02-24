@@ -69,7 +69,9 @@ const StudentSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
+                        minLength: 2,
                     })}
+                    inputProps={{ maxLength: 20 }}
                     required
                     name="firstName"
                     label="First Name"
@@ -82,7 +84,9 @@ const StudentSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
+                        minLength: 2,
                     })}
+                    inputProps={{ maxLength: 20 }}
                     required
                     name="lastName"
                     label="Last Name"
@@ -129,12 +133,15 @@ const StudentSignUpForm: React.FC<ISignUpFormProps> = ({
                     name="initialGradeLevel"
                     control={control}
                     rules={{ required: "Required" }}
+                    required
                     render={(props) => <GradeLevelInput {...props} />}
                 />
                 <TextField
                     inputRef={register({
                         required: "Required",
+                        minLength: 4,
                     })}
+                    inputProps={{ maxLength: 60 }}
                     required
                     name="shortDescription"
                     label="Short Description"
@@ -146,7 +153,10 @@ const StudentSignUpForm: React.FC<ISignUpFormProps> = ({
                     multiline
                 />
                 <TextField
-                    inputRef={register}
+                    inputRef={register({
+                        minLength: 4,
+                    })}
+                    inputProps={{ maxLength: 2000 }}
                     name="longDescription"
                     label="Long Description (Optional)"
                     placeholder="Tell us about yourself, your school, or what you hope to find here!"
