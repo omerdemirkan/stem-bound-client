@@ -178,25 +178,23 @@ const StudentSignUpForm: React.FC<ISignUpFormProps> = ({
                 <Controller
                     name="interests"
                     control={control}
-                    rules={{
-                        validate: (values) =>
-                            values.length > 0 ||
-                            "At least one interest required",
-                        required: false,
-                    }}
                     defaultValue={[]}
                     render={(params) => (
                         <ChipInput
                             {...params}
                             TextFieldProps={{
                                 fullWidth: true,
-                                label: "Interests",
+                                label: "Interests (Optional)",
                                 placeholder: "e.g Chemistry, Programming, etc.",
                                 margin: "normal",
                                 error: errors.interests,
                                 helperText: errors.interests?.message,
-                                required: true,
+                                inputProps: { maxLength: 50 },
                             }}
+                            max={50}
+                            validate={(str) =>
+                                str.length <= 3 ? "Too short!" : true
+                            }
                         />
                     )}
                 />

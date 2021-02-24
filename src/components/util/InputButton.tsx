@@ -38,7 +38,7 @@ export interface IInputButtonProps {
     disabled?: boolean;
     ButtonProps?: ButtonProps;
     DialogProps?: DialogProps;
-    validators?: IValidatorFunction<any>[];
+    validate?: IValidatorFunction<any>[] | IValidatorFunction<any>;
     minLength?: IValidationAmount<number>;
     maxLength?: IValidationAmount<number>;
 }
@@ -53,7 +53,7 @@ const InputButton: React.FC<IInputButtonProps> = ({
     renderActions,
     ButtonProps,
     DialogProps,
-    validators,
+    validate,
     minLength,
     maxLength,
 }) => {
@@ -62,14 +62,13 @@ const InputButton: React.FC<IInputButtonProps> = ({
     const [errorMessage, setErrorMessage] = useState<string | null>();
 
     function handleSubmitClicked() {
-        let submitValidators = validators || [];
-        if (minLength)
-            submitValidators.push(configureMinLengthValidator(minLength));
-        if (maxLength)
-            submitValidators.push(configureMaxLengthValidator(maxLength));
+        validate = validate || [];
+        let validators = Array.isArray(validate) ? validate : [validate];
+        if (minLength) validators.push(configureMinLengthValidator(minLength));
+        if (maxLength) validators.push(configureMaxLengthValidator(maxLength));
         const errorMessage = configureErrorMessageFromValidators(
             value,
-            submitValidators
+            validators
         );
         if (!errorMessage) {
             onSubmit(value);

@@ -175,7 +175,12 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                                 error: errors.specialties,
                                 helperText: errors.specialties?.message,
                                 required: true,
+                                inputProps: { maxLength: 50 },
                             }}
+                            max={10}
+                            validate={(str) =>
+                                str.length <= 3 ? "Too short!" : true
+                            }
                         />
                     )}
                 />
