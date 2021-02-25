@@ -12,9 +12,6 @@ export interface IChatInterfaceProps {
 }
 
 const ChatInterface: React.FC<IChatInterfaceProps> = ({ chatId }) => {
-    const router = useRouter();
-    const contactUserId = router.query.contact as string;
-
     const {
         messages,
         updateMessage,
@@ -29,13 +26,6 @@ const ChatInterface: React.FC<IChatInterfaceProps> = ({ chatId }) => {
         hasMoreMessages,
         inspectedChat,
     } = useMessaging(chatId);
-
-    useEffect(
-        function () {
-            if (contactUserId) contactUser(contactUserId);
-        },
-        [contactUserId]
-    );
 
     useEffect(
         function () {

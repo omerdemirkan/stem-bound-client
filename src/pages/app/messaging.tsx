@@ -2,7 +2,7 @@ import AppLayout from "../../components/containers/AppLayout";
 import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
 import { IBreadCrumb } from "../../utils/types";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import ChatList from "../../components/ui/ChatList";
 import SplitScreen from "../../components/ui/SplitScreen";
@@ -15,15 +15,29 @@ import Link from "next/link";
 import useQueryState from "../../hooks/useQueryState";
 import ChatInterface from "../../components/containers/ChatInterface";
 import MessagingContext from "../../components/contexts/MessagingContext";
+import { useRouter } from "next/router";
 
 const MessagingAppPage: React.FC = () => {
+    const router = useRouter();
+    const contactUserId = router.query.contact as string;
     const [chatId, setChatId] = useQueryState<string>("id");
     const { user } = useContext(AuthContext);
-    const { chats, chatsLoading, chatsError, inspectedChat } = useContext(
-        MessagingContext
-    );
+    const {
+        chats,
+        chatsLoading,
+        chatsError,
+        inspectedChat,
+        contactUser,
+    } = useContext(MessagingContext);
 
     const smallScreen = useMediaQuery("(max-width: 1400px)");
+
+    useEffect(
+        function () {
+            if (contactUserId) contactUser(contactUserId);
+        },
+        [contactUserId]
+    );
 
     const breadCrumbs: IBreadCrumb[] = [
         { label: "Messaging", href: "/app/messaging", shallow: true },
