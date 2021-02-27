@@ -167,32 +167,30 @@ const MeetingsForm: React.FC<IMeetingsFormProps> = ({
 
     return (
         <>
-            <Section noDivider spacing="sm">
-                <Stepper activeStep={step} className={classes.stepper}>
+            <Stepper activeStep={step} className={classes.stepper}>
+                <Step>
+                    <StepLabel>Set meeting defaults</StepLabel>
+                </Step>
+                <Step>
+                    <StepLabel>Set meeting dates</StepLabel>
+                </Step>
+                <Step>
+                    <StepLabel>Edit meetings</StepLabel>
+                </Step>
+                {step === 2 ? (
                     <Step>
-                        <StepLabel>Set meeting defaults</StepLabel>
+                        <StepLabel>
+                            <Button
+                                onClick={handleSubmit}
+                                variant="contained"
+                                color="primary"
+                            >
+                                SUBMIT
+                            </Button>
+                        </StepLabel>
                     </Step>
-                    <Step>
-                        <StepLabel>Set meeting dates</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Edit meetings</StepLabel>
-                    </Step>
-                    {step === 2 ? (
-                        <Step>
-                            <StepLabel>
-                                <Button
-                                    onClick={handleSubmit}
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    SUBMIT
-                                </Button>
-                            </StepLabel>
-                        </Step>
-                    ) : null}
-                </Stepper>
-            </Section>
+                ) : null}
+            </Stepper>
 
             <Section noDivider>
                 {step < 2 ? (

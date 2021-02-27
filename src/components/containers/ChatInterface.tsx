@@ -1,7 +1,6 @@
 import withAuth from "../../components/hoc/withAuth";
 import { IChatMessage } from "../../utils/types";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
 import ChatMessageFeed from "../../components/ui/ChatMessageFeed";
 import useMessaging from "../../hooks/useMessaging";
 import { setLastInspectedChatId } from "../../utils/helpers";

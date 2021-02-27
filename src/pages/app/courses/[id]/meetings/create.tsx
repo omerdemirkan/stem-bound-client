@@ -77,24 +77,22 @@ const CreateMeetingAppPage: React.FC = () => {
             ]}
         >
             {course ? (
-                <Section noDivider>
-                    <MeetingsForm
-                        defaultMeetingType={
-                            course.type === ECourseTypes.REMOTE
-                                ? EMeetingTypes.REMOTE
-                                : EMeetingTypes.IN_PERSON
-                        }
-                        courseTitle={course?.title}
-                        schoolName={school?.name}
-                        courseType={course.type}
-                        onSubmit={handleSubmit}
-                        validateDate={function (date: Date) {
-                            return !previousMeetingsDatesHashTable[
-                                startOfDay(date).toString()
-                            ];
-                        }}
-                    />
-                </Section>
+                <MeetingsForm
+                    defaultMeetingType={
+                        course.type === ECourseTypes.REMOTE
+                            ? EMeetingTypes.REMOTE
+                            : EMeetingTypes.IN_PERSON
+                    }
+                    courseTitle={course?.title}
+                    schoolName={school?.name}
+                    courseType={course.type}
+                    onSubmit={handleSubmit}
+                    validateDate={function (date: Date) {
+                        return !previousMeetingsDatesHashTable[
+                            startOfDay(date).toString()
+                        ];
+                    }}
+                />
             ) : null}
         </AppLayout>
     );

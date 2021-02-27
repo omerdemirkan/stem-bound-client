@@ -36,7 +36,14 @@ const MeetingDefaultDataForm: React.FC<IMeetingDefaultDataFormProps> = ({
     onSubmit,
     withoutCard,
 }) => {
-    const { register, errors, control, setValue, handleSubmit } = useForm();
+    const {
+        register,
+        errors,
+        control,
+        setValue,
+        handleSubmit,
+        getValues,
+    } = useForm();
     const classes = useStyles();
     useEffect(function () {
         let startTime = new Date();
@@ -80,11 +87,19 @@ const MeetingDefaultDataForm: React.FC<IMeetingDefaultDataFormProps> = ({
                     name="end"
                     defaultValue={new Date()}
                     control={control}
+                    rules={{
+                        validate: (value) =>
+                            new Date(getValues().start) >= new Date(value)
+                                ? "Invalid timeframe"
+                                : true,
+                    }}
                     render={(params) => (
                         <TimePicker
                             label="Default End Time"
                             className={classes.defaultTimePicker}
                             margin="normal"
+                            helperText={errors.end?.message}
+                            error={errors.end}
                             {...params}
                         />
                     )}
