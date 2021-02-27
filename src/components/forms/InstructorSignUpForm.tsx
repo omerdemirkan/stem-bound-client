@@ -55,7 +55,7 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
-                        minLength: 2,
+                        minLength: { value: 2, message: "Too short!" },
                     })}
                     inputProps={{ maxLength: 20 }}
                     required
@@ -70,7 +70,7 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
-                        minLength: 2,
+                        minLength: { value: 2, message: "Too short!" },
                     })}
                     inputProps={{ maxLength: 20 }}
                     required
@@ -134,7 +134,7 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
-                        minLength: 4,
+                        minLength: { value: 4, message: "Too short!" },
                     })}
                     inputProps={{ maxLength: 60 }}
                     required
@@ -149,7 +149,7 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                 />
                 <TextField
                     inputRef={register({
-                        minLength: 4,
+                        minLength: { value: 4, message: "Too short!" },
                     })}
                     inputProps={{ maxLength: 2000 }}
                     name="longDescription"

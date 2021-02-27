@@ -12,6 +12,7 @@ import {
     fetchSchoolInputOptions,
 } from "../../utils/helpers";
 import AsyncSelect from "../util/AsyncSelect";
+import Alert from "@material-ui/lab/Alert";
 
 export interface ICourseFormProps {
     onSubmit(values: any): void;
@@ -47,6 +48,13 @@ const CourseForm: React.FC<ICourseFormProps> = ({
             {...CardProps}
             header="Create A New Course"
             Icon={LibraryBooksIcon}
+            headerEl={
+                <Alert severity="info">
+                    By clicking submit, you will not notify students or school
+                    officials. You may update these details, schedule course
+                    meetings, and invite other instructors before publishing it.
+                </Alert>
+            }
         >
             <form onSubmit={handleSubmit(onSubmitClicked)}>
                 <TextField

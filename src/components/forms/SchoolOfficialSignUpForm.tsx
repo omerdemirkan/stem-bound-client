@@ -63,7 +63,7 @@ const SchoolOfficialSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
-                        minLength: 2,
+                        minLength: { value: 2, message: "Too short!" },
                     })}
                     inputProps={{ maxLength: 20 }}
                     required
@@ -78,7 +78,7 @@ const SchoolOfficialSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
-                        minLength: 2,
+                        minLength: { value: 2, message: "Too short!" },
                     })}
                     inputProps={{ maxLength: 20 }}
                     required
@@ -126,7 +126,7 @@ const SchoolOfficialSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
-                        minLength: 4,
+                        minLength: { value: 4, message: "Too short!" },
                     })}
                     inputProps={{ maxLength: 60 }}
                     required
@@ -141,7 +141,7 @@ const SchoolOfficialSignUpForm: React.FC<ISignUpFormProps> = ({
                 />
                 <TextField
                     inputRef={register({
-                        minLength: 4,
+                        minLength: { value: 4, message: "Too short!" },
                     })}
                     inputProps={{ maxLength: 2000 }}
                     name="longDescription"
@@ -154,7 +154,9 @@ const SchoolOfficialSignUpForm: React.FC<ISignUpFormProps> = ({
                 <TextField
                     inputRef={register({
                         required: "Required",
+                        minLength: { value: 2, message: "Too short!" },
                     })}
+                    inputProps={{ maxLength: 100 }}
                     required
                     name="position"
                     label="Position/Job Description"
