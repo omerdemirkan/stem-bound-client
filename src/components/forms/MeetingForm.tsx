@@ -37,7 +37,7 @@ export interface IMeetingInputProps {
     defaultValues?: Partial<IMeetingOriginal>;
 }
 
-const MeetingInput: React.FC<IMeetingInputProps> = ({
+const MeetingForm: React.FC<IMeetingInputProps> = ({
     onSubmit,
     availableMeetingTypes,
     CardProps,
@@ -48,7 +48,7 @@ const MeetingInput: React.FC<IMeetingInputProps> = ({
     availableMeetingTypes =
         availableMeetingTypes || Object.values(EMeetingTypes);
 
-    const { register, errors, handleSubmit, control } = useForm({
+    const { register, errors, handleSubmit, control, getValues } = useForm({
         defaultValues,
     });
 
@@ -77,11 +77,20 @@ const MeetingInput: React.FC<IMeetingInputProps> = ({
                 <Controller
                     control={control}
                     name="end"
+                    rules={{
+                        validate: (value) =>
+                            new Date(getValues().start as any) >=
+                            new Date(value)
+                                ? "Invalid timeframe"
+                                : true,
+                    }}
                     render={(params) => (
                         <TimePicker
                             label="End"
                             className={classes.halfWidth}
                             margin="normal"
+                            error={!!errors.end}
+                            helperText={errors.end?.message}
                             {...params}
                         />
                     )}
@@ -145,4 +154,4 @@ const MeetingInput: React.FC<IMeetingInputProps> = ({
     );
 };
 
-export default MeetingInput;
+export default MeetingForm;
