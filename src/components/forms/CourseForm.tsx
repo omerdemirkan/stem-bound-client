@@ -50,9 +50,12 @@ const CourseForm: React.FC<ICourseFormProps> = ({
             Icon={LibraryBooksIcon}
             headerEl={
                 <Alert severity="info">
-                    By clicking submit, you will not notify students or school
-                    officials. You may update these details, schedule course
-                    meetings, and invite other instructors before publishing it.
+                    By clicking submit, you create a course private to you. You
+                    may update details, schedule course meetings, and invite
+                    other instructors before publishing it to school officials
+                    for verification. We highly encourage getting in touch with
+                    a school official at the school you intend on teaching a
+                    course beforehand.
                 </Alert>
             }
         >

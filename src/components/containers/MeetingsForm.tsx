@@ -1,4 +1,3 @@
-import MultipleDatesPicker from "@randex/material-ui-multiple-dates-picker";
 import MeetingInput from "../util/MeetingInput";
 import { useState, useEffect, useContext } from "react";
 import { clone, mapMeetingData } from "../../utils/helpers";
@@ -17,6 +16,7 @@ import Stepper from "@material-ui/core/Stepper";
 import MeetingDefaultDataForm from "../forms/MeetingDefaultDataForm";
 import NotificationContext from "../contexts/NotificationContext";
 import Section from "../ui/Section";
+import MultipleDatePicker from "../util/MultipleDatePicker";
 
 const useStyles = makeStyles({
     defaultTimePicker: {
@@ -166,8 +166,8 @@ const MeetingsForm: React.FC<IMeetingsFormProps> = ({
     }
 
     return (
-        <div>
-            <Section>
+        <>
+            <Section noDivider spacing="sm">
                 <Stepper activeStep={step} className={classes.stepper}>
                     <Step>
                         <StepLabel>Set meeting defaults</StepLabel>
@@ -194,7 +194,7 @@ const MeetingsForm: React.FC<IMeetingsFormProps> = ({
                 </Stepper>
             </Section>
 
-            <Section>
+            <Section noDivider>
                 {step < 2 ? (
                     <MeetingDefaultDataForm
                         onSubmit={handleDefaultDataSelected}
@@ -202,7 +202,7 @@ const MeetingsForm: React.FC<IMeetingsFormProps> = ({
                     />
                 ) : null}
 
-                <MultipleDatesPicker
+                <MultipleDatePicker
                     open={step === 1}
                     selectedDates={dates}
                     onCancel={() => setStep(0)}
@@ -221,7 +221,7 @@ const MeetingsForm: React.FC<IMeetingsFormProps> = ({
                         />
                     ))}
             </Section>
-        </div>
+        </>
     );
 };
 
