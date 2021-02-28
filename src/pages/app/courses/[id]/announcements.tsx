@@ -132,47 +132,49 @@ const AnnouncementsAppPage: React.FC = () => {
             <Head>
                 <title>STEM-bound - Announcements</title>
             </Head>
-            {!announcementsLoading && !announcements?.length && (
+            {!announcementsLoading && !announcements?.length ? (
                 <PictureMessage
                     Svg={NoResultsSVG}
                     size="sm"
                     message="No announcements found"
                 />
+            ) : (
+                <Section
+                    title="Published announcements"
+                    loading={announcementsLoading}
+                    infoMessage={
+                        announcements?.length === 0 &&
+                        !announcementsError &&
+                        "No announcements published"
+                    }
+                    errorMessage={
+                        !!announcementsError &&
+                        "Couldn't fetch published announcements, an error occured"
+                    }
+                    noDivider
+                >
+                    {announcements?.map((announcement) => (
+                        <CourseAnnouncement
+                            key={announcement._id}
+                            announcement={announcement}
+                            onDeleteAnnouncement={() =>
+                                createAlert({
+                                    headerText:
+                                        "Are you sure you want to delete this announcement?",
+                                    bodyText: "You cannot undo a deletion.",
+                                    type: ENotificationTypes.DANGER,
+                                    onOk: () =>
+                                        handleDeleteAnnouncement(
+                                            announcement._id
+                                        ),
+                                    onCancel: () => {},
+                                })
+                            }
+                            onEditAnnouncement={handleEditAnnouncement}
+                        />
+                    ))}
+                </Section>
             )}
-
-            <Section
-                title="Published announcements"
-                loading={announcementsLoading}
-                infoMessage={
-                    announcements?.length === 0 &&
-                    !announcementsError &&
-                    "No announcements published"
-                }
-                errorMessage={
-                    !!announcementsError &&
-                    "Couldn't fetch published announcements, an error occured"
-                }
-                noDivider
-            >
-                {announcements?.map((announcement) => (
-                    <CourseAnnouncement
-                        key={announcement._id}
-                        announcement={announcement}
-                        onDeleteAnnouncement={() =>
-                            createAlert({
-                                headerText:
-                                    "Are you sure you want to delete this announcement?",
-                                bodyText: "You cannot undo a deletion.",
-                                type: ENotificationTypes.DANGER,
-                                onOk: () =>
-                                    handleDeleteAnnouncement(announcement._id),
-                                onCancel: () => {},
-                            })
-                        }
-                        onEditAnnouncement={handleEditAnnouncement}
-                    />
-                ))}
-            </Section>
         </AppLayout>
     );
 };

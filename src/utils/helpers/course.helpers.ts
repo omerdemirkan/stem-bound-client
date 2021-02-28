@@ -143,7 +143,7 @@ export function configureCourseVerificationUpdateAlertDTO(
     switch (courseVerificationStatus) {
         case ECourseVerificationStatus.PENDING_VERIFICATION:
             alert.headerText = "Are you sure you want to publish this course?";
-            alert.bodyText = `"${course.title}" will be pending verification and ${schoolName} school officials will be notified to verify or dismiss this course.`;
+            alert.bodyText = `${schoolName} school officials will be notified to either verify or dismiss "${course.title}".`;
             break;
         case ECourseVerificationStatus.UNPUBLISHED:
             alert.headerText =

@@ -9,18 +9,29 @@ import SplitScreen from "../../components/ui/SplitScreen";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import PictureMessage from "../../components/ui/PictureMessage";
 import EmptyInboxSVG from "../../components/svg/illustrations/empty-inbox";
-import { getDefaultSearchField, getUserDisplayRole } from "../../utils/helpers";
+import {
+    getDefaultSearchField,
+    getLastInspectedChatId,
+    getUserDisplayRole,
+} from "../../utils/helpers";
 import AuthContext from "../../components/contexts/AuthContext";
 import Link from "next/link";
 import useQueryState from "../../hooks/useQueryState";
 import ChatInterface from "../../components/containers/ChatInterface";
 import MessagingContext from "../../components/contexts/MessagingContext";
 import { useRouter } from "next/router";
+import useCalculateOnce from "../../hooks/useCalculateOnce";
 
 const MessagingAppPage: React.FC = () => {
     const router = useRouter();
     const contactUserId = router.query.contact as string;
-    const [chatId, setChatId] = useQueryState<string>("id");
+    const smallScreen = useMediaQuery("(max-width: 1400px)");
+
+    const lastInspectedChatId = useCalculateOnce(getLastInspectedChatId);
+    const [chatId, setChatId] = useQueryState<string>("id", {
+        defaultValue: !smallScreen ? lastInspectedChatId : null,
+    });
+
     const { user } = useContext(AuthContext);
     const {
         chats,
@@ -29,8 +40,6 @@ const MessagingAppPage: React.FC = () => {
         inspectedChat,
         contactUser,
     } = useContext(MessagingContext);
-
-    const smallScreen = useMediaQuery("(max-width: 1400px)");
 
     useEffect(
         function () {
