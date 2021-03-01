@@ -78,7 +78,7 @@ const MessagingAppPage: React.FC = () => {
                 <title>{inspectedChat?.name || "STEM-bound"} - Messaging</title>
             </Head>
 
-            {!chats?.length && !chatsLoading && (
+            {!chats?.length && !chatsLoading ? (
                 <PictureMessage
                     Svg={EmptyInboxSVG}
                     message="Looks like you haven't contacted anyone"
@@ -87,7 +87,6 @@ const MessagingAppPage: React.FC = () => {
                     ).toLowerCase()}s or other ${getUserDisplayRole(
                         user.role
                     ).toLowerCase()}s on the search page.`}
-                    size="lg"
                     footerEl={
                         <Link href="/app/search">
                             <a>
@@ -98,9 +97,7 @@ const MessagingAppPage: React.FC = () => {
                         </Link>
                     }
                 />
-            )}
-
-            {smallScreen ? (
+            ) : smallScreen ? (
                 chatId ? (
                     chatInterface
                 ) : (

@@ -16,12 +16,14 @@ export interface ICourseAnnouncementProps {
         newAnnouncementText: string
     ) => any;
     onDeleteAnnouncement?: (announcementId: string) => any;
+    noMargin?: boolean;
 }
 
 const CourseAnnouncement: React.FC<ICourseAnnouncementProps> = ({
     announcement,
     onDeleteAnnouncement,
     onEditAnnouncement,
+    noMargin,
 }) => {
     const { user } = useContext(AuthContext);
     const userIsAuthorizedToEdit = user._id === announcement.meta.from;
@@ -30,6 +32,7 @@ const CourseAnnouncement: React.FC<ICourseAnnouncementProps> = ({
         <Alert
             severity="info"
             icon={<AnnouncementIcon />}
+            style={{ margin: noMargin ? "0px" : "10px 0" }}
             action={
                 <>
                     {userIsAuthorizedToEdit && onDeleteAnnouncement && (

@@ -17,6 +17,7 @@ import {
     ESearchFields,
     IChat,
     IChatMessage,
+    IFetchAnnouncementArrayOptions,
 } from "../types";
 import { fetchSearchData } from "./search.services";
 import {
@@ -106,8 +107,12 @@ export function messagesFetcherInfinite(
     };
 }
 
-export function announcementsFetcher(courseId: string) {
-    return async () => (await fetchAnnouncementsByCourseId(courseId)).data;
+export function announcementsFetcher(
+    courseId: string,
+    options?: IFetchAnnouncementArrayOptions
+) {
+    return async () =>
+        (await fetchAnnouncementsByCourseId(courseId, options)).data;
 }
 
 export function usersFetcher(

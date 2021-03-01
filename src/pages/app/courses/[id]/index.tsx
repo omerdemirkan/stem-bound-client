@@ -69,7 +69,7 @@ const CourseAppPage: React.FC = () => {
 
     const { data: announcements, isValidating: announcementsLoading } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}/announcements` : null,
-        announcementsFetcher(queryCourseId as string)
+        announcementsFetcher(queryCourseId as string, { limit: 3 })
     );
 
     const {
@@ -80,6 +80,7 @@ const CourseAppPage: React.FC = () => {
         queryCourseId ? `/courses/${queryCourseId}/meetings?upcoming` : null,
         courseMeetingsFetcher(queryCourseId as string, {
             after: new Date(),
+            limit: 3,
         })
     );
 

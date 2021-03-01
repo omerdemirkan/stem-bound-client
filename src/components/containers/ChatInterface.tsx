@@ -5,6 +5,8 @@ import ChatMessageFeed from "../../components/ui/ChatMessageFeed";
 import useMessaging from "../../hooks/useMessaging";
 import { setLastInspectedChatId } from "../../utils/helpers";
 import ChatMessageInput from "../../components/util/ChatMessageInput";
+import PictureMessage from "../ui/PictureMessage";
+import EmptyInboxSVG from "../svg/illustrations/empty-inbox";
 
 export interface IChatInterfaceProps {
     chatId: string;
