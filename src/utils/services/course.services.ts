@@ -175,10 +175,7 @@ export function deleteMeetingById({
     courseId: string;
     meetingId: string;
 }): Promise<IApiResponse<any>> {
-    return mapResponseData(
-        apiClient.delete(`/courses/${courseId}/meetings/${meetingId}`),
-        mapMeetingData
-    );
+    return apiClient.delete(`/courses/${courseId}/meetings/${meetingId}`);
 }
 
 export function fetchAnnouncementsByCourseId(
