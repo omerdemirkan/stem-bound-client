@@ -141,12 +141,11 @@ const MeetingsForm: React.FC<IMeetingsFormProps> = ({
 
     function handleMeetingChanged(newMeeting: IMeeting) {
         setMeetings((prev) => {
-            const newMeetings = [...prev];
-            newMeetings[
-                newMeetings.findIndex(
-                    (meeting) => meeting.dateKey === newMeeting.dateKey
-                )
-            ] = newMeeting;
+            const newMeetings = clone(prev);
+            const updatedMeetingIndex = newMeetings.findIndex(
+                (meeting) => meeting.dateKey === newMeeting.dateKey
+            );
+            newMeetings[updatedMeetingIndex] = mapMeetingData(newMeeting);
             return newMeetings;
         });
     }
@@ -164,6 +163,8 @@ const MeetingsForm: React.FC<IMeetingsFormProps> = ({
         });
         onSubmit(newMeetings);
     }
+
+    console.log(meetings);
 
     return (
         <>

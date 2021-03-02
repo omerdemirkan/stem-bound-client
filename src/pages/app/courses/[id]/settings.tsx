@@ -172,21 +172,6 @@ const CourseSettingsAppPage: React.FC = () => {
                                                 Publish Course
                                             </Button>
                                         )}
-                                    {user.role === EUserRoles.INSTRUCTOR &&
-                                        course?.verificationStatus ===
-                                            ECourseVerificationStatus.PENDING_VERIFICATION && (
-                                            <Button
-                                                color="primary"
-                                                size="small"
-                                                onClick={() =>
-                                                    handleUpdateCourseVerificationClicked(
-                                                        ECourseVerificationStatus.UNPUBLISHED
-                                                    )
-                                                }
-                                            >
-                                                Unpublish Course
-                                            </Button>
-                                        )}
                                 </>
                             }
                         >

@@ -169,7 +169,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
             });
         mutate(
             `/chats/${chatId}/messages`,
-            (prevMessages) => [newMessage, ...prevMessages],
+            (prevMessages) => [newMessage, ...(prevMessages || [])],
             false
         );
         mutateChats(function (prevChats) {

@@ -169,21 +169,7 @@ const CourseAppPage: React.FC = () => {
                         {user.role === EUserRoles.INSTRUCTOR &&
                         course?.verificationStatus ===
                             ECourseVerificationStatus.PENDING_VERIFICATION ? (
-                            <Alert
-                                severity="info"
-                                action={
-                                    <Button
-                                        color="primary"
-                                        onClick={() =>
-                                            handleUpdateCourseVerificationClicked(
-                                                ECourseVerificationStatus.UNPUBLISHED
-                                            )
-                                        }
-                                    >
-                                        Undo
-                                    </Button>
-                                }
-                            >
+                            <Alert severity="info">
                                 <AlertTitle>
                                     This course has been published
                                 </AlertTitle>
