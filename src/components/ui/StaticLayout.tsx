@@ -127,6 +127,7 @@ const StaticLayout: React.FC = ({ children }) => {
                     height: 127px;
                     background-color:#F8F8F8;
                     display: flex;
+                    flex-wrap:wrap-reverse;
                     justify-content: space-between;
                     text-align: center;
                     align-items: center;
@@ -134,6 +135,9 @@ const StaticLayout: React.FC = ({ children }) => {
                 .footer-info {
                     width: 50%;
                     display: flex;
+                }
+                .footer-info-container{
+                    display:flex;
                 }
                 .footer-text-container {
 
@@ -160,39 +164,41 @@ const StaticLayout: React.FC = ({ children }) => {
 
 
                     footer {
-                        height: 100vh;
-                        display: block;
+                        min-height: 100vh;
+                        height:fit-content;
                         align-items: center;
-                        position: relative;
+                        flex-wrap:wrap-reverse;
                         
                     }
                     .footer-contact {
                         display:block;
                         height: fit-content;
                         width: 100%;
+                        padding:5% 0;
+                        
 
                     }
                     .footer-info {
                         height: fit-content;
                         min-height: 25%;
-                        position: absolute;
-                        bottom: 0px;
-                        right: 0;
-                        left:0;
-                        width: auto;
+                        width: 100%;
+                        
                         
                     }
                     .footer-info-container {
-                        margin: 0 auto;
+                        margin: 0 ;
                         width: 100%;
-                        display: flex;
                         text-align: center;
                         justify-content: center;
+                        height:fit-content;
+
+
+                        
                         
                     }
                     
                     .footer-icon {
-                        margin: 0 auto 30% auto;
+                        margin: 0 auto 20% auto;
                         width: 100px;
                         height: auto;
                         
