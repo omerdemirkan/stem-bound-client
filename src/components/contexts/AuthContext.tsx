@@ -91,7 +91,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
             return { ok: true };
         } catch (e) {
             handleAuthFailure();
-            return Promise.reject(e.error);
+            return Promise.reject(e);
         }
     }
 

@@ -8,7 +8,7 @@ import { useEffect, useContext, useState } from "react";
 const LogInPage: React.FC = () => {
     const router = useRouter();
     const { authLoading, accessToken, logIn } = useContext(AuthContext);
-    const [error, setError] = useState<Error>();
+    const [errorMessage, setErrorMessage] = useState<string>();
 
     useEffect(
         function () {
@@ -23,7 +23,7 @@ const LogInPage: React.FC = () => {
         try {
             await logIn(values);
         } catch (e) {
-            setError(e);
+            setErrorMessage(e.message);
         }
     }
 
@@ -37,7 +37,7 @@ const LogInPage: React.FC = () => {
                 onSubmit={onSubmit}
                 loading={authLoading}
                 success={!!accessToken}
-                errorMessage={error?.message}
+                errorMessage={errorMessage}
                 CardProps={{ style: { margin: "15vh auto" } }}
             />
 
