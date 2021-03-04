@@ -2,6 +2,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider, { DividerProps } from "@material-ui/core/Divider";
 import { Size } from "../../utils/types";
 import Box from "@material-ui/core/Box";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 interface ISectionHeaderProps {
     title: string;
@@ -9,6 +10,7 @@ interface ISectionHeaderProps {
     actionEl?: any;
     noDivider?: boolean;
     DividerProps?: DividerProps;
+    loading?: boolean;
 }
 
 function getTitleMargin(spacing: Size) {
@@ -34,10 +36,16 @@ export const SectionHeader: React.FC<ISectionHeaderProps> = ({
     actionEl,
     noDivider,
     DividerProps,
+    loading,
 }) => {
     return (
         <>
-            {noDivider !== true && <Divider light {...DividerProps} />}
+            {noDivider !== true &&
+                (loading ? (
+                    <LinearProgress color="primary" />
+                ) : (
+                    <Divider light {...DividerProps} />
+                ))}
             <div
                 className="title-wrapper"
                 style={{ margin: getTitleMargin(spacing) }}

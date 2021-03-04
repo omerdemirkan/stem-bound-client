@@ -56,6 +56,7 @@ const Section: React.FC<ISectionProps> = ({
                 title={title}
                 actionEl={actionEl}
                 noDivider={noDivider}
+                loading={loading}
             />
 
             {children}
