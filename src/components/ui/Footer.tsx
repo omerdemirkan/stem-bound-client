@@ -36,7 +36,6 @@ const Footer = () => {
                 .footer-wrapper {
                     margin: 0;
                     
-                    
                     padding: 0 41px 0 83px;
                     height: 127px;
                     background-color:#F8F8F8;
@@ -52,6 +51,8 @@ const Footer = () => {
                 }
                 .footer-info-container{
                     display:flex;
+                    align-items: center;
+
                 }
                 .footer-text-container {
 
@@ -113,7 +114,7 @@ const Footer = () => {
                         line-height: 20px;
                     }
                     .footer-icon {
-                        margin: 0 auto 20% auto;
+                        margin: 0 auto 10% auto;
                         width: 100px;
                         height: auto;
                         
