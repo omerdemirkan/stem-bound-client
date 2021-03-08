@@ -1,18 +1,12 @@
-import { HTMLAttributes } from "react";
+import Box, { BoxProps } from "@material-ui/core/Box";
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
+export interface ICenterProps extends BoxProps {}
 
-const Center: React.FC<Props> = ({ children, ...divProps }) => {
+const Center: React.FC<ICenterProps> = ({ children, ...boxProps }) => {
     return (
-        <div
-            style={{
-                ...divProps.style,
-                display: "flex",
-                justifyContent: "center",
-            }}
-        >
+        <Box display="flex" justifyContent="center" {...boxProps}>
             {children}
-        </div>
+        </Box>
     );
 };
 

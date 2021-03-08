@@ -11,3 +11,7 @@
 .dark-theme .MuiAlert-standardError {
   background-color: var(--background-light) !important;
 }
+
+.MuiLinearProgress-root {
+  height: 2px !important;
+}

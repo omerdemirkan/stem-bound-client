@@ -4,7 +4,11 @@ import AuthContext from "../components/contexts/AuthContext";
 import { useEffect, useContext, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Typography from "@material-ui/core/Typography";
-import { LinearProgress, makeStyles } from "@material-ui/core";
+import {
+    CircularProgress,
+    LinearProgress,
+    makeStyles,
+} from "@material-ui/core";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -114,7 +118,7 @@ const SignUpPage: React.FC = () => {
                     />
                 </HidableDiv>
                 <HidableDiv visible={step === 2}>
-                    <Typography variant="h5" align="center">
+                    <Typography variant="h5" align="center" gutterBottom>
                         An email is being sent to{" "}
                         {requestBodyRef.current?.email}.
                     </Typography>
@@ -133,10 +137,12 @@ const SignUpPage: React.FC = () => {
                     </Center>
                 </HidableDiv>
                 <HidableDiv visible={step === 3}>
-                    <Typography variant="h5" align="center">
-                        Creating your account
+                    <Center marginBottom="40px">
+                        <CircularProgress color="primary" />
+                    </Center>
+                    <Typography variant="h5" align="center" gutterBottom>
+                        Creating your account, sit tight!
                     </Typography>
-                    <LinearProgress color="primary" />
                 </HidableDiv>
             </Section>
         </StaticLayout>
