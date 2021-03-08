@@ -4,7 +4,7 @@ import AuthContext from "../components/contexts/AuthContext";
 import { useEffect, useContext, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core";
+import { LinearProgress, makeStyles } from "@material-ui/core";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -36,6 +36,8 @@ const SignUpPage: React.FC = () => {
     );
     const requestBodyRef = useRef<Partial<IUserOriginal>>();
 
+    const signUpToken = router?.query.sign_up_token;
+
     useEffect(
         function () {
             if (accessToken) {
@@ -47,20 +49,18 @@ const SignUpPage: React.FC = () => {
 
     useEffect(
         function () {
-            if (
-                router?.query.sign_up_token &&
-                typeof router.query.sign_up_token === "string"
-            ) {
-                handleSignUp(router?.query.sign_up_token);
+            if (signUpToken && typeof signUpToken === "string") {
+                handleSignUp(signUpToken);
                 setStep(3);
             }
         },
-        [router.query.sign_up_token]
+        [!!signUpToken]
     );
 
     useEffect(
         function () {
             if (userRole && step === 0) setStep(1);
+            else if (!userRole && step !== 0) setStep(0);
         },
         [userRole]
     );
@@ -98,7 +98,7 @@ const SignUpPage: React.FC = () => {
             </Typography>
 
             <SignUpStepper activeStep={step} />
-            <Section spacing="xl" errorMessage={error?.message}>
+            <Section errorMessage={error?.message} noDivider>
                 <HidableDiv visible={step === 0}>
                     <UserRoleInput
                         onChange={function (userRole) {
@@ -131,6 +131,12 @@ const SignUpPage: React.FC = () => {
                             Resend Email
                         </Button>
                     </Center>
+                </HidableDiv>
+                <HidableDiv visible={step === 3}>
+                    <Typography variant="h5" align="center">
+                        Creating your account
+                    </Typography>
+                    <LinearProgress color="primary" />
                 </HidableDiv>
             </Section>
         </StaticLayout>
