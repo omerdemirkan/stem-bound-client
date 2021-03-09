@@ -22,6 +22,8 @@ const useStyles = makeStyles({
 const MobileNavbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const classes = useStyles();
+
+    const toggleMenu = () => setIsMenuOpen((prev) => !prev);
     return (
         <>
             <div className="mobile-navbar-wrapper">
@@ -30,10 +32,7 @@ const MobileNavbar = () => {
                         <WordLogoSVG height="60px" width="180px" />
                     </a>
                 </Link>
-                <IconButton
-                    color="primary"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                >
+                <IconButton color="primary" onClick={toggleMenu}>
                     <MenuIcon />
                 </IconButton>
 
@@ -48,7 +47,7 @@ const MobileNavbar = () => {
                                 <WordLogoSVG height="60px" width="180px" />
                             </a>
                         </Link>
-                        <IconButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                        <IconButton color="primary" onClick={toggleMenu}>
                             <CloseIcon />
                         </IconButton>
                     </div>
@@ -56,6 +55,7 @@ const MobileNavbar = () => {
                         <Link href="/our-team">
                             <a>
                                 <Button
+                                    onClick={toggleMenu}
                                     className={classes.navButton}
                                     fullWidth
                                     variant="text"
@@ -67,7 +67,11 @@ const MobileNavbar = () => {
                         <Divider />
                         <Link href={`/search?q=${EUserRoles.INSTRUCTOR}`}>
                             <a>
-                                <Button className={classes.navButton} fullWidth>
+                                <Button
+                                    onClick={toggleMenu}
+                                    className={classes.navButton}
+                                    fullWidth
+                                >
                                     search
                                 </Button>
                             </a>
@@ -75,7 +79,11 @@ const MobileNavbar = () => {
                         <Divider />
                         <Link href="/log-in">
                             <a>
-                                <Button className={classes.navButton} fullWidth>
+                                <Button
+                                    onClick={toggleMenu}
+                                    className={classes.navButton}
+                                    fullWidth
+                                >
                                     log in
                                 </Button>
                             </a>
@@ -83,25 +91,33 @@ const MobileNavbar = () => {
                         <Divider />
                         <Link href="/sign-up">
                             <a>
-                                <Button className={classes.navButton} fullWidth>
+                                <Button
+                                    onClick={toggleMenu}
+                                    className={classes.navButton}
+                                    fullWidth
+                                >
                                     sign up
                                 </Button>
                             </a>
                         </Link>
                         <Link href="/sign-up">
                             <Button
+                                onClick={toggleMenu}
                                 className={classes.highlightButton}
                                 fullWidth
-                                variant="contained"
+                                variant="outlined"
+                                color="primary"
                             >
                                 donate
                             </Button>
                         </Link>
                         <Link href="/sign-up">
                             <Button
+                                onClick={toggleMenu}
                                 className={classes.highlightButton}
                                 fullWidth
                                 variant="contained"
+                                color="primary"
                             >
                                 volunteer
                             </Button>
