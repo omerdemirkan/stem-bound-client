@@ -1,131 +1,147 @@
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import CloseIcon from '@material-ui/icons/Close';
-import { useEffect, useState } from "react";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
+import { useState } from "react";
 import Link from "next/link";
 import { EUserRoles } from "../../utils/types";
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
+import WordLogoSVG from "../svg/icons/word-logo";
+import Divider from "@material-ui/core/Divider";
+import { makeStyles } from "@material-ui/core";
 
+const useStyles = makeStyles({
+    navButton: {
+        paddingTop: "16px",
+        paddingBottom: "16px",
+    },
+    highlightButton: {
+        margin: "4px 0",
+    },
+});
 
-const MobileNavbar =()=> {
-
-
+const MobileNavbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    
+    const classes = useStyles();
     return (
-    <>
+        <>
+            <div className="mobile-navbar-wrapper">
+                <Link href="/">
+                    <a>
+                        <WordLogoSVG height="60px" width="180px" />
+                    </a>
+                </Link>
+                <IconButton
+                    color="primary"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                    <MenuIcon />
+                </IconButton>
 
-    <div className="mobile-navbar-wrapper">
-        <div className="toggle-btn-container">
-            <IconButton color="primary" onClick={()=> {
-                setIsMenuOpen(!isMenuOpen)
-            }}>
-                <MenuIcon/>
-            </IconButton>
-        </div>
-
-    
-            <div className={isMenuOpen? 'list-wrapper active': 'list-wrapper'}>
-                <ul>
-                    <li className="navigation-link-items">
-                        <Link href="/about">
-                            <a>about us</a>
-                        </Link>                    
-                    </li>
-                    <li className="navigation-link-items">
-                        <Link href="/our-team">
-                            <a>our team</a>
-                        </Link>                        
-                    </li>
-                    <li className="navigation-link-items">
-                        <Link href={`/search?q=${EUserRoles.INSTRUCTOR}`}>
-                            <a>search</a>
-                        </Link>                        
-                    </li>
-                    <li className="navigation-link-items">
-                        <Link href="/log-in">
-                            <a>log in</a>
-                        </Link>                        
-                    </li>
-                    <li className="navigation-link-items">
-                        <Link href="/sign-up">
-                            <a>sign up</a>
-                        </Link>                        
-                    </li>
-                    <li className="button-li">
-                        <Link href="/sign-up">
-                            <Button variant="contained"><p className="button-text">Donate</p></Button>
-                        </Link>                        
-                    </li>
-                    <li className="button-li">
-                        <Link href="/sign-up">
-                            <Button variant="contained"><p className="button-text">Volunteer</p></Button>
-                        </Link>                           
-                    </li>
-                    <li className="button-li">
-                        <IconButton onClick={()=> {
-                    setIsMenuOpen(!isMenuOpen)
-                }}>
-                            <CloseIcon style={{color: "white"}}/>
+                <div
+                    className={`list-wrapper ${
+                        isMenuOpen ? "active" : ""
+                    }`.trim()}
+                >
+                    <div className="mobile-navbar-wrapper">
+                        <Link href="/">
+                            <a>
+                                <WordLogoSVG height="60px" width="180px" />
+                            </a>
+                        </Link>
+                        <IconButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                            <CloseIcon />
                         </IconButton>
-                    </li>
+                    </div>
+                    <div className="list">
+                        <Link href="/our-team">
+                            <a>
+                                <Button
+                                    className={classes.navButton}
+                                    fullWidth
+                                    variant="text"
+                                >
+                                    our team
+                                </Button>
+                            </a>
+                        </Link>
+                        <Divider />
+                        <Link href={`/search?q=${EUserRoles.INSTRUCTOR}`}>
+                            <a>
+                                <Button className={classes.navButton} fullWidth>
+                                    search
+                                </Button>
+                            </a>
+                        </Link>
+                        <Divider />
+                        <Link href="/log-in">
+                            <a>
+                                <Button className={classes.navButton} fullWidth>
+                                    log in
+                                </Button>
+                            </a>
+                        </Link>
+                        <Divider />
+                        <Link href="/sign-up">
+                            <a>
+                                <Button className={classes.navButton} fullWidth>
+                                    sign up
+                                </Button>
+                            </a>
+                        </Link>
+                        <Link href="/sign-up">
+                            <Button
+                                className={classes.highlightButton}
+                                fullWidth
+                                variant="contained"
+                            >
+                                donate
+                            </Button>
+                        </Link>
+                        <Link href="/sign-up">
+                            <Button
+                                className={classes.highlightButton}
+                                fullWidth
+                                variant="contained"
+                            >
+                                volunteer
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
+            </div>
 
-                    
-                </ul>
-            </div>       
-    
+            <style jsx>{`
+                .mobile-navbar-wrapper {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0 35px 0 20px;
+                }
+                .list-wrapper {
+                    position: fixed;
+                    height: 100vh;
+                    width: 100vw;
+                    top: -100%;
+                    left: 0;
+                    background-color: white;
+                    z-index: 1000;
+                }
+                .list-wrapper.active {
+                    top: 0;
+                }
+                .list-wrapper ul {
+                    list-style-type: none;
+                }
+                .list {
+                    padding: 0 16px;
+                }
 
-    </div>
-    
-    
-    
-    <style jsx>
-        {`
-        
-        .list-wrapper {
-            position:fixed;
-            width:100%;
-            height:100%;
-            background: linear-gradient(184.54deg, #9D8DFE -42.58%, #5241BF 102.34%);
-            overflow: hidden;
-            display:flex;
-            align-items: center;
-            text-align:center;
-            right:0;
-            left:0;
-            top:-100%;  
-            transition: 850ms;
-            z-index:2000;
-        }
-        .list-wrapper.active {
-            top: 0;
-            transition: 850ms;
-            z-index:2000;
-
-        }
-        ul {
-            margin:0 auto;
-        }
-        li {
-            list-style-type:none;
-            color:white;
-            font-size: 30px;
-            font-weight:bold;
-            margin: 20% auto;
-        }
-        
-        .button-text {
-            margin: 0;
-            color: #5242B0;
-        }
-        
-        `}
-    </style>
-    </>
+                button {
+                    padding-top: 30px;
+                    padding-bottom: 30px;
+                }
+            `}</style>
+        </>
     );
-}
-
-
+};
 
 export default MobileNavbar;
