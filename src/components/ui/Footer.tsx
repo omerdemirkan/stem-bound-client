@@ -1,3 +1,4 @@
+import Typography from '@material-ui/core/Typography';
 
 
 
@@ -13,10 +14,10 @@ const Footer = () => {
                             <div className="footer-info-container">
                                 <img id="footer-logo" src="footer-logo.svg" alt=""/>
                                 <div className="footer-text-container">
-                                    
-                                    <p className="footer-text">
-                                    {`© Stem-bound ${new Date().getFullYear()} ALL RIGHTS RESEVERED`}
-                                    </p>                        
+                                    <Typography component="p">
+                                        {`© Stem-bound ${new Date().getFullYear()} ALL RIGHTS RESEVERED`}
+                                    </Typography>
+                                           
                                 </div>                        
                             </div>
 
@@ -111,9 +112,7 @@ const Footer = () => {
                         
                         
                     }
-                    .footer-text {
-                        line-height: 20px;
-                    }
+                    
                     .footer-icon {
                         margin: 0 auto 10% auto;
                         width: 100px;

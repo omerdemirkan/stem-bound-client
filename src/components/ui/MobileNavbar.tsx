@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { EUserRoles } from "../../utils/types";
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 
 const MobileNavbar =()=> {
@@ -30,27 +31,38 @@ const MobileNavbar =()=> {
                 <ul>
                     <li className="navigation-link-items">
                         <Link href="/about">
-                            <a>about us</a>
+                            <Typography variant="h4" component="a">
+                            about us
+                            </Typography>
                         </Link>                    
                     </li>
                     <li className="navigation-link-items">
                         <Link href="/our-team">
-                            <a>our team</a>
+                            <Typography variant="h4" component="a">
+                                our team
+                            </Typography>
                         </Link>                        
                     </li>
                     <li className="navigation-link-items">
                         <Link href={`/search?q=${EUserRoles.INSTRUCTOR}`}>
-                            <a>search</a>
+                            <Typography variant="h4" component="a">
+                                search
+                            </Typography>
+                            
                         </Link>                        
                     </li>
                     <li className="navigation-link-items">
                         <Link href="/log-in">
-                            <a>log in</a>
+                            <Typography variant="h4" component="a">
+                                log in
+                            </Typography>
                         </Link>                        
                     </li>
                     <li className="navigation-link-items">
                         <Link href="/sign-up">
-                            <a>sign up</a>
+                            <Typography variant="h4" component="a">
+                                sing up
+                            </Typography>
                         </Link>                        
                     </li>
                     <li className="button-li">
