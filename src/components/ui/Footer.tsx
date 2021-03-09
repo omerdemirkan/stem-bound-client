@@ -36,6 +36,7 @@ const Footer = () => {
                 .footer-wrapper {
                     margin: 0;
                     
+                    
                     padding: 0 41px 0 83px;
                     height: 127px;
                     background-color:#F8F8F8;

@@ -12,51 +12,6 @@ const StaticLayout: React.FC = ({ children }) => {
             <Navbar />
                 {children}
 
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
-                <h1>sdkflaskdjfl</h1>
                 <Footer />
      
             </div>

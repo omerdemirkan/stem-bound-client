@@ -25,8 +25,8 @@ const MobileNavbar =()=> {
             </IconButton>
         </div>
 
-        {isMenuOpen?
-            <div className="list-wrapper">
+    
+            <div className={isMenuOpen? 'list-wrapper active': 'list-wrapper'}>
                 <ul>
                     <li className="navigation-link-items">
                         <Link href="/about">
@@ -73,8 +73,8 @@ const MobileNavbar =()=> {
 
                     
                 </ul>
-            </div>:null       
-    }
+            </div>       
+    
 
     </div>
     
@@ -85,9 +85,6 @@ const MobileNavbar =()=> {
         
         .list-wrapper {
             position:fixed;
-            right:0;
-            left:0;
-            top:0;
             width:100%;
             height:100%;
             background: linear-gradient(184.54deg, #9D8DFE -42.58%, #5241BF 102.34%);
@@ -95,7 +92,16 @@ const MobileNavbar =()=> {
             display:flex;
             align-items: center;
             text-align:center;
-
+            right:0;
+            left:0;
+            top:-100%;  
+            transition: 850ms;
+            z-index:2000;
+        }
+        .list-wrapper.active {
+            top: 0;
+            transition: 850ms;
+            z-index:2000;
 
         }
         ul {
