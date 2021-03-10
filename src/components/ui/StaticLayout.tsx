@@ -13,6 +13,8 @@ const StaticLayout: React.FC = ({ children }) => {
             <style jsx>{`
                 .main {
                     min-height: 100vh;
+                    margin: 0;
+                    padding: 0;
                 }
             `}</style>
         </>
