@@ -147,7 +147,7 @@ const HomePageIntro = () => {
                         width: 100%;
                         position: relative;
                         display: block;
-                        min-height: 90vh;
+                        min-height: 60vh;
                     }
                     #section-img {
                         position: absolute;
