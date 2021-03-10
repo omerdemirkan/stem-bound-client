@@ -1,3 +1,4 @@
+import { fetchUsers } from "../services";
 import {
     IUserOriginal,
     IUser,
@@ -9,6 +10,8 @@ import {
     IInstructor,
     IInstructorOriginal,
     IStudent,
+    IFetchUserArrayOptions,
+    ISelectInputOption,
 } from "../types";
 
 export function mapUserData(user: IUserOriginal): IUser {
@@ -84,4 +87,15 @@ export function getStudentCurrentGradeLevel(student: IStudentOriginal) {
     const schoolYearsSinceAccountCreated =
         +currentSchoolYear.split("-")[0] - +initialSchoolYear.split("-")[0];
     return student.initialGradeLevel + schoolYearsSinceAccountCreated;
+}
+
+export async function fetchUserInputOptions(
+    userRole: EUserRoles,
+    options?: IFetchUserArrayOptions
+): Promise<ISelectInputOption[]> {
+    const { data: users } = await fetchUsers(userRole, options);
+    return users.map((user) => ({
+        value: user,
+        display: user.fullName,
+    }));
 }
