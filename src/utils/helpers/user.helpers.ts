@@ -88,14 +88,3 @@ export function getStudentCurrentGradeLevel(student: IStudentOriginal) {
         +currentSchoolYear.split("-")[0] - +initialSchoolYear.split("-")[0];
     return student.initialGradeLevel + schoolYearsSinceAccountCreated;
 }
-
-export async function fetchUserIdInputOptions(
-    userRole: EUserRoles,
-    options?: IFetchUserArrayOptions
-): Promise<ISelectInputOption[]> {
-    const { data: users } = await fetchUsers(userRole, options);
-    return users.map((user) => ({
-        value: user._id,
-        display: user.fullName,
-    }));
-}

@@ -11,7 +11,6 @@ import {
     configureErrorMessageFromValidators,
     configureMaxLengthValidator,
     configureMinLengthValidator,
-    configureValidationAmountDTO,
 } from "../../utils/helpers";
 
 export type IInputRenderFunction = (

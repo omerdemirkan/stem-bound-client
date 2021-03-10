@@ -12,6 +12,7 @@ export interface IAsyncSelectProps {
     onChange?(val: any): void;
     ref?: Ref<unknown>;
     id?: string;
+    label?: string;
 }
 
 const AsyncSelect: React.FC<IAsyncSelectProps> = ({
@@ -21,6 +22,7 @@ const AsyncSelect: React.FC<IAsyncSelectProps> = ({
     onChange,
     ref,
     id,
+    label,
 }) => {
     const [search, setSearch] = useState<string>("");
     const [options, setOptions] = useState<ISelectInputOption[]>([]);
@@ -62,6 +64,7 @@ const AsyncSelect: React.FC<IAsyncSelectProps> = ({
                     <TextField
                         onChange={handleUpdateTextField}
                         value={search}
+                        label={label}
                         inputProps={{
                             endAdornment: (
                                 <>

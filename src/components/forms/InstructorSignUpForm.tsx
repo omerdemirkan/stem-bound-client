@@ -5,13 +5,11 @@ import Button from "@material-ui/core/Button";
 import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
 import ChipInput from "../util/ChipInput";
-import AsyncSelect from "../util/AsyncSelect";
-import { fetchLocationZipcodeInputOptions } from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
 import { ISignUpFormProps } from "./SignUpForm";
 import HidableTextField from "../util/HidableTextField";
-import LocationZipcodeInput from "../util/LocationZipcodeInput";
+import LocationAsyncSelect from "../util/LocationAsyncSelect";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -121,8 +119,11 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                     rules={{ required: "Required" }}
                     defaultValue=""
                     render={(params) => (
-                        <LocationZipcodeInput
+                        <LocationAsyncSelect
                             {...params}
+                            onChange={(location) =>
+                                params.onChange(location.zip)
+                            }
                             TextFieldProps={{
                                 error: errors.zip,
                                 helperText: errors.zip?.message,

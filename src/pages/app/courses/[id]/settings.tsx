@@ -30,6 +30,8 @@ import { useContext } from "react";
 import AuthContext from "../../../../components/contexts/AuthContext";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
 import RelativeGrid from "../../../../components/ui/RelativeGrid";
+import InputButton from "../../../../components/util/InputButton";
+import UserAsyncSelect from "../../../../components/util/UserAsyncSelect";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -90,6 +92,8 @@ const CourseSettingsAppPage: React.FC = () => {
             onCancel: () => {},
         });
     }
+
+    async function handleInviteInstructor(userId: string) {}
 
     return (
         <AppLayout
@@ -195,9 +199,21 @@ const CourseSettingsAppPage: React.FC = () => {
                             title="Instructors"
                             noDivider
                             actionEl={
-                                <Button color="primary" size="small">
+                                <InputButton
+                                    onSubmit={console.log}
+                                    renderInput={(value, setValue) => (
+                                        <UserAsyncSelect
+                                            onChange={setValue}
+                                            userRole={EUserRoles.INSTRUCTOR}
+                                        />
+                                    )}
+                                    ButtonProps={{
+                                        size: "small",
+                                        color: "primary",
+                                    }}
+                                >
                                     Invite Instructor
-                                </Button>
+                                </InputButton>
                             }
                             errorMessage={
                                 instructorsError &&
