@@ -6,7 +6,7 @@ import PictureInput from "../../components/ui/PictureInput";
 import withAuth from "../../components/hoc/withAuth";
 import {
     capitalizeWords,
-    fetchLocationInputOptions,
+    fetchLocationZipcodeInputOptions,
     getCurrentSchoolYear,
     reverseMap,
 } from "../../utils/helpers";
@@ -38,7 +38,7 @@ import CourseCard from "../../components/ui/CourseCard";
 import EditableSection from "../../components/ui/EditableSection";
 import GradeLevelInput from "../../components/util/GradeLevelInput";
 import RelativeGrid from "../../components/ui/RelativeGrid";
-import LocationInput from "../../components/util/LocationInput";
+import LocationZipcodeInput from "../../components/util/LocationZipcodeInput";
 
 const useStyles = makeStyles({
     avatar: {
@@ -144,7 +144,9 @@ const MyAccountAppPage: React.FC = () => {
                                     initialValue={user.location.zip}
                                     onSubmit={handleUpdateUserLocationByZip}
                                     renderInput={(value, setValue) => (
-                                        <LocationInput onChange={setValue} />
+                                        <LocationZipcodeInput
+                                            onChange={setValue}
+                                        />
                                     )}
                                     ButtonProps={{
                                         color: "primary",

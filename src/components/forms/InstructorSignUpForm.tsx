@@ -6,12 +6,12 @@ import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
 import ChipInput from "../util/ChipInput";
 import AsyncSelect from "../util/AsyncSelect";
-import { fetchLocationInputOptions } from "../../utils/helpers";
+import { fetchLocationZipcodeInputOptions } from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
 import { ISignUpFormProps } from "./SignUpForm";
 import HidableTextField from "../util/HidableTextField";
-import LocationInput from "../util/LocationInput";
+import LocationZipcodeInput from "../util/LocationZipcodeInput";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -121,7 +121,7 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                     rules={{ required: "Required" }}
                     defaultValue=""
                     render={(params) => (
-                        <LocationInput
+                        <LocationZipcodeInput
                             {...params}
                             TextFieldProps={{
                                 error: errors.zip,

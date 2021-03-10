@@ -21,16 +21,16 @@ export const getCurrentLocation = () => {
     });
 };
 
-export async function fetchLocationInputOptions(
+export async function fetchLocationZipcodeInputOptions(
     text: string
 ): Promise<ISelectInputOption[]> {
     try {
         const { data } = await fetchLocations({ text });
-        const locationInputs = data.map((location) => ({
+        const LocationZipcodeInputs = data.map((location) => ({
             display: `${location.city}, ${location.state}`,
             value: location.zip,
         }));
-        return locationInputs;
+        return LocationZipcodeInputs;
     } catch (e) {
         return [];
     }

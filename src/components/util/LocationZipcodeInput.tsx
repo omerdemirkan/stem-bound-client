@@ -1,15 +1,16 @@
-import { fetchLocationInputOptions } from "../../utils/helpers";
+import { fetchLocationZipcodeInputOptions } from "../../utils/helpers";
 import AsyncSelect, { IAsyncSelectProps } from "./AsyncSelect";
 
-export interface ILocationInputProps extends Partial<IAsyncSelectProps> {}
+export interface ILocationZipcodeInputProps
+    extends Partial<IAsyncSelectProps> {}
 
-const LocationInput: React.FC<ILocationInputProps> = ({
+const LocationZipcodeInput: React.FC<ILocationZipcodeInputProps> = ({
     ...asyncSelectProps
 }) => {
     return (
         <AsyncSelect
             delay={400}
-            fetchOptions={fetchLocationInputOptions}
+            fetchOptions={fetchLocationZipcodeInputOptions}
             {...asyncSelectProps}
             TextFieldProps={{
                 fullWidth: true,
@@ -22,4 +23,4 @@ const LocationInput: React.FC<ILocationInputProps> = ({
     );
 };
 
-export default LocationInput;
+export default LocationZipcodeInput;
