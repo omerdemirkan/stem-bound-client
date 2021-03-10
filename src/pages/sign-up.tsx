@@ -38,6 +38,7 @@ const SignUpPage: React.FC = () => {
     const { accessToken, signUp, sendVerificationEmail } = useContext(
         AuthContext
     );
+    // For resend email functionality; state is unnecessary.
     const requestBodyRef = useRef<Partial<IUserOriginal>>();
 
     const signUpToken = router?.query.sign_up_token;
