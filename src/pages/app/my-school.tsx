@@ -110,9 +110,11 @@ const MySchoolAppPage: React.FC = () => {
                             href="/app/courses/[id]"
                             as={`/app/courses/${course._id}`}
                         >
-                            <Button color="primary" onClick={closeAlert}>
-                                Inspect Course
-                            </Button>
+                            <a>
+                                <Button color="primary" onClick={closeAlert}>
+                                    Inspect Course
+                                </Button>
+                            </a>
                         </Link>
                     ),
                 });

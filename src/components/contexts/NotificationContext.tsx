@@ -105,6 +105,11 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
                             : null}
                     </DialogContent>
                     <DialogActions>
+                        {alert?.renderFooter
+                            ? alert?.renderFooter({
+                                  closeAlert: handleAlertOkButtonClicked,
+                              })
+                            : null}
                         {alert?.onCancel && (
                             <Button
                                 onClick={handleAlertCancelButtonClicked}
@@ -124,11 +129,6 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
                                 Ok
                             </Button>
                         )}
-                        {alert?.renderFooter
-                            ? alert?.renderFooter({
-                                  closeAlert: handleAlertOkButtonClicked,
-                              })
-                            : null}
                     </DialogActions>
                 </Dialog>
             </NotificationContext.Provider>

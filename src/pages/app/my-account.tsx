@@ -4,12 +4,7 @@ import Head from "next/head";
 import AppLayout from "../../components/containers/AppLayout";
 import PictureInput from "../../components/ui/PictureInput";
 import withAuth from "../../components/hoc/withAuth";
-import {
-    capitalizeWords,
-    fetchLocationAsyncSelectOptions,
-    getCurrentSchoolYear,
-    reverseMap,
-} from "../../utils/helpers";
+import { capitalizeWords, getCurrentSchoolYear } from "../../utils/helpers";
 import {
     userFetcher,
     updateUserProfilePicture,
@@ -25,13 +20,12 @@ import {
     EUserRoles,
     IInstructor,
 } from "../../utils/types";
-import AsyncSelect from "../../components/util/AsyncSelect";
 import ChipInput from "../../components/util/ChipInput";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import ActionBar from "../../components/ui/ActionBar";
 import SplitScreen from "../../components/ui/SplitScreen";
-import { FormControl, InputLabel, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import Section from "../../components/ui/Section";
 import Chip from "@material-ui/core/Chip";
 import CourseCard from "../../components/ui/CourseCard";

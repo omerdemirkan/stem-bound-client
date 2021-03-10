@@ -12,8 +12,8 @@ import {
     ECourseVerificationStatus,
     ENotificationTypes,
     EUserRoles,
-    ICourse,
     ICourseOriginal,
+    IUser,
 } from "../../../../utils/types";
 import { useRouter } from "next/router";
 import SplitScreen from "../../../../components/ui/SplitScreen";
@@ -32,6 +32,7 @@ import NotificationContext from "../../../../components/contexts/NotificationCon
 import RelativeGrid from "../../../../components/ui/RelativeGrid";
 import InputButton from "../../../../components/util/InputButton";
 import UserAsyncSelect from "../../../../components/util/UserAsyncSelect";
+import ContactUserButton from "../../../../components/util/ContactUserButton";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -93,7 +94,24 @@ const CourseSettingsAppPage: React.FC = () => {
         });
     }
 
-    async function handleInviteInstructor(userId: string) {}
+    async function handleInviteInstructor(user: IUser) {
+        createAlert({
+            headerText: `Are you sure you want to invite ${user.fullName} as an instructor?`,
+            bodyText: `Remember, this will give complete instructor privileges and cannot be undone.`,
+            type: ENotificationTypes.INFO,
+            onOk() {},
+            onCancel() {},
+            renderFooter: ({ closeAlert }) => (
+                <ContactUserButton
+                    userId={user._id}
+                    onClick={closeAlert}
+                    color="primary"
+                >
+                    Contact {user.firstName}
+                </ContactUserButton>
+            ),
+        });
+    }
 
     return (
         <AppLayout
@@ -200,11 +218,24 @@ const CourseSettingsAppPage: React.FC = () => {
                             noDivider
                             actionEl={
                                 <InputButton
-                                    onSubmit={console.log}
-                                    renderInput={(value, setValue) => (
+                                    onSubmit={handleInviteInstructor}
+                                    validate={(user) =>
+                                        user
+                                            ? true
+                                            : "You haven't selected an instructor"
+                                    }
+                                    renderInput={(
+                                        value,
+                                        setValue,
+                                        { errorMessage }
+                                    ) => (
                                         <UserAsyncSelect
                                             onChange={setValue}
                                             userRole={EUserRoles.INSTRUCTOR}
+                                            TextFieldProps={{
+                                                error: !!errorMessage,
+                                                helperText: errorMessage,
+                                            }}
                                         />
                                     )}
                                     ButtonProps={{
