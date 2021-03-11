@@ -111,6 +111,7 @@ const MobileAppLayout: React.FC<IAppLayoutProps> = ({
                 .root > main {
                     padding: 5vw 2vw;
                     height: 100%;
+                    overflow: auto;
                 }
                 .mobile-navigation-header {
                     padding: 3vw 5vw 3vw;
