@@ -1,4 +1,3 @@
-import { fetchUsers } from "../services";
 import {
     IUserOriginal,
     IUser,
@@ -10,8 +9,6 @@ import {
     IInstructor,
     IInstructorOriginal,
     IStudent,
-    IFetchUserArrayOptions,
-    ISelectInputOption,
 } from "../types";
 
 export function mapUserData(user: IUserOriginal): IUser {
