@@ -236,6 +236,10 @@ const CourseSettingsAppPage: React.FC = () => {
                                                 error: !!errorMessage,
                                                 helperText: errorMessage,
                                             }}
+                                            options={{
+                                                exclude:
+                                                    course.meta.instructors,
+                                            }}
                                         />
                                     )}
                                     ButtonProps={{
