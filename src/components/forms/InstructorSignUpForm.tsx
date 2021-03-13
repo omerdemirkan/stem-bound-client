@@ -122,7 +122,7 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                         <LocationAsyncSelect
                             {...params}
                             onChange={(location) =>
-                                params.onChange(location.zip)
+                                params.onChange(location?.zip)
                             }
                             TextFieldProps={{
                                 error: errors.zip,

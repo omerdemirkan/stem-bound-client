@@ -20,18 +20,3 @@ export const getCurrentLocation = () => {
         );
     });
 };
-
-export async function fetchLocationAsyncSelectOptions(
-    text: string
-): Promise<ISelectInputOption[]> {
-    try {
-        const { data } = await fetchLocations({ text });
-        const LocationAsyncSelects = data.map((location) => ({
-            display: `${location.city}, ${location.state}`,
-            value: location.zip,
-        }));
-        return LocationAsyncSelects;
-    } catch (e) {
-        return [];
-    }
-}
