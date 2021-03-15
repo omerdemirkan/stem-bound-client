@@ -14,7 +14,7 @@ const events = Object.keys(ESocketEvents);
 export default function useSocket(
     init: Initializer,
     deps: any[] = []
-): ISocketContextState & { configureListeners } {
+): ISocketContextState {
     const context = useContext(SocketContext);
     const listenersRef = useRef<IListener[]>([]);
 
@@ -50,5 +50,5 @@ export default function useSocket(
 
     useEffect(initializeListeners, [socket?.connected === true, ...deps]);
 
-    return { ...context, configureListeners: initializeListeners };
+    return { ...context };
 }
