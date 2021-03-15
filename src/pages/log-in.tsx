@@ -30,7 +30,7 @@ const LogInPage: React.FC = () => {
     return (
         <StaticLayout>
             <Head>
-                <title>STEM-bound - Log In</title>
+                <title>Log In - STEM-bound</title>
             </Head>
 
             <LogInForm

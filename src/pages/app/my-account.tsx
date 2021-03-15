@@ -100,7 +100,7 @@ const MyAccountAppPage: React.FC = () => {
     return (
         <AppLayout header="My Account">
             <Head>
-                <title>STEM-bound - My Account</title>
+                <title>My Account - STEM-bound</title>
             </Head>
 
             <SplitScreen

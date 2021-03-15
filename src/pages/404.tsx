@@ -8,12 +8,16 @@ import Typography from "@material-ui/core/Typography";
 
 import StaticLayout from "../components/ui/StaticLayout";
 import AppLayout from "../components/containers/AppLayout";
+import Head from "next/head";
 
 const NotFoundPage: React.FC = () => {
     const { user } = useContext(AuthContext);
     const Layout = user ? AppLayout : StaticLayout;
     return (
         <Layout>
+            <Head>
+                <title>Not Found - STEM-bound</title>
+            </Head>
             <PictureMessage
                 Svg={NotFoundSVG}
                 message="Page Not Found"

@@ -96,7 +96,7 @@ const SignUpPage: React.FC = () => {
     return (
         <StaticLayout>
             <Head>
-                <title>STEM-bound - Sign Up</title>
+                <title>Sign Up - STEM-bound</title>
             </Head>
             <Typography variant="h4" component="h3" align="center" gutterBottom>
                 Sign Up

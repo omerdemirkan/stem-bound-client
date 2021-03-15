@@ -226,7 +226,7 @@ const MySchoolAppPage: React.FC = () => {
     return (
         <AppLayout header="My School">
             <Head>
-                <title>STEM-bound - My School</title>
+                <title>My School - STEM-bound</title>
             </Head>
             <SplitScreen
                 mainEl={

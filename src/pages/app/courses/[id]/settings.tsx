@@ -34,6 +34,7 @@ import RelativeGrid from "../../../../components/ui/RelativeGrid";
 import InputButton from "../../../../components/util/InputButton";
 import UserAsyncSelect from "../../../../components/util/UserAsyncSelect";
 import ContactUserButton from "../../../../components/util/ContactUserButton";
+import Head from "next/head";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -118,13 +119,8 @@ const CourseSettingsAppPage: React.FC = () => {
                 }
             },
             onCancel() {},
-            renderFooter: ({ closeAlert }) => (
-                <ContactUserButton
-                    userId={user._id}
-                    onClick={closeAlert}
-                    color="primary"
-                    newTab
-                >
+            renderFooter: () => (
+                <ContactUserButton userId={user._id} color="primary" newTab>
                     Contact {user.firstName}
                 </ContactUserButton>
             ),
@@ -143,6 +139,9 @@ const CourseSettingsAppPage: React.FC = () => {
                 { label: "Settings" },
             ]}
         >
+            <Head>
+                <title>STEM-bound - Home</title>
+            </Head>
             <SplitScreen
                 mainEl={
                     <>

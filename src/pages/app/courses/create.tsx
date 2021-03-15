@@ -26,7 +26,7 @@ const CreateCourseAppPage: React.FC = () => {
             ]}
         >
             <Head>
-                <title>STEM-bound - Create Course</title>
+                <title>Create Course - STEM-bound</title>
             </Head>
             <CourseForm onSubmit={handleSubmit} userId={user._id} />
         </AppLayout>

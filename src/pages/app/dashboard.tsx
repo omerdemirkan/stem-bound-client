@@ -8,7 +8,7 @@ const DashboardAppPage: React.FC<IWithAuthProps> = () => {
     return (
         <AppLayout header="Dashboard">
             <Head>
-                <title>STEM-bound - Dashboard</title>
+                <title>Dashboard - STEM-bound</title>
             </Head>
             <UnderConstruction />
         </AppLayout>

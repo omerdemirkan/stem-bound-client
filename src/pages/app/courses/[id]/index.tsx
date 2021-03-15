@@ -160,7 +160,7 @@ const CourseAppPage: React.FC = () => {
             }
         >
             <Head>
-                <title>STEM-bound - {course?.title || "Course"}</title>
+                <title>{course?.title || "My Course"} - STEM-bound</title>
             </Head>
 
             <SplitScreen

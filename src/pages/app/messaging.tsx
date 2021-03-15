@@ -75,7 +75,7 @@ const MessagingAppPage: React.FC = () => {
     return (
         <AppLayout breadCrumbs={breadCrumbs}>
             <Head>
-                <title>{inspectedChat?.name || "STEM-bound"} - Messaging</title>
+                <title>{inspectedChat?.name || "Messaging"} - STEM-bound</title>
             </Head>
 
             {!chats?.length && !chatsLoading ? (

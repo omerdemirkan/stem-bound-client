@@ -5,7 +5,7 @@ const HomePage: React.FC = function () {
     return (
         <StaticLayout>
             <Head>
-                <title>STEM-bound - Home</title>
+                <title>Home - STEM-bound</title>
             </Head>
             <h1>Home</h1>
             <style jsx>{``}</style>

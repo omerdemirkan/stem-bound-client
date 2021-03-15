@@ -7,7 +7,7 @@ const ScheduleAppPage: React.FC = () => {
     return (
         <AppLayout header="Schedule">
             <Head>
-                <title>STEM-bound - Schedule</title>
+                <title>Schedule - STEM-bound</title>
             </Head>
             <UnderConstruction />
         </AppLayout>

@@ -22,6 +22,7 @@ import {
 } from "../../../../../utils/helpers";
 import startOfDay from "date-fns/startOfDay";
 import Section from "../../../../../components/ui/Section";
+import Head from "next/head";
 
 const CreateMeetingAppPage: React.FC = () => {
     const router = useRouter();
@@ -76,6 +77,9 @@ const CreateMeetingAppPage: React.FC = () => {
                 { label: "Create" },
             ]}
         >
+            <Head>
+                <title>Create Meetings - STEM-bound</title>
+            </Head>
             {course ? (
                 <MeetingsForm
                     defaultMeetingType={

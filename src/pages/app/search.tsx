@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import {
     getClientQueryParams,
     getDefaultSearchField,
+    getDisplaySearchField,
     isSearchField,
 } from "../../utils/helpers";
 import { ESearchFields, ISearchQuery, IWithAuthProps } from "../../utils/types";
@@ -63,7 +64,7 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
     return (
         <AppLayout header="Search">
             <Head>
-                <title>STEM-bound - Search</title>
+                <title>Search - STEM-bound</title>
             </Head>
             <Search
                 searchData={searchData}

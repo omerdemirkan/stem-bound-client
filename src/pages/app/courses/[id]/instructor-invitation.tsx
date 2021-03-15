@@ -52,9 +52,7 @@ const InstructorInvitationAppPage: React.FC = () => {
     return (
         <AppLayout header="Course Invitation">
             <Head>
-                <title>
-                    Course Invitation{course ? ` - ${course.title}` : ""}
-                </title>
+                <title>Course Invitation - STEM-bound</title>
             </Head>
             <Section loading={isLoading}>
                 {!isLoading ? (

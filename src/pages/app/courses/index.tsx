@@ -60,7 +60,7 @@ const CoursesAppPage: React.FC = () => {
             }
         >
             <Head>
-                <title>STEM-bound - My Courses</title>
+                <title>My Courses - STEM-bound</title>
             </Head>
 
             <Section

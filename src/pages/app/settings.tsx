@@ -5,11 +5,15 @@ import { useContext } from "react";
 import { ETheme } from "../../utils/types";
 import ThemeContext from "../../components/contexts/ThemeContext";
 import withAuth from "../../components/hoc/withAuth";
+import Head from "next/head";
 
 const SettingsAppPage: React.FC = () => {
     const { theme, setTheme } = useContext(ThemeContext);
     return (
         <AppLayout header="Settings">
+            <Head>
+                <title>Settings - STEM-bound</title>
+            </Head>
             <Section title="Dark theme (experimental)" noDivider spacing="sm">
                 <Switch
                     checked={theme === ETheme.DARK}

@@ -10,6 +10,7 @@ import {
     SearchField,
     deleteUndefined,
     appendQueriesToUrl,
+    getDisplaySearchField,
 } from "../utils/helpers";
 import { useRouter } from "next/router";
 
@@ -23,7 +24,9 @@ const SearchPage: React.FC<Props> = ({ query, searchData }) => {
     return (
         <StaticLayout>
             <Head>
-                <title>STEM-bound - Search</title>
+                <title>
+                    {getDisplaySearchField(query.searchField)} - STEM-bound
+                </title>
             </Head>
             <h1>Search</h1>
             <Search

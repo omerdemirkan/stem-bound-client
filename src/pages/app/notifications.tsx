@@ -7,7 +7,7 @@ const NotificationsAppPage: React.FC = () => {
     return (
         <AppLayout header="Notifications">
             <Head>
-                <title>STEM-bound - Notifications</title>
+                <title>Notifications - STEM-bound</title>
             </Head>
             <UnderConstruction />
         </AppLayout>

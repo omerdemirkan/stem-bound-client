@@ -99,6 +99,9 @@ const MeetingsAppPage: React.FC = () => {
                 ) : null
             }
         >
+            <Head>
+                <title>{course?.title || "Course"} Meetings - STEM-bound</title>
+            </Head>
             <Paper>
                 <Tabs
                     value={queryType === "past" ? 1 : 0}
@@ -113,9 +116,6 @@ const MeetingsAppPage: React.FC = () => {
                     <Tab label="Past Meetings" key="past" />
                 </Tabs>
             </Paper>
-            <Head>
-                <title>STEM-bound - {course?.title || "Course"}</title>
-            </Head>
 
             <Section
                 noDivider

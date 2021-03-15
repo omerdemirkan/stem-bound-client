@@ -5,7 +5,7 @@ const AboutPage: React.FC = () => {
     return (
         <StaticLayout>
             <Head>
-                <title>STEM-bound - About Us</title>
+                <title>About Us - STEM-bound</title>
             </Head>
             <h1>About Us</h1>
             <style jsx>{``}</style>

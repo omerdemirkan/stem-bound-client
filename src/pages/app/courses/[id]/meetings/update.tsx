@@ -17,6 +17,7 @@ import { clone } from "../../../../../utils/helpers";
 import PictureMessage from "../../../../../components/ui/PictureMessage";
 import NoResultsSVG from "../../../../../components/svg/illustrations/no-results";
 import Section from "../../../../../components/ui/Section";
+import Head from "next/head";
 
 const UpdateMeetingAppPage: React.FC = () => {
     const router = useRouter();
@@ -92,6 +93,9 @@ const UpdateMeetingAppPage: React.FC = () => {
                 { label: "Update" },
             ]}
         >
+            <Head>
+                <title>Update Meetings - STEM-bound</title>
+            </Head>
             <Section title="Update Upcoming Meetings" noDivider>
                 {meetings?.map((meeting) => (
                     <MeetingInput

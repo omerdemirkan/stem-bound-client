@@ -130,7 +130,7 @@ const AnnouncementsAppPage: React.FC = () => {
             }
         >
             <Head>
-                <title>STEM-bound - Announcements</title>
+                <title>Announcements - STEM-bound</title>
             </Head>
             {!announcementsLoading && !announcements?.length ? (
                 <PictureMessage
