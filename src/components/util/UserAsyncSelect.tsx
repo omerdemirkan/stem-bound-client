@@ -1,6 +1,10 @@
 import AsyncSelect, { IAsyncSelectProps } from "./AsyncSelect";
 import { getUserDisplayRole } from "../../utils/helpers";
-import { EUserRoles, IFetchUserArrayOptions } from "../../utils/types";
+import {
+    EUserRoles,
+    IFetchUserArrayOptions,
+    ISelectInputOption,
+} from "../../utils/types";
 import { fetchUsers } from "../../utils/services";
 export interface IUserSelectProps extends Partial<IAsyncSelectProps> {
     userRole: EUserRoles;
@@ -12,11 +16,15 @@ const UserSelect: React.FC<IUserSelectProps> = ({
     options,
     ...asyncSelectProps
 }) => {
-    async function handleFetchOptions() {
+    async function handleFetchOptions(): Promise<ISelectInputOption[]> {
         const { data: users } = await fetchUsers(userRole, options);
         return users.map((user) => ({
             value: user,
             display: `${user.fullName} - ${user.location.city}, ${user.location.state}`,
+            avatar: {
+                src: user.profilePictureUrl,
+                alt: `${user.fullName} profile picture`,
+            },
         }));
     }
 

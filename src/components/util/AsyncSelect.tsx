@@ -4,6 +4,8 @@ import { ISelectInputOption } from "../../utils/types";
 import useDebounce from "../../hooks/useDebounce";
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import { Avatar } from "@material-ui/core";
 
 export interface IAsyncSelectProps {
     fetchOptions: (s: string) => Promise<ISelectInputOption[]>;
@@ -79,6 +81,16 @@ const AsyncSelect: React.FC<IAsyncSelectProps> = ({
                         {...params}
                         {...TextFieldProps}
                     />
+                )}
+                renderOption={({ value, display, avatar }) => (
+                    <>
+                        {avatar ? (
+                            <ListItemAvatar>
+                                <Avatar src={avatar.src} alt={avatar.alt} />
+                            </ListItemAvatar>
+                        ) : null}
+                        {display}
+                    </>
                 )}
             />
         </div>
