@@ -123,6 +123,7 @@ const CourseSettingsAppPage: React.FC = () => {
                     userId={user._id}
                     onClick={closeAlert}
                     color="primary"
+                    newTab
                 >
                     Contact {user.firstName}
                 </ContactUserButton>
