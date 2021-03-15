@@ -3,6 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core";
+import Link from "next/link";
 
 const useStyles = makeStyles({
     highlightButton: {
@@ -51,13 +52,16 @@ const HomePageIntro = () => {
                             >
                                 Learn More
                             </Button>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                className={classes.highlightButton}
-                            >
-                                SING UP
-                            </Button>
+
+                            <Link href="/sign-up">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.highlightButton}
+                                >
+                                    SIGN UP
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -118,7 +122,7 @@ const HomePageIntro = () => {
                     margin: 63px auto 0 auto;
                     display: flex;
                     flex-wrap: wrap;
-                    justify-content: space-evenly;
+                    justify-content: space-between;
                 }
 
                 .section-img-wrapper {
@@ -132,12 +136,12 @@ const HomePageIntro = () => {
                     position: absolute;
                     top: -2%;
                     right: 0;
-                    box-sizing: border-box;
                 }
 
                 @media (max-width: 900px) {
                     .intro-content-wrapper {
                         width: 100%;
+                        height: 60vh;
                     }
                     .main-title {
                         font-size: 40px;
@@ -147,10 +151,14 @@ const HomePageIntro = () => {
                         width: 100%;
                         position: relative;
                         display: block;
-                        min-height: 60vh;
+                        margin: 0 0 4% 0;
                     }
+
                     #section-img {
                         position: absolute;
+                        top: 0;
+                        right: 0;
+                        height: auto;
                         top: 0;
                         right: 0;
                     }

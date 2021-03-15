@@ -2,6 +2,7 @@ import Head from "next/head";
 import StaticLayout from "../components/ui/StaticLayout";
 import HomePageIntro from "../components/ui/HomePageIntro";
 import HomePageInfo from "../components/ui/HomePageInfo";
+import HomePageAppDetail from "../components/ui/HomePageAppDetail";
 
 const HomePage: React.FC = function () {
     return (
@@ -11,6 +12,8 @@ const HomePage: React.FC = function () {
             </Head>
             <HomePageIntro />
             <HomePageInfo />
+            <HomePageAppDetail />
+
             <style jsx>{``}</style>
         </StaticLayout>
     );
