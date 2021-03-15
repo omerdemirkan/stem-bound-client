@@ -22,7 +22,7 @@ const InstructorInvitationAppPage: React.FC = () => {
     const router = useRouter();
     const { createAlert } = useContext(NotificationContext);
     const invitationToken = router?.query.invitation_token as string,
-        invitorUserId = router?.query.invitor_id as string,
+        inviterUserId = router?.query.inviter_id as string,
         courseId = router?.query.id as string;
 
     const { data: course } = useSWR(
@@ -30,8 +30,8 @@ const InstructorInvitationAppPage: React.FC = () => {
         courseFetcher(courseId)
     );
     const { data: inviter } = useSWR(
-        invitorUserId ? `/users/${invitorUserId}` : null,
-        userFetcher(invitorUserId)
+        inviterUserId ? `/users/${inviterUserId}` : null,
+        userFetcher(inviterUserId)
     );
     const { data: school } = useSWR(
         course ? `/schools/${course.meta.school}` : null,

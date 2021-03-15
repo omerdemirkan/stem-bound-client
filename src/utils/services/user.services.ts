@@ -130,3 +130,16 @@ export function updateUserLocation(
         mapUserData
     );
 }
+
+export function createCourseInstructorInvitation({
+    courseId,
+    invitedUserId,
+}: {
+    courseId: string;
+    invitedUserId: string;
+}) {
+    return apiClient.post(
+        `/courses/${courseId}/invitations/send-instructor-invitation`,
+        { invitedUserId }
+    );
+}

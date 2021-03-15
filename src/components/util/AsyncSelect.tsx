@@ -32,7 +32,6 @@ const AsyncSelect: React.FC<IAsyncSelectProps> = ({
     async function handleFetchOptions() {
         setLoading(true);
         const options = await fetchOptions(debouncedSearch);
-        console.log({ options });
         setOptions(options);
         setLoading(false);
     }

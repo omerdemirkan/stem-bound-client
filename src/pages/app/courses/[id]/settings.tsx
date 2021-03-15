@@ -3,6 +3,7 @@ import AppLayout from "../../../../components/containers/AppLayout";
 import withAuth from "../../../../components/hoc/withAuth";
 import {
     courseFetcher,
+    createCourseInstructorInvitation,
     schoolFetcher,
     updateCourseById,
     updateCourseVerification,
@@ -38,7 +39,7 @@ const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
     const courseId = router.query.id as string;
     const { user } = useContext(AuthContext);
-    const { createAlert } = useContext(NotificationContext);
+    const { createAlert, createSnackbar } = useContext(NotificationContext);
     const { data: course, revalidate: refetchCourse } = useSWR(
         courseId ? `/courses/${courseId}` : null,
         courseFetcher(courseId)
@@ -99,7 +100,23 @@ const CourseSettingsAppPage: React.FC = () => {
             headerText: `Are you sure you want to invite ${user.fullName} as an instructor?`,
             bodyText: `Remember, this will give complete instructor privileges and cannot be undone.`,
             type: ENotificationTypes.INFO,
-            onOk() {},
+            async onOk() {
+                try {
+                    await createCourseInstructorInvitation({
+                        courseId: course._id,
+                        invitedUserId: user._id,
+                    });
+                    createSnackbar({
+                        text: `${user.firstName} successfully invited!`,
+                        type: "success",
+                    });
+                } catch (e) {
+                    createSnackbar({
+                        text: "An error occured",
+                        type: "error",
+                    });
+                }
+            },
             onCancel() {},
             renderFooter: ({ closeAlert }) => (
                 <ContactUserButton
@@ -237,8 +254,8 @@ const CourseSettingsAppPage: React.FC = () => {
                                                 helperText: errorMessage,
                                             }}
                                             options={{
-                                                exclude:
-                                                    course.meta.instructors,
+                                                exclude: course?.meta
+                                                    .instructors || [user._id],
                                             }}
                                         />
                                     )}
