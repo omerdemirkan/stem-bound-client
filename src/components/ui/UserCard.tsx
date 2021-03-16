@@ -52,7 +52,6 @@ const UserCard: React.FC<IUserCardProps> = ({
             className={`${CardProps?.className ? CardProps.className : ""}${
                 classes.card
             }`}
-            {...CardHeaderProps}
         >
             <CardHeader
                 title={user?.fullName}
@@ -68,10 +67,13 @@ const UserCard: React.FC<IUserCardProps> = ({
                         alt={user?.fullName}
                     />
                 }
-                {...CardContentProps}
+                {...CardHeaderProps}
             />
             <Divider />
-            <CardContent style={{ paddingTop: "0", paddingBottom: "0" }}>
+            <CardContent
+                style={{ paddingTop: "0", paddingBottom: "0" }}
+                {...CardContentProps}
+            >
                 <Section title="About Me" noDivider spacing="xs">
                     <Typography variant="h6" style={{ margin: "0 0 3px" }}>
                         {user?.shortDescription}

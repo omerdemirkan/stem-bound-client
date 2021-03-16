@@ -1,7 +1,7 @@
 export interface ISelectInputOption {
     value: any;
     display: string;
-    avatar: {
+    avatar?: {
         src: string;
         alt: string;
     };
