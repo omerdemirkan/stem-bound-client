@@ -9,6 +9,7 @@ import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
 import Section from "./Section";
 import { makeStyles } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
     card: {
@@ -74,17 +75,25 @@ const UserCard: React.FC<IUserCardProps> = ({
                 style={{ paddingTop: "0", paddingBottom: "0" }}
                 {...CardContentProps}
             >
-                <Section title="About Me" noDivider spacing="xs">
-                    <Typography variant="h6" style={{ margin: "0 0 3px" }}>
-                        {user?.shortDescription}
+                <Section title="About" noDivider spacing="xs">
+                    <Typography style={{ margin: "0 0 3px" }} paragraph>
+                        <Box component="span" fontWeight="500">
+                            {user?.shortDescription}
+                        </Box>
                     </Typography>
-                    <Typography paragraph style={{ margin: "0 0 3px" }}>
-                        {user?.longDescription}
-                    </Typography>
+                    {user?.longDescription && (
+                        <Typography
+                            paragraph
+                            style={{ margin: "0 0 3px" }}
+                            noWrap
+                        >
+                            {user?.longDescription}
+                        </Typography>
+                    )}
                 </Section>
 
                 {user?.role === EUserRoles.INSTRUCTOR ? (
-                    <Section title="My Specialties" spacing="xs">
+                    <Section title="Specialties" spacing="xs">
                         {(user as IInstructor).specialties
                             .slice(0, 3)
                             .map((specialty) => (
@@ -107,7 +116,7 @@ const UserCard: React.FC<IUserCardProps> = ({
                 ) : null}
 
                 {user?.role === EUserRoles.STUDENT ? (
-                    <Section title="My Interests" spacing="xs">
+                    <Section title="Interests" spacing="xs">
                         {(user as IStudent).interests
                             .slice(0, 3)
                             .map((interest) => (

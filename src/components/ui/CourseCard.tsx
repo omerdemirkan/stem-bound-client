@@ -24,6 +24,7 @@ import { useContext } from "react";
 import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import ContactUserButton from "../util/ContactUserButton";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
     card: {
@@ -153,12 +154,18 @@ const CourseCard: React.FC<ICourseCardProps> = ({
                 {...CardContentProps}
             >
                 <Section spacing="xs" title="Description" noDivider>
-                    <Typography variant="h6" gutterBottom>
-                        {course?.shortDescription}
+                    <Typography style={{ margin: "0 0 3px" }} paragraph>
+                        <Box component="span" fontWeight="500">
+                            {course?.shortDescription}
+                        </Box>
                     </Typography>
                     {course?.longDescription && (
-                        <Typography paragraph>
-                            {course.longDescription}
+                        <Typography
+                            paragraph
+                            style={{ margin: "0 0 3px" }}
+                            noWrap
+                        >
+                            {course?.longDescription}
                         </Typography>
                     )}
                 </Section>
