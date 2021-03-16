@@ -25,7 +25,14 @@ export interface ISnackbarData {
     onClose?: () => any;
 }
 
+export interface IScreenData {
+    Component?: React.FC<{ onClose(): void }>;
+    content?: any;
+    renderContent?(data: { onClose(): void }): any;
+}
+
 export interface INotificationContextState {
     createAlert(alertData: IAlertData): void;
     createSnackbar(snackbarData: ISnackbarData): void;
+    createScreen(screenData: IScreenData): void;
 }

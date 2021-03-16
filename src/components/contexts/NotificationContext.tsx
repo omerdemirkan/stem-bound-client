@@ -3,6 +3,7 @@ import {
     INotificationContextState,
     IAlertData,
     ISnackbarData,
+    IScreenData,
 } from "../../utils/types";
 import { clone } from "../../utils/helpers";
 import { ProviderContext, SnackbarProvider } from "notistack";
@@ -18,6 +19,7 @@ import IconButton from "@material-ui/core/IconButton";
 const initialState: INotificationContextState = {
     createAlert: () => {},
     createSnackbar: () => {},
+    createScreen: () => {},
 };
 
 const NotificationContext = createContext(initialState);
@@ -26,22 +28,31 @@ export default NotificationContext;
 
 export const NotificationContextProvider: React.FC = ({ children }) => {
     const [alertQueue, setAlertQueue] = useState<IAlertData[]>([]);
+    const [screenStack, setScreenStack] = useState<IScreenData[]>([]);
 
     const [lastAlert, setLastAlert] = useState<IAlertData>();
+    const [lastScreen, setLastScreen] = useState<IScreenData>();
 
     const notistackRef = useRef<ProviderContext>();
 
     const alertModalOpen = !!alertQueue.length;
+    const screenModalOpen = !!screenStack.length;
     const alert = alertQueue[0] || lastAlert;
+    const screen = screenStack[screenStack.length - 1] || lastScreen;
 
     function handleCloseAlert() {
-        if (alertQueue.length === 1) {
-            setLastAlert(alertQueue[0]);
-        }
         setAlertQueue(function (prev) {
+            if (prev.length === 1) setLastAlert(alertQueue[0]);
             const newAlerts = clone(prev);
             newAlerts.shift();
             return newAlerts;
+        });
+    }
+
+    function handleCloseScreen() {
+        setScreenStack(function (prev) {
+            if (prev.length === 1) setLastScreen(prev[0]);
+            return prev.slice(0, prev.length - 1);
         });
     }
 
@@ -67,6 +78,11 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
         });
     }
 
+    function createScreen(screenData: IScreenData) {
+        setScreenStack((prev) => [...prev, screenData]);
+        setLastScreen(screenData);
+    }
+
     return (
         <SnackbarProvider
             ref={notistackRef as any}
@@ -85,6 +101,7 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
                 value={{
                     createAlert,
                     createSnackbar,
+                    createScreen,
                 }}
             >
                 {children}
@@ -93,43 +110,57 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
                     open={!!alertModalOpen}
                     onClose={handleAlertCancelButtonClicked}
                 >
-                    <DialogTitle>{alert?.headerText}</DialogTitle>
+                    {alert?.headerText && (
+                        <DialogTitle>{alert.headerText}</DialogTitle>
+                    )}
                     <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            {alert?.bodyText}
-                        </DialogContentText>
-                        {alert?.renderContent
+                        {!!alert?.bodyText && (
+                            <DialogContentText id="alert-dialog-description">
+                                {alert.bodyText}
+                            </DialogContentText>
+                        )}
+                        {!!alert?.renderContent
                             ? alert?.renderContent({
                                   closeAlert: handleCloseAlert,
                               })
                             : null}
                     </DialogContent>
-                    <DialogActions>
-                        {alert?.renderFooter
-                            ? alert?.renderFooter({
-                                  closeAlert: handleCloseAlert,
-                              })
-                            : null}
-                        {alert?.onCancel && (
-                            <Button
-                                onClick={handleAlertCancelButtonClicked}
-                                color="primary"
-                                variant="outlined"
-                            >
-                                Cancel
-                            </Button>
-                        )}
-                        {alert?.onOk && (
-                            <Button
-                                onClick={handleAlertOkButtonClicked}
-                                color="primary"
-                                variant="contained"
-                                autoFocus
-                            >
-                                Ok
-                            </Button>
-                        )}
-                    </DialogActions>
+                    {alert?.renderFooter || alert?.onCancel || alert?.onOk ? (
+                        <DialogActions>
+                            {alert?.renderFooter
+                                ? alert?.renderFooter({
+                                      closeAlert: handleCloseAlert,
+                                  })
+                                : null}
+                            {alert?.onCancel && (
+                                <Button
+                                    onClick={handleAlertCancelButtonClicked}
+                                    color="primary"
+                                    variant="outlined"
+                                >
+                                    Cancel
+                                </Button>
+                            )}
+                            {alert?.onOk && (
+                                <Button
+                                    onClick={handleAlertOkButtonClicked}
+                                    color="primary"
+                                    variant="contained"
+                                    autoFocus
+                                >
+                                    Ok
+                                </Button>
+                            )}
+                        </DialogActions>
+                    ) : null}
+                </Dialog>
+
+                <Dialog open={screenModalOpen}>
+                    {screen?.content ||
+                        (screen?.Component && (
+                            <screen.Component onClose={handleCloseScreen} />
+                        )) ||
+                        screen?.renderContent?.({ onClose: handleCloseScreen })}
                 </Dialog>
             </NotificationContext.Provider>
         </SnackbarProvider>

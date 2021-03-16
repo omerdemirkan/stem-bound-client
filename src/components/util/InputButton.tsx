@@ -12,6 +12,7 @@ import {
     configureMaxLengthValidator,
     configureMinLengthValidator,
 } from "../../utils/helpers";
+import { Box } from "@material-ui/core";
 
 export type IInputRenderFunction = (
     value: any,
@@ -116,7 +117,11 @@ const InputButton: React.FC<IInputButtonProps> = ({
                 maxWidth="sm"
                 {...DialogProps}
             >
-                <div className="dialog-content-container">
+                <Box
+                    className="dialog-content-container"
+                    width="450px"
+                    max-width="100%"
+                >
                     <DialogContent>
                         {renderInput(value, setValue, {
                             updateFields,
@@ -152,7 +157,7 @@ const InputButton: React.FC<IInputButtonProps> = ({
                             </>
                         )}
                     </DialogActions>
-                </div>
+                </Box>
             </Dialog>
 
             <style jsx>{`
