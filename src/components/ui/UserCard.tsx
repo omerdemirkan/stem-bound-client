@@ -85,25 +85,47 @@ const UserCard: React.FC<IUserCardProps> = ({
 
                 {user?.role === EUserRoles.INSTRUCTOR ? (
                     <Section title="My Specialties" spacing="xs">
-                        {(user as IInstructor)?.specialties.map((specialty) => (
+                        {(user as IInstructor).specialties
+                            .slice(0, 3)
+                            .map((specialty) => (
+                                <Chip
+                                    label={specialty}
+                                    key={`${user?._id}-specialties-${specialty}`}
+                                    color="primary"
+                                />
+                            ))}
+                        {(user as IInstructor).specialties.length > 3 ? (
                             <Chip
-                                label={specialty}
-                                key={`${user?._id}-specialties-${specialty}`}
+                                label={`${
+                                    (user as IInstructor).specialties.length - 3
+                                } More`}
                                 color="primary"
+                                variant="outlined"
                             />
-                        ))}
+                        ) : null}
                     </Section>
                 ) : null}
 
                 {user?.role === EUserRoles.STUDENT ? (
                     <Section title="My Interests" spacing="xs">
-                        {(user as IStudent)?.interests.map((interest) => (
+                        {(user as IStudent).interests
+                            .slice(0, 3)
+                            .map((interest) => (
+                                <Chip
+                                    label={interest}
+                                    key={`${user?._id}-interests-${interest}`}
+                                    color="primary"
+                                />
+                            ))}
+                        {(user as IStudent).interests.length > 3 ? (
                             <Chip
-                                label={interest}
-                                key={`${user?._id}-interests-${interest}`}
+                                label={`${
+                                    (user as IStudent).interests.length - 3
+                                } More`}
                                 color="primary"
+                                variant="outlined"
                             />
-                        ))}
+                        ) : null}
                     </Section>
                 ) : null}
             </CardContent>
