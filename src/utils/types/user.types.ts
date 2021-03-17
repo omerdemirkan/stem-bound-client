@@ -90,7 +90,6 @@ export interface IInstructor extends IBaseUser {
     meta: {
         courses: string[];
     };
-    position: string;
 }
 
 export interface ISchoolOfficial extends IBaseUser {

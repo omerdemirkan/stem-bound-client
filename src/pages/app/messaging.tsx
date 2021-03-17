@@ -84,9 +84,7 @@ const MessagingAppPage: React.FC = () => {
                     message="Looks like you haven't contacted anyone"
                     subMessage={`You can contact ${getDisplayUserRole(
                         getDefaultSearchField(user.role)
-                    ).toLowerCase()}s or other ${getDisplayUserRole(
-                        user.role
-                    ).toLowerCase()}s on the search page.`}
+                    ).toLowerCase()}s or other ${user.displayRole.toLowerCase()}s on the search page.`}
                     footerEl={
                         <Link href="/app/search">
                             <a>
