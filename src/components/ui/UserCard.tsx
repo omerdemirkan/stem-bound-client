@@ -75,10 +75,10 @@ const UserCard: React.FC<IUserCardProps> = ({
                     <Avatar
                         src={user?.profilePictureUrl}
                         alt={user?.fullName}
-                        onClick={handleInspectUser}
-                        style={{ cursor: "pointer" }}
                     />
                 }
+                style={{ cursor: "pointer" }}
+                onClick={handleInspectUser}
                 {...CardHeaderProps}
             />
             <Divider />

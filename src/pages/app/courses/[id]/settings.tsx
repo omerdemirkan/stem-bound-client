@@ -232,6 +232,7 @@ const CourseSettingsAppPage: React.FC = () => {
                     <>
                         <Section
                             title="Instructors"
+                            spacing="sm"
                             noDivider
                             actionEl={
                                 <InputButton
