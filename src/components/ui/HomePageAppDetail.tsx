@@ -139,7 +139,6 @@ const HomePageAppDetail = () => {
                     }
                 }
             `}</style>
-            );
         </>
     );
 };

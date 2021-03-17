@@ -105,7 +105,6 @@ const TeamCard = (props) => {
                     height: 45px;
                 }
             `}</style>
-            );
         </>
     );
 };

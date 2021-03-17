@@ -103,7 +103,6 @@ const HomePageInfo = () => {
                     }
                 }
             `}</style>
-            );
         </>
     );
 };

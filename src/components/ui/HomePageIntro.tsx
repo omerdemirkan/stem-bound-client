@@ -164,7 +164,6 @@ const HomePageIntro = () => {
                     }
                 }
             `}</style>
-            );
         </>
     );
 };
