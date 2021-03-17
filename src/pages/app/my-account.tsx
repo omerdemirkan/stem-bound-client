@@ -33,6 +33,7 @@ import EditableSection from "../../components/ui/EditableSection";
 import GradeLevelInput from "../../components/util/GradeLevelInput";
 import RelativeGrid from "../../components/ui/RelativeGrid";
 import LocationAsyncSelect from "../../components/util/LocationAsyncSelect";
+import ChipList from "../../components/ui/ChipList";
 
 const useStyles = makeStyles({
     avatar: {
@@ -213,15 +214,9 @@ const MyAccountAppPage: React.FC = () => {
                                         ),
                                     }}
                                 >
-                                    {(user as IStudent).interests.map(
-                                        (interest) => (
-                                            <Chip
-                                                key={interest}
-                                                label={interest}
-                                                color="primary"
-                                            />
-                                        )
-                                    )}
+                                    <ChipList
+                                        data={(user as IStudent).interests}
+                                    />
                                 </EditableSection>
                                 <EditableSection
                                     title="Grade Level"
@@ -266,15 +261,9 @@ const MyAccountAppPage: React.FC = () => {
                                     ),
                                 }}
                             >
-                                {(user as IInstructor).specialties.map(
-                                    (specialty) => (
-                                        <Chip
-                                            key={specialty}
-                                            label={specialty}
-                                            color="primary"
-                                        />
-                                    )
-                                )}
+                                <ChipList
+                                    data={(user as IInstructor).specialties}
+                                />
                             </EditableSection>
                         ) : null}
                     </>

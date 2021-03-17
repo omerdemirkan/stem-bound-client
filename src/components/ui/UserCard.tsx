@@ -14,6 +14,7 @@ import { useContext } from "react";
 import NotificationContext from "../contexts/NotificationContext";
 import ScreenLayout from "./ScreenLayout";
 import UserScreen from "./UserScreen";
+import ChipList from "./ChipList";
 
 const useStyles = makeStyles({
     card: {
@@ -106,47 +107,16 @@ const UserCard: React.FC<IUserCardProps> = ({
 
                 {user?.role === EUserRoles.INSTRUCTOR ? (
                     <Section title="Specialties" spacing="xs">
-                        {(user as IInstructor).specialties
-                            .slice(0, 3)
-                            .map((specialty) => (
-                                <Chip
-                                    label={specialty}
-                                    key={`${user?._id}-specialties-${specialty}`}
-                                    color="primary"
-                                />
-                            ))}
-                        {(user as IInstructor).specialties.length > 3 ? (
-                            <Chip
-                                label={`${
-                                    (user as IInstructor).specialties.length - 3
-                                } More`}
-                                color="primary"
-                                variant="outlined"
-                            />
-                        ) : null}
+                        <ChipList
+                            data={(user as IInstructor).specialties}
+                            max={3}
+                        />
                     </Section>
                 ) : null}
 
                 {user?.role === EUserRoles.STUDENT ? (
                     <Section title="Interests" spacing="xs">
-                        {(user as IStudent).interests
-                            .slice(0, 3)
-                            .map((interest) => (
-                                <Chip
-                                    label={interest}
-                                    key={`${user?._id}-interests-${interest}`}
-                                    color="primary"
-                                />
-                            ))}
-                        {(user as IStudent).interests.length > 3 ? (
-                            <Chip
-                                label={`${
-                                    (user as IStudent).interests.length - 3
-                                } More`}
-                                color="primary"
-                                variant="outlined"
-                            />
-                        ) : null}
+                        <ChipList data={(user as IStudent).interests} max={3} />
                     </Section>
                 ) : null}
             </CardContent>
