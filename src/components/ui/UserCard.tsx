@@ -10,6 +10,10 @@ import Chip from "@material-ui/core/Chip";
 import Section from "./Section";
 import { makeStyles } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
+import { useContext } from "react";
+import NotificationContext from "../contexts/NotificationContext";
+import ScreenLayout from "./ScreenLayout";
+import UserScreen from "./UserScreen";
 
 const useStyles = makeStyles({
     card: {
@@ -43,6 +47,12 @@ const UserCard: React.FC<IUserCardProps> = ({
     fullWidth,
 }) => {
     const classes = useStyles();
+    const { createScreen } = useContext(NotificationContext);
+    function handleInspectUser() {
+        createScreen({
+            renderContent: (props) => <UserScreen {...props} user={user} />,
+        });
+    }
     return (
         <Card
             style={{
@@ -66,6 +76,8 @@ const UserCard: React.FC<IUserCardProps> = ({
                     <Avatar
                         src={user?.profilePictureUrl}
                         alt={user?.fullName}
+                        onClick={handleInspectUser}
+                        style={{ cursor: "pointer" }}
                     />
                 }
                 {...CardHeaderProps}

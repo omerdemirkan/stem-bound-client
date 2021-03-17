@@ -15,7 +15,7 @@ export function mapUserData(user: IUserOriginal): IUser {
     let mappedUser: IUser = {
         _id: user._id,
         role: user.role,
-        displayRole: getUserDisplayRole(user.role),
+        displayRole: getDisplayUserRole(user.role),
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -66,7 +66,7 @@ const userRoleDisplayTable = {
     [EUserRoles.STUDENT]: EUserDisplayRoles.STUDENT,
 };
 
-export function getUserDisplayRole(userRole: EUserRoles): EUserDisplayRoles {
+export function getDisplayUserRole(userRole: EUserRoles): EUserDisplayRoles {
     return userRoleDisplayTable[userRole];
 }
 

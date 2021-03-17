@@ -109,6 +109,7 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
                 <Dialog
                     open={!!alertModalOpen}
                     onClose={handleAlertCancelButtonClicked}
+                    maxWidth="xl"
                 >
                     {alert?.headerText && (
                         <DialogTitle>{alert.headerText}</DialogTitle>
@@ -155,7 +156,13 @@ export const NotificationContextProvider: React.FC = ({ children }) => {
                     ) : null}
                 </Dialog>
 
-                <Dialog open={screenModalOpen}>
+                <Dialog
+                    open={screenModalOpen}
+                    onClose={handleCloseScreen}
+                    maxWidth="lg"
+                    fullWidth
+                    {...screen?.DialogProps}
+                >
                     {screen?.content ||
                         (screen?.Component && (
                             <screen.Component onClose={handleCloseScreen} />

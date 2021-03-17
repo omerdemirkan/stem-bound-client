@@ -3,10 +3,17 @@ import ClearIcon from "@material-ui/icons/Clear";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+    cardContent: {
+        paddingTop: "0",
+    },
+});
 
 export interface IScreenLayoutProps {
     onClose(): void;
-    header: string;
+    header: string | React.ReactNode;
     subheader?: string;
     avatar?: any;
     headerActionEl?: any;
@@ -22,6 +29,7 @@ const ScreenLayout: React.FC<IScreenLayoutProps> = ({
     actionEl,
     avatar,
 }) => {
+    const classes = useStyles();
     return (
         <div className="screen-layout">
             <CardHeader
@@ -37,7 +45,9 @@ const ScreenLayout: React.FC<IScreenLayoutProps> = ({
                     </>
                 }
             />
-            <CardContent>{children}</CardContent>
+            <CardContent className={classes.cardContent}>
+                {children}
+            </CardContent>
             {actionEl && <CardActions>{actionEl}</CardActions>}
         </div>
     );

@@ -1,5 +1,5 @@
 import AsyncSelect, { IAsyncSelectProps } from "./AsyncSelect";
-import { getUserDisplayRole } from "../../utils/helpers";
+import { getDisplayUserRole } from "../../utils/helpers";
 import {
     EUserRoles,
     IFetchUserArrayOptions,
@@ -35,7 +35,7 @@ const UserSelect: React.FC<IUserSelectProps> = ({
             {...asyncSelectProps}
             TextFieldProps={{
                 fullWidth: true,
-                label: userRole ? getUserDisplayRole(userRole) : "User",
+                label: userRole ? getDisplayUserRole(userRole) : "User",
                 placeholder: "e.g David Aguira",
                 margin: "normal",
                 autoFocus: true,

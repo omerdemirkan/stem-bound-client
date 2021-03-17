@@ -1,3 +1,4 @@
+import { DialogProps } from "@material-ui/core/Dialog";
 import { VariantType } from "notistack";
 
 export enum ENotificationTypes {
@@ -25,10 +26,16 @@ export interface ISnackbarData {
     onClose?: () => any;
 }
 
+export interface IScreenProps {
+    onClose(): void;
+}
+
 export interface IScreenData {
-    Component?: React.FC<{ onClose(): void }>;
+    Component?: React.FC<IScreenProps>;
     content?: any;
-    renderContent?(data: { onClose(): void }): any;
+    renderContent?(props: IScreenProps): any;
+
+    DialogProps?: DialogProps;
 }
 
 export interface INotificationContextState {

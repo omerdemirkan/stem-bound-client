@@ -12,7 +12,7 @@ import EmptyInboxSVG from "../../components/svg/illustrations/empty-inbox";
 import {
     getDefaultSearchField,
     getLastInspectedChatId,
-    getUserDisplayRole,
+    getDisplayUserRole,
 } from "../../utils/helpers";
 import AuthContext from "../../components/contexts/AuthContext";
 import Link from "next/link";
@@ -82,9 +82,9 @@ const MessagingAppPage: React.FC = () => {
                 <PictureMessage
                     Svg={EmptyInboxSVG}
                     message="Looks like you haven't contacted anyone"
-                    subMessage={`You can contact ${getUserDisplayRole(
+                    subMessage={`You can contact ${getDisplayUserRole(
                         getDefaultSearchField(user.role)
-                    ).toLowerCase()}s or other ${getUserDisplayRole(
+                    ).toLowerCase()}s or other ${getDisplayUserRole(
                         user.role
                     ).toLowerCase()}s on the search page.`}
                     footerEl={
