@@ -23,14 +23,13 @@ import { useRouter } from "next/router";
 import useCalculateOnce from "../../hooks/useCalculateOnce";
 
 const MessagingAppPage: React.FC = () => {
-    const router = useRouter();
-    const contactUserId = router.query.contact as string;
     const smallScreen = useMediaQuery("(max-width: 1400px)");
 
     const lastInspectedChatId = useCalculateOnce(getLastInspectedChatId);
     const [chatId, setChatId] = useQueryState<string>("id", {
         defaultValue: !smallScreen ? lastInspectedChatId : null,
     });
+    const [contactUserId, setContactUserId] = useQueryState<string>("contact");
 
     const { user } = useContext(AuthContext);
     const {

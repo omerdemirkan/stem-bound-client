@@ -6,13 +6,11 @@ import CardActions, { CardActionsProps } from "@material-ui/core/CardActions";
 import { EUserRoles, IInstructor, IStudent, IUser } from "../../utils/types";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import Chip from "@material-ui/core/Chip";
 import Section from "./Section";
 import { makeStyles } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { useContext } from "react";
 import NotificationContext from "../contexts/NotificationContext";
-import ScreenLayout from "./ScreenLayout";
 import UserScreen from "./UserScreen";
 import ChipList from "./ChipList";
 
