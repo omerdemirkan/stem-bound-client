@@ -112,7 +112,7 @@ const MobileNavbar = () => {
                                 donate
                             </Button>
                         </Link>
-                        <Link href="/sign-up">
+                        <Link href="/volunteer-page">
                             <Button
                                 onClick={toggleMenu}
                                 className={classes.highlightButton}

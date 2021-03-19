@@ -43,7 +43,7 @@ const DesktopNavbar = () => {
                         Donate
                     </Button>
                 </Link>
-                <Link href="/sign-up">
+                <Link href="/volunteer-page">
                     <Button variant="contained" color="primary">
                         Volunteer
                     </Button>
