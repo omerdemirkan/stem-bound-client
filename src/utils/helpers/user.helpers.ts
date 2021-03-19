@@ -9,6 +9,7 @@ import {
     IInstructor,
     IInstructorOriginal,
     IStudent,
+    ISchoolOfficial,
 } from "../types";
 
 export function mapUserData(user: IUserOriginal): IUser {
@@ -47,7 +48,7 @@ export function mapUserData(user: IUserOriginal): IUser {
             (mappedUser as IInstructor).specialties = (user as IInstructorOriginal).specialties;
             break;
         case EUserRoles.SCHOOL_OFFICIAL:
-            (mappedUser as IInstructor).position = (user as ISchoolOfficialOriginal).position;
+            (mappedUser as ISchoolOfficial).position = (user as ISchoolOfficialOriginal).position;
             break;
     }
     return mappedUser;
