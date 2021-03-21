@@ -21,12 +21,17 @@ import {
     removeEmptyStrings,
 } from "../../../../../utils/helpers";
 import startOfDay from "date-fns/startOfDay";
-import Section from "../../../../../components/ui/Section";
 import Head from "next/head";
+import { useMediaQuery } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+import AlertTitle from "@material-ui/lab/AlertTitle";
+import Section from "../../../../../components/ui/Section";
 
 const CreateMeetingAppPage: React.FC = () => {
     const router = useRouter();
+    const smallScreen = useMediaQuery("(max-width: 900px)");
     const queryCourseId = router.query.id;
+
     const { data: course, error, mutate: mutateCourse } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}` : null,
         courseFetcher(queryCourseId as any)
@@ -80,6 +85,16 @@ const CreateMeetingAppPage: React.FC = () => {
             <Head>
                 <title>Create Meetings - STEM-bound</title>
             </Head>
+            {smallScreen && (
+                <Section noDivider>
+                    <Alert severity="warning">
+                        <AlertTitle>Mobile issue</AlertTitle>
+                        Users creating meetings on devices with small screens
+                        may have difficulties; if issues arise, we recommend
+                        creating meetings on a desktop
+                    </Alert>
+                </Section>
+            )}
             {course ? (
                 <MeetingsForm
                     defaultMeetingType={
