@@ -7,6 +7,7 @@ import { getChatsCache, setChatsCache } from "../../utils/helpers";
 import useCalculateOnce from "../../hooks/useCalculateOnce";
 import useDebounce from "../../hooks/useDebounce";
 import useMessaging from "../../hooks/useMessaging";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export type IChatMessageInput = TextFieldProps & {
     initialValue?: string;
@@ -75,15 +76,17 @@ export const ChatMessageInput: React.FC<IChatMessageInput> = ({
             InputProps={{
                 endAdornment: (
                     <InputAdornment position="end" onClick={handleSendClicked}>
-                        <IconButton disabled={textField.length === 0}>
-                            <SendIcon
-                                color={
-                                    textField.length === 0
-                                        ? "disabled"
-                                        : "primary"
-                                }
-                            />
-                        </IconButton>
+                        <Tooltip title="Send message">
+                            <IconButton disabled={textField.length === 0}>
+                                <SendIcon
+                                    color={
+                                        textField.length === 0
+                                            ? "disabled"
+                                            : "primary"
+                                    }
+                                />
+                            </IconButton>
+                        </Tooltip>
                     </InputAdornment>
                 ),
             }}
