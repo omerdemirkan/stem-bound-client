@@ -242,29 +242,52 @@ const MyAccountAppPage: React.FC = () => {
                         ) : null}
 
                         {user.role === EUserRoles.INSTRUCTOR ? (
-                            <EditableSection
-                                title="Specialties"
-                                value={(user as IInstructor).specialties}
-                                onEdit={(specialties) =>
-                                    handleUpdateUser({ specialties })
-                                }
-                                InputButtonProps={{
-                                    renderInput: (value, setValue) => (
-                                        <ChipInput
-                                            onChange={setValue}
-                                            value={value}
-                                            TextFieldProps={{
-                                                fullWidth: true,
-                                                id: "specialties",
-                                            }}
-                                        />
-                                    ),
-                                }}
-                            >
-                                <ChipList
-                                    data={(user as IInstructor).specialties}
+                            <>
+                                <EditableSection
+                                    title="Specialties"
+                                    value={(user as IInstructor).specialties}
+                                    onEdit={(specialties) =>
+                                        handleUpdateUser({ specialties })
+                                    }
+                                    InputButtonProps={{
+                                        renderInput: (value, setValue) => (
+                                            <ChipInput
+                                                onChange={setValue}
+                                                value={value}
+                                                TextFieldProps={{
+                                                    fullWidth: true,
+                                                    id: "specialties",
+                                                }}
+                                            />
+                                        ),
+                                    }}
+                                >
+                                    <ChipList
+                                        data={(user as IInstructor).specialties}
+                                    />
+                                </EditableSection>
+                                <EditableSection
+                                    title="Resume Url"
+                                    value={
+                                        (user as IInstructor).remoteResumeUrl ||
+                                        ""
+                                    }
+                                    onEdit={(value) =>
+                                        handleUpdateUser({
+                                            remoteResumeUrl: value,
+                                        })
+                                    }
+                                    buttonText={`${
+                                        (user as IInstructor).remoteResumeUrl
+                                            ? "UPDATE"
+                                            : "ADD"
+                                    } RESUME URL`}
+                                    TextFieldProps={{
+                                        placeholder:
+                                            "A link to where your resume can be accessed",
+                                    }}
                                 />
-                            </EditableSection>
+                            </>
                         ) : null}
                     </>
                 }
