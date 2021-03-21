@@ -46,6 +46,8 @@ export function mapUserData(user: IUserOriginal): IUser {
             break;
         case EUserRoles.INSTRUCTOR:
             (mappedUser as IInstructor).specialties = (user as IInstructorOriginal).specialties;
+            (mappedUser as IInstructor).remoteResumeUrl = (user as IInstructorOriginal).remoteResumeUrl;
+            (mappedUser as IInstructor).resumeUrl = (user as IInstructorOriginal).resumeUrl;
             break;
         case EUserRoles.SCHOOL_OFFICIAL:
             (mappedUser as ISchoolOfficial).position = (user as ISchoolOfficialOriginal).position;

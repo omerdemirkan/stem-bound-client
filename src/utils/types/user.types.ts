@@ -31,6 +31,8 @@ export interface IInstructorOriginal extends IBaseUserOriginal {
         courses: string[];
         chats: string[];
     };
+    remoteResumeUrl?: string;
+    resumeUrl?: string;
 }
 
 export interface ISchoolOfficialOriginal extends IBaseUserOriginal {
@@ -90,6 +92,8 @@ export interface IInstructor extends IBaseUser {
     meta: {
         courses: string[];
     };
+    remoteResumeUrl?: string;
+    resumeUrl?: string;
 }
 
 export interface ISchoolOfficial extends IBaseUser {
