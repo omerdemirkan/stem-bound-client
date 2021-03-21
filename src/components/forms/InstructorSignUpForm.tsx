@@ -3,7 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { useForm, Controller } from "react-hook-form";
-import { passwordRegex, emailRegex } from "../../utils/constants";
+import { passwordRegex, emailRegex, urlRegex } from "../../utils/constants";
 import ChipInput from "../util/ChipInput";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
@@ -189,6 +189,24 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                             }
                         />
                     )}
+                />
+                <TextField
+                    name="remoteResumeUrl"
+                    inputRef={register({
+                        pattern: {
+                            value: urlRegex,
+                            message: "Invalid Url",
+                        },
+                    })}
+                    label="Resume Url (Optional)"
+                    error={errors.remoteResumeUrl}
+                    helperText={
+                        errors.remoteResumeUrl?.message ||
+                        "You may alternatively upload a resume once you've signed up"
+                    }
+                    fullWidth
+                    margin="normal"
+                    placeholder="A Link to where your resume can be accessed"
                 />
 
                 <Button

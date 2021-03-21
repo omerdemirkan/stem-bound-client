@@ -85,16 +85,19 @@ const CreateMeetingAppPage: React.FC = () => {
             <Head>
                 <title>Create Meetings - STEM-bound</title>
             </Head>
+
             {smallScreen && (
                 <Section noDivider>
                     <Alert severity="warning">
-                        <AlertTitle>Mobile issue</AlertTitle>
+                        <AlertTitle>Mobile Accessibility Issue</AlertTitle>
                         Users creating meetings on devices with small screens
-                        may have difficulties; if issues arise, we recommend
-                        creating meetings on a desktop
+                        may have difficulties; we are working on resolving the
+                        issue. If problems arise, we recommend creating meetings
+                        on a desktop.
                     </Alert>
                 </Section>
             )}
+
             {course ? (
                 <MeetingsForm
                     defaultMeetingType={
