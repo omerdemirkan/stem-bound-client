@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { getMeetingTypeDisplay } from "../../utils/helpers";
-import { IMeeting, EMeetingTypes, ENotificationTypes } from "../../utils/types";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import { IMeeting, EMeetingTypes } from "../../utils/types";
 import NotificationContext from "../contexts/NotificationContext";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Card, { CardProps } from "@material-ui/core/Card";
@@ -11,6 +10,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider";
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import CopyToClipboard from "../util/CopyToClipboard";
 
 const useStyles = makeStyles({
     card: {
@@ -89,21 +89,25 @@ const MeetingCard: React.FC<IMeetingCardProps> = ({
                 ) : (
                     <CopyToClipboard
                         text={meeting.url}
-                        onCopy={() =>
-                            createSnackbar({
-                                text: "Meeting URL Copied to Clipboard",
-                                type: "success",
-                            })
-                        }
-                    >
-                        <Typography
-                            paragraph
-                            className={classes.cardContentParagraph}
-                            style={{ cursor: "pointer" }}
-                        >
-                            {meeting.url}
-                        </Typography>
-                    </CopyToClipboard>
+                        description="Meeting URL"
+                    />
+                    // <CopyToClipboard
+                    //     text={meeting.url}
+                    //     onCopy={() =>
+                    //         createSnackbar({
+                    //             text: "Meeting URL Copied to Clipboard",
+                    //             type: "success",
+                    //         })
+                    //     }
+                    // >
+                    //     <Typography
+                    //         paragraph
+                    //         className={classes.cardContentParagraph}
+                    //         style={{ cursor: "pointer" }}
+                    //     >
+                    //         {meeting.url}
+                    //     </Typography>
+                    // </CopyToClipboard>
                 )}
             </CardContent>
 

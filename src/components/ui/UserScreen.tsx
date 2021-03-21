@@ -15,6 +15,7 @@ import ContactUserButton from "../util/ContactUserButton";
 import useSWR from "swr";
 import { coursesFetcher, schoolFetcher } from "../../utils/services";
 import { getCurrentSchoolYear } from "../../utils/helpers";
+import CopyToClipboard from "../util/CopyToClipboard";
 
 export interface IUserScreenProps extends IScreenProps {
     user: IUser;
@@ -86,6 +87,14 @@ const UserScreen: React.FC<IUserScreenProps> = ({ user, onClose }) => {
                     <ChipList data={(user as IInstructor).specialties} />
                 </Section>
             ) : null}
+            {(user as IInstructor).remoteResumeUrl && (
+                <Section title="Resume" spacing="xs">
+                    <CopyToClipboard
+                        text={(user as IInstructor).remoteResumeUrl}
+                        description="Resume URL"
+                    />
+                </Section>
+            )}
 
             {user.role === EUserRoles.STUDENT &&
             (user as IStudent).interests.length ? (

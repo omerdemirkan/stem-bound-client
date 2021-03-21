@@ -11,12 +11,14 @@ export interface ICopyToClipboardProps {
     text: string;
     description: string;
     onCopy?(): any;
+    variant?: "default" | "outlined";
 }
 
 const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
     text,
     description,
     onCopy,
+    variant = "default",
 }) => {
     const { createSnackbar } = useContext(NotificationContext);
     async function handleCopyToClipboard() {
@@ -59,6 +61,9 @@ const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
                     padding: 3px 8px;
                     width: 100%;
                     max-width: 450px;
+                    border: ${variant === "outlined"
+                        ? "1px solid var(--accent-light)"
+                        : "none"};
 
                     display: grid;
                     grid-template-columns: auto 30px;

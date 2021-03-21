@@ -34,6 +34,7 @@ import GradeLevelInput from "../../components/util/GradeLevelInput";
 import RelativeGrid from "../../components/ui/RelativeGrid";
 import LocationAsyncSelect from "../../components/util/LocationAsyncSelect";
 import ChipList from "../../components/ui/ChipList";
+import CopyToClipboard from "../../components/util/CopyToClipboard";
 
 const useStyles = makeStyles({
     avatar: {
@@ -286,6 +287,15 @@ const MyAccountAppPage: React.FC = () => {
                                         placeholder:
                                             "A link to where your resume can be accessed",
                                     }}
+                                    // display={
+                                    //     <CopyToClipboard
+                                    //         text={
+                                    //             (user as IInstructor)
+                                    //                 .remoteResumeUrl
+                                    //         }
+                                    //         description="Resume URL"
+                                    //     />
+                                    // }
                                 />
                             </>
                         ) : null}
