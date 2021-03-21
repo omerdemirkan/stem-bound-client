@@ -115,13 +115,10 @@ const InputButton: React.FC<IInputButtonProps> = ({
                 open={!!modalOpen}
                 onClose={() => setModalOpen(false)}
                 maxWidth="sm"
+                fullWidth
                 {...DialogProps}
             >
-                <Box
-                    className="dialog-content-container"
-                    width="450px"
-                    max-width="100%"
-                >
+                <Box className="dialog-content-container" width="100%">
                     <DialogContent>
                         {renderInput(value, setValue, {
                             updateFields,
