@@ -13,6 +13,7 @@ import {
 } from "../../utils/helpers";
 import AsyncSelect from "../util/AsyncSelect";
 import Alert from "@material-ui/lab/Alert";
+import { DatePicker } from "@material-ui/pickers";
 
 export interface ICourseFormProps {
     onSubmit(values: any): void;
@@ -27,7 +28,7 @@ const CourseForm: React.FC<ICourseFormProps> = ({
     withoutCard,
     CardProps,
 }) => {
-    const { register, handleSubmit, errors, control } = useForm();
+    const { register, handleSubmit, errors, control, getValues } = useForm();
 
     function onSubmitClicked(values) {
         values.meta = {
@@ -133,6 +134,46 @@ const CourseForm: React.FC<ICourseFormProps> = ({
                 />
 
                 <Controller
+                    name="start"
+                    control={control}
+                    rules={{
+                        required: "Required",
+                    }}
+                    render={(params) => (
+                        <DatePicker
+                            {...params}
+                            minDate={new Date()}
+                            fullWidth
+                            margin="normal"
+                            label="Start Date"
+                            style={{ width: "50%" }}
+                        />
+                    )}
+                />
+
+                <Controller
+                    name="end"
+                    control={control}
+                    rules={{
+                        required: "Required",
+                        validate: (value) =>
+                            new Date(value) > new Date(getValues().start)
+                                ? true
+                                : "Invalid time period",
+                    }}
+                    render={(params) => (
+                        <DatePicker
+                            {...params}
+                            minDate={new Date()}
+                            fullWidth
+                            margin="normal"
+                            label="End Date"
+                            style={{ width: "50%" }}
+                        />
+                    )}
+                />
+
+                <Controller
                     control={control}
                     rules={{
                         validate: (value) =>
@@ -143,7 +184,6 @@ const CourseForm: React.FC<ICourseFormProps> = ({
                     render={(params) => (
                         <Select
                             style={{ margin: "25px 0" }}
-                            inputProps={{ "aria-label": "Without label" }}
                             displayEmpty
                             fullWidth
                             error={!!errors.type}
