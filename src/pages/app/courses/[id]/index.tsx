@@ -36,6 +36,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import IconButton from "@material-ui/core/IconButton";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
 import ContactUserButton from "../../../../components/util/ContactUserButton";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
@@ -146,13 +147,15 @@ const CourseAppPage: React.FC = () => {
                             as={`/app/courses/${course?._id}/settings`}
                         >
                             <a>
-                                <IconButton
-                                    color="primary"
-                                    size="small"
-                                    aria-label="Settings"
-                                >
-                                    <SettingsIcon />
-                                </IconButton>
+                                <Tooltip title="Course Settings">
+                                    <IconButton
+                                        color="primary"
+                                        size="small"
+                                        aria-label="Settings"
+                                    >
+                                        <SettingsIcon />
+                                    </IconButton>
+                                </Tooltip>
                             </a>
                         </Link>
                     )}
