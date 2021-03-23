@@ -45,7 +45,11 @@ const UserScreen: React.FC<IUserScreenProps> = ({ user, onClose }) => {
             avatar={<Avatar src={user.profilePictureUrl} alt={user.fullName} />}
             actionEl={
                 <>
-                    <ContactUserButton userId={user._id} color="primary">
+                    <ContactUserButton
+                        userId={user._id}
+                        color="primary"
+                        onClick={onClose}
+                    >
                         CONTACT
                     </ContactUserButton>
                 </>

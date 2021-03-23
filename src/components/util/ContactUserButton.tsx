@@ -11,7 +11,7 @@ const ContactUserButton: React.FC<IContactUserButtonProps> = ({
     children,
     userId,
     newTab,
-    ...ButtonProps
+    ...buttonProps
 }) => {
     const LinkComponent: React.FC<LinkProps> = newTab
         ? LinkNewTab
@@ -26,7 +26,7 @@ const ContactUserButton: React.FC<IContactUserButtonProps> = ({
             href="/app/messaging"
             as={`/app/messaging?contact=${userId}`}
         >
-            <Button {...ButtonProps}>{children}</Button>
+            <Button {...buttonProps}>{children}</Button>
         </LinkComponent>
     );
 };
