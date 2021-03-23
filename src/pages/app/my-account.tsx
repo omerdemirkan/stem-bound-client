@@ -287,16 +287,15 @@ const MyAccountAppPage: React.FC = () => {
                                         placeholder:
                                             "A link to where your resume can be accessed",
                                     }}
-                                    // display={
-                                    //     <CopyToClipboard
-                                    //         text={
-                                    //             (user as IInstructor)
-                                    //                 .remoteResumeUrl
-                                    //         }
-                                    //         description="Resume URL"
-                                    //     />
-                                    // }
-                                />
+                                >
+                                    <CopyToClipboard
+                                        text={
+                                            (user as IInstructor)
+                                                .remoteResumeUrl
+                                        }
+                                        description="Resume URL"
+                                    />
+                                </EditableSection>
                             </>
                         ) : null}
                     </>

@@ -1,4 +1,3 @@
-import Box from "@material-ui/core/Box";
 import Tooltip from "@material-ui/core/Tooltip";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import { useContext } from "react";
@@ -6,20 +5,37 @@ import NotificationContext from "../contexts/NotificationContext";
 
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core";
 
 export interface ICopyToClipboardProps {
     text: string;
     description: string;
     onCopy?(): any;
-    variant?: "default" | "outlined";
 }
+
+const useStyles = makeStyles({
+    paper: {
+        boxShadow: "none",
+        padding: "3px 3px 3px 8px",
+
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexWrap: "nowrap",
+        maxWidth: "450px",
+    },
+    text: {
+        marginRight: "15px",
+    },
+});
 
 const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
     text,
     description,
     onCopy,
-    variant = "default",
 }) => {
+    const classes = useStyles();
     const { createSnackbar } = useContext(NotificationContext);
     async function handleCopyToClipboard() {
         try {
@@ -37,10 +53,17 @@ const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
         }
     }
 
+    const isEmpty = text == null;
+
     return (
-        <div className="container">
-            <Typography component="span" noWrap style={{ maxWidth: "400px" }}>
-                {text}
+        <Paper className={classes.paper}>
+            <Typography
+                component="span"
+                noWrap
+                className={classes.text}
+                color={isEmpty ? "textSecondary" : "textPrimary"}
+            >
+                {!isEmpty ? text : `No ${description}`}
             </Typography>
             <span>
                 <Tooltip title={`Copy ${description}`}>
@@ -48,30 +71,13 @@ const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
                         color="primary"
                         size="small"
                         onClick={handleCopyToClipboard}
+                        disabled={isEmpty}
                     >
                         <FileCopyIcon />
                     </IconButton>
                 </Tooltip>
             </span>
-
-            <style jsx>{`
-                .container {
-                    background-color: var(--background-light);
-                    border-radius: 4px;
-                    padding: 3px 8px;
-                    width: 100%;
-                    max-width: 450px;
-                    border: ${variant === "outlined"
-                        ? "1px solid var(--accent-light)"
-                        : "none"};
-
-                    display: grid;
-                    grid-template-columns: auto 30px;
-                    grid-gap: 10px;
-                    align-items: center;
-                }
-            `}</style>
-        </div>
+        </Paper>
     );
 };
 
