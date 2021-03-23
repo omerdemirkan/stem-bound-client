@@ -62,12 +62,14 @@ export function mapAnnouncementData(
 export function mapCourseData(course: ICourseOriginal): ICourse {
     return {
         _id: course._id,
-        createdAt: course.createdAt,
+        createdAt: new Date(course.createdAt),
         title: course.title,
         type: course.type,
         displayType: getCourseTypeDisplay(course.type),
         longDescription: course.longDescription,
         shortDescription: course.shortDescription,
+        start: new Date(course.start),
+        end: new Date(course.end),
         meta: {
             instructors: course.meta.instructors,
             school: course.meta.school,

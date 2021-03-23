@@ -42,7 +42,7 @@ export interface IAnnouncementOriginal {
         readBy: string;
     };
     _id?: string;
-    createdAt?: Date;
+    createdAt?: string;
 }
 
 export interface IAnnouncement {
@@ -52,7 +52,7 @@ export interface IAnnouncement {
         readBy: string;
     };
     _id?: string;
-    createdAt?: Date;
+    createdAt?: string;
 }
 
 export enum ECourseVerificationStatus {
@@ -65,17 +65,19 @@ export enum ECourseVerificationStatus {
 export interface ICourseVerificationStatusUpdate {
     meta: { from: string };
     status: ECourseVerificationStatus;
-    createdAt?: Date;
+    createdAt?: string;
 }
 
 export interface ICourseOriginal {
     _id: string;
-    createdAt: Date;
+    createdAt: string;
     title: string;
     verificationStatus: ECourseVerificationStatus;
     verificationHistory: ICourseVerificationStatusUpdate[];
     shortDescription: string;
     longDescription: string;
+    start: string;
+    end: string;
     type: ECourseTypes;
     meetings: IMeetingOriginal[];
     announcements: IAnnouncementOriginal[];
@@ -94,6 +96,8 @@ export interface ICourse {
     verificationHistory: ICourseVerificationStatusUpdate[];
     shortDescription: string;
     longDescription: string;
+    start: Date;
+    end: Date;
     type: ECourseTypes;
     displayType: string;
     meetings: IMeeting[];
