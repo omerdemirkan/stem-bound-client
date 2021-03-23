@@ -304,6 +304,22 @@ const CourseAppPage: React.FC = () => {
                                 upcomingMeetingsError &&
                                 "Couldn't load upcoming meetings, an error occured"
                             }
+                            infoAction={
+                                user.role === EUserRoles.INSTRUCTOR &&
+                                upcomingMeetings?.length === 0 &&
+                                !upcomingMeetingsError && (
+                                    <Link
+                                        href="/app/courses/[id]/meetings/create"
+                                        as={`/app/courses/${course?._id}/meetings/create`}
+                                    >
+                                        <a>
+                                            <Button color="primary">
+                                                Create Meetings
+                                            </Button>
+                                        </a>
+                                    </Link>
+                                )
+                            }
                         >
                             {upcomingMeetings?.map((meeting) => (
                                 <MeetingCard
