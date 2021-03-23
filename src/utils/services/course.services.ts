@@ -35,6 +35,8 @@ export function fetchCourses(
                 school_id: options.schoolId,
                 instructor_id: options.instructorId,
                 student_id: options.studentId,
+                before: new Date(options.before),
+                after: new Date(options.after),
             })
         ),
         mapCourseData

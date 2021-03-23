@@ -135,6 +135,8 @@ export interface IFetchCourseArrayOptions {
     schoolId?: string;
     instructorId?: string;
     studentId?: string;
+    before?: Date;
+    after?: Date;
 }
 
 export interface IFetchMeetingArrayOptions {
