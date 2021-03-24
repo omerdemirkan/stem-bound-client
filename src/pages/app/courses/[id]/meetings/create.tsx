@@ -26,11 +26,16 @@ import { useMediaQuery } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import Section from "../../../../../components/ui/Section";
+import { useContext, useMemo } from "react";
+import NotificationContext from "../../../../../components/contexts/NotificationContext";
+import useCalculateOnce from "../../../../../hooks/useCalculateOnce";
 
 const CreateMeetingAppPage: React.FC = () => {
     const router = useRouter();
     const smallScreen = useMediaQuery("(max-width: 900px)");
     const queryCourseId = router.query.id;
+
+    const { createSnackbar } = useContext(NotificationContext);
 
     const { data: course, error, mutate: mutateCourse } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}` : null,
@@ -45,6 +50,28 @@ const CreateMeetingAppPage: React.FC = () => {
         schoolFetcher(course?.meta.school)
     );
 
+    const previousMeetingsDatesHashTable = useMemo(
+        function () {
+            const datesHashTable = {};
+            meetings?.forEach(function (meeting) {
+                datesHashTable[startOfDay(meeting.start).toString()] = true;
+            });
+            return datesHashTable;
+        },
+        [meetings]
+    );
+
+    function handleFilterDates(dates: Date[]): Date[] {
+        return dates.filter((date) => {
+            // ensuring no date conflict with existing meetings
+            const day = startOfDay(date);
+            if (previousMeetingsDatesHashTable[day.toString()]) return false;
+            // ensuring no meeting date is out of bounds of the course
+            if (date < course.start || date > course.end) return false;
+            return true;
+        });
+    }
+
     function handleSubmit(meetings: IMeetingOriginal[]) {
         createMeetings(removeEmptyStrings(meetings), {
             courseId: course._id,
@@ -57,13 +84,6 @@ const CreateMeetingAppPage: React.FC = () => {
             router.push(`/app/courses/${course._id}/meetings`);
         });
     }
-
-    const previousMeetingsDatesHashTable = {};
-    meetings?.forEach(function (meeting) {
-        previousMeetingsDatesHashTable[
-            startOfDay(meeting.start).toString()
-        ] = true;
-    });
 
     return (
         <AppLayout
@@ -109,11 +129,7 @@ const CreateMeetingAppPage: React.FC = () => {
                     schoolName={school?.name}
                     courseType={course.type}
                     onSubmit={handleSubmit}
-                    validateDate={function (date: Date) {
-                        return !previousMeetingsDatesHashTable[
-                            startOfDay(date).toString()
-                        ];
-                    }}
+                    filterDates={handleFilterDates}
                 />
             ) : null}
         </AppLayout>

@@ -39,9 +39,9 @@ export interface IMeetingsFormProps {
     courseTitle: string;
     schoolName: string;
     initialMeetingInputs?: IMeeting[];
-    onChange?: (meetings: IMeetingOriginal[]) => any;
-    onSubmit?: (meetings: IMeetingOriginal[]) => any;
-    validateDate?: (dates: Date) => boolean;
+    onChange?(meetings: IMeetingOriginal[]): any;
+    onSubmit?(meetings: IMeetingOriginal[]): any;
+    filterDates?(dates: Date[]): Date[];
 }
 
 const MeetingsForm: React.FC<IMeetingsFormProps> = ({
@@ -52,7 +52,7 @@ const MeetingsForm: React.FC<IMeetingsFormProps> = ({
     courseType,
     courseTitle,
     schoolName,
-    validateDate,
+    filterDates,
 }) => {
     const [meetings, setMeetings] = useState<IMeeting[]>(
         initialMeetingInputs || []
@@ -118,15 +118,21 @@ const MeetingsForm: React.FC<IMeetingsFormProps> = ({
     }
 
     function handleDatesSelected(dates: Date[]) {
-        const filteredDates = dates.filter(validateDate || ((d) => d));
-        if (dates.length !== filteredDates.length) {
+        const filteredDates = filterDates ? filterDates(dates) : dates;
+        if (!filteredDates.length)
+            return createSnackbar({
+                text: "All selected meetings have conflicts",
+                type: "error",
+            });
+
+        const numRemoved = dates.length - filteredDates.length;
+        if (numRemoved)
             createSnackbar({
-                text: filteredDates.length
-                    ? "Some dates meeting dates were removed due to conflict."
-                    : "All selected meetings conflict with previously created meetings.",
+                text: `${numRemoved} meeting date${numRemoved > 1 ? "s" : ""} ${
+                    numRemoved > 1 ? "were" : "was"
+                } removed due to conflict`,
                 type: "info",
             });
-        }
 
         if (filteredDates.length) {
             setDates(filteredDates);
@@ -163,8 +169,6 @@ const MeetingsForm: React.FC<IMeetingsFormProps> = ({
         });
         onSubmit(newMeetings);
     }
-
-    console.log(meetings);
 
     return (
         <>
