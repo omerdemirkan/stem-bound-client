@@ -13,7 +13,11 @@ import {
     createAnnouncement,
 } from "../../../../utils/services";
 import { useContext } from "react";
-import { EUserRoles, ENotificationTypes } from "../../../../utils/types";
+import {
+    EUserRoles,
+    ENotificationTypes,
+    ECourseVerificationStatus,
+} from "../../../../utils/types";
 import { clone } from "../../../../utils/helpers";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
 import InputButton from "../../../../components/util/InputButton";
@@ -21,6 +25,8 @@ import TextField from "@material-ui/core/TextField";
 import PictureMessage from "../../../../components/ui/PictureMessage";
 import NoResultsSVG from "../../../../components/svg/illustrations/no-results";
 import Section from "../../../../components/ui/Section";
+import Alert from "@material-ui/lab/Alert";
+import AlertTitle from "@material-ui/lab/AlertTitle";
 
 const AnnouncementsAppPage: React.FC = () => {
     const router = useRouter();
@@ -94,6 +100,9 @@ const AnnouncementsAppPage: React.FC = () => {
         });
     }
 
+    const courseIsVerified =
+        course?.verificationStatus === ECourseVerificationStatus.VERIFIED;
+
     return (
         <AppLayout
             breadCrumbs={[
@@ -106,7 +115,7 @@ const AnnouncementsAppPage: React.FC = () => {
                 { label: "Announcements" },
             ]}
             actionEl={
-                user.role === EUserRoles.INSTRUCTOR ? (
+                user.role === EUserRoles.INSTRUCTOR && courseIsVerified ? (
                     <InputButton
                         renderInput={(value, setValue) => (
                             <TextField
@@ -132,6 +141,13 @@ const AnnouncementsAppPage: React.FC = () => {
             <Head>
                 <title>Announcements - STEM-bound</title>
             </Head>
+            {course && !courseIsVerified && (
+                <Alert severity="info">
+                    <AlertTitle>{course.title} is not verified</AlertTitle>
+                    Courses must be verified by a school official in order to be
+                    able to post announcements
+                </Alert>
+            )}
             {!announcementsLoading && !announcements?.length ? (
                 <PictureMessage
                     Svg={NoResultsSVG}
