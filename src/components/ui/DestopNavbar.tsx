@@ -13,7 +13,7 @@ const DesktopNavbar = () => {
                 </a>
             </Link>
             <div className="page-nav-container">
-                <Link href="/about">
+                <Link href="/">
                     <a>
                         <Typography>about us</Typography>
                     </a>

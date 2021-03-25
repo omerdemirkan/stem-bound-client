@@ -12,7 +12,7 @@ const Volunteer: React.FC = () => {
             title: "A Developer at STEM-bound",
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente accusamus aut cum, eligendi dignissimos sequi natus consequuntur quae error pariatur dolorum, accusantium repellendus nulla! Sit explicabo at itaque? Nesciunt, beatae.",
-            pathToNextPage: "/",
+            pathToNextPage: "/developer-submission",
         },
         {
             id: 1,

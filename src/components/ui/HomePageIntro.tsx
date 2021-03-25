@@ -141,7 +141,7 @@ const HomePageIntro = () => {
                 @media (max-width: 900px) {
                     .intro-content-wrapper {
                         width: 100%;
-                        height: 60vh;
+                        min-height: 60vh;
                     }
                     .main-title {
                         font-size: 40px;
