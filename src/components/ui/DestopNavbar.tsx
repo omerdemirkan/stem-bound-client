@@ -3,8 +3,35 @@ import { EUserRoles } from "../../utils/types";
 import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 import WordLogoSVG from "../svg/icons/word-logo";
+import { useState } from "react";
 
 const DesktopNavbar = () => {
+    const [navState, chageNavState] = useState({
+        activeObject: { id: 0, title: "about us", path: "/" },
+        objects: [
+            { id: 0, title: "about us", path: "/" },
+            { id: 1, title: "our team", path: "/our-team" },
+            {
+                id: 2,
+                title: "search",
+                path: `/search?q=${EUserRoles.INSTRUCTOR}`,
+            },
+            { id: 3, title: "log in", path: "/log-in" },
+            { id: 4, title: "sing up", path: "/sign-up" },
+        ],
+    });
+
+    const toggleActive = (index) => {
+        chageNavState({ ...navState, activeObject: navState.objects[index] });
+    };
+    const toggleActiveStyle = (index) => {
+        if (navState.objects[index] === navState.activeObject) {
+            return "primary";
+        } else {
+            return "inherit";
+        }
+    };
+
     return (
         <div className="desktop-wrapper">
             <Link href="/">
@@ -12,32 +39,24 @@ const DesktopNavbar = () => {
                     <WordLogoSVG height="80px" width="180px" />
                 </a>
             </Link>
+
             <div className="page-nav-container">
-                <Link href="/">
-                    <a>
-                        <Typography>about us</Typography>
-                    </a>
-                </Link>
-                <Link href="/our-team">
-                    <a>
-                        <Typography>our team</Typography>
-                    </a>
-                </Link>
-                <Link href={`/search?q=${EUserRoles.INSTRUCTOR}`}>
-                    <a>
-                        <Typography>search</Typography>
-                    </a>
-                </Link>
-                <Link href="/log-in">
-                    <a>
-                        <Typography>log in</Typography>
-                    </a>
-                </Link>
-                <Link href="/sign-up">
-                    <a>
-                        <Typography>sign up</Typography>
-                    </a>
-                </Link>
+                {navState.objects.map((el, index) => {
+                    return (
+                        <Link href={el.path}>
+                            <a
+                                onClick={() => {
+                                    toggleActive(index);
+                                }}
+                            >
+                                <Typography color={toggleActiveStyle(index)}>
+                                    {el.title}
+                                </Typography>
+                            </a>
+                        </Link>
+                    );
+                })}
+
                 <Link href="/sign-up">
                     <Button variant="outlined" color="primary">
                         Donate
