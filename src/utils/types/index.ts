@@ -14,3 +14,4 @@ export * from "./date.types";
 export * from "./notification.types";
 export * from "./theme.types";
 export * from "./sizing.types";
+export * from "./contact.types";
