@@ -152,13 +152,13 @@ const HomePageIntro = () => {
                         position: relative;
                         display: block;
                         margin: 0 0 4% 0;
+                        min-height: 60vh;
                     }
 
                     #section-img {
-                        position: absolute;
-                        top: 0;
-                        right: 0;
+                        position: relative;
                         height: auto;
+                        margin: 0 0 0 auto;
                         top: 0;
                         right: 0;
                     }

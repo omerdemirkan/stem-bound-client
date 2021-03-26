@@ -135,7 +135,7 @@ const HomePageAppDetail = () => {
                     .detail-section-content-wrapper {
                         width: 100%;
                         margin: 0 0 60px 0;
-                        max-height: 50vh;
+                        min-height: 40vh;
                     }
                 }
             `}</style>
