@@ -6,6 +6,9 @@ interface IRelativeGridProps extends BoxProps {
     minWidthInPixels: number;
 }
 
+// Note: Relative Grid currently has problems
+// with pages that are server-side rendered.
+
 const RelativeGrid: React.FC<IRelativeGridProps> = ({
     children,
     minWidthInPixels,

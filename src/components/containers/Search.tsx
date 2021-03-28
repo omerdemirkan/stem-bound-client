@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import SearchQueryInput from "./SearchQueryInput";
 import PictureMessage from "../ui/PictureMessage";
 import NoResultsSVG from "../svg/illustrations/no-results";
-import RelativeGrid from "../ui/RelativeGrid";
+import Grid from "@material-ui/core/Grid";
 
 export interface ISearchProps {
     query: ISearchQuery;
@@ -73,17 +73,19 @@ const PaginatedSearchData: React.FC<PaginatedSearchDataProps> = ({
 }) => {
     if (!Object.values(EUserRoles).includes(searchField as any)) return null;
     return (
-        <RelativeGrid minWidthInPixels={400}>
+        <Grid container spacing={3}>
             {searchDataArray.map((searchData: IUser) => (
-                <UserCard
-                    key={searchData._id}
-                    user={searchData}
-                    fullWidth
-                    noMargin
-                    {...UserCardProps}
-                />
+                <Grid item xs={12} md={6} lg={4}>
+                    <UserCard
+                        key={searchData._id}
+                        user={searchData}
+                        fullWidth
+                        noMargin
+                        {...UserCardProps}
+                    />
+                </Grid>
             ))}
-        </RelativeGrid>
+        </Grid>
     );
 };
 
