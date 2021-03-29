@@ -4,9 +4,9 @@ import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 import WordLogoSVG from "../svg/icons/word-logo";
 import { useState } from "react";
+
 const DesktopNavbar = () => {
-    const [navState, chageNavState] = useState({
-        activeObject: { id: 0, title: "about us", path: "/" },
+    const navState = {
         objects: [
             { id: 0, title: "about us", path: "/" },
             { id: 1, title: "our team", path: "/our-team" },
@@ -18,20 +18,20 @@ const DesktopNavbar = () => {
             { id: 3, title: "log in", path: "/log-in" },
             { id: 4, title: "sing up", path: "/sign-up" },
         ],
-    });
-
-    const toggleActive = (index) => {
-        chageNavState({ ...navState, activeObject: navState.objects[index] });
     };
-    const toggleActiveStyle = (index) => {
-        if (navState.objects[index] === navState.activeObject) {
-            return "primary";
-        } else {
+
+    const toggleActiveStyle = (path) => {
+        try {
+            if (path === window.location.pathname) {
+                return "primary";
+            } else {
+                return "inherit";
+            }
+        } catch {
             return "inherit";
         }
     };
 
-    const { innerHeight: height } = window;
     const scrollToRef = () => {
         window.scrollBy({
             top: window.innerHeight,
@@ -48,16 +48,23 @@ const DesktopNavbar = () => {
             </Link>
 
             <div className="page-nav-container">
-                {navState.objects.map((el, index) => {
-                    return (
-                        <Link href={el.path}>
+                {navState.objects.map((el) => {
+                    return el.id === 0 ? (
+                        <Link href={el.path} key={el.id}>
                             <a
                                 onClick={() => {
-                                    toggleActive(index);
-                                    el.id === 0 && scrollToRef();
+                                    scrollToRef();
                                 }}
                             >
-                                <Typography color={toggleActiveStyle(index)}>
+                                <Typography color={toggleActiveStyle(el.path)}>
+                                    {el.title}
+                                </Typography>
+                            </a>
+                        </Link>
+                    ) : (
+                        <Link href={el.path}>
+                            <a>
+                                <Typography color={toggleActiveStyle(el.path)}>
                                     {el.title}
                                 </Typography>
                             </a>
