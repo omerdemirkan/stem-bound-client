@@ -16,6 +16,15 @@ const HomePageIntro = () => {
     const mobileSize = useMediaQuery("(max-width: 900px)");
     const classes = useStyles();
 
+    const { innerHeight: height } = window;
+    const scrollToRef = () => {
+        window.scrollBy({
+            top: window.innerHeight,
+            behavior: "smooth",
+        });
+        console.log(window.innerHeight);
+    };
+
     return (
         <>
             <div className="intro-section">
@@ -49,6 +58,9 @@ const HomePageIntro = () => {
                                 variant="outlined"
                                 color="primary"
                                 className={classes.highlightButton}
+                                onClick={() => {
+                                    scrollToRef();
+                                }}
                             >
                                 Learn More
                             </Button>

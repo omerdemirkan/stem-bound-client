@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 import WordLogoSVG from "../svg/icons/word-logo";
 import { useState } from "react";
-
 const DesktopNavbar = () => {
     const [navState, chageNavState] = useState({
         activeObject: { id: 0, title: "about us", path: "/" },
@@ -32,6 +31,14 @@ const DesktopNavbar = () => {
         }
     };
 
+    const { innerHeight: height } = window;
+    const scrollToRef = () => {
+        window.scrollBy({
+            top: window.innerHeight,
+            behavior: "smooth",
+        });
+    };
+
     return (
         <div className="desktop-wrapper">
             <Link href="/">
@@ -47,6 +54,7 @@ const DesktopNavbar = () => {
                             <a
                                 onClick={() => {
                                     toggleActive(index);
+                                    el.id === 0 && scrollToRef();
                                 }}
                             >
                                 <Typography color={toggleActiveStyle(index)}>

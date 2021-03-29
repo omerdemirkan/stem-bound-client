@@ -78,10 +78,7 @@ const DeveloperSubmissionPage: React.FC = () => {
                                     label="GitHub"
                                     variant="outlined"
                                     className={classes.textFieldStyle}
-                                    inputRef={register({
-                                        required: "Required",
-                                    })}
-                                    required
+                                    inputRef={register}
                                     name="github"
                                     error={!!errors.github}
                                     helperText={errors.github?.message}
@@ -121,13 +118,6 @@ const DeveloperSubmissionPage: React.FC = () => {
                             </div>
 
                             <div className="additional-info-container container">
-                                {/* <TextareaAutosize
-                                    className={classes.additionalTexBox}
-                                    rowsMin={8}
-                                    placeholder="Tell Us Something About Yourself!"
-                                    name="about"
-                                
-                                /> */}
                                 <TextField
                                     id="outlined-mulltiline-static"
                                     label="Tell us about yourself"
