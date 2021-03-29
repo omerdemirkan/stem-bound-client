@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
 import AsyncSelect from "../util/AsyncSelect";
 import {
+    deleteEmptyStrings,
     fetchSchoolInputOptions,
     getCurrentSchoolYear,
 } from "../../utils/helpers";
@@ -45,6 +46,7 @@ const StudentSignUpForm: React.FC<ISignUpFormProps> = ({
         };
         values.initialSchoolYear = currentSchoolYear;
         delete values.schoolId;
+        deleteEmptyStrings(values);
         onSubmit(values);
     });
 

@@ -6,7 +6,10 @@ import { CardProps } from "@material-ui/core/Card";
 import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
 import AsyncSelect from "../util/AsyncSelect";
-import { fetchSchoolInputOptions } from "../../utils/helpers";
+import {
+    deleteEmptyStrings,
+    fetchSchoolInputOptions,
+} from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
 import { ISignUpFormProps } from "./SignUpForm";
@@ -38,6 +41,7 @@ const SchoolOfficialSignUpForm: React.FC<ISignUpFormProps> = ({
             school: values.schoolId,
         };
         delete values.schoolId;
+        deleteEmptyStrings(values);
         onSubmit(values);
     });
 

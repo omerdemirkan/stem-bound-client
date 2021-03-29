@@ -30,7 +30,7 @@ const CourseForm: React.FC<ICourseFormProps> = ({
 }) => {
     const { register, handleSubmit, errors, control, getValues } = useForm();
 
-    function onSubmitClicked(values) {
+    function handleSubmitClicked(values) {
         values.meta = {
             instructors: [userId],
             school: values.schoolId,
@@ -60,7 +60,7 @@ const CourseForm: React.FC<ICourseFormProps> = ({
                 </Alert>
             }
         >
-            <form onSubmit={handleSubmit(onSubmitClicked)}>
+            <form onSubmit={handleSubmit(handleSubmitClicked)}>
                 <TextField
                     inputRef={register({
                         required: "Required",

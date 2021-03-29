@@ -10,6 +10,7 @@ import FormCard from "../../components/ui/FormCard";
 import { ISignUpFormProps } from "./SignUpForm";
 import HidableTextField from "../util/HidableTextField";
 import LocationAsyncSelect from "../util/LocationAsyncSelect";
+import { deleteEmptyStrings } from "../../utils/helpers";
 
 const useStyles = makeStyles({
     submitButton: {
@@ -31,6 +32,11 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
         ? ({ children }) => <div>{children}</div>
         : FormCard;
 
+    function handleSubmitClicked(values) {
+        deleteEmptyStrings(values);
+        onSubmit(values);
+    }
+
     return (
         <ModifiedFormCard
             header="Personal Details"
@@ -49,7 +55,7 @@ const InstructorSignUpForm: React.FC<ISignUpFormProps> = ({
                 ) : undefined
             }
         >
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(handleSubmitClicked)}>
                 <TextField
                     inputRef={register({
                         required: "Required",
