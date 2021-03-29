@@ -114,7 +114,7 @@ const CourseCard: React.FC<ICourseCardProps> = ({
             className={classes.card}
             style={{
                 maxWidth: !fullWidth ? "500px" : "none",
-                margin: noMargin ? "0" : undefined,
+                margin: noMargin ? "0" : fullWidth ? "10px 0" : "10px 5px",
             }}
             {...CardProps}
         >

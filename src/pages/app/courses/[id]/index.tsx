@@ -352,7 +352,6 @@ const CourseAppPage: React.FC = () => {
                                     user={instructor}
                                     key={instructor._id}
                                     fullWidth
-                                    noMargin
                                 />
                             ))}
                         </Section>

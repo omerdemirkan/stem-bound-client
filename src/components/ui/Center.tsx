@@ -4,7 +4,13 @@ export interface ICenterProps extends BoxProps {}
 
 const Center: React.FC<ICenterProps> = ({ children, ...boxProps }) => {
     return (
-        <Box display="flex" justifyContent="center" {...boxProps}>
+        <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+            {...boxProps}
+        >
             {children}
         </Box>
     );

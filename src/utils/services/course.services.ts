@@ -255,3 +255,31 @@ export function updateAnnouncementById(
         mapAnnouncementData
     );
 }
+
+// Course invitations
+
+export function createCourseInstructorInvitation({
+    courseId,
+    invitedUserId,
+}: {
+    courseId: string;
+    invitedUserId: string;
+}) {
+    return apiClient.post(
+        `/courses/${courseId}/invitations/send-instructor-invitation`,
+        { invitedUserId }
+    );
+}
+
+export function acceptCourseInstructorInvitation({
+    courseId,
+    invitationToken,
+}: {
+    courseId: string;
+    invitationToken: string;
+}) {
+    return apiClient.post(
+        `/courses/${courseId}/invitations/accept-instructor-invitation`,
+        { invitationToken }
+    );
+}

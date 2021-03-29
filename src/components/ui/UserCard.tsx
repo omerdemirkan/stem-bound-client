@@ -16,7 +16,7 @@ import ChipList from "./ChipList";
 
 const useStyles = makeStyles({
     card: {
-        margin: "10px 5px",
+        margin: "10px 0",
         width: "100%",
         maxWidth: "450px",
     },
@@ -55,7 +55,7 @@ const UserCard: React.FC<IUserCardProps> = ({
     return (
         <Card
             style={{
-                margin: noMargin ? "0" : undefined,
+                margin: noMargin ? "0" : fullWidth ? "10px 0" : "10px 5px",
                 maxWidth: !fullWidth ? "450px" : "none",
             }}
             {...CardProps}
