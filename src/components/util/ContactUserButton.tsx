@@ -29,6 +29,7 @@ const ContactUserButton: React.FC<IContactUserButtonProps> = ({
                         headerText: "You aren't logged in!",
                         bodyText: "You must be logged in to contact this user.",
                         type: ENotificationTypes.INFO,
+                        onOk: () => {},
                     })
                 }
             >
