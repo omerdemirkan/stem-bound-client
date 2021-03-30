@@ -23,6 +23,8 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import ActionBar from "../components/ui/ActionBar";
 import SearchQueryInput from "../components/containers/SearchQueryInput";
+import PictureMessage from "../components/ui/PictureMessage";
+import NoResultsSVG from "../components/svg/illustrations/no-results";
 
 interface Props {
     query: ISearchQuery;
@@ -52,25 +54,36 @@ const SearchPage: React.FC<Props> = ({ query, searchData }) => {
                     }
                 />
             </ActionBar>
+
             {paginateSearchData({
                 searchData,
-                searchField: query.searchField,
+                searchQuery: query,
             })}
-            <style jsx>{``}</style>
         </StaticLayout>
     );
 };
 
 function paginateSearchData({
     searchData,
-    searchField,
+    searchQuery,
     UserCardProps,
 }: {
     searchData: ISearchData[];
-    searchField: ESearchFields;
+    searchQuery: ISearchQuery;
     UserCardProps?: Partial<IUserCardProps>;
 }) {
-    if (!Object.values(EUserRoles).includes(searchField as any)) return null;
+    if (!Object.values(EUserRoles).includes(searchQuery.searchField as any))
+        return null;
+
+    if (!searchData.length)
+        return (
+            <PictureMessage
+                Svg={NoResultsSVG}
+                size="sm"
+                message="No results found"
+            />
+        );
+
     return (
         <Grid container spacing={3} style={{ margin: 0, width: "100%" }}>
             {searchData.map((searchData: IUser) => (

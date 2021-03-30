@@ -13,9 +13,23 @@ import {
     getDisplaySearchField,
     isSearchField,
 } from "../../utils/helpers";
-import { ESearchFields, ISearchQuery, IWithAuthProps } from "../../utils/types";
+import {
+    ESearchFields,
+    EUserRoles,
+    ISearchData,
+    ISearchQuery,
+    IUser,
+    IWithAuthProps,
+} from "../../utils/types";
 import ContactUserButton from "../../components/util/ContactUserButton";
 import useQueryState from "../../hooks/useQueryState";
+import UserCard, { IUserCardProps } from "../../components/ui/UserCard";
+import RelativeGrid from "../../components/ui/RelativeGrid";
+import PictureMessage from "../../components/ui/PictureMessage";
+import NoResultsSVG from "../../components/svg/illustrations/no-results";
+import { Typography } from "@material-ui/core";
+import ActionBar from "../../components/ui/ActionBar";
+import SearchQueryInput from "../../components/containers/SearchQueryInput";
 
 const SearchAppPage: React.FC<IWithAuthProps> = () => {
     const router = useRouter();
@@ -66,21 +80,62 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
             <Head>
                 <title>Search - STEM-bound</title>
             </Head>
-            <Search
-                searchData={searchData}
-                query={searchQuery}
-                onSearchQueryChanged={setSearchQuery}
-                loading={loading}
-                UserCardProps={{
-                    renderFooter: (user) => (
-                        <ContactUserButton userId={user._id} color="primary">
-                            Contact
-                        </ContactUserButton>
-                    ),
-                }}
-            />
+            <ActionBar
+                startEl={
+                    <Typography color="textPrimary" variant="h6">
+                        {getDisplaySearchField(searchQuery.searchField)}
+                    </Typography>
+                }
+            >
+                {isSearchField(searchQuery.searchField) && (
+                    <SearchQueryInput
+                        value={searchQuery}
+                        onSearchQueryChanged={setSearchQuery}
+                    />
+                )}
+            </ActionBar>
+            {paginateSearchData({ searchData, searchQuery })}
         </AppLayout>
     );
 };
+
+function paginateSearchData({
+    searchData,
+    searchQuery,
+    UserCardProps,
+}: {
+    searchData: ISearchData[];
+    searchQuery: ISearchQuery;
+    UserCardProps?: Partial<IUserCardProps>;
+}) {
+    if (
+        !searchData ||
+        !Object.values(EUserRoles).includes(searchQuery.searchField as any)
+    )
+        return null;
+
+    if (!searchData.length)
+        return (
+            <PictureMessage
+                Svg={NoResultsSVG}
+                size="sm"
+                message="No results found"
+            />
+        );
+
+    return (
+        <RelativeGrid minWidthInPixels={450}>
+            {searchData.map((searchData: IUser) => (
+                <UserCard
+                    key={searchData._id}
+                    user={searchData}
+                    fullWidth
+                    noMargin
+                    {...UserCardProps}
+                />
+            ))}
+        </RelativeGrid>
+    );
+}
 
 export default withAuth(SearchAppPage);
