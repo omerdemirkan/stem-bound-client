@@ -42,7 +42,7 @@ const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
             await navigator.clipboard.writeText(text);
             createSnackbar({
                 text: `${description} copied to clipboard`,
-                type: "info",
+                type: "success",
             });
             onCopy?.();
         } catch (e) {
