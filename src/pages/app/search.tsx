@@ -2,7 +2,6 @@ import AppLayout from "../../components/containers/AppLayout";
 import AuthContext from "../../components/contexts/AuthContext";
 import Head from "next/head";
 import withAuth from "../../components/hoc/withAuth";
-import Search from "../../components/containers/Search";
 import useSWR from "swr";
 import { searchDataFetcher } from "../../utils/services";
 import { useContext, useEffect, useState } from "react";
@@ -94,7 +93,17 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
                     />
                 )}
             </ActionBar>
-            {paginateSearchData({ searchData, searchQuery })}
+            {paginateSearchData({
+                searchData,
+                searchQuery,
+                UserCardProps: {
+                    renderFooter: (user) => (
+                        <ContactUserButton userId={user._id} color="primary">
+                            CONTACT
+                        </ContactUserButton>
+                    ),
+                },
+            })}
         </AppLayout>
     );
 };

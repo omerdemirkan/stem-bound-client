@@ -142,7 +142,7 @@ const MyAccountAppPage: React.FC = () => {
                                     renderInput={(value, setValue) => (
                                         <LocationAsyncSelect
                                             onChange={(location) =>
-                                                setValue(location.zip)
+                                                setValue(location?.zip)
                                             }
                                         />
                                     )}

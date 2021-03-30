@@ -58,7 +58,7 @@ const UserCard: React.FC<IUserCardProps> = ({
         <Card
             {...CardProps}
             style={{
-                margin: noMargin ? "0" : undefined,
+                margin: noMargin ? "0" : fullWidth ? "10px 0" : "10px 5px",
                 maxWidth: fullWidth ? "none" : undefined,
                 ...CardProps?.style,
             }}
