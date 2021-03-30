@@ -1,18 +1,28 @@
 import StaticLayout from "../components/ui/StaticLayout";
 import Head from "next/head";
-import Search from "../components/containers/Search";
 import { NextPageContext } from "next";
 import { fetchSearchData } from "../utils/services";
-import { ESearchFields, ISearchData, ISearchQuery } from "../utils/types";
+import {
+    ESearchFields,
+    EUserRoles,
+    ISearchData,
+    ISearchQuery,
+    IUser,
+} from "../utils/types";
 import {
     serverRedirect,
     isSearchField,
     SearchField,
     deleteUndefined,
-    appendQueriesToUrl,
     getDisplaySearchField,
+    appendQueriesToUrl,
 } from "../utils/helpers";
 import { useRouter } from "next/router";
+import UserCard, { IUserCardProps } from "../components/ui/UserCard";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import ActionBar from "../components/ui/ActionBar";
+import SearchQueryInput from "../components/containers/SearchQueryInput";
 
 interface Props {
     query: ISearchQuery;
@@ -28,18 +38,55 @@ const SearchPage: React.FC<Props> = ({ query, searchData }) => {
                     {getDisplaySearchField(query.searchField)} - STEM-bound
                 </title>
             </Head>
-            <h1>Search</h1>
-            <Search
-                searchData={searchData}
-                query={query}
-                onSearchQueryChanged={(query) =>
-                    router.push(appendQueriesToUrl(router.pathname, query))
+            <ActionBar
+                startEl={
+                    <Typography variant="h6" gutterBottom>
+                        {getDisplaySearchField(query.searchField)}
+                    </Typography>
                 }
-            />
+            >
+                <SearchQueryInput
+                    value={query}
+                    onSearchQueryChanged={(query) =>
+                        router.push(appendQueriesToUrl(router.pathname, query))
+                    }
+                />
+            </ActionBar>
+            {paginateSearchData({
+                searchData,
+                searchField: query.searchField,
+            })}
             <style jsx>{``}</style>
         </StaticLayout>
     );
 };
+
+function paginateSearchData({
+    searchData,
+    searchField,
+    UserCardProps,
+}: {
+    searchData: ISearchData[];
+    searchField: ESearchFields;
+    UserCardProps?: Partial<IUserCardProps>;
+}) {
+    if (!Object.values(EUserRoles).includes(searchField as any)) return null;
+    return (
+        <Grid container spacing={3} style={{ margin: 0, width: "100%" }}>
+            {searchData.map((searchData: IUser) => (
+                <Grid item xs={12} md={6} lg={4} xl={3}>
+                    <UserCard
+                        key={searchData._id}
+                        user={searchData}
+                        fullWidth
+                        noMargin
+                        {...UserCardProps}
+                    />
+                </Grid>
+            ))}
+        </Grid>
+    );
+}
 
 export async function getServerSideProps(ctx: NextPageContext) {
     try {

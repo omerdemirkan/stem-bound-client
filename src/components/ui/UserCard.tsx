@@ -16,7 +16,7 @@ import ChipList from "./ChipList";
 
 const useStyles = makeStyles({
     card: {
-        margin: "10px 0",
+        margin: "10px 5px",
         width: "100%",
         maxWidth: "450px",
     },
@@ -37,31 +37,32 @@ export interface IUserCardProps {
 const UserCard: React.FC<IUserCardProps> = ({
     user,
     footerEl,
-    renderFooter,
     noMargin,
     CardProps,
     CardHeaderProps,
     CardContentProps,
     CardActionsProps,
     fullWidth,
+    renderFooter,
 }) => {
     const classes = useStyles();
     const { createScreen } = useContext(NotificationContext);
+
     function handleInspectUser() {
         createScreen({
             renderContent: (props) => <UserScreen {...props} user={user} />,
         });
     }
+
     return (
         <Card
-            style={{
-                margin: noMargin ? "0" : fullWidth ? "10px 0" : "10px 5px",
-                maxWidth: !fullWidth ? "450px" : "none",
-            }}
             {...CardProps}
-            className={`${CardProps?.className ? CardProps.className : ""}${
-                classes.card
-            }`}
+            style={{
+                margin: noMargin ? "0" : undefined,
+                maxWidth: fullWidth ? "none" : undefined,
+                ...CardProps?.style,
+            }}
+            className={classes.card}
         >
             <CardHeader
                 title={user?.fullName}
@@ -81,7 +82,9 @@ const UserCard: React.FC<IUserCardProps> = ({
                 onClick={handleInspectUser}
                 {...CardHeaderProps}
             />
+
             <Divider />
+
             <CardContent
                 style={{ paddingTop: "0", paddingBottom: "0" }}
                 {...CardContentProps}
@@ -118,6 +121,7 @@ const UserCard: React.FC<IUserCardProps> = ({
                     </Section>
                 ) : null}
             </CardContent>
+
             <CardActions {...CardActionsProps}>
                 {footerEl}
                 {renderFooter && renderFooter(user)}
