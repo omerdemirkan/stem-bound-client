@@ -1,13 +1,31 @@
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-const TeamCard = ({ github, linkedin, name, position, bio, imgUrl }) => {
+export interface IStaffInfoCard {
+    github: string;
+    linkedin: string;
+    name: string;
+    position: string;
+    bio: string;
+    imgUrl: string;
+    email: string;
+}
+
+const StaffInfoCard: React.FC<IStaffInfoCard> = ({
+    github,
+    linkedin,
+    name,
+    position,
+    bio,
+    imgUrl,
+    email,
+}) => {
     return (
         <>
             <div className="staff-info-card-wrapper">
                 <div className="img-wrapper">
                     <div className="person-contact-container">
-                        <a href="mailto:someone@yoursite.com" target="_blank">
+                        <a href={`mailto:${email}`} target="_blank">
                             <img
                                 src="email-icon.svg"
                                 alt="email-icon"
@@ -95,4 +113,4 @@ const TeamCard = ({ github, linkedin, name, position, bio, imgUrl }) => {
     );
 };
 
-export default TeamCard;
+export default StaffInfoCard;

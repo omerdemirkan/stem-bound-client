@@ -20,8 +20,8 @@ const OurTeamPage = () => {
                                 bio={member.bio}
                                 imgUrl={member.imgUrl}
                                 email={member.email}
-                                gitHub={member.gitHub}
-                                linkIn={member.linkIn}
+                                github={member.gitHub}
+                                linkedin={member.linkIn}
                             />
                         );
                     })}
