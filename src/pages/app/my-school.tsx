@@ -18,7 +18,6 @@ import {
     enrollByCourseId,
     dropByCourseId,
     updateCourseVerification,
-    schoolFetcher,
 } from "../../utils/services";
 import {
     ECourseVerificationStatus,
@@ -42,10 +41,7 @@ const MySchoolAppPage: React.FC = () => {
 
     const schoolId = (user as IStudent).meta.school;
 
-    const { data: school } = useSWR(
-        schoolId && "/user/school",
-        schoolFetcher(schoolId)
-    );
+    const { school } = useSchool(schoolId);
 
     const {
         data: courses,

@@ -5,7 +5,6 @@ import withAuth from "../../../../../components/hoc/withAuth";
 import { useRouter } from "next/router";
 import {
     createMeetings,
-    schoolFetcher,
     courseMeetingsFetcher,
     courseFetcher,
 } from "../../../../../utils/services";
@@ -29,6 +28,7 @@ import Section from "../../../../../components/ui/Section";
 import { useContext, useMemo } from "react";
 import NotificationContext from "../../../../../components/contexts/NotificationContext";
 import useCalculateOnce from "../../../../../hooks/useCalculateOnce";
+import { useSchool } from "../../../../../hooks/useSchool";
 
 const CreateMeetingAppPage: React.FC = () => {
     const router = useRouter();
@@ -45,10 +45,7 @@ const CreateMeetingAppPage: React.FC = () => {
         queryCourseId && `/courses/${queryCourseId}/meetings`,
         courseMeetingsFetcher(queryCourseId as any)
     );
-    const { data: school } = useSWR(
-        course?.meta.school && `/schools/${course?.meta.school}`,
-        schoolFetcher(course?.meta.school)
-    );
+    const { school } = useSchool(course?.meta.school);
 
     const previousMeetingsDatesHashTable = useMemo(
         function () {

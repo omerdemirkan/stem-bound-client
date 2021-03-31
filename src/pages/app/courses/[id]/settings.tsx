@@ -4,7 +4,6 @@ import withAuth from "../../../../components/hoc/withAuth";
 import {
     courseFetcher,
     createCourseInstructorInvitation,
-    schoolFetcher,
     updateCourseById,
     updateCourseVerification,
     usersFetcher,
@@ -35,6 +34,7 @@ import InputButton from "../../../../components/util/InputButton";
 import UserAsyncSelect from "../../../../components/util/UserAsyncSelect";
 import ContactUserButton from "../../../../components/util/ContactUserButton";
 import Head from "next/head";
+import { useSchool } from "../../../../hooks/useSchool";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -61,14 +61,7 @@ const CourseSettingsAppPage: React.FC = () => {
         courseId ? `/courses/${courseId}/students` : null,
         usersFetcher(EUserRoles.STUDENT, { courseId })
     );
-    const {
-        data: school,
-        isValidating: schoolLoading,
-        error: schoolError,
-    } = useSWR(
-        course?.meta.school ? `/schools/${course?.meta.school}` : null,
-        schoolFetcher(course?.meta.school)
-    );
+    const { school } = useSchool(course?.meta.school);
 
     async function handleCourseUpdate(courseUpdates: Partial<ICourseOriginal>) {
         await updateCourseById(courseId, courseUpdates);

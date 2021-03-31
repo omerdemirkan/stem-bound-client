@@ -6,11 +6,10 @@ import AuthContext from "../../../../../components/contexts/AuthContext";
 import Link from "next/link";
 import Button from "@material-ui/core/Button";
 import { useRouter } from "next/router";
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import {
     courseFetcher,
     courseMeetingsFetcher,
-    schoolFetcher,
 } from "../../../../../utils/services";
 import MeetingCard from "../../../../../components/ui/MeetingCard";
 import Section from "../../../../../components/ui/Section";
@@ -21,6 +20,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import useQueryState from "../../../../../hooks/useQueryState";
 import { capitalizeWords } from "../../../../../utils/helpers";
+import { useSchool } from "../../../../../hooks/useSchool";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -45,10 +45,7 @@ const MeetingsAppPage: React.FC = () => {
             before: queryType === "past" ? new Date() : undefined,
         })
     );
-    const { data: school } = useSWR(
-        course?.meta.school && `/schools/${course?.meta.school}`,
-        schoolFetcher(course?.meta.school)
-    );
+    const { school } = useSchool(course?.meta.school);
     const { user } = useContext(AuthContext);
 
     return (

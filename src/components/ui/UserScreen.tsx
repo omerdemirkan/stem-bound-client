@@ -12,30 +12,16 @@ import Section from "./Section";
 import Typography from "@material-ui/core/Typography";
 import ChipList from "./ChipList";
 import ContactUserButton from "../util/ContactUserButton";
-import useSWR from "swr";
-import { coursesFetcher, schoolFetcher } from "../../utils/services";
 import { getCurrentSchoolYear } from "../../utils/helpers";
 import CopyToClipboard from "../util/CopyToClipboard";
+import { useSchool } from "../../hooks/useSchool";
 
 export interface IUserScreenProps extends IScreenProps {
     user: IUser;
 }
 
 const UserScreen: React.FC<IUserScreenProps> = ({ user, onClose }) => {
-    const schoolId = (user as IStudent).meta.school;
-    const courseIds = (user as IStudent).meta.courses;
-    const { data: school } = useSWR(
-        schoolId && `/schools/${schoolId}`,
-        schoolFetcher(schoolId)
-    );
-    const { data: courses } = useSWR(
-        courseIds && `/courses&user=${user._id}`,
-        coursesFetcher({
-            [user.role === EUserRoles.INSTRUCTOR
-                ? "instuctorId"
-                : "studentId"]: user._id,
-        })
-    );
+    const { school } = useSchool((user as IStudent).meta.school);
 
     return (
         <ScreenLayout

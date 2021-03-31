@@ -3,7 +3,13 @@ import Card, { CardProps } from "@material-ui/core/Card";
 import Avatar from "@material-ui/core/Avatar";
 import CardContent, { CardContentProps } from "@material-ui/core/CardContent";
 import CardActions, { CardActionsProps } from "@material-ui/core/CardActions";
-import { EUserRoles, IInstructor, IStudent, IUser } from "../../utils/types";
+import {
+    EUserRoles,
+    IInstructor,
+    ISchoolOfficial,
+    IStudent,
+    IUser,
+} from "../../utils/types";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Section from "./Section";
@@ -13,6 +19,8 @@ import { useContext } from "react";
 import NotificationContext from "../contexts/NotificationContext";
 import UserScreen from "./UserScreen";
 import ChipList from "./ChipList";
+import { useFetchOnce } from "../../hooks/useFetchOnce";
+import { useSchool } from "../../hooks/useSchool";
 
 const useStyles = makeStyles({
     card: {
@@ -47,6 +55,7 @@ const UserCard: React.FC<IUserCardProps> = ({
 }) => {
     const classes = useStyles();
     const { createScreen } = useContext(NotificationContext);
+    const { school } = useSchool((user as IStudent).meta.school);
 
     function handleInspectUser() {
         createScreen({
@@ -70,7 +79,8 @@ const UserCard: React.FC<IUserCardProps> = ({
                     user?.displayRole +
                     (user.role === EUserRoles.STUDENT
                         ? ` - ${(user as IStudent).gradeLevel}th grade`
-                        : "")
+                        : "") +
+                    ` - ${user.location.city}, ${user.location.state}`
                 }
                 avatar={
                     <Avatar
@@ -90,21 +100,25 @@ const UserCard: React.FC<IUserCardProps> = ({
                 {...CardContentProps}
             >
                 <Section title="About" noDivider spacing="xs">
-                    <Typography style={{ margin: "0 0 3px" }} paragraph>
+                    <Typography component="span" paragraph>
                         <Box component="span" fontWeight="500">
                             {user?.shortDescription}
                         </Box>
                     </Typography>
                     {user?.longDescription && (
-                        <Typography
-                            paragraph
-                            style={{ margin: "0 0 3px" }}
-                            noWrap
-                        >
+                        <Typography paragraph component="span" noWrap>
                             {user?.longDescription}
                         </Typography>
                     )}
                 </Section>
+
+                {user?.role === EUserRoles.SCHOOL_OFFICIAL ? (
+                    <Section title="Position">
+                        <Typography paragraph component="span">
+                            {(user as ISchoolOfficial).position}
+                        </Typography>
+                    </Section>
+                ) : null}
 
                 {user?.role === EUserRoles.INSTRUCTOR ? (
                     <Section title="Specialties" spacing="xs">

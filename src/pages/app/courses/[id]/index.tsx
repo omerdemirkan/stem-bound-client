@@ -14,7 +14,6 @@ import {
     courseInstructorsFetcher,
     courseMeetingsFetcher,
     courseStudentsFetcher,
-    schoolFetcher,
     updateCourseVerification,
 } from "../../../../utils/services";
 import Section from "../../../../components/ui/Section";
@@ -37,6 +36,7 @@ import IconButton from "@material-ui/core/IconButton";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
 import ContactUserButton from "../../../../components/util/ContactUserButton";
 import Tooltip from "@material-ui/core/Tooltip";
+import { useSchool } from "../../../../hooks/useSchool";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
@@ -63,10 +63,7 @@ const CourseAppPage: React.FC = () => {
         course?._id ? `/courses/${course?._id}/students` : null,
         courseStudentsFetcher(course?._id)
     );
-    const { data: school } = useSWR(
-        course?.meta.school ? `/schools/${course?.meta.school}` : null,
-        schoolFetcher(course?.meta.school)
-    );
+    const { school } = useSchool(course?.meta.school);
 
     const { data: announcements, isValidating: announcementsLoading } = useSWR(
         queryCourseId ? `/courses/${queryCourseId}/announcements` : null,

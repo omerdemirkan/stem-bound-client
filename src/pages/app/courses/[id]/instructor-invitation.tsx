@@ -14,7 +14,6 @@ import LinkNewTab from "../../../../components/util/LinkNewTab";
 import {
     acceptCourseInstructorInvitation,
     courseFetcher,
-    schoolFetcher,
     userFetcher,
 } from "../../../../utils/services";
 import { ENotificationTypes, EUserRoles } from "../../../../utils/types";
@@ -34,10 +33,7 @@ const InstructorInvitationAppPage: React.FC = () => {
         inviterUserId ? `/users/${inviterUserId}` : null,
         userFetcher(inviterUserId)
     );
-    const { data: school } = useSWR(
-        course ? `/schools/${course.meta.school}` : null,
-        schoolFetcher(course?.meta.school)
-    );
+    const { school } = useSchool(course.meta.school);
     const isLoading = !school || !inviter;
 
     function handleAcceptInvitation() {

@@ -7,8 +7,7 @@ import Avatar from "@material-ui/core/Avatar";
 import CardActions, { CardActionsProps } from "@material-ui/core/CardActions";
 import Chip from "@material-ui/core/Chip";
 import Link from "next/link";
-import useSWR from "swr";
-import { courseInstructorsFetcher, schoolFetcher } from "../../utils/services";
+import { courseInstructorsFetcher } from "../../utils/services";
 import {
     ECourseVerificationStatus,
     EUserRoles,
@@ -25,6 +24,7 @@ import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import ContactUserButton from "../util/ContactUserButton";
 import Box from "@material-ui/core/Box";
+import { useSchool } from "../../hooks/useSchool";
 
 const useStyles = makeStyles({
     card: {
@@ -82,10 +82,7 @@ const CourseCard: React.FC<ICourseCardProps> = ({
         course?._id ? `/users/${course?._id}` : null,
         courseInstructorsFetcher(course?._id)
     );
-    const { data: school } = useSWR(
-        course?.meta.school ? `/schools/${course?.meta.school}` : null,
-        schoolFetcher(course?.meta.school)
-    );
+    const { school } = useSchool(course?.meta.school);
 
     const classes = useStyles();
 
