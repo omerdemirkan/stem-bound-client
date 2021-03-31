@@ -1,11 +1,26 @@
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { Typography } from "@material-ui/core";
 
-const StaticLayout: React.FC = ({ children }) => {
+export interface IStaticLayoutProps {
+    header?: string;
+}
+
+const StaticLayout: React.FC<IStaticLayoutProps> = ({ header, children }) => {
     return (
         <>
             <div className="main">
                 <Navbar />
+                {header && (
+                    <Typography
+                        variant="h4"
+                        component="h1"
+                        align="center"
+                        gutterBottom
+                    >
+                        {header}
+                    </Typography>
+                )}
                 {children}
             </div>
             <Footer />

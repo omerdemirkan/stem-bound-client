@@ -48,60 +48,57 @@ const StaffInfoCard: React.FC<IStaffInfoCard> = ({
                         </a>
                     </div>
                 </div>
-                <Typography variant="h2" component="h1" color="primary">
-                    <Box fontSize={30} fontWeight={500} lineHeight={1.5}>
-                        {name}
-                    </Box>
+                <Typography variant="h4" component="h1" color="primary">
+                    <Box fontWeight={500}>{name}</Box>
                 </Typography>
-                <Typography variant="h2" component="h1" color="primary">
-                    <Box fontSize={20} lineHeight={1.5}>
-                        <p
-                            style={{
-                                textDecorationLine: "underline",
-                                margin: "0",
-                            }}
-                        >
-                            {position}
-                        </p>
-                    </Box>
+                <Typography
+                    variant="h6"
+                    component="h2"
+                    color="primary"
+                    gutterBottom
+                >
+                    {position}
                 </Typography>
-                <Typography variant="body1" component="p">
-                    <Box fontSize={20} lineHeight={1.5}>
-                        {bio}
-                    </Box>
-                </Typography>
+                <Typography paragraph>{bio}</Typography>
             </div>
             <style jsx>{`
                 .staff-info-card-wrapper {
-                    min-width: 300px;
-                    max-width: 30%;
+                    width: 450px;
+                    padding: 20px;
+                    max-width: 100%;
                     margin: 5% auto;
-                    text-align: left;
                 }
 
                 .img-wrapper {
-                    background-image: url(${`${imgUrl}`});
+                    background-image: url(${imgUrl});
                     background-size: cover;
                     width: 250px;
                     height: 250px;
                     align-items: center;
                     text-align: center;
+                    border-radius: 100vh;
+                    margin: 0 auto 20px;
                 }
 
                 .person-contact-container {
                     height: 100%;
                     display: flex;
                     align-items: center;
-                    text-align: center;
                     justify-content: space-evenly;
-                    background: rgba(157, 141, 254, 0.74);
-                    border-radius: 25px;
+                    background: rgba(255, 255, 255, 0.8);
+                    transition: opacity 0.1s ease;
+                    opacity: 0;
+                }
+
+                .img-wrapper:hover .person-contact-container {
+                    opacity: 1;
                 }
 
                 .contact-icon {
                     margin: 5px;
                     width: 40px;
                     height: 40px;
+                    transition: 0.1s ease;
                 }
                 .contact-icon:hover {
                     cursor: pointer;

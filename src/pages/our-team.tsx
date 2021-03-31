@@ -1,20 +1,16 @@
 import StaticLayout from "../components/ui/StaticLayout";
 import StaffInfoCard from "../components/ui/StaffInfoCard";
 import { stemboundTeamMembers } from "../utils/constants";
+import Grid from "@material-ui/core/Grid";
 
 const OurTeamPage = () => {
     return (
-        <StaticLayout>
-            <div className="our-team-page-wrapper">
-                <div className="page-title-container">
-                    <h1 className="page-title">Meet Our Team</h1>
-                </div>
-
-                <div className="team-section-wrapper">
-                    {stemboundTeamMembers.map((member) => {
-                        return (
+        <StaticLayout header="Meet Our Team">
+            <Grid container>
+                {stemboundTeamMembers.map((member) => {
+                    return (
+                        <Grid item xs={12} md={6} lg={4} key={member.id}>
                             <StaffInfoCard
-                                key={member.id}
                                 name={member.name}
                                 position={member.position}
                                 bio={member.bio}
@@ -23,38 +19,10 @@ const OurTeamPage = () => {
                                 github={member.gitHub}
                                 linkedin={member.linkIn}
                             />
-                        );
-                    })}
-                </div>
-            </div>
-
-            <style jsx>{`
-                .our-team-page-wrapper {
-                    min-height: 100vh;
-                    width: 100%;
-                }
-
-                .page-title-container {
-                    max-width: 400px;
-                    margin: 30px auto;
-                }
-                .page-title {
-                    font-style: normal;
-                    font-weight: 300;
-                    font-size: 50px;
-                    margin: 0;
-                    text-align: center;
-                    color: #826efd;
-                }
-
-                .team-section-wrapper {
-                    display: flex;
-                    flex-wrap: wrap;
-                    margin: 0 auto;
-                    max-width: 90%;
-                    justify-content: space-between;
-                }
-            `}</style>
+                        </Grid>
+                    );
+                })}
+            </Grid>
         </StaticLayout>
     );
 };
