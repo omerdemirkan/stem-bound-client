@@ -1,6 +1,6 @@
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 export interface IStaticLayoutProps {
     header?: string;

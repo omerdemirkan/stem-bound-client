@@ -1,38 +1,24 @@
 import Link from "next/link";
-import { EUserRoles } from "../../utils/types";
 import Button from "@material-ui/core/Button";
-import { Typography } from "@material-ui/core";
 import WordLogoSVG from "../svg/icons/word-logo";
-import { useState } from "react";
+import { staticNavigationData } from "../../utils/constants";
+import Typography from "@material-ui/core/Typography";
+import { useRouter } from "next/router";
 
 const DesktopNavbar = () => {
-    const navState = {
-        objects: [
-            { id: 0, title: "about us", path: "/" },
-            { id: 1, title: "our team", path: "/our-team" },
-            {
-                id: 2,
-                title: "search",
-                path: `/search?q=${EUserRoles.INSTRUCTOR}`,
-            },
-            { id: 3, title: "log in", path: "/log-in" },
-            { id: 4, title: "sing up", path: "/sign-up" },
-        ],
-    };
-
-    const toggleActiveStyle = (path) => {
+    const router = useRouter();
+    function handleLinkColor(path) {
         try {
-            if (path === window.location.pathname) {
-                return "primary";
-            } else {
-                return "inherit";
-            }
+            // checking based on path before queries
+            return path.split("?")[0] === router.pathname.split("?")[0]
+                ? "primary"
+                : "inherit";
         } catch {
             return "inherit";
         }
-    };
+    }
 
-    const scrollToRef = () => {
+    const handleScrollToAboutUs = () => {
         window.scrollBy({
             top: window.innerHeight,
             behavior: "smooth",
@@ -48,40 +34,38 @@ const DesktopNavbar = () => {
             </Link>
 
             <div className="page-nav-container">
-                {navState.objects.map((el) => {
-                    return el.id === 0 ? (
-                        <Link href={el.path} key={el.id}>
-                            <a
-                                onClick={() => {
-                                    scrollToRef();
-                                }}
+                {staticNavigationData.links.map(({ title, path, as }) => (
+                    <Link href={path} as={as} key={title + path}>
+                        <a
+                            onClick={
+                                path === "/" && router?.pathname === "/"
+                                    ? handleScrollToAboutUs
+                                    : null
+                            }
+                        >
+                            <Typography
+                                color={handleLinkColor(path)}
+                                component="span"
                             >
-                                <Typography color={toggleActiveStyle(el.path)}>
-                                    {el.title}
-                                </Typography>
-                            </a>
-                        </Link>
-                    ) : (
-                        <Link href={el.path}>
+                                {title}
+                            </Typography>
+                        </a>
+                    </Link>
+                ))}
+                {staticNavigationData.buttons.map(
+                    ({ title, path, variant }) => (
+                        <Link href={path} key={title + path}>
                             <a>
-                                <Typography color={toggleActiveStyle(el.path)}>
-                                    {el.title}
-                                </Typography>
+                                <Button
+                                    variant={(variant || "text") as any}
+                                    color="primary"
+                                >
+                                    {title}
+                                </Button>
                             </a>
                         </Link>
-                    );
-                })}
-
-                <Link href="/sign-up">
-                    <Button variant="outlined" color="primary">
-                        Donate
-                    </Button>
-                </Link>
-                <Link href="/volunteer-page">
-                    <Button variant="contained" color="primary">
-                        Volunteer
-                    </Button>
-                </Link>
+                    )
+                )}
             </div>
 
             <style jsx>

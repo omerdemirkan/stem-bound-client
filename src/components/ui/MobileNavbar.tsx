@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import WordLogoSVG from "../svg/icons/word-logo";
 import Divider from "@material-ui/core/Divider";
 import { makeStyles } from "@material-ui/core";
+import { staticNavigationData } from "../../utils/constants";
 
 const useStyles = makeStyles({
     navButton: {
@@ -53,76 +54,39 @@ const MobileNavbar = () => {
                         </IconButton>
                     </div>
                     <div className="list">
-                        <Link href="/our-team">
-                            <a>
-                                <Button
-                                    onClick={toggleMenu}
-                                    className={classes.navButton}
-                                    fullWidth
-                                    variant="text"
-                                >
-                                    our team
-                                </Button>
-                            </a>
-                        </Link>
-                        <Divider />
-                        <Link href={`/search?q=${EUserRoles.INSTRUCTOR}`}>
-                            <a>
-                                <Button
-                                    onClick={toggleMenu}
-                                    className={classes.navButton}
-                                    fullWidth
-                                >
-                                    search
-                                </Button>
-                            </a>
-                        </Link>
-                        <Divider />
-                        <Link href="/log-in">
-                            <a>
-                                <Button
-                                    onClick={toggleMenu}
-                                    className={classes.navButton}
-                                    fullWidth
-                                >
-                                    log in
-                                </Button>
-                            </a>
-                        </Link>
-                        <Divider />
-                        <Link href="/sign-up">
-                            <a>
-                                <Button
-                                    onClick={toggleMenu}
-                                    className={classes.navButton}
-                                    fullWidth
-                                >
-                                    sign up
-                                </Button>
-                            </a>
-                        </Link>
-                        <Link href="/sign-up">
-                            <Button
-                                onClick={toggleMenu}
-                                className={classes.highlightButton}
-                                fullWidth
-                                variant="outlined"
-                                color="primary"
-                            >
-                                donate
-                            </Button>
-                        </Link>
-                        <Link href="/volunteer-page">
-                            <Button
-                                onClick={toggleMenu}
-                                className={classes.highlightButton}
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                            >
-                                volunteer
-                            </Button>
-                        </Link>
+                        {staticNavigationData.links.map(
+                            ({ path, title }, index) => (
+                                <>
+                                    {index !== 0 && <Divider />}
+                                    <Link href={path} key={title + path}>
+                                        <a>
+                                            <Button
+                                                onClick={toggleMenu}
+                                                className={classes.navButton}
+                                                fullWidth
+                                            >
+                                                {title}
+                                            </Button>
+                                        </a>
+                                    </Link>
+                                </>
+                            )
+                        )}
+                        {staticNavigationData.buttons.map(
+                            ({ path, title, variant }) => (
+                                <Link href={path} key={title + path}>
+                                    <Button
+                                        onClick={toggleMenu}
+                                        className={classes.highlightButton}
+                                        fullWidth
+                                        variant={variant as any}
+                                        color="primary"
+                                    >
+                                        {title}
+                                    </Button>
+                                </Link>
+                            )
+                        )}
                     </div>
                 </div>
             </div>
