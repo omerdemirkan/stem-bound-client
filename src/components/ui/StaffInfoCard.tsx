@@ -1,21 +1,7 @@
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core";
-import Link from "next/link";
 
-const useStyles = makeStyles({
-    highlightButton: {
-        margin: "4px 0",
-        width: "40%",
-    },
-});
-
-const TeamCard = (props) => {
-    const mobileSize = useMediaQuery("(max-width: 900px)");
-    const classes = useStyles();
-
+const TeamCard = ({ github, linkedin, name, position, bio, imgUrl }) => {
     return (
         <>
             <div className="staff-info-card-wrapper">
@@ -28,14 +14,14 @@ const TeamCard = (props) => {
                                 className="contact-icon"
                             />
                         </a>
-                        <a href={props.gitHub} target="_blank">
+                        <a href={github} target="_blank">
                             <img
                                 src="github-icon.svg"
                                 alt="github-icon"
                                 className="contact-icon"
                             />
                         </a>
-                        <a href={props.linkIn} target="_blank">
+                        <a href={linkedin} target="_blank">
                             <img
                                 src="linkedin-icon.svg"
                                 alt="linkedn-icon"
@@ -46,7 +32,7 @@ const TeamCard = (props) => {
                 </div>
                 <Typography variant="h2" component="h1" color="primary">
                     <Box fontSize={30} fontWeight={500} lineHeight={1.5}>
-                        {props.name}
+                        {name}
                     </Box>
                 </Typography>
                 <Typography variant="h2" component="h1" color="primary">
@@ -57,13 +43,13 @@ const TeamCard = (props) => {
                                 margin: "0",
                             }}
                         >
-                            {props.position}
+                            {position}
                         </p>
                     </Box>
                 </Typography>
                 <Typography variant="body1" component="p">
                     <Box fontSize={20} lineHeight={1.5}>
-                        {props.bio}
+                        {bio}
                     </Box>
                 </Typography>
             </div>
@@ -76,7 +62,7 @@ const TeamCard = (props) => {
                 }
 
                 .img-wrapper {
-                    background-image: url(${`${props.imgUrl}`});
+                    background-image: url(${`${imgUrl}`});
                     background-size: cover;
                     width: 250px;
                     height: 250px;
