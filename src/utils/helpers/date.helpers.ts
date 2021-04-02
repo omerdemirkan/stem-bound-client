@@ -1,5 +1,5 @@
 import format from "date-fns/format";
-import { ITimeRange } from "../types";
+import { ETimeFrameType, ITimeRange } from "../types";
 
 export function addZeroPadding(num, size): string {
     var s = num + "";
@@ -25,4 +25,13 @@ export function getFormalDateAndTime(d: string | Date) {
 export function getFormalDate(d: string | Date) {
     const date = typeof d === "string" ? new Date(d) : d;
     return format(date, "MM/dd/yyyy");
+}
+
+export function getTimeFrameType({ start, end }: ITimeRange): ETimeFrameType {
+    const now = new Date();
+    start = start instanceof Date ? start : new Date(start);
+    end = end instanceof Date ? end : new Date(end);
+    if (now < start) return ETimeFrameType.FUTURE;
+    if (now > end) return ETimeFrameType.PAST;
+    return ETimeFrameType.IN_PROGRESS;
 }

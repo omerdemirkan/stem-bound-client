@@ -1,3 +1,5 @@
+import { ETimeFrameType } from "./date.types";
+
 export enum ECourseTypes {
     IN_PERSON = "IN_PERSON",
     REMOTE = "REMOTE",
@@ -107,6 +109,7 @@ export interface ICourse {
         students: string[];
         school: string;
     };
+    timeFrameType: ETimeFrameType;
 }
 
 export type IMeetingInput = IMeetingOriginal & { dateKey: string };

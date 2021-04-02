@@ -18,6 +18,7 @@ import {
 } from "../constants";
 import differenceInMinutes from "date-fns/differenceInMinutes";
 import format from "date-fns/format";
+import { getTimeFrameType } from "./date.helpers";
 
 export function mapMeetingData(meeting: IMeetingOriginal): IMeeting {
     const startDate = new Date(meeting.start);
@@ -60,16 +61,19 @@ export function mapAnnouncementData(
 }
 
 export function mapCourseData(course: ICourseOriginal): ICourse {
+    const start = new Date(course.start),
+        end = new Date(course.end);
     return {
         _id: course._id,
         createdAt: new Date(course.createdAt),
         title: course.title,
         type: course.type,
+        timeFrameType: getTimeFrameType({ start, end }),
         displayType: getCourseTypeDisplay(course.type),
         longDescription: course.longDescription,
         shortDescription: course.shortDescription,
-        start: new Date(course.start),
-        end: new Date(course.end),
+        start,
+        end,
         meta: {
             instructors: course.meta.instructors,
             school: course.meta.school,
