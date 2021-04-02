@@ -19,12 +19,11 @@ import { useContext } from "react";
 import NotificationContext from "../contexts/NotificationContext";
 import UserScreen from "./UserScreen";
 import ChipList from "./ChipList";
-import { useFetchOnce } from "../../hooks/useFetchOnce";
 import { useSchool } from "../../hooks/useSchool";
 
 const useStyles = makeStyles({
     card: {
-        margin: "10px 5px",
+        margin: "10px 0",
         width: "100%",
         maxWidth: "450px",
     },
@@ -63,6 +62,13 @@ const UserCard: React.FC<IUserCardProps> = ({
         });
     }
 
+    let subheader = user?.displayRole as string;
+    if (user.role === EUserRoles.STUDENT)
+        subheader += ` - ${(user as IStudent).gradeLevel}th grade`;
+    if (school) subheader += ` - ${school.name}`;
+    if (subheader === (user?.displayRole as string))
+        subheader += ` - ${user.location.city}, ${user.location.state}`;
+
     return (
         <Card
             {...CardProps}
@@ -75,13 +81,7 @@ const UserCard: React.FC<IUserCardProps> = ({
         >
             <CardHeader
                 title={user?.fullName}
-                subheader={
-                    user?.displayRole +
-                    (user.role === EUserRoles.STUDENT
-                        ? ` - ${(user as IStudent).gradeLevel}th grade`
-                        : "") +
-                    ` - ${user.location.city}, ${user.location.state}`
-                }
+                subheader={subheader}
                 avatar={
                     <Avatar
                         src={user?.profilePictureUrl}
@@ -106,7 +106,7 @@ const UserCard: React.FC<IUserCardProps> = ({
                         </Box>
                     </Typography>
                     {user?.longDescription && (
-                        <Typography paragraph component="span" noWrap>
+                        <Typography paragraph noWrap>
                             {user?.longDescription}
                         </Typography>
                     )}
