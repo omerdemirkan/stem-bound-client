@@ -33,11 +33,13 @@ const RelativeGrid: React.FC<IRelativeGridProps> = ({
     return (
         <Box
             gridGap="10px"
-            {...boxProps}
+            component="section"
             // @ts-ignore
             ref={boxRef}
             display="grid"
             gridTemplateColumns={`repeat(${numColumns}, minmax(0, 1fr))`}
+            alignItems="start"
+            {...boxProps}
         >
             {children}
         </Box>

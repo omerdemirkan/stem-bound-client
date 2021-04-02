@@ -95,6 +95,7 @@ export interface ICourse {
     createdAt: Date;
     title: string;
     verificationStatus: ECourseVerificationStatus;
+    displayVerificationStatus: string;
     verificationHistory: ICourseVerificationStatusUpdate[];
     shortDescription: string;
     longDescription: string;
@@ -110,6 +111,7 @@ export interface ICourse {
         school: string;
     };
     timeFrameType: ETimeFrameType;
+    displayTimeFrameType: string;
 }
 
 export type IMeetingInput = IMeetingOriginal & { dateKey: string };

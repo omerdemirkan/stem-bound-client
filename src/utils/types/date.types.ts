@@ -4,7 +4,7 @@ export interface ITimeRange {
 }
 
 export enum ETimeFrameType {
-    PAST = "PAST",
+    ENDED = "ENDED",
     IN_PROGRESS = "IN_PROGRESS",
-    FUTURE = "FUTURE",
+    UPCOMING = "UPCOMING",
 }

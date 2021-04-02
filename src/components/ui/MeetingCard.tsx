@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { getMeetingTypeDisplay } from "../../utils/helpers";
+import { getDisplayMeetingType } from "../../utils/helpers";
 import { IMeeting, EMeetingTypes } from "../../utils/types";
 import NotificationContext from "../contexts/NotificationContext";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -64,7 +64,7 @@ const MeetingCard: React.FC<IMeetingCardProps> = ({
             <CardHeader
                 title={meeting.dateString}
                 subheader={`${
-                    meeting.displayType || getMeetingTypeDisplay(meeting.type)
+                    meeting.displayType || getDisplayMeetingType(meeting.type)
                 }, from ${meeting.startTimeString} to ${
                     meeting.endTimeString
                 }, ${meeting.durationString}`}

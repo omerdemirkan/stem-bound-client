@@ -4,15 +4,22 @@ import {
     ECourseVerificationStatus,
 } from "../types";
 
-export const meetingTypes = {
+export const displayMeetingTypes = {
     IN_PERSON: "In Person",
     REMOTE: "Remote",
 };
 
-export const courseTypes = {
+export const displayCourseTypes = {
     IN_PERSON: "In Person",
     REMOTE: "Remote",
     HYBRID: "Hybrid (In Person and Online)",
+};
+
+export const displayCourseVerificationStatuses = {
+    [ECourseVerificationStatus.DISMISSED]: "Dismissed",
+    [ECourseVerificationStatus.VERIFIED]: "Verified",
+    [ECourseVerificationStatus.PENDING_VERIFICATION]: "Pending verification",
+    [ECourseVerificationStatus.UNPUBLISHED]: "Unpublished",
 };
 
 export const courseTypesInputOptions: ISelectInputOption[] = [
@@ -29,10 +36,3 @@ export const courseTypesInputOptions: ISelectInputOption[] = [
         value: ECourseTypes.HYBRID,
     },
 ];
-
-export const courseVerificationStatuses = {
-    [ECourseVerificationStatus.DISMISSED]: "Dismissed",
-    [ECourseVerificationStatus.VERIFIED]: "Verified",
-    [ECourseVerificationStatus.PENDING_VERIFICATION]: "Pending verification",
-    [ECourseVerificationStatus.UNPUBLISHED]: "Unpublished",
-};

@@ -1,4 +1,5 @@
 import format from "date-fns/format";
+import { displayTimeFrameTypes } from "../constants/date.constants";
 import { ETimeFrameType, ITimeRange } from "../types";
 
 export function addZeroPadding(num, size): string {
@@ -31,7 +32,11 @@ export function getTimeFrameType({ start, end }: ITimeRange): ETimeFrameType {
     const now = new Date();
     start = start instanceof Date ? start : new Date(start);
     end = end instanceof Date ? end : new Date(end);
-    if (now < start) return ETimeFrameType.FUTURE;
-    if (now > end) return ETimeFrameType.PAST;
+    if (now < start) return ETimeFrameType.UPCOMING;
+    if (now > end) return ETimeFrameType.ENDED;
     return ETimeFrameType.IN_PROGRESS;
+}
+
+export function getDisplayTimeFrameType(timeFrameType: ETimeFrameType): string {
+    return displayTimeFrameTypes[timeFrameType];
 }

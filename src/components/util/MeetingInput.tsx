@@ -5,7 +5,7 @@ import {
     IAlertData,
     IMeeting,
 } from "../../utils/types";
-import { clone, getMeetingTypeDisplay } from "../../utils/helpers";
+import { clone, getDisplayMeetingType } from "../../utils/helpers";
 import { TimePicker } from "@material-ui/pickers";
 import InputButton from "./InputButton";
 import { useContext } from "react";
@@ -150,7 +150,7 @@ const MeetingInput: React.FC<IMeetingInputProps> = ({
                                                     value={meetingType}
                                                     key={meetingType}
                                                 >
-                                                    {getMeetingTypeDisplay(
+                                                    {getDisplayMeetingType(
                                                         meetingType
                                                     )}
                                                 </MenuItem>

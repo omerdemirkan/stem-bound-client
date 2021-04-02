@@ -5,7 +5,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import { IMeeting } from "../../utils/types";
-import { getMeetingTypeDisplay } from "../../utils/helpers";
+import { getDisplayMeetingType } from "../../utils/helpers";
 
 export interface IMeetingsTableProps {
     meetings: IMeeting[];
@@ -35,7 +35,7 @@ const MeetingsTable: React.FC<IMeetingsTableProps> = ({ meetings }) => {
                             </TableCell>
                             <TableCell>
                                 {meeting.displayType ||
-                                    getMeetingTypeDisplay(meeting.type)}
+                                    getDisplayMeetingType(meeting.type)}
                             </TableCell>
                             <TableCell>
                                 {meeting.roomNum

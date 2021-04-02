@@ -12,13 +12,13 @@ import {
     IAlertData,
 } from "../types";
 import {
-    meetingTypes,
-    courseTypes,
-    courseVerificationStatuses,
+    displayMeetingTypes,
+    displayCourseTypes,
+    displayCourseVerificationStatuses,
 } from "../constants";
 import differenceInMinutes from "date-fns/differenceInMinutes";
 import format from "date-fns/format";
-import { getTimeFrameType } from "./date.helpers";
+import { getDisplayTimeFrameType, getTimeFrameType } from "./date.helpers";
 
 export function mapMeetingData(meeting: IMeetingOriginal): IMeeting {
     const startDate = new Date(meeting.start);
@@ -32,7 +32,7 @@ export function mapMeetingData(meeting: IMeetingOriginal): IMeeting {
         end: new Date(meeting.end),
         message: meeting.message,
         type: meeting.type,
-        displayType: getMeetingTypeDisplay(meeting.type),
+        displayType: getDisplayMeetingType(meeting.type),
         _id: meeting._id,
         roomNum: meeting.roomNum,
         url: meeting.url,
@@ -62,14 +62,16 @@ export function mapAnnouncementData(
 
 export function mapCourseData(course: ICourseOriginal): ICourse {
     const start = new Date(course.start),
-        end = new Date(course.end);
+        end = new Date(course.end),
+        timeFrameType = getTimeFrameType({ start, end });
     return {
         _id: course._id,
         createdAt: new Date(course.createdAt),
         title: course.title,
         type: course.type,
-        timeFrameType: getTimeFrameType({ start, end }),
-        displayType: getCourseTypeDisplay(course.type),
+        displayType: getDisplayCourseType(course.type),
+        timeFrameType,
+        displayTimeFrameType: getDisplayTimeFrameType(timeFrameType),
         longDescription: course.longDescription,
         shortDescription: course.shortDescription,
         start,
@@ -83,21 +85,24 @@ export function mapCourseData(course: ICourseOriginal): ICourse {
         announcements: course.announcements.map(mapAnnouncementData),
         verificationHistory: course.verificationHistory,
         verificationStatus: course.verificationStatus,
+        displayVerificationStatus: getDisplayCourseVerificationStatus(
+            course.verificationStatus
+        ),
     };
 }
 
-export function getMeetingTypeDisplay(type: string) {
-    return meetingTypes[type];
+export function getDisplayMeetingType(type: string) {
+    return displayMeetingTypes[type];
 }
 
-export function getCourseTypeDisplay(type: string) {
-    return courseTypes[type];
+export function getDisplayCourseType(type: string) {
+    return displayCourseTypes[type];
 }
 
-export function getCourseVerificationStatusDisplay(
+export function getDisplayCourseVerificationStatus(
     courseVerificationStatus: string
 ) {
-    return courseVerificationStatuses[courseVerificationStatus];
+    return displayCourseVerificationStatuses[courseVerificationStatus];
 }
 
 export const minimumMeetingDurationMiliseconds = 1000 * 60 * 20;

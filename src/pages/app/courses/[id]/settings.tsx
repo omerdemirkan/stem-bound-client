@@ -23,7 +23,7 @@ import UserCard from "../../../../components/ui/UserCard";
 import Button from "@material-ui/core/Button";
 import {
     configureCourseVerificationUpdateAlertDTO,
-    getCourseVerificationStatusDisplay,
+    getDisplayCourseVerificationStatus,
 } from "../../../../utils/helpers";
 import { Chip } from "@material-ui/core";
 import { useContext } from "react";
@@ -208,7 +208,7 @@ const CourseSettingsAppPage: React.FC = () => {
                             }
                         >
                             <Chip
-                                label={getCourseVerificationStatusDisplay(
+                                label={getDisplayCourseVerificationStatus(
                                     course?.verificationStatus
                                 )}
                                 color={

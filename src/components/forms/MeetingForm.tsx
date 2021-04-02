@@ -1,5 +1,5 @@
 import { IMeetingOriginal, EMeetingTypes } from "../../utils/types";
-import { getMeetingTypeDisplay } from "../../utils/helpers";
+import { getDisplayMeetingType } from "../../utils/helpers";
 import { TimePicker } from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
 import { CardProps } from "@material-ui/core/Card";
@@ -107,7 +107,7 @@ const MeetingForm: React.FC<IMeetingInputProps> = ({
                         >
                             {availableMeetingTypes.map((meetingType) => (
                                 <MenuItem value={meetingType} key={meetingType}>
-                                    {getMeetingTypeDisplay(meetingType)}
+                                    {getDisplayMeetingType(meetingType)}
                                 </MenuItem>
                             ))}
                         </Select>

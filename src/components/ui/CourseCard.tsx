@@ -14,13 +14,14 @@ import {
     ICourse,
 } from "../../utils/types";
 import Section from "./Section";
-import { getCourseVerificationStatusDisplay } from "../../utils/helpers";
+import { getDisplayCourseVerificationStatus } from "../../utils/helpers";
 import { useFetchOnce } from "../../hooks/useFetchOnce";
 import MenuWrapper, { IMenuItemDTO } from "../util/MenuWrapper";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import AuthContext from "../contexts/AuthContext";
 import { useContext } from "react";
 import { makeStyles } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import ContactUserButton from "../util/ContactUserButton";
 import Box from "@material-ui/core/Box";
@@ -28,7 +29,7 @@ import { useSchool } from "../../hooks/useSchool";
 
 const useStyles = makeStyles({
     card: {
-        margin: "10px 5px",
+        margin: "10px 0",
         width: "100%",
         maxWidth: "450px",
     },
@@ -106,12 +107,20 @@ const CourseCard: React.FC<ICourseCardProps> = ({
             onClick: onVerifyCourseClicked,
         });
 
+    let subheader = school?.name;
+    if (course.verificationStatus === ECourseVerificationStatus.VERIFIED)
+        subheader += ` - ${course?.meta.students.length} enrolled`;
+    else
+        subheader += ` - ${getDisplayCourseVerificationStatus(
+            course.verificationStatus
+        )}`;
+
     return (
         <Card
             className={classes.card}
             style={{
                 maxWidth: !fullWidth ? "500px" : "none",
-                margin: noMargin ? "0" : fullWidth ? "10px 0" : "10px 5px",
+                margin: noMargin ? "0" : undefined,
             }}
             {...CardProps}
         >
@@ -124,21 +133,14 @@ const CourseCard: React.FC<ICourseCardProps> = ({
                         <a>{course.title}</a>
                     </Link>
                 }
-                subheader={`${school?.name}, ${
-                    course?.meta.students.length
-                } currently enrolled${
-                    course.verificationStatus ===
-                    ECourseVerificationStatus.VERIFIED
-                        ? ""
-                        : ` - ${getCourseVerificationStatusDisplay(
-                              course.verificationStatus
-                          )}`
-                }`}
+                subheader={subheader}
                 action={
                     actionEl ||
                     (!!menuItems?.length && (
                         <MenuWrapper menuItems={menuItems}>
-                            <MoreHorizIcon />
+                            <IconButton>
+                                <MoreHorizIcon />
+                            </IconButton>
                         </MenuWrapper>
                     ))
                 }
