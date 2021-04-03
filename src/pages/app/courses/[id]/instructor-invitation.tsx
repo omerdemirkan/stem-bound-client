@@ -11,7 +11,7 @@ import Center from "../../../../components/ui/Center";
 import Section from "../../../../components/ui/Section";
 import ContactUserButton from "../../../../components/util/ContactUserButton";
 import LinkNewTab from "../../../../components/util/LinkNewTab";
-import { useSchool } from "../../../../hooks/useSchool";
+import useSchool from "../../../../hooks/useSchool";
 import {
     acceptCourseInstructorInvitation,
     courseFetcher,

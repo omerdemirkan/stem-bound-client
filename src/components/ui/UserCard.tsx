@@ -19,7 +19,7 @@ import { useContext } from "react";
 import NotificationContext from "../contexts/NotificationContext";
 import UserScreen from "./UserScreen";
 import ChipList from "./ChipList";
-import { useSchool } from "../../hooks/useSchool";
+import useSchool from "../../hooks/useSchool";
 
 const useStyles = makeStyles({
     card: {

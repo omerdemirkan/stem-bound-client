@@ -20,7 +20,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import useQueryState from "../../../../../hooks/useQueryState";
 import { capitalizeWords } from "../../../../../utils/helpers";
-import { useSchool } from "../../../../../hooks/useSchool";
+import useSchool from "../../../../../hooks/useSchool";
 
 const MeetingsAppPage: React.FC = () => {
     const router = useRouter();

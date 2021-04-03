@@ -25,7 +25,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import ContactUserButton from "../util/ContactUserButton";
 import Box from "@material-ui/core/Box";
-import { useSchool } from "../../hooks/useSchool";
+import useSchool from "../../hooks/useSchool";
 
 const useStyles = makeStyles({
     card: {
@@ -109,11 +109,9 @@ const CourseCard: React.FC<ICourseCardProps> = ({
 
     let subheader = school?.name;
     if (course.verificationStatus === ECourseVerificationStatus.VERIFIED)
-        subheader += ` - ${course?.meta.students.length} enrolled`;
-    else
-        subheader += ` - ${getDisplayCourseVerificationStatus(
-            course.verificationStatus
-        )}`;
+        subheader += ` | ${course?.meta.students.length} enrolled`;
+    else subheader += ` | ${course.displayVerificationStatus}`;
+    subheader += ` | ${course.displayTimeFrameType}`;
 
     return (
         <Card

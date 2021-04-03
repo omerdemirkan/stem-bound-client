@@ -28,7 +28,7 @@ import Section from "../../../../../components/ui/Section";
 import { useContext, useMemo } from "react";
 import NotificationContext from "../../../../../components/contexts/NotificationContext";
 import useCalculateOnce from "../../../../../hooks/useCalculateOnce";
-import { useSchool } from "../../../../../hooks/useSchool";
+import useSchool from "../../../../../hooks/useSchool";
 
 const CreateMeetingAppPage: React.FC = () => {
     const router = useRouter();

@@ -33,7 +33,7 @@ import {
 } from "../../utils/helpers";
 import CourseCard from "../../components/ui/CourseCard";
 import RelativeGrid from "../../components/ui/RelativeGrid";
-import { useSchool } from "../../hooks/useSchool";
+import useSchool from "../../hooks/useSchool";
 
 const MySchoolAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);

@@ -2,7 +2,7 @@ import { schoolFetcher } from "../utils/services";
 import { ISchool } from "../utils/types";
 import { useFetchOnce } from "./useFetchOnce";
 
-export function useSchool(
+export default function useSchool(
     ncesId: string
 ): { school: ISchool; loading: boolean } {
     const { data: school, isValidating: loading } = useFetchOnce(

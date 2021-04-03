@@ -14,7 +14,7 @@ import ChipList from "./ChipList";
 import ContactUserButton from "../util/ContactUserButton";
 import { getCurrentSchoolYear } from "../../utils/helpers";
 import CopyToClipboard from "../util/CopyToClipboard";
-import { useSchool } from "../../hooks/useSchool";
+import useSchool from "../../hooks/useSchool";
 
 export interface IUserScreenProps extends IScreenProps {
     user: IUser;

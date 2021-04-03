@@ -36,7 +36,7 @@ import IconButton from "@material-ui/core/IconButton";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
 import ContactUserButton from "../../../../components/util/ContactUserButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import { useSchool } from "../../../../hooks/useSchool";
+import useSchool from "../../../../hooks/useSchool";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();

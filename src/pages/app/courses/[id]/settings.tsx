@@ -34,7 +34,7 @@ import InputButton from "../../../../components/util/InputButton";
 import UserAsyncSelect from "../../../../components/util/UserAsyncSelect";
 import ContactUserButton from "../../../../components/util/ContactUserButton";
 import Head from "next/head";
-import { useSchool } from "../../../../hooks/useSchool";
+import useSchool from "../../../../hooks/useSchool";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();

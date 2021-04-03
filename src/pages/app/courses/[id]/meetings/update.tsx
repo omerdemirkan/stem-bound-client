@@ -17,7 +17,7 @@ import PictureMessage from "../../../../../components/ui/PictureMessage";
 import NoResultsSVG from "../../../../../components/svg/illustrations/no-results";
 import Section from "../../../../../components/ui/Section";
 import Head from "next/head";
-import { useSchool } from "../../../../../hooks/useSchool";
+import useSchool from "../../../../../hooks/useSchool";
 
 const UpdateMeetingAppPage: React.FC = () => {
     const router = useRouter();
