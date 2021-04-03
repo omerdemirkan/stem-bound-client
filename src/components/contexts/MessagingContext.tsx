@@ -3,7 +3,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { clone, mapMessageData, mapUserData } from "../../utils/helpers";
 import {
-    messagesFetcher,
     createChat,
     chatsFetcherInfinite,
     messagesFetcherInfinite,

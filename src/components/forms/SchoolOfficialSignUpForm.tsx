@@ -2,14 +2,9 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { CardProps } from "@material-ui/core/Card";
 import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
-import AsyncSelect from "../util/AsyncSelect";
-import {
-    deleteEmptyStrings,
-    fetchSchoolInputOptions,
-} from "../../utils/helpers";
+import { deleteEmptyStrings } from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
 import { ISignUpFormProps } from "./SignUpForm";

@@ -14,7 +14,6 @@ import {
     ICourse,
 } from "../../utils/types";
 import Section from "./Section";
-import { getDisplayCourseVerificationStatus } from "../../utils/helpers";
 import { useFetchOnce } from "../../hooks/useFetchOnce";
 import MenuWrapper, { IMenuItemDTO } from "../util/MenuWrapper";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";

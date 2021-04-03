@@ -3,12 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { useForm, Controller } from "react-hook-form";
 import { passwordRegex, emailRegex } from "../../utils/constants";
-import AsyncSelect from "../util/AsyncSelect";
-import {
-    deleteEmptyStrings,
-    fetchSchoolInputOptions,
-    getCurrentSchoolYear,
-} from "../../utils/helpers";
+import { deleteEmptyStrings, getCurrentSchoolYear } from "../../utils/helpers";
 import InfoIcon from "@material-ui/icons/Info";
 import FormCard from "../../components/ui/FormCard";
 import ChipInput from "../util/ChipInput";
