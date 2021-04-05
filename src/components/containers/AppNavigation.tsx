@@ -125,7 +125,9 @@ const AppNavigation: React.FC = () => {
                     text,
                     completion,
                 }: INavigationDataButton) {
-                    const selected = path.includes(router.pathname);
+                    const linkPath = path.split("?")[0],
+                        currentPath = router.pathname.split("?")[0];
+                    const selected = currentPath.includes(linkPath);
                     return (
                         <Link href={path} key={path}>
                             <a>
