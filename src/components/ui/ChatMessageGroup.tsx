@@ -6,7 +6,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { userFetcher } from "../../utils/services";
-import { reverseMap, getFormalDateAndTime } from "../../utils/helpers";
+import { reverseMap, getShortDateAndTime } from "../../utils/helpers";
 import ChatMessage from "./ChatMessage";
 import { useFetchOnce } from "../../hooks/useFetchOnce";
 
@@ -47,7 +47,7 @@ const ChatMessageGroup: React.FC<Props> = ({
                         marginLeft="20px"
                         component="span"
                     >
-                        {getFormalDateAndTime(
+                        {getShortDateAndTime(
                             chatMessageGroup.messages[0].createdAt
                         )}
                     </Box>

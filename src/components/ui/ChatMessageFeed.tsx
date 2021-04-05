@@ -1,6 +1,6 @@
 import Typography from "@material-ui/core/Typography";
 import { IChatMessage, IChatMessageEventHandlers } from "../../utils/types";
-import { getChatMessageGroups, getFormalDate } from "../../utils/helpers";
+import { getChatMessageGroups, getShortDate } from "../../utils/helpers";
 import ChatMessageGroup from "./ChatMessageGroup";
 import InvertScroll from "../util/InvertScroll";
 import PictureMessage from "./PictureMessage";
@@ -66,7 +66,7 @@ const ChatMessageFeed: React.FC<IChatMessageFeedProps> = ({
                     index === chatMessageGroups.length - 1 ? (
                         <div style={{ marginTop: "10px" }}>
                             <SectionHeader
-                                title={getFormalDate(
+                                title={getShortDate(
                                     chatMessageGroup.messages[0].createdAt
                                 )}
                             />

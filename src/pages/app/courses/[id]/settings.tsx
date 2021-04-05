@@ -24,8 +24,10 @@ import Button from "@material-ui/core/Button";
 import {
     configureCourseVerificationUpdateAlertDTO,
     getDisplayCourseVerificationStatus,
+    getLongDate,
+    getShortDate,
 } from "../../../../utils/helpers";
-import { Chip } from "@material-ui/core";
+import Chip from "@material-ui/core/Chip";
 import { useContext } from "react";
 import AuthContext from "../../../../components/contexts/AuthContext";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
@@ -35,6 +37,7 @@ import UserAsyncSelect from "../../../../components/util/UserAsyncSelect";
 import ContactUserButton from "../../../../components/util/ContactUserButton";
 import Head from "next/head";
 import useSchool from "../../../../hooks/useSchool";
+import Typography from "@material-ui/core/Typography";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -157,6 +160,22 @@ const CourseSettingsAppPage: React.FC = () => {
                                 inputProps: { maxLength: 50 },
                             }}
                         />
+
+                        {school && (
+                            <Section title="School" spacing="sm">
+                                <Typography>{school.name}</Typography>
+                            </Section>
+                        )}
+
+                        <Section title="Duration" spacing="sm">
+                            {course && (
+                                <Typography>
+                                    From {getLongDate(course?.start)} to{" "}
+                                    {getLongDate(course?.end)}
+                                </Typography>
+                            )}
+                        </Section>
+
                         <EditableSection
                             title="Short Description"
                             spacing="sm"

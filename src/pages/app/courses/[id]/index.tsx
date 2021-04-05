@@ -28,8 +28,8 @@ import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import {
     configureCourseVerificationUpdateAlertDTO,
-    getFormalDate,
-    getFormalDateAndTime,
+    getShortDate,
+    getShortDateAndTime,
 } from "../../../../utils/helpers";
 import { useContext } from "react";
 import AuthContext from "../../../../components/contexts/AuthContext";
@@ -171,13 +171,13 @@ const CourseAppPage: React.FC = () => {
                         {course?.timeFrameType === ETimeFrameType.ENDED && (
                             <Alert severity="info">
                                 This course has ended on{" "}
-                                {getFormalDate(course?.end)}
+                                {getShortDate(course?.end)}
                             </Alert>
                         )}
                         {course?.timeFrameType === ETimeFrameType.UPCOMING && (
                             <Alert severity="info">
                                 This course will officially begin{" "}
-                                {getFormalDate(course?.start)}
+                                {getShortDate(course?.start)}
                             </Alert>
                         )}
                         {user.role === EUserRoles.INSTRUCTOR &&
@@ -217,7 +217,7 @@ const CourseAppPage: React.FC = () => {
                                 "{course.title}" was dismissed by a
                                 {school?.name ? ` ${school?.name} ` : " "}
                                 school official at{" "}
-                                {getFormalDateAndTime(
+                                {getShortDateAndTime(
                                     course.verificationHistory[0].createdAt
                                 )}
                             </Alert>

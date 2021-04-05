@@ -18,14 +18,19 @@ export function validateTimeRange({ start, end }: ITimeRange): boolean {
     );
 }
 
-export function getFormalDateAndTime(d: string | Date) {
+export function getShortDateAndTime(d: string | Date) {
     const date = typeof d === "string" ? new Date(d) : d;
     return format(date, "h:ss a, MM/dd/yyyy");
 }
 
-export function getFormalDate(d: string | Date) {
+export function getShortDate(d: string | Date) {
     const date = typeof d === "string" ? new Date(d) : d;
     return format(date, "MM/dd/yyyy");
+}
+
+export function getLongDate(d: string | Date) {
+    const date = typeof d === "string" ? new Date(d) : d;
+    return format(date, "EEEE, MMMM do, yyyy");
 }
 
 export function getTimeFrameType({ start, end }: ITimeRange): ETimeFrameType {
