@@ -5,22 +5,26 @@ import { NotificationContextProvider } from "../components/contexts/Notification
 import { ThemeProvider } from "../components/contexts/ThemeContext";
 import MuiPickersProvider from "../components/contexts/MuiPickersContext";
 import { MessagingContextProvider } from "../components/contexts/MessagingContext";
+import { CssBaseline } from "@material-ui/core";
 
 const App: React.FC = function ({ Component, pageProps }: any) {
     return (
-        <AuthContextProvider>
-            <ThemeProvider>
-                <NotificationContextProvider>
-                    <MuiPickersProvider>
-                        <SocketContextProvider>
-                            <MessagingContextProvider>
-                                <Component {...pageProps} />
-                            </MessagingContextProvider>
-                        </SocketContextProvider>
-                    </MuiPickersProvider>
-                </NotificationContextProvider>
-            </ThemeProvider>
-        </AuthContextProvider>
+        <>
+            <CssBaseline />
+            <AuthContextProvider>
+                <ThemeProvider>
+                    <NotificationContextProvider>
+                        <MuiPickersProvider>
+                            <SocketContextProvider>
+                                <MessagingContextProvider>
+                                    <Component {...pageProps} />
+                                </MessagingContextProvider>
+                            </SocketContextProvider>
+                        </MuiPickersProvider>
+                    </NotificationContextProvider>
+                </ThemeProvider>
+            </AuthContextProvider>
+        </>
     );
 };
 
