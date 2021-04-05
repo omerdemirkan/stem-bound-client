@@ -9,6 +9,7 @@ export interface IWithAuthProps {
 
 export interface IWithAuthOptions {
     allowedUserRoles?: EUserRoles[];
+    unauthorizedUserRoleRedirect?: string | ((user: IUser) => string);
 }
 
 export interface IWithUserCoordinatesProps {

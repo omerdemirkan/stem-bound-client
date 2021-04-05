@@ -104,4 +104,7 @@ const CoursesAppPage: React.FC = () => {
     );
 };
 
-export default withAuth(CoursesAppPage);
+export default withAuth(CoursesAppPage, {
+    allowedUserRoles: [EUserRoles.INSTRUCTOR, EUserRoles.STUDENT],
+    unauthorizedUserRoleRedirect: "/app/my-school",
+});

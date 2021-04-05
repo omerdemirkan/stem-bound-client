@@ -9,31 +9,35 @@ export default function withAuth<T>(
 ): React.FC<T> {
     return (props) => {
         const router = useRouter();
-        const { accessToken, authAttempted, user, authLoading } = useContext(
-            AuthContext
-        );
+        const { accessToken, authAttempted, user } = useContext(AuthContext);
 
         useEffect(
             function () {
                 // embedded if statements are to limit the number of checks for logged in users.
                 if (authAttempted) {
                     const storedToken = localStorage.getItem("accessToken");
-                    if (!storedToken) {
-                        router.push("/sign-up");
-                    } else if (!validateUser()) {
-                        router.push("/log-in");
-                    }
+                    if (!storedToken) router.push("/sign-up");
+                    else if (!validateUser()) router.push(getRedirectUrl());
                 }
             },
             [authAttempted]
         );
 
         function validateUser(): boolean {
-            return (
-                authAttempted &&
-                user &&
-                options?.allowedUserRoles?.includes(user.role) !== false
-            );
+            return authAttempted && user && validateUserRole();
+        }
+
+        function validateUserRole(): boolean {
+            return options?.allowedUserRoles?.includes(user.role) !== false;
+        }
+
+        function getRedirectUrl() {
+            if (options?.unauthorizedUserRoleRedirect && !validateUserRole())
+                return typeof options?.unauthorizedUserRoleRedirect === "string"
+                    ? options?.unauthorizedUserRoleRedirect
+                    : options?.unauthorizedUserRoleRedirect?.(user);
+
+            return "/log-in";
         }
 
         return accessToken ? <Component {...props} /> : null;
