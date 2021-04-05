@@ -19,6 +19,7 @@ import {
     IStudent,
     EUserRoles,
     IInstructor,
+    IInstructorOriginal,
 } from "../../utils/types";
 import ChipInput from "../../components/util/ChipInput";
 import Typography from "@material-ui/core/Typography";
@@ -27,7 +28,6 @@ import ActionBar from "../../components/ui/ActionBar";
 import SplitScreen from "../../components/ui/SplitScreen";
 import { makeStyles } from "@material-ui/core";
 import Section from "../../components/ui/Section";
-import Chip from "@material-ui/core/Chip";
 import CourseCard from "../../components/ui/CourseCard";
 import EditableSection from "../../components/ui/EditableSection";
 import GradeLevelInput from "../../components/util/GradeLevelInput";
@@ -83,10 +83,12 @@ const MyAccountAppPage: React.FC = () => {
     }
 
     async function handleUpdateUser(update: Partial<IUserOriginal>) {
-        console.log(update);
         const { data: updatedUser } = await updateUserById(user._id, update);
         mutateFetchedUser(updatedUser, false);
     }
+
+    const handleUpdateUserField = (key: keyof IUserOriginal) => (value) =>
+        handleUpdateUser({ [key]: value });
 
     async function handleUpdateUserLocationByZip(zip: string) {
         const { data: updatedUser } = await updateUserLocation(user._id, {
@@ -171,11 +173,7 @@ const MyAccountAppPage: React.FC = () => {
 
                         <EditableSection
                             title="Short Description"
-                            onEdit={(value) =>
-                                handleUpdateUser({
-                                    shortDescription: value,
-                                })
-                            }
+                            onEdit={handleUpdateUserField("shortDescription")}
                             value={user.shortDescription}
                             TypographyProps={{ variant: "h5" }}
                         />
@@ -183,11 +181,7 @@ const MyAccountAppPage: React.FC = () => {
                         <EditableSection
                             title="Long Description"
                             value={user.longDescription || ""}
-                            onEdit={(value) =>
-                                handleUpdateUser({
-                                    longDescription: value,
-                                })
-                            }
+                            onEdit={handleUpdateUserField("longDescription")}
                             buttonText={`${
                                 user.longDescription ? "UPDATE" : "ADD"
                             } LONG DESCRIPTION`}
@@ -199,9 +193,9 @@ const MyAccountAppPage: React.FC = () => {
                                 <EditableSection
                                     title="Interests"
                                     value={(user as IStudent).interests}
-                                    onEdit={(interests) =>
-                                        handleUpdateUser({ interests })
-                                    }
+                                    onEdit={handleUpdateUserField(
+                                        ("interests" as keyof IStudent) as any
+                                    )}
                                     InputButtonProps={{
                                         renderInput: (value, setValue) => (
                                             <ChipInput
@@ -222,7 +216,7 @@ const MyAccountAppPage: React.FC = () => {
                                 <EditableSection
                                     title="Grade Level"
                                     value={(user as IStudent).gradeLevel}
-                                    onEdit={(gradeLevel: number) =>
+                                    onEdit={(gradeLevel) =>
                                         handleUpdateUser({
                                             initialGradeLevel: gradeLevel,
                                             initialSchoolYear: currentSchoolYear,
@@ -247,9 +241,9 @@ const MyAccountAppPage: React.FC = () => {
                                 <EditableSection
                                     title="Specialties"
                                     value={(user as IInstructor).specialties}
-                                    onEdit={(specialties) =>
-                                        handleUpdateUser({ specialties })
-                                    }
+                                    onEdit={handleUpdateUserField(
+                                        ("specialties" as keyof IInstructorOriginal) as any
+                                    )}
                                     InputButtonProps={{
                                         renderInput: (value, setValue) => (
                                             <ChipInput
@@ -273,11 +267,9 @@ const MyAccountAppPage: React.FC = () => {
                                         (user as IInstructor).remoteResumeUrl ||
                                         ""
                                     }
-                                    onEdit={(value) =>
-                                        handleUpdateUser({
-                                            remoteResumeUrl: value,
-                                        })
-                                    }
+                                    onEdit={handleUpdateUserField(
+                                        ("remoteResumeUrl" as keyof IInstructorOriginal) as any
+                                    )}
                                     buttonText={`${
                                         (user as IInstructor).remoteResumeUrl
                                             ? "UPDATE"

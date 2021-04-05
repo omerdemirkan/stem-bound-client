@@ -66,7 +66,11 @@ const CourseSettingsAppPage: React.FC = () => {
     async function handleCourseUpdate(courseUpdates: Partial<ICourseOriginal>) {
         await updateCourseById(courseId, courseUpdates);
         refetchCourse();
+        createSnackbar({ text: "Account updated", type: "success" });
     }
+
+    const handleUpdateCourseField = (key: keyof ICourseOriginal) => (value) =>
+        handleCourseUpdate({ [key]: value });
 
     async function handleUpdateCourseVerification(
         verificationStatus: ECourseVerificationStatus
@@ -143,7 +147,7 @@ const CourseSettingsAppPage: React.FC = () => {
                             noDivider
                             spacing="sm"
                             paddingTop="0"
-                            onEdit={(title) => handleCourseUpdate({ title })}
+                            onEdit={handleUpdateCourseField("title")}
                             value={course?.title}
                             TypographyProps={{ variant: "h5" }}
                             InputButtonProps={{
@@ -156,9 +160,7 @@ const CourseSettingsAppPage: React.FC = () => {
                         <EditableSection
                             title="Short Description"
                             spacing="sm"
-                            onEdit={(shortDescription) =>
-                                handleCourseUpdate({ shortDescription })
-                            }
+                            onEdit={handleUpdateCourseField("shortDescription")}
                             value={course?.shortDescription}
                             InputButtonProps={{
                                 minLength: [4, "Too short!"],
@@ -171,9 +173,7 @@ const CourseSettingsAppPage: React.FC = () => {
                         <EditableSection
                             title="Long Description"
                             spacing="sm"
-                            onEdit={(longDescription) =>
-                                handleCourseUpdate({ longDescription })
-                            }
+                            onEdit={handleUpdateCourseField("longDescription")}
                             value={course?.longDescription}
                             InputButtonProps={{
                                 minLength: [4, "Too short!"],
