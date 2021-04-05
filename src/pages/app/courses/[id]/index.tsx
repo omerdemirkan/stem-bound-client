@@ -21,12 +21,14 @@ import SplitScreen from "../../../../components/ui/SplitScreen";
 import {
     ECourseVerificationStatus,
     ENotificationTypes,
+    ETimeFrameType,
     EUserRoles,
 } from "../../../../utils/types";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import {
     configureCourseVerificationUpdateAlertDTO,
+    getFormalDate,
     getFormalDateAndTime,
 } from "../../../../utils/helpers";
 import { useContext } from "react";
@@ -166,6 +168,18 @@ const CourseAppPage: React.FC = () => {
             <SplitScreen
                 mainEl={
                     <>
+                        {course?.timeFrameType === ETimeFrameType.ENDED && (
+                            <Alert severity="info">
+                                This course has ended on{" "}
+                                {getFormalDate(course?.end)}
+                            </Alert>
+                        )}
+                        {course?.timeFrameType === ETimeFrameType.UPCOMING && (
+                            <Alert severity="info">
+                                This course will officially begin{" "}
+                                {getFormalDate(course?.start)}
+                            </Alert>
+                        )}
                         {user.role === EUserRoles.INSTRUCTOR &&
                         course?.verificationStatus ===
                             ECourseVerificationStatus.PENDING_VERIFICATION ? (
