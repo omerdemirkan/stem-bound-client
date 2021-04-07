@@ -12,17 +12,17 @@ const App: React.FC = function ({ Component, pageProps }: any) {
         <>
             <CssBaseline />
             <AuthContextProvider>
-                <ThemeProvider>
-                    <NotificationContextProvider>
-                        <MuiPickersProvider>
+                <MuiPickersProvider>
+                    <ThemeProvider>
+                        <NotificationContextProvider>
                             <SocketContextProvider>
                                 <MessagingContextProvider>
                                     <Component {...pageProps} />
                                 </MessagingContextProvider>
                             </SocketContextProvider>
-                        </MuiPickersProvider>
-                    </NotificationContextProvider>
-                </ThemeProvider>
+                        </NotificationContextProvider>
+                    </ThemeProvider>
+                </MuiPickersProvider>
             </AuthContextProvider>
         </>
     );

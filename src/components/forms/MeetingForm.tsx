@@ -113,7 +113,7 @@ const MeetingForm: React.FC<IMeetingInputProps> = ({
                     )}
                 />
 
-                {defaultValues.type === EMeetingTypes.IN_PERSON ? (
+                {defaultValues?.type === EMeetingTypes.IN_PERSON ? (
                     <TextField
                         inputRef={register({ required: "Required" })}
                         name="roomNum"

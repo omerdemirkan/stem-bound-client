@@ -34,8 +34,7 @@ export interface IScreenData {
     Component?: React.FC<IScreenProps>;
     content?: any;
     renderContent?(props: IScreenProps): any;
-
-    DialogProps?: DialogProps;
+    DialogProps?: Partial<DialogProps>;
 }
 
 export interface INotificationContextState {
