@@ -15,7 +15,7 @@ import NotificationContext from "../contexts/NotificationContext";
 import MeetingCard from "../ui/MeetingCard";
 import { CardProps } from "@material-ui/core/Card";
 import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Tooltip } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
@@ -74,125 +74,131 @@ const MeetingInput: React.FC<IMeetingInputProps> = ({
             courseTitle={courseTitle}
             renderActions={() => (
                 <>
-                    <IconButton
-                        aria-label="delete"
-                        color="secondary"
-                        onClick={() =>
-                            createAlert({
-                                headerText:
-                                    "Are you sure you want to delete this event?",
-                                bodyText: `This will not delete an existing meeting, but will require you to go back to step 2 to create a meeting on ${meeting.dateString}.`,
-                                type: ENotificationTypes.DANGER,
-                                onOk: () =>
-                                    onDelete(
-                                        (meeting as any).dateKey || meeting._id
-                                    ),
-                                onCancel: () => {},
-                                ...DeleteAlertData,
-                            })
-                        }
-                    >
-                        <DeleteIcon />
-                    </IconButton>
-                    <InputButton
-                        onSubmit={onChange}
-                        initialValue={clone(meeting)}
-                        renderButton={(props) => (
-                            <IconButton
-                                aria-label="edit"
-                                color="primary"
-                                {...props}
-                            >
-                                <CreateIcon />
-                            </IconButton>
-                        )}
-                        renderInput={function (
-                            value,
-                            setValue,
-                            { updateFields, handleChange }
-                        ) {
-                            return (
-                                <>
-                                    <Typography variant="h5" align="center">
-                                        {meeting.dateString}
-                                    </Typography>
-                                    <TimePicker
-                                        onChange={(date) =>
-                                            updateFields({ start: date })
-                                        }
-                                        name="start"
-                                        label="Start"
-                                        value={value.start}
-                                        className={classes.halfWidth}
-                                        margin="normal"
-                                    />
-                                    <TimePicker
-                                        onChange={(date) =>
-                                            updateFields({ end: date })
-                                        }
-                                        name="end"
-                                        label="End"
-                                        value={value.end}
-                                        className={classes.halfWidth}
-                                        margin="normal"
-                                    />
+                    <Tooltip title="Delete Meeting">
+                        <IconButton
+                            aria-label="delete"
+                            color="secondary"
+                            onClick={() =>
+                                createAlert({
+                                    headerText:
+                                        "Are you sure you want to delete this event?",
+                                    bodyText: `This will not delete an existing meeting, but will require you to go back to step 2 to create a meeting on ${meeting.dateString}.`,
+                                    type: ENotificationTypes.DANGER,
+                                    onOk: () =>
+                                        onDelete(
+                                            (meeting as any).dateKey ||
+                                                meeting._id
+                                        ),
+                                    onCancel: () => {},
+                                    ...DeleteAlertData,
+                                })
+                            }
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Edit Meeting">
+                        <InputButton
+                            onSubmit={onChange}
+                            initialValue={clone(meeting)}
+                            renderButton={(props) => (
+                                <IconButton
+                                    aria-label="edit"
+                                    color="primary"
+                                    {...props}
+                                >
+                                    <CreateIcon />
+                                </IconButton>
+                            )}
+                            renderInput={function (
+                                value,
+                                setValue,
+                                { updateFields, handleChange }
+                            ) {
+                                return (
+                                    <>
+                                        <Typography variant="h5" align="center">
+                                            {meeting.dateString}
+                                        </Typography>
+                                        <TimePicker
+                                            onChange={(date) =>
+                                                updateFields({ start: date })
+                                            }
+                                            name="start"
+                                            label="Start"
+                                            value={value.start}
+                                            className={classes.halfWidth}
+                                            margin="normal"
+                                        />
+                                        <TimePicker
+                                            onChange={(date) =>
+                                                updateFields({ end: date })
+                                            }
+                                            name="end"
+                                            label="End"
+                                            value={value.end}
+                                            className={classes.halfWidth}
+                                            margin="normal"
+                                        />
 
-                                    <Select
-                                        onChange={handleChange}
-                                        name="type"
-                                        defaultValue={value.type}
-                                        fullWidth
-                                        className={classes.select}
-                                    >
-                                        {availableMeetingTypes.map(
-                                            (meetingType) => (
-                                                <MenuItem
-                                                    value={meetingType}
-                                                    key={meetingType}
-                                                >
-                                                    {getDisplayMeetingType(
-                                                        meetingType
-                                                    )}
-                                                </MenuItem>
-                                            )
+                                        <Select
+                                            onChange={handleChange}
+                                            name="type"
+                                            defaultValue={value.type}
+                                            fullWidth
+                                            className={classes.select}
+                                        >
+                                            {availableMeetingTypes.map(
+                                                (meetingType) => (
+                                                    <MenuItem
+                                                        value={meetingType}
+                                                        key={meetingType}
+                                                    >
+                                                        {getDisplayMeetingType(
+                                                            meetingType
+                                                        )}
+                                                    </MenuItem>
+                                                )
+                                            )}
+                                        </Select>
+
+                                        {value.type ===
+                                        EMeetingTypes.IN_PERSON ? (
+                                            <TextField
+                                                onChange={handleChange}
+                                                value={value.roomNum || ""}
+                                                name="roomNum"
+                                                label="Room"
+                                                margin="normal"
+                                                fullWidth
+                                            />
+                                        ) : (
+                                            <TextField
+                                                onChange={handleChange}
+                                                value={value.url || ""}
+                                                name="url"
+                                                label="Meeting Url"
+                                                margin="normal"
+                                                fullWidth
+                                            />
                                         )}
-                                    </Select>
 
-                                    {value.type === EMeetingTypes.IN_PERSON ? (
                                         <TextField
                                             onChange={handleChange}
-                                            value={value.roomNum || ""}
-                                            name="roomNum"
-                                            label="Room"
+                                            name="message"
+                                            value={value.message}
+                                            label="Message"
                                             margin="normal"
                                             fullWidth
+                                            multiline
                                         />
-                                    ) : (
-                                        <TextField
-                                            onChange={handleChange}
-                                            value={value.url || ""}
-                                            name="url"
-                                            label="Meeting Url"
-                                            margin="normal"
-                                            fullWidth
-                                        />
-                                    )}
-
-                                    <TextField
-                                        onChange={handleChange}
-                                        name="message"
-                                        value={value.message}
-                                        label="Message"
-                                        margin="normal"
-                                        fullWidth
-                                        multiline
-                                    />
-                                </>
-                            );
-                        }}
-                    >
-                        Edit Meeting
-                    </InputButton>
+                                    </>
+                                );
+                            }}
+                        >
+                            Edit Meeting
+                        </InputButton>
+                    </Tooltip>
                 </>
             )}
         />
