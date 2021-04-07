@@ -28,6 +28,7 @@ import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import {
     configureCourseVerificationUpdateAlertDTO,
+    getLongDate,
     getShortDate,
     getShortDateAndTime,
 } from "../../../../utils/helpers";
@@ -171,13 +172,13 @@ const CourseAppPage: React.FC = () => {
                         {course?.timeFrameType === ETimeFrameType.ENDED && (
                             <Alert severity="info">
                                 This course has ended on{" "}
-                                {getShortDate(course?.end)}
+                                {getLongDate(course?.end)}
                             </Alert>
                         )}
                         {course?.timeFrameType === ETimeFrameType.UPCOMING && (
                             <Alert severity="info">
                                 This course will officially begin{" "}
-                                {getShortDate(course?.start)}
+                                {getLongDate(course?.start)}
                             </Alert>
                         )}
                         {user.role === EUserRoles.INSTRUCTOR &&

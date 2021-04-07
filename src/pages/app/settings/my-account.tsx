@@ -1,40 +1,40 @@
-import AuthContext from "../../components/contexts/AuthContext";
+import AuthContext from "../../../components/contexts/AuthContext";
 import useSWR from "swr";
 import Head from "next/head";
-import AppLayout from "../../components/containers/AppLayout";
-import PictureInput from "../../components/ui/PictureInput";
-import withAuth from "../../components/hoc/withAuth";
-import { capitalizeWords, getCurrentSchoolYear } from "../../utils/helpers";
+import AppLayout from "../../../components/containers/AppLayout";
+import PictureInput from "../../../components/ui/PictureInput";
+import withAuth from "../../../components/hoc/withAuth";
+import { capitalizeWords, getCurrentSchoolYear } from "../../../utils/helpers";
 import {
     userFetcher,
     updateUserProfilePicture,
     updateUserById,
     updateUserLocation,
     userCoursesFetcher,
-} from "../../utils/services";
+} from "../../../utils/services";
 import { useContext, useEffect } from "react";
-import InputButton from "../../components/util/InputButton";
+import InputButton from "../../../components/util/InputButton";
 import {
     IUserOriginal,
     IStudent,
     EUserRoles,
     IInstructor,
     IInstructorOriginal,
-} from "../../utils/types";
-import ChipInput from "../../components/util/ChipInput";
+} from "../../../utils/types";
+import ChipInput from "../../../components/util/ChipInput";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
-import ActionBar from "../../components/ui/ActionBar";
-import SplitScreen from "../../components/ui/SplitScreen";
+import ActionBar from "../../../components/ui/ActionBar";
+import SplitScreen from "../../../components/ui/SplitScreen";
+import Section from "../../../components/ui/Section";
+import CourseCard from "../../../components/ui/CourseCard";
+import EditableSection from "../../../components/ui/EditableSection";
+import GradeLevelInput from "../../../components/util/GradeLevelInput";
+import RelativeGrid from "../../../components/ui/RelativeGrid";
+import LocationAsyncSelect from "../../../components/util/LocationAsyncSelect";
+import ChipList from "../../../components/ui/ChipList";
+import CopyToClipboard from "../../../components/util/CopyToClipboard";
 import { makeStyles } from "@material-ui/core";
-import Section from "../../components/ui/Section";
-import CourseCard from "../../components/ui/CourseCard";
-import EditableSection from "../../components/ui/EditableSection";
-import GradeLevelInput from "../../components/util/GradeLevelInput";
-import RelativeGrid from "../../components/ui/RelativeGrid";
-import LocationAsyncSelect from "../../components/util/LocationAsyncSelect";
-import ChipList from "../../components/ui/ChipList";
-import CopyToClipboard from "../../components/util/CopyToClipboard";
 
 const useStyles = makeStyles({
     avatar: {

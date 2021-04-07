@@ -103,13 +103,13 @@ const AppNavigation: React.FC = () => {
                 className={classes.userMenu}
             >
                 <MenuItem onClick={toggleUserMenu}>
-                    <Link href="/app/my-account">
+                    <Link href="/app/settings/my-account">
                         <a>My Account</a>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={toggleUserMenu}>
-                    <Link href="/app/settings">
-                        <a>Settings</a>
+                    <Link href="/app/settings/preferences">
+                        <a>Preferences</a>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={handleOpenLogoutModal} color="primary">
