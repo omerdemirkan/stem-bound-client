@@ -4,7 +4,7 @@ import HomePageIntro from "../components/ui/HomePageIntro";
 import HomePageInfo from "../components/ui/HomePageInfo";
 import HomePageAppDetail from "../components/ui/HomePageAppDetail";
 
-const HomePage: React.FC = function () {
+const HomePage: React.FC = () => {
     return (
         <StaticLayout>
             <Head>

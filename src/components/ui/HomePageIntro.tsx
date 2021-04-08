@@ -1,21 +1,9 @@
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core";
 import Link from "next/link";
 
-const useStyles = makeStyles({
-    highlightButton: {
-        margin: "4px 0",
-        width: "40%",
-    },
-});
-
 const HomePageIntro = () => {
-    const mobileSize = useMediaQuery("(max-width: 900px)");
-    const classes = useStyles();
-
     const scrollToRef = () => {
         window.scrollBy({
             top: window.innerHeight,
@@ -25,23 +13,26 @@ const HomePageIntro = () => {
 
     return (
         <>
-            <div className="intro-section">
-                <div className="intro-content-wrapper">
-                    <div className="intro-content-container">
-                        <div className="big-tittle-container">
-                            <h1 className="main-title">
-                                Help{" "}
-                                <a className="emphasise-content">Connect</a>{" "}
-                                Students to{" "}
-                                <a className="emphasise-content">
+            <div className="hero">
+                <div className="hero-text-section">
+                    <div className="hero-text-box">
+                        <div>
+                            <Typography
+                                variant="h2"
+                                component="h2"
+                                color="textSecondary"
+                                style={{ fontSize: "calc(2rem + 2.5vw)" }}
+                            >
+                                Help Connect Students to{" "}
+                                <span className="emphasise-content">
                                     Opportunites
-                                </a>
-                            </h1>
+                                </span>
+                            </Typography>
                         </div>
 
-                        <div className="intro-paragraph-container">
-                            <Typography variant="body1" component="p">
-                                <Box fontSize={20}>
+                        <div>
+                            <Typography paragraph gutterBottom>
+                                <Box fontSize={18} marginBottom="30px">
                                     Lorem ipsum, dolor sit amet consectetur
                                     adipisicing elit. Saepe nam vero nisi aut
                                     rem doloremque temporibus adipisci omnis
@@ -55,123 +46,58 @@ const HomePageIntro = () => {
                             <Button
                                 variant="outlined"
                                 color="primary"
-                                className={classes.highlightButton}
+                                size="large"
                                 onClick={() => {
                                     scrollToRef();
                                 }}
+                                className="spaced-horizontal"
                             >
                                 Learn More
                             </Button>
 
                             <Link href="/sign-up">
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.highlightButton}
-                                >
-                                    SIGN UP
-                                </Button>
+                                <a>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        size="large"
+                                        className="spaced-horizontal"
+                                    >
+                                        SIGN UP
+                                    </Button>
+                                </a>
                             </Link>
                         </div>
                     </div>
                 </div>
-                <div className="section-img-wrapper">
-                    <img
-                        id="section-img"
-                        src="section-img.svg"
-                        alt="section-img"
-                    />
-                </div>
+                <img
+                    id="section-img"
+                    src="section-img.svg"
+                    alt="section-img"
+                    className="hero-section-image"
+                />
             </div>
             <style jsx>{`
-                .intro-section {
+                .hero {
                     display: flex;
-                    flex-wrap: wrap-reverse;
-                    align-items: start;
-                    min-height: 100vh;
-                }
-                .intro-content-wrapper {
-                    display: flex;
-                    width: 60%;
+                    justify-content: space-between;
+                    align-items: stretch;
                     flex-wrap: wrap;
-                    margin: 0 auto;
-                    height: 100%;
-                    padding: 0 10%;
+                    min-height: calc(100vh - 60px);
                 }
-                .intro-content-container {
-                    margin: 0 auto;
+                .hero-text-section {
+                    flex-grow: 1;
+                    padding: 15vh 5vw 10vw;
                 }
-                .big-tittle-container {
-                    height: fit-content;
-                    width: 100%;
-                    max-width: 700px;
-                    margin: 83px auto 0 auto;
+                .hero-text-box {
+                    margin: auto;
+                    max-width: 800px;
                 }
-                .main-title {
-                    font-style: normal;
-                    font-weight: 300;
-                    font-size: 72px;
-                    margin: 0;
-                    text-align: left;
+                .hero-section-image {
+                    margin-top: -10%;
                 }
                 .emphasise-content {
-                    color: #826efd;
-                    pointer-events: none;
-                }
-
-                .intro-paragraph-container {
-                    height: fit-content;
-                    width: 100%;
-                    max-width: 700px;
-                    margin: 63px auto 0 auto;
-                }
-                .btn-container {
-                    height: fit-content;
-                    width: 100%;
-                    max-width: 700px;
-                    margin: 63px auto 0 auto;
-                    display: flex;
-                    flex-wrap: wrap;
-                    justify-content: space-between;
-                }
-
-                .section-img-wrapper {
-                    margin: 0;
-                    width: 40%;
-                    position: relative;
-                    min-height: 100vh;
-                    margin: 0 auto;
-                }
-                #section-img {
-                    position: absolute;
-                    top: -2%;
-                    right: 0;
-                }
-
-                @media (max-width: 900px) {
-                    .intro-content-wrapper {
-                        width: 100%;
-                        min-height: 60vh;
-                    }
-                    .main-title {
-                        font-size: 40px;
-                        line-height: 69px;
-                    }
-                    .section-img-wrapper {
-                        width: 100%;
-                        position: relative;
-                        display: block;
-                        margin: 0 0 4% 0;
-                        min-height: 60vh;
-                    }
-
-                    #section-img {
-                        position: relative;
-                        height: auto;
-                        margin: 0 0 0 auto;
-                        top: 0;
-                        right: 0;
-                    }
+                    color: var(--accent-light);
                 }
             `}</style>
         </>
