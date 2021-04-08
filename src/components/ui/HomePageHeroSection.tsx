@@ -6,7 +6,7 @@ import Link from "next/link";
 const HomePageHeroSection: React.FC = () => {
     const scrollToRef = () => {
         window.scrollBy({
-            top: window.innerHeight,
+            top: window.innerHeight * 1.5,
             behavior: "smooth",
         });
     };

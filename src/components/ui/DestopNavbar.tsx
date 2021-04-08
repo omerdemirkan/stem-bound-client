@@ -20,7 +20,7 @@ const DesktopNavbar = () => {
 
     const handleScrollToAboutUs = () => {
         window.scrollBy({
-            top: window.innerHeight,
+            top: window.innerHeight * 1.5,
             behavior: "smooth",
         });
     };
