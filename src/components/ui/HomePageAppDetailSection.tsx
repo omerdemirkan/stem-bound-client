@@ -51,7 +51,7 @@ const HomePageAppDetailSection: React.FC = () => {
                 .app-detail-container {
                     display: flex;
                     justify-content: space-evenly;
-                    padding-bottom: 25vh;
+                    padding: 0 5vw 25vh;
                     align-items: center;
                     flex-wrap: wrap-reverse;
                 }
