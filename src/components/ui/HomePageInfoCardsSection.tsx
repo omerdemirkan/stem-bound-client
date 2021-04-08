@@ -55,7 +55,7 @@ const HomePageInfoCardsSection: React.FC = () => {
                     width: 100%;
                     display: flex;
                     flex-wrap: wrap;
-                    padding-bottom: 10vh;
+                    padding-bottom: 25vh;
                 }
                 .info-section-wrapper {
                     display: flex;

@@ -19,14 +19,14 @@ const HomePage: React.FC = () => {
             />
             <HomePageHeroSection />
             <img src="square.svg" alt="" id="square" className="shape" />
-            <HomePageInfoCardsSection />
+            <HomePageAppDetailSection />
             <img
                 src="circleRight.svg"
                 alt=""
                 id="circle-right"
                 className="shape"
             />
-            <HomePageAppDetailSection />
+            <HomePageInfoCardsSection />
 
             <style jsx>{`
                 .shape {
