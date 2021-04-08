@@ -17,6 +17,7 @@ const StaticLayout: React.FC<IStaticLayoutProps> = ({ header, children }) => {
                         component="h1"
                         align="center"
                         gutterBottom
+                        style={{ margin: "30px 0" }}
                     >
                         {header}
                     </Typography>

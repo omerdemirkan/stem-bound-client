@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 const OurTeamPage = () => {
     return (
         <StaticLayout header="Meet Our Team">
-            <Grid container>
+            <Grid container justify="center">
                 {stemboundTeamMembers.map((member) => {
                     return (
                         <Grid item xs={12} md={6} lg={4} key={member.id}>
