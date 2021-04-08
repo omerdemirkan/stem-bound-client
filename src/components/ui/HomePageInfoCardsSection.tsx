@@ -1,6 +1,6 @@
 import Typography from "@material-ui/core/Typography";
 
-const HomePageInfo: React.FC = () => {
+const HomePageInfoCardsSection: React.FC = () => {
     return (
         <>
             <div className="info-section">
@@ -55,7 +55,7 @@ const HomePageInfo: React.FC = () => {
                     width: 100%;
                     display: flex;
                     flex-wrap: wrap;
-                    padding: 10vh 0;
+                    padding-bottom: 10vh;
                 }
                 .info-section-wrapper {
                     display: flex;
@@ -81,4 +81,4 @@ const HomePageInfo: React.FC = () => {
     );
 };
 
-export default HomePageInfo;
+export default HomePageInfoCardsSection;

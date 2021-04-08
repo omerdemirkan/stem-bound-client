@@ -3,7 +3,7 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Link from "next/link";
 
-const HomePageIntro: React.FC = () => {
+const HomePageHeroSection: React.FC = () => {
     const scrollToRef = () => {
         window.scrollBy({
             top: window.innerHeight,
@@ -18,9 +18,8 @@ const HomePageIntro: React.FC = () => {
                     <div className="hero-text-box">
                         <div>
                             <Typography
-                                variant="h2"
+                                variant="h3"
                                 color="textSecondary"
-                                style={{ fontSize: "calc(2rem + 2.5vw)" }}
                                 gutterBottom
                             >
                                 Help Connect Students to{" "}
@@ -47,9 +46,7 @@ const HomePageIntro: React.FC = () => {
                                 variant="outlined"
                                 color="primary"
                                 size="large"
-                                onClick={() => {
-                                    scrollToRef();
-                                }}
+                                onClick={scrollToRef}
                             >
                                 Learn More
                             </Button>
@@ -79,18 +76,18 @@ const HomePageIntro: React.FC = () => {
             <style jsx>{`
                 .hero {
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: flex-end;
                     align-items: stretch;
                     flex-wrap: wrap;
-                    min-height: calc(100vh - 80px);
+                    min-height: calc(100vh - 90px);
                 }
                 .hero-text-section {
                     flex-grow: 1;
-                    padding: 15vh 5vw 10vw;
+                    padding: 18vh 5vw 10vw;
                 }
                 .hero-text-box {
                     margin: auto;
-                    max-width: 800px;
+                    max-width: 700px;
                 }
                 .hero-section-image {
                     margin-top: -10%;
@@ -103,4 +100,4 @@ const HomePageIntro: React.FC = () => {
     );
 };
 
-export default HomePageIntro;
+export default HomePageHeroSection;

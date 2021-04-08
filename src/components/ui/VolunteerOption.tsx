@@ -1,55 +1,64 @@
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
+import Button, { ButtonProps } from "@material-ui/core/Button";
 import Link from "next/link";
-const VolunteerOption = (props) => {
+
+export interface IVolunteerOptionProps {
+    imgUrl: string;
+    title: string;
+    description: string;
+    path: string;
+    buttonText?: string;
+    ButtonProps?: ButtonProps;
+}
+
+const VolunteerOption: React.FC<IVolunteerOptionProps> = ({
+    title,
+    imgUrl,
+    description,
+    path,
+    buttonText,
+    ButtonProps,
+}) => {
     return (
         <>
             <div className="component-wrapper">
                 <div className="img-container">
-                    <img src={props.imgUrl} alt="option-img" />
+                    <img src={imgUrl} alt="option-img" />
                 </div>
 
                 <div className="title-container">
                     <Typography variant="h5" component="h6" color="primary">
-                        <Box fontWeight={500}>{props.title}</Box>
+                        <Box fontWeight={500}>{title}</Box>
                     </Typography>
                 </div>
 
                 <div className="description-container">
                     <Typography variant="body1" component="p">
-                        <Box fontSize={17}>{props.description}</Box>
+                        <Box fontSize={17}>{description}</Box>
                     </Typography>
                 </div>
 
-                <div className="btn-container">
-                    <Link href={props.pathToNextPage}>
-                        {props.id % 2 === 0 ? (
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                fullWidth
-                            >
-                                GET STARTED
-                            </Button>
-                        ) : (
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                            >
-                                GET STARTED
-                            </Button>
-                        )}
-                    </Link>
-                </div>
+                <Link href={path}>
+                    <a>
+                        <Button
+                            fullWidth
+                            color="primary"
+                            variant="contained"
+                            className="spaced-verticle"
+                            {...ButtonProps}
+                        >
+                            {buttonText || "Get Started"}
+                        </Button>
+                    </a>
+                </Link>
             </div>
 
             <style jsx>{`
                 .component-wrapper {
-                    width: 40%;
-                    margin: 0 auto 40px auto;
-                    height: fit-content;
+                    width: 100%;
+                    max-width: 450px;
+                    padding: 40px 20px;
                 }
                 .img-container {
                     margin: 3% auto;

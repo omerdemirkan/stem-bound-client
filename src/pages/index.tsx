@@ -1,8 +1,8 @@
 import Head from "next/head";
 import StaticLayout from "../components/ui/StaticLayout";
-import HomePageIntro from "../components/ui/HomePageIntro";
-import HomePageInfo from "../components/ui/HomePageInfo";
-import HomePageAppDetail from "../components/ui/HomePageAppDetail";
+import HomePageHeroSection from "../components/ui/HomePageHeroSection";
+import HomePageInfoCardsSection from "../components/ui/HomePageInfoCardsSection";
+import HomePageAppDetailSection from "../components/ui/HomePageAppDetailSection";
 
 const HomePage: React.FC = () => {
     return (
@@ -17,16 +17,16 @@ const HomePage: React.FC = () => {
                 className="shape"
                 alt=""
             />
-            <HomePageIntro />
+            <HomePageHeroSection />
             <img src="square.svg" alt="" id="square" className="shape" />
-            <HomePageInfo />
+            <HomePageInfoCardsSection />
             <img
                 src="circleRight.svg"
                 alt=""
                 id="circle-right"
                 className="shape"
             />
-            <HomePageAppDetail />
+            <HomePageAppDetailSection />
 
             <style jsx>{`
                 .shape {

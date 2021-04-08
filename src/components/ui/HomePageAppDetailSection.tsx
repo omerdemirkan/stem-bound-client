@@ -2,7 +2,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Link from "next/link";
 
-const HomePageAppDetail: React.FC = () => {
+const HomePageAppDetailSection: React.FC = () => {
     return (
         <>
             <div className="app-detail-container">
@@ -12,7 +12,7 @@ const HomePageAppDetail: React.FC = () => {
 
                 <div className="text-section">
                     <div>
-                        <Typography variant="h2" color="primary">
+                        <Typography variant="h2" color="primary" gutterBottom>
                             One Title Here
                         </Typography>
 
@@ -38,6 +38,7 @@ const HomePageAppDetail: React.FC = () => {
                                     variant="contained"
                                     fullWidth
                                     size="large"
+                                    className="spaced-verticle"
                                 >
                                     SIGN UP
                                 </Button>
@@ -64,4 +65,4 @@ const HomePageAppDetail: React.FC = () => {
     );
 };
 
-export default HomePageAppDetail;
+export default HomePageAppDetailSection;
