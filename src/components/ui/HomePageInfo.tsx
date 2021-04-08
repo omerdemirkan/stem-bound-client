@@ -1,31 +1,21 @@
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 
-const HomePageInfo = () => {
+const HomePageInfo: React.FC = () => {
     return (
         <>
             <div className="info-section">
                 <div className="info-section-wrapper">
                     <div className="info-container">
                         <img className="icons" src="guide-icon.svg" alt="" />
-                        <Typography
-                            variant="body1"
-                            component="h6"
-                            color="primary"
-                        >
-                            <Box fontSize={25} fontWeight={500} lineHeight={2}>
-                                Guiding Youth
-                            </Box>
+                        <Typography variant="h5" color="primary" gutterBottom>
+                            Guiding Youth
                         </Typography>
                         <Typography variant="body1" component="p">
-                            <Box fontSize={17}>
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Saepe nam vero nisi aut rem
-                                doloremque temporibus adipisci omnis quae eaque
-                                animi ipsam hic voluptatum autem rerum fugit,
-                                quidem, voluptatem minima.
-                            </Box>
+                            Lorem ipsum, dolor sit amet consectetur adipisicing
+                            elit. Saepe nam vero nisi aut rem doloremque
+                            temporibus adipisci omnis quae eaque animi ipsam hic
+                            voluptatum autem rerum fugit, quidem, voluptatem
+                            minima.
                         </Typography>
                     </div>
                     <div className="info-container">
@@ -34,44 +24,28 @@ const HomePageInfo = () => {
                             src="instructor-icon.svg"
                             alt=""
                         />
-                        <Typography
-                            variant="body1"
-                            component="h6"
-                            color="primary"
-                        >
-                            <Box fontSize={25} fontWeight={500} lineHeight={2}>
-                                Top Instructors
-                            </Box>
+                        <Typography variant="h5" color="primary" gutterBottom>
+                            Top Instructors
                         </Typography>
                         <Typography variant="body1" component="p">
-                            <Box fontSize={17}>
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Saepe nam vero nisi aut rem
-                                doloremque temporibus adipisci omnis quae eaque
-                                animi ipsam hic voluptatum autem rerum fugit,
-                                quidem, voluptatem minima.
-                            </Box>
+                            Lorem ipsum, dolor sit amet consectetur adipisicing
+                            elit. Saepe nam vero nisi aut rem doloremque
+                            temporibus adipisci omnis quae eaque animi ipsam hic
+                            voluptatum autem rerum fugit, quidem, voluptatem
+                            minima.
                         </Typography>
                     </div>
                     <div className="info-container">
                         <img className="icons" src="progress-icon.svg" alt="" />
-                        <Typography
-                            variant="body1"
-                            component="h6"
-                            color="primary"
-                        >
-                            <Box fontSize={25} fontWeight={500} lineHeight={2}>
-                                Teaching New Skills{" "}
-                            </Box>
+                        <Typography variant="h5" color="primary" gutterBottom>
+                            Teaching New Skills
                         </Typography>
                         <Typography variant="body1" component="p">
-                            <Box fontSize={17}>
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Saepe nam vero nisi aut rem
-                                doloremque temporibus adipisci omnis quae eaque
-                                animi ipsam hic voluptatum autem rerum fugit,
-                                quidem, voluptatem minima.
-                            </Box>
+                            Lorem ipsum, dolor sit amet consectetur adipisicing
+                            elit. Saepe nam vero nisi aut rem doloremque
+                            temporibus adipisci omnis quae eaque animi ipsam hic
+                            voluptatum autem rerum fugit, quidem, voluptatem
+                            minima.
                         </Typography>
                     </div>
                 </div>
@@ -79,9 +53,9 @@ const HomePageInfo = () => {
             <style jsx>{`
                 .info-section {
                     width: 100%;
-                    min-height: 50vh;
                     display: flex;
                     flex-wrap: wrap;
+                    padding: 10vh 0;
                 }
                 .info-section-wrapper {
                     display: flex;
@@ -92,10 +66,10 @@ const HomePageInfo = () => {
                 }
                 .info-container {
                     max-width: 350px;
-                    margin: 0 auto;
+                    margin: 20px auto;
                 }
                 .icons {
-                    margin: 50px 0 0 0;
+                    margin: 20px 0;
                 }
                 @media (max-width: 900px) {
                     .info-section {

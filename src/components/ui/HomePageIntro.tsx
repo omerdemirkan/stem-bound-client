@@ -3,7 +3,7 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Link from "next/link";
 
-const HomePageIntro = () => {
+const HomePageIntro: React.FC = () => {
     const scrollToRef = () => {
         window.scrollBy({
             top: window.innerHeight,
@@ -19,9 +19,9 @@ const HomePageIntro = () => {
                         <div>
                             <Typography
                                 variant="h2"
-                                component="h2"
                                 color="textSecondary"
                                 style={{ fontSize: "calc(2rem + 2.5vw)" }}
+                                gutterBottom
                             >
                                 Help Connect Students to{" "}
                                 <span className="emphasise-content">
@@ -50,7 +50,6 @@ const HomePageIntro = () => {
                                 onClick={() => {
                                     scrollToRef();
                                 }}
-                                className="spaced-horizontal"
                             >
                                 Learn More
                             </Button>
@@ -83,7 +82,7 @@ const HomePageIntro = () => {
                     justify-content: space-between;
                     align-items: stretch;
                     flex-wrap: wrap;
-                    min-height: calc(100vh - 60px);
+                    min-height: calc(100vh - 80px);
                 }
                 .hero-text-section {
                     flex-grow: 1;
