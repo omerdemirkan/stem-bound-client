@@ -53,15 +53,17 @@ const HomePageAppDetailSection: React.FC = () => {
                     justify-content: space-evenly;
                     padding-bottom: 25vh;
                     align-items: center;
+                    flex-wrap: wrap-reverse;
                 }
                 .image-section {
                     max-width: 650px;
                 }
                 .image-section > img {
-                    filter: drop-shadow(-5px 5px 0.75rem #aaaaaa);
+                    filter: drop-shadow(-5px 5px 0.75rem #bbbbbb);
                 }
                 .text-section {
                     max-width: 600px;
+                    padding: 100px 0;
                 }
             `}</style>
         </>
