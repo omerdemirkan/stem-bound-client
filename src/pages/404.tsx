@@ -6,8 +6,8 @@ import Link from "next/link";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-import StaticLayout from "../components/ui/StaticLayout";
-import AppLayout from "../components/containers/AppLayout";
+import StaticLayout from "../components/layouts/StaticLayout";
+import AppLayout from "../components/layouts/AppLayout";
 import Head from "next/head";
 
 const NotFoundPage: React.FC = () => {

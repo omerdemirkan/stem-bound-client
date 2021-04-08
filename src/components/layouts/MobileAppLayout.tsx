@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useContext, useState } from "react";
-import AppNavigation from "./AppNavigation";
+import AppNavigation from "../containers/AppNavigation";
 import Drawer from "@material-ui/core/Drawer";
 import useDimensions from "../../hooks/useDimensions";
 import { paginateBreadcrumbsMinified } from "../util/paginateBreadCrumbs";

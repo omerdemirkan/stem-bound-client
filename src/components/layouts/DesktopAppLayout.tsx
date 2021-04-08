@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { makeStyles } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-import AppNavigation from "./AppNavigation";
+import AppNavigation from "../containers/AppNavigation";
 import { IAppLayoutProps } from "./AppLayout";
 import ThemeContext from "../contexts/ThemeContext";
 import { paginateBreadCrumbs } from "../util/paginateBreadCrumbs";

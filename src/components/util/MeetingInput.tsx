@@ -23,7 +23,7 @@ import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import MeetingForm from "../forms/MeetingForm";
-import ScreenLayout from "../ui/ScreenLayout";
+import ScreenLayout from "../layouts/ScreenLayout";
 
 const useStyles = makeStyles({
     card: {

@@ -1,4 +1,4 @@
-import StaticLayout from "../components/ui/StaticLayout";
+import StaticLayout from "../components/layouts/StaticLayout";
 import Head from "next/head";
 import AuthContext from "../components/contexts/AuthContext";
 import { useEffect, useContext, useState, useRef } from "react";

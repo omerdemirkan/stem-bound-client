@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import AppLayout from "../../../../components/containers/AppLayout";
+import AppLayout from "../../../../components/layouts/AppLayout";
 import withAuth from "../../../../components/hoc/withAuth";
 import {
     courseFetcher,

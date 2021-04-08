@@ -26,11 +26,9 @@ const AppLayout: React.FC<IAppLayoutProps> = ({ children, ...props }) => {
         ];
     }
 
-    return smallScreen ? (
-        <MobileAppLayout {...props}>{children}</MobileAppLayout>
-    ) : (
-        <DesktopAppLayout {...props}>{children}</DesktopAppLayout>
-    );
+    const Layout = smallScreen ? MobileAppLayout : DesktopAppLayout;
+
+    return <Layout {...props}>{children}</Layout>;
 };
 
 export default AppLayout;

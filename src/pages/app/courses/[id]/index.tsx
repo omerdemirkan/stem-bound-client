@@ -1,4 +1,4 @@
-import AppLayout from "../../../../components/containers/AppLayout";
+import AppLayout from "../../../../components/layouts/AppLayout";
 import Head from "next/head";
 import Link from "next/link";
 import useSWR from "swr";

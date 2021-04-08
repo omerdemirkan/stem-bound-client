@@ -1,4 +1,4 @@
-import StaticLayout from "../components/ui/StaticLayout";
+import StaticLayout from "../components/layouts/StaticLayout";
 import Head from "next/head";
 
 const AboutPage: React.FC = () => {

@@ -7,7 +7,7 @@ import {
     IStudent,
     IUser,
 } from "../../utils/types";
-import ScreenLayout from "./ScreenLayout";
+import ScreenLayout from "../layouts/ScreenLayout";
 import Section from "./Section";
 import Typography from "@material-ui/core/Typography";
 import ChipList from "./ChipList";

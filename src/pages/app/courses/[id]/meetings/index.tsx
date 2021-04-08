@@ -1,4 +1,4 @@
-import AppLayout from "../../../../../components/containers/AppLayout";
+import AppLayout from "../../../../../components/layouts/AppLayout";
 import Head from "next/head";
 import withAuth from "../../../../../components/hoc/withAuth";
 import useSWR from "swr";

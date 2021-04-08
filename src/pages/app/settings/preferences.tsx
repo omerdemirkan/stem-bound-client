@@ -1,4 +1,4 @@
-import AppLayout from "../../../components/containers/AppLayout";
+import AppLayout from "../../../components/layouts/AppLayout";
 import Section from "../../../components/ui/Section";
 import Switch from "@material-ui/core/Switch";
 import { useContext } from "react";

@@ -1,5 +1,5 @@
 import withAuth from "../../../components/hoc/withAuth";
-import AppLayout from "../../../components/containers/AppLayout";
+import AppLayout from "../../../components/layouts/AppLayout";
 import Head from "next/head";
 import { EUserRoles } from "../../../utils/types";
 import { useContext } from "react";

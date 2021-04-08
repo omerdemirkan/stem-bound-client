@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import useSWR from "swr";
-import AppLayout from "../../../../components/containers/AppLayout";
+import AppLayout from "../../../../components/layouts/AppLayout";
 import NotificationContext from "../../../../components/contexts/NotificationContext";
 import withAuth from "../../../../components/hoc/withAuth";
 import Center from "../../../../components/ui/Center";

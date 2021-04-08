@@ -1,4 +1,4 @@
-import AppLayout from "../../components/containers/AppLayout";
+import AppLayout from "../../components/layouts/AppLayout";
 import withAuth from "../../components/hoc/withAuth";
 import Head from "next/head";
 import UnderConstruction from "../../components/ui/UnderConstruction";

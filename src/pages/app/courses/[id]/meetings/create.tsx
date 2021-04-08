@@ -1,4 +1,4 @@
-import AppLayout from "../../../../../components/containers/AppLayout";
+import AppLayout from "../../../../../components/layouts/AppLayout";
 import useSWR from "swr";
 import MeetingsForm from "../../../../../components/containers/MeetingsForm";
 import withAuth from "../../../../../components/hoc/withAuth";

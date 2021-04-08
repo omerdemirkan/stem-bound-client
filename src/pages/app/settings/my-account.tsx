@@ -1,7 +1,7 @@
 import AuthContext from "../../../components/contexts/AuthContext";
 import useSWR from "swr";
 import Head from "next/head";
-import AppLayout from "../../../components/containers/AppLayout";
+import AppLayout from "../../../components/layouts/AppLayout";
 import PictureInput from "../../../components/ui/PictureInput";
 import withAuth from "../../../components/hoc/withAuth";
 import { capitalizeWords, getCurrentSchoolYear } from "../../../utils/helpers";
