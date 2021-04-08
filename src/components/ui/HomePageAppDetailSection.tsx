@@ -7,7 +7,7 @@ const HomePageAppDetailSection: React.FC = () => {
         <>
             <div className="app-detail-container">
                 <div className="image-section">
-                    <img src="home-page-detail-img.svg" alt="" />
+                    <img src="stem-bound-demo.png" alt="" />
                 </div>
 
                 <div className="text-section">
@@ -55,7 +55,10 @@ const HomePageAppDetailSection: React.FC = () => {
                     align-items: center;
                 }
                 .image-section {
-                    max-width: 550px;
+                    max-width: 650px;
+                }
+                .image-section > img {
+                    filter: drop-shadow(-5px 5px 0.75rem #aaaaaa);
                 }
                 .text-section {
                     max-width: 600px;
