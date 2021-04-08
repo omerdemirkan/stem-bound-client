@@ -12,7 +12,7 @@ const HomePageAppDetailSection: React.FC = () => {
 
                 <div className="text-section">
                     <div>
-                        <Typography variant="h2" color="primary" gutterBottom>
+                        <Typography variant="h3" color="primary" gutterBottom>
                             One Title Here
                         </Typography>
 
