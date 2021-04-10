@@ -87,7 +87,7 @@ const HomePageHeroSection: React.FC = () => {
                 }
                 .hero-text-box {
                     margin: auto;
-                    max-width: 700px;
+                    max-width: 650px;
                 }
                 .hero-section-image {
                     margin-top: -10%;

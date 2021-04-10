@@ -1,7 +1,5 @@
 import StaticLayout from "../components/ui/StaticLayout";
 import Head from "next/head";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import VolunteerOption, {
     IVolunteerOptionProps,
 } from "../components/ui/VolunteerOption";
