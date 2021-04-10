@@ -1,0 +1,102 @@
+import StaticLayout from "../components/ui/StaticLayout";
+import Head from "next/head";
+import Button from "@material-ui/core/Button";
+import { useForm } from "react-hook-form";
+import TextField from "@material-ui/core/TextField";
+import FormCard from "../components/ui/FormCard";
+import SendIcon from "@material-ui/icons/Send";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+    submitButton: {
+        marginTop: "20px",
+    },
+});
+
+const DeveloperSubmissionPage: React.FC = () => {
+    const { register, handleSubmit, errors } = useForm();
+    const classes = useStyles();
+
+    function onSubmit(values) {
+        console.log(values);
+    }
+
+    return (
+        <StaticLayout>
+            <Head>
+                <title>STEM-bound - Volunteer Application Submission</title>
+            </Head>
+            <FormCard header="Contact Us" Icon={SendIcon}>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <TextField
+                        inputRef={register({
+                            required: "Required",
+                        })}
+                        required
+                        name="firstName"
+                        label="First Name"
+                        margin="normal"
+                        fullWidth
+                        error={!!errors.firstName}
+                        helperText={errors.firstName?.message}
+                    />
+
+                    <TextField
+                        inputRef={register({
+                            required: "Required",
+                        })}
+                        required
+                        name="lastName"
+                        label="Last Name"
+                        margin="normal"
+                        fullWidth
+                        error={!!errors.lastName}
+                        helperText={errors.lastName?.message}
+                    />
+
+                    <TextField
+                        inputRef={register({
+                            required: "Required",
+                        })}
+                        required
+                        name="email"
+                        label="Email"
+                        margin="normal"
+                        fullWidth
+                        error={!!errors.email}
+                        helperText={errors.email?.message}
+                    />
+
+                    <TextField
+                        inputRef={register({
+                            required: "Required",
+                        })}
+                        required
+                        name="message"
+                        label="Message"
+                        margin="normal"
+                        error={!!errors.message}
+                        helperText={errors.message?.message}
+                        variant="outlined"
+                        fullWidth
+                        multiline
+                        rows={6}
+                    />
+                    <br />
+
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        type="submit"
+                        className={classes.submitButton}
+                    >
+                        Submit
+                    </Button>
+                </form>
+            </FormCard>
+        </StaticLayout>
+    );
+};
+
+export default DeveloperSubmissionPage;

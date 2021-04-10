@@ -1,36 +1,36 @@
-import Link from "next/link";
-import { EUserRoles } from "../../utils/types";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import Typography from "@material-ui/core/Typography";
 
-const StaticLayout: React.FC = ({ children }) => {
+export interface IStaticLayoutProps {
+    header?: string;
+}
+
+const StaticLayout: React.FC<IStaticLayoutProps> = ({ header, children }) => {
     return (
         <>
             <div className="main">
-                <nav>
-                    <Link href="/">
-                        <a>Home</a>
-                    </Link>
-                    <Link href="/about">
-                        <a>About</a>
-                    </Link>
-                    <Link href={`/search?q=${EUserRoles.INSTRUCTOR}`}>
-                        <a>Search</a>
-                    </Link>
-                    <Link href="/log-in">
-                        <a>Log In</a>
-                    </Link>
-                    <Link href="/sign-up">
-                        <a>Sign Up</a>
-                    </Link>
-                </nav>
+                <Navbar />
+                {header && (
+                    <Typography
+                        variant="h4"
+                        component="h1"
+                        align="center"
+                        gutterBottom
+                        style={{ margin: "30px 0" }}
+                    >
+                        {header}
+                    </Typography>
+                )}
                 {children}
             </div>
-            <footer>
-                <h3>STEM_BOUND™ EDUCATION</h3>
-            </footer>
+            <Footer />
 
             <style jsx>{`
                 .main {
                     min-height: 100vh;
+                    margin: 0;
+                    padding: 0;
                 }
             `}</style>
         </>

@@ -143,4 +143,22 @@ const navigationData = Object.freeze({
     [EUserRoles.STUDENT]: studentNavigationData,
 });
 
+export const staticNavigationData = {
+    links: [
+        { title: "home", path: "/" },
+        { title: "our team", path: "/our-team" },
+        {
+            title: "search",
+            path: "/search",
+            as: `/search?q=${EUserRoles.INSTRUCTOR}`,
+        },
+        { title: "volunteer", path: "/volunteer" },
+        { title: "contact us", path: "/contact-us" },
+    ],
+    buttons: [
+        { title: "log in", path: "/log-in", variant: "outlined" },
+        { title: "sign up", path: "/sign-up", variant: "contained" },
+    ],
+};
+
 export default navigationData;
