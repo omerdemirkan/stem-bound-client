@@ -1,5 +1,5 @@
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "../ui/Navbar";
+import Footer from "../ui/Footer";
 import Typography from "@material-ui/core/Typography";
 
 export interface IStaticLayoutProps {

@@ -1,4 +1,4 @@
-import StaticLayout from "../components/ui/StaticLayout";
+import StaticLayout from "../components/layouts/StaticLayout";
 import Head from "next/head";
 import Button from "@material-ui/core/Button";
 import { useForm } from "react-hook-form";

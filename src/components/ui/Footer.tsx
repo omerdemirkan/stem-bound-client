@@ -1,6 +1,6 @@
 import Typography from "@material-ui/core/Typography";
 
-const Footer = () => {
+const Footer: React.FC = () => {
     return (
         <>
             <div className="footer-wrapper">

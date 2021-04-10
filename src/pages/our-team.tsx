@@ -1,4 +1,4 @@
-import StaticLayout from "../components/ui/StaticLayout";
+import StaticLayout from "../components/layouts/StaticLayout";
 import StaffInfoCard from "../components/ui/StaffInfoCard";
 import { stemboundTeamMembers } from "../utils/constants";
 import Grid from "@material-ui/core/Grid";
