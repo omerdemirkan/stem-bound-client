@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     },
 });
 
-const MobileNavbar = () => {
+const StaticMobileNavbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const classes = useStyles();
 
@@ -125,4 +125,4 @@ const MobileNavbar = () => {
     );
 };
 
-export default MobileNavbar;
+export default StaticMobileNavbar;

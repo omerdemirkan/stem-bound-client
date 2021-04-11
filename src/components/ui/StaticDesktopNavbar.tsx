@@ -5,7 +5,7 @@ import { staticNavigationData } from "../../utils/constants";
 import Typography from "@material-ui/core/Typography";
 import { useRouter } from "next/router";
 
-const DesktopNavbar = () => {
+const StaticDesktopNavbar = () => {
     const router = useRouter();
     function handleLinkColor(path) {
         try {
@@ -89,4 +89,4 @@ const DesktopNavbar = () => {
     );
 };
 
-export default DesktopNavbar;
+export default StaticDesktopNavbar;
