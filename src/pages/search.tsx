@@ -36,9 +36,7 @@ const SearchPage: React.FC<Props> = ({ query, searchData }) => {
     return (
         <StaticLayout>
             <Head>
-                <title>
-                    {getDisplaySearchField(query.searchField)} - STEM-bound
-                </title>
+                <title>Search - STEM-bound</title>
             </Head>
             <ActionBar
                 startEl={
