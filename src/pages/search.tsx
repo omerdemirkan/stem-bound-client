@@ -102,16 +102,7 @@ function paginateSearchData({
 export async function getServerSideProps({ query, res, req }: NextPageContext) {
     let props: ISearchPageProps = { query: query as any, searchData: [] };
     if (!isSearchField(query.searchField)) {
-        try {
-            res &&
-                serverRedirect(
-                    res,
-                    `search?searchField=${ESearchFields.INSTRUCTOR}`
-                );
-            return { props };
-        } catch (e) {
-            console.error(`An error occured in redirecting`, e);
-        }
+        props.query.searchField = ESearchFields.INSTRUCTOR;
     }
 
     try {
