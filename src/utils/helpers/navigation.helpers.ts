@@ -1,6 +1,6 @@
 import { EUserRoles, INavigationData } from "../types";
 import navigationData from "../constants/navigation.constants";
-import { NextPageContext } from "next";
+import { ServerResponse } from "http";
 
 export function getNavigationDataByUserRole(
     userRole: EUserRoles
@@ -8,8 +8,8 @@ export function getNavigationDataByUserRole(
     return navigationData[userRole];
 }
 
-export function serverRedirect({ res }: NextPageContext, redirect: string) {
-    res.writeHead(302, { Location: redirect });
+export function serverRedirect(res: ServerResponse, redirect: string) {
+    res.setHeader("location", redirect);
+    res.statusCode = 302;
     res.end();
-    return { props: {} };
 }

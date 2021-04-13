@@ -26,12 +26,12 @@ import SearchQueryInput from "../components/containers/SearchQueryInput";
 import PictureMessage from "../components/ui/PictureMessage";
 import NoResultsSVG from "../components/svg/illustrations/no-results";
 
-interface Props {
+interface ISearchPageProps {
     query: ISearchQuery;
     searchData: ISearchData[];
 }
 
-const SearchPage: React.FC<Props> = ({ query, searchData }) => {
+const SearchPage: React.FC<ISearchPageProps> = ({ query, searchData }) => {
     const router = useRouter();
     return (
         <StaticLayout>
@@ -99,22 +99,31 @@ function paginateSearchData({
     );
 }
 
-export async function getServerSideProps(ctx: NextPageContext) {
+export async function getServerSideProps({ query, res, req }: NextPageContext) {
+    let props: ISearchPageProps = { query: query as any, searchData: [] };
+    if (!isSearchField(query.searchField)) {
+        try {
+            res &&
+                serverRedirect(
+                    res,
+                    `search?searchField=${ESearchFields.INSTRUCTOR}`
+                );
+            return { props };
+        } catch (e) {
+            console.error(`An error occured in redirecting`, e);
+        }
+    }
+
     try {
-        const query = ctx.query as any;
-        if (!isSearchField(query.searchField)) throw new Error();
         let searchData = (
             await fetchSearchData(SearchField(query.searchField), query)
         ).data;
         deleteUndefined(searchData);
-        const props: Props = { query, searchData };
-        return { props };
+        props.searchData = searchData;
     } catch (e) {
-        return serverRedirect(
-            ctx,
-            `search?searchField=${ESearchFields.INSTRUCTOR}`
-        );
+        console.error(`An error occured in fetching search data`, e);
     }
+    return { props };
 }
 
 export default SearchPage;
