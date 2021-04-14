@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 
 export default function useOnScreen(ref, rootMargin = "0px") {
-    const [isIntersecting, setIntersecting] = useState(false);
+    const [onScreen, setOnScreen] = useState(false);
+    const [enteredScreen, setEnteredScreen] = useState(false);
     useEffect(() => {
         const observer = new IntersectionObserver(
-            ([entry]) => setIntersecting(entry.isIntersecting),
+            function ([entry]) {
+                setOnScreen(entry.isIntersecting);
+                if (entry.isIntersecting) setEnteredScreen(true);
+            },
             { rootMargin }
         );
 
@@ -12,5 +16,5 @@ export default function useOnScreen(ref, rootMargin = "0px") {
 
         return () => observer.unobserve(ref.current);
     }, []); // Empty array ensures that effect is only run on mount and unmount
-    return isIntersecting;
+    return { onScreen, enteredScreen };
 }

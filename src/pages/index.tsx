@@ -50,8 +50,8 @@ const HomePage: React.FC = () => {
 
             <div className="hero">
                 <div className="hero-text-section">
-                    <FadeIn durationMs={300}>
-                        <div className="hero-text-box">
+                    <div className="hero-text-box">
+                        <FadeIn delayMs={100}>
                             <Typography
                                 variant="h3"
                                 color="textSecondary"
@@ -62,7 +62,9 @@ const HomePage: React.FC = () => {
                                     Opportunites
                                 </span>
                             </Typography>
+                        </FadeIn>
 
+                        <FadeIn delayMs={150}>
                             <Typography paragraph gutterBottom>
                                 <Box fontSize={18} marginBottom="30px">
                                     Lorem ipsum, dolor sit amet consectetur
@@ -72,7 +74,9 @@ const HomePage: React.FC = () => {
                                     rerum fugit, quidem, voluptatem minima.
                                 </Box>
                             </Typography>
+                        </FadeIn>
 
+                        <FadeIn delayMs={200}>
                             <Button
                                 variant="outlined"
                                 color="primary"
@@ -94,8 +98,8 @@ const HomePage: React.FC = () => {
                                     </Button>
                                 </a>
                             </Link>
-                        </div>
-                    </FadeIn>
+                        </FadeIn>
+                    </div>
                 </div>
                 <img
                     id="section-img"
@@ -111,11 +115,13 @@ const HomePage: React.FC = () => {
                 </div>
 
                 <div className="text-section">
-                    <div>
+                    <FadeIn delayMs={300}>
                         <Typography variant="h3" color="primary" gutterBottom>
                             One Title Here
                         </Typography>
+                    </FadeIn>
 
+                    <FadeIn delayMs={350}>
                         <Typography paragraph>
                             Lorem ipsum, dolor sit amet consectetur adipisicing
                             elit. Saepe nam vero nisi aut rem doloremque
@@ -130,7 +136,9 @@ const HomePage: React.FC = () => {
                             voluptatum autem rerum fugit, quidem, voluptatem
                             minima.
                         </Typography>
+                    </FadeIn>
 
+                    <FadeIn delayMs={400}>
                         <Link href="/sign-up">
                             <a>
                                 <Button
@@ -144,54 +152,80 @@ const HomePage: React.FC = () => {
                                 </Button>
                             </a>
                         </Link>
-                    </div>
+                    </FadeIn>
                 </div>
             </div>
 
             <div className="info-section">
                 <div className="info-section-wrapper">
                     <div className="info-container">
-                        <img className="icons" src="guide-icon.svg" alt="" />
-                        <Typography variant="h5" color="primary" gutterBottom>
-                            Guiding Youth
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Saepe nam vero nisi aut rem doloremque
-                            temporibus adipisci omnis quae eaque animi ipsam hic
-                            voluptatum autem rerum fugit, quidem, voluptatem
-                            minima.
-                        </Typography>
+                        <FadeIn delayMs={300}>
+                            <img
+                                className="icons"
+                                src="guide-icon.svg"
+                                alt=""
+                            />
+                            <Typography
+                                variant="h5"
+                                color="primary"
+                                gutterBottom
+                            >
+                                Guiding Youth
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                Lorem ipsum, dolor sit amet consectetur
+                                adipisicing elit. Saepe nam vero nisi aut rem
+                                doloremque temporibus adipisci omnis quae eaque
+                                animi ipsam hic voluptatum autem rerum fugit,
+                                quidem, voluptatem minima.
+                            </Typography>
+                        </FadeIn>
                     </div>
                     <div className="info-container">
-                        <img
-                            className="icons"
-                            src="instructor-icon.svg"
-                            alt=""
-                        />
-                        <Typography variant="h5" color="primary" gutterBottom>
-                            Top Instructors
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Saepe nam vero nisi aut rem doloremque
-                            temporibus adipisci omnis quae eaque animi ipsam hic
-                            voluptatum autem rerum fugit, quidem, voluptatem
-                            minima.
-                        </Typography>
+                        <FadeIn delayMs={350}>
+                            <img
+                                className="icons"
+                                src="instructor-icon.svg"
+                                alt=""
+                            />
+                            <Typography
+                                variant="h5"
+                                color="primary"
+                                gutterBottom
+                            >
+                                Top Instructors
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                Lorem ipsum, dolor sit amet consectetur
+                                adipisicing elit. Saepe nam vero nisi aut rem
+                                doloremque temporibus adipisci omnis quae eaque
+                                animi ipsam hic voluptatum autem rerum fugit,
+                                quidem, voluptatem minima.
+                            </Typography>
+                        </FadeIn>
                     </div>
                     <div className="info-container">
-                        <img className="icons" src="progress-icon.svg" alt="" />
-                        <Typography variant="h5" color="primary" gutterBottom>
-                            Teaching New Skills
-                        </Typography>
-                        <Typography variant="body1" component="p">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Saepe nam vero nisi aut rem doloremque
-                            temporibus adipisci omnis quae eaque animi ipsam hic
-                            voluptatum autem rerum fugit, quidem, voluptatem
-                            minima.
-                        </Typography>
+                        <FadeIn delayMs={400}>
+                            <img
+                                className="icons"
+                                src="progress-icon.svg"
+                                alt=""
+                            />
+                            <Typography
+                                variant="h5"
+                                color="primary"
+                                gutterBottom
+                            >
+                                Teaching New Skills
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                Lorem ipsum, dolor sit amet consectetur
+                                adipisicing elit. Saepe nam vero nisi aut rem
+                                doloremque temporibus adipisci omnis quae eaque
+                                animi ipsam hic voluptatum autem rerum fugit,
+                                quidem, voluptatem minima.
+                            </Typography>
+                        </FadeIn>
                     </div>
                 </div>
             </div>
@@ -248,7 +282,7 @@ const HomePage: React.FC = () => {
                 .app-detail {
                     display: flex;
                     justify-content: space-evenly;
-                    padding: 0 5vw 25vh;
+                    padding: 20px 5vw 25vh;
                     align-items: center;
                     flex-wrap: wrap-reverse;
                 }
