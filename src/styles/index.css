@@ -5,6 +5,7 @@
 @import "./global/override.styles.css";
 @import "./global/utils.styles.css";
 @import "./global/typography.styles.css";
+@import "./global/animation.styles.css";
 @import "../../node_modules/react-image-crop/dist/ReactCrop.css";
 
 .test {

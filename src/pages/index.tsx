@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Link from "next/link";
+import FadeIn from "../components/ui/FadeIn";
 
 const HomePage: React.FC = () => {
     const scrollToRef = () => {
@@ -49,50 +50,52 @@ const HomePage: React.FC = () => {
 
             <div className="hero">
                 <div className="hero-text-section">
-                    <div className="hero-text-box">
-                        <Typography
-                            variant="h3"
-                            color="textSecondary"
-                            gutterBottom
-                        >
-                            Help Connect Students to{" "}
-                            <span className="emphasise-content">
-                                Opportunites
-                            </span>
-                        </Typography>
+                    <FadeIn durationMs={300}>
+                        <div className="hero-text-box">
+                            <Typography
+                                variant="h3"
+                                color="textSecondary"
+                                gutterBottom
+                            >
+                                Help Connect Students to{" "}
+                                <span className="emphasise-content">
+                                    Opportunites
+                                </span>
+                            </Typography>
 
-                        <Typography paragraph gutterBottom>
-                            <Box fontSize={18} marginBottom="30px">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Saepe nam vero nisi aut rem
-                                doloremque temporibus adipisci omnis quae eaque
-                                animi ipsam hic voluptatum autem rerum fugit,
-                                quidem, voluptatem minima.
-                            </Box>
-                        </Typography>
+                            <Typography paragraph gutterBottom>
+                                <Box fontSize={18} marginBottom="30px">
+                                    Lorem ipsum, dolor sit amet consectetur
+                                    adipisicing elit. Saepe nam vero nisi aut
+                                    rem doloremque temporibus adipisci omnis
+                                    quae eaque animi ipsam hic voluptatum autem
+                                    rerum fugit, quidem, voluptatem minima.
+                                </Box>
+                            </Typography>
 
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            size="large"
-                            onClick={scrollToRef}
-                        >
-                            Learn More
-                        </Button>
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                size="large"
+                                onClick={scrollToRef}
+                            >
+                                Learn More
+                            </Button>
 
-                        <Link href="/sign-up">
-                            <a>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    size="large"
-                                    className="spaced-horizontal"
-                                >
-                                    SIGN UP
-                                </Button>
-                            </a>
-                        </Link>
-                    </div>
+                            <Link href="/sign-up">
+                                <a>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        size="large"
+                                        className="spaced-horizontal"
+                                    >
+                                        SIGN UP
+                                    </Button>
+                                </a>
+                            </Link>
+                        </div>
+                    </FadeIn>
                 </div>
                 <img
                     id="section-img"

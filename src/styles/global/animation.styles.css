@@ -1,0 +1,18 @@
+.fade-in-container {
+  position: relative;
+  top: 10px;
+  opacity: 0;
+  animation-duration: 200ms;
+}
+
+@keyframes fadeIn {
+  from {
+    top: 10px;
+    opacity: 0;
+  }
+
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
