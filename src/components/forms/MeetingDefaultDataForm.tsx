@@ -45,6 +45,7 @@ const MeetingDefaultDataForm: React.FC<IMeetingDefaultDataFormProps> = ({
         getValues,
     } = useForm();
     const classes = useStyles();
+
     useEffect(function () {
         let startTime = new Date();
         let endTime = new Date();
@@ -56,94 +57,81 @@ const MeetingDefaultDataForm: React.FC<IMeetingDefaultDataFormProps> = ({
         setValue("end", endTime);
     }, []);
 
-    const ModifiedFormCard = withoutCard
-        ? ({ children }) => <div>{children}</div>
-        : FormCard;
-
     return (
-        <ModifiedFormCard {...CardProps}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Alert severity="info" className={classes.alert}>
-                    <AlertTitle>Choose default times, room and url.</AlertTitle>
-                    You can later update meetings individually.
-                </Alert>
-                <Divider />
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <Alert severity="info" className={classes.alert}>
+                <AlertTitle>Choose default times, room and url.</AlertTitle>
+                You can later update meetings individually.
+            </Alert>
+            <Divider />
 
-                <Controller
-                    name="start"
-                    defaultValue={new Date()}
-                    control={control}
-                    render={(params) => (
-                        <TimePicker
-                            label="Default Start Time"
-                            className={classes.defaultTimePicker}
-                            margin="normal"
-                            {...params}
-                        />
-                    )}
-                />
+            <Controller
+                name="start"
+                defaultValue={new Date()}
+                control={control}
+                render={(params) => (
+                    <TimePicker
+                        label="Default Start Time"
+                        className={classes.defaultTimePicker}
+                        margin="normal"
+                        {...params}
+                    />
+                )}
+            />
 
-                <Controller
-                    name="end"
-                    defaultValue={new Date()}
-                    control={control}
-                    rules={{
-                        validate: (value) =>
-                            new Date(getValues().start) >= new Date(value)
-                                ? "Invalid timeframe"
-                                : true,
-                    }}
-                    render={(params) => (
-                        <TimePicker
-                            label="Default End Time"
-                            className={classes.defaultTimePicker}
-                            margin="normal"
-                            helperText={errors.end?.message}
-                            error={errors.end}
-                            {...params}
-                        />
-                    )}
-                />
+            <Controller
+                name="end"
+                defaultValue={new Date()}
+                control={control}
+                rules={{
+                    validate: (value) =>
+                        new Date(getValues().start) >= new Date(value)
+                            ? "Invalid timeframe"
+                            : true,
+                }}
+                render={(params) => (
+                    <TimePicker
+                        label="Default End Time"
+                        className={classes.defaultTimePicker}
+                        margin="normal"
+                        helperText={errors.end?.message}
+                        error={errors.end}
+                        {...params}
+                    />
+                )}
+            />
 
-                <TextField
-                    label="Default Room Number"
-                    inputRef={register({
-                        required: requiredFields.includes("roomNum")
-                            ? "Required"
-                            : false,
-                    })}
-                    name="roomNum"
-                    error={errors.roomNum}
-                    helperText={
-                        errors.roomNum?.message || "For in-person classes"
-                    }
-                    margin="normal"
-                    fullWidth
-                />
-                <TextField
-                    label="Meeting Url"
-                    inputRef={register({
-                        required: requiredFields.includes("url")
-                            ? "Required"
-                            : false,
-                    })}
-                    name="url"
-                    error={errors.url}
-                    helperText={errors.url?.message || "For remote classes"}
-                    margin="normal"
-                    fullWidth
-                />
+            <TextField
+                label="Default Room Number"
+                inputRef={register({
+                    required: requiredFields.includes("roomNum")
+                        ? "Required"
+                        : false,
+                })}
+                name="roomNum"
+                error={errors.roomNum}
+                helperText={errors.roomNum?.message || "For in-person classes"}
+                margin="normal"
+                fullWidth
+            />
+            <TextField
+                label="Meeting Url"
+                inputRef={register({
+                    required: requiredFields.includes("url")
+                        ? "Required"
+                        : false,
+                })}
+                name="url"
+                error={errors.url}
+                helperText={errors.url?.message || "For remote classes"}
+                margin="normal"
+                fullWidth
+            />
 
-                <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    type="submit"
-                >
-                    Next
-                </Button>
-            </form>
-        </ModifiedFormCard>
+            <Button variant="contained" color="primary" fullWidth type="submit">
+                Next
+            </Button>
+        </form>
     );
 };
 

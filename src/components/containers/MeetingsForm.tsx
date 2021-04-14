@@ -17,6 +17,7 @@ import MeetingDefaultDataForm from "../forms/MeetingDefaultDataForm";
 import NotificationContext from "../contexts/NotificationContext";
 import Section from "../ui/Section";
 import MultipleDatePicker from "../util/MultipleDatePicker";
+import FormCard from "../ui/FormCard";
 
 const useStyles = makeStyles({
     defaultTimePicker: {
@@ -199,10 +200,12 @@ const MeetingsForm: React.FC<IMeetingsFormProps> = ({
 
             <Section noDivider>
                 {step < 2 ? (
-                    <MeetingDefaultDataForm
-                        onSubmit={handleDefaultDataSelected}
-                        requiredFields={["roomNum", "url"]}
-                    />
+                    <FormCard>
+                        <MeetingDefaultDataForm
+                            onSubmit={handleDefaultDataSelected}
+                            requiredFields={["roomNum", "url"]}
+                        />
+                    </FormCard>
                 ) : null}
 
                 <MultipleDatePicker
