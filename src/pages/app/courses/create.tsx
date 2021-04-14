@@ -2,7 +2,7 @@ import withAuth from "../../../components/hoc/withAuth";
 import AppLayout from "../../../components/layouts/AppLayout";
 import Head from "next/head";
 import { EUserRoles } from "../../../utils/types";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { createCourse } from "../../../utils/services";
 import AuthContext from "../../../components/contexts/AuthContext";
@@ -14,11 +14,18 @@ import Alert from "@material-ui/lab/Alert";
 const CreateCourseAppPage: React.FC = () => {
     const router = useRouter();
     const { user } = useContext(AuthContext);
+    const [errorMessage, setErrorMessage] = useState<string>();
+    const [loading, setLoading] = useState<boolean>(false);
 
-    function handleSubmit(values) {
-        createCourse(values).then(function (res) {
-            router.push("/app/courses");
-        });
+    async function handleSubmit(values) {
+        try {
+            setLoading(true);
+            const { data: course } = await createCourse(values);
+            setLoading(false);
+            router.push(`/app/courses/${course._id}`);
+        } catch (e) {
+            setErrorMessage(e.message);
+        }
     }
 
     return (
@@ -33,6 +40,7 @@ const CreateCourseAppPage: React.FC = () => {
             </Head>
             <FormCard
                 header="Create A New Course"
+                errorMessage={errorMessage}
                 Icon={LibraryBooksIcon}
                 headerEl={
                     <Alert severity="info">
@@ -45,7 +53,11 @@ const CreateCourseAppPage: React.FC = () => {
                     </Alert>
                 }
             >
-                <CourseForm onSubmit={handleSubmit} userId={user._id} />
+                <CourseForm
+                    onSubmit={handleSubmit}
+                    userId={user._id}
+                    loading={loading}
+                />
             </FormCard>
         </AppLayout>
     );

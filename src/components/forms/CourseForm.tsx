@@ -14,9 +14,16 @@ import { DatePicker } from "@material-ui/pickers";
 export interface ICourseFormProps {
     onSubmit(values: any): void;
     userId: string;
+    loading?: boolean;
+    success?: boolean;
 }
 
-const CourseForm: React.FC<ICourseFormProps> = ({ onSubmit, userId }) => {
+const CourseForm: React.FC<ICourseFormProps> = ({
+    onSubmit,
+    userId,
+    loading,
+    success,
+}) => {
     const { register, handleSubmit, errors, control, getValues } = useForm();
 
     function handleSubmitClicked(values) {
@@ -177,6 +184,7 @@ const CourseForm: React.FC<ICourseFormProps> = ({ onSubmit, userId }) => {
                 variant="contained"
                 fullWidth
                 style={{ marginTop: "20px" }}
+                disabled={loading || success}
             >
                 Submit
             </Button>

@@ -4,11 +4,7 @@ import AuthContext from "../components/contexts/AuthContext";
 import { useEffect, useContext, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Typography from "@material-ui/core/Typography";
-import {
-    CircularProgress,
-    LinearProgress,
-    makeStyles,
-} from "@material-ui/core";
+import { CircularProgress, makeStyles } from "@material-ui/core";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -20,6 +16,8 @@ import useQueryState from "../hooks/useQueryState";
 import Section from "../components/ui/Section";
 import Button from "@material-ui/core/Button";
 import Center from "../components/ui/Center";
+import FormCard from "../components/ui/FormCard";
+import InfoIcon from "@material-ui/icons/Info";
 
 const useStyles = makeStyles({
     stepper: {
@@ -113,10 +111,16 @@ const SignUpPage: React.FC = () => {
                     />
                 </HidableDiv>
                 <HidableDiv visible={step === 1}>
-                    <SignUpForm
-                        userRole={userRole}
-                        onSubmit={handleSendVerificationEmail}
-                    />
+                    <FormCard
+                        header="Personal Details"
+                        Icon={InfoIcon}
+                        subheader="Just a few basic details to set up and you'll be on your way!"
+                    >
+                        <SignUpForm
+                            userRole={userRole}
+                            onSubmit={handleSendVerificationEmail}
+                        />
+                    </FormCard>
                 </HidableDiv>
                 <HidableDiv visible={step === 2}>
                     <Typography variant="h5" align="center" gutterBottom>
