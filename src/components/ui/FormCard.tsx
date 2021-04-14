@@ -25,6 +25,7 @@ interface IFormCardProps extends CardProps {
     subheader?: string;
     iconEl?: any;
     Icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+    errorMessage?: string;
 }
 
 const FormCard: React.FC<IFormCardProps> = ({
@@ -34,6 +35,7 @@ const FormCard: React.FC<IFormCardProps> = ({
     subheader,
     iconEl,
     Icon,
+    errorMessage,
     ...CardProps
 }) => {
     const classes = useStyles();
@@ -59,13 +61,21 @@ const FormCard: React.FC<IFormCardProps> = ({
                             )}
                             {header}
                         </Typography>
-                        <Typography
-                            paragraph
-                            color="textSecondary"
-                            align="center"
-                        >
-                            {subheader}
-                        </Typography>
+                        {subheader && (
+                            <Typography
+                                paragraph
+                                color="textSecondary"
+                                align="center"
+                            >
+                                {subheader}
+                            </Typography>
+                        )}
+                        {errorMessage && (
+                            <Typography paragraph color="error" align="center">
+                                {errorMessage}
+                            </Typography>
+                        )}
+
                         {headerEl}
                     </CardContent>
                     <Divider />
