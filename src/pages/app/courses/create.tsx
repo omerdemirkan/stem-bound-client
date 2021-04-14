@@ -7,6 +7,9 @@ import { useRouter } from "next/router";
 import { createCourse } from "../../../utils/services";
 import AuthContext from "../../../components/contexts/AuthContext";
 import CourseForm from "../../../components/forms/CourseForm";
+import FormCard from "../../../components/ui/FormCard";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import Alert from "@material-ui/lab/Alert";
 
 const CreateCourseAppPage: React.FC = () => {
     const router = useRouter();
@@ -28,7 +31,22 @@ const CreateCourseAppPage: React.FC = () => {
             <Head>
                 <title>Create Course - STEM-bound</title>
             </Head>
-            <CourseForm onSubmit={handleSubmit} userId={user._id} />
+            <FormCard
+                header="Create A New Course"
+                Icon={LibraryBooksIcon}
+                headerEl={
+                    <Alert severity="info">
+                        By clicking submit, you create a course private to you.
+                        You may update details, schedule course meetings, and
+                        invite other instructors before publishing it to school
+                        officials for verification. We highly encourage getting
+                        in touch with a school official at the school you intend
+                        on teaching a course beforehand.
+                    </Alert>
+                }
+            >
+                <CourseForm onSubmit={handleSubmit} userId={user._id} />
+            </FormCard>
         </AppLayout>
     );
 };
