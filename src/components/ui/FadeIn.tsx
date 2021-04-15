@@ -9,7 +9,7 @@ export interface IFadeInProps {
 const FadeIn: React.FC<IFadeInProps> = ({
     children,
     delayMs = 0,
-    durationMs = 250,
+    durationMs = 300,
 }) => {
     const ref = useRef();
     const { enteredScreen } = useOnScreen(ref);

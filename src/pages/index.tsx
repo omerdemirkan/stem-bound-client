@@ -103,7 +103,7 @@ const HomePage: React.FC = () => {
                 </div>
                 <img
                     id="section-img"
-                    src="section-img.svg"
+                    src="hero-section-illustration.svg"
                     alt="section-img"
                     className="hero-section-image"
                 />
@@ -121,7 +121,7 @@ const HomePage: React.FC = () => {
                         </Typography>
                     </FadeIn>
 
-                    <FadeIn delayMs={350}>
+                    <FadeIn delayMs={400}>
                         <Typography paragraph>
                             Lorem ipsum, dolor sit amet consectetur adipisicing
                             elit. Saepe nam vero nisi aut rem doloremque
@@ -138,7 +138,7 @@ const HomePage: React.FC = () => {
                         </Typography>
                     </FadeIn>
 
-                    <FadeIn delayMs={400}>
+                    <FadeIn delayMs={500}>
                         <Link href="/sign-up">
                             <a>
                                 <Button
@@ -164,6 +164,7 @@ const HomePage: React.FC = () => {
                                 className="icons"
                                 src="guide-icon.svg"
                                 alt=""
+                                role="presentation"
                             />
                             <Typography
                                 variant="h5"
@@ -187,6 +188,7 @@ const HomePage: React.FC = () => {
                                 className="icons"
                                 src="instructor-icon.svg"
                                 alt=""
+                                role="presentation"
                             />
                             <Typography
                                 variant="h5"
@@ -210,6 +212,7 @@ const HomePage: React.FC = () => {
                                 className="icons"
                                 src="progress-icon.svg"
                                 alt=""
+                                role="presentation"
                             />
                             <Typography
                                 variant="h5"

@@ -88,6 +88,7 @@ const StaffInfoCard: React.FC<IStaffInfoCard> = ({
                     background: rgba(255, 255, 255, 0.8);
                     transition: opacity 0.1s ease;
                     opacity: 0;
+                    border-radius: 100vh;
                 }
 
                 .img-wrapper:hover .person-contact-container {
