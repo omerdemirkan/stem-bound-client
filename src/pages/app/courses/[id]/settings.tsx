@@ -163,13 +163,15 @@ const CourseSettingsAppPage: React.FC = () => {
 
                         {school && (
                             <Section title="School" spacing="sm">
-                                <Typography>{school.name}</Typography>
+                                <Typography paragraph color="textPrimary">
+                                    {school.name}
+                                </Typography>
                             </Section>
                         )}
 
                         <Section title="Duration" spacing="sm">
                             {course && (
-                                <Typography>
+                                <Typography paragraph color="textPrimary">
                                     From {getLongDate(course?.start)} to{" "}
                                     {getLongDate(course?.end)}
                                 </Typography>

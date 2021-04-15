@@ -25,6 +25,7 @@ import ActionBar from "../components/ui/ActionBar";
 import SearchQueryInput from "../components/containers/SearchQueryInput";
 import PictureMessage from "../components/ui/PictureMessage";
 import NoResultsSVG from "../components/svg/illustrations/no-results";
+import { Container } from "@material-ui/core";
 
 interface ISearchPageProps {
     query: ISearchQuery;
@@ -34,29 +35,34 @@ interface ISearchPageProps {
 const SearchPage: React.FC<ISearchPageProps> = ({ query, searchData }) => {
     const router = useRouter();
     return (
-        <StaticLayout>
+        <StaticLayout header="Search">
             <Head>
-                <title>Search - STEM-bound</title>
+                <title>
+                    {getDisplaySearchField(query.searchField)} - STEM-bound
+                </title>
             </Head>
-            <ActionBar
-                startEl={
-                    <Typography variant="h6" gutterBottom>
-                        {getDisplaySearchField(query.searchField)}
-                    </Typography>
-                }
-            >
-                <SearchQueryInput
-                    value={query}
-                    onSearchQueryChanged={(query) =>
-                        router.push(appendQueriesToUrl(router.pathname, query))
+            <Container maxWidth="xl">
+                <ActionBar
+                    startEl={
+                        <Typography variant="h6" gutterBottom>
+                            {getDisplaySearchField(query.searchField)}
+                        </Typography>
                     }
-                />
-            </ActionBar>
-
-            {paginateSearchData({
-                searchData,
-                searchQuery: query,
-            })}
+                >
+                    <SearchQueryInput
+                        value={query}
+                        onSearchQueryChanged={(query) =>
+                            router.push(
+                                appendQueriesToUrl(router.pathname, query)
+                            )
+                        }
+                    />
+                </ActionBar>
+                {paginateSearchData({
+                    searchData,
+                    searchQuery: query,
+                })}
+            </Container>
         </StaticLayout>
     );
 };

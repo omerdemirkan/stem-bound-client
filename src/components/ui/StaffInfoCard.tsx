@@ -54,7 +54,7 @@ const StaffInfoCard: React.FC<IStaffInfoCard> = ({
                 <Typography
                     variant="h6"
                     component="h2"
-                    color="primary"
+                    color="textPrimary"
                     gutterBottom
                 >
                     {position}
