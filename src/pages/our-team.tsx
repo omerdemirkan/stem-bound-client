@@ -15,7 +15,7 @@ const OurTeamPage = () => {
                 {stemboundTeamMembers.map((member, i) => {
                     return (
                         <Grid item xs={12} md={6} lg={4} key={member.id}>
-                            <FadeIn delayMs={100 + i * 50}>
+                            <FadeIn delayMs={100 + i * 100}>
                                 <StaffInfoCard
                                     name={member.name}
                                     position={member.position}

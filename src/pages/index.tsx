@@ -121,7 +121,7 @@ const HomePage: React.FC = () => {
                         </Typography>
                     </FadeIn>
 
-                    <FadeIn delayMs={400}>
+                    <FadeIn delayMs={300}>
                         <Typography paragraph>
                             Lorem ipsum, dolor sit amet consectetur adipisicing
                             elit. Saepe nam vero nisi aut rem doloremque
@@ -138,7 +138,7 @@ const HomePage: React.FC = () => {
                         </Typography>
                     </FadeIn>
 
-                    <FadeIn delayMs={500}>
+                    <FadeIn delayMs={300}>
                         <Link href="/sign-up">
                             <a>
                                 <Button
@@ -183,7 +183,7 @@ const HomePage: React.FC = () => {
                         </FadeIn>
                     </div>
                     <div className="info-container">
-                        <FadeIn delayMs={350}>
+                        <FadeIn delayMs={400}>
                             <img
                                 className="icons"
                                 src="instructor-icon.svg"
@@ -207,7 +207,7 @@ const HomePage: React.FC = () => {
                         </FadeIn>
                     </div>
                     <div className="info-container">
-                        <FadeIn delayMs={400}>
+                        <FadeIn delayMs={500}>
                             <img
                                 className="icons"
                                 src="progress-icon.svg"

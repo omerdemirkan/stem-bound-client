@@ -48,13 +48,13 @@ const StaffInfoCard: React.FC<IStaffInfoCard> = ({
                         </a>
                     </div>
                 </div>
-                <Typography variant="h4" component="h1" color="primary">
-                    <Box fontWeight={500}>{name}</Box>
+                <Typography variant="h5" component="h1">
+                    {name}
                 </Typography>
                 <Typography
                     variant="h6"
                     component="h2"
-                    color="textPrimary"
+                    color="primary"
                     gutterBottom
                 >
                     {position}
@@ -72,12 +72,15 @@ const StaffInfoCard: React.FC<IStaffInfoCard> = ({
                 .img-wrapper {
                     background-image: url(${imgUrl});
                     background-size: cover;
-                    width: 250px;
-                    height: 250px;
+                    width: 180px;
+                    height: 180px;
                     align-items: center;
                     text-align: center;
-                    border-radius: 100vh;
+                    border-radius: 14px;
                     margin: 0 auto 20px;
+                    overflow: hidden;
+                    -webkit-box-shadow: 2px 2px 12px 5px rgba(0, 0, 0, 0.08);
+                    box-shadow: 2px 2px 12px 5px rgba(0, 0, 0, 0.08);
                 }
 
                 .person-contact-container {
@@ -88,7 +91,6 @@ const StaffInfoCard: React.FC<IStaffInfoCard> = ({
                     background: rgba(255, 255, 255, 0.8);
                     transition: opacity 0.1s ease;
                     opacity: 0;
-                    border-radius: 100vh;
                 }
 
                 .img-wrapper:hover .person-contact-container {
@@ -97,14 +99,19 @@ const StaffInfoCard: React.FC<IStaffInfoCard> = ({
 
                 .contact-icon {
                     margin: 5px;
-                    width: 40px;
-                    height: 40px;
+                    width: 30px;
+                    height: 30px;
                     transition: 0.1s ease;
                 }
                 .contact-icon:hover {
                     cursor: pointer;
-                    width: 45px;
-                    height: 45px;
+                    width: 35px;
+                    height: 35px;
+                }
+                @media (hover: none) and (pointer: coarse) {
+                    .person-contact-container {
+                        opacity: 1;
+                    }
                 }
             `}</style>
         </>
