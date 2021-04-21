@@ -46,7 +46,10 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
         searchField,
     });
 
-    const { data: searchData, isValidating: loading } = useSWR(
+    const {
+        data: { data: searchData, count: searchCount },
+        isValidating: loading,
+    } = useSWR(
         isSearchField(searchQuery?.searchField)
             ? `/search/${searchQuery.searchField}?query=${JSON.stringify(
                   searchQuery

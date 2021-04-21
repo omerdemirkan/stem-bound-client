@@ -39,6 +39,27 @@ export function fetchUsers(
     return mapResponseData(apiClient.get(url), mapUserData);
 }
 
+export function countUsers(
+    role: EUserRoles,
+    options: IFetchUserArrayOptions = {}
+): Promise<IApiResponse<number>> {
+    const url = appendQueriesToUrl("/users/count", {
+        role,
+        skip: options.skip,
+        limit: options.limit,
+        text: options.text,
+        long: options.coordinates?.longitude,
+        lat: options.coordinates?.latitude,
+        exclude: options.exclude?.join(",") || undefined,
+        userIds: options.userIds?.join(",") || undefined,
+        geo_ip: options.geoIp,
+        chat_id: options.chatId,
+        course_id: options.courseId,
+        school_id: options.schoolId,
+    });
+    return apiClient.get(url);
+}
+
 export function fetchUserById(userId: string): Promise<IApiResponse<IUser>> {
     return mapResponseData(apiClient.get(`/users/${userId}`), mapUserData);
 }

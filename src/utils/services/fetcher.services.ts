@@ -61,7 +61,7 @@ export function searchDataFetcher(
     searchField: ESearchFields,
     options: IFetchSearchDataOptions
 ) {
-    return async () => (await fetchSearchData(searchField, options)).data;
+    return async () => await fetchSearchData(searchField, options);
 }
 
 export function chatsFetcher(options?: IFetchChatArrayOptions) {

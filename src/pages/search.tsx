@@ -10,7 +10,6 @@ import {
     IUser,
 } from "../utils/types";
 import {
-    serverRedirect,
     isSearchField,
     SearchField,
     deleteUndefined,
@@ -26,10 +25,12 @@ import SearchQueryInput from "../components/containers/SearchQueryInput";
 import PictureMessage from "../components/ui/PictureMessage";
 import NoResultsSVG from "../components/svg/illustrations/no-results";
 import { Container } from "@material-ui/core";
+import FadeIn from "../components/ui/FadeIn";
 
 interface ISearchPageProps {
     query: ISearchQuery;
     searchData: ISearchData[];
+    count: number;
 }
 
 const SearchPage: React.FC<ISearchPageProps> = ({ query, searchData }) => {
@@ -41,11 +42,14 @@ const SearchPage: React.FC<ISearchPageProps> = ({ query, searchData }) => {
                     {getDisplaySearchField(query.searchField)} - STEM-bound
                 </title>
             </Head>
-            <Container maxWidth="xl">
+            <Container maxWidth="lg">
                 <ActionBar
                     startEl={
-                        <Typography variant="h6" gutterBottom>
-                            {getDisplaySearchField(query.searchField)}
+                        <Typography variant="h5" gutterBottom>
+                            {getDisplaySearchField(query.searchField)}{" "}
+                            {query.text
+                                ? `matching "${query.text}"`
+                                : "near me"}
                         </Typography>
                     }
                 >
@@ -89,9 +93,17 @@ function paginateSearchData({
         );
 
     return (
-        <Grid container spacing={3} style={{ margin: 0, width: "100%" }}>
-            {searchData.map((searchData: IUser) => (
+        <Grid
+            container
+            spacing={3}
+            style={{
+                width: "calc(100% + 20px)",
+                margin: "0, -10px",
+            }}
+        >
+            {searchData.map((searchData: IUser, i) => (
                 <Grid item xs={12} md={6} lg={4} xl={3}>
+                    {/* <FadeIn delayMs={i * 50}> */}
                     <UserCard
                         key={searchData._id}
                         user={searchData}
@@ -99,6 +111,7 @@ function paginateSearchData({
                         noMargin
                         {...UserCardProps}
                     />
+                    {/* </FadeIn> */}
                 </Grid>
             ))}
         </Grid>
@@ -106,17 +119,23 @@ function paginateSearchData({
 }
 
 export async function getServerSideProps({ query, res, req }: NextPageContext) {
-    let props: ISearchPageProps = { query: query as any, searchData: [] };
+    let props: ISearchPageProps = {
+        query: query as any,
+        searchData: [],
+        count: 0,
+    };
     if (!isSearchField(query.searchField)) {
         props.query.searchField = ESearchFields.INSTRUCTOR;
     }
 
     try {
-        let searchData = (
-            await fetchSearchData(SearchField(query.searchField), query)
-        ).data;
-        deleteUndefined(searchData);
-        props.searchData = searchData;
+        let { data, count } = await fetchSearchData(
+            SearchField(query.searchField),
+            query
+        );
+        deleteUndefined(data);
+        props.searchData = data;
+        props.count = count;
     } catch (e) {
         console.error(`An error occured in fetching search data`, e);
     }

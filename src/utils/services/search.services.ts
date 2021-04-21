@@ -7,20 +7,29 @@ import {
     IFetchUserArrayOptions,
 } from "../types";
 import { fetchUsers } from ".";
+import { countUsers } from "./user.services";
 
 export async function fetchSearchData(
     searchField: ESearchFields,
     options: IFetchSearchDataOptions
-): Promise<IApiResponse<ISearchData[]>> {
+): Promise<{ data: ISearchData[]; count: number }> {
     try {
         switch (searchField) {
             case ESearchFields.INSTRUCTOR:
             case ESearchFields.SCHOOL_OFFICIAL:
-            case ESearchFields.STUDENT:
-                return (await fetchUsers(
-                    searchField as any,
-                    options as IFetchUserArrayOptions
-                )) as any;
+            case ESearchFields.STUDENT: {
+                const [userRes, countRes] = await Promise.all([
+                    fetchUsers(
+                        searchField as any,
+                        options as IFetchUserArrayOptions
+                    ),
+                    countUsers(
+                        searchField as any,
+                        options as IFetchUserArrayOptions
+                    ),
+                ]);
+                return { data: userRes.data, count: countRes.data };
+            }
             default:
                 throw new Error(
                     "Invalid search searchField passed to fetchSearchData"
