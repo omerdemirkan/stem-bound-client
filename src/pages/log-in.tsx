@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useContext, useState } from "react";
 import FormCard from "../components/ui/FormCard";
 import LockIcon from "@material-ui/icons/Lock";
+import FadeIn from "../components/ui/FadeIn";
 
 const LogInPage: React.FC = () => {
     const router = useRouter();
@@ -35,15 +36,17 @@ const LogInPage: React.FC = () => {
                 <title>Log In - STEM-bound</title>
             </Head>
 
-            <FormCard header="Log In" Icon={LockIcon}>
-                <LogInForm
-                    onSubmit={onSubmit}
-                    loading={authLoading}
-                    success={!!accessToken}
-                    errorMessage={errorMessage}
-                    CardProps={{ style: { margin: "15vh auto" } }}
-                />
-            </FormCard>
+            <FadeIn delayMs={100}>
+                <FormCard header="Log In" Icon={LockIcon}>
+                    <LogInForm
+                        onSubmit={onSubmit}
+                        loading={authLoading}
+                        success={!!accessToken}
+                        errorMessage={errorMessage}
+                        CardProps={{ style: { margin: "15vh auto" } }}
+                    />
+                </FormCard>
+            </FadeIn>
 
             <style jsx>{``}</style>
         </StaticLayout>

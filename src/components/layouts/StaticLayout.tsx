@@ -67,7 +67,7 @@ const StaticLayout: React.FC<IStaticLayoutProps> = ({ header, children }) => {
                 .main {
                     min-height: 100vh;
                     margin: 0;
-                    padding: 0;
+                    padding-bottom: 60px;
                 }
                 .footer {
                     display: flex;

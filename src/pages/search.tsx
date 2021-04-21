@@ -26,14 +26,23 @@ import PictureMessage from "../components/ui/PictureMessage";
 import NoResultsSVG from "../components/svg/illustrations/no-results";
 import { Container } from "@material-ui/core";
 import FadeIn from "../components/ui/FadeIn";
+import Pagination from "@material-ui/lab/Pagination";
+
+const NUM_ITEMS_PER_PAGE = 12;
 
 interface ISearchPageProps {
     query: ISearchQuery;
-    searchData: ISearchData[];
-    count: number;
+    searchData: ISearchData;
+    page: number;
+    numPages: number;
 }
 
-const SearchPage: React.FC<ISearchPageProps> = ({ query, searchData }) => {
+const SearchPage: React.FC<ISearchPageProps> = ({
+    query,
+    searchData,
+    page,
+    numPages,
+}) => {
     const router = useRouter();
     return (
         <StaticLayout header="Search">
@@ -66,7 +75,31 @@ const SearchPage: React.FC<ISearchPageProps> = ({ query, searchData }) => {
                     searchData,
                     searchQuery: query,
                 })}
+                {numPages > 1 && (
+                    <div className="pagination-container">
+                        <Pagination
+                            page={page}
+                            count={numPages}
+                            color="primary"
+                            onChange={(e, page) =>
+                                router.push(
+                                    appendQueriesToUrl(router.pathname, {
+                                        ...query,
+                                        page,
+                                    })
+                                )
+                            }
+                        />
+                    </div>
+                )}
             </Container>
+            <style jsx>{`
+                .pagination-container {
+                    display: flex;
+                    justify-content: center;
+                    padding-top: 60px;
+                }
+            `}</style>
         </StaticLayout>
     );
 };
@@ -76,14 +109,14 @@ function paginateSearchData({
     searchQuery,
     UserCardProps,
 }: {
-    searchData: ISearchData[];
+    searchData: ISearchData;
     searchQuery: ISearchQuery;
     UserCardProps?: Partial<IUserCardProps>;
 }) {
     if (!Object.values(EUserRoles).includes(searchQuery.searchField as any))
         return null;
 
-    if (!searchData.length)
+    if (!searchData.data.length)
         return (
             <PictureMessage
                 Svg={NoResultsSVG}
@@ -101,7 +134,7 @@ function paginateSearchData({
                 margin: "0, -10px",
             }}
         >
-            {searchData.map((searchData: IUser, i) => (
+            {searchData.data.map((searchData: IUser, i) => (
                 <Grid item xs={12} md={6} lg={4} xl={3}>
                     {/* <FadeIn delayMs={i * 50}> */}
                     <UserCard
@@ -121,21 +154,26 @@ function paginateSearchData({
 export async function getServerSideProps({ query, res, req }: NextPageContext) {
     let props: ISearchPageProps = {
         query: query as any,
-        searchData: [],
-        count: 0,
+        searchData: { data: [], count: 0 },
+        page: +query?.page ? Math.max(+query?.page, 1) : 1,
+        numPages: 1,
     };
     if (!isSearchField(query.searchField)) {
         props.query.searchField = ESearchFields.INSTRUCTOR;
     }
 
     try {
-        let { data, count } = await fetchSearchData(
-            SearchField(query.searchField),
-            query
-        );
-        deleteUndefined(data);
-        props.searchData = data;
-        props.count = count;
+        let searchData = await fetchSearchData(SearchField(query.searchField), {
+            ...query,
+            skip: (props.page - 1) * NUM_ITEMS_PER_PAGE,
+            limit: NUM_ITEMS_PER_PAGE,
+        });
+        deleteUndefined(searchData);
+        props.searchData = searchData;
+        props.numPages =
+            searchData.count > NUM_ITEMS_PER_PAGE
+                ? Math.ceil(searchData.count / NUM_ITEMS_PER_PAGE)
+                : 1;
     } catch (e) {
         console.error(`An error occured in fetching search data`, e);
     }

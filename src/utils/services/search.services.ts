@@ -12,7 +12,7 @@ import { countUsers } from "./user.services";
 export async function fetchSearchData(
     searchField: ESearchFields,
     options: IFetchSearchDataOptions
-): Promise<{ data: ISearchData[]; count: number }> {
+): Promise<ISearchData> {
     try {
         switch (searchField) {
             case ESearchFields.INSTRUCTOR:

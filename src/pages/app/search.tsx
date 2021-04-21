@@ -46,10 +46,7 @@ const SearchAppPage: React.FC<IWithAuthProps> = () => {
         searchField,
     });
 
-    const {
-        data: { data: searchData, count: searchCount },
-        isValidating: loading,
-    } = useSWR(
+    const { data: searchData, isValidating: loading } = useSWR(
         isSearchField(searchQuery?.searchField)
             ? `/search/${searchQuery.searchField}?query=${JSON.stringify(
                   searchQuery
@@ -116,7 +113,7 @@ function paginateSearchData({
     searchQuery,
     UserCardProps,
 }: {
-    searchData: ISearchData[];
+    searchData: ISearchData;
     searchQuery: ISearchQuery;
     UserCardProps?: Partial<IUserCardProps>;
 }) {
@@ -126,7 +123,7 @@ function paginateSearchData({
     )
         return null;
 
-    if (!searchData.length)
+    if (!searchData.data.length)
         return (
             <PictureMessage
                 Svg={NoResultsSVG}
@@ -137,7 +134,7 @@ function paginateSearchData({
 
     return (
         <RelativeGrid minWidthInPixels={450}>
-            {searchData.map((searchData: IUser) => (
+            {searchData.data.map((searchData: IUser) => (
                 <UserCard
                     key={searchData._id}
                     user={searchData}

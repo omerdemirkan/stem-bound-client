@@ -55,7 +55,7 @@ const PictureMessage: React.FC<IPictureMessageProps> = ({
         <div className="root">
             <Svg width={pxLimit} height={pxLimit} />
             <Typography
-                variant="h6"
+                variant="h5"
                 color="textPrimary"
                 align="center"
                 gutterBottom

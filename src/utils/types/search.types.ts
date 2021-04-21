@@ -12,7 +12,10 @@ export interface ISearchOption {
     searchField: ESearchFields;
 }
 
-export type ISearchData = IUser | ISchool;
+export interface ISearchData {
+    data: IUser[];
+    count: number;
+}
 
 export type IFetchSearchDataOptions =
     | IFetchUserArrayOptions
