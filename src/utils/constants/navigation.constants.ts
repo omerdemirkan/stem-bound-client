@@ -152,7 +152,6 @@ export const staticNavigationData = {
             path: "/search",
             as: `/search?searchField=${EUserRoles.INSTRUCTOR}`,
         },
-        { title: "volunteer", path: "/volunteer" },
         { title: "contact us", path: "/contact-us" },
     ],
     buttons: [
