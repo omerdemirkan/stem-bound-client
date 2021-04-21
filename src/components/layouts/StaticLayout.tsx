@@ -1,5 +1,8 @@
 import StaticNavbar from "../ui/StaticNavbar";
 import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import Logo from "../ui/Logo";
+import Link from "next/link";
 
 export interface IStaticLayoutProps {
     header?: string;
@@ -23,34 +26,39 @@ const StaticLayout: React.FC<IStaticLayoutProps> = ({ header, children }) => {
                 )}
                 {children}
             </div>
-            <div className="footer-wrapper">
+            <Divider />
+            <div className="footer">
                 <div className="footer-info">
-                    <img
-                        id="footer-logo"
-                        src="footer-logo.svg"
-                        alt="stem-bound-logo"
-                    />
-                    <Typography component="p" color="textSecondary">
-                        {`© STEM-bound ${new Date().getFullYear()} ALL RIGHTS RESERVED`}
+                    <Logo width="60px" height="60px" />
+                    <Typography component="span" variant="overline">
+                        {`© STEM-bound ${new Date().getFullYear()}`}
                     </Typography>
                 </div>
+                <Divider orientation="vertical" />
 
-                <div className="footer-contact">
-                    <img
-                        src="email-icon.svg"
-                        alt="email-icon"
-                        className="footer-icon"
-                    />
-                    <img
-                        src="github-icon.svg"
-                        alt="github-icon"
-                        className="footer-icon"
-                    />
-                    <img
-                        src="linkedin-icon.svg"
-                        alt="linkedn-icon"
-                        className="footer-icon"
-                    />
+                <div className="footer-actions">
+                    <a href="mailto:omerfarukpiano@gmail.com">
+                        <Typography component="span" variant="overline">
+                            Email
+                        </Typography>
+                    </a>
+                    <br />
+                    <Link href="/contact-us">
+                        <a>
+                            <Typography component="span" variant="overline">
+                                Contact Us
+                            </Typography>
+                        </a>
+                    </Link>
+                    <br />
+                    <a
+                        href="https://github.com/omerdemirkan/stem-bound-api"
+                        target="_blank"
+                    >
+                        <Typography component="span" variant="overline">
+                            Github
+                        </Typography>
+                    </a>
                 </div>
             </div>
 
@@ -60,49 +68,19 @@ const StaticLayout: React.FC<IStaticLayoutProps> = ({ header, children }) => {
                     margin: 0;
                     padding: 0;
                 }
-                .footer-wrapper {
-                    margin: 0;
-                    min-height: 100px;
-                    background-color: var(--background-dark);
+                .footer {
                     display: flex;
-                    justify-content: space-between;
-                    padding: 20px 50px;
+                    justify-content: center;
+                    align-items: stretch;
+                    padding: 20px;
+                }
+                .footer > * {
+                    margin: 0 20px;
                 }
                 .footer-info {
                     display: flex;
-                    align-items: center;
-                }
-                #footer-logo {
-                    max-height: 60px;
-                    max-width: 60px;
-                    margin-right: 40px;
-                }
-
-                .footer-contact {
-                    width: 200px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 20px;
-                }
-                .footer-icon {
-                    max-height: 28px;
-                    max-width: 28px;
-                    cursor: pointer;
-                    position: relative;
-                    opacity: 1;
-                    transition: 0.2s ease;
-                }
-                .footer-icon:hover {
-                    opacity: 0.8;
-                }
-
-                @media (max-width: 900px) {
-                    .footer-wrapper {
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                    }
+                    flex-direction: column;
+                    align-items: flex-end;
                 }
             `}</style>
         </>
