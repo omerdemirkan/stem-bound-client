@@ -93,7 +93,7 @@ const HomePage: React.FC = () => {
                                         size="large"
                                         className="spaced-horizontal"
                                     >
-                                        SIGN UP
+                                        SIGN UP FOR FREE
                                     </Button>
                                 </a>
                             </Link>
@@ -205,7 +205,8 @@ const HomePage: React.FC = () => {
                             opportunities, STEM-bound is the platform for you.
                         </Typography>
                         <Typography paragraph>
-                            Get started today! Signing up is not binding.
+                            Get started today! Signing up is free and not
+                            binding.
                         </Typography>
                     </FadeIn>
 
@@ -219,7 +220,7 @@ const HomePage: React.FC = () => {
                                     size="large"
                                     className="spaced-verticle"
                                 >
-                                    SIGN UP
+                                    SIGN UP FOR FREE
                                 </Button>
                             </a>
                         </Link>
