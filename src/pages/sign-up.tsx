@@ -4,7 +4,6 @@ import AuthContext from "../components/contexts/AuthContext";
 import { useEffect, useContext, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Typography from "@material-ui/core/Typography";
-import { CircularProgress, makeStyles } from "@material-ui/core";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -18,6 +17,9 @@ import Button from "@material-ui/core/Button";
 import Center from "../components/ui/Center";
 import FormCard from "../components/ui/FormCard";
 import InfoIcon from "@material-ui/icons/Info";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
     stepper: {
@@ -25,6 +27,7 @@ const useStyles = makeStyles({
         maxWidth: "1000px",
         margin: "auto",
         textAlign: "center",
+        backgroundColor: "transparent",
     },
 });
 
@@ -163,7 +166,9 @@ interface ISignUpStepperProps {
 export const SignUpStepper: React.FC<ISignUpStepperProps> = ({
     activeStep,
 }) => {
+    const smallScreen = useMediaQuery("(max-width: 900px)");
     const classes = useStyles();
+    if (smallScreen) return null;
     return (
         <Stepper activeStep={activeStep} className={classes.stepper}>
             <Step>

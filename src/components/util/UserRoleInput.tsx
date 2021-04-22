@@ -39,7 +39,7 @@ const UserRoleInput: React.FC<IUserRoleInputProps> = ({ onChange }) => {
             }}
             spacing={3}
         >
-            <Grid item sm={12} md={6} lg={4}>
+            <Grid item xs={12} md={6} lg={4}>
                 <Card
                     className={classes.card}
                     onClick={() => onChange(EUserRoles.INSTRUCTOR)}
@@ -52,7 +52,7 @@ const UserRoleInput: React.FC<IUserRoleInputProps> = ({ onChange }) => {
                     </CardActionArea>
                 </Card>
             </Grid>
-            <Grid item sm={12} md={6} lg={4}>
+            <Grid item xs={12} md={6} lg={4}>
                 <Card
                     className={classes.card}
                     onClick={() => onChange(EUserRoles.SCHOOL_OFFICIAL)}
@@ -65,7 +65,7 @@ const UserRoleInput: React.FC<IUserRoleInputProps> = ({ onChange }) => {
                     </CardActionArea>
                 </Card>
             </Grid>
-            <Grid item sm={12} md={6} lg={4}>
+            <Grid item xs={12} md={6} lg={4}>
                 <Card
                     className={classes.card}
                     onClick={() => onChange(EUserRoles.STUDENT)}
