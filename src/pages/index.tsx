@@ -126,8 +126,8 @@ const HomePage: React.FC = () => {
                                 Volunteer By Teaching
                             </Typography>
                             <Typography variant="body1" component="p">
-                                Whether it's afterschool or on weekends, in
-                                person or virtual, every day or once a month,
+                                Whether it's after school or on weekends,
+                                in-person or virtual, every day or once a month,
                                 STEM-bound helps college students and STEM
                                 professionals find flexible teaching
                                 opportunities.
@@ -152,7 +152,7 @@ const HomePage: React.FC = () => {
                             <Typography variant="body1" component="p">
                                 School officials can search for instructors
                                 nearby or by area of expertise and get in touch
-                                to set up coursework on anything from an
+                                to set up coursework on anything from
                                 programming and technology to marine biology and
                                 research.
                             </Typography>
@@ -178,7 +178,7 @@ const HomePage: React.FC = () => {
                                 courses offered at their school and enroll
                                 instantly. Further, students can contact their
                                 school officials to express interest in
-                                coursework in a certain field if none exists.
+                                coursework in a particular field if none exists.
                             </Typography>
                         </FadeIn>
                     </div>
@@ -200,7 +200,7 @@ const HomePage: React.FC = () => {
                         <Typography paragraph>
                             Whether you are a college student looking to
                             volunteer on the weekends, a school official looking
-                            for after school opportunities for your students, or
+                            for after-school opportunities for your students, or
                             a high schooler looking for extracurricular
                             opportunities, STEM-bound is the platform for you.
                         </Typography>

@@ -1,8 +1,8 @@
 import StaticNavbar from "../ui/StaticNavbar";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import Logo from "../ui/Logo";
 import Link from "next/link";
+import LogoSVG from "../svg/icons/logo";
 
 export interface IStaticLayoutProps {
     header?: string;
@@ -30,7 +30,7 @@ const StaticLayout: React.FC<IStaticLayoutProps> = ({ header, children }) => {
             <Divider />
             <div className="footer">
                 <div className="footer-info">
-                    <Logo width="60px" height="60px" />
+                    <LogoSVG width="60px" height="60px" />
                     <Typography component="span" variant="overline">
                         {`© STEM-bound ${new Date().getFullYear()}`}
                     </Typography>
