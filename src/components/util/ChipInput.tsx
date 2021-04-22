@@ -1,11 +1,12 @@
-import { useState, LegacyRef } from "react";
-import CheckIcon from "@material-ui/icons/Check";
+import { ChangeEvent, useState } from "react";
+import AddIcon from "@material-ui/icons/Add";
 import Chip, { ChipProps } from "@material-ui/core/Chip";
 import IconButton from "@material-ui/core/IconButton";
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { IValidatorFunction } from "../../utils/types/validation.types";
 import { configureErrorMessageFromValidators } from "../../utils/helpers";
+import Tooltip from "@material-ui/core/Tooltip";
 
 interface IChipInputProps {
     value: string[];
@@ -39,8 +40,6 @@ const ChipInput: React.FC<IChipInputProps> = ({
             validators
         );
 
-        console.log({ errorMessage });
-
         if (!errorMessage) {
             onChange([...value, textField]);
             setTextField("");
@@ -52,12 +51,27 @@ const ChipInput: React.FC<IChipInputProps> = ({
         onChange(value.filter((s) => s !== chip));
     }
 
+    function handleChange(
+        e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    ) {
+        if (/[\n,]/.test(e.target.value)) return;
+        setTextField(e.target.value);
+    }
+
+    function handleKeyPress(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleAddClicked();
+        }
+    }
+
     return (
         <>
             <TextField
                 {...TextFieldProps}
                 value={textField}
-                onChange={(e) => setTextField(e.target.value)}
+                onChange={handleChange}
+                onKeyPress={handleKeyPress}
                 required={false}
                 error={!!errorMessage || TextFieldProps?.error}
                 helperText={
@@ -76,9 +90,14 @@ const ChipInput: React.FC<IChipInputProps> = ({
                                     : ""
                             }`}
                         >
-                            <IconButton size="small" onClick={handleAddClicked}>
-                                <CheckIcon />
-                            </IconButton>
+                            <Tooltip title="Add">
+                                <IconButton
+                                    onClick={handleAddClicked}
+                                    color="primary"
+                                >
+                                    <AddIcon />
+                                </IconButton>
+                            </Tooltip>
                         </InputAdornment>
                     ),
                 }}
