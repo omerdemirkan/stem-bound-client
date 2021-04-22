@@ -108,6 +108,82 @@ const HomePage: React.FC = () => {
                 />
             </div>
 
+            <div className="info-section">
+                <div className="info-section-wrapper">
+                    <div className="info-container">
+                        <FadeIn delayMs={300}>
+                            <img
+                                className="icons"
+                                src="guide-icon.svg"
+                                alt=""
+                                role="presentation"
+                            />
+                            <Typography
+                                variant="h5"
+                                color="primary"
+                                gutterBottom
+                            >
+                                Volunteer By Teaching
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                Whether it's afterschool or on weekends, in
+                                person or virtual, every day or once a month,
+                                STEM-bound helps college students and STEM
+                                professionals find flexible teaching
+                                opportunities.
+                            </Typography>
+                        </FadeIn>
+                    </div>
+                    <div className="info-container">
+                        <FadeIn delayMs={400}>
+                            <img
+                                className="icons"
+                                src="instructor-icon.svg"
+                                alt=""
+                                role="presentation"
+                            />
+                            <Typography
+                                variant="h5"
+                                color="primary"
+                                gutterBottom
+                            >
+                                Find Instructors
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                School officials can search for instructors
+                                nearby or by area of expertise and get in touch
+                                to set up coursework on anything from an
+                                programming and technology to marine biology and
+                                research.
+                            </Typography>
+                        </FadeIn>
+                    </div>
+                    <div className="info-container">
+                        <FadeIn delayMs={500}>
+                            <img
+                                className="icons"
+                                src="progress-icon.svg"
+                                alt=""
+                                role="presentation"
+                            />
+                            <Typography
+                                variant="h5"
+                                color="primary"
+                                gutterBottom
+                            >
+                                Enroll in Extracurricular Courses
+                            </Typography>
+                            <Typography variant="body1" component="p">
+                                Any high school student can browse STEM-bound
+                                courses offered at their school and enroll
+                                instantly. Further, students can contact their
+                                school officials to express interest in
+                                coursework in a certain field if none exists.
+                            </Typography>
+                        </FadeIn>
+                    </div>
+                </div>
+            </div>
             <div className="app-detail">
                 <div className="image-section">
                     <img src="stem-bound-demo.png" alt="" />
@@ -116,24 +192,20 @@ const HomePage: React.FC = () => {
                 <div className="text-section">
                     <FadeIn delayMs={300}>
                         <Typography variant="h3" color="primary" gutterBottom>
-                            One Title Here
+                            One Online Platform
                         </Typography>
                     </FadeIn>
 
                     <FadeIn delayMs={300}>
                         <Typography paragraph>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Saepe nam vero nisi aut rem doloremque
-                            temporibus adipisci omnis quae eaque animi ipsam hic
-                            voluptatum autem rerum fugit, quidem, voluptatem
-                            minima.
+                            Whether you are a college student looking to
+                            volunteer on the weekends, a school official looking
+                            for after school opportunities for your students, or
+                            a high schooler looking for extracurricular
+                            opportunities, STEM-bound is the platform for you.
                         </Typography>
                         <Typography paragraph>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Saepe nam vero nisi aut rem doloremque
-                            temporibus adipisci omnis quae eaque animi ipsam hic
-                            voluptatum autem rerum fugit, quidem, voluptatem
-                            minima.
+                            Get started today! Signing up is not binding.
                         </Typography>
                     </FadeIn>
 
@@ -152,83 +224,6 @@ const HomePage: React.FC = () => {
                             </a>
                         </Link>
                     </FadeIn>
-                </div>
-            </div>
-
-            <div className="info-section">
-                <div className="info-section-wrapper">
-                    <div className="info-container">
-                        <FadeIn delayMs={300}>
-                            <img
-                                className="icons"
-                                src="guide-icon.svg"
-                                alt=""
-                                role="presentation"
-                            />
-                            <Typography
-                                variant="h5"
-                                color="primary"
-                                gutterBottom
-                            >
-                                Guiding Youth
-                            </Typography>
-                            <Typography variant="body1" component="p">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Saepe nam vero nisi aut rem
-                                doloremque temporibus adipisci omnis quae eaque
-                                animi ipsam hic voluptatum autem rerum fugit,
-                                quidem, voluptatem minima.
-                            </Typography>
-                        </FadeIn>
-                    </div>
-                    <div className="info-container">
-                        <FadeIn delayMs={400}>
-                            <img
-                                className="icons"
-                                src="instructor-icon.svg"
-                                alt=""
-                                role="presentation"
-                            />
-                            <Typography
-                                variant="h5"
-                                color="primary"
-                                gutterBottom
-                            >
-                                Top Instructors
-                            </Typography>
-                            <Typography variant="body1" component="p">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Saepe nam vero nisi aut rem
-                                doloremque temporibus adipisci omnis quae eaque
-                                animi ipsam hic voluptatum autem rerum fugit,
-                                quidem, voluptatem minima.
-                            </Typography>
-                        </FadeIn>
-                    </div>
-                    <div className="info-container">
-                        <FadeIn delayMs={500}>
-                            <img
-                                className="icons"
-                                src="progress-icon.svg"
-                                alt=""
-                                role="presentation"
-                            />
-                            <Typography
-                                variant="h5"
-                                color="primary"
-                                gutterBottom
-                            >
-                                Teaching New Skills
-                            </Typography>
-                            <Typography variant="body1" component="p">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Saepe nam vero nisi aut rem
-                                doloremque temporibus adipisci omnis quae eaque
-                                animi ipsam hic voluptatum autem rerum fugit,
-                                quidem, voluptatem minima.
-                            </Typography>
-                        </FadeIn>
-                    </div>
                 </div>
             </div>
 
@@ -269,7 +264,7 @@ const HomePage: React.FC = () => {
                 }
                 .hero-text-section {
                     flex-grow: 1;
-                    padding: 18vh 5vw 10vw;
+                    padding: 18vh 20px 10vw;
                 }
                 .hero-text-box {
                     margin: auto;
@@ -284,7 +279,7 @@ const HomePage: React.FC = () => {
                 .app-detail {
                     display: flex;
                     justify-content: space-evenly;
-                    padding: 20px 5vw 25vh;
+                    padding: 20px 20px calc(50vh - 300px);
                     align-items: center;
                     flex-wrap: wrap-reverse;
                 }
@@ -302,7 +297,7 @@ const HomePage: React.FC = () => {
                     width: 100%;
                     display: flex;
                     flex-wrap: wrap;
-                    padding-bottom: calc(50vh - 200px);
+                    padding-bottom: 25vh;
                 }
                 .info-section-wrapper {
                     display: flex;

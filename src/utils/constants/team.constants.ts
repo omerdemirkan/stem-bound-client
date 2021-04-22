@@ -4,7 +4,7 @@ export const stemboundTeamMembers = [
         name: "Omer Demirkan",
         position: "Founder, Technical Lead",
         bio:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "Omer is a sophomore at Los Angeles Mission College studying Computer Science. He has a passion in web technologies and machine learning and likes building cool things that make an impact.",
         imgUrl: "omer-profile-picture.png",
         email: "omerfarukpiano@gmail.com",
         gitHub: "https://github.com/omerdemirkan",
@@ -15,7 +15,7 @@ export const stemboundTeamMembers = [
         name: "Mehmet Nadi",
         position: "Front-end Developer",
         bio:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "Mehmet Nadi is a second year college student majoring in Computer Science with a GPA of 3.96. He is very passinate about working and learning new things in Web Development and STEM. He’s also experienced in working as a STEM tutor and mentor.",
         imgUrl: "mehmet-profile-picture.png",
         email: "mhmtalperennadi@gmail.com",
         gitHub: "https://github.com/mehmetalperen",
