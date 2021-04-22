@@ -31,6 +31,7 @@ const ContactUsForm: React.FC<IContactUsFormProps> = ({ onSubmit }) => {
                 fullWidth
                 error={!!errors.firstName}
                 helperText={errors.firstName?.message}
+                autoFocus
             />
 
             <TextField

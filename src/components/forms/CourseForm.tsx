@@ -54,6 +54,7 @@ const CourseForm: React.FC<ICourseFormProps> = ({
                 inputProps={{
                     maxLength: 50,
                 }}
+                autoFocus
             />
             <TextField
                 inputRef={register({

@@ -32,9 +32,7 @@ export interface IMeetingDefaultDataFormProps {
 
 const MeetingDefaultDataForm: React.FC<IMeetingDefaultDataFormProps> = ({
     requiredFields,
-    CardProps,
     onSubmit,
-    withoutCard,
 }) => {
     const {
         register,

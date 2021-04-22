@@ -67,11 +67,10 @@ const HomePage: React.FC = () => {
                         <FadeIn delayMs={150}>
                             <Typography paragraph gutterBottom>
                                 <Box fontSize={18} marginBottom="30px">
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Saepe nam vero nisi aut
-                                    rem doloremque temporibus adipisci omnis
-                                    quae eaque animi ipsam hic voluptatum autem
-                                    rerum fugit, quidem, voluptatem minima.
+                                    We connect college students and
+                                    professionals in STEM fields to high schools
+                                    to teach extracurricular coursework on
+                                    in-demand skills.
                                 </Box>
                             </Typography>
                         </FadeIn>
