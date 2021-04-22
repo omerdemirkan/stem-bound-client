@@ -8,3 +8,4 @@ export * from "./chat.services";
 export * from "./fetcher.services";
 export * from "./localstorage.services";
 export * from "./contact.services";
+export * from "./ping.services";

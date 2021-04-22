@@ -6,8 +6,14 @@ import { ThemeProvider } from "../components/contexts/ThemeContext";
 import MuiPickersProvider from "../components/contexts/MuiPickersContext";
 import { MessagingContextProvider } from "../components/contexts/MessagingContext";
 import { CssBaseline } from "@material-ui/core";
+import { useEffect } from "react";
+import { pingServer } from "../utils/services";
 
 const App: React.FC = function ({ Component, pageProps }: any) {
+    useEffect(function () {
+        pingServer();
+    }, []);
+
     return (
         <>
             <CssBaseline />
