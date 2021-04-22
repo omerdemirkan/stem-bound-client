@@ -24,9 +24,8 @@ import ActionBar from "../components/ui/ActionBar";
 import SearchQueryInput from "../components/containers/SearchQueryInput";
 import PictureMessage from "../components/ui/PictureMessage";
 import NoResultsSVG from "../components/svg/illustrations/no-results";
-import { Container } from "@material-ui/core";
-import FadeIn from "../components/ui/FadeIn";
 import Pagination from "@material-ui/lab/Pagination";
+import Container from "@material-ui/core/Container";
 
 const NUM_ITEMS_PER_PAGE = 12;
 
@@ -131,7 +130,8 @@ function paginateSearchData({
             spacing={3}
             style={{
                 width: "calc(100% + 20px)",
-                margin: "0, -10px",
+                marginLeft: "-10px",
+                marginRight: "-10px",
             }}
         >
             {searchData.data.map((searchData: IUser, i) => (
