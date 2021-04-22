@@ -5,14 +5,10 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Link from "next/link";
 import FadeIn from "../components/ui/FadeIn";
+import { useRef } from "react";
 
 const HomePage: React.FC = () => {
-    const scrollToRef = () => {
-        window.scrollBy({
-            top: window.innerHeight * 1.5,
-            behavior: "smooth",
-        });
-    };
+    const infoRef = useRef<HTMLDivElement>();
     return (
         <StaticLayout>
             <Head>
@@ -80,7 +76,11 @@ const HomePage: React.FC = () => {
                                 variant="outlined"
                                 color="primary"
                                 size="large"
-                                onClick={scrollToRef}
+                                onClick={() =>
+                                    infoRef.current.scrollIntoView({
+                                        behavior: "smooth",
+                                    })
+                                }
                             >
                                 Learn More
                             </Button>
@@ -108,7 +108,7 @@ const HomePage: React.FC = () => {
                 />
             </div>
 
-            <div className="info-section">
+            <div className="info-section" ref={infoRef}>
                 <div className="info-section-wrapper">
                     <div className="info-container">
                         <FadeIn delayMs={300}>
