@@ -88,7 +88,7 @@ const SignUpPage: React.FC = () => {
     async function handleSignUp(signUpToken: string) {
         try {
             await signUp(signUpToken);
-            router.push("/app/my-account");
+            router.push("/app/settings/my-account");
         } catch (e) {
             setError(e);
         }
