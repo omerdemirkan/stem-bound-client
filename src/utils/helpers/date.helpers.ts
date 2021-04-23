@@ -20,7 +20,7 @@ export function validateTimeRange({ start, end }: ITimeRange): boolean {
 
 export function getShortDateAndTime(d: string | Date) {
     const date = typeof d === "string" ? new Date(d) : d;
-    return format(date, "h:ss a, MM/dd/yyyy");
+    return format(date, "h:mm a, MM/dd/yyyy");
 }
 
 export function getShortDate(d: string | Date) {
