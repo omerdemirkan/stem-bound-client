@@ -10,7 +10,7 @@ import {
 } from "../../utils/helpers";
 import AsyncSelect from "../util/AsyncSelect";
 import { DatePicker } from "@material-ui/pickers";
-import addDays from "date-fns/esm/addDays";
+import addDays from "date-fns/addDays";
 
 export interface ICourseFormProps {
     onSubmit(values: any): void;
