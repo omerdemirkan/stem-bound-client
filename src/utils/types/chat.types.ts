@@ -91,9 +91,11 @@ export interface IMessagingContextState {
     }): void;
     deleteMessage(data: { chatId: string; messageId: string });
     restoreMessage(data: { chatId: string; messageId: string });
-    contactUser(userId: string): any;
+    contactUser(userId: string): Promise<IChat>;
     loadMoreChats(): void;
     loadMoreMessages(): void;
+    refetchChats(): void;
+    refetchMessages(): void;
     chatsLoading: boolean;
     messagesLoading: boolean;
     chatsError: Error | null;

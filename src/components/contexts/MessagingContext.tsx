@@ -10,6 +10,7 @@ import {
 import {
     EChatTypes,
     ESocketEvents,
+    IChat,
     IChatMessage,
     IMessagingContextState,
     IUser,
@@ -33,6 +34,8 @@ const messagingContextInitialState: IMessagingContextState = {
     contactUser: (...args) => undefined,
     loadMoreMessages: (...args) => undefined,
     loadMoreChats: (...args) => undefined,
+    refetchChats: (...args) => undefined,
+    refetchMessages: (...args) => undefined,
     chatsLoading: false,
     messagesLoading: false,
     chatsError: null,
@@ -72,6 +75,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         error: messagesError,
         loadMore: loadMoreMessages,
         hasMore: hasMoreMessages,
+        revalidate: refetchMessages,
     } = useInfiniteFetch(
         user && inspectedChatId ? `/chats/${inspectedChatId}/messages` : null,
         messagesFetcherInfinite(inspectedChatId as string)
@@ -218,7 +222,7 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         );
     }
 
-    async function contactUser(userId: string) {
+    async function contactUser(userId: string): Promise<IChat> {
         const { data: chat } = await createChat({
             meta: { users: [user._id, userId] },
             type: EChatTypes.PRIVATE,
@@ -228,6 +232,8 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         // on the history stack. This makes it so that the back button
         // redirects to where this function was called, not to the contact user url below.
         router.replace(`/app/messaging?id=${chat._id}`);
+        setInspectedChatId(chat._id);
+        return chat;
     }
 
     return (
@@ -251,6 +257,8 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 loadMoreMessages,
                 hasMoreMessages,
                 hasMoreChats,
+                refetchChats,
+                refetchMessages,
                 inspectedChat: chats?.find(
                     (chat) => chat._id === inspectedChatId
                 ),
