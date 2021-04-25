@@ -170,122 +170,134 @@ const CourseAppPage: React.FC = () => {
                 mainEl={
                     <>
                         {course?.timeFrameType === ETimeFrameType.ENDED && (
-                            <Alert severity="info">
-                                This course has ended on{" "}
-                                {getLongDate(course?.end)}
-                            </Alert>
+                            <Section noDivider spacing="xs">
+                                <Alert severity="info">
+                                    This course has ended on{" "}
+                                    {getLongDate(course?.end)}
+                                </Alert>
+                            </Section>
                         )}
                         {course?.timeFrameType === ETimeFrameType.UPCOMING && (
-                            <Alert severity="info">
-                                This course will officially begin{" "}
-                                {getLongDate(course?.start)}
-                            </Alert>
+                            <Section noDivider spacing="xs">
+                                <Alert severity="info">
+                                    This course will officially begin{" "}
+                                    {getLongDate(course?.start)}
+                                </Alert>
+                            </Section>
                         )}
                         {user.role === EUserRoles.INSTRUCTOR &&
                         course?.verificationStatus ===
                             ECourseVerificationStatus.PENDING_VERIFICATION ? (
-                            <Alert severity="info">
-                                <AlertTitle>
-                                    This course has been published
-                                </AlertTitle>
-                                "{course.title}" is published and pending
-                                verification from a
-                                {school?.name ? ` ${school?.name} ` : " "}
-                                school official
-                            </Alert>
+                            <Section noDivider spacing="xs">
+                                <Alert severity="info">
+                                    <AlertTitle>
+                                        This course has been published
+                                    </AlertTitle>
+                                    "{course.title}" is published and pending
+                                    verification from a
+                                    {school?.name ? ` ${school?.name} ` : " "}
+                                    school official
+                                </Alert>
+                            </Section>
                         ) : null}
 
                         {user.role === EUserRoles.INSTRUCTOR &&
                         course?.verificationStatus ===
                             ECourseVerificationStatus.DISMISSED ? (
-                            <Alert
-                                severity="warning"
-                                action={
-                                    <ContactUserButton
-                                        userId={
-                                            course.verificationHistory[0].meta
-                                                .from
-                                        }
-                                        color="primary"
-                                    >
-                                        Contact School official
-                                    </ContactUserButton>
-                                }
-                            >
-                                <AlertTitle>
-                                    This course has been dismissed
-                                </AlertTitle>
-                                "{course.title}" was dismissed by a
-                                {school?.name ? ` ${school?.name} ` : " "}
-                                school official at{" "}
-                                {getShortDateAndTime(
-                                    course.verificationHistory[0].createdAt
-                                )}
-                            </Alert>
+                            <Section noDivider spacing="xs">
+                                <Alert
+                                    severity="warning"
+                                    action={
+                                        <ContactUserButton
+                                            userId={
+                                                course.verificationHistory[0]
+                                                    .meta.from
+                                            }
+                                            color="primary"
+                                        >
+                                            Contact School official
+                                        </ContactUserButton>
+                                    }
+                                >
+                                    <AlertTitle>
+                                        This course has been dismissed
+                                    </AlertTitle>
+                                    "{course.title}" was dismissed by a
+                                    {school?.name ? ` ${school?.name} ` : " "}
+                                    school official at{" "}
+                                    {getShortDateAndTime(
+                                        course.verificationHistory[0].createdAt
+                                    )}
+                                </Alert>
+                            </Section>
                         ) : null}
 
                         {user.role === EUserRoles.INSTRUCTOR &&
                             course?.verificationStatus ===
                                 ECourseVerificationStatus.UNPUBLISHED && (
-                                <Alert
-                                    severity="info"
-                                    action={
-                                        <Button
-                                            color="primary"
-                                            onClick={() =>
-                                                handleUpdateCourseVerificationClicked(
-                                                    ECourseVerificationStatus.PENDING_VERIFICATION
-                                                )
-                                            }
-                                        >
-                                            Publish course
-                                        </Button>
-                                    }
-                                >
-                                    <AlertTitle>
-                                        This course is not published
-                                    </AlertTitle>
-                                    Publish "{course.title}" to be verified by a{" "}
-                                    {school?.name} school official
-                                </Alert>
+                                <Section noDivider spacing="xs">
+                                    <Alert
+                                        severity="info"
+                                        action={
+                                            <Button
+                                                color="primary"
+                                                onClick={() =>
+                                                    handleUpdateCourseVerificationClicked(
+                                                        ECourseVerificationStatus.PENDING_VERIFICATION
+                                                    )
+                                                }
+                                            >
+                                                Publish course
+                                            </Button>
+                                        }
+                                    >
+                                        <AlertTitle>
+                                            This course is not published
+                                        </AlertTitle>
+                                        Publish "{course.title}" to be verified
+                                        by a {school?.name} school official
+                                    </Alert>
+                                </Section>
                             )}
 
                         {user.role === EUserRoles.SCHOOL_OFFICIAL &&
                             course?.verificationStatus ===
                                 ECourseVerificationStatus.PENDING_VERIFICATION && (
-                                <Alert
-                                    severity="info"
-                                    action={
-                                        <>
-                                            <Button
-                                                color="secondary"
-                                                onClick={() =>
-                                                    handleUpdateCourseVerificationClicked(
-                                                        ECourseVerificationStatus.DISMISSED
-                                                    )
-                                                }
-                                            >
-                                                Dismiss
-                                            </Button>
-                                            <Button
-                                                color="primary"
-                                                onClick={() =>
-                                                    handleUpdateCourseVerificationClicked(
-                                                        ECourseVerificationStatus.VERIFIED
-                                                    )
-                                                }
-                                            >
-                                                Verify
-                                            </Button>
-                                        </>
-                                    }
-                                >
-                                    <AlertTitle>
-                                        This course is pending verification
-                                    </AlertTitle>
-                                    You may choose to either verify or dismiss
-                                    this course.
-                                </Alert>
+                                <Section noDivider spacing="xs">
+                                    <Alert
+                                        severity="info"
+                                        action={
+                                            <>
+                                                <Button
+                                                    color="secondary"
+                                                    onClick={() =>
+                                                        handleUpdateCourseVerificationClicked(
+                                                            ECourseVerificationStatus.DISMISSED
+                                                        )
+                                                    }
+                                                >
+                                                    Dismiss
+                                                </Button>
+                                                <Button
+                                                    color="primary"
+                                                    onClick={() =>
+                                                        handleUpdateCourseVerificationClicked(
+                                                            ECourseVerificationStatus.VERIFIED
+                                                        )
+                                                    }
+                                                >
+                                                    Verify
+                                                </Button>
+                                            </>
+                                        }
+                                    >
+                                        <AlertTitle>
+                                            This course is pending verification
+                                        </AlertTitle>
+                                        You may choose to either verify or
+                                        dismiss this course.
+                                    </Alert>
+                                </Section>
                             )}
 
                         {announcements?.length ? (
