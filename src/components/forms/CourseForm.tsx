@@ -1,4 +1,4 @@
-import { ECourseTypes } from "../../utils/types";
+import { ECourseTypes, ICourse } from "../../utils/types";
 import { Controller, useForm } from "react-hook-form";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -10,6 +10,7 @@ import {
 } from "../../utils/helpers";
 import AsyncSelect from "../util/AsyncSelect";
 import { DatePicker } from "@material-ui/pickers";
+import addDays from "date-fns/esm/addDays";
 
 export interface ICourseFormProps {
     onSubmit(values: any): void;
@@ -26,13 +27,14 @@ const CourseForm: React.FC<ICourseFormProps> = ({
 }) => {
     const { register, handleSubmit, errors, control, getValues } = useForm();
 
-    function handleSubmitClicked(values) {
+    function handleSubmitClicked(values: Partial<ICourse> | any) {
         values.meta = {
             instructors: [userId],
             school: values.schoolId,
         };
         delete values.schoolId;
         deleteEmptyStrings(values);
+        values.end = addDays(values.end, 1);
         onSubmit(values);
     }
 

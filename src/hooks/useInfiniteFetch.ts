@@ -35,11 +35,26 @@ export default function useInfiniteFetch<T>(
             try {
                 const { data, hasMore } = await fetcher(swrResponse.data || []);
                 if (data.length > 0)
-                    swrResponse.mutate((swrResponse.data || []).concat(data));
+                    swrResponse.mutate(
+                        swrResponse.data ? swrResponse.data.concat(data) : data
+                    );
                 setHasMore(hasMore);
                 setIsLoadingMore(false);
                 break;
             } catch (e) {}
+        }
+    }
+
+    async function handleRefetch(): Promise<boolean> {
+        setIsLoadingMore(true);
+        try {
+            const { data, hasMore } = await fetcher([]);
+            if (data.length > 0) swrResponse.mutate(data);
+            setHasMore(hasMore);
+            setIsLoadingMore(false);
+            return true;
+        } catch (e) {
+            return false;
         }
     }
 
@@ -50,5 +65,6 @@ export default function useInfiniteFetch<T>(
         },
         hasMore,
         isLoadingMore,
+        revalidate: handleRefetch,
     };
 }

@@ -38,6 +38,7 @@ const MessagingAppPage: React.FC = () => {
         chatsError,
         inspectedChat,
         contactUser,
+        refetchChats,
     } = useContext(MessagingContext);
 
     useEffect(
