@@ -123,6 +123,7 @@ const StudentSignUpForm: React.FC<ISignUpFormProps> = ({
                 placeholder="e.g A sophomore at Reseda High School"
                 error={errors.shortDescription}
                 helperText={errors.shortDescription?.message}
+                variant="outlined"
                 margin="normal"
                 fullWidth
                 multiline
@@ -135,6 +136,7 @@ const StudentSignUpForm: React.FC<ISignUpFormProps> = ({
                 name="longDescription"
                 label="Long Description (Optional)"
                 placeholder="Tell us about yourself, your school, or what you hope to find here!"
+                variant="outlined"
                 margin="normal"
                 fullWidth
                 multiline

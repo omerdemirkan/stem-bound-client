@@ -108,6 +108,7 @@ const SchoolOfficialSignUpForm: React.FC<ISignUpFormProps> = ({
                 placeholder="e.g Vice Principal at Magnolia Science Academy"
                 error={errors.shortDescription}
                 helperText={errors.shortDescription?.message}
+                variant="outlined"
                 margin="normal"
                 fullWidth
                 multiline
@@ -120,6 +121,7 @@ const SchoolOfficialSignUpForm: React.FC<ISignUpFormProps> = ({
                 name="longDescription"
                 label="Long Description (Optional)"
                 placeholder="Tell us about yourself, your school, or what you hope to find here!"
+                variant="outlined"
                 margin="normal"
                 fullWidth
                 multiline
@@ -136,6 +138,7 @@ const SchoolOfficialSignUpForm: React.FC<ISignUpFormProps> = ({
                 placeholder="e.g Guidance Counselor"
                 error={errors.position}
                 helperText={errors.position?.message}
+                variant="outlined"
                 margin="normal"
                 fullWidth
                 multiline

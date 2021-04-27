@@ -123,6 +123,8 @@ const AnnouncementsAppPage: React.FC = () => {
                                 label="New Announcement"
                                 onChange={(e) => setValue(e.target.value)}
                                 value={value}
+                                variant="outlined"
+                                margin="normal"
                                 multiline
                                 fullWidth
                             />

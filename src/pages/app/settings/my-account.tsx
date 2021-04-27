@@ -185,7 +185,11 @@ const MyAccountAppPage: React.FC = () => {
                             buttonText={`${
                                 user.longDescription ? "UPDATE" : "ADD"
                             } LONG DESCRIPTION`}
-                            TextFieldProps={{ multiline: true }}
+                            TextFieldProps={{
+                                multiline: true,
+                                variant: "outlined",
+                                margin: "none",
+                            }}
                         />
 
                         {user.role === EUserRoles.STUDENT ? (

@@ -61,6 +61,8 @@ const CourseAnnouncement: React.FC<ICourseAnnouncementProps> = ({
                                     id="edit-announcement"
                                     onChange={(e) => setValue(e.target.value)}
                                     value={value}
+                                    variant="outlined"
+                                    margin="normal"
                                     multiline
                                     fullWidth
                                 />

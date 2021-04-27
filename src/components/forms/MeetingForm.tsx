@@ -139,6 +139,7 @@ const MeetingForm: React.FC<IMeetingInputProps> = ({
                 inputRef={register}
                 name="message"
                 label="Message"
+                variant="outlined"
                 margin="normal"
                 fullWidth
                 multiline

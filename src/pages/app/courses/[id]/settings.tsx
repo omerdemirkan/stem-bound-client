@@ -188,6 +188,8 @@ const CourseSettingsAppPage: React.FC = () => {
                             }}
                             TextFieldProps={{
                                 multiline: true,
+                                variant: "outlined",
+                                margin: "none",
                                 inputProps: { maxLength: 100 },
                             }}
                         />
@@ -201,6 +203,8 @@ const CourseSettingsAppPage: React.FC = () => {
                             }}
                             TextFieldProps={{
                                 multiline: true,
+                                variant: "outlined",
+                                margin: "none",
                                 inputProps: { maxLength: 2000 },
                             }}
                         />
