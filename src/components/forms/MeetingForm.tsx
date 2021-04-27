@@ -8,6 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import { Controller, useForm } from "react-hook-form";
+import HidableDiv from "../ui/HidableDiv";
 
 const useStyles = makeStyles({
     card: {
@@ -40,11 +41,19 @@ const MeetingForm: React.FC<IMeetingInputProps> = ({
     availableMeetingTypes =
         availableMeetingTypes || Object.values(EMeetingTypes);
 
-    const { register, errors, handleSubmit, control, getValues } = useForm({
+    const {
+        register,
+        errors,
+        handleSubmit,
+        control,
+        getValues,
+        watch,
+    } = useForm({
         defaultValues,
     });
 
     const classes = useStyles();
+    const meetingType = watch("type") || defaultValues?.type;
 
     return (
         <form
@@ -101,23 +110,30 @@ const MeetingForm: React.FC<IMeetingInputProps> = ({
                 )}
             />
 
-            {defaultValues?.type === EMeetingTypes.IN_PERSON ? (
-                <TextField
-                    inputRef={register({ required: "Required" })}
-                    name="roomNum"
-                    label="Room"
-                    margin="normal"
-                    fullWidth
-                />
-            ) : (
-                <TextField
-                    inputRef={register({ required: "Required" })}
-                    name="url"
-                    label="Meeting Url"
-                    margin="normal"
-                    fullWidth
-                />
-            )}
+            <TextField
+                inputRef={register({ required: "Required" })}
+                name="roomNum"
+                label="Room"
+                margin="normal"
+                fullWidth
+                style={
+                    meetingType === EMeetingTypes.IN_PERSON
+                        ? { display: "none" }
+                        : {}
+                }
+            />
+            <TextField
+                inputRef={register({ required: "Required" })}
+                name="url"
+                label="Meeting Url"
+                margin="normal"
+                fullWidth
+                style={
+                    meetingType === EMeetingTypes.REMOTE
+                        ? { display: "none" }
+                        : {}
+                }
+            />
 
             <TextField
                 inputRef={register}

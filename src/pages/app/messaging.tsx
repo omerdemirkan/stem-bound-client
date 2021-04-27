@@ -19,7 +19,6 @@ import Link from "next/link";
 import useQueryState from "../../hooks/useQueryState";
 import ChatInterface from "../../components/containers/ChatInterface";
 import MessagingContext from "../../components/contexts/MessagingContext";
-import { useRouter } from "next/router";
 import useCalculateOnce from "../../hooks/useCalculateOnce";
 
 const MessagingAppPage: React.FC = () => {
