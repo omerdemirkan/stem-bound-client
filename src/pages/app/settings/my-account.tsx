@@ -313,7 +313,7 @@ const MyAccountAppPage: React.FC = () => {
                                     } any courses`
                                 }
                             >
-                                <RelativeGrid minWidthInPixels={400}>
+                                <RelativeGrid minWidth="400px">
                                     {courses?.map((course) => (
                                         <CourseCard
                                             course={course}

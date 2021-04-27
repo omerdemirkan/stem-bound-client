@@ -2,14 +2,43 @@ import Box, { BoxProps } from "@material-ui/core/Box";
 import { useEffect, useState } from "react";
 import useDimensions from "../../hooks/useDimensions";
 
-interface IRelativeGridProps extends BoxProps {
+interface IRelativeGridCSSProps extends BoxProps {
+    gridGap?: string | 0;
+    minWidth?: string | 0;
+}
+
+export const RelativeGrid: React.FC<IRelativeGridCSSProps> = ({
+    children,
+    gridGap = 0,
+    minWidth = "400px",
+}) => {
+    return (
+        <div className="relative-grid">
+            {children}
+            <style jsx>{`
+                .relative-grid {
+                    display: grid;
+                    grid-gap: ${gridGap};
+                    grid-template-columns: repeat(
+                        auto-fill,
+                        minmax(${minWidth}, 1fr)
+                    );
+                }
+            `}</style>
+        </div>
+    );
+};
+
+export default RelativeGrid;
+
+interface IRelativeGridDeprecatedProps extends BoxProps {
     minWidthInPixels: number;
 }
 
-// Note: Relative Grid currently has problems
+// Note: This currently has problems
 // with pages that are server-side rendered.
 
-const RelativeGrid: React.FC<IRelativeGridProps> = ({
+const RelativeGridDeprecated: React.FC<IRelativeGridDeprecatedProps> = ({
     children,
     minWidthInPixels,
     ...boxProps
@@ -45,5 +74,3 @@ const RelativeGrid: React.FC<IRelativeGridProps> = ({
         </Box>
     );
 };
-
-export default RelativeGrid;

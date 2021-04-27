@@ -192,7 +192,7 @@ const MySchoolAppPage: React.FC = () => {
     }
 
     const paginateCourses = (courses: ICourse[]) => (
-        <RelativeGrid minWidthInPixels={450}>
+        <RelativeGrid minWidth="450px">
             {courses.map((course) => (
                 <CourseCard
                     course={course}
@@ -287,7 +287,7 @@ const MySchoolAppPage: React.FC = () => {
                                 "Couldn't load school officials, an error occured"
                             }
                         >
-                            <RelativeGrid minWidthInPixels={400}>
+                            <RelativeGrid minWidth="400px">
                                 {schoolOfficials?.map((schoolOfficial) => (
                                     <UserCard
                                         user={schoolOfficial}
@@ -313,7 +313,7 @@ const MySchoolAppPage: React.FC = () => {
                                 "Couldn't load students, an error occured"
                             }
                         >
-                            <RelativeGrid minWidthInPixels={400}>
+                            <RelativeGrid minWidth="400px">
                                 {students?.map((student) => (
                                     <UserCard
                                         user={student}

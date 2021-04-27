@@ -71,7 +71,7 @@ const CoursesAppPage: React.FC = () => {
                 }
                 noDivider
             >
-                <RelativeGrid minWidthInPixels={450}>
+                <RelativeGrid minWidth="450px">
                     {courses?.map((course) => (
                         <CourseCard
                             course={course}
@@ -88,7 +88,7 @@ const CoursesAppPage: React.FC = () => {
                     loading={unverifiedCoursesLoading}
                     title="Unverified Courses"
                 >
-                    <RelativeGrid minWidthInPixels={450}>
+                    <RelativeGrid minWidth="450px">
                         {unverifiedCourses?.map((course) => (
                             <CourseCard
                                 key={course._id}

@@ -133,7 +133,7 @@ function paginateSearchData({
         );
 
     return (
-        <RelativeGrid minWidthInPixels={450}>
+        <RelativeGrid minWidth="450px">
             {searchData.data.map((searchData: IUser) => (
                 <UserCard
                     key={searchData._id}

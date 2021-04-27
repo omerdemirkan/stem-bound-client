@@ -292,7 +292,7 @@ const CourseSettingsAppPage: React.FC = () => {
                             }
                             loading={instructorsLoading}
                         >
-                            <RelativeGrid minWidthInPixels={400}>
+                            <RelativeGrid minWidth="400px">
                                 {instructors?.map((instructor) => (
                                     <UserCard
                                         user={instructor}
@@ -315,7 +315,7 @@ const CourseSettingsAppPage: React.FC = () => {
                             }
                             loading={studentsLoading}
                         >
-                            <RelativeGrid minWidthInPixels={400}>
+                            <RelativeGrid minWidth="400px">
                                 {students?.map((student) => (
                                     <UserCard
                                         user={student}
