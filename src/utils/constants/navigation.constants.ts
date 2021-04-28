@@ -1,7 +1,5 @@
 import { INavigationData, EUserRoles, EPageCompletion } from "../types";
 
-import { ESearchFields } from "../types/search.types";
-
 // Icon components
 import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
