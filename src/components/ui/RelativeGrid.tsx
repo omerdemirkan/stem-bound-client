@@ -9,7 +9,7 @@ export interface IRelativeGridProps extends BoxProps {
 
 export const RelativeGrid: React.FC<IRelativeGridProps> = ({
     children,
-    gridGap = 0,
+    gridGap = "10px",
     minWidth = "400px",
 }) => {
     return (
