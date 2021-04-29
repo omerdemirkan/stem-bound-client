@@ -25,7 +25,6 @@ import {
     configureCourseVerificationUpdateAlertDTO,
     getDisplayCourseVerificationStatus,
     getLongDate,
-    getShortDate,
 } from "../../../../utils/helpers";
 import Chip from "@material-ui/core/Chip";
 import { useContext } from "react";
@@ -38,6 +37,8 @@ import ContactUserButton from "../../../../components/util/ContactUserButton";
 import Head from "next/head";
 import useSchool from "../../../../hooks/useSchool";
 import Typography from "@material-ui/core/Typography";
+import { DatePicker } from "@material-ui/pickers";
+import addDays from "date-fns/addDays";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -161,22 +162,54 @@ const CourseSettingsAppPage: React.FC = () => {
                             }}
                         />
 
-                        {school && (
-                            <Section title="School" spacing="sm">
-                                <Typography paragraph color="textPrimary">
-                                    {school.name}
-                                </Typography>
-                            </Section>
-                        )}
-
-                        <Section title="Duration" spacing="sm">
-                            {course && (
-                                <Typography paragraph color="textPrimary">
-                                    From {getLongDate(course?.start)} to{" "}
-                                    {getLongDate(course?.end)}
-                                </Typography>
-                            )}
+                        <Section title="School" spacing="sm">
+                            <Typography paragraph color="textPrimary">
+                                {school ? school.name : "..."}
+                            </Typography>
                         </Section>
+
+                        <EditableSection
+                            title="Duration"
+                            spacing="sm"
+                            value={[
+                                course?.start,
+                                course?.end && addDays(course?.end, -1),
+                            ]}
+                            onEdit={([start, end]) =>
+                                handleCourseUpdate({
+                                    start: start.toString(),
+                                    end: addDays(end, 1).toString(),
+                                })
+                            }
+                            renderInput={(value, setValue) => (
+                                <div>
+                                    <DatePicker
+                                        label="Start"
+                                        value={value[0]}
+                                        onChange={(date) =>
+                                            setValue([date, value[1]])
+                                        }
+                                        style={{ width: "50%" }}
+                                    />
+                                    <DatePicker
+                                        label="End (Last Day)"
+                                        value={value[1]}
+                                        onChange={(date) =>
+                                            setValue([value[0], date])
+                                        }
+                                        style={{ width: "50%" }}
+                                    />
+                                </div>
+                            )}
+                        >
+                            <Typography paragraph color="textPrimary">
+                                {course
+                                    ? `From ${getLongDate(
+                                          course?.start
+                                      )} to ${getLongDate(course?.end)}`
+                                    : "..."}
+                            </Typography>
+                        </EditableSection>
 
                         <EditableSection
                             title="Short Description"
