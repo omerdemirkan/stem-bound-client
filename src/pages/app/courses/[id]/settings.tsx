@@ -206,7 +206,9 @@ const CourseSettingsAppPage: React.FC = () => {
                                 {course
                                     ? `From ${getLongDate(
                                           course?.start
-                                      )} to ${getLongDate(course?.end)}`
+                                      )} to ${getLongDate(
+                                          addDays(course?.end, -1)
+                                      )}`
                                     : "..."}
                             </Typography>
                         </EditableSection>

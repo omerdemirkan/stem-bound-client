@@ -78,6 +78,7 @@ export interface ICourseOriginal {
     verificationHistory: ICourseVerificationStatusUpdate[];
     shortDescription: string;
     longDescription: string;
+    remoteSyllabusUrl?: string;
     start: string;
     end: string;
     type: ECourseTypes;
@@ -99,6 +100,7 @@ export interface ICourse {
     verificationHistory: ICourseVerificationStatusUpdate[];
     shortDescription: string;
     longDescription: string;
+    remoteSyllabusUrl?: string;
     start: Date;
     end: Date;
     type: ECourseTypes;

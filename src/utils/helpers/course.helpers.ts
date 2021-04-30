@@ -74,6 +74,7 @@ export function mapCourseData(course: ICourseOriginal): ICourse {
         displayTimeFrameType: getDisplayTimeFrameType(timeFrameType),
         longDescription: course.longDescription,
         shortDescription: course.shortDescription,
+        remoteSyllabusUrl: course.remoteSyllabusUrl,
         start,
         end,
         meta: {
