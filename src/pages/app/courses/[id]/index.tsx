@@ -106,6 +106,10 @@ const CourseAppPage: React.FC = () => {
         });
     }
 
+    const userIsInstructor =
+        course?.meta.instructors.includes(user?._id) &&
+        user?.role === EUserRoles.INSTRUCTOR;
+
     return (
         <AppLayout
             breadCrumbs={[
@@ -141,7 +145,7 @@ const CourseAppPage: React.FC = () => {
                         </a>
                     </Link>
 
-                    {user.role === EUserRoles.INSTRUCTOR && (
+                    {userIsInstructor && (
                         <Link
                             href="/app/courses/[id]/settings"
                             as={`/app/courses/${course?._id}/settings`}
@@ -169,6 +173,31 @@ const CourseAppPage: React.FC = () => {
             <SplitScreen
                 mainEl={
                     <>
+                        {userIsInstructor && !course?.remoteSyllabusUrl && (
+                            <Section noDivider spacing="xs">
+                                <Alert
+                                    severity="info"
+                                    action={
+                                        <Link
+                                            href="/app/courses/[id]/settings"
+                                            as={`/app/courses/${course?._id}/settings`}
+                                        >
+                                            <a>
+                                                <Button color="primary">
+                                                    Course Settings
+                                                </Button>
+                                            </a>
+                                        </Link>
+                                    }
+                                >
+                                    <AlertTitle>
+                                        This course does not have a syllabus.
+                                    </AlertTitle>
+                                    Would you like to add a link to a remote
+                                    syllabus?
+                                </Alert>
+                            </Section>
+                        )}
                         {course?.timeFrameType === ETimeFrameType.ENDED && (
                             <Section noDivider spacing="xs">
                                 <Alert severity="info">
@@ -185,7 +214,7 @@ const CourseAppPage: React.FC = () => {
                                 </Alert>
                             </Section>
                         )}
-                        {user.role === EUserRoles.INSTRUCTOR &&
+                        {userIsInstructor &&
                         course?.verificationStatus ===
                             ECourseVerificationStatus.PENDING_VERIFICATION ? (
                             <Section noDivider spacing="xs">
@@ -201,7 +230,7 @@ const CourseAppPage: React.FC = () => {
                             </Section>
                         ) : null}
 
-                        {user.role === EUserRoles.INSTRUCTOR &&
+                        {userIsInstructor &&
                         course?.verificationStatus ===
                             ECourseVerificationStatus.DISMISSED ? (
                             <Section noDivider spacing="xs">
@@ -232,7 +261,7 @@ const CourseAppPage: React.FC = () => {
                             </Section>
                         ) : null}
 
-                        {user.role === EUserRoles.INSTRUCTOR &&
+                        {userIsInstructor &&
                             course?.verificationStatus ===
                                 ECourseVerificationStatus.UNPUBLISHED && (
                                 <Section noDivider spacing="xs">
@@ -329,7 +358,7 @@ const CourseAppPage: React.FC = () => {
                                 "Couldn't load upcoming meetings, an error occured"
                             }
                             infoAction={
-                                user.role === EUserRoles.INSTRUCTOR &&
+                                userIsInstructor &&
                                 upcomingMeetings?.length === 0 &&
                                 !upcomingMeetingsError && (
                                     <Link
