@@ -70,6 +70,18 @@ export interface ICourseVerificationStatusUpdate {
     createdAt?: string;
 }
 
+export interface ICourseResourceOriginal {
+    url: string;
+    label: string;
+    description?: string;
+}
+
+export interface ICourseResource {
+    url: string;
+    label: string;
+    description?: string;
+}
+
 export interface ICourseOriginal {
     _id: string;
     createdAt: string;
@@ -84,6 +96,7 @@ export interface ICourseOriginal {
     type: ECourseTypes;
     meetings: IMeetingOriginal[];
     announcements: IAnnouncementOriginal[];
+    resources: ICourseResourceOriginal[];
     meta: {
         instructors: string[];
         students: string[];
@@ -107,6 +120,7 @@ export interface ICourse {
     displayType: string;
     meetings: IMeeting[];
     announcements: IAnnouncement[];
+    resources: ICourseResource[];
     meta: {
         instructors: string[];
         students: string[];

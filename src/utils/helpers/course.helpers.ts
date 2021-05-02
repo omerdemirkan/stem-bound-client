@@ -75,6 +75,7 @@ export function mapCourseData(course: ICourseOriginal): ICourse {
         longDescription: course.longDescription,
         shortDescription: course.shortDescription,
         remoteSyllabusUrl: course.remoteSyllabusUrl,
+        resources: course.resources,
         start,
         end,
         meta: {
