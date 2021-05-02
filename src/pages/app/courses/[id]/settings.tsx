@@ -39,6 +39,7 @@ import useSchool from "../../../../hooks/useSchool";
 import Typography from "@material-ui/core/Typography";
 import { DatePicker } from "@material-ui/pickers";
 import addDays from "date-fns/addDays";
+import CopyToClipboard from "../../../../components/util/CopyToClipboard";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -243,6 +244,23 @@ const CourseSettingsAppPage: React.FC = () => {
                                 inputProps: { maxLength: 2000 },
                             }}
                         />
+                        <EditableSection
+                            title="Course Syllabus"
+                            onEdit={handleUpdateCourseField(
+                                "remoteSyllabusUrl"
+                            )}
+                            value={course?.remoteSyllabusUrl}
+                            TextFieldProps={{
+                                placeholder: "Link to this course's syllabus",
+                            }}
+                        >
+                            {course?.remoteSyllabusUrl && (
+                                <CopyToClipboard
+                                    text={course?.remoteSyllabusUrl}
+                                    description="Link to the course syllabus"
+                                />
+                            )}
+                        </EditableSection>
                         <Section
                             title="Verification Status"
                             spacing="sm"
