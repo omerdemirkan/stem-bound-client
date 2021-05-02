@@ -110,6 +110,13 @@ const CourseAppPage: React.FC = () => {
         course?.meta.instructors.includes(user?._id) &&
         user?.role === EUserRoles.INSTRUCTOR;
 
+    const remoteResources: { href: string; label: string }[] = [];
+    if (course?.remoteSyllabusUrl)
+        remoteResources.push({
+            href: course?.remoteSyllabusUrl,
+            label: "Syllabus",
+        });
+
     return (
         <AppLayout
             breadCrumbs={[
@@ -383,6 +390,15 @@ const CourseAppPage: React.FC = () => {
                                 />
                             ))}
                         </Section>
+                        {!!remoteResources.length && (
+                            <Section title="Resources">
+                                {remoteResources.map(({ href, label }) => (
+                                    <a href={href} target="_blank">
+                                        {label}
+                                    </a>
+                                ))}
+                            </Section>
+                        )}
                     </>
                 }
                 secondaryEl={
