@@ -23,6 +23,7 @@ import {
     ENotificationTypes,
     ETimeFrameType,
     EUserRoles,
+    ICourseResource,
 } from "../../../../utils/types";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
@@ -40,6 +41,7 @@ import NotificationContext from "../../../../components/contexts/NotificationCon
 import ContactUserButton from "../../../../components/util/ContactUserButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import useSchool from "../../../../hooks/useSchool";
+import CourseResource from "../../../../components/ui/CourseResource";
 
 const CourseAppPage: React.FC = () => {
     const router = useRouter();
@@ -110,10 +112,10 @@ const CourseAppPage: React.FC = () => {
         course?.meta.instructors.includes(user?._id) &&
         user?.role === EUserRoles.INSTRUCTOR;
 
-    const remoteResources: { href: string; label: string }[] = [];
+    const remoteResources: ICourseResource[] = [];
     if (course?.remoteSyllabusUrl)
         remoteResources.push({
-            href: course?.remoteSyllabusUrl,
+            url: course?.remoteSyllabusUrl,
             label: "Syllabus",
         });
 
@@ -392,10 +394,8 @@ const CourseAppPage: React.FC = () => {
                         </Section>
                         {!!remoteResources.length && (
                             <Section title="Resources">
-                                {remoteResources.map(({ href, label }) => (
-                                    <a href={href} target="_blank">
-                                        {label}
-                                    </a>
+                                {remoteResources.map((resource) => (
+                                    <CourseResource {...resource} />
                                 ))}
                             </Section>
                         )}
