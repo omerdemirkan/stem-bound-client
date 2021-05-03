@@ -8,7 +8,11 @@ const CourseResource: React.FC<ICourseResourceProps> = ({
     url,
     description,
 }) => {
-    let courseResource = <a href={url}>{label}</a>;
+    let courseResource = (
+        <a href={url} target="_blank" rel="noopener noreferrer">
+            {label}
+        </a>
+    );
     if (description)
         courseResource = (
             <Tooltip title={description}>{courseResource}</Tooltip>
