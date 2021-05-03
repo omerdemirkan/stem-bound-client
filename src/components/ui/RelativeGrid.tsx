@@ -21,8 +21,9 @@ export const RelativeGrid: React.FC<IRelativeGridProps> = ({
                     grid-gap: ${gridGap};
                     grid-template-columns: repeat(
                         auto-fill,
-                        minmax(${minWidth}, 1fr)
+                        minmax(min(${minWidth}, 100%), 1fr)
                     );
+                    max-width: 100%;
                 }
             `}</style>
         </div>
