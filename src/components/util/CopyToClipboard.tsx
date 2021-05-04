@@ -7,11 +7,13 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core";
+import Divider from "@material-ui/core/Divider";
 
 export interface ICopyToClipboardProps {
     text: string;
     description: string;
     onCopy?(): any;
+    prepend?: any;
 }
 
 const useStyles = makeStyles({
@@ -23,10 +25,14 @@ const useStyles = makeStyles({
         justifyContent: "space-between",
         alignItems: "center",
         flexWrap: "nowrap",
-        maxWidth: "450px",
+        width: "550px",
+        maxWidth: "100%",
     },
     text: {
         marginRight: "15px",
+    },
+    divider: {
+        margin: "0 5px",
     },
 });
 
@@ -34,6 +40,7 @@ const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
     text,
     description,
     onCopy,
+    prepend,
 }) => {
     const classes = useStyles();
     const { createSnackbar } = useContext(NotificationContext);
@@ -57,6 +64,16 @@ const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
 
     return (
         <Paper className={classes.paper}>
+            {prepend && (
+                <>
+                    <span>{prepend}</span>
+                    <Divider
+                        orientation="vertical"
+                        flexItem
+                        className={classes.divider}
+                    />
+                </>
+            )}
             <Typography
                 component="span"
                 noWrap
@@ -65,6 +82,11 @@ const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
             >
                 {!isEmpty ? text : `No ${description}`}
             </Typography>
+            <Divider
+                orientation="vertical"
+                flexItem
+                className={classes.divider}
+            />
             <span>
                 <Tooltip title={`Copy ${description}`}>
                     <IconButton
