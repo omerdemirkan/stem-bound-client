@@ -40,6 +40,9 @@ const EditableSection: React.FC<IEditableSectionProps> = ({
     ...sectionProps
 }) => {
     const classes = useStyles();
+
+    const isEmpty = !value || value.length === 0;
+
     return (
         <Section
             {...sectionProps}
@@ -78,7 +81,7 @@ const EditableSection: React.FC<IEditableSectionProps> = ({
                     {...TypographyProps}
                     color={value ? "textPrimary" : "textSecondary"}
                 >
-                    {value || `No ${sectionProps.title}`}
+                    {isEmpty ? `No ${sectionProps.title}` : value}
                 </Typography>
             )}
         </Section>

@@ -40,6 +40,7 @@ import Typography from "@material-ui/core/Typography";
 import { DatePicker } from "@material-ui/pickers";
 import addDays from "date-fns/addDays";
 import CopyToClipboard from "../../../../components/util/CopyToClipboard";
+import CourseResourcesInput from "../../../../components/util/CourseResourcesInput";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -258,8 +259,30 @@ const CourseSettingsAppPage: React.FC = () => {
                                 <CopyToClipboard
                                     text={course?.remoteSyllabusUrl}
                                     description="Link to the course syllabus"
+                                    prepend="Syllabus"
                                 />
                             )}
+                        </EditableSection>
+                        <EditableSection
+                            title="Additional Resources"
+                            onEdit={handleUpdateCourseField("resources")}
+                            value={course?.resources}
+                            renderInput={(value, setValue) => (
+                                <CourseResourcesInput
+                                    value={value}
+                                    onChange={setValue}
+                                />
+                            )}
+                        >
+                            {course?.resources.length > 0 &&
+                                course?.resources.map((resource) => (
+                                    <CopyToClipboard
+                                        key={resource.label + resource.url}
+                                        prepend={resource.label}
+                                        text={resource.url}
+                                        description={resource.description}
+                                    />
+                                ))}
                         </EditableSection>
                         <Section
                             title="Verification Status"
@@ -348,6 +371,7 @@ const CourseSettingsAppPage: React.FC = () => {
                             <RelativeGrid minWidth="400px">
                                 {instructors?.map((instructor) => (
                                     <UserCard
+                                        key={instructor._id}
                                         user={instructor}
                                         noMargin
                                         fullWidth
@@ -371,6 +395,7 @@ const CourseSettingsAppPage: React.FC = () => {
                             <RelativeGrid minWidth="400px">
                                 {students?.map((student) => (
                                     <UserCard
+                                        key={student._id}
                                         user={student}
                                         fullWidth
                                         noMargin

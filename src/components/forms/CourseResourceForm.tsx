@@ -1,23 +1,31 @@
 import { useForm } from "react-hook-form";
-import { ICourseResource } from "../../utils/types";
+import { ICourseResourceOriginal } from "../../utils/types";
 import TextField from "@material-ui/core/TextField";
 import { urlRegex } from "../../utils/constants";
-import { Button } from "@material-ui/core";
+import Center from "../ui/Center";
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
 
 export interface ICourseResourceFormProps {
-    onSubmit(resources: ICourseResource): any;
-    initialValues?: Partial<ICourseResource>;
+    onSubmit(resources: ICourseResourceOriginal): any;
+    initialValues?: Partial<ICourseResourceOriginal>;
 }
 
 const CourseResourceForm: React.FC<ICourseResourceFormProps> = ({
     onSubmit,
     initialValues,
 }) => {
-    const { register, handleSubmit, errors } = useForm({
+    const { register, handleSubmit, errors, reset } = useForm({
         defaultValues: initialValues,
     });
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+            onSubmit={handleSubmit(function (values: ICourseResourceOriginal) {
+                onSubmit(values);
+                reset();
+            })}
+        >
             <TextField
                 inputRef={register({
                     required: "Resource name is required",
@@ -55,7 +63,6 @@ const CourseResourceForm: React.FC<ICourseResourceFormProps> = ({
                 inputRef={register({
                     minLength: 2,
                 })}
-                required
                 name="description"
                 label="Description"
                 margin="normal"
@@ -68,9 +75,11 @@ const CourseResourceForm: React.FC<ICourseResourceFormProps> = ({
                     maxLength: 1000,
                 }}
             />
-            <Button fullWidth color="primary" variant="contained">
-                Submit
-            </Button>
+            <Center>
+                <IconButton type="submit">
+                    <AddIcon />
+                </IconButton>
+            </Center>
         </form>
     );
 };

@@ -9,13 +9,6 @@ import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 
-export interface ICopyToClipboardProps {
-    text: string;
-    description: string;
-    onCopy?(): any;
-    prepend?: any;
-}
-
 const useStyles = makeStyles({
     paper: {
         boxShadow: "none",
@@ -36,11 +29,20 @@ const useStyles = makeStyles({
     },
 });
 
+export interface ICopyToClipboardProps {
+    text: string;
+    description: string;
+    onCopy?(): any;
+    prepend?: any;
+    fullWidth?: boolean;
+}
+
 const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
     text,
     description,
     onCopy,
     prepend,
+    fullWidth,
 }) => {
     const classes = useStyles();
     const { createSnackbar } = useContext(NotificationContext);
@@ -63,7 +65,10 @@ const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
     const isEmpty = text == null;
 
     return (
-        <Paper className={classes.paper}>
+        <Paper
+            className={classes.paper}
+            style={fullWidth ? { width: "100%" } : null}
+        >
             {prepend && (
                 <>
                     <span>{prepend}</span>
@@ -82,23 +87,16 @@ const CopyToClipboard: React.FC<ICopyToClipboardProps> = ({
             >
                 {!isEmpty ? text : `No ${description}`}
             </Typography>
-            <Divider
-                orientation="vertical"
-                flexItem
-                className={classes.divider}
-            />
-            <span>
-                <Tooltip title={`Copy ${description}`}>
-                    <IconButton
-                        color="primary"
-                        size="small"
-                        onClick={handleCopyToClipboard}
-                        disabled={isEmpty}
-                    >
-                        <FileCopyIcon />
-                    </IconButton>
-                </Tooltip>
-            </span>
+            <Tooltip title={`Copy ${description}`}>
+                <IconButton
+                    color="primary"
+                    size="small"
+                    onClick={handleCopyToClipboard}
+                    disabled={isEmpty}
+                >
+                    <FileCopyIcon />
+                </IconButton>
+            </Tooltip>
         </Paper>
     );
 };
