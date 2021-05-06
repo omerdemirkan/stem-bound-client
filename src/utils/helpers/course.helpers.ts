@@ -10,6 +10,8 @@ import {
     ECourseVerificationStatus,
     ENotificationTypes,
     IAlertData,
+    ICourseResourceOriginal,
+    ICourseResource,
 } from "../types";
 import {
     displayMeetingTypes,
@@ -60,6 +62,16 @@ export function mapAnnouncementData(
     };
 }
 
+export function mapCourseResource(
+    resource: ICourseResourceOriginal
+): ICourseResource {
+    return {
+        label: resource.label,
+        url: resource.url,
+        description: resource.description,
+    };
+}
+
 export function mapCourseData(course: ICourseOriginal): ICourse {
     const start = new Date(course.start),
         end = new Date(course.end),
@@ -75,7 +87,7 @@ export function mapCourseData(course: ICourseOriginal): ICourse {
         longDescription: course.longDescription,
         shortDescription: course.shortDescription,
         remoteSyllabusUrl: course.remoteSyllabusUrl,
-        resources: course.resources,
+        resources: course.resources.map(mapCourseResource),
         start,
         end,
         meta: {
