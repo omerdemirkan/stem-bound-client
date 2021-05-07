@@ -1,5 +1,6 @@
 import { ICourseResource } from "../../utils/types";
 import Tooltip from "@material-ui/core/Tooltip";
+import { Link } from "@material-ui/core";
 
 export interface ICourseResourceProps extends ICourseResource {}
 
@@ -9,9 +10,11 @@ const CourseResource: React.FC<ICourseResourceProps> = ({
     description,
 }) => {
     let courseResource = (
-        <a href={url} target="_blank" rel="noopener noreferrer">
-            {label}
-        </a>
+        <Link>
+            <a href={url} target="_blank" rel="noopener noreferrer">
+                {label}
+            </a>
+        </Link>
     );
     if (description)
         courseResource = (
