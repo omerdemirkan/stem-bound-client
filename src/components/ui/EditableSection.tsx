@@ -41,7 +41,10 @@ const EditableSection: React.FC<IEditableSectionProps> = ({
 }) => {
     const classes = useStyles();
 
-    const isEmpty = !value || value.length === 0;
+    const isEmpty =
+        !value ||
+        value.length === 0 ||
+        (Array.isArray(children) && children.length === 0);
 
     return (
         <Section

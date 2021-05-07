@@ -2,9 +2,10 @@ import { useForm } from "react-hook-form";
 import { ICourseResourceOriginal } from "../../utils/types";
 import TextField from "@material-ui/core/TextField";
 import { urlRegex } from "../../utils/constants";
-import Center from "../ui/Center";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
+import { deleteEmptyStrings } from "../../utils/helpers";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export interface ICourseResourceFormProps {
     onSubmit(resources: ICourseResourceOriginal): any;
@@ -15,7 +16,7 @@ const CourseResourceForm: React.FC<ICourseResourceFormProps> = ({
     onSubmit,
     initialValues,
 }) => {
-    const { register, handleSubmit, errors, reset } = useForm({
+    const { register, handleSubmit, errors, reset, getValues } = useForm({
         defaultValues: initialValues,
     });
 
@@ -23,6 +24,7 @@ const CourseResourceForm: React.FC<ICourseResourceFormProps> = ({
         <form
             onSubmit={handleSubmit(function (values: ICourseResourceOriginal) {
                 onSubmit(values);
+                deleteEmptyStrings(values);
                 reset();
             })}
         >
@@ -75,11 +77,11 @@ const CourseResourceForm: React.FC<ICourseResourceFormProps> = ({
                     maxLength: 1000,
                 }}
             />
-            <Center>
-                <IconButton type="submit">
+            <Tooltip title="Add Resource">
+                <IconButton type="submit" color="primary" edge="end">
                     <AddIcon />
                 </IconButton>
-            </Center>
+            </Tooltip>
         </form>
     );
 };

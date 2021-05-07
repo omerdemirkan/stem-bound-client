@@ -1,6 +1,6 @@
 import { ICourseResource } from "../../utils/types";
 import Tooltip from "@material-ui/core/Tooltip";
-import { Link } from "@material-ui/core";
+import Link from "@material-ui/core/Link";
 
 export interface ICourseResourceProps extends ICourseResource {}
 
