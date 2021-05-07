@@ -23,9 +23,10 @@ const useStyles = makeStyles({
     },
     text: {
         marginRight: "15px",
+        flexGrow: 1,
     },
     divider: {
-        margin: "0 5px",
+        margin: "0 10px",
     },
 });
 
