@@ -12,11 +12,7 @@ const CourseStudentsAppPage: React.FC = () => {
     const router = useRouter();
     const courseId = router.query.id as string;
 
-    const {
-        data: course,
-        isValidating: courseLoading,
-        revalidate: refetchCourse,
-    } = useSWR(
+    const { data: course } = useSWR(
         courseId ? `/courses/${courseId}` : null,
         courseFetcher(courseId)
     );
