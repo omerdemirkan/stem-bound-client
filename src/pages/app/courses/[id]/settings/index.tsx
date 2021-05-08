@@ -1,5 +1,7 @@
 import useSWR from "swr";
-import AppLayout from "../../../../../components/layouts/AppLayout";
+import AppLayout, {
+    IAppLayoutProps,
+} from "../../../../../components/layouts/AppLayout";
 import withAuth from "../../../../../components/hoc/withAuth";
 import {
     courseFetcher,
@@ -423,12 +425,16 @@ const courseSettingsNavigation = [
         label: "Details",
     },
     {
+        href: "/app/courses/[id]/settings/resources",
+        label: "Resources",
+    },
+    {
         href: "/app/courses/[id]/settings/instructors",
         label: "Instructors",
     },
     {
-        href: "/app/courses/[id]/settings/resources",
-        label: "Resources",
+        href: "/app/courses/[id]/settings/students",
+        label: "Students",
     },
 ];
 
@@ -462,5 +468,46 @@ export const CourseSettingsNavigation: React.FC<ICourseSettingsNavigationProps> 
                 </Link>
             ))}
         </List>
+    );
+};
+
+export interface ICourseSettingsLayoutProps extends IAppLayoutProps {
+    courseTitle: string;
+    courseId: string;
+    activeLabel: string;
+}
+
+export const CourseSettingsLayout: React.FC<ICourseSettingsLayoutProps> = ({
+    children,
+    courseTitle,
+    courseId,
+    activeLabel,
+    ...appLayoutProps
+}) => {
+    return (
+        <AppLayout
+            breadCrumbs={[
+                { label: "Courses", href: "/app/courses" },
+                {
+                    label: courseTitle,
+                    href: "/app/courses/[id]",
+                    as: `/app/courses/${courseId}`,
+                },
+                { label: "Settings" },
+            ]}
+            {...appLayoutProps}
+        >
+            <SplitScreen
+                mainEl={children}
+                secondaryEl={
+                    <CourseSettingsNavigation
+                        courseId={courseId}
+                        activeLabel={activeLabel}
+                    />
+                }
+                secondaryWidth="280px"
+                order="secondary-first"
+            />
+        </AppLayout>
     );
 };

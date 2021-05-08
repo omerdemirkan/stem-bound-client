@@ -22,26 +22,7 @@ import NotificationContext from "../../../../../components/contexts/Notification
 import ContactUserButton from "../../../../../components/util/ContactUserButton";
 import UserAsyncSelect from "../../../../../components/util/UserAsyncSelect";
 import SplitScreen from "../../../../../components/ui/SplitScreen";
-import NavigationButton from "../../../../../components/ui/NavigationButton";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import List from "@material-ui/core/List";
-import Link from "next/link";
-import { CourseSettingsNavigation } from ".";
-
-const courseSettingsNavigation = [
-    {
-        href: "/app/courses/[id]/settings",
-        label: "Details",
-    },
-    {
-        href: "/app/courses/[id]/settings/instructors",
-        label: "Instructors",
-    },
-    {
-        href: "/app/courses/[id]/settings/resources",
-        label: "Resources",
-    },
-];
+import { CourseSettingsLayout, CourseSettingsNavigation } from ".";
 
 const CourseInstructorsAppPage: React.FC = () => {
     const router = useRouter();
@@ -98,18 +79,8 @@ const CourseInstructorsAppPage: React.FC = () => {
             ),
         });
     }
-
     return (
-        <AppLayout
-            breadCrumbs={[
-                { label: "Courses", href: "/app/courses" },
-                {
-                    label: course?.title,
-                    href: "/app/courses/[id]",
-                    as: `/app/courses/${course?._id}`,
-                },
-                { label: "Settings" },
-            ]}
+        <CourseSettingsLayout
             actionEl={
                 <InputButton
                     onSubmit={handleInviteInstructor}
@@ -137,35 +108,31 @@ const CourseInstructorsAppPage: React.FC = () => {
                     Invite Instructor
                 </InputButton>
             }
+            activeLabel="Instructors"
+            courseId={course?._id}
+            courseTitle={course?.title}
         >
-            {(instructorsLoading || courseLoading) && <LinearProgress />}
-            <SplitScreen
-                mainEl={
-                    <Section title="Instructors" noDivider>
-                        <RelativeGrid minWidth="400px">
-                            {instructors?.map((instructor) => (
-                                <UserCard
-                                    key={instructor._id}
-                                    user={instructor}
-                                    noMargin
-                                    fullWidth
-                                />
-                            ))}
-                        </RelativeGrid>
-                    </Section>
+            <Section
+                title="Instructors"
+                noDivider
+                loading={instructorsLoading && !instructors}
+                errorMessage={
+                    instructorsError &&
+                    "Couldn't fetch instructors, an error occured"
                 }
-                secondaryEl={
-                    <Section noDivider>
-                        <CourseSettingsNavigation
-                            courseId={course?._id}
-                            activeLabel="Instructors"
+            >
+                <RelativeGrid minWidth="400px">
+                    {instructors?.map((instructor) => (
+                        <UserCard
+                            key={instructor._id}
+                            user={instructor}
+                            noMargin
+                            fullWidth
                         />
-                    </Section>
-                }
-                secondaryWidth="280px"
-                order="secondary-first"
-            />
-        </AppLayout>
+                    ))}
+                </RelativeGrid>
+            </Section>
+        </CourseSettingsLayout>
     );
 };
 
