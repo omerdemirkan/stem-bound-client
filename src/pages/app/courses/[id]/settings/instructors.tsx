@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import withAuth from "../../../../../components/hoc/withAuth";
-import AppLayout from "../../../../../components/layouts/AppLayout";
 import RelativeGrid from "../../../../../components/ui/RelativeGrid";
 import UserCard from "../../../../../components/ui/UserCard";
 import {
@@ -21,8 +20,7 @@ import InputButton from "../../../../../components/util/InputButton";
 import NotificationContext from "../../../../../components/contexts/NotificationContext";
 import ContactUserButton from "../../../../../components/util/ContactUserButton";
 import UserAsyncSelect from "../../../../../components/util/UserAsyncSelect";
-import SplitScreen from "../../../../../components/ui/SplitScreen";
-import { CourseSettingsLayout, CourseSettingsNavigation } from ".";
+import { CourseSettingsLayout } from ".";
 
 const CourseInstructorsAppPage: React.FC = () => {
     const router = useRouter();
@@ -31,11 +29,7 @@ const CourseInstructorsAppPage: React.FC = () => {
     const { user } = useContext(AuthContext);
     const { createAlert, createSnackbar } = useContext(NotificationContext);
 
-    const {
-        data: course,
-        isValidating: courseLoading,
-        revalidate: refetchCourse,
-    } = useSWR(
+    const { data: course } = useSWR(
         courseId ? `/courses/${courseId}` : null,
         courseFetcher(courseId)
     );

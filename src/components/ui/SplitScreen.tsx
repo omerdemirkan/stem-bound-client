@@ -62,7 +62,7 @@ const SplitScreen: React.FC<ISplitScreenProps> = ({
                     grid-template-columns: ${order === "secondary-first"
                         ? secondaryWidth + " auto"
                         : "auto " + secondaryWidth};
-                    grid-gap: 40px;
+                    grid-gap: 36px;
                 }
 
                 @media (min-width: 1401px) {
