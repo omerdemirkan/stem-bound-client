@@ -5,23 +5,19 @@ import AppLayout, {
 import withAuth from "../../../../../components/hoc/withAuth";
 import {
     courseFetcher,
-    createCourseInstructorInvitation,
     updateCourseById,
     updateCourseVerification,
-    usersFetcher,
 } from "../../../../../utils/services";
 import {
     ECourseVerificationStatus,
     ENotificationTypes,
     EUserRoles,
     ICourseOriginal,
-    IUser,
 } from "../../../../../utils/types";
 import { useRouter } from "next/router";
 import SplitScreen from "../../../../../components/ui/SplitScreen";
 import EditableSection from "../../../../../components/ui/EditableSection";
 import Section from "../../../../../components/ui/Section";
-import UserCard from "../../../../../components/ui/UserCard";
 import Button from "@material-ui/core/Button";
 import {
     configureCourseVerificationUpdateAlertDTO,
@@ -32,17 +28,12 @@ import Chip from "@material-ui/core/Chip";
 import { useContext } from "react";
 import AuthContext from "../../../../../components/contexts/AuthContext";
 import NotificationContext from "../../../../../components/contexts/NotificationContext";
-import RelativeGrid from "../../../../../components/ui/RelativeGrid";
-import InputButton from "../../../../../components/util/InputButton";
-import UserAsyncSelect from "../../../../../components/util/UserAsyncSelect";
-import ContactUserButton from "../../../../../components/util/ContactUserButton";
 import Head from "next/head";
 import useSchool from "../../../../../hooks/useSchool";
 import Typography from "@material-ui/core/Typography";
 import { DatePicker } from "@material-ui/pickers";
 import addDays from "date-fns/addDays";
 import CopyToClipboard from "../../../../../components/util/CopyToClipboard";
-import CourseResourcesInput from "../../../../../components/util/CourseResourcesInput";
 import { List } from "@material-ui/core";
 import Link from "next/link";
 import NavigationButton from "../../../../../components/ui/NavigationButton";
@@ -50,28 +41,15 @@ import NavigationButton from "../../../../../components/ui/NavigationButton";
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
     const courseId = router.query.id as string;
+
     const { user } = useContext(AuthContext);
     const { createAlert, createSnackbar } = useContext(NotificationContext);
+
     const { data: course, revalidate: refetchCourse } = useSWR(
         courseId ? `/courses/${courseId}` : null,
         courseFetcher(courseId)
     );
-    const {
-        data: instructors,
-        error: instructorsError,
-        isValidating: instructorsLoading,
-    } = useSWR(
-        courseId ? `/courses/${courseId}/instructors` : null,
-        usersFetcher(EUserRoles.INSTRUCTOR, { courseId })
-    );
-    const {
-        data: students,
-        error: studentsError,
-        isValidating: studentsLoading,
-    } = useSWR(
-        courseId ? `/courses/${courseId}/students` : null,
-        usersFetcher(EUserRoles.STUDENT, { courseId })
-    );
+
     const { school } = useSchool(course?.meta.school);
 
     async function handleCourseUpdate(courseUpdates: Partial<ICourseOriginal>) {
@@ -104,314 +82,156 @@ const CourseSettingsAppPage: React.FC = () => {
         });
     }
 
-    async function handleInviteInstructor(user: IUser) {
-        createAlert({
-            headerText: `Are you sure you want to invite ${user.fullName} as an instructor?`,
-            bodyText: `Remember, this will give complete instructor privileges and cannot be undone.`,
-            type: ENotificationTypes.INFO,
-            async onOk() {
-                try {
-                    await createCourseInstructorInvitation({
-                        courseId: course._id,
-                        invitedUserId: user._id,
-                    });
-                    createSnackbar({
-                        text: `${user.firstName} successfully invited!`,
-                        type: "success",
-                    });
-                } catch (e) {
-                    createSnackbar({
-                        text: "An error occured",
-                        type: "error",
-                    });
-                }
-            },
-            onCancel() {},
-            renderFooter: () => (
-                <ContactUserButton userId={user._id} color="primary" newTab>
-                    Contact {user.firstName}
-                </ContactUserButton>
-            ),
-        });
-    }
-
     return (
-        <AppLayout
-            breadCrumbs={[
-                { label: "Courses", href: "/app/courses" },
-                {
-                    label: course?.title,
-                    href: "/app/courses/[id]",
-                    as: `/app/courses/${course?._id}`,
-                },
-                { label: "Settings" },
-            ]}
+        <CourseSettingsLayout
+            activeLabel="Details"
+            courseId={course?._id}
+            courseTitle={course?.title}
         >
             <Head>
-                <title>STEM-bound - Home</title>
+                <title>STEM-bound - Settings</title>
             </Head>
-            <SplitScreen
-                mainEl={
-                    <>
-                        <EditableSection
-                            title="Title"
-                            noDivider
-                            spacing="sm"
-                            paddingTop="0"
-                            onEdit={handleUpdateCourseField("title")}
-                            value={course?.title}
-                            TypographyProps={{ variant: "h5" }}
-                            InputButtonProps={{
-                                minLength: [4, "Too short!"],
-                            }}
-                            TextFieldProps={{
-                                inputProps: { maxLength: 50 },
-                            }}
-                        />
-
-                        <Section title="School" spacing="sm">
-                            <Typography paragraph color="textPrimary">
-                                {school ? school.name : "..."}
-                            </Typography>
-                        </Section>
-
-                        <EditableSection
-                            title="Duration"
-                            spacing="sm"
-                            value={[
-                                course?.start,
-                                course?.end && addDays(course?.end, -1),
-                            ]}
-                            onEdit={([start, end]) =>
-                                handleCourseUpdate({
-                                    start: start.toString(),
-                                    end: addDays(end, 1).toString(),
-                                })
-                            }
-                            renderInput={(value, setValue) => (
-                                <div>
-                                    <DatePicker
-                                        label="Start"
-                                        value={value[0]}
-                                        onChange={(date) =>
-                                            setValue([date, value[1]])
-                                        }
-                                        style={{ width: "50%" }}
-                                    />
-                                    <DatePicker
-                                        label="End (Last Day)"
-                                        value={value[1]}
-                                        onChange={(date) =>
-                                            setValue([value[0], date])
-                                        }
-                                        style={{ width: "50%" }}
-                                    />
-                                </div>
-                            )}
-                        >
-                            <Typography paragraph color="textPrimary">
-                                {course
-                                    ? `From ${getLongDate(
-                                          course?.start
-                                      )} to ${getLongDate(
-                                          addDays(course?.end, -1)
-                                      )}`
-                                    : "..."}
-                            </Typography>
-                        </EditableSection>
-
-                        <EditableSection
-                            title="Short Description"
-                            spacing="sm"
-                            onEdit={handleUpdateCourseField("shortDescription")}
-                            value={course?.shortDescription}
-                            InputButtonProps={{
-                                minLength: [4, "Too short!"],
-                            }}
-                            TextFieldProps={{
-                                multiline: true,
-                                variant: "outlined",
-                                margin: "none",
-                                inputProps: { maxLength: 100 },
-                            }}
-                        />
-                        <EditableSection
-                            title="Long Description"
-                            spacing="sm"
-                            onEdit={handleUpdateCourseField("longDescription")}
-                            value={course?.longDescription}
-                            InputButtonProps={{
-                                minLength: [4, "Too short!"],
-                            }}
-                            TextFieldProps={{
-                                multiline: true,
-                                variant: "outlined",
-                                margin: "none",
-                                inputProps: { maxLength: 2000 },
-                            }}
-                        />
-                        <EditableSection
-                            title="Course Syllabus"
-                            onEdit={handleUpdateCourseField(
-                                "remoteSyllabusUrl"
-                            )}
-                            value={course?.remoteSyllabusUrl}
-                            TextFieldProps={{
-                                placeholder: "Link to this course's syllabus",
-                            }}
-                        >
-                            {course?.remoteSyllabusUrl && (
-                                <CopyToClipboard
-                                    text={course?.remoteSyllabusUrl}
-                                    description="Link to the course syllabus"
-                                    prepend="Syllabus"
-                                />
-                            )}
-                        </EditableSection>
-                        <EditableSection
-                            title="Additional Resources"
-                            onEdit={handleUpdateCourseField("resources")}
-                            value={course?.resources}
-                            renderInput={(value, setValue) => (
-                                <CourseResourcesInput
-                                    value={value}
-                                    onChange={setValue}
-                                />
-                            )}
-                        >
-                            {course?.resources.length > 0 &&
-                                course?.resources.map((resource) => (
-                                    <CopyToClipboard
-                                        key={resource.label + resource.url}
-                                        prepend={resource.label}
-                                        text={resource.url}
-                                        description={resource.description}
-                                    />
-                                ))}
-                        </EditableSection>
-                        <Section
-                            title="Verification Status"
-                            spacing="sm"
-                            actionEl={
-                                <>
-                                    {user.role === EUserRoles.INSTRUCTOR &&
-                                        course?.verificationStatus ===
-                                            ECourseVerificationStatus.UNPUBLISHED && (
-                                            <Button
-                                                color="primary"
-                                                size="small"
-                                                variant="contained"
-                                                onClick={() =>
-                                                    handleUpdateCourseVerificationClicked(
-                                                        ECourseVerificationStatus.PENDING_VERIFICATION
-                                                    )
-                                                }
-                                            >
-                                                Publish Course
-                                            </Button>
-                                        )}
-                                </>
-                            }
-                        >
-                            <Chip
-                                label={getDisplayCourseVerificationStatus(
-                                    course?.verificationStatus
-                                )}
-                                color={
-                                    course?.verificationStatus ===
-                                    ECourseVerificationStatus.DISMISSED
-                                        ? "secondary"
-                                        : "primary"
-                                }
-                            />
-                        </Section>
-                    </>
-                }
-                secondaryEl={
-                    <>
-                        <Section
-                            title="Instructors"
-                            spacing="sm"
-                            noDivider
-                            actionEl={
-                                <InputButton
-                                    onSubmit={handleInviteInstructor}
-                                    validate={(user) =>
-                                        user
-                                            ? true
-                                            : "You haven't selected an instructor"
-                                    }
-                                    renderInput={(
-                                        value,
-                                        setValue,
-                                        { errorMessage }
-                                    ) => (
-                                        <UserAsyncSelect
-                                            onChange={setValue}
-                                            userRole={EUserRoles.INSTRUCTOR}
-                                            TextFieldProps={{
-                                                error: !!errorMessage,
-                                                helperText: errorMessage,
-                                            }}
-                                            options={{
-                                                exclude: course?.meta
-                                                    .instructors || [user._id],
-                                            }}
-                                        />
-                                    )}
-                                    ButtonProps={{
-                                        size: "small",
-                                        color: "primary",
-                                    }}
-                                >
-                                    Invite Instructor
-                                </InputButton>
-                            }
-                            errorMessage={
-                                instructorsError &&
-                                "Couldn't load instructors, an error occured"
-                            }
-                            loading={instructorsLoading}
-                        >
-                            <RelativeGrid minWidth="400px">
-                                {instructors?.map((instructor) => (
-                                    <UserCard
-                                        key={instructor._id}
-                                        user={instructor}
-                                        noMargin
-                                        fullWidth
-                                    />
-                                ))}
-                            </RelativeGrid>
-                        </Section>
-                        <Section
-                            title="Students"
-                            errorMessage={
-                                studentsError &&
-                                "Couldn't load students, an error occured"
-                            }
-                            infoMessage={
-                                !studentsError &&
-                                students?.length === 0 &&
-                                "No students enrolled"
-                            }
-                            loading={studentsLoading}
-                        >
-                            <RelativeGrid minWidth="400px">
-                                {students?.map((student) => (
-                                    <UserCard
-                                        key={student._id}
-                                        user={student}
-                                        fullWidth
-                                        noMargin
-                                    />
-                                ))}
-                            </RelativeGrid>
-                        </Section>
-                    </>
-                }
+            <EditableSection
+                title="Title"
+                noDivider
+                spacing="sm"
+                paddingTop="0"
+                onEdit={handleUpdateCourseField("title")}
+                value={course?.title}
+                TypographyProps={{ variant: "h5" }}
+                InputButtonProps={{
+                    minLength: [4, "Too short!"],
+                }}
+                TextFieldProps={{
+                    inputProps: { maxLength: 50 },
+                }}
             />
-        </AppLayout>
+
+            <Section title="School" spacing="sm">
+                <Typography paragraph color="textPrimary">
+                    {school ? school.name : "..."}
+                </Typography>
+            </Section>
+
+            <EditableSection
+                title="Duration"
+                spacing="sm"
+                value={[course?.start, course?.end && addDays(course?.end, -1)]}
+                onEdit={([start, end]) =>
+                    handleCourseUpdate({
+                        start: start.toString(),
+                        end: addDays(end, 1).toString(),
+                    })
+                }
+                renderInput={(value, setValue) => (
+                    <div>
+                        <DatePicker
+                            label="Start"
+                            value={value[0]}
+                            onChange={(date) => setValue([date, value[1]])}
+                            style={{ width: "50%" }}
+                        />
+                        <DatePicker
+                            label="End (Last Day)"
+                            value={value[1]}
+                            onChange={(date) => setValue([value[0], date])}
+                            style={{ width: "50%" }}
+                        />
+                    </div>
+                )}
+            >
+                <Typography paragraph color="textPrimary">
+                    {course
+                        ? `From ${getLongDate(course?.start)} to ${getLongDate(
+                              addDays(course?.end, -1)
+                          )}`
+                        : "..."}
+                </Typography>
+            </EditableSection>
+
+            <EditableSection
+                title="Short Description"
+                spacing="sm"
+                onEdit={handleUpdateCourseField("shortDescription")}
+                value={course?.shortDescription}
+                InputButtonProps={{
+                    minLength: [4, "Too short!"],
+                }}
+                TextFieldProps={{
+                    multiline: true,
+                    variant: "outlined",
+                    margin: "none",
+                    inputProps: { maxLength: 100 },
+                }}
+            />
+            <EditableSection
+                title="Long Description"
+                spacing="sm"
+                onEdit={handleUpdateCourseField("longDescription")}
+                value={course?.longDescription}
+                InputButtonProps={{
+                    minLength: [4, "Too short!"],
+                }}
+                TextFieldProps={{
+                    multiline: true,
+                    variant: "outlined",
+                    margin: "none",
+                    inputProps: { maxLength: 2000 },
+                }}
+            />
+            <EditableSection
+                title="Course Syllabus"
+                onEdit={handleUpdateCourseField("remoteSyllabusUrl")}
+                value={course?.remoteSyllabusUrl}
+                TextFieldProps={{
+                    placeholder: "Link to this course's syllabus",
+                }}
+            >
+                {course?.remoteSyllabusUrl && (
+                    <CopyToClipboard
+                        text={course?.remoteSyllabusUrl}
+                        description="Link to the course syllabus"
+                        prepend="Syllabus"
+                    />
+                )}
+            </EditableSection>
+            <Section
+                title="Verification Status"
+                spacing="sm"
+                actionEl={
+                    <>
+                        {user.role === EUserRoles.INSTRUCTOR &&
+                            course?.verificationStatus ===
+                                ECourseVerificationStatus.UNPUBLISHED && (
+                                <Button
+                                    color="primary"
+                                    size="small"
+                                    variant="contained"
+                                    onClick={() =>
+                                        handleUpdateCourseVerificationClicked(
+                                            ECourseVerificationStatus.PENDING_VERIFICATION
+                                        )
+                                    }
+                                >
+                                    Publish Course
+                                </Button>
+                            )}
+                    </>
+                }
+            >
+                <Chip
+                    label={getDisplayCourseVerificationStatus(
+                        course?.verificationStatus
+                    )}
+                    color={
+                        course?.verificationStatus ===
+                        ECourseVerificationStatus.DISMISSED
+                            ? "secondary"
+                            : "primary"
+                    }
+                />
+            </Section>
+        </CourseSettingsLayout>
     );
 };
 

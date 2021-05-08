@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -11,11 +12,13 @@ const CourseResourcesAppPage: React.FC = () => {
     const router = useRouter();
     const courseId = router.query.id as string;
 
-    const { data: course, revalidate: refetchCourse } = useSWR(
+    const { data: course, isValidating } = useSWR(
         courseId ? `/courses/${courseId}` : null,
         courseFetcher(courseId)
     );
+
     const [resources, setResources] = useState<ICourseResource[]>([]);
+
     useEffect(
         function () {
             if (!course) return;
@@ -30,6 +33,9 @@ const CourseResourcesAppPage: React.FC = () => {
             courseId={course?._id}
             courseTitle={course?.title}
         >
+            <Head>
+                <title>STEM-bound - Resources</title>
+            </Head>
             <CourseResourcesInput value={resources} onChange={setResources} />
         </CourseSettingsLayout>
     );

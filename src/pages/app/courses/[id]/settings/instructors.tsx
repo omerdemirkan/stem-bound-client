@@ -21,6 +21,7 @@ import NotificationContext from "../../../../../components/contexts/Notification
 import ContactUserButton from "../../../../../components/util/ContactUserButton";
 import UserAsyncSelect from "../../../../../components/util/UserAsyncSelect";
 import { CourseSettingsLayout } from ".";
+import Head from "next/head";
 
 const CourseInstructorsAppPage: React.FC = () => {
     const router = useRouter();
@@ -106,6 +107,9 @@ const CourseInstructorsAppPage: React.FC = () => {
             courseId={course?._id}
             courseTitle={course?.title}
         >
+            <Head>
+                <title>STEM-bound - Students</title>
+            </Head>
             <Section
                 title="Instructors"
                 noDivider

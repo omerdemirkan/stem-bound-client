@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { CourseSettingsLayout } from ".";
@@ -32,6 +33,9 @@ const CourseStudentsAppPage: React.FC = () => {
             courseId={course?._id}
             courseTitle={course?.title}
         >
+            <Head>
+                <title>STEM-bound - Students</title>
+            </Head>
             <Section
                 title="Students"
                 errorMessage={
