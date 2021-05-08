@@ -26,6 +26,7 @@ import NavigationButton from "../../../../../components/ui/NavigationButton";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import List from "@material-ui/core/List";
 import Link from "next/link";
+import { CourseSettingsNavigation } from ".";
 
 const courseSettingsNavigation = [
     {
@@ -155,21 +156,10 @@ const CourseInstructorsAppPage: React.FC = () => {
                 }
                 secondaryEl={
                     <Section noDivider>
-                        <List>
-                            {courseSettingsNavigation.map(({ href, label }) => (
-                                <Link
-                                    href={href}
-                                    as={href.replace("[id]", course?._id)}
-                                    key={href + label}
-                                >
-                                    <a>
-                                        <NavigationButton>
-                                            {label}
-                                        </NavigationButton>
-                                    </a>
-                                </Link>
-                            ))}
-                        </List>
+                        <CourseSettingsNavigation
+                            courseId={course?._id}
+                            activeLabel="Instructors"
+                        />
                     </Section>
                 }
                 secondaryWidth="280px"

@@ -41,6 +41,9 @@ import { DatePicker } from "@material-ui/pickers";
 import addDays from "date-fns/addDays";
 import CopyToClipboard from "../../../../../components/util/CopyToClipboard";
 import CourseResourcesInput from "../../../../../components/util/CourseResourcesInput";
+import { List } from "@material-ui/core";
+import Link from "next/link";
+import NavigationButton from "../../../../../components/ui/NavigationButton";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -413,3 +416,51 @@ const CourseSettingsAppPage: React.FC = () => {
 export default withAuth(CourseSettingsAppPage, {
     allowedUserRoles: [EUserRoles.INSTRUCTOR],
 });
+
+const courseSettingsNavigation = [
+    {
+        href: "/app/courses/[id]/settings",
+        label: "Details",
+    },
+    {
+        href: "/app/courses/[id]/settings/instructors",
+        label: "Instructors",
+    },
+    {
+        href: "/app/courses/[id]/settings/resources",
+        label: "Resources",
+    },
+];
+
+export interface ICourseSettingsNavigationProps {
+    courseId: string;
+    activeLabel: string;
+}
+
+export const CourseSettingsNavigation: React.FC<ICourseSettingsNavigationProps> = ({
+    courseId,
+    activeLabel,
+}) => {
+    return (
+        <List>
+            {courseSettingsNavigation.map(({ href, label }) => (
+                <Link
+                    href={href}
+                    as={href.replace("[id]", courseId)}
+                    key={href + label}
+                >
+                    <a>
+                        <NavigationButton
+                            active={
+                                activeLabel.toLowerCase() ===
+                                label.toLowerCase()
+                            }
+                        >
+                            {label}
+                        </NavigationButton>
+                    </a>
+                </Link>
+            ))}
+        </List>
+    );
+};
