@@ -22,6 +22,7 @@ import Divider from "@material-ui/core/Divider";
 import BuildIcon from "@material-ui/icons/Build";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
+import NavigationButton from "../ui/NavigationButton";
 
 const useStyles = makeStyles({
     listItem: {
@@ -131,47 +132,23 @@ const AppNavigation: React.FC = () => {
                     return (
                         <Link href={path} key={path}>
                             <a>
-                                <ListItem
-                                    button
-                                    className={classes.listItem}
-                                    selected={selected}
+                                <NavigationButton
+                                    Icon={Icon}
+                                    active={selected}
+                                    rightEl={
+                                        completion ===
+                                        EPageCompletion.UNDER_CONSTRUCTION ? (
+                                            <BuildIcon
+                                                style={{
+                                                    width: "12px",
+                                                }}
+                                                color="disabled"
+                                            />
+                                        ) : null
+                                    }
                                 >
-                                    <ListItemIcon>
-                                        <Icon
-                                            color={
-                                                selected ? "primary" : undefined
-                                            }
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={
-                                            <Typography
-                                                component="span"
-                                                color="textPrimary"
-                                            >
-                                                <Box
-                                                    fontSize="0.9rem"
-                                                    color={
-                                                        selected
-                                                            ? "primary"
-                                                            : undefined
-                                                    }
-                                                >
-                                                    {text}
-                                                </Box>
-                                            </Typography>
-                                        }
-                                    />
-                                    {completion ===
-                                    EPageCompletion.UNDER_CONSTRUCTION ? (
-                                        <BuildIcon
-                                            style={{
-                                                width: "12px",
-                                            }}
-                                            color="disabled"
-                                        />
-                                    ) : null}
-                                </ListItem>
+                                    {text}
+                                </NavigationButton>
                             </a>
                         </Link>
                     );

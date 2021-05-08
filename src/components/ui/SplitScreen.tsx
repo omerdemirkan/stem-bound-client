@@ -3,6 +3,7 @@ import { DetailedHTMLProps, HTMLAttributes } from "react";
 export interface ISplitScreenProps {
     mainEl: any;
     secondaryEl: any;
+    secondaryWidth?: string;
     order?: "main-first" | "secondary-first";
     MainContainerProps?: DetailedHTMLProps<
         HTMLAttributes<HTMLDivElement>,
@@ -25,6 +26,7 @@ const SplitScreen: React.FC<ISplitScreenProps> = ({
     MainContainerProps,
     SecondaryContainerProps,
     RootContainerProps,
+    secondaryWidth = "400px",
 }) => {
     return (
         <div className="root-container" {...RootContainerProps}>
@@ -58,8 +60,8 @@ const SplitScreen: React.FC<ISplitScreenProps> = ({
                 .root-container {
                     display: grid;
                     grid-template-columns: ${order === "secondary-first"
-                        ? "400px auto"
-                        : "auto 400px"};
+                        ? secondaryWidth + " auto"
+                        : "auto " + secondaryWidth};
                     grid-gap: 40px;
                 }
 
