@@ -1,46 +1,46 @@
 import useSWR from "swr";
-import AppLayout from "../../../../components/layouts/AppLayout";
-import withAuth from "../../../../components/hoc/withAuth";
+import AppLayout from "../../../../../components/layouts/AppLayout";
+import withAuth from "../../../../../components/hoc/withAuth";
 import {
     courseFetcher,
     createCourseInstructorInvitation,
     updateCourseById,
     updateCourseVerification,
     usersFetcher,
-} from "../../../../utils/services";
+} from "../../../../../utils/services";
 import {
     ECourseVerificationStatus,
     ENotificationTypes,
     EUserRoles,
     ICourseOriginal,
     IUser,
-} from "../../../../utils/types";
+} from "../../../../../utils/types";
 import { useRouter } from "next/router";
-import SplitScreen from "../../../../components/ui/SplitScreen";
-import EditableSection from "../../../../components/ui/EditableSection";
-import Section from "../../../../components/ui/Section";
-import UserCard from "../../../../components/ui/UserCard";
+import SplitScreen from "../../../../../components/ui/SplitScreen";
+import EditableSection from "../../../../../components/ui/EditableSection";
+import Section from "../../../../../components/ui/Section";
+import UserCard from "../../../../../components/ui/UserCard";
 import Button from "@material-ui/core/Button";
 import {
     configureCourseVerificationUpdateAlertDTO,
     getDisplayCourseVerificationStatus,
     getLongDate,
-} from "../../../../utils/helpers";
+} from "../../../../../utils/helpers";
 import Chip from "@material-ui/core/Chip";
 import { useContext } from "react";
-import AuthContext from "../../../../components/contexts/AuthContext";
-import NotificationContext from "../../../../components/contexts/NotificationContext";
-import RelativeGrid from "../../../../components/ui/RelativeGrid";
-import InputButton from "../../../../components/util/InputButton";
-import UserAsyncSelect from "../../../../components/util/UserAsyncSelect";
-import ContactUserButton from "../../../../components/util/ContactUserButton";
+import AuthContext from "../../../../../components/contexts/AuthContext";
+import NotificationContext from "../../../../../components/contexts/NotificationContext";
+import RelativeGrid from "../../../../../components/ui/RelativeGrid";
+import InputButton from "../../../../../components/util/InputButton";
+import UserAsyncSelect from "../../../../../components/util/UserAsyncSelect";
+import ContactUserButton from "../../../../../components/util/ContactUserButton";
 import Head from "next/head";
-import useSchool from "../../../../hooks/useSchool";
+import useSchool from "../../../../../hooks/useSchool";
 import Typography from "@material-ui/core/Typography";
 import { DatePicker } from "@material-ui/pickers";
 import addDays from "date-fns/addDays";
-import CopyToClipboard from "../../../../components/util/CopyToClipboard";
-import CourseResourcesInput from "../../../../components/util/CourseResourcesInput";
+import CopyToClipboard from "../../../../../components/util/CopyToClipboard";
+import CourseResourcesInput from "../../../../../components/util/CourseResourcesInput";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();

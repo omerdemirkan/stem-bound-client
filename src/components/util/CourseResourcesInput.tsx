@@ -14,7 +14,6 @@ import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import CheckIcon from "@material-ui/icons/Check";
 import ActionBar from "../ui/ActionBar";
-import { urlRegex } from "../../utils/constants";
 import { clone, deleteEmptyStrings } from "../../utils/helpers";
 
 export interface ICourseResourcesInputProps {
