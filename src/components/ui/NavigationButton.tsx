@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 });
 
 export interface INavigationButtonProps {
-    Icon:
+    Icon?:
         | React.FC<React.SVGProps<SVGSVGElement>>
         | OverridableComponent<SvgIconTypeMap<{}, "svg">>;
     active?: boolean;
@@ -32,9 +32,11 @@ const NavigationButton: React.FC<INavigationButtonProps> = ({
     const classes = useStyles();
     return (
         <ListItem button className={classes.listItem} selected={active}>
-            <ListItemIcon>
-                <Icon color={active ? "primary" : undefined} />
-            </ListItemIcon>
+            {Icon && (
+                <ListItemIcon>
+                    <Icon color={active ? "primary" : undefined} />
+                </ListItemIcon>
+            )}
             <ListItemText
                 primary={
                     <Typography component="span" color="textPrimary">

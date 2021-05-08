@@ -1,9 +1,3 @@
-import {
-    LinearProgress,
-    List,
-    ListItem,
-    ListItemText,
-} from "@material-ui/core";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import withAuth from "../../../../../components/hoc/withAuth";
@@ -28,6 +22,25 @@ import NotificationContext from "../../../../../components/contexts/Notification
 import ContactUserButton from "../../../../../components/util/ContactUserButton";
 import UserAsyncSelect from "../../../../../components/util/UserAsyncSelect";
 import SplitScreen from "../../../../../components/ui/SplitScreen";
+import NavigationButton from "../../../../../components/ui/NavigationButton";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import List from "@material-ui/core/List";
+import Link from "next/link";
+
+const courseSettingsNavigation = [
+    {
+        href: "/app/courses/[id]/settings",
+        label: "Details",
+    },
+    {
+        href: "/app/courses/[id]/settings/instructors",
+        label: "Instructors",
+    },
+    {
+        href: "/app/courses/[id]/settings/resources",
+        label: "Resources",
+    },
+];
 
 const CourseInstructorsAppPage: React.FC = () => {
     const router = useRouter();
@@ -141,13 +154,23 @@ const CourseInstructorsAppPage: React.FC = () => {
                     </Section>
                 }
                 secondaryEl={
-                    <>
+                    <Section noDivider>
                         <List>
-                            <ListItem>
-                                <ListItemText>Boojie</ListItemText>
-                            </ListItem>
+                            {courseSettingsNavigation.map(({ href, label }) => (
+                                <Link
+                                    href={href}
+                                    as={href.replace("[id]", course?._id)}
+                                    key={href + label}
+                                >
+                                    <a>
+                                        <NavigationButton>
+                                            {label}
+                                        </NavigationButton>
+                                    </a>
+                                </Link>
+                            ))}
                         </List>
-                    </>
+                    </Section>
                 }
                 secondaryWidth="280px"
                 order="secondary-first"
