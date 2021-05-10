@@ -1,5 +1,6 @@
 import {
     IconButton,
+    makeStyles,
     Table,
     TableBody,
     TableCell,
@@ -8,7 +9,7 @@ import {
     TextField,
     Tooltip,
 } from "@material-ui/core";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 import { ICourseResourceOriginal } from "../../utils/types";
 import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -31,10 +32,8 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
     value,
     onChange,
 }) => {
-    const [
-        newResource,
-        setNewResource,
-    ] = useState<null | ICourseResourceOriginal>(null);
+    const [newResource, setNewResource] =
+        useState<null | ICourseResourceOriginal>(null);
 
     function handleAddCourseResourceClicked() {
         setNewResource(emptyCourseResource);
@@ -69,13 +68,13 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
                             <TableCell>{description}</TableCell>
                         </TableRow>
                     ))}
+                    {newResource && (
+                        <CourseResourceTableRowInput
+                            value={newResource}
+                            onChange={setNewResource}
+                        />
+                    )}
                 </TableBody>
-                {newResource && (
-                    <CourseResourceTableRowInput
-                        value={newResource}
-                        onChange={setNewResource}
-                    />
-                )}
             </Table>
             <ActionBar
                 startEl={
@@ -127,60 +126,89 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
 
 export default CourseResourcesInput;
 
+const useStyles = makeStyles({
+    tableCell: { paddingTop: "10px", paddingBottom: "10px" },
+});
+
 export interface ICourseResourceTableRowInputProps {
     value: ICourseResourceOriginal;
     onChange(resource: ICourseResourceOriginal): any;
 }
 
-export const CourseResourceTableRowInput: React.FC<ICourseResourceTableRowInputProps> = ({
-    value,
-    onChange,
-}) => {
-    const handleChange = (field: keyof ICourseResourceOriginal) => (
-        e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-    ) => {
-        onChange({ ...value, [field]: e.target.value });
-    };
+export const CourseResourceTableRowInput: React.FC<ICourseResourceTableRowInputProps> =
+    ({ value, onChange }) => {
+        function handleChange(
+            e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+        ) {
+            onChange({ ...value, [e.target.name]: e.target.value });
+        }
 
-    return (
-        <TableRow>
-            <TableCell>
-                <TextField
-                    value={value.label}
-                    placeholder="Name"
-                    required
-                    autoFocus
-                    onChange={handleChange("label")}
-                    InputProps={{ disableUnderline: true }}
-                    inputProps={{
-                        maxLength: 100,
-                    }}
-                />
-            </TableCell>
-            <TableCell>
-                <TextField
-                    value={value.url}
-                    placeholder="URL"
-                    required
-                    onChange={handleChange("url")}
-                    InputProps={{ disableUnderline: true }}
-                    inputProps={{
-                        maxLength: 1000,
-                    }}
-                />
-            </TableCell>
-            <TableCell>
-                <TextField
-                    value={value.description}
-                    placeholder="Description"
-                    onChange={handleChange("description")}
-                    multiline
-                    InputProps={{ disableUnderline: true }}
-                    inputProps={{
-                        maxLength: 1000,
-                    }}
-                />
-            </TableCell>
-        </TableRow>
-    );
-};
+        function handleKeyPress(e: KeyboardEvent<HTMLDivElement>) {
+            if (e.key !== "Enter") return;
+            e.preventDefault();
+
+            const focusedEl: keyof ICourseResourceOriginal =
+                // @ts-ignore
+                document.activeElement.name;
+
+            if (focusedEl === "label") {
+                urlRef.current.focus();
+            } else if (focusedEl === "url") {
+                descriptionRef.current.focus();
+            }
+        }
+
+        const labelRef = useRef<HTMLInputElement>();
+        const urlRef = useRef<HTMLInputElement>();
+        const descriptionRef = useRef<HTMLInputElement>();
+
+        const classes = useStyles();
+
+        return (
+            <TableRow>
+                <TableCell className={classes.tableCell}>
+                    <TextField
+                        value={value.label}
+                        placeholder="Name"
+                        name="label"
+                        required
+                        autoFocus
+                        onChange={handleChange}
+                        onKeyPress={handleKeyPress}
+                        InputProps={{ disableUnderline: true }}
+                        inputProps={{ maxLength: 100 }}
+                        fullWidth
+                        ref={labelRef}
+                    />
+                </TableCell>
+                <TableCell className={classes.tableCell}>
+                    <TextField
+                        value={value.url}
+                        placeholder="URL"
+                        name="url"
+                        required
+                        onChange={handleChange}
+                        onKeyPress={handleKeyPress}
+                        InputProps={{ disableUnderline: true }}
+                        inputProps={{ maxLength: 1000 }}
+                        fullWidth
+                        ref={urlRef}
+                    />
+                </TableCell>
+                <TableCell className={classes.tableCell}>
+                    <TextField
+                        value={value.description}
+                        placeholder="Description"
+                        name="description"
+                        onChange={handleChange}
+                        onKeyPress={handleKeyPress}
+                        multiline
+                        InputProps={{ disableUnderline: true }}
+                        inputProps={{ maxLength: 1000 }}
+                        fullWidth
+                        ref={descriptionRef}
+                    />
+                </TableCell>
+            </TableRow>
+        );
+    };
