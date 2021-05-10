@@ -178,7 +178,7 @@ export const CourseResourceTableRowInput: React.FC<ICourseResourceTableRowInputP
                         InputProps={{ disableUnderline: true }}
                         inputProps={{ maxLength: 100 }}
                         fullWidth
-                        ref={labelRef}
+                        inputRef={labelRef}
                     />
                 </TableCell>
                 <TableCell className={classes.tableCell}>
@@ -192,7 +192,7 @@ export const CourseResourceTableRowInput: React.FC<ICourseResourceTableRowInputP
                         InputProps={{ disableUnderline: true }}
                         inputProps={{ maxLength: 1000 }}
                         fullWidth
-                        ref={urlRef}
+                        inputRef={urlRef}
                     />
                 </TableCell>
                 <TableCell className={classes.tableCell}>
@@ -206,7 +206,7 @@ export const CourseResourceTableRowInput: React.FC<ICourseResourceTableRowInputP
                         InputProps={{ disableUnderline: true }}
                         inputProps={{ maxLength: 1000 }}
                         fullWidth
-                        ref={descriptionRef}
+                        inputRef={descriptionRef}
                     />
                 </TableCell>
             </TableRow>
