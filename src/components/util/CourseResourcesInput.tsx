@@ -13,11 +13,12 @@ import {
 import {
     ChangeEvent,
     KeyboardEvent,
+    useContext,
     useLayoutEffect,
     useRef,
     useState,
 } from "react";
-import { ICourseResourceOriginal } from "../../utils/types";
+import { ENotificationTypes, ICourseResourceOriginal } from "../../utils/types";
 import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import CheckIcon from "@material-ui/icons/Check";
@@ -25,6 +26,7 @@ import ActionBar from "../ui/ActionBar";
 import { clone, deleteEmptyStrings } from "../../utils/helpers";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import NotificationContext from "../contexts/NotificationContext";
 
 export interface ICourseResourcesInputProps {
     onChange(resources: ICourseResourceOriginal[]): any;
@@ -41,6 +43,7 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
     value,
     onChange,
 }) => {
+    const { createAlert } = useContext(NotificationContext);
     const [newResource, setNewResource] =
         useState<null | ICourseResourceOriginal>();
 
@@ -63,6 +66,12 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
 
     const isInputting = isEditingResource || isCreatingNewResource;
 
+    function getConfiguredResource(resource: ICourseResourceOriginal) {
+        const configuredResource = clone(resource);
+        deleteEmptyStrings(configuredResource);
+        return configuredResource;
+    }
+
     // CHECKBOX
 
     function handleCheckboxClicked(index: number, checked: boolean) {
@@ -84,9 +93,8 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
     }
 
     function handleAddResource() {
-        const resource = clone(newResource);
-        deleteEmptyStrings(newResource);
-        onChange([...value, resource]);
+        const configuredNewResource = getConfiguredResource(newResource);
+        onChange([...value, configuredNewResource]);
         setNewResource(null);
     }
 
@@ -97,6 +105,19 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
     // DELETE
 
     function handleDeleteSelectedResourcesClicked() {
+        const plural = numSelected > 1;
+        createAlert({
+            type: ENotificationTypes.DANGER,
+            headerText: `Are you sure you want to delete ${
+                plural ? "these" : "this"
+            } resource${plural ? "s" : ""}?`,
+            bodyText: ``,
+            onOk: handleDeleteSelectedResources,
+            onCancel() {},
+        });
+    }
+
+    function handleDeleteSelectedResources() {
         onChange(value.filter((resource, i) => !selectedIndices[i]));
         setSelectedIndices({});
         setNumSelected(0);
@@ -116,9 +137,10 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
     }
 
     function handleEditResource() {
+        const configuredEditedResource = getConfiguredResource(editedResource);
         onChange(
             value.map((resource, i) =>
-                i === editedResourceIndex ? editedResource : resource
+                i === editedResourceIndex ? configuredEditedResource : resource
             )
         );
         setEditedResource(null);
@@ -246,16 +268,6 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
                     </>
                 }
             >
-                <Tooltip title="Delete Selected Resources">
-                    <IconButton
-                        color="secondary"
-                        className="spaced-horizontal"
-                        onClick={handleDeleteSelectedResourcesClicked}
-                        disabled={isInputting || !numSelected}
-                    >
-                        <DeleteIcon />
-                    </IconButton>
-                </Tooltip>
                 <Tooltip title="Edit Selected Resource">
                     <IconButton
                         color="primary"
@@ -264,6 +276,16 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
                         disabled={isInputting || numSelected !== 1}
                     >
                         <EditIcon />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete Selected Resources">
+                    <IconButton
+                        color="secondary"
+                        className="spaced-horizontal"
+                        onClick={handleDeleteSelectedResourcesClicked}
+                        disabled={isInputting || !numSelected}
+                    >
+                        <DeleteIcon />
                     </IconButton>
                 </Tooltip>
             </ActionBar>
