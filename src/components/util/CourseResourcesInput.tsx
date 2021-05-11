@@ -1,4 +1,5 @@
 import {
+    Checkbox,
     IconButton,
     makeStyles,
     Table,
@@ -9,13 +10,21 @@ import {
     TextField,
     Tooltip,
 } from "@material-ui/core";
-import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
+import {
+    ChangeEvent,
+    KeyboardEvent,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from "react";
 import { ICourseResourceOriginal } from "../../utils/types";
 import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import CheckIcon from "@material-ui/icons/Check";
 import ActionBar from "../ui/ActionBar";
 import { clone, deleteEmptyStrings } from "../../utils/helpers";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 
 export interface ICourseResourcesInputProps {
     onChange(resources: ICourseResourceOriginal[]): any;
@@ -32,10 +41,19 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
     value,
     onChange,
 }) => {
-    const [newResource, setNewResource] =
-        useState<null | ICourseResourceOriginal>(null);
+    const [newResource, setNewResource] = useState<ICourseResourceOriginal>();
+
+    const [isCreatingNewResource, setIsCreatingNewResource] =
+        useState<boolean>(false);
+
+    const [selectedLabels, setSelectedLabels] = useState<{
+        [key: string]: boolean;
+    }>({});
+
+    const [numSelected, setNumSelected] = useState<number>(0);
 
     function handleAddCourseResourceClicked() {
+        setIsCreatingNewResource(true);
         setNewResource(emptyCourseResource);
     }
 
@@ -47,7 +65,27 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
     }
 
     function handleCancelAddCourseResource() {
+        setIsCreatingNewResource(false);
         setNewResource(null);
+    }
+
+    function handleCheckboxClicked(label: string, checked: boolean) {
+        setSelectedLabels((prev) => {
+            const prevChecked = prev[label];
+            const newSelectedLabels = { ...prev, [label]: checked };
+            const selectionChanged = prevChecked !== checked;
+
+            // zero-trust state management
+            if (selectionChanged)
+                setNumSelected((prev) => prev + (checked ? 1 : -1));
+            return newSelectedLabels;
+        });
+    }
+
+    function handleDeleteSelectedResources() {
+        onChange(value.filter((resource) => !selectedLabels[resource.label]));
+        setSelectedLabels({});
+        setNumSelected(0);
     }
 
     return (
@@ -63,12 +101,23 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
                 <TableBody>
                     {value.map(({ url, description, label }) => (
                         <TableRow key={url}>
-                            <TableCell>{label}</TableCell>
+                            <TableCell>
+                                <Checkbox
+                                    checked={selectedLabels[label]}
+                                    onChange={(e, checked) =>
+                                        handleCheckboxClicked(label, checked)
+                                    }
+                                    inputProps={{
+                                        "aria-label": `${label} resource`,
+                                    }}
+                                />
+                                {label}
+                            </TableCell>
                             <TableCell>{url}</TableCell>
                             <TableCell>{description}</TableCell>
                         </TableRow>
                     ))}
-                    {newResource && (
+                    {isCreatingNewResource && (
                         <CourseResourceTableRowInput
                             value={newResource}
                             onChange={setNewResource}
@@ -79,7 +128,7 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
             <ActionBar
                 startEl={
                     <>
-                        {newResource ? (
+                        {isCreatingNewResource ? (
                             <>
                                 <Tooltip
                                     title="Cancel New Resource"
@@ -119,7 +168,26 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
                         )}
                     </>
                 }
-            ></ActionBar>
+            >
+                <Tooltip title="Delete Selected Resources">
+                    <IconButton
+                        color="secondary"
+                        onClick={handleDeleteSelectedResources}
+                        disabled={isCreatingNewResource || !numSelected}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                </Tooltip>
+                {/* <Tooltip title="Edit Selected Resource">
+                    <IconButton
+                        color="secondary"
+                        onClick={handleDeleteSelectedResources}
+                        disabled={numSelected !== 1}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                </Tooltip> */}
+            </ActionBar>
         </div>
     );
 };
