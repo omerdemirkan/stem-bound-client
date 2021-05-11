@@ -41,51 +41,88 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
     value,
     onChange,
 }) => {
-    const [newResource, setNewResource] = useState<ICourseResourceOriginal>();
+    const [newResource, setNewResource] =
+        useState<null | ICourseResourceOriginal>();
 
-    const [isCreatingNewResource, setIsCreatingNewResource] =
-        useState<boolean>(false);
+    const isCreatingNewResource = !!newResource;
 
-    const [selectedLabels, setSelectedLabels] = useState<{
+    // Hashtable to avoid out of bounds errors
+    const [selectedIndices, setSelectedIndices] = useState<{
         [key: string]: boolean;
     }>({});
 
     const [numSelected, setNumSelected] = useState<number>(0);
 
-    function handleAddCourseResourceClicked() {
-        setIsCreatingNewResource(true);
-        setNewResource(emptyCourseResource);
-    }
+    const [editedResource, setEditedResource] =
+        useState<null | ICourseResourceOriginal>();
 
-    function handleAddCourseResource() {
-        const resource = clone(newResource);
-        deleteEmptyStrings(newResource);
-        onChange([...value, resource]);
-        setNewResource(null);
-    }
+    const [editedResourceIndex, setEditedResourceIndex] =
+        useState<null | number>();
 
-    function handleCancelAddCourseResource() {
-        setIsCreatingNewResource(false);
-        setNewResource(null);
-    }
+    const isEditingResource = !!editedResource;
 
-    function handleCheckboxClicked(label: string, checked: boolean) {
-        setSelectedLabels((prev) => {
-            const prevChecked = prev[label];
-            const newSelectedLabels = { ...prev, [label]: checked };
-            const selectionChanged = prevChecked !== checked;
+    const isInputting = isEditingResource || isCreatingNewResource;
 
-            // zero-trust state management
+    // CHECKBOX
+
+    function handleCheckboxClicked(index: number, checked: boolean) {
+        setSelectedIndices((prev) => {
+            const selectionChanged = prev[index] !== checked;
+            const newSelectedLabels = { ...prev, [index]: checked };
+
+            // zero-trust from ui
             if (selectionChanged)
                 setNumSelected((prev) => prev + (checked ? 1 : -1));
             return newSelectedLabels;
         });
     }
 
-    function handleDeleteSelectedResources() {
-        onChange(value.filter((resource) => !selectedLabels[resource.label]));
-        setSelectedLabels({});
+    // ADD
+
+    function handleAddResourceClicked() {
+        setNewResource(emptyCourseResource);
+    }
+
+    function handleAddResource() {
+        const resource = clone(newResource);
+        deleteEmptyStrings(newResource);
+        onChange([...value, resource]);
+        setNewResource(null);
+    }
+
+    function handleCancelAddResource() {
+        setNewResource(null);
+    }
+
+    // DELETE
+
+    function handleDeleteSelectedResourcesClicked() {
+        onChange(value.filter((resource, i) => !selectedIndices[i]));
+        setSelectedIndices({});
         setNumSelected(0);
+    }
+
+    // EDIT
+
+    function handleEditSelectedResourceClicked() {
+        const index = value.findIndex((resource, i) => selectedIndices[i]);
+        setEditedResourceIndex(index);
+        setEditedResource(value[index]);
+    }
+
+    function handleCancelEditResource() {
+        setEditedResource(null);
+        setEditedResourceIndex(null);
+    }
+
+    function handleEditResource() {
+        onChange(
+            value.map((resource, i) =>
+                i === editedResourceIndex ? editedResource : resource
+            )
+        );
+        setEditedResource(null);
+        setEditedResourceIndex(null);
     }
 
     return (
@@ -99,24 +136,37 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {value.map(({ url, description, label }) => (
-                        <TableRow key={url}>
-                            <TableCell>
-                                <Checkbox
-                                    checked={selectedLabels[label]}
-                                    onChange={(e, checked) =>
-                                        handleCheckboxClicked(label, checked)
-                                    }
-                                    inputProps={{
-                                        "aria-label": `${label} resource`,
-                                    }}
+                    {value.map(({ url, description, label }, i) => {
+                        if (isEditingResource && i === editedResourceIndex)
+                            return (
+                                <CourseResourceTableRowInput
+                                    value={editedResource}
+                                    onChange={setEditedResource}
                                 />
-                                {label}
-                            </TableCell>
-                            <TableCell>{url}</TableCell>
-                            <TableCell>{description}</TableCell>
-                        </TableRow>
-                    ))}
+                            );
+                        return (
+                            <TableRow key={url}>
+                                <TableCell>
+                                    <Checkbox
+                                        checked={selectedIndices[i]}
+                                        onChange={(e, checked) =>
+                                            handleCheckboxClicked(i, checked)
+                                        }
+                                        inputProps={{
+                                            "aria-label": `${label} resource`,
+                                        }}
+                                        style={{
+                                            padding: 0,
+                                            marginRight: "10px",
+                                        }}
+                                    />
+                                    {label}
+                                </TableCell>
+                                <TableCell>{url}</TableCell>
+                                <TableCell>{description}</TableCell>
+                            </TableRow>
+                        );
+                    })}
                     {isCreatingNewResource && (
                         <CourseResourceTableRowInput
                             value={newResource}
@@ -128,7 +178,20 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
             <ActionBar
                 startEl={
                     <>
-                        {isCreatingNewResource ? (
+                        {!isInputting && (
+                            <Tooltip
+                                title="Add Resource"
+                                className="spaced-horizontal"
+                            >
+                                <IconButton
+                                    color="primary"
+                                    onClick={handleAddResourceClicked}
+                                >
+                                    <AddIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+                        {isCreatingNewResource && (
                             <>
                                 <Tooltip
                                     title="Cancel New Resource"
@@ -136,7 +199,7 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
                                 >
                                     <IconButton
                                         color="secondary"
-                                        onClick={handleCancelAddCourseResource}
+                                        onClick={handleCancelAddResource}
                                     >
                                         <ClearIcon />
                                     </IconButton>
@@ -147,24 +210,38 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
                                 >
                                     <IconButton
                                         color="primary"
-                                        onClick={handleAddCourseResource}
+                                        onClick={handleAddResource}
                                     >
                                         <CheckIcon />
                                     </IconButton>
                                 </Tooltip>
                             </>
-                        ) : (
-                            <Tooltip
-                                title="Add Resource"
-                                className="spaced-horizontal"
-                            >
-                                <IconButton
-                                    color="primary"
-                                    onClick={handleAddCourseResourceClicked}
+                        )}
+                        {isEditingResource && (
+                            <>
+                                <Tooltip
+                                    title="Cancel Update Resource"
+                                    className="spaced-horizontal"
                                 >
-                                    <AddIcon />
-                                </IconButton>
-                            </Tooltip>
+                                    <IconButton
+                                        color="secondary"
+                                        onClick={handleCancelEditResource}
+                                    >
+                                        <ClearIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip
+                                    title="Update Resource"
+                                    className="spaced-horizontal"
+                                >
+                                    <IconButton
+                                        color="primary"
+                                        onClick={handleEditResource}
+                                    >
+                                        <CheckIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </>
                         )}
                     </>
                 }
@@ -172,21 +249,23 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
                 <Tooltip title="Delete Selected Resources">
                     <IconButton
                         color="secondary"
-                        onClick={handleDeleteSelectedResources}
-                        disabled={isCreatingNewResource || !numSelected}
+                        className="spaced-horizontal"
+                        onClick={handleDeleteSelectedResourcesClicked}
+                        disabled={isInputting || !numSelected}
                     >
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
-                {/* <Tooltip title="Edit Selected Resource">
+                <Tooltip title="Edit Selected Resource">
                     <IconButton
-                        color="secondary"
-                        onClick={handleDeleteSelectedResources}
-                        disabled={numSelected !== 1}
+                        color="primary"
+                        className="spaced-horizontal"
+                        onClick={handleEditSelectedResourceClicked}
+                        disabled={isInputting || numSelected !== 1}
                     >
-                        <DeleteIcon />
+                        <EditIcon />
                     </IconButton>
-                </Tooltip> */}
+                </Tooltip>
             </ActionBar>
         </div>
     );
@@ -195,7 +274,7 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
 export default CourseResourcesInput;
 
 const useStyles = makeStyles({
-    tableCell: { paddingTop: "10px", paddingBottom: "10px" },
+    tableCell: { paddingTop: "12px", paddingBottom: "12px" },
 });
 
 export interface ICourseResourceTableRowInputProps {
