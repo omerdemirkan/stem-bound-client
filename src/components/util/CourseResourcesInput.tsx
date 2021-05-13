@@ -159,15 +159,16 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
                 </TableHead>
                 <TableBody>
                     {value.map(({ url, description, label }, i) => {
-                        if (isEditingResource && i === editedResourceIndex)
+                        if (i === editedResourceIndex)
                             return (
                                 <CourseResourceTableRowInput
+                                    key={i}
                                     value={editedResource}
                                     onChange={setEditedResource}
                                 />
                             );
                         return (
-                            <TableRow key={url}>
+                            <TableRow key={i}>
                                 <TableCell>
                                     <Checkbox
                                         checked={selectedIndices[i]}
@@ -181,6 +182,7 @@ const CourseResourcesInput: React.FC<ICourseResourcesInputProps> = ({
                                             padding: 0,
                                             marginRight: "10px",
                                         }}
+                                        color="primary"
                                     />
                                     {label}
                                 </TableCell>
