@@ -112,12 +112,15 @@ const CourseAppPage: React.FC = () => {
         course?.meta.instructors.includes(user?._id) &&
         user?.role === EUserRoles.INSTRUCTOR;
 
-    const remoteResources: ICourseResource[] = [];
-    if (course?.remoteSyllabusUrl)
-        remoteResources.push({
-            url: course?.remoteSyllabusUrl,
-            label: "Syllabus",
-        });
+    const remoteResources: ICourseResource[] = course?.remoteSyllabusUrl
+        ? [
+              ...(course?.resources || []),
+              {
+                  url: course?.remoteSyllabusUrl,
+                  label: "Syllabus",
+              },
+          ]
+        : course?.resources || [];
 
     return (
         <AppLayout

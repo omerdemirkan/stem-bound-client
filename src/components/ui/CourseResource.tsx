@@ -20,7 +20,7 @@ const CourseResource: React.FC<ICourseResourceProps> = ({
         courseResource = (
             <Tooltip title={description}>{courseResource}</Tooltip>
         );
-    return courseResource;
+    return <div>{courseResource}</div>;
 };
 
 export default CourseResource;
