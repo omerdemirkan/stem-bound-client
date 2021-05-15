@@ -19,16 +19,14 @@ const CoursesAppPage: React.FC = () => {
         isValidating: coursesLoading,
         error: coursesError,
     } = useSWR(`/courses`, userCoursesFetcher(user._id, user.role));
-    const {
-        data: unverifiedCourses,
-        isValidating: unverifiedCoursesLoading,
-    } = useSWR(
-        user.role === EUserRoles.INSTRUCTOR ||
-            user.role === EUserRoles.SCHOOL_OFFICIAL
-            ? `/courses?unverified=true`
-            : null,
-        userCoursesFetcher(user._id, user.role, { unverified: true })
-    );
+    const { data: unverifiedCourses, isValidating: unverifiedCoursesLoading } =
+        useSWR(
+            user.role === EUserRoles.INSTRUCTOR ||
+                user.role === EUserRoles.SCHOOL_OFFICIAL
+                ? `/courses?unverified=true`
+                : null,
+            userCoursesFetcher(user._id, user.role, { unverified: true })
+        );
 
     let courseInfoMessage: string;
     switch (!!courses && courses.length === 0 && !coursesError && user.role) {

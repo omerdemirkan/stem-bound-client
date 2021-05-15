@@ -1,18 +1,7 @@
 import {
-    Checkbox,
-    IconButton,
-    makeStyles,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    TextField,
-    Tooltip,
-} from "@material-ui/core";
-import {
     ChangeEvent,
     KeyboardEvent,
+    MutableRefObject,
     useContext,
     useLayoutEffect,
     useRef,
@@ -27,6 +16,17 @@ import { clone, deleteEmptyStrings } from "../../utils/helpers";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import NotificationContext from "../contexts/NotificationContext";
+
+import { makeStyles } from "@material-ui/core";
+import Checkbox from "@material-ui/core/Checkbox";
+import IconButton from "@material-ui/core/IconButton";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export interface ICourseResourcesInputProps {
     onChange(resources: ICourseResourceOriginal[]): any;
@@ -304,10 +304,19 @@ const useStyles = makeStyles({
 export interface ICourseResourceTableRowInputProps {
     value: ICourseResourceOriginal;
     onChange(resource: ICourseResourceOriginal): any;
+    LabelTextFieldProps?: TextFieldProps;
+    UrlTextFieldProps?: TextFieldProps;
+    DescriptionTextFieldProps?: TextFieldProps;
 }
 
 export const CourseResourceTableRowInput: React.FC<ICourseResourceTableRowInputProps> =
-    ({ value, onChange }) => {
+    ({
+        value,
+        onChange,
+        LabelTextFieldProps,
+        UrlTextFieldProps,
+        DescriptionTextFieldProps,
+    }) => {
         function handleChange(
             e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
         ) {
@@ -350,6 +359,7 @@ export const CourseResourceTableRowInput: React.FC<ICourseResourceTableRowInputP
                         inputProps={{ maxLength: 100 }}
                         fullWidth
                         inputRef={labelRef}
+                        {...LabelTextFieldProps}
                     />
                 </TableCell>
                 <TableCell className={classes.tableCell}>
@@ -364,6 +374,7 @@ export const CourseResourceTableRowInput: React.FC<ICourseResourceTableRowInputP
                         inputProps={{ maxLength: 1000 }}
                         fullWidth
                         inputRef={urlRef}
+                        {...UrlTextFieldProps}
                     />
                 </TableCell>
                 <TableCell className={classes.tableCell}>
@@ -378,8 +389,26 @@ export const CourseResourceTableRowInput: React.FC<ICourseResourceTableRowInputP
                         inputProps={{ maxLength: 1000 }}
                         fullWidth
                         inputRef={descriptionRef}
+                        {...DescriptionTextFieldProps}
                     />
                 </TableCell>
             </TableRow>
         );
     };
+
+const SyllabusTableRowInput: React.FC<ICourseResourceTableRowInputProps> = (
+    props
+) => {
+    return (
+        <CourseResourceTableRowInput
+            {...props}
+            value={{
+                ...props.value,
+                label: "Syllabus",
+                description: "The course Syllabus",
+            }}
+            LabelTextFieldProps={{ disabled: true }}
+            DescriptionTextFieldProps={{ disabled: true }}
+        />
+    );
+};
