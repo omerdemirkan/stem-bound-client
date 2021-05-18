@@ -9,7 +9,6 @@ import {
     updateUserProfilePicture,
     updateUserById,
     updateUserLocation,
-    userCoursesFetcher,
 } from "../../../utils/services";
 import { useContext, useEffect } from "react";
 import InputButton from "../../../components/util/InputButton";
@@ -24,12 +23,8 @@ import ChipInput from "../../../components/util/ChipInput";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import ActionBar from "../../../components/ui/ActionBar";
-import SplitScreen from "../../../components/ui/SplitScreen";
-import Section from "../../../components/ui/Section";
-import CourseCard from "../../../components/ui/CourseCard";
 import EditableSection from "../../../components/ui/EditableSection";
 import GradeLevelInput from "../../../components/util/GradeLevelInput";
-import RelativeGrid from "../../../components/ui/RelativeGrid";
 import LocationAsyncSelect from "../../../components/util/LocationAsyncSelect";
 import ChipList from "../../../components/ui/ChipList";
 import CopyToClipboard from "../../../components/util/CopyToClipboard";
@@ -37,6 +32,7 @@ import { makeStyles } from "@material-ui/core";
 import AppSettingsLayout from "../../../components/layouts/AppSettingsLayout";
 import NavigationButton from "../../../components/ui/NavigationButton";
 import List from "@material-ui/core/List";
+import Link from "next/link";
 
 const useStyles = makeStyles({
     avatar: {
@@ -57,10 +53,6 @@ const MyAccountAppPage: React.FC = () => {
         userFetcher(storedUser?._id)
     );
     const user = fetchedUser || storedUser;
-    const { data: courses, isValidating: coursesLoading } = useSWR(
-        storedUser?._id ? `/user/courses` : null,
-        userCoursesFetcher(user._id, user.role)
-    );
 
     const classes = useStyles();
 
@@ -277,34 +269,6 @@ const MyAccountAppPage: React.FC = () => {
                 </>
             ) : null}
 
-            {user.role === EUserRoles.INSTRUCTOR ||
-            user.role === EUserRoles.STUDENT ? (
-                <Section
-                    title="Courses"
-                    noDivider
-                    loading={coursesLoading}
-                    infoMessage={
-                        courses?.length === 0 &&
-                        `Looks like you haven't ${
-                            user.role === EUserRoles.INSTRUCTOR
-                                ? "created"
-                                : "enrolled in"
-                        } any courses`
-                    }
-                >
-                    <RelativeGrid minWidth="400px">
-                        {courses?.map((course) => (
-                            <CourseCard
-                                course={course}
-                                key={course?._id}
-                                fullWidth
-                                noMargin
-                            />
-                        ))}
-                    </RelativeGrid>
-                </Section>
-            ) : null}
-
             <style jsx>{`
                 .my-accounts-header {
                     display: flex;
@@ -325,6 +289,10 @@ const settingsNavigationData = [
         label: "My Account",
         href: "/app/settings",
     },
+    {
+        label: "Preferences",
+        href: "/app/settings/preferences",
+    },
 ];
 
 export interface ISettingsNavigationProps {
@@ -336,15 +304,19 @@ export const SettingsNavigation: React.FC<ISettingsNavigationProps> = ({
 }) => {
     return (
         <List>
-            {settingsNavigationData.map(({ label }) => (
-                <NavigationButton
-                    active={
-                        label.toLocaleLowerCase() ===
-                        activeLabel.toLocaleLowerCase()
-                    }
-                >
-                    {label}
-                </NavigationButton>
+            {settingsNavigationData.map(({ label, href }) => (
+                <Link href={href}>
+                    <a>
+                        <NavigationButton
+                            active={
+                                label.toLocaleLowerCase() ===
+                                activeLabel.toLocaleLowerCase()
+                            }
+                        >
+                            {label}
+                        </NavigationButton>
+                    </a>
+                </Link>
             ))}
         </List>
     );

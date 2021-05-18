@@ -1,4 +1,3 @@
-import AppLayout from "../../../components/layouts/AppLayout";
 import Section from "../../../components/ui/Section";
 import Switch from "@material-ui/core/Switch";
 import { useContext } from "react";
@@ -6,11 +5,16 @@ import { ETheme } from "../../../utils/types";
 import ThemeContext from "../../../components/contexts/ThemeContext";
 import withAuth from "../../../components/hoc/withAuth";
 import Head from "next/head";
+import AppSettingsLayout from "../../../components/layouts/AppSettingsLayout";
+import { SettingsNavigation } from ".";
 
 const SettingsAppPage: React.FC = () => {
     const { theme, setTheme } = useContext(ThemeContext);
     return (
-        <AppLayout header="Preferences">
+        <AppSettingsLayout
+            header="Preferences"
+            navigationEl={<SettingsNavigation activeLabel="Preferences" />}
+        >
             <Head>
                 <title>Preferences - STEM-bound</title>
             </Head>
@@ -24,7 +28,7 @@ const SettingsAppPage: React.FC = () => {
                     color="default"
                 />
             </Section>
-        </AppLayout>
+        </AppSettingsLayout>
     );
 };
 
