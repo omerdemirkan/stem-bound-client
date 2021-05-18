@@ -37,6 +37,7 @@ import CopyToClipboard from "../../../../../components/util/CopyToClipboard";
 import { List } from "@material-ui/core";
 import Link from "next/link";
 import NavigationButton from "../../../../../components/ui/NavigationButton";
+import AppSettingsLayout from "../../../../../components/layouts/AppSettingsLayout";
 
 const CourseSettingsAppPage: React.FC = () => {
     const router = useRouter();
@@ -263,33 +264,31 @@ export interface ICourseSettingsNavigationProps {
     activeLabel: string;
 }
 
-export const CourseSettingsNavigation: React.FC<ICourseSettingsNavigationProps> = ({
-    courseId,
-    activeLabel,
-}) => {
-    return (
-        <List>
-            {courseSettingsNavigation.map(({ href, label }) => (
-                <Link
-                    href={href}
-                    as={href.replace("[id]", courseId)}
-                    key={href + label}
-                >
-                    <a>
-                        <NavigationButton
-                            active={
-                                activeLabel.toLowerCase() ===
-                                label.toLowerCase()
-                            }
-                        >
-                            {label}
-                        </NavigationButton>
-                    </a>
-                </Link>
-            ))}
-        </List>
-    );
-};
+export const CourseSettingsNavigation: React.FC<ICourseSettingsNavigationProps> =
+    ({ courseId, activeLabel }) => {
+        return (
+            <List>
+                {courseSettingsNavigation.map(({ href, label }) => (
+                    <Link
+                        href={href}
+                        as={href.replace("[id]", courseId)}
+                        key={href + label}
+                    >
+                        <a>
+                            <NavigationButton
+                                active={
+                                    activeLabel.toLowerCase() ===
+                                    label.toLowerCase()
+                                }
+                            >
+                                {label}
+                            </NavigationButton>
+                        </a>
+                    </Link>
+                ))}
+            </List>
+        );
+    };
 
 export interface ICourseSettingsLayoutProps extends IAppLayoutProps {
     courseTitle: string;
@@ -305,7 +304,7 @@ export const CourseSettingsLayout: React.FC<ICourseSettingsLayoutProps> = ({
     ...appLayoutProps
 }) => {
     return (
-        <AppLayout
+        <AppSettingsLayout
             breadCrumbs={[
                 { label: "Courses", href: "/app/courses" },
                 {
@@ -315,19 +314,15 @@ export const CourseSettingsLayout: React.FC<ICourseSettingsLayoutProps> = ({
                 },
                 { label: "Settings" },
             ]}
+            navigationEl={
+                <CourseSettingsNavigation
+                    courseId={courseId}
+                    activeLabel={activeLabel}
+                />
+            }
             {...appLayoutProps}
         >
-            <SplitScreen
-                mainEl={children}
-                secondaryEl={
-                    <CourseSettingsNavigation
-                        courseId={courseId}
-                        activeLabel={activeLabel}
-                    />
-                }
-                secondaryWidth="280px"
-                order="secondary-first"
-            />
-        </AppLayout>
+            {children}
+        </AppSettingsLayout>
     );
 };
