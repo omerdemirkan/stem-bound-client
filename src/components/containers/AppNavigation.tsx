@@ -104,7 +104,7 @@ const AppNavigation: React.FC = () => {
                 className={classes.userMenu}
             >
                 <MenuItem onClick={toggleUserMenu}>
-                    <Link href="/app/settings/my-account">
+                    <Link href="/app/settings">
                         <a>My Account</a>
                     </Link>
                 </MenuItem>

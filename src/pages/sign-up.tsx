@@ -36,9 +36,8 @@ const SignUpPage: React.FC = () => {
     const [userRole, setUserRole] = useQueryState<EUserRoles>("role");
     const [error, setError] = useState<Error>();
     const [step, setStep] = useState<number>(0);
-    const { accessToken, signUp, sendVerificationEmail } = useContext(
-        AuthContext
-    );
+    const { accessToken, signUp, sendVerificationEmail } =
+        useContext(AuthContext);
     // For resend email functionality; state is unnecessary.
     const requestBodyRef = useRef<Partial<IUserOriginal>>();
 
@@ -88,7 +87,7 @@ const SignUpPage: React.FC = () => {
     async function handleSignUp(signUpToken: string) {
         try {
             await signUp(signUpToken);
-            router.push("/app/settings/my-account");
+            router.push("/app/settings");
         } catch (e) {
             setError(e);
         }
