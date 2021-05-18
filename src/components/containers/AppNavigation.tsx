@@ -1,8 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import useNavigationData from "../../hooks/useNavigationData";
 import { useRouter } from "next/router";
 import {
@@ -23,6 +21,8 @@ import BuildIcon from "@material-ui/icons/Build";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import NavigationButton from "../ui/NavigationButton";
+import SettingsIcon from "@material-ui/icons/Settings";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const useStyles = makeStyles({
     listItem: {
@@ -38,6 +38,9 @@ const useStyles = makeStyles({
     },
     userMenu: {
         justifyContent: "flex-end",
+    },
+    userMenuIcon: {
+        marginRight: "20px",
     },
 });
 
@@ -104,11 +107,13 @@ const AppNavigation: React.FC = () => {
                 className={classes.userMenu}
             >
                 <MenuItem onClick={toggleUserMenu}>
+                    <SettingsIcon className={classes.userMenuIcon} />
                     <Link href="/app/settings">
                         <a>Settings</a>
                     </Link>
                 </MenuItem>
                 <MenuItem onClick={handleOpenLogoutModal} color="primary">
+                    <ExitToAppIcon className={classes.userMenuIcon} />
                     Logout
                 </MenuItem>
             </Menu>
