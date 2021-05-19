@@ -70,7 +70,6 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
                             onClick={handleCancelEditClicked}
                         >
                             <IconButton
-                                size="small"
                                 color="secondary"
                                 style={{ marginRight: "10px" }}
                             >
@@ -79,7 +78,6 @@ const ChatMessage: React.FC<IChatMessageProps> = ({
                         </Tooltip>
                         <Tooltip title="Edit message">
                             <IconButton
-                                size="small"
                                 color="primary"
                                 onClick={handleConfirmEditClicked}
                             >

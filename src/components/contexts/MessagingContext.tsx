@@ -19,6 +19,7 @@ import useInfiniteFetch from "../../hooks/useInfiniteFetch";
 import useSocket from "../../hooks/useSocket";
 import AuthContext from "./AuthContext";
 import NotificationContext from "./NotificationContext";
+import useGetCurrentValue from "../../hooks/useGetCurrentValue";
 
 const messagingContextInitialState: IMessagingContextState = {
     chats: [],
@@ -80,6 +81,9 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
         user && inspectedChatId ? `/chats/${inspectedChatId}/messages` : null,
         messagesFetcherInfinite(inspectedChatId as string)
     );
+
+    const getCurrentChats = useGetCurrentValue(chats);
+    const getCurrentMessages = useGetCurrentValue(messages);
 
     const { socket } = useSocket(
         function (socket: SocketIOClient.Socket) {
@@ -170,44 +174,33 @@ export const MessagingContextProvider: React.FC = ({ children }) => {
                 text: `New message: ${newMessage.text}`,
                 type: "info",
             });
-        mutate(
-            `/chats/${chatId}/messages`,
-            (prevMessages) => [newMessage, ...(prevMessages || [])],
-            false
+        const newMessages = [newMessage, ...(getCurrentMessages() || [])];
+        let newChats = clone(getCurrentChats());
+        const updatedChatIndex = newChats.findIndex(
+            (chat) => chat._id === chatId
         );
-        mutateChats(function (prevChats) {
-            let newChats = clone(prevChats || chats);
-            const updatedChatIndex = newChats.findIndex(
-                (chat) => chat._id === chatId
-            );
-            newChats[
-                updatedChatIndex
-            ].lastMessageSentAt = new Date().toString();
-            newChats.sort(
-                (a, b) =>
-                    new Date(b.lastMessageSentAt).getTime() -
-                    new Date(a.lastMessageSentAt).getTime()
-            );
-            return newChats;
-        });
+        newChats[updatedChatIndex].lastMessageSentAt = new Date().toString();
+        newChats.sort(
+            (a, b) =>
+                new Date(b.lastMessageSentAt).getTime() -
+                new Date(a.lastMessageSentAt).getTime()
+        );
+
+        mutate(`/chats/${chatId}/messages`, newMessages, false);
+        mutateChats(newChats, false);
     }
 
     function handleMessageUpdated(
         updatedMessage: IChatMessage,
         chatId: string
     ) {
-        mutate(
-            `/chats/${chatId}/messages`,
-            (prevMessages) => {
-                const newMessages = clone(prevMessages || messages) || [];
-                const messageIndex = newMessages.findIndex(
-                    (message) => message?._id === updatedMessage?._id
-                );
-                newMessages[messageIndex] = updatedMessage;
-                return newMessages;
-            },
-            false
+        const newMessages = clone(getCurrentMessages()) || [];
+        const messageIndex = newMessages.findIndex(
+            (message) => message?._id === updatedMessage?._id
         );
+        newMessages[messageIndex] = updatedMessage;
+
+        mutate(`/chats/${chatId}/messages`, newMessages, false);
     }
 
     function handleUserStartedTyping(typingUser: IUser, chatId: string) {
